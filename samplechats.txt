@@ -1,0 +1,3 @@
+Bishop, kindly kindly organise the library in a systematic manner and write a report of what you may encounter, what is needed and if the library needs a makeover
+Jane, could you fix the issue in the frontend today? Id like that done by tomorrow.
+Greg, Id like you to start working on the report tomorrow and have it done by Tuesday.

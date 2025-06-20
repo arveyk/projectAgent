@@ -20,7 +20,7 @@ url = 'https://slack.com/api/chat.postMessage'
 
 # ID of channel you want to post message to
 
-channel_id = "C08UBDFST50"
+channel_id = "C08VADJ7SEL"
 
 try:
     # Call the conversations.list method using the WebClient

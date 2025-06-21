@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Automate Worlflow testing
+Automate Workflow testing
 """
 import logging
 import os

@@ -1,3 +1,5 @@
 Bishop, kindly kindly organise the library in a systematic manner and write a report of what you may encounter, what is needed and if the library needs a makeover
 Jane, could you fix the issue in the frontend today? Id like that done by tomorrow.
 Greg, Id like you to start working on the report tomorrow and have it done by Tuesday.
+Sabrina, please work on the prototype for v2. Have that ready for the meeting in a week.
+Ari, could you start work on the concept art? We need the first pass on that done by next Thursday.

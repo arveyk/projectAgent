@@ -22,7 +22,7 @@ url = 'https://slack.com/api/chat.postMessage'
 
 # ID of channel you want to post message to
 
-channel_id = "C08VADJ7SEL"
+channel_id_ceci = "C08VADJ7SEL"
 channel_id_harv = "C08UBDFST50"
 
 with open('samplechats.txt', 'r') as file:
@@ -30,7 +30,7 @@ with open('samplechats.txt', 'r') as file:
         try:
             # Call the conversations.list method using the WebClient
             result = client.chat_postMessage(
-                    channel=channel_id_harv,
+                    channel=channel_id_ceci,
                     #text="/tempest Alice, pick some groceries for tomorrows thanksgiving event and send me the bill",
                     blocks=[{"type": "section", "text": {"type": "mrkdwn",  "text": f"{line.strip()}"}}],
                     username='harveykisiangani',

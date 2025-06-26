@@ -33,7 +33,7 @@ with open('samplechats.txt', 'r') as file:
                     channel=channel_id_ceci,
                     #text="/tempest Alice, pick some groceries for tomorrows thanksgiving event and send me the bill",
                     blocks=[{"type": "section", "text": {"type": "mrkdwn",  "text": f"{line.strip()}"}}],
-                    username='harveykisiangani',
+                    username='crkurdelak',
                     icon_emoji=':white_check_mark:'
                     # You could also use a blocks[] array to send richer content
                     )

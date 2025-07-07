@@ -1,0 +1,11 @@
+{
+  "name": "testprojectagent",
+  "version": "1.0.0",
+  "description": "for automated testing of project agent",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ceci, Daniel, Harvey",
+  "license": "ISC"
+}

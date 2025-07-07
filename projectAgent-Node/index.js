@@ -9,13 +9,13 @@ const signingSecret = process.env.SLACK_SIGNING_SECRET,
 const nReadlines = require('n-readlines');
 
 const sampleChats = new nReadlines('../samplechats.txt')
-const channelID = "C08UBDFST50";
+const channelID = process.env.CHANNEL_ID;
 
 const app = new Slack.App({
   signingSecret: signingSecret,
   token: token
 });
-
+require('dotenv').config()
 // WebClient instantiates a client that can call API methods
 // When using Bolt, you can use either `app.client` or the `client` passed to listeners.
 

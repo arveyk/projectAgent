@@ -1,5 +1,6 @@
 import { ChatOpenAI } from "@langchain/openai";
 import { z } from "zod";
+import 'dotenv/config';
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 

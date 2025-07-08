@@ -5,11 +5,13 @@
     "@slack/socket-mode": "^2.0.4",
     "@slack/web-api": "^7.9.3",
     "dotenv": "^17.0.1",
-    "n-readlines": "^1.0.1"
+    "n-readlines": "^1.0.1",
+    "zod": "^3.25.76"
   },
   "name": "projectagent-node",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

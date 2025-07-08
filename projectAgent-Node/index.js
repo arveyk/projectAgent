@@ -4,8 +4,8 @@
 
 const Slack = require('@slack/bolt');
 const { WebClient, LogLevel } = require("@slack/web-api");
-const token = process.env.SLACK_BOT_TOKEN
-const signingSecret = process.env.SLACK_SIGNING_SECRET,
+const token = process.env.SLACK_BOT_TOKEN;
+const signingSecret = process.env.SLACK_SIGNING_SECRET;
 const nReadlines = require('n-readlines');
 
 const sampleChats = new nReadlines('../samplechats.txt')

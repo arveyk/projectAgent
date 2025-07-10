@@ -1,4 +1,4 @@
-import functions from '@google-cloud/functions-framework';
+import { functions } from '@google-cloud/functions-framework';
 
 functions.http('helloHttp', (req, res) => {
   const request_params = req.body.request_params;

@@ -1,6 +1,6 @@
-import { functions } from '@google-cloud/functions-framework';
+import { http } from '@google-cloud/functions-framework';
 
-functions.http('helloHttp', (req, res) => {
+http('helloHttp', (req, res) => {
   const request_params = req.body.request_params;
   console.log(request_params);
   res.send(`Hello ${req.query.name || req.body.name || 'World'}!\

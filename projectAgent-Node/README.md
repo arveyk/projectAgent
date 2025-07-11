@@ -1,4 +1,3 @@
 # For local development:
-1. Install Functions Framework
-`npm install --save-dev @google-cloud/functions-framework`
-2. 
+1. In `package.json`, add any new functions as targets to the `start` script
+2. Run `npm start`

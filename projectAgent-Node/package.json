@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@google-cloud/functions-framework": "^4.0.0",
     "@langchain/openai": "^0.5.18",
     "@notionhq/client": "^4.0.0",
     "@slack/bolt": "^4.4.0",
@@ -23,7 +24,6 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "@google-cloud/functions": "^4.2.0",
-    "@google-cloud/functions-framework": "^4.0.0"
+    "@google-cloud/functions": "^4.2.0"
   }
 }

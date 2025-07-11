@@ -24,6 +24,7 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "@google-cloud/functions": "^4.2.0"
+    "@google-cloud/functions": "^4.2.0",
+    "jest": "^30.0.4"
   }
 }

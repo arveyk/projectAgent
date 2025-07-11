@@ -12,3 +12,6 @@ http('helloHttp', (req, res) => {
   text: ${req.body['text']}  \n\
   `);
 });
+
+
+export { http };

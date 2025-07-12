@@ -9,7 +9,7 @@ http('helloHttp', (req, res) => {
     user_id: `${req.body['user_id']}`,
     channel_id: `${req.body['channel_id']}`,
     api_app_id: `${req.body['api_app_id']}`,
-    channel_idL: `${req.body['channel_id']}`,
+    channel_idL: `${req.body['channel_idL']}`,
     challenge: `${req.body['challenge']}`,
     text: `${req.body['text']}`
   }));

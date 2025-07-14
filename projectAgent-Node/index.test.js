@@ -1,41 +1,27 @@
-//import { helloHttp } from './index.js';
-import { app } from "./index.js"
+import { app } from "./index.js";
+import { createRequest, createResponse } from 'node-mocks-http';
 
-// test('Responds to an HTTP request with a JSON string of its request parameters', async () => {
-//     const response = await fetch("http://localhost:8080/", {
-//         method: "POST",
-//         body: JSON.stringify({
-//             user_id: 1,
-//             channel_id: 2,
-//             api_app_id: 3,
-//             channel_idL: 4,
-//             challenge: 5,
-//             text: "Hello HTTP",
-//         }),
-//         headers: {
-//             "Content-type": "application/json; charset=UTF-8"
-//         }
-//     })
-//     const resp_body = response.body;
-//     const resp_json = await response.json();
+test('POST request to /events endpoint', () => {
+    const req = createRequest({
+        method: 'POST',
+        url: '/events',
+        body: {
+            "assignee":"create a website",
+            "challenge":"f34f35tgdsd442"
+        }
+    });
 
-//     expect(resp_body).toBeDefined();
-//     expect(resp_json).toBeDefined();
-//     expect(resp_json).toMatchObject({
-//         greeting: "Hello World!",
-//         user_id: "1",
-//         channel_id: "2",
-//         api_app_id: "3",
-//         channel_idL: "4",
-//         challenge: "5",
-//         text: "Hello HTTP"
-//     })
-// })
+    const resp = createResponse();
+    console.log(JSON.stringify(req));
+    console.log(JSON.stringify(resp));
 
-test('POST request to Slack message endpoint', () => {
-    
+    app.eventsRouter.postHandler(req, resp);
+
+    const data = resp._getJSONData();
+
+    expect(data).statusCode.toBe("200");
 })
 
-test('POST request to slash command endpoint', () => {
+test('POST request to /slashcmd endpoint', () => {
     
 })

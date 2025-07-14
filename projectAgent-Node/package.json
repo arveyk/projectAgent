@@ -9,7 +9,8 @@
     "body-parser": "^2.2.0",
     "dotenv": "^17.0.1",
     "express": "^5.1.0",
-    "n-readlines": "^1.0.1"
+    "n-readlines": "^1.0.1",
+    "nodemon": "^3.1.10"
   },
   "name": "projectagent-node",
   "version": "1.0.0",
@@ -18,7 +19,7 @@
   "scripts": {
     "test": "jest",
     "start": "functions-framework --target helloHttp",
-    "dev": "functions-framework --target helloHttp"
+    "dev": "nodemon ./index.js"
   },
   "keywords": [],
   "author": "",

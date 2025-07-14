@@ -25,21 +25,13 @@ http('tasks', (req, res) => {
 });
 */
 
-app.get('/', (req, res) => {
+app.post('/', (req, res) => {
  console.log('Any tasks for me?');
  res.status(200).send(JSON.stringify({
     greeting: `Hello 'World'}!`,
     challenge: ""
  }));
 });
-
-app.post('/events', (req, res) => {
- console.log('Any tasks for me?');
- res.status(200).send(JSON.stringify({
-    greeting: `Hello 'World'}!`,
-    challenge: ""
- }));
-
 
 
 app.post('/tasks/newtask', (req, res) => {

@@ -33,6 +33,15 @@ app.get('/', (req, res) => {
  }));
 });
 
+app.post('/events', (req, res) => {
+ console.log('Any tasks for me?');
+ res.status(200).send(JSON.stringify({
+    greeting: `Hello 'World'}!`,
+    challenge: ""
+ }));
+
+
+
 app.post('/tasks/newtask', (req, res) => {
   console.log('creating new task...');
   res.status(201).send(JSON.stringify({

@@ -2,6 +2,9 @@
 import { json } from 'express';
 import express from 'express';
 import bodyParser from 'body-parser';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 8080;

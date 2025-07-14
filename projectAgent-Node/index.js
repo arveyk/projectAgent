@@ -29,24 +29,24 @@ http('tasks', (req, res) => {
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-app.post('/', (req, res) => {
+app.post('/', (request, response) => {
   console.log('Any tasks for me?');
-  if (res.body) {
-    res.status(200).send(`${req.body['challenge']}, ${req.body['text']}`);
+  if (request.body) {
+    response.status(200).send(`${request.body['challenge']}, ${request.body['text']}`);
   }
-  res.status(404).send('body empty');
+  response.status(404).send('body empty');
 });
 
 
-app.post('/tasks/newtask', (req, res) => {
+app.post('/tasks/newtask', (request, response) => {
   console.log('creating new task...');
-  res.status(201).send(JSON.stringify({
+  response.status(201).send(JSON.stringify({
     taskTitle: `${req.params["taskTitle"]}`,
     assignee: `${req.params["assignee"]}`
   }));
 });
 
-app.put('/tasks/update', (req, res) => {
+app.put('/tasks/update', (request, response) => {
   console.log('updating task');
 });
 

@@ -29,12 +29,21 @@ http('tasks', (req, res) => {
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-app.post('/', (request, response) => {
-  console.log('Any tasks for me?');
-  if (request.body) {
-    response.status(200).send(`${request.body['challenge']}, ${request.body['text']}`);
+
+app.all('/', (request, response) => {
+  console.log(`Welcome Home: Here\' an  object, JavaScript object
+    ${JSON.stringify(request.body)}`);
+  response.status(200).send(`${JSON.stringify(request.body)}`);
+});
+
+app.post('/events', (request, response) => {
+  console.log(`Any tasks for me?
+	  Request Body: ${JSON.stringify(request.body)}`);
+  try {
+    response.status(200).send(`${request.body['challenge']}}`);
+  } catch (err){
+    console.log(err);
   }
-  response.status(404).send('body empty');
 });
 
 

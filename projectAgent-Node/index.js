@@ -1,9 +1,11 @@
 //import { http } from '@google-cloud/functions-framework';
 import { json } from 'express';
 import express from 'express';
+import bodyParser from 'body-parser';
 
 const app = express();
-const PORT = 8080
+const PORT = process.env.PORT || 8080;
+
 /*http('helloHttp', (req, res) => {
   const request_params = req.body.request_params;
   console.log(request_params);
@@ -25,12 +27,14 @@ http('tasks', (req, res) => {
 });
 */
 
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 app.post('/', (req, res) => {
- console.log('Any tasks for me?');
- res.status(200).send(JSON.stringify({
-    greeting: "Hello 'World'}!",
-    challenge: `${req.body['challenge']}`
- }));
+  console.log('Any tasks for me?');
+  if (res.body) {
+    res.status(200).send(`${req.body['challenge']}`);
+  }
+  res.status(404).send('body empty');
 });
 
 

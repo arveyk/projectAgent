@@ -28,7 +28,8 @@ http('tasks', (req, res) => {
 app.get('/', (req, res) => {
  console.log('Any tasks for me?');
  res.status(200).send(JSON.stringify({
-    greeting: `Hello 'World'}!`
+    greeting: `Hello 'World'}!`,
+    challenge: ""
  }));
 });
 

@@ -32,7 +32,7 @@ app.use(bodyParser.json());
 app.post('/', (req, res) => {
   console.log('Any tasks for me?');
   if (res.body) {
-    res.status(200).send(`${req.body['challenge']}`);
+    res.status(200).send(`${req.body['challenge']}, ${req.body['text']}`);
   }
   res.status(404).send('body empty');
 });

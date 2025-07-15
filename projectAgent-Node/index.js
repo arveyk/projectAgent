@@ -41,38 +41,6 @@ app.all('/', (request, response) => {
   response.status(200).send(`${JSON.stringify(request.body)}`);
 });
 
-// app.post('/events', (request, response) => {
-//   console.log(`Any tasks for me?
-// 	  Request Body: ${JSON.stringify(request.body)}`);
-//   try {
-//     response.status(200).send(`${request.body['challenge']}`);
-//   } catch (err){
-//     console.log(err);
-//   }
-// });
-
-// app.post('/slashcmd', (request, response) => {
-//   console.log(`Any tasks for me?
-// 	  Request Body: ${JSON.stringify(request.body)}`);
-//   try {
-//     response.status(200).send(`${request.body['challenge']}`);
-//   } catch (err){
-//     console.log(err);
-//   }
-// });
-
-// app.post('/tasks/newtask', (request, response) => {
-//   console.log('creating new task...');
-//   response.status(201).send(JSON.stringify({
-//     taskTitle: `${req.params["taskTitle"]}`,
-//     assignee: `${req.params["assignee"]}`
-//   }));
-// });
-
-// app.put('/tasks/update', (request, response) => {
-//   console.log('updating task');
-// });
-
 app.listen(PORT, () => {
   console.log(`Server's ears on port: ${PORT}`);
 });

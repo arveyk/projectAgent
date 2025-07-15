@@ -3,6 +3,8 @@ import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import axios from 'axios'
 
+dotenv.config();
+
 const authRouter = Router();
 
 /**

@@ -26,6 +26,8 @@ app.use('/tasks/update', updateTaskRouter);
 app.all('/', (request, response) => {
   console.log(`Welcome Home: Here\' an  object, JavaScript object
     ${JSON.stringify(request.body)}`);
+  console.log(`event_type: ${request.body['event']['type']}
+	  text: ${request.body['event']['text']}`)
   response.status(200).send(`${JSON.stringify(request.body)}`);
 });
 

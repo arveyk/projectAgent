@@ -1,16 +1,12 @@
-import { Router } from 'express';
-const router = Router();
-
-const postHandler = function(request, response) {
-    console.log(`Any tasks for me?
+const slashCmdHandler = function(request, response, next) {
+    console.log(`You called the SLASH command! Any tasks for me?
 	  Request Body: ${JSON.stringify(request.body)}`);
     try {
-        response.status(200).send(`${request.body['challenge']}`);
+        response.status(200).send(`${JSON.stringify(request.body)}`);
     } catch (err){
         console.log(err);
     }
+    next();
 }
 
-router.post('/slashcmd', postHandler);
-
-export default router;
+export default slashCmdHandler;

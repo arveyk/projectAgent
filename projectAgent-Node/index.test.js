@@ -1,10 +1,11 @@
 import { app } from "./index.js";
-import { createRequest, createResponse } from 'node-mocks-http';
 const request = require('supertest');
 
 import payload_good from './payloads/payload-good.json' with { type: 'json' };
 import payload_bad_token from './payloads/payload-bad-token.json' with { type: 'json' };
 import payload_bad_formatting from './payloads/payload-bad-formatting.json' with { type: 'json' };
+
+// TODO test all endpoints with a second good payload
 
 describe('GET /', () => {
     it('sends 200 OK', async () => {
@@ -47,7 +48,7 @@ describe('POST / with an invalid payload with a formatting error', () => {
     it('sends 400 Bad Request', async () => {
         const res = await request(app)
         .post('/')
-        .send(payload_bad_token)
+        .send(payload_bad_formatting)
         .set('Accept', 'application/json')
         
         //console.log(JSON.stringify(res));
@@ -69,6 +70,32 @@ describe('POST /events with a valid payload', () => {
     })
 })
 
+describe('POST /events with an invalid payload with a bad token', () => {
+    it('sends 401 Unauthorized', async () => {
+        const res = await request(app)
+        .post('/events')
+        .send(payload_bad_token)
+        .set('Accept', 'application/json')
+        
+        //console.log(JSON.stringify(res));
+
+        expect(res.statusCode).toBe(401);
+    })
+})
+
+describe('POST /events with an invalid payload with a formatting error', () => {
+    it('sends 400 Bad Request', async () => {
+        const res = await request(app)
+        .post('/events')
+        .send(payload_bad_formatting)
+        .set('Accept', 'application/json')
+        
+        //console.log(JSON.stringify(res));
+
+        expect(res.statusCode).toBe(400);
+    })
+})
+
 describe('POST /slashcmd with a valid payload', () => {
     it('sends 200 OK', async () => {
         const res = await request(app)
@@ -82,10 +109,37 @@ describe('POST /slashcmd with a valid payload', () => {
     })
 })
 
+describe('POST /slashcmd with an invalid payload with a bad token', () => {
+    it('sends 401 Unauthorized', async () => {
+        const res = await request(app)
+        .post('/slashcmd')
+        .send(payload_bad_token)
+        .set('Accept', 'application/json')
+        
+        //console.log(JSON.stringify(res));
+
+        expect(res.statusCode).toBe(401);
+    })
+})
+
+describe('POST /slashcmd with an invalid payload with a formatting error', () => {
+    it('sends 400 Bad Request', async () => {
+        const res = await request(app)
+        .post('/slashcmd')
+        .send(payload_bad_formatting)
+        .set('Accept', 'application/json')
+        
+        //console.log(JSON.stringify(res));
+
+        expect(res.statusCode).toBe(400);
+    })
+})
+
 describe('POST /tasks/newtask with a valid payload', () => {
     it('sends 200 OK', async () => {
         const res = await request(app)
         .post('/tasks/newtask')
+        // TODO replace this payload with one that matches what this endpoint will use
         .send(payload_good)
         .set('Accept', 'application/json')
         
@@ -96,10 +150,39 @@ describe('POST /tasks/newtask with a valid payload', () => {
     })
 })
 
+describe('POST /tasks/newtask with an invalid payload with a bad token', () => {
+    it('sends 401 Unauthorized', async () => {
+        const res = await request(app)
+        .post('/tasks/newtask')
+        // TODO replace this payload with one that matches what this endpoint will use
+        .send(payload_bad_token)
+        .set('Accept', 'application/json')
+        
+        //console.log(JSON.stringify(res));
+
+        expect(res.statusCode).toBe(401);
+    })
+})
+
+describe('POST /tasks/newtask with an invalid payload with a formatting error', () => {
+    it('sends 400 Bad Request', async () => {
+        const res = await request(app)
+        .post('/tasks/newtask')
+        // TODO replace this payload with one that matches what this endpoint will use
+        .send(payload_bad_formatting)
+        .set('Accept', 'application/json')
+        
+        //console.log(JSON.stringify(res));
+
+        expect(res.statusCode).toBe(400);
+    })
+})
+
 describe('POST /tasks/update with a valid payload', () => {
     it('sends 200 OK', async () => {
         const res = await request(app)
         .post('/tasks/update')
+        // TODO replace this payload with one that matches what this endpoint will use
         .send(payload_good)
         .set('Accept', 'application/json')
 
@@ -107,5 +190,33 @@ describe('POST /tasks/update with a valid payload', () => {
 
         expect(res.statusCode).toBe(200);
         //TODO expect json of the updated task
+    })
+})
+
+describe('POST /tasks/update with an invalid payload with a bad token', () => {
+    it('sends 401 Unauthorized', async () => {
+        const res = await request(app)
+        .post('/tasks/update')
+        // TODO replace this payload with one that matches what this endpoint will use
+        .send(payload_bad_token)
+        .set('Accept', 'application/json')
+        
+        //console.log(JSON.stringify(res));
+
+        expect(res.statusCode).toBe(401);
+    })
+})
+
+describe('POST /tasks/update with an invalid payload with a formatting error', () => {
+    it('sends 400 Bad Request', async () => {
+        const res = await request(app)
+        .post('/tasks/update')
+        // TODO replace this payload with one that matches what this endpoint will use
+        .send(payload_bad_formatting)
+        .set('Accept', 'application/json')
+        
+        //console.log(JSON.stringify(res));
+
+        expect(res.statusCode).toBe(400);
     })
 })

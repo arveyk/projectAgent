@@ -31,6 +31,7 @@
     "@google-cloud/functions": "^4.2.0",
     "babel-jest": "^30.0.4",
     "jest": "^30.0.4",
-    "node-mocks-http": "^1.17.2"
+    "node-mocks-http": "^1.17.2",
+    "supertest": "^7.1.3"
   }
 }

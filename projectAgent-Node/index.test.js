@@ -1,27 +1,59 @@
 import { app } from "./index.js";
 import { createRequest, createResponse } from 'node-mocks-http';
+const request = require('supertest');
 
-test('POST request to /events endpoint', () => {
-    const req = createRequest({
-        method: 'POST',
-        url: '/events',
-        body: {
+describe('POST /events', () => {
+    it('sends 200 OK', async () => {
+        const res = await request(app)
+        .post('/events')
+        .send({
             "assignee":"create a website",
             "challenge":"f34f35tgdsd442"
-        }
-    });
-
-    const resp = createResponse();
-    console.log(JSON.stringify(req));
-    console.log(JSON.stringify(resp));
-
-    app.eventsRouter.postHandler(req, resp);
-
-    const data = resp._getJSONData();
-
-    expect(data).statusCode.toBe("200");
+        })
+        .set('Accept', 'application/json')
+        
+        expect(res.statusCode).toBe(200);
+    })
 })
 
-test('POST request to /slashcmd endpoint', () => {
-    
+describe('POST /slashcmd', () => {
+    it('sends 200 OK', async () => {
+        const res = await request(app)
+        .post('/slashcmd')
+        .send({
+            "assignee":"create a website",
+            "challenge":"f34f35tgdsd442"
+        })
+        .set('Accept', 'application/json')
+        
+        expect(res.statusCode).toBe(200);
+    })
+})
+
+describe('POST /tasks/newtask', () => {
+    it('sends 200 OK', async () => {
+        const res = await request(app)
+        .post('/tasks/newtask')
+        .send({
+            "assignee":"create a website",
+            "challenge":"f34f35tgdsd442"
+        })
+        .set('Accept', 'application/json')
+        
+        expect(res.statusCode).toBe(200);
+    })
+})
+
+describe('POST /tasks/update', () => {
+    it('sends 200 OK', async () => {
+        const res = await request(app)
+        .post('/tasks/update')
+        .send({
+            "assignee":"create a website",
+            "challenge":"f34f35tgdsd442"
+        })
+        .set('Accept', 'application/json')
+
+        expect(res.statusCode).toBe(200);
+    })
 })

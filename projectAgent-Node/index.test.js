@@ -12,6 +12,8 @@ describe('POST /events', () => {
         })
         .set('Accept', 'application/json')
         
+        console.log(JSON.stringify(res));
+
         expect(res.statusCode).toBe(200);
     })
 })
@@ -26,6 +28,8 @@ describe('POST /slashcmd', () => {
         })
         .set('Accept', 'application/json')
         
+        console.log(JSON.stringify(res));
+
         expect(res.statusCode).toBe(200);
     })
 })
@@ -40,7 +44,13 @@ describe('POST /tasks/newtask', () => {
         })
         .set('Accept', 'application/json')
         
+        console.log(JSON.stringify(res));
+
         expect(res.statusCode).toBe(200);
+        // TODO expect json of the new task
+        expect(res.body).toMatchObject({
+            "assignee":"create a website"
+        })
     })
 })
 
@@ -54,6 +64,9 @@ describe('POST /tasks/update', () => {
         })
         .set('Accept', 'application/json')
 
+        console.log(JSON.stringify(res));
+
         expect(res.statusCode).toBe(200);
+        //TODO expect json of the updated task
     })
 })

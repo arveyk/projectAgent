@@ -28,6 +28,16 @@ app.use('/tasks/update', updateTaskRouter);
 app.all('/', (request, response) => {
   console.log(`Welcome Home: Here\' an  object, JavaScript object
     ${JSON.stringify(request.body)}`);
+    if (request.body.jsonPayload) {
+      let textChat = request.body['jsonPayload']['event']['text'];
+      if (textChat) {
+        console.log('Chat without bot user id' ,textChat.split('>')[1]);
+      }
+      console.log(`event_type: 
+        ${request.body['jsonPayload']['event']['type']}
+        raw_text:  ${request.body['jsonPayload']['event']['text']}
+      `);
+    }
   response.status(200).send(`${JSON.stringify(request.body)}`);
 });
 
@@ -68,4 +78,4 @@ app.listen(PORT, () => {
 });
 
 
-export default app;
+export { app };

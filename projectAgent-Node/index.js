@@ -3,11 +3,13 @@ import { json } from 'express';
 import express from 'express';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
+import axios from 'axios'
 
 import eventsRouter from "./routes/events.js";
 import slashCmdRouter from "./routes/slashcmd.js";
 import newTaskRouter from "./routes/tasks/newtask.js";
 import updateTaskRouter from "./routes/tasks/update.js";
+import authRouter from './routes/auth/slack/auth.js';
 
 dotenv.config();
 
@@ -21,6 +23,7 @@ app.use('/events', eventsRouter);
 app.use('/slashcmd', slashCmdRouter);
 app.use('/tasks/newtask', newTaskRouter);
 app.use('/tasks/update', updateTaskRouter);
+app.use('/auth/slack', authRouter);
 
 app.all('/', (request, response) => {
   console.log(`Welcome Home: Here\' an  object, JavaScript object

@@ -66,9 +66,11 @@ app.listen(PORT, () => {
   console.log(`Server's ears on port: ${PORT}`);
 });
 export { app };
-*/
 
 (async () => {
   await slackApp.start(PORT);
   slackApp.logger.info(`⚡️ Bolt app is running! port:${PORT}`);
 })();
+*/
+
+export  { slackApp };

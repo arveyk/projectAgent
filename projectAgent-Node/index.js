@@ -11,36 +11,39 @@ dotenv.config();
 const PORT = parseInt(process.env.PORT) || 8080;
 const { ExpressReceiver } = App;
 
-const receiver = ExpressReceiver({
+const receiver = new ExpressReceiver({
   signingSecret: process.env.SLACK_SIGNING_SECRET,
 });
 
-
-    try {
-      console.log(`${JSON.stringify(request.body)}`);
-      response.status(200);
-      response.end(`Home handler: Request body ${JSON.stringify(request.body)}`);
-    } catch (error) {
-      console.error(error);
-      response.writeHead(500);
-      response.end('Server Error');
-    }
 
 const slackApp = new App.App({
   token: process.env.SLACK_BOT_TOKEN,
   receiver
 });
 
+
 slackApp.event('message', async ({event, client}) => {
-  await client.chat.postMessage(...);
+  await client.chat.postMessage('New Message... Processing');
 });
 
 const timeLogger = (request, response) => {
-  slackApp.logger.info(`${Date.now()}`;
+  slackApp.logger.info(`${Date.now()}`);
 };
-receiver.router.post('events', timeLogger, (request, response) => {
+
+
+receiver.router.post('/events', timeLogger, (request, response) => {
   response.send(`${JSON.stringify(request.body)}`);
-);
+});
+
+receiver.router.get('/', (request, response) => {
+    try {
+      console.log(`${JSON.stringify(request.body)}`);
+      response.send(`Home handler: Request body ${JSON.stringify(request.body)}`);
+    } catch (error) {
+      console.error(error);
+      response.status(500).send('Server Error');
+    }
+});
 
 
 /*

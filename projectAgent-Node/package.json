@@ -19,7 +19,7 @@
   "type": "module",
   "scripts": {
     "test": "jest",
-    "start": "functions-framework --target slackApp",
+    "start": "nodemon ./index.js",
     "dev": "nodemon ./index.js"
   },
   "keywords": [],

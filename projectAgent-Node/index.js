@@ -68,9 +68,9 @@ app.listen(PORT, () => {
 export { app };
 
 */
-(async () => {
+const startApp = async () => {
   await slackApp.start(PORT);
   slackApp.logger.info(`⚡️ Bolt app is running! port:${PORT}`);
 })();
 
-export  { slackApp };
+export  { startApp };

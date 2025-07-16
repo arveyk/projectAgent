@@ -26,12 +26,13 @@ slackApp.event('message', async ({event, client}) => {
   await client.chat.postMessage('New Message... Processing');
 });
 
-const timeLogger = (request, response) => {
+receiver.router.use((request, response, next) => {
   slackApp.logger.info(`${Date.now()}`);
-};
+  slackApp.logger.info(`${JSON.stringify(request.body)}`);
+  next();
+});
 
-
-receiver.router.post('/events', timeLogger, (request, response) => {
+receiver.router.post('/events', (request, response) => {
   response.send(`${JSON.stringify(request.body)}`);
 });
 

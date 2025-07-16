@@ -1,16 +1,12 @@
-import { Router } from 'express';
-const router = Router();
-
-const postHandler = function(request, response) {
-    console.log(`Any tasks for me?
-	  Request Body: ${JSON.stringify(request.body)}`);
+const postHandler = function(request, response, next) {
     try {
-        response.status(200).send(`${request.body['challenge']}`);
+      console.log(`I Handle most events. Any tasks for me?
+	 Request Body: ${JSON.stringify(request.body)}`);
+      response.status(200).send(`${request.body['challenge']}`);
     } catch (err){
         console.log(err);
     }
+  next();
 }
 
-router.post('/events', postHandler);
-
-export default router;
+export default postHandler;

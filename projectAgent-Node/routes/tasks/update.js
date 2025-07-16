@@ -1,10 +1,7 @@
-import { Router } from 'express';
-const router = Router();
-
-const putHandler = function(request, response) {
+const putHandler = function(request, response, next) {
   console.log('updating task');
+  response.send('Updates to be confirmed... stay tuned');
+  next();
 };
 
-router.put('/tasks/update', putHandler);
-
-export default router;
+export default putHandler;

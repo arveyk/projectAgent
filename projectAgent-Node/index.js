@@ -4,24 +4,17 @@ import router from './middlerouter.js'
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser'
 
-import App from '@slack/bolt';
-import bolt from './bolt/index.js';
-
 dotenv.config();
 
 const PORT = parseInt(process.env.PORT) || 8080;
 
 // Initialize an Express expressApp
 const expressApp = express();
-// Configure the Express expressApp to work with Bolt
-bolt.config(expressApp);
 
 expressApp.use(express.urlencoded({extended: false}));
 expressApp.use(express.json());
 expressApp.use(router);
 
-// TODO any Bolt methods need to be called within the Bolt part of the code, 
-// because Express will not recognize them if they are called here.
 expressApp.use((request, response, next) => {
   console.log(`${Date.now()}`);
   next();

@@ -1,4 +1,4 @@
-const events = (boltApp) => {
+const ListenForEvents = (boltApp) => {
   boltApp.event('message', async ({event, client}) => {
     try{ 
       const result = await client.chat.postMessage(`Hello <@${event}>New Message... Processing`);
@@ -9,4 +9,4 @@ const events = (boltApp) => {
   });
 };
 
-export default events;
+export default ListenForEvents;

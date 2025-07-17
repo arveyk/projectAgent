@@ -1,7 +1,7 @@
-import events from "./events.js";
+import ListenForEvents from "./events.js";
 
 const handlers = (boltApp) => {
-  events(boltApp);
+  ListenForEvents(boltApp);
 };
 
 export default handlers;

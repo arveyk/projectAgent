@@ -10,16 +10,22 @@ const APP_ID = process.env.PROJ_AGENT_APP_ID;
  * @returns 
  */
 const screenMessage = function(reqBody) {
-  // TODO check if message is a command
-  const isCommand = false;
-  // check if message is from Project Agent
-  // TODO find out why this is undefined
-  console.log(`app id: ${reqBody['api_app_id']}`)
-  const isFromProjAgent = (reqBody['api_app_id'] === APP_ID);
-  // TODO check if message is a task assignment
-  const isTask = true
+  if (typeof reqBody !== 'undefined'){
+    console.log('Request body is defined');
+    // TODO check if message is a command
+    const isCommand = false;
+    // check if message is from Project Agent
+    // TODO find out why this is undefined
+    console.log(`app id: ${reqBody['api_app_id']}`)
+    const isFromProjAgent = (reqBody['api_app_id'] === APP_ID);
+    // TODO check if message is a task assignment
+    const isTask = true
 
-  return (!isCommand && !isFromProjAgent && isTask);
+    return (!isCommand && !isFromProjAgent && isTask);
+  }
+  else {
+    throw new Error('Request body is undefined');
+  }
 }
 
 const postHandler = function(request, response, next) {
@@ -30,6 +36,7 @@ const postHandler = function(request, response, next) {
       (async () => {
         try {
           if (screenMessage(request.body)) {
+            // TODO send it to newTaskHandler
             console.log("it's a task!");
             console.log(`event: ${request.body['event']}`);
             const res = await axios.post(eventResURL, {
@@ -44,6 +51,9 @@ const postHandler = function(request, response, next) {
 	    });
             console.log(res.data);
 	  }
+    else {
+      console.log("not a task");
+    }
 	} catch (err) {
           console.error(err);
         }

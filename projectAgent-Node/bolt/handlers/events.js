@@ -1,4 +1,4 @@
-const ListenForEvents = (boltApp) => {
+const events = (boltApp) => {
   boltApp.event('message', async ({event, client, logger}) => {
     try{
       logger.info("event info", event);
@@ -14,4 +14,4 @@ const ListenForEvents = (boltApp) => {
   });
 };
 
-export default ListenForEvents;
+export default events;

@@ -21,7 +21,7 @@ router.post('/events', eventsHandler, (request, response) => {
   (async () => {
     try {
       const res = await axios.post(eventResURL, {
-        channel: request.body['event']['channel'],
+        channel: '#task-management',
         text: request.body['event']['text']
       }, {
            headers: { 
@@ -37,7 +37,8 @@ router.post('/events', eventsHandler, (request, response) => {
 
   response.send(JSON.stringify({
     channel: request.body['event']['channel'],
-    text: request.body['event']['text']
+    text: request.body['event']['text'],
+    challenge: request.body['challenge']
   }));
 });
 router.post('/slashcmd', slashCmdHandler);

@@ -17,7 +17,7 @@ router.use(express.urlencoded({extended: false}));
 router.use(express.json());
 
 router.post('/events', eventsHandler, (request, response) => {
-  const eventResURL = 'https://slack.com/api/chat.postMessage';
+  /*const eventResURL = 'https://slack.com/api/chat.postMessage';
   (async () => {
     try {
 	if (request.body['api_app_id'] !== "A08T4SJP659") {
@@ -36,7 +36,7 @@ router.post('/events', eventsHandler, (request, response) => {
       console.error(err);
     }
   })();
-
+*/
   response.send(JSON.stringify({
     channel: request.body['event']['channel'],
     text: request.body['event']['text'],

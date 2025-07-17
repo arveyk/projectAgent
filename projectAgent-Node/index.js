@@ -33,4 +33,4 @@ expressApp.listen(PORT, () => {
   console.log(`Server's ears on port: ${PORT}`);
 });
 
-export { expressApp };
+export { expressApp as app };

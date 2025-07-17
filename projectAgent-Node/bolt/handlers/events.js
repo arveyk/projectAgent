@@ -4,7 +4,7 @@ const ListenForEvents = (boltApp) => {
       logger.info("event info", event);
       const result = await client.chat.postMessage({
         channel: event.channel,
-	text: `Hello <@${event.user}>New Message... Processing`;
+	text: `Hello <@${event.user}>New Message... Processing`,
       });
       logger.info("Event result from Logger", result);
       console.log(result);

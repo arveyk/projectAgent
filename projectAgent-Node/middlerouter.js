@@ -20,7 +20,7 @@ router.post('/events', eventsHandler, (request, response) => {
   const eventResURL = 'https://slack.com/api/chat.postMessage';
   (async () => {
     try {
-	if (!request.body['api_app_id']) {
+	if (request.body['api_app_id'] === undefined) {
 	  const res = await axios.post(eventResURL, {
             channel: '#task-management',
             text: request.body['event']['text'],
@@ -41,7 +41,6 @@ router.post('/events', eventsHandler, (request, response) => {
     channel: request.body['event']['channel'],
     text: request.body['event']['text'],
     challenge: request.body['challenge'],
-    request_body: `${JSON.stringify(request.body)}`,
   }));
 });
 router.post('/slashcmd', slashCmdHandler);

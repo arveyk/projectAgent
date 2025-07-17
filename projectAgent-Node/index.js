@@ -14,11 +14,14 @@ const PORT = parseInt(process.env.PORT) || 8080;
 const app = express();
 // Configure the Express app to work with Bolt
 bolt.config(app);
+
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 
 app.use(router);
 
+// TODO any Bolt methods need to be called within the Bolt part of the code, 
+// because Express will not recognize them if they are called here.
 app.use((request, response, next) => {
   app.logger.info(`${Date.now()}`);
   app.logger.info(`${JSON.stringify(request.body)}`);

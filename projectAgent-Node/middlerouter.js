@@ -20,7 +20,7 @@ router.post('/events', eventsHandler, (request, response) => {
   const eventResURL = 'https://slack.com/api/chat.postMessage';
   (async () => {
     try {
-	if (request.body['client_msg_id'] !== undefined) {
+	if (request.body['api_app_id'] !== "A08T4SJP659") {
 	  const res = await axios.post(eventResURL, {
             channel: '#task-management',
             text: request.body['event']['text'],

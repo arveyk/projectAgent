@@ -14,7 +14,7 @@ router.use(express.urlencoded({extended: false}));
 router.use(express.json());
 
 router.post('/events', eventsHandler, (request, response) => {
-  response.send(JSON.stringify(request.body));
+  response.send(JSON.stringify(request.body['challenge']));
 });
 router.post('/slashcmd', slashCmdHandler);
 

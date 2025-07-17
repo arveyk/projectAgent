@@ -17,26 +17,6 @@ router.use(express.urlencoded({extended: false}));
 router.use(express.json());
 
 router.post('/events', eventsHandler, (request, response) => {
-  /*const eventResURL = 'https://slack.com/api/chat.postMessage';
-  (async () => {
-    try {
-	if (request.body['api_app_id'] !== "A08T4SJP659") {
-	  const res = await axios.post(eventResURL, {
-            channel: '#task-management',
-            text: request.body['event']['text'],
-	    }, {
-             headers: { 
-               "Authorization": `Bearer ${process.env['SLACK_BOT_TOKEN']}`,
-	       "Content-Type": "application/x-www-form-urlencoded",
-	     }
-	  });
-	  console.log(res.data);
-	}
-    } catch (err) {
-      console.error(err);
-    }
-  })();
-*/
   response.send(JSON.stringify({
     channel: request.body['event']['channel'],
     text: request.body['event']['text'],

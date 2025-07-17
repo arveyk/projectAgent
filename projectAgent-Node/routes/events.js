@@ -15,9 +15,9 @@ const screenMessage = function(reqBody) {
     // TODO check if message is a command
     const isCommand = false;
     // check if message is from Project Agent
-    // TODO find out why this is undefined
-    console.log(`app id: ${reqBody['api_app_id']}`)
-    const isFromProjAgent = (reqBody['api_app_id'] === APP_ID);
+    console.log(`app id: ${reqBody['jsonPayload']['api_app_id']}`);
+    const isFromProjAgent = (reqBody['jsonPayload']['api_app_id'] === APP_ID);
+
     // TODO check if message is a task assignment
     const isTask = true
 
@@ -27,6 +27,8 @@ const screenMessage = function(reqBody) {
     throw new Error('Request body is undefined');
   }
 }
+
+const thing = {"insertId":"687657510004ad27ab1a0145","jsonPayload":{"event_id":"Ev095FKRUR1V","event_time":1752586063,"api_app_id":"A08T4SJP659","token":"cdpGCjWC3RGCqp0yCWWJa3cD","event_context":"4-eyJldCI6ImFwcF9tZW50aW9uIiwidGlkIjoiVDAzVE5RRk42MlYiLCJhaWQiOiJBMDhUNFNKUDY1OSIsImNpZCI6IkMwOFI0TTlQNVNNIn0","authorizations":[{"enterprise_id":null,"is_enterprise_install":false,"team_id":"T03TNQFN62V","is_bot":true,"user_id":"U08TS0Z9725"}],"blocks":[{"elements":[{"type":"rich_text_section","elements":[{"user_id":"U08TS0Z9725","type":"user"},{"type":"text","text":" Carol hand me some file on Skyline design portfolio"}]}],"type":"rich_text","block_id":"XBQyU"}],"event_ts":"1752586063.569079","channel":"C08R4M9P5SM","text":"<@U08TS0Z9725> Carol hand me some file on Skyline design portfolio","user":"U03T772MESH","type":"event_callback","team":"T03TNQFN62V","client_msg_id":"ea3ffb61-65cc-4c6a-a18b-db4051373bf1","ts":"1752586063.569079","is_ext_shared_channel":false,"team_id":"T03TNQFN62V"},"resource":{"type":"cloud_run_revision","labels":{"configuration_name":"projectagent","location":"africa-south1","project_id":"focal-dolphin-464823-s3","service_name":"projectagent","revision_name":"projectagent-00003-rss"}},"timestamp":"2025-07-15T13:27:45.306471Z","labels":{"instanceId":"0069c7a9886808ffeeb24181dd9c88f968cca6f4ba78c90cab914d5363d376b0a2fe1cd98de1e4e017884a61943845a26be25d390516b55201539a50105ab3c298385d9c9ea0e5bba3c05333258629ce2821eb2dcf"},"logName":"projects/focal-dolphin-464823-s3/logs/run.googleapis.com%2Fstdout","receiveTimestamp":"2025-07-15T13:27:45.311660105Z"}
 
 const postHandler = function(request, response, next) {
     try {
@@ -38,7 +40,7 @@ const postHandler = function(request, response, next) {
           if (screenMessage(request.body)) {
             // TODO send it to newTaskHandler
             console.log("it's a task!");
-            console.log(`event: ${request.body['event']}`);
+            console.log(`blocks: ${request.body.jsonPayload['blocks']}`);
             const res = await axios.post(eventResURL, {
               channel: '#task-management',
               // TODO fix this line

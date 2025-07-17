@@ -4,39 +4,47 @@ import router from './middlerouter.js'
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser'
 import App from '@slack/bolt';
-
+import bolt from './bolt/index.js';
 
 dotenv.config();
 
 const PORT = parseInt(process.env.PORT) || 8080;
-const { ExpressReceiver } = App;
 
-const receiver = new ExpressReceiver({
-  signingSecret: process.env.SLACK_SIGNING_SECRET,
-});
+const app = express();
+// Configure the Express app to work with Bolt
+bolt.config(app);
+app.use(express.urlencoded({extended: false}));
+app.use(express.json());
+
+app.use(router);
+// const { ExpressReceiver } = App;
+
+// const receiver = new ExpressReceiver({
+//   signingSecret: process.env.SLACK_SIGNING_SECRET,
+// });
 
 
-const slackApp = new App.App({
-  token: process.env.SLACK_BOT_TOKEN,
-  receiver
-});
+// const slackApp = new App.App({
+//   token: process.env.SLACK_BOT_TOKEN,
+//   receiver
+// });
 
 
-slackApp.event('message', async ({event, client}) => {
-  await client.chat.postMessage('New Message... Processing');
-});
+// slackApp.event('message', async ({event, client}) => {
+//   await client.chat.postMessage('New Message... Processing');
+// });
 
-receiver.router.use((request, response, next) => {
+router.use((request, response, next) => {
   slackApp.logger.info(`${Date.now()}`);
   slackApp.logger.info(`${JSON.stringify(request.body)}`);
   next();
 });
 
-receiver.router.post('/events', (request, response) => {
+router.post('/events', (request, response) => {
   response.send(`${JSON.stringify(request.body)}`);
 });
 
-receiver.router.get('/', (request, response) => {
+router.get('/', (request, response) => {
     try {
       console.log(`${JSON.stringify(request.body)}`);
       response.send(`Home handler: Request body ${JSON.stringify(request.body)}`);
@@ -47,12 +55,6 @@ receiver.router.get('/', (request, response) => {
 });
 
 
-/*
-const app = express();
-app.use(express.urlencoded({extended: false}));
-app.use(express.json());
-
-app.use(router);
 
 app.all('/', (request, response) => {
   if (request.body) {
@@ -62,15 +64,15 @@ app.all('/', (request, response) => {
   response.status(200).send(`${JSON.stringify(request.body)}`);
 });
 
-app.listen(PORT, () => {
-  console.log(`Server's ears on port: ${PORT}`);
-});
-export { app };
+// app.listen(PORT, () => {
+//   console.log(`Server's ears on port: ${PORT}`);
+// });
+// export { app };
 
-*/
-(async () => {
-  await slackApp.start(PORT);
-  slackApp.logger.info(`⚡️ Bolt app is running! port:${PORT}`);
-})();
 
-export  { slackApp };
+// (async () => {
+//   await app.start(PORT);
+//   app.logger.info(`⚡️ Bolt app is running! port:${PORT}`);
+// })();
+
+export  { app };

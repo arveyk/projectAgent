@@ -38,9 +38,10 @@ router.post('/events', eventsHandler, (request, response) => {
   })();
 
   response.send(JSON.stringify({
-    //channel: request.body['event']['channel'],
-    //text: request.body['event']['text'],
-    challenge: request.body['challenge']
+    channel: request.body['event']['channel'],
+    text: request.body['event']['text'],
+    challenge: request.body['challenge'],
+    request_body: JSON.stringify({request.body}),
   }));
 });
 router.post('/slashcmd', slashCmdHandler);

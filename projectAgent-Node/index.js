@@ -10,6 +10,7 @@ dotenv.config();
 
 const PORT = parseInt(process.env.PORT) || 8080;
 
+// Initialize an Express app
 const app = express();
 // Configure the Express app to work with Bolt
 bolt.config(app);
@@ -17,34 +18,18 @@ app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 
 app.use(router);
-// const { ExpressReceiver } = App;
 
-// const receiver = new ExpressReceiver({
-//   signingSecret: process.env.SLACK_SIGNING_SECRET,
-// });
-
-
-// const slackApp = new App.App({
-//   token: process.env.SLACK_BOT_TOKEN,
-//   receiver
-// });
-
-
-// slackApp.event('message', async ({event, client}) => {
-//   await client.chat.postMessage('New Message... Processing');
-// });
-
-router.use((request, response, next) => {
-  slackApp.logger.info(`${Date.now()}`);
-  slackApp.logger.info(`${JSON.stringify(request.body)}`);
+app.use((request, response, next) => {
+  app.logger.info(`${Date.now()}`);
+  app.logger.info(`${JSON.stringify(request.body)}`);
   next();
 });
 
-router.post('/events', (request, response) => {
+app.post('/events', (request, response) => {
   response.send(`${JSON.stringify(request.body)}`);
 });
 
-router.get('/', (request, response) => {
+app.get('/', (request, response) => {
     try {
       console.log(`${JSON.stringify(request.body)}`);
       response.send(`Home handler: Request body ${JSON.stringify(request.body)}`);
@@ -54,8 +39,6 @@ router.get('/', (request, response) => {
     }
 });
 
-
-
 app.all('/', (request, response) => {
   if (request.body) {
     console.log(`Welcome Home: Here\' an  object, JavaScript object
@@ -64,9 +47,9 @@ app.all('/', (request, response) => {
   response.status(200).send(`${JSON.stringify(request.body)}`);
 });
 
-// app.listen(PORT, () => {
-//   console.log(`Server's ears on port: ${PORT}`);
-// });
+app.listen(PORT, () => {
+  console.log(`Server's ears on port: ${PORT}`);
+});
 // export { app };
 
 
@@ -75,4 +58,4 @@ app.all('/', (request, response) => {
 //   app.logger.info(`⚡️ Bolt app is running! port:${PORT}`);
 // })();
 
-export  { app };
+// export  { app };

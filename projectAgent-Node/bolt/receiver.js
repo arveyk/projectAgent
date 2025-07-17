@@ -1,5 +1,5 @@
-import pkg from '@slack/bolt';
-const { ExpressReceiver } = pkg;
+import App from '@slack/bolt';
+const { ExpressReceiver } = App;
 
 const receiver = (expressApp) => {
   return new ExpressReceiver({

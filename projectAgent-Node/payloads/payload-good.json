@@ -3,7 +3,7 @@
   "jsonPayload": {
     "event_id": "Ev095FKRUR1V",
     "event_time": 1752586063,
-    "api_app_id": "A08T4SJP659",
+    "api_app_id": "A08T4SJP650",
     "token": "cdpGCjWC3RGCqp0yCWWJa3cD",
     "event_context": "4-eyJldCI6ImFwcF9tZW50aW9uIiwidGlkIjoiVDAzVE5RRk42MlYiLCJhaWQiOiJBMDhUNFNKUDY1OSIsImNpZCI6IkMwOFI0TTlQNVNNIn0",
     "authorizations": [
@@ -11,7 +11,7 @@
         "enterprise_id": null,
         "is_enterprise_install": false,
         "team_id": "T03TNQFN62V",
-        "is_bot": true,
+        "is_bot": false,
         "user_id": "U08TS0Z9725"
       }
     ],

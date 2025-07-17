@@ -4,6 +4,7 @@ const request = require('supertest');
 import payload_good from './payloads/payload-good.json' with { type: 'json' };
 import payload_bad_token from './payloads/payload-bad-token.json' with { type: 'json' };
 import payload_bad_formatting from './payloads/payload-bad-formatting.json' with { type: 'json' };
+import payload_bad_from_app from './payloads/payload-bad-from-app.json' with { type: 'json' };
 
 // TODO test all endpoints with a second good payload
 
@@ -93,6 +94,20 @@ describe('POST /events with an invalid payload with a formatting error', () => {
         //console.log(JSON.stringify(res));
 
         expect(res.statusCode).toBe(400);
+    })
+})
+
+describe('POST /events with a payload that came from Project Agent', () => {
+    it('sends 200 OK, but does not create or edit any task', async () => {
+        const res = await request(app)
+        .post('/events')
+        .send(payload_bad_from_app)
+        .set('Accept', 'application/json')
+        
+        //console.log(JSON.stringify(res));
+
+        expect(res.statusCode).toBe(200);
+        // TODO expect no task to have been created or edited
     })
 })
 

@@ -33,7 +33,7 @@ const screenMessage = function(reqBody) {
     // TODO check if message is a task assignment
     const isTask = true
 
-    return (!isCommand && !isFromProjAgent && isTask);
+    return (!isFromProjAgent && isTask);
   }
   else {
     throw new Error('Request body is undefined');

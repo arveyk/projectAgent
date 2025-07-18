@@ -27,8 +27,8 @@ const screenMessage = function(reqBody) {
     }
 
     // check if message is from Project Agent
-    console.log(`app id: ${reqBody['api_app_id']}`);
-    const isFromProjAgent = (reqBody['api_app_id'] === APP_ID);
+    console.log(`api app id: ${reqBody['api_app_id']}, app_id ${reqBody['event']['app_id']}`);
+    const isFromProjAgent = (reqBody['event']['app_id'] === APP_ID);
 
     // TODO check if message is a task assignment
     const isTask = true

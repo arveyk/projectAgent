@@ -50,7 +50,7 @@ const postHandler = async function(request, response, next) {
       if (screenMessage(request.body)) {
             // TODO send it to newTaskHandler
         console.log("it's a task!");
-        console.log(`blocks: ${request.body['blocks']}`);
+        console.log(`blocks: ${JSON.stringify(request.body['event']['blocks'])}`);
         const res = await axios.post(eventResURL, {
           channel: '#task-management',
               // TODO fix this line

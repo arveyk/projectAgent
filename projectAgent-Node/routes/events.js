@@ -28,12 +28,13 @@ const screenMessage = function(reqBody) {
 
     // check if message is from Project Agent
     console.log(`api app id: ${reqBody['api_app_id']}, app_id ${reqBody['event']['app_id']}`);
-    const isFromProjAgent = (reqBody['event']['app_id'] === APP_ID);
+    //const isFromProjAgent = (reqBody['event']['bot_id'] === APP_ID);
+    const isFromProjAgent = (reqBody['event']['bot_id']);
 
     // TODO check if message is a task assignment
     const isTask = true
 
-    return (!isFromProjAgent && isTask);
+    return ((typeof isFromProjAgent === 'undefined') && isTask);
   }
   else {
     throw new Error('Request body is undefined');

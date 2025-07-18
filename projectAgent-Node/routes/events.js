@@ -68,7 +68,6 @@ const postHandler = async function(request, response, next) {
       }
     } catch (err){
       console.log(err);
-      return response.status(500).send(`Error and Body${request.body}`);
     }
   next();
 }

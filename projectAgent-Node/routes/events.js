@@ -14,7 +14,6 @@ const screenMessage = function(reqBody) {
     // TODO check if message is a command
     const eventType = reqBody["event"]['type'] || 'No Event';
     	  //
-    const isCommand = false;
     switch (eventType) {
       case 'message':
         console.log("Message event detected [By screenMessage]");
@@ -68,6 +67,7 @@ const postHandler = async function(request, response, next) {
       }
     } catch (err){
       console.log(err);
+      return response.status(500).send(`Error and Body${request.body}`);
     }
   next();
 }

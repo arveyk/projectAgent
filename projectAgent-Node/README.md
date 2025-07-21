@@ -23,11 +23,11 @@ contents
 - *package-lock.json*
 - *package.json*
 - *routes/*
--   *events/*
-        * *auth/*
-        * *event.js*
-        * *slashcmd.js*
-        * *tasks/*
+    - *events/*
+    - *auth/*
+    - *event.js*
+    - *slashcmd.js*
+    - *tasks/*
 - *server.js*
 
 

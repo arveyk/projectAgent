@@ -13,8 +13,13 @@ const PORT = parseInt(process.env.PORT) || 8080;
 router.use(express.urlencoded({extended: false}));
 router.use(express.json());
 
-router.use('/events', eventsHandler);
-router.use('/slashcmd', slashCmdHandler);
+router.post('/home2', eventsHandler);
+router.post('/slashcmd', slashCmdHandler);
+router.use('/tasks', (request, response, next) => {
+  response.status(204).send({
+	  RequestBody: JSON.stringify(request.body)
+  });
+});
 router.use('/tasks/newtask', newTaskHandler);
 router.use('/tasks/update', updateTaskHandler);
 //router.use('/auth/slack', authRouter);

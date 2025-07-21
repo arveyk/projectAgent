@@ -13,7 +13,7 @@ const PORT = parseInt(process.env.PORT) || 8080;
 
 const homeHandler = {
   path: '/',
-  method: ['ALL'],
+  method: ['GET'],
   handler: (request, response) => {
     response.writeHead(200);
     response.end(`Request Body content${
@@ -37,16 +37,21 @@ slackApp.event('message', async ({ event, client }) => {
   await client.chat.postMessage('...');
 });
 
+receiver.router.use(router);
+
 receiver.router.use((request, response, next) => {
   slackApp.logger.info(`Great timing! What is your request ${Date.now()}`);
   next();
 });
+/*receiver.router.get('/', (request, response) => {
+  response.send('Get Request');
+});
+
 receiver.router.post('/events', (request, response) => {
   response.send('Live event');
 });
-receiver.router.get('/home2', (request, response) => {
-  response.send('Home request');
-});
+*/
+
 
 //const app = express();
 
@@ -64,7 +69,7 @@ app.listen(PORT, () => {
 
 (async () => {
   await slackApp.start(PORT);
-  slackApp.logger.info('⚡️ Bolt app is running!');
+  slackApp.logger.info(`⚡️ Bolt app is running on port ${PORT}!`);
 })();
 
 export { slackApp };

@@ -27,14 +27,31 @@ router.post('/events', asyncHandler(eventsHandler), (request, response) => {
 router.post('/slashcmd', slashCmdHandler);
 
 router.get('/tasks', (request, response) => {
-  response.send(JSON.stringify({
-    TasksTitle: 'Broad Spectrum',
-    Assignee: 'Allen Mithika',
-    Due_Date: '2025-09-05',
-    Start_Date: `${Date.now()}`,
-    preferredChannel: 'Slack'
-    
-  }));
+  response.send(JSON.stringify(
+    [{
+	    
+       TasksTitle: 'Broad Spectrum',
+       Assignee: 'Allen Mithika',
+       Due_Date: '2025-09-05',
+       Start_Date: `${Date.now()}`,
+       preferredChannel: 'Slack'
+    },
+    {
+       TasksTitle: 'Broad Spectrum',
+       Assignee: 'Bill',
+       Due_Date: '2025-09-05',
+       Start_Date: `${Date.now()}`,
+       preferredChannel: 'Slack'
+	    
+    },
+    {
+       TasksTitle: 'Broad Spectrum',
+       Assignee: 'Peterson Mukwana',
+       Due_Date: '2025-09-05',
+       Start_Date: `${Date.now()}`,
+       preferredChannel: 'WhatsApp'
+    }
+  ]));
 });
 router.post('/tasks/newtask', newTaskHandler);
 

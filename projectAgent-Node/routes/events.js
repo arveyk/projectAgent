@@ -1,13 +1,37 @@
 import axios from 'axios';
 import dotenv from 'dotenv';
+import { ChatAnthropic } from '@langchain/anthropic';
+import { z } from 'zod';
+
+
 dotenv.config();
 const APP_ID = process.env.PROJ_AGENT_APP_ID;
+const model = new ChatAnthropic({
+  model: "claude-3-5-sonnet-20240620",
+  temperature: 0,
+});
+
+const task = z.object({
+  tasktitle: z.string().describe("Short descriptive title of the task"),
+  assignee: z.string().describe("Name of person assigned with the task"),
+  duedate: z.string().describe("Task Due-date"),
+  startdate: z.string().optional().describe("Task Start-date"),
+  phonenumber: z.string().optional().describe("Assingnee phone number"),
+  email: z.string().optional().describe("Assignee's email address"),
+  preferredChannel: z.string().describe("Assignee\'s preferred channel of communication"),
+  taskdetail: z.string().describe("details of the task"),
+});
+
+
+const structuredLlm = model.withStructuredOutput(task);
 
 /**
  * Screens an incoming Slack message to see if it is a task assignment.
  * @param {*} reqBody 
  * @returns 
  */
+
+
 const screenMessage = function(reqBody) {
   if (typeof reqBody !== 'undefined'){
     console.log('Request body is defined');
@@ -51,11 +75,14 @@ const postHandler = async function(request, response, next) {
             // TODO send it to newTaskHandler
         console.log("it's a task!");
         console.log(`blocks: ${JSON.stringify(request.body['event']['blocks'])}`);
-        const res = await axios.post(eventResURL, {
+          const extrTasksDetails = await structuredLlm.invoke(`Please extract information from this text: ${request.body['event']['text']}`);
+	  console.log(extrTasksDetails);
+	  const res = await axios.post(eventResURL, {
           channel: '#task-management',
-              // TODO fix this line
-          text: request.body['event']['text'],
-	}, {
+          //text: request.body['event']['text'],
+          text: JSON.stringify(extrTasksDetails),
+	
+	  }, {
              headers: {
                "Authorization": `Bearer ${process.env['SLACK_BOT_TOKEN']}`,
                "Content-Type": "application/x-www-form-urlencoded",

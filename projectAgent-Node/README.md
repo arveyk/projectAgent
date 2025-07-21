@@ -16,7 +16,7 @@ projectAgent/projectAgent-Node/helloworld
 
 contents
 ---
-- *s.env*
+- *.env*
 - *.gitignore*
 - *index.js*
 - *node_modules/*

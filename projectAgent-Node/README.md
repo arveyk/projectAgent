@@ -16,19 +16,19 @@ projectAgent/projectAgent-Node/helloworld
 
 contents
 ---
-- __s.env
-- _.gitignore
-- _index.js
-- _node_modules/
-- package-lock.json
-- _package.json
-- _routes/
--   events/
-        * auth/
-        * event.js
-        * slashcmd.js
-        * tasks/
-- -server.js
+- *s.env*
+- *.gitignore*
+- *index.js*
+- *node_modules/*
+- *package-lock.json*
+- *package.json*
+- *routes/*
+-   *events/*
+        * *auth/*
+        * *event.js*
+        * *slashcmd.js*
+        * *tasks/*
+- *server.js*
 
 
 ---

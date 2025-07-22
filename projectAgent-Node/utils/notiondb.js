@@ -13,8 +13,6 @@ const notion = new Client({
   auth: notionApiKey,
 });
 
-console.log(notionApiKey, databaseId)
-
 
 const titleArray = [
   {

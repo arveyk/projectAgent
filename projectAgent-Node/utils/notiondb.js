@@ -6,11 +6,15 @@ config();
 
 //const pageId = process.env.NOTION_PAGE_ID;
 const databaseId = process.env.NOTION_DATABASE_ID
+const notionApiKey = process.env.NOTION_API_KEY
 
 
 const notion = new Client({
-  auth: process.env.NOTION_API_KEY,
+  auth: notionApiKey,
 });
+
+console.log(notionApiKey, databaseId)
+
 
 const titleArray = [
   {
@@ -120,7 +124,7 @@ const TaskProperties = {
     "type": "rich_text",
     "rich_text": richTextArr
   },
-  "Due date": {
+  "Due Date": {
     "type": "date",
     "date": { 
       "start": "2025-05-11"
@@ -137,15 +141,15 @@ const TaskProperties = {
     "type": "phone_number",
     "phone_number": "124-542-0973"
   },
-  "email": {
+  "Email": {
     "type": "email",
     "email": "example@email.com"
   },
-  "Preferred Comm. Channel": {
+  "Preferred Channel": {
     "type": "rich_text",
     "rich_text": prefCommChannArr
   },
-  "Task Details": {
+  "Description": {
     "type": "rich_text",
     "rich_text": taskDetailsArr
   }
@@ -154,7 +158,6 @@ const TaskProperties = {
 async function addTaskNotionPage(dbID, pageProperties) {
   const newPage = await notion.pages.create({
     parent: {
-      "type": "database_id",
       "database_id": dbID,
     },
     properties: pageProperties,

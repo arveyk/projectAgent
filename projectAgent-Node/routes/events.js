@@ -6,9 +6,11 @@ import { z } from 'zod';
 
 dotenv.config();
 const APP_ID = process.env.PROJ_AGENT_APP_ID;
+
 const model = new ChatAnthropic({
   model: "claude-3-5-sonnet-20240620",
   temperature: 0,
+  api_key: process.env["ANTHROPIC_API_KEY"]
 });
 
 const task = z.object({
@@ -34,28 +36,31 @@ const structuredLlm = model.withStructuredOutput(task);
 
 const screenMessage = function(reqBody) {
   if (typeof reqBody !== 'undefined'){
-    console.log('Request body is defined');
-    // TODO check if message is a command
-    console.log(reqBody["event"])
-    const eventType = reqBody["event"]['type'] || 'No Event';
-    	  //
-    switch (eventType) {
-      case 'message':
-        console.log("Message event detected [By screenMessage]");
-	    break;
-      case 'app_mention':
-        console.log("App Mention Event detected [By screenMessange]");
-        break;
-      default:
-        console.log("Unknown Event detected [By screenMessage]");
+    console.log('Request body is defined', reqBody["event"]);
+    
+    // TODO check if message is a task assignment
+    let isTask = true
+    
+    if (!request.body["events"]) {
+      return false;
+    } else {
+      const eventType = reqBody["event"]['type'] || 'No Event';
+      switch (eventType) {
+        case 'message':
+          console.log("Message event detected [By screenMessage]");
+	  break;
+        case 'app_mention':
+          console.log("App Mention Event detected [By screenMessange]");
+          break;
+        default:
+          console.log("Unknown Event detected [By screenMessage]");
+      }
     }
 
     // check if message is from Project Agent
     //console.log(`api app id: ${reqBody['api_app_id']}, app_id ${reqBody['event']['app_id']}`);
     const isFromProjAgent = (typeof (reqBody['event']['bot_id']) !== 'undefined');
 
-    // TODO check if message is a task assignment
-    const isTask = true
 
     return (! isFromProjAgent && isTask);
   }

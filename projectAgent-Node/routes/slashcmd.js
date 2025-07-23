@@ -9,7 +9,7 @@ const slashCmdHandler = function(request, response, next) {
       let otherArgs = commandParams.slice(1, -1).join(' ');
 
       if (firstArg !== 'add'){
-        response.status(400).send(`Format: add ${request.body['text']}`);
+        response.status(200).send(`Format: add ${request.body['text']}`);
       } else {
         response.status(200).send(`Correct format ${request.body['command']}`);
       }

@@ -1,9 +1,21 @@
-import axios from 'axios';
 import { confirmationBlock, RequestApprovalBlock } from '../blockkit/sampleBlocks.js';
+import axios from 'axios';
+import dotenv from 'dotenv';
+import path from 'path';
+
+
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
+
+
 
 // webhook for taskmanagement channel only
-const webhookURL = "https://hooks.slack.com/services/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";
-
+const webhookURL0 = process.env.TASK_MANAGEMENT_WEBHOOK_URL 
+console.log(webhookURL0);
 
 const slashCmdHandler = function(request, response, next) {
     try {
@@ -18,18 +30,18 @@ const slashCmdHandler = function(request, response, next) {
       if (firstArg !== 'add'){
         response.status(200).send(`Format: add ${request.body['text']}`);
       } else {
-        axios({
+	axios({
           method: 'post',
-          url: webhookURL,
+          url: webhookURL0, 
           data: confirmationBlock
         }).then((resp) => {
           console.log('OK from slack', resp['status']);
-          response.status(200).send(`Correct format ${request.body['command']}`);
 	});
+        response.status(200).send(`Correct format ${request.body['command']}`);
       }
     } catch (err){
-        console.log(err);
-	return response.status(404).send(err);
+        console.log(err.status);
+	return response.status(404).send('Server Error');
     }
   next();
 }

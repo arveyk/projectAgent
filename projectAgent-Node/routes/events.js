@@ -3,8 +3,13 @@ import dotenv from 'dotenv';
 import { ChatAnthropic } from '@langchain/anthropic';
 import { z } from 'zod';
 
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-dotenv.config();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
 const APP_ID = process.env.PROJ_AGENT_APP_ID;
 
 const model = new ChatAnthropic({

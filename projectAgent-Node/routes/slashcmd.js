@@ -1,9 +1,8 @@
 import axios from 'axios';
 import { confirmationBlock, RequestApprovalBlock } from '../blockkit/sampleBlocks.js';
+
 // webhook for taskmanagement channel only
 const webhookURL = "https://hooks.slack.com/services/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";
-
-
 
 
 const slashCmdHandler = function(request, response, next) {
@@ -25,8 +24,8 @@ const slashCmdHandler = function(request, response, next) {
           data: confirmationBlock
         }).then((resp) => {
           console.log('OK from slack', resp['status']);
+          response.status(200).send(`Correct format ${request.body['command']}`);
 	});
-        response.status(200).send(`Correct format ${request.body['command']}`);
       }
     } catch (err){
         console.log(err);

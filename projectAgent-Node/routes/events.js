@@ -41,7 +41,7 @@ const screenMessage = function(reqBody) {
     // TODO check if message is a task assignment
     let isTask = true
     
-    if (!request.body["events"]) {
+    if (!reqBody["events"]) {
       return false;
     } else {
       const eventType = reqBody["event"]['type'] || 'No Event';

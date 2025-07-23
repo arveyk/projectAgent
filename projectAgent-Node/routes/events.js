@@ -72,7 +72,7 @@ const screenMessage = function(reqBody) {
 const postHandler = async function(request, response, next) {
     try {
       console.log(`I Handle most events. Any tasks for me?
-	 Request: ${JSON.stringify(request)}`);
+	 Request: ${JSON.stringify(request.body)}`);
       const eventResURL = 'https://slack.com/api/chat.postMessage';
       if (screenMessage(request.body)) {
             // TODO send it to newTaskHandler

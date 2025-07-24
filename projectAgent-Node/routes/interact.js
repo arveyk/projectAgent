@@ -2,7 +2,56 @@ import axios from 'axios';
 
 
 function interactionsHandler (request, response, next) {
-  console.log(request.body);
+  console.log(request.body['actions']);
+  console.log(request.body['trigger_id']);
+  console.log(request.body['response_url']);
+  console.log(request.body['channel']);
+  console.log(request.body['token']);
+
+  const bearerToken = request.body['token'];
+  const trigger_id = request.body['trigger_id'];
+
+  const modalPost =  axios({
+    method: "post",
+    url: "https://slack.com/api/views.open",
+    data: {
+      "trigger_id": `${trigger_id}`,
+      "view": {
+        "type": "modal",
+	"callback_id": "modal-identifier",
+    	"title": {
+          "type": "plain_text",
+          "text": "Just a modal"
+	},
+        "blocks": [
+          {
+            "type": "section",
+            "block_id": "section-identifier",
+            "text": {
+              "type": "mrkdwn",
+              "text": "*Welcome* to ~my~ Block Kit _modal_!"
+	    },
+            "accessory": {
+            "type": "button",
+            "text": {
+              "type": "plain_text",
+              "text": "Just a button"
+            },
+            "action_id": "button-identifier"
+	    }
+	  }
+	]
+      }
+    },
+    headers: {
+      "Content-Type": "application/json; charset=UTF-8",
+      "Authorization": `Bearer ${bearerToken}`,
+    },
+  }).then((modalResponse) => {
+    console.log(modalResponse);
+  }).catch((err) => {
+        console.log(err);
+  });
   response.status(200).send('Interactions received');
 }
 

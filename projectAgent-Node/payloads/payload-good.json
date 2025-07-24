@@ -5,52 +5,37 @@
   "context_enterprise_id":null,
   "api_app_id":"A08T4SJP659",
   "event":{
-    "user":"U08TS0Z9725",
+    "user":"U092ZF2JHNG",
     "type":"message",
-    "ts":"1753220202.091279",
-    "bot_id":"B08TS0Z6PMF",
-    "app_id":"A08T4SJP659",
-    "text":"{\"tasktitle\":\"Greeting\",\"assignee\":\"&lt;UNKNOWN&gt;\",\"duedate\":\"&lt;UNKNOWN&gt;\",\"preferredChannel\":\"&lt;UNKNOWN&gt;\",\"taskdetail\":\"The task is to say hello.\"}",
+    "ts":"1753396758.412629",
+    "client_msg_id":
+    "f86de11a-985c-4f22-94f0-f49dec8ba851",
+    "text":"This is a new message",
     "team":"T03TNQFN62V",
-    "bot_profile":{
-      "id":"B08TS0Z6PMF",
-      "deleted":false,
-      "name":"tasks_agent",
-      "updated":1747836932,
-      "app_id":"A08T4SJP659",
-      "user_id":"U08TS0Z9725",
-      "icons":{
-        "image_36":"https://a.slack-edge.com/80588/img/plugins/app/bot_36.png",
-        "image_48":"https://a.slack-edge.com/80588/img/plugins/app/bot_48.png",
-        "image_72":"https://a.slack-edge.com/80588/img/plugins/app/service_72.png"
-        },
-      "team_id":"T03TNQFN62V"
-      },
-      "blocks":[{
-        "type":"rich_text",
-        "block_id":"1r7HL",
+    "blocks":[{
+      "type":"rich_text",
+      "block_id":"FA1mL",
+      "elements":[{
+        "type":"rich_text_section",
         "elements":[{
-          "type":"rich_text_section",
-          "elements":[{
-            "type":"text",
-            "text":"{\"tasktitle\":\"Greeting\",\"assignee\":\"<UNKNOWN>\",\"duedate\":\"<UNKNOWN>\",\"preferredChannel\":\"<UNKNOWN>\",\"taskdetail\":\"The task is to say hello.\"}"
-          }]
+          "type":"text","text":"This is a new message"
         }]
-      }],
-      "channel":"C08R4M9P5SM",
-      "event_ts":"1753220202.091279",
-      "channel_type":"channel"
-      },
-      "type":"event_callback",
-      "event_id":"Ev096YL9F469",
-      "event_time":1753220202,
-      "authorizations":[{
-        "enterprise_id":null,
-        "team_id":"T03TNQFN62V",
-        "user_id":"U08TS0Z9725",
-        "is_bot":true,
-        "is_enterprise_install":false
-      }],
-      "is_ext_shared_channel":false,
-      "event_context":"4-eyJldCI6Im1lc3NhZ2UiLCJ0aWQiOiJUMDNUTlFGTjYyViIsImFpZCI6IkEwOFQ0U0pQNjU5IiwiY2lkIjoiQzA4UjRNOVA1U00ifQ"
-  }
+      }]
+    }],
+    "channel":"C03TCK9M5QU",
+    "event_ts":"1753396758.412629",
+    "channel_type":"channel"
+  },
+  "type":"event_callback",
+  "event_id":"Ev097T0BTK3K",
+  "event_time":1753396758,
+  "authorizations":[{
+    "enterprise_id":null,
+    "team_id":"T03TNQFN62V",
+    "user_id":"U08TS0Z9725",
+    "is_bot":true,
+    "is_enterprise_install":false
+  }],
+  "is_ext_shared_channel":false,
+  "event_context":"4-eyJldCI6Im1lc3NhZ2UiLCJ0aWQiOiJUMDNUTlFGTjYyViIsImFpZCI6IkEwOFQ0U0pQNjU5IiwiY2lkIjoiQzAzVENLOU01UVUifQ"
+}

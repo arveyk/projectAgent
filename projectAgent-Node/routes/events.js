@@ -48,7 +48,10 @@ const parseTask = function(reqBody) {
 
   structuredLlm.invoke;
 
-  return true;
+  return {
+    isTask: true,
+    parsedTask: {}
+  };
 }
 
 /**
@@ -63,8 +66,8 @@ export const screenMessage = function(reqBody) {
     console.log('Request body is defined', reqBody["event"]);
     
     // Use LLM to check if message is a task assignment
-    const result = parseTask(reqBody);
-    const isTask = (result);
+    const parsingResult = parseTask(reqBody);
+    const isTask = parsingResult.isTask;
     
     if (!reqBody["events"]) {
       return false;
@@ -84,8 +87,12 @@ export const screenMessage = function(reqBody) {
 
     const isFromProjAgent = (typeof (reqBody['event']['bot_id']) !== 'undefined');
 
-    // TODO also return parsed task if applicable
-    return (! isFromProjAgent && isTask);
+    if (! isFromProjAgent && isTask) {
+      return parsingResult;
+    }
+    else {
+      return false;
+    }
   }
   else {
     throw new Error('Request body is undefined');

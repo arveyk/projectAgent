@@ -51,7 +51,7 @@ function interactionsHandler (request, response, next) {
       "Authorization": `Bearer ${bearerToken}`,
     },
   }).then((modalResponse) => {
-    console.log(modalResponse);
+    console.log(modalResponse['data']);
   }).catch((err) => {
         console.log(err);
   });

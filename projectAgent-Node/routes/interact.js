@@ -8,12 +8,11 @@ const bearerToken = process.env.SLACK_BOT_TOKEN;
 
 function interactionsHandler (request, response, next) {
   console.log(request.body['actions']);
-  console.log(request.body['trigger_id']);
-  console.log(request.body['response_url']);
-  console.log(request.body['channel']);
-  console.log(request.body['token']);
+  console.log('TRIGGER_ID',request.body['trigger_id']);
+  console.log('CHANNEL', request.body['channel']);
 
   const trigger_id = request.body['trigger_id'];
+  console.log('TRIGGER_ID VARIABLE', trigger_id);
 
   const modalPost =  axios({
     method: "post",

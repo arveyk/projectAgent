@@ -2,10 +2,17 @@ import { json } from 'express';
 import express from 'express';
 import router from './middlerouter.js'
 import dotenv from 'dotenv';
-//import bodyParser from 'body-parser'
+import { 
+  PORT, 
+  SLACK_BOT_TOKEN, 
+  SLACK_SIGNING_SECRET, 
+  NOTION_API_KEY, 
+  NOTION_DATABASE_ID, 
+  ANTHROPIC_API_KEY, 
+  PROJ_AGENT_APP_ID 
+} from './env.js';
 
-dotenv.config();
-const PORT = parseInt(process.env.PORT) || 8080;
+const APP_PORT = parseInt(PORT) || 8080;
 
 const expressApp = express();
 
@@ -32,8 +39,8 @@ expressApp.get('/', (request, response) => {
   }
 });
 
-expressApp.listen(PORT, () => {
-  console.log(`Server's ears on port: ${PORT}`);
+expressApp.listen(APP_PORT, () => {
+  console.log(`Server's ears on port: ${APP_PORT}`);
 });
 
 export { expressApp as app };

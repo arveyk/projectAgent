@@ -3,19 +3,22 @@ import dotenv from 'dotenv';
 import { ChatAnthropic } from '@langchain/anthropic';
 import { z } from 'zod';
 
-import path from 'path';
-import { fileURLToPath } from 'url';
+import { 
+  PORT, 
+  SLACK_BOT_TOKEN, 
+  SLACK_SIGNING_SECRET, 
+  NOTION_API_KEY, 
+  NOTION_DATABASE_ID, 
+  ANTHROPIC_API_KEY, 
+  PROJ_AGENT_APP_ID 
+} from '../env.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-dotenv.config({ path: path.resolve(__dirname, '../.env') });
-const APP_ID = process.env.PROJ_AGENT_APP_ID;
+const APP_ID = PROJ_AGENT_APP_ID;
 
 const model = new ChatAnthropic({
   model: "claude-3-5-sonnet-20240620",
   temperature: 0,
-  //api_key: process.env["ANTHROPIC_API_KEY"]
+  api_key: process.env["ANTHROPIC_API_KEY"]
 });
 
 const task = z.object({
@@ -31,16 +34,17 @@ const task = z.object({
 
 const structuredLlm = model.withStructuredOutput(task);
 
+
 /**
  * Uses Anthropic to parse a task assignment from an incoming Slack webhook
  * @param {*} reqBody The body of the request
  * @returns If the message contains a task assignment, returns the formatted assignment. Else, returns false.
  */
 const parseTask = function(reqBody) {
-  // TODO give the LLM two potential actions:
-  // 1. /parse (description, duedate, assignee, assinger, etc…)
+  // TODO give the LLM two tools:
+  // 1. parse (description, duedate, assignee, assinger, etc…)
   // Extract information from incoming webhook and use AI to turn it into a formatted request.
-  // 2. /ignore (no arguments)
+  // 2. ignore (no arguments)
   // Ignore the message / event
 
   structuredLlm.invoke;
@@ -55,7 +59,7 @@ const parseTask = function(reqBody) {
  */
 
 
-const screenMessage = function(reqBody) {
+export const screenMessage = function(reqBody) {
   if (typeof reqBody !== 'undefined'){
     console.log('Request body is defined', reqBody["event"]);
     

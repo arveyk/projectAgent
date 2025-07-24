@@ -12,10 +12,18 @@ import patchTaskHandler from "./routes/tasks/update.js";
 import { interactionsHandler, 
   interactHandlerBlocks
 } from "./routes/interact.js";
+import { 
+  PORT, 
+  SLACK_BOT_TOKEN, 
+  SLACK_SIGNING_SECRET, 
+  NOTION_API_KEY, 
+  NOTION_DATABASE_ID, 
+  ANTHROPIC_API_KEY, 
+  PROJ_AGENT_APP_ID 
+} from './env.js';
 
-dotenv.config();
+const APP_PORT = parseInt(PORT) || 8080;
 const router = express.Router();
-const PORT = parseInt(process.env.PORT) || 8080;
 
 router.use(express.urlencoded({extended: false}));
 router.use(express.json());

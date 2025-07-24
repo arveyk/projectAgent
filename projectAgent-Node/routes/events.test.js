@@ -2,7 +2,7 @@ import { app } from "../index.js";
 const request = require('supertest');
 import postHandler from './events';
 
-import payload_good from './payloads/payload-good.json' with { type: 'json' };
+import payload_good from '../payloads/payload-good.json' with { type: 'json' };
 
 
 // describe('Valid payload', () => {
@@ -10,6 +10,13 @@ import payload_good from './payloads/payload-good.json' with { type: 'json' };
 //         postHandler(payload_good);
 //     })
 // })
+
+// TODO test screenMessage with task, non-task, 
+describe('Test screenMessage with a message containing a task assignment', () => {
+    it('', () => {
+
+    })
+})
 
 describe('POST /events with a valid payload', () => {
     it('sends 200 OK', async () => {

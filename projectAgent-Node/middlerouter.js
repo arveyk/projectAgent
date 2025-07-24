@@ -9,7 +9,9 @@ import slashCmdHandler from "./routes/slashcmd.js";
 import newTaskHandler from "./routes/tasks/newtask.js";
 import patchTaskHandler from "./routes/tasks/update.js";
 
-import interactionsHandler from "./routes/interact.js";
+import { interactionsHandler, 
+  interactHandlerBlocks
+} from "./routes/interact.js";
 
 dotenv.config();
 const router = express.Router();
@@ -28,7 +30,7 @@ router.post('/events', asyncHandler(eventsHandler), (request, response) => {
 
 router.post('/slashcmd', slashCmdHandler);
 
-router.post('/slack/interact', interactionsHandler);
+router.post('/slack/interact', interactHandlerBlocks);
 router.get('/tasks', (request, response) => {
   response.send(JSON.stringify(
     [{

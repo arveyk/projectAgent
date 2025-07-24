@@ -92,7 +92,63 @@ const sampleModal = {
         ]
       }
 }
-const RequestApprovalBlock = [];
+const RequestApprovalBlock = {
+	"blocks": [
+		{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": "You about to :\n*Add a task to the database*"
+			}
+		},
+		{
+			"type": "section",
+			"fields": [
+				{
+					"type": "mrkdwn",
+					"text": "*Task Title:*\nNotion Integration"
+				},
+				{
+					"type": "mrkdwn",
+					"text": "*Due Date:*\n Aut 10 2025"
+				},
+				{
+					"type": "mrkdwn",
+					"text": "*Start date:*\nMar 10, 2025 (3 years, 5 months)"
+				},
+				{
+					"type": "mrkdwn",
+					"text": "*Description:*\nAdd Some tasks to the database ."
+				}
+			]
+		},
+		{
+			"type": "actions",
+			"elements": [
+				{
+					"type": "button",
+					"text": {
+						"type": "plain_text",
+						"emoji": true,
+						"text": "Approve"
+					},
+					"style": "primary",
+					"value": "click_me_123"
+				},
+				{
+					"type": "button",
+					"text": {
+						"type": "plain_text",
+						"emoji": true,
+						"text": "Deny"
+					},
+					"style": "danger",
+					"value": "click_me_123"
+				}
+			]
+		}
+	]
+};
 	
 
 export {

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import dotenv from 'dotenv';
-import { sampleModal } from '../blockkit/sampleBlocks.js'
+import { sampleModal, RequestApprovalBlock } from '../blockkit/sampleBlocks.js'
 dotenv.config();
 
 
@@ -10,11 +10,11 @@ const bearerToken = process.env.SLACK_BOT_TOKEN;
 function interactionsHandler (request, response, next) {
   console.log(request.body.payload['actions']);
   console.log('TRIGGER_ID',request.body.payload['trigger_id']);
-  console.log(`REQUEST BODY ${JSON.stringify(request.body)}`);
-  console.log(`REQUEST BODY PAYLOAD${request.body.payload}`);
+  console.log(`REQUEST BODY PAYLOAD${JSON.stringify(request.body.payload)}`);
 
-  const trigger_id = request.body.payload['trigger_id'] || request.body['trigger_id'];
-  console.log('TRIGGER_ID VARIABLE', trigger_id);
+  const trigger_id = request.body.payload['trigger_id'];
+  
+  console.log('TRIGGER_ID VARIABLE', trigger_id, typeof(trigger_id));
   
   sampleModal.trigger_id = trigger_id;
 
@@ -34,4 +34,29 @@ function interactionsHandler (request, response, next) {
   response.status(200).send('Interactions received');
 }
 
-export default interactionsHandler;
+function interactHandlerBlocks (request, response, next) {
+  console.log(request.body.payload['actions']);
+  console.log('TRIGGER_ID',request.body.payload['trigger_id']);
+  console.log(`REQUEST BODY ${JSON.stringify(request.body)}`);
+  console.log(`REQUEST BODY PAYLOAD${request.body.payload}`);
+  
+  const payLoad = JSON.stringify(request.body.payload);
+  const trigger_id = payLoad['trigger_id'] || request.body['trigger_id'];
+  
+  console.log('TRIGGER_ID VARIABLE', trigger_id);
+  
+  sampleModal.trigger_id = trigger_id;
+
+  const modalPost =  axios({
+    method: "post",
+    url: request.body.payload['response_url'],
+    data: RequestApprovalBlock,
+  }).then((modalResponse) => {
+    console.log(modalResponse['data']);
+  }).catch((err) => {
+        console.log(err);
+  });
+  response.status(200).send('Interactions received');
+}
+
+export { interactionsHandler, interactHandlerBlocks }; 

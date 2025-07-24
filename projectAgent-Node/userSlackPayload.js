@@ -195,5 +195,67 @@
     ],
     "is_ext_shared_channel": false,
     "event_context":"4-eyJldCI6Im1lc3NhZ2UiLCJ0aWQiOiJUMDNUTlFGTjYyViIsImFpZCI6IkEwOFQ0U0pQNjU5IiwiY2lkIjoiQzA4UjRNOVA1U00ifQ"
-  }
+  },
+  {
+    "type": "block_actions",
+    "user": {
+      "id": "U03T772MESH",
+	    "username": "harveykisiangani",
+	    "name": "harveykisiangani",
+	    "team_id":"T03TNQFN62V"
+    },
+	  "api_app_id": "A08T4SJP659",
+	  "token": "cdpGCjWC3RGCqp0yCWWJa3cD",
+	  "container": {
+		  "type":"message",
+		  "message_ts": "1753298333.684069",
+		  "channel_id": "C08R4M9P5SM",
+		  "is_ephemeral":false
+	  },
+	  "trigger_id": "9247599292882.3940831754097.90ebfa122cf39bbe064f3c8f322cbf34",
+	  "team": {
+		  "id": "T03TNQFN62V",
+		  "domain": "alxseco"
+	  },
+	  "enterprise": null,
+	  "is_enterprise_install": false,
+	  "channel": {
+		  "id": "C08R4M9P5SM",
+		  "name":"task-management"
+	  },
+	  "message": {
+		  "subtype": "bot_message",
+		  "text": "New Paid Time Off request from Fred Enriquez",
+		  "type":"message",
+		  "ts": "1753298333.684069",
+		  "bot_id": "B0976DMLYUU",
+		  "blocks": [
+			  {
+				  "type": "header",
+				  "block_id": "QZRVZ",
+				  "text": {
+					  "type": "plain_text",
+					  "text": "New request",
+					  "emoji": true
+				  }
+			  },
+			  {
+				  "type":"section",
+				  "block_id": "VDnNe",
+				  "fields": [
+					  {
+						  "type":"mrkdwn",
+						  "text":"*Type:*\\nPaid Time Off","verbatim":false
+					  },
+					  {
+						  "type":"mrkdwn","text":"*Created by:*\\n<example.com|Fred Enriquez>","verbatim":false
+					  }
+				  ]
+			  },
+			  {
+				  "type":"section",
+				  "block_id":"zcsYJ","fields": [
+					  {"type":"mrkdwn","text":"*When:*\\nAug 10 - Aug 13","verbatim":false}]},{"type":"actions","block_id":"bBxhy","elements":[{"type":"button","action_id":"uSoeH","text":{"type":"plain_text","text":"Approve","emoji":true},"style":"primary","value":"click_me_123"},{"type":"button","action_id":"Yg6CW","text":{"type":"plain_text","text":"Reject","emoji":true},"style":"danger","value":"click_me_123"}]}]},"state":{"values":{}},"response_url":"https:\\/\\/hooks.slack.com\\/actions\\/T03TNQFN62V\\/9247599248370\\/hdjq9PHijECru3KtWdrTFc5H","actions":[{"action_id":"uSoeH","block_id":"bBxhy","text":{"type":"plain_text","text":"Approve","emoji":true},"value":"click_me_123","style":"primary","type":"button","action_ts":"1753347604.733136"}]},
+	{"payload":{"type":"block_actions","user":{"id":"U03T772MESH","username":"harveykisiangani","name":"harveykisiangani","team_id":"T03TNQFN62V"},"api_app_id":"A08T4SJP659","token":"cdpGCjWC3RGCqp0yCWWJa3cD","container":{"type":"message","message_ts":"1753360751.914959","channel_id":"C08R4M9P5SM","is_ephemeral":false},"trigger_id":"9248622086914.3940831754097.e7c46f0ae080e7b2e50b9158a243099f","team":{"id":"T03TNQFN62V","domain":"alxseco"},"enterprise":null,"is_enterprise_install":false,"channel":{"id":"C08R4M9P5SM","name":"task-management"},"message":{"subtype":"bot_message","text":"New Paid Time Off request from Fred Enriquez","type":"message","ts":"1753360751.914959","bot_id":"B0976DMLYUU","blocks":[{"type":"header","block_id":"QZRVZ","text":{"type":"plain_text","text":"New request","emoji":true}},{"type":"section","block_id":"VDnNe","fields":[{"type":"mrkdwn","text":"*Type:*nPaid Time Off","verbatim":false},{"type":"mrkdwn","text":"*Created by:*n<example.com|Fred Enriquez>","verbatim":false}]},{"type":"section","block_id":"zcsYJ","fields":[{"type":"mrkdwn","text":"*When:*nAug 10 - Aug 13","verbatim":false}]},{"type":"actions","block_id":"bBxhy","elements":[{"type":"button","action_id":"uSoeH","text":{"type":"plain_text","text":"Approve","emoji":true},"style":"primary","value":"click_me_123"},{"type":"button","action_id":"Yg6CW","text":{"type":"plain_text","text":"Reject","emoji":true},"style":"danger","value":"click_me_123"}]}]},"state":{"values":{}},"response_url":"https:/hooks.slack.com/actions/T03TNQFN62V/9248621951362/gEdOqEpSbDoZapvBLmFQf6x9","actions":[{"action_id":"uSoeH","block_id":"bBxhy","text":{"type":"plain_text","text":"Approve","emoji":true},"value":"click_me_123","style":"primary","type":"button","action_ts":"1753360753.824984"}]}
+	}
 ]

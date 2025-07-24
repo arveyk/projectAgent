@@ -1,4 +1,9 @@
 import axios from 'axios';
+import dotenv from 'dotenv';
+dotenv.config();
+
+
+const bearerToken = process.env.SLACK_BOT_TOKEN;
 
 
 function interactionsHandler (request, response, next) {
@@ -8,7 +13,6 @@ function interactionsHandler (request, response, next) {
   console.log(request.body['channel']);
   console.log(request.body['token']);
 
-  const bearerToken = request.body['token'];
   const trigger_id = request.body['trigger_id'];
 
   const modalPost =  axios({

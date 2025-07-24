@@ -10,6 +10,7 @@ function interactionsHandler (request, response, next) {
   console.log(request.body['actions']);
   console.log('TRIGGER_ID',request.body['trigger_id']);
   console.log(`REQUEST BODY ${request.body}`);
+  console.log(`REQUEST BODY PAYLOAD${request.body.payload}`);
 
   const trigger_id = request.body['trigger_id'];
   console.log('TRIGGER_ID VARIABLE', trigger_id);

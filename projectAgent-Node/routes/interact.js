@@ -1,5 +1,6 @@
 import axios from 'axios';
 import dotenv from 'dotenv';
+import { sampleModal } from '../blockkit/sampleBlocks.js'
 dotenv.config();
 
 
@@ -14,39 +15,13 @@ function interactionsHandler (request, response, next) {
 
   const trigger_id = request.body.payload['trigger_id'] || request.body['trigger_id'];
   console.log('TRIGGER_ID VARIABLE', trigger_id);
+  
+  sampleModal.trigger_id = trigger_id;
 
   const modalPost =  axios({
     method: "post",
     url: "https://slack.com/api/views.open",
-    data: {
-      "trigger_id": `${trigger_id}`,
-      "view": {
-        "type": "modal",
-	"callback_id": "modal-identifier",
-    	"title": {
-          "type": "plain_text",
-          "text": "Just a modal"
-	},
-        "blocks": [
-          {
-            "type": "section",
-            "block_id": "section-identifier",
-            "text": {
-              "type": "mrkdwn",
-              "text": "*Welcome* to ~my~ Block Kit _modal_!"
-	    },
-            "accessory": {
-            "type": "button",
-            "text": {
-              "type": "plain_text",
-              "text": "Just a button"
-            },
-            "action_id": "button-identifier"
-	    }
-	  }
-	]
-      }
-    },
+    data: sampleModal,
     headers: {
       "Content-Type": "application/json; charset=UTF-8",
       "Authorization": `Bearer ${bearerToken}`,

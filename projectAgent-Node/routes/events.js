@@ -29,12 +29,28 @@ const task = z.object({
   taskdetail: z.string().describe("details of the task"),
 });
 
-
 const structuredLlm = model.withStructuredOutput(task);
 
 /**
+ * Uses Anthropic to parse a task assignment from an incoming Slack webhook
+ * @param {*} reqBody The body of the request
+ * @returns If the message contains a task assignment, returns the formatted assignment. Else, returns false.
+ */
+const parseTask = function(reqBody) {
+  // TODO give the LLM two potential actions:
+  // 1. /parse (description, duedate, assignee, assinger, etc…)
+  // Extract information from incoming webhook and use AI to turn it into a formatted request.
+  // 2. /ignore (no arguments)
+  // Ignore the message / event
+
+  structuredLlm.invoke;
+
+  return true;
+}
+
+/**
  * Screens an incoming Slack message to see if it is a task assignment.
- * @param {*} reqBody 
+ * @param {*} reqBody The body of the incoming Slack request
  * @returns 
  */
 
@@ -43,8 +59,9 @@ const screenMessage = function(reqBody) {
   if (typeof reqBody !== 'undefined'){
     console.log('Request body is defined', reqBody["event"]);
     
-    // TODO check if message is a task assignment
-    let isTask = true
+    // Use LLM to check if message is a task assignment
+    const result = parseTask(reqBody);
+    const isTask = (result);
     
     if (!reqBody["events"]) {
       return false;
@@ -62,11 +79,9 @@ const screenMessage = function(reqBody) {
       }
     }
 
-    // check if message is from Project Agent
-    //console.log(`api app id: ${reqBody['api_app_id']}, app_id ${reqBody['event']['app_id']}`);
     const isFromProjAgent = (typeof (reqBody['event']['bot_id']) !== 'undefined');
 
-
+    // TODO also return parsed task if applicable
     return (! isFromProjAgent && isTask);
   }
   else {

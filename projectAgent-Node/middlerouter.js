@@ -9,6 +9,8 @@ import slashCmdHandler from "./routes/slashcmd.js";
 import newTaskHandler from "./routes/tasks/newtask.js";
 import patchTaskHandler from "./routes/tasks/update.js";
 
+import interactionsHandler from "./routes/interact.js";
+
 dotenv.config();
 const router = express.Router();
 const PORT = parseInt(process.env.PORT) || 8080;
@@ -26,6 +28,7 @@ router.post('/events', asyncHandler(eventsHandler), (request, response) => {
 
 router.post('/slashcmd', slashCmdHandler);
 
+router.post('slack/interact', interactionsHandler);
 router.get('/tasks', (request, response) => {
   response.send(JSON.stringify(
     [{
@@ -54,7 +57,6 @@ router.get('/tasks', (request, response) => {
   ]));
 });
 router.post('/tasks/newtask', newTaskHandler);
-
 router.patch('/tasks/update', patchTaskHandler);
 //router.use('/auth/slack', authRouter);
 

@@ -15,7 +15,7 @@ const APP_ID = process.env.PROJ_AGENT_APP_ID;
 const model = new ChatAnthropic({
   model: "claude-3-5-sonnet-20240620",
   temperature: 0,
-  api_key: process.env["ANTHROPIC_API_KEY"]
+  //api_key: process.env["ANTHROPIC_API_KEY"]
 });
 
 const task = z.object({

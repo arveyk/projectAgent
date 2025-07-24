@@ -1,7 +1,4 @@
-import { json } from 'express';
 import express from 'express';
-import axios from 'axios';
-import dotenv from 'dotenv';
 import asyncHandler from 'express-async-handler';
 
 import eventsHandler from "./routes/events.js";
@@ -68,8 +65,5 @@ router.get('/tasks', (request, response) => {
 });
 router.post('/tasks/newtask', newTaskHandler);
 router.patch('/tasks/update', patchTaskHandler);
-//router.use('/auth/slack', authRouter);
-
-
 
 export default router;

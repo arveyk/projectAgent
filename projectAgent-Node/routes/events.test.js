@@ -4,13 +4,6 @@ import postHandler from './events';
 
 import payload_good from '../payloads/payload-good.json' with { type: 'json' };
 
-
-// describe('Valid payload', () => {
-//     it('does something', async () => {
-//         postHandler(payload_good);
-//     })
-// })
-
 // TODO test screenMessage with task, non-task, 
 describe('Test screenMessage with a message containing a task assignment', () => {
     it('', () => {

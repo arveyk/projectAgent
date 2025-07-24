@@ -1,7 +1,5 @@
 import { confirmationBlock, RequestApprovalBlock } from '../blockkit/sampleBlocks.js';
 import axios from 'axios';
-import dotenv from 'dotenv';
-import path from 'path';
 import { 
   PORT, 
   SLACK_BOT_TOKEN, 

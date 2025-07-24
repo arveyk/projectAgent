@@ -9,7 +9,7 @@ const bearerToken = process.env.SLACK_BOT_TOKEN;
 function interactionsHandler (request, response, next) {
   console.log(request.body['actions']);
   console.log('TRIGGER_ID',request.body['trigger_id']);
-  console.log('CHANNEL', request.body['channel']);
+  console.log('CHANNEL', request.body);
 
   const trigger_id = request.body['trigger_id'];
   console.log('TRIGGER_ID VARIABLE', trigger_id);

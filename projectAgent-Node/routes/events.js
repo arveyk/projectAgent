@@ -100,6 +100,7 @@ export const screenMessage = function(reqBody) {
 }
 
 const postHandler = async function(request, response, next) {
+  console.log(request);
     try {
       console.log(`I Handle most events. Any tasks for me?
 	 Request: ${JSON.stringify(request.body)}`);

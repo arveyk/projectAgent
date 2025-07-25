@@ -69,9 +69,11 @@ export const screenMessage = function(reqBody) {
     // Use LLM to check if message is a task assignment
     const parsingResult = parseTask(reqBody);
     let isTask = parsingResult.isTask;
+
     // Check for a bot_id to determine if the message was sent by a bot
     const isFromBot = (typeof (reqBody['event']['bot_id']) !== 'undefined');
     console.log(`text: ${reqBody['event']['text']}, is it from a bot? ${isFromBot}`);
+    
     // Other events to ignore
     if ([`${reqBody.event.bot_profile["updated"]}`]) {
       isTask = false;

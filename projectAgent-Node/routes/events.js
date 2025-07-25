@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { ChatAnthropic } from '@langchain/anthropic';
+import { tool } from '@langchain/core/tools';
 import { z } from 'zod';
 
 import { 
@@ -37,30 +38,28 @@ const structuredLlm = model.withStructuredOutput(task);
 /**
  * Uses Anthropic to parse a task assignment from an incoming Slack webhook
  * @param {*} reqBody The body of the request
- * @returns If the message contains a task assignment, returns the formatted assignment. Else, returns false.
+ * @returns If the message contains a task assignment, returns true and the formatted task.
+ * Else, returns false.
  */
 const parseTask = function(reqBody) {
-  // TODO give the LLM two tools:
-  // 1. parse (description, duedate, assignee, assinger, etc…)
-  // Extract information from incoming webhook and use AI to turn it into a formatted request.
-  // 2. ignore (no arguments)
-  // Ignore the message / event
-
-  structuredLlm.invoke;
+  // TODO have it return false if it is not a task
+  const parsedTask = structuredLlm.invoke(
+    `Please extract information from this text: ${request.body['event']['text']}`
+  );
+	console.log(parsedTask);
 
   return {
     isTask: true,
-    parsedTask: {}
+    parsedTask: parsedTask
   };
 }
 
 /**
  * Screens an incoming Slack message to see if it is a task assignment.
  * @param {*} reqBody The body of the incoming Slack request
- * @returns 
+ * @returns If the message is a task assignment, returns true and the parsed task.
+ * Else, returns false.
  */
-
-
 export const screenMessage = function(reqBody) {
   if (typeof reqBody !== 'undefined'){
     console.log('Request body is defined', reqBody["event"]);
@@ -68,26 +67,12 @@ export const screenMessage = function(reqBody) {
     // Use LLM to check if message is a task assignment
     const parsingResult = parseTask(reqBody);
     const isTask = parsingResult.isTask;
-    
-    if (!reqBody["events"]) {
-      return false;
-    } else {
-      const eventType = reqBody["event"]['type'] || 'No Event';
-      switch (eventType) {
-        case 'message':
-          console.log("Message event detected [By screenMessage]");
-	  break;
-        case 'app_mention':
-          console.log("App Mention Event detected [By screenMessange]");
-          break;
-        default:
-          console.log("Unknown Event detected [By screenMessage]");
-      }
-    }
 
-    const isFromProjAgent = (typeof (reqBody['event']['bot_id']) !== 'undefined');
+    // Check for a bot_id to determine if the message was sent by a bot
+    const isFromBot = (typeof (reqBody['event']['bot_id']) !== 'undefined');
+    console.log(`text: ${reqBody['event']['text']}, is it from a bot? ${isFromBot}`);
 
-    if (! isFromProjAgent && isTask) {
+    if (! isFromBot && isTask) {
       return parsingResult;
     }
     else {
@@ -100,36 +85,37 @@ export const screenMessage = function(reqBody) {
 }
 
 const postHandler = async function(request, response, next) {
-  console.log(request);
+  //console.log(request);
     try {
       console.log(`I Handle most events. Any tasks for me?
-	 Request: ${JSON.stringify(request.body)}`);
+	      Request: ${JSON.stringify(request.body)}`);
       const eventResURL = 'https://slack.com/api/chat.postMessage';
-      if (screenMessage(request.body)) {
-            // TODO send it to newTaskHandler
+      const screeningResult = screenMessage(request.body);
+      console.log(`result of screening: ${JSON.stringify(screeningResult)}`);
+      if (screeningResult) {
+        // TODO send it to newTaskHandler
         console.log("it's a task!");
-        console.log(`blocks: ${JSON.stringify(request.body['event']['blocks'])}`);
-          const extrTasksDetails = await structuredLlm.invoke(`Please extract information from this text: ${request.body['event']['text']}`);
-	  console.log(extrTasksDetails);
-	  const res = await axios.post(eventResURL, {
+        //console.log(`blocks: ${JSON.stringify(request.body['event']['blocks'])}`);
+        const parsedTask = screeningResult.parsedTask;
+        const res = await axios.post(eventResURL, {
           channel: '#task-management',
           //text: request.body['event']['text'],
-          text: JSON.stringify(extrTasksDetails),
+          text: JSON.stringify(parsedTask),
 	
 	  }, {
-             headers: {
-               "Authorization": `Bearer ${process.env['SLACK_BOT_TOKEN']}`,
-               "Content-Type": "application/x-www-form-urlencoded",
-	     }
-	});
-        console.log(res.data);
-      } else {
-        console.log("not a task");
-      }
-    } catch (err){
-      console.log(err);
-      return response.status(500).send(`Error and Body${request.body}`);
+          headers: {
+              "Authorization": `Bearer ${process.env['SLACK_BOT_TOKEN']}`,
+              "Content-Type": "application/x-www-form-urlencoded",
+          }
+	    });
+      console.log(res.data);
+    } else {
+      console.log("not a task");
     }
+  } catch (err){
+    console.log(err);
+    return response.status(500).send(`Error and Body${request.body}`);
+  }
   next();
 }
 

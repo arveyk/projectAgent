@@ -9,6 +9,8 @@ import patchTaskHandler from "./routes/tasks/update.js";
 import { interactionsHandler, 
   interactHandlerBlocks
 } from "./routes/interact.js";
+import { threadMsg } from "./routes/threadReply.js"
+
 import { 
   PORT, 
   SLACK_BOT_TOKEN, 
@@ -35,7 +37,8 @@ router.post('/events', asyncHandler(eventsHandler), (request, response) => {
 
 router.post('/slashcmd', slashCmdHandler);
 
-router.post('/slack/interact', interactionsHandler);
+//router.post('/slack/interact', interactionsHandler);
+router.post('/slack/interact', threadMsg);
 router.get('/tasks', (request, response) => {
   response.send(JSON.stringify(
     [{

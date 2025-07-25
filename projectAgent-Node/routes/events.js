@@ -73,7 +73,10 @@ export const screenMessage = function(reqBody) {
     // Check for a bot_id to determine if the message was sent by a bot
     const isFromBot = (typeof (reqBody['event']['bot_id']) !== 'undefined');
     console.log(`text: ${reqBody['event']['text']}, is it from a bot? ${isFromBot}`);
-
+    // Other events to ignore
+    if ([`${reqBody.event.bot_profile["updated"]}`]) {
+      isTask = false;
+    }
     if (! isFromBot && isTask) {
       return parsingResult;
     }
@@ -97,7 +100,6 @@ const postHandler = async function(request, response, next) {
       if (screeningResult) {
         // TODO send it to newTaskHandler
         console.log("it's a task!");
-        //console.log(`blocks: ${JSON.stringify(request.body['event']['blocks'])}`);
         const parsedTask = screeningResult.parsedTask;
         const res = await axios.post(eventResURL, {
           channel: '#task-management',

@@ -32,57 +32,54 @@ const task = z.object({
   taskdetail: z.string().describe("details of the task"),
 });
 
-const structuredLlm = model.withStructuredOutput(task);
+const taskParseResult = z.object({
+  istask: z.boolean().describe("True if it is a task, else false"),
+  task: task.optional().describe("Structured task object")
+})
+
+const structuredLlm = model.withStructuredOutput(taskParseResult);
 
 
 /**
  * Uses Anthropic to parse a task assignment from an incoming Slack webhook
  * @param {*} reqBody The body of the request
- * @returns If the message contains a task assignment, returns true and the formatted task.
- * Else, returns false.
+ * @returns If the message contains a task assignment, returns a TaskParseResult containing true and the formatted task.
+ * Else, returns a TaskParseResult containing false.
  */
-const parseTask = function(reqBody) {
-  // TODO have it return false if it is not a task
-  const parsedTask = structuredLlm.invoke(
-    `Please extract information from this text: ${reqBody['event']['text']}`
+const parseTask = async function(reqBody) {
+  const taskParseResult = await structuredLlm.invoke(
+    `Please extract information from this message and determine whether or not it is assigning a new task to a person: ${reqBody['event']['text']}`
   );
-	console.log(parsedTask);
+	console.log(`task parse result: ${JSON.stringify(taskParseResult)}`);
 
-  return {
-    isTask: true,
-    parsedTask: parsedTask
-  };
+  return taskParseResult;
 }
 
 
 /**
  * Screens an incoming Slack message to see if it is a task assignment.
  * @param {*} reqBody The body of the incoming Slack request
- * @returns If the message is a task assignment, returns true and the parsed task.
- * Else, returns false.
+ * @returns If the message is a task assignment, returns a TaskParseResult containing true and the formatted task.
+ * Else, returns a TaskParseResult containing false.
  */
 
-export const screenMessage = function(reqBody) {
+export const screenMessage = async function(reqBody) {
   if (typeof reqBody !== 'undefined'){
     console.log('Request body is defined', reqBody["event"]);
     
     // Use LLM to check if message is a task assignment
-    const parsingResult = parseTask(reqBody);
-    let isTask = parsingResult.isTask;
+    const taskParseResult = await parseTask(reqBody);
+    const isTask = taskParseResult.istask;
 
     // Check for a bot_id to determine if the message was sent by a bot
     const isFromBot = (typeof (reqBody['event']['bot_id']) !== 'undefined');
-    console.log(`text: ${reqBody['event']['text']}, is it from a bot? ${isFromBot}`);
-    
-    // Other events to ignore
-    if ([`${reqBody.event.bot_profile["updated"]}`]) {
-      isTask = false;
-    }
+    //console.log(`text: ${reqBody['event']['text']}, is it from a bot? ${isFromBot}`);
+
     if (! isFromBot && isTask) {
-      return parsingResult;
+      return taskParseResult;
     }
     else {
-      return false;
+      return {istask: false};
     }
   }
   else {
@@ -97,15 +94,15 @@ const postHandler = async function(request, response, next) {
 	      Request: ${JSON.stringify(request.body)}`);
       const eventResURL = 'https://slack.com/api/chat.postMessage';
       const screeningResult = screenMessage(request.body);
-      console.log(`result of screening: ${JSON.stringify(screeningResult)}`);
+      //console.log(`result of screening: ${JSON.stringify(screeningResult)}`);
       if (screeningResult) {
         // TODO send it to newTaskHandler
         console.log("it's a task!");
-        const parsedTask = screeningResult.parsedTask;
+        const parsedTask = screeningResult.task;
         const res = await axios.post(eventResURL, {
           channel: '#task-management',
           //text: request.body['event']['text'],
-          text: JSON.stringify(parsedTask),
+          text: JSON.stringify(task),
 	
 	  }, {
           headers: {

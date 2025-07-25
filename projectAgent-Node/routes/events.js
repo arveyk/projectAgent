@@ -44,7 +44,7 @@ const structuredLlm = model.withStructuredOutput(task);
 const parseTask = function(reqBody) {
   // TODO have it return false if it is not a task
   const parsedTask = structuredLlm.invoke(
-    `Please extract information from this text: ${request.body['event']['text']}`
+    `Please extract information from this text: ${reqBody['event']['text']}`
   );
 	console.log(parsedTask);
 
@@ -54,12 +54,14 @@ const parseTask = function(reqBody) {
   };
 }
 
+
 /**
  * Screens an incoming Slack message to see if it is a task assignment.
  * @param {*} reqBody The body of the incoming Slack request
  * @returns If the message is a task assignment, returns true and the parsed task.
  * Else, returns false.
  */
+
 export const screenMessage = function(reqBody) {
   if (typeof reqBody !== 'undefined'){
     console.log('Request body is defined', reqBody["event"]);

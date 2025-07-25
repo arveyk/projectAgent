@@ -37,24 +37,29 @@ function interactionsHandler (request, response, next) {
 function interactHandlerBlocks (request, response, next) {
   console.log(request.body.payload['actions']);
   console.log('TRIGGER_ID',request.body.payload['trigger_id']);
-  console.log(`REQUEST BODY ${JSON.stringify(request.body)}`);
+  console.log(`RESPONSE URL ${(request.body.payload.response_url)}`);
   console.log(`REQUEST BODY PAYLOAD${request.body.payload}`);
   
   const trigger_id = request.body.payload['trigger_id'];
-  
-  console.log('TRIGGER_ID VARIABLE', trigger_id);
+  const response_url = request.body.payload['response_url'];
+  const message = request.body.payload['message'];
+  console.log(`TRIGGER_ID VARIABLE ${trigger_id}: RESPONSE_URL ${response_url} MESSAGE ${JSON.stringify(message)}`);
   
   sampleModal.trigger_id = trigger_id;
-
-  const modalPost =  axios({
-    method: "post",
-    url: request.body.payload['response_url'],
-    data: RequestApprovalBlock,
-  }).then((modalResponse) => {
-    console.log(modalResponse['data']);
-  }).catch((err) => {
+  
+  if (message.edited){
+    console.log('Response was Edited')
+  } else {
+    const modalPost =  axios({
+      method: "post",
+      url: request.body.payload['response_url'],
+      data: RequestApprovalBlock,
+    }).then((modalResponse) => {
+      console.log(modalResponse['data']);
+    }).catch((err) => {
         console.log(err);
-  });
+    });
+  }
   response.status(200).send('Interactions received');
 }
 

@@ -8,11 +8,18 @@ const bearerToken = process.env.SLACK_BOT_TOKEN;
 
 
 function interactionsHandler (request, response, next) {
-  console.log(request.body.payload['actions']);
-  console.log('TRIGGER_ID',request.body.payload['trigger_id']);
-  console.log(`REQUEST BODY PAYLOAD${JSON.stringify(request.body.payload)}`);
+  const payloadStr = request.body.payload;
+  const payload = JSON.parse(payloadStr);
+	
+  console.log('TRIGGER_ID', payload['trigger_id']);
+  console.log(`RESPONSE URL ${(payload['response_url'])}`);
+  console.log(payload['actions']);
 
-  const trigger_id = request.body.payload['trigger_id'];
+  const trigger_id = payload['trigger_id'];
+  const response_url = payload['response_url'];
+  const message = payload['message'];
+  console.log(`TRIGGER_ID VARIABLE ${trigger_id}: RESPONSE_URL ${response_url} MESSAGE ${JSON.stringify(message)}`);
+  
   
   console.log('TRIGGER_ID VARIABLE', trigger_id, typeof(trigger_id));
   
@@ -35,14 +42,18 @@ function interactionsHandler (request, response, next) {
 }
 
 function interactHandlerBlocks (request, response, next) {
-  console.log(request.body.payload['actions']);
-  console.log('TRIGGER_ID',request.body.payload['trigger_id']);
-  console.log(`RESPONSE URL ${(request.body.payload.response_url)}`);
   console.log(`REQUEST BODY PAYLOAD${request.body.payload}\nPAYLOAD TYPE: ${typeof(request.body.payload)}`);
-  
-  const trigger_id = request.body.payload['trigger_id'];
-  const response_url = request.body.payload['response_url'];
-  const message = request.body.payload['message'];
+ 
+  const payloadStr = request.body.payload;
+  const payload = JSON.parse(payloadStr);
+	
+  console.log('TRIGGER_ID', payload['trigger_id']);
+  console.log(`RESPONSE URL ${(payload['response_url'])}`);
+  console.log(payload['actions']);
+
+  const trigger_id = payload['trigger_id'];
+  const response_url = payload['response_url'];
+  const message = payload['message'];
   console.log(`TRIGGER_ID VARIABLE ${trigger_id}: RESPONSE_URL ${response_url} MESSAGE ${JSON.stringify(message)}`);
   
   sampleModal.trigger_id = trigger_id;
@@ -52,7 +63,7 @@ function interactHandlerBlocks (request, response, next) {
   } else {
     const modalPost =  axios({
       method: "post",
-      url: request.body.payload['response_url'],
+      url: response_url,
       data: RequestApprovalBlock,
     }).then((modalResponse) => {
       console.log(modalResponse['data']);

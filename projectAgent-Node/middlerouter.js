@@ -35,7 +35,7 @@ router.post('/events', asyncHandler(eventsHandler), (request, response) => {
 
 router.post('/slashcmd', slashCmdHandler);
 
-router.post('/slack/interact', interactHandlerBlocks);
+router.post('/slack/interact', interactionsHandler);
 router.get('/tasks', (request, response) => {
   response.send(JSON.stringify(
     [{

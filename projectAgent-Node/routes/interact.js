@@ -38,7 +38,7 @@ function interactHandlerBlocks (request, response, next) {
   console.log(request.body.payload['actions']);
   console.log('TRIGGER_ID',request.body.payload['trigger_id']);
   console.log(`RESPONSE URL ${(request.body.payload.response_url)}`);
-  console.log(`REQUEST BODY PAYLOAD${request.body.payload}`);
+  console.log(`REQUEST BODY PAYLOAD${request.body.payload}\nPAYLOAD TYPE: ${typeof(request.body.payload)}`);
   
   const trigger_id = request.body.payload['trigger_id'];
   const response_url = request.body.payload['response_url'];

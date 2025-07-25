@@ -2,6 +2,7 @@ import axios from 'axios';
 import { ChatAnthropic } from '@langchain/anthropic';
 import { tool } from '@langchain/core/tools';
 import { z } from 'zod';
+import { searchDB } from './db.js';
 
 import { 
   PORT, 
@@ -95,10 +96,13 @@ const postHandler = async function(request, response, next) {
       const eventResURL = 'https://slack.com/api/chat.postMessage';
       const screeningResult = screenMessage(request.body);
       //console.log(`result of screening: ${JSON.stringify(screeningResult)}`);
+
       if (screeningResult) {
-        // TODO send it to newTaskHandler
         console.log("it's a task!");
         const parsedTask = screeningResult.task;
+        // TODO search the database for this task
+        const isInDB = await searchDB(parsedTask);
+
         const res = await axios.post(eventResURL, {
           channel: '#task-management',
           //text: request.body['event']['text'],

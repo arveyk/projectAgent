@@ -5,6 +5,7 @@ import eventsHandler from "./routes/events.js";
 import slashCmdHandler from "./routes/slashcmd.js";
 import newTaskHandler from "./routes/tasks/newtask.js";
 import patchTaskHandler from "./routes/tasks/update.js";
+import testUpdateReply from "./routes/paresponse/updateResponse.js";
 
 import { interactionsHandler, 
   interactHandlerBlocks
@@ -68,5 +69,6 @@ router.get('/tasks', (request, response) => {
 });
 router.post('/tasks/newtask', newTaskHandler);
 router.patch('/tasks/update', patchTaskHandler);
+router.post('/test/resp', testUpdateReply);
 
 export default router;

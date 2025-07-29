@@ -8,8 +8,9 @@ dotenv.config();
 const botToken = process.env.SLACK_BOT_TOKEN;
 
 export default function testUpdateReply(request, response) {
-  //const payload = JSON.parse(request.body.payload);
-  const payload = request.body.payload;
+  const payload = JSON.parse(request.body.payload);
+  //const payload = request.body.payload;
+  console.log(`${JSON.stringify(request.body.payload)}`;
   console.log('TRIGGER_ID', payload['trigger_id']);
   console.log(`RESPONSE URL ${(payload['response_url'])}`);
   console.log(payload['actions']);

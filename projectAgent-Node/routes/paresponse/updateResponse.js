@@ -17,7 +17,7 @@ export default function testUpdateReply(request, response) {
   console.log(payload['actions']);
 
 
-  const action_id = payload.actions['action_id'];
+  const action_id = payload['actions'][0]['action_id'];
 
   const trigger_id = payload['trigger_id'];
   const response_url = payload['response_url'];
@@ -26,7 +26,7 @@ export default function testUpdateReply(request, response) {
   
   
   console.log(`TRIGGER_ID VARIABLE :${trigger_id}, Trigg Type: ${typeof(trigger_id)}`);
-  //if (action_id === "uSoeH") {
+  if (action_id === "uSoeH") {
     const replaceBlockRes =  axios({
       method: "post",
       url: response_url,
@@ -45,10 +45,8 @@ export default function testUpdateReply(request, response) {
     });
 
     response.status(200).send('Nice test');
-  /*
   } else{
     response.status(200).send('Nice test'); 
   }
-  */
 
 };

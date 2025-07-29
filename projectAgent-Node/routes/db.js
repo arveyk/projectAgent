@@ -22,7 +22,7 @@ const model = new ChatAnthropic({
 
 const databaseSearchResult = z.object({
   exists: z.boolean().describe("True if the task exists in the database, else false"),
-  task_id: z.string().optional().describe("The ID of the task entry from the database")
+  task_id: z.string().optional().describe("The page ID of the task entry from the database")
 })
 
 const structuredLlm = model.withStructuredOutput(databaseSearchResult);
@@ -38,7 +38,7 @@ export const searchDB = async function(task) {
     const response = await notion.databases.query({
       database_id: NOTION_DATABASE_ID,
     });
-    console.log(`response: ${JSON.stringify(response)}`);
+    //console.log(`response: ${JSON.stringify(response)}`);
 
     // TODO have LLM determine if the task is there
     const prompt = `
@@ -48,7 +48,6 @@ export const searchDB = async function(task) {
       and a title that means the same thing as ${JSON.stringify(task.tasktitle)} but is worded 
       slightly differently, this counts as a match.
     `
-    console.log(prompt);
     const result = await structuredLlm.invoke(prompt);
     console.log(`result: ${JSON.stringify(result)}`);
 

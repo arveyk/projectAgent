@@ -29,7 +29,7 @@ const slashCmdHandler = function(request, response, next) {
           method: 'post',
           url: webhookURL0, 
           data: {
-            "channel": `${request.body['channell_id']}`
+            "channel": `${request.body['channell_id']}`,
 	    "text": "Format: add ['Task Details']"
 	  }
         }).then((resp) => {

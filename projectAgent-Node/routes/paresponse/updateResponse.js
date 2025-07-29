@@ -1,8 +1,15 @@
 import axios from 'axios';
+import dotenv from 'dotenv';
+
+
+dotenv.config();
+
+
+const botToken = process.env.SLACK_BOT_TOKEN;
 
 export default function testUpdateReply(request, response) {
-  const payload = request.body;
-        
+  //const payload = JSON.parse(request.body.payload);
+  const payload = request.body.payload;
   console.log('TRIGGER_ID', payload['trigger_id']);
   console.log(`RESPONSE URL ${(payload['response_url'])}`);
   console.log(payload['actions']);
@@ -13,7 +20,9 @@ export default function testUpdateReply(request, response) {
   console.log(`TRIGGER_ID VARIABLE ${trigger_id}: RESPONSE_URL ${response_url} MESSAGE ${JSON.stringify(message)}`);
   
   
-    const modalPost =  axios({
+  console.log(`TRIGGER_ID VARIABLE :${trigger_id}, Trigg Type: ${typeof(trigger_id)}`);
+	  /*
+  const modalPost =  axios({
       method: "post",
       url: response_url,
       data: { 
@@ -21,13 +30,15 @@ export default function testUpdateReply(request, response) {
 	      "text": 'Bloack Relaced'
       },
       headers: {
-        'Content-Type': 'application/json',
+        "Authorization": `Bearer ${botToken}`,
+        'Content-Type': 'application/json; charset=UTF-8',
       }
     }).then((modalResponse) => {
       console.log('Update msg',modalResponse);
     }).catch((err) => {
         console.log(err);
     });
+    */
 
   response.status(200).send('Nice test');
 };

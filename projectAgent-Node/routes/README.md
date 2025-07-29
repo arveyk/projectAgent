@@ -39,3 +39,16 @@ Event to handle
     - Edit
         - Send a modal to task user input
 - Modal/Block confirmation submission
+
+#### slash cmd
+---
+look for
+- body['command'], 
+- body['channel_id']
+- body['channel_name'],
+- body['response_url']
+- body['text']
+#### user interaction
+---
+look for
+

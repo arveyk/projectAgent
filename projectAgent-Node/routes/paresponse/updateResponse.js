@@ -32,7 +32,7 @@ export default function testUpdateReply(request, response) {
       url: response_url,
       data: { 
 	"replace_original": "true",
-        "text": 'Bloack Relaced'
+        "text": 'Block Replaced'
       },
       headers: {
         "Authorization": `Bearer ${botToken}`,
@@ -46,6 +46,22 @@ export default function testUpdateReply(request, response) {
 
     response.status(200).send('Nice test');
   } else{
+    const replaceBlockRes =  axios({
+      method: "post",
+      url: response_url,
+      data: { 
+	"replace_original": "true",
+        "text": 'Changes Not Approved: \n Please Note that these actions are only visible to you'
+      },
+      headers: {
+        "Authorization": `Bearer ${botToken}`,
+        'Content-Type': 'application/json; charset=UTF-8',
+      }
+    }).then((Response) => {
+      console.log('Update msg',Response);
+    }).catch((err) => {
+        console.log(err);
+    });
     response.status(200).send('Nice test'); 
   }
 

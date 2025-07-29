@@ -11,7 +11,8 @@ import {
 } from '../env.js';
 
 // webhook for taskmanagement channel only
-const webhookURL0 = process.env.TASK_MANAGEMENT_WEBHOOK_URL 
+//const webhookURL0 = process.env.TASK_MANAGEMENT_WEBHOOK_URL 
+const webhookURL0 = "https:slack.com/api/chat.postEphimerall" 
 console.log(webhookURL0);
 
 const slashCmdHandler = function(request, response, next) {
@@ -25,7 +26,15 @@ const slashCmdHandler = function(request, response, next) {
       let otherArgs = commandParams.slice(1, -1).join(' ');
 
       if (firstArg !== 'add'){
-        response.status(200).send(`Format: add ${request.body['text']}`);
+	axios({
+          method: 'post',
+          url: webhookURL0, 
+          data: {
+	    "text": "Format: add ['Task Details']"}
+        }).then((resp) => {
+          console.log('OK from slack Wrong command format Though', resp['status']);
+	});
+        response.status(200).send("");
       } else {
 	axios({
           method: 'post',
@@ -34,7 +43,7 @@ const slashCmdHandler = function(request, response, next) {
         }).then((resp) => {
           console.log('OK from slack', resp['status']);
 	});
-        response.status(200).send(`Correct format ${request.body['command']}`);
+        response.status(200).send("");
       }
     } catch (err){
         console.log(err.status);

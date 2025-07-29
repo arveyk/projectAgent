@@ -16,6 +16,9 @@ export default function testUpdateReply(request, response) {
   console.log(`RESPONSE URL ${(payload['response_url'])}`);
   console.log(payload['actions']);
 
+
+  const action_id = payload.actions['action_id'];
+
   const trigger_id = payload['trigger_id'];
   const response_url = payload['response_url'];
   const message = payload['message'];
@@ -23,12 +26,13 @@ export default function testUpdateReply(request, response) {
   
   
   console.log(`TRIGGER_ID VARIABLE :${trigger_id}, Trigg Type: ${typeof(trigger_id)}`);
-  const replaceBlockRes =  axios({
+  if (action_id === "uSoeH") {
+    const replaceBlockRes =  axios({
       method: "post",
       url: response_url,
       data: { 
-	      "replace_original": "true",
-	      "text": 'Bloack Relaced'
+	"replace_original": "true",
+        "text": 'Bloack Relaced'
       },
       headers: {
         "Authorization": `Bearer ${botToken}`,
@@ -39,6 +43,9 @@ export default function testUpdateReply(request, response) {
     }).catch((err) => {
         console.log(err);
     });
+  } else{
+     
+  }
 
   response.status(200).send('Nice test');
 };

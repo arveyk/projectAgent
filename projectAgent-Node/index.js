@@ -1,5 +1,3 @@
-import express from 'express';
-import router from './middlerouter.js'
 import { 
   PORT, 
   SLACK_BOT_TOKEN, 
@@ -9,6 +7,9 @@ import {
   ANTHROPIC_API_KEY, 
   PROJ_AGENT_APP_ID 
 } from './env.js';
+
+import express from 'express';
+import router from './middlerouter.js'
 
 const APP_PORT = parseInt(PORT) || 8080;
 

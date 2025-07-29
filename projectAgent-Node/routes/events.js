@@ -1,9 +1,3 @@
-import axios from 'axios';
-import { ChatAnthropic } from '@langchain/anthropic';
-import { tool } from '@langchain/core/tools';
-import { z } from 'zod';
-import { searchDB } from './db.js';
-
 import { 
   PORT, 
   SLACK_BOT_TOKEN, 
@@ -13,6 +7,12 @@ import {
   ANTHROPIC_API_KEY, 
   PROJ_AGENT_APP_ID 
 } from '../env.js';
+
+import axios from 'axios';
+import { ChatAnthropic } from '@langchain/anthropic';
+import { tool } from '@langchain/core/tools';
+import { z } from 'zod';
+import { searchDB } from './db.js';
 
 const APP_ID = PROJ_AGENT_APP_ID;
 

@@ -51,4 +51,11 @@ look for
 #### user interaction
 ---
 look for
-
+payload['type'] (block_actions, ...)
+payload['trigger_id']
+payload['channel']['id']
+payload['channel']['name']
+payload['message']['text']
+payload['message']['ts']
+payload['response_url']
+payload['actions']['action_id']

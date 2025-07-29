@@ -29,6 +29,7 @@ const slashCmdHandler = function(request, response, next) {
           method: 'post',
           url: webhookURL0, 
           data: {
+            "channel": `${request.body['channell_id']}`
 	    "text": "Format: add ['Task Details']"
 	  }
         }).then((resp) => {
@@ -38,7 +39,7 @@ const slashCmdHandler = function(request, response, next) {
       } else {
 	axios({
           method: 'post',
-          url: webhookURL0, 
+          url: `${request.body['response_url']}`, 
           data: confirmationBlock
         }).then((resp) => {
           console.log('OK from slack', resp['status']);

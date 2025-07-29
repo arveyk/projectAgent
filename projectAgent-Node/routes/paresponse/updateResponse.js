@@ -23,8 +23,7 @@ export default function testUpdateReply(request, response) {
   
   
   console.log(`TRIGGER_ID VARIABLE :${trigger_id}, Trigg Type: ${typeof(trigger_id)}`);
-	  /*
-  const modalPost =  axios({
+  const replaceBlockRes =  axios({
       method: "post",
       url: response_url,
       data: { 
@@ -35,12 +34,11 @@ export default function testUpdateReply(request, response) {
         "Authorization": `Bearer ${botToken}`,
         'Content-Type': 'application/json; charset=UTF-8',
       }
-    }).then((modalResponse) => {
-      console.log('Update msg',modalResponse);
+    }).then((Response) => {
+      console.log('Update msg',Response);
     }).catch((err) => {
         console.log(err);
     });
-    */
 
   response.status(200).send('Nice test');
 };

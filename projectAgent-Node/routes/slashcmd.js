@@ -12,9 +12,8 @@ import {
 
 // webhook for taskmanagement channel only
 //const webhookURL0 = process.env.TASK_MANAGEMENT_WEBHOOK_URL 
-const webhookURL0 = "https:slack.com/api/chat.postEphimerall" 
+const webhookURL0 = "https:slack.com/api/chat.postEphimeral" 
 console.log(webhookURL0);
-
 const slashCmdHandler = function(request, response, next) {
     try {
       console.log(`slashCmdHandler here. Any tasks for me?
@@ -30,7 +29,8 @@ const slashCmdHandler = function(request, response, next) {
           method: 'post',
           url: webhookURL0, 
           data: {
-	    "text": "Format: add ['Task Details']"}
+	    "text": "Format: add ['Task Details']"
+	  }
         }).then((resp) => {
           console.log('OK from slack Wrong command format Though', resp['status']);
 	});

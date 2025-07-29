@@ -40,7 +40,6 @@ export const searchDB = async function(task) {
     });
     //console.log(`response: ${JSON.stringify(response)}`);
 
-    // TODO have LLM determine if the task is there
     const prompt = `
       Please check if a task with the title ${JSON.stringify(task.tasktitle)} and the assignee 
       ${JSON.stringify(task.assignee)} exists in the database response ${JSON.stringify(response)}. 

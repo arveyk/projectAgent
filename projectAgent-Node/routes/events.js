@@ -100,7 +100,6 @@ const postHandler = async function(request, response, next) {
       if (screeningResult) {
         console.log("it's a task!");
         const parsedTask = screeningResult.task;
-        // TODO search the database for this task
         const isInDB = await searchDB(parsedTask);
 
         const res = await axios.post(eventResURL, {
@@ -118,6 +117,8 @@ const postHandler = async function(request, response, next) {
     } else {
       console.log("not a task");
     }
+    // TODO send 400 bad request when the payload has a formatting error
+    // TODO send 401 unauthorized if the payload has a bad token
   } catch (err){
     console.log(err);
     return response.status(500).send(`Error and Body${request.body}`);

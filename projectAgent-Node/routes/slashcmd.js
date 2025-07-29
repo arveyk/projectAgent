@@ -11,7 +11,7 @@ import {
 } from '../env.js';
 
 // webhook for taskmanagement channel only
-//const webhookURL0 = process.env.TASK_MANAGEMENT_WEBHOOK_URL 
+const webhookURL = process.env.TASK_MANAGEMENT_WEBHOOK_URL 
 const webhookURL0 = "https:slack.com/api/chat.postEphimeral"
 console.log(webhookURL0);
 const slashCmdHandler = function(request, response, next) {
@@ -27,9 +27,10 @@ const slashCmdHandler = function(request, response, next) {
       if (firstArg !== 'add'){
 	axios({
           method: 'post',
-          url: webhookURL0, 
+          url: request.body['response_url'], 
           data: {
-            "channel": `${request.body['channell_id']}`,
+	    "response_type": "ephemeral",
+	    "replace_original": false,
 	    "text": "Format: add ['Task Details']"
 	  }
         }).then((resp) => {

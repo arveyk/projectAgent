@@ -40,7 +40,7 @@ const slashCmdHandler = function(request, response, next) {
       } else {
 	axios({
           method: 'post',
-          url: `${request.body['response_url']}`, 
+          url: request.body['response_url'], 
           data: confirmationBlock
         }).then((resp) => {
           console.log('OK from slack', resp['status']);

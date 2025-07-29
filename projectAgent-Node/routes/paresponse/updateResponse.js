@@ -43,9 +43,10 @@ export default function testUpdateReply(request, response) {
     }).catch((err) => {
         console.log(err);
     });
+
+    response.status(200).send('Nice test');
   } else{
-     
+    response.status(200).send('Nice test'); 
   }
 
-  response.status(200).send('Nice test');
 };

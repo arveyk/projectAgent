@@ -33,20 +33,29 @@ const structuredLlm = model.withStructuredOutput(databaseSearchResult);
  * @returns true if the task is found, else returns false
  */
 export const searchDB = async function(task) {
-  // retrieve all tasks
-  const response = await notion.databases.query({
-    database_id: NOTION_DATABASE_ID,
-  });
-  console.log(`response: ${JSON.stringify(response)}`);
+  try {
+    // retrieve all tasks
+    const response = await notion.databases.query({
+      database_id: NOTION_DATABASE_ID,
+    });
+    console.log(`response: ${JSON.stringify(response)}`);
 
-  // TODO have LLM determine if the task is there
-  const result = await structuredLlm.invoke(
-      `Please check if the task ${task} exists in the database response ${response} 
-      based on its title and assignee fields. If you find a task in the database response 
-      with the same assignee as the task you are searching for and a slightly different title 
-      that means the same thing as the title of the task you are searching for, this counts as a match.`
-  )
-  console.log(JSON.stringify(result));
+    // TODO have LLM determine if the task is there
+    const prompt = `
+      Please check if a task with the title ${JSON.stringify(task.tasktitle)} and the assignee 
+      ${JSON.stringify(task.assignee)} exists in the database response ${JSON.stringify(response)}. 
+      If you find a task in the database response with the assignee ${JSON.stringify(task.assignee)} 
+      and a title that means the same thing as ${JSON.stringify(task.tasktitle)} but is worded 
+      slightly differently, this counts as a match.
+    `
+    console.log(prompt);
+    const result = await structuredLlm.invoke(prompt);
+    console.log(`result: ${JSON.stringify(result)}`);
 
-  return result;
+    return result;
+  }
+  catch (err) {
+    console.log(err);
+  }
+  
 }

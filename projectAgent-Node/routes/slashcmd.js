@@ -12,7 +12,7 @@ import {
 
 // webhook for taskmanagement channel only
 //const webhookURL0 = process.env.TASK_MANAGEMENT_WEBHOOK_URL 
-const webhookURL0 = "https:slack.com/api/chat.postEphimeral" 
+const webhookURL0 = "https:slack.com/api/chat.postEphimeral"
 console.log(webhookURL0);
 const slashCmdHandler = function(request, response, next) {
     try {

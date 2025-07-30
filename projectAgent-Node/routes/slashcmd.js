@@ -41,7 +41,7 @@ const slashCmdHandler = function(request, response, next) {
 	axios({
           method: 'post',
           url: request.body['response_url'], 
-          data: requestApprovalBlock
+          data: RequestApprovalBlock
         }).then((resp) => {
           console.log('OK from slack', resp['status']);
 	});
@@ -49,7 +49,7 @@ const slashCmdHandler = function(request, response, next) {
       }
     } catch (err){
         console.log(err.status);
-	return response.status(404).send('Server Error');
+	return response.status(404).send('Server Error in SlashCmdHandler', err);
     }
   next();
 }

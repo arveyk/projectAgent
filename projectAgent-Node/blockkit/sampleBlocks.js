@@ -93,61 +93,65 @@ const sampleModal = {
       }
 }
 const RequestApprovalBlock = {
-	"blocks": [
-		{
-			"type": "section",
-			"text": {
-				"type": "mrkdwn",
-				"text": "You about to :\n*Add a task to the database*"
-			}
-		},
-		{
-			"type": "section",
-			"fields": [
-				{
-					"type": "mrkdwn",
-					"text": "*Task Title:*\nNotion Integration"
-				},
-				{
-					"type": "mrkdwn",
-					"text": "*Due Date:*\n Aut 10 2025"
-				},
-				{
-					"type": "mrkdwn",
-					"text": "*Start date:*\nMar 10, 2025 (3 years, 5 months)"
-				},
-				{
-					"type": "mrkdwn",
-					"text": "*Description:*\nAdd Some tasks to the database ."
-				}
-			]
-		},
-		{
-			"type": "actions",
-			"elements": [
-				{
-					"type": "button",
-					"text": {
-						"type": "plain_text",
-						"emoji": true,
-						"text": "Approve"
-					},
-					"style": "primary",
-					"value": "click_me_123"
-				},
-				{
-					"type": "button",
-					"text": {
-						"type": "plain_text",
-						"emoji": true,
-						"text": "Deny"
-					},
-					"style": "danger",
-					"value": "click_me_123"
-				}
-			]
-		}
-	]
+  "blocks": [
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+	"text": "*You Are About to Create a New Task*"
+      }
+    },
+    {
+      "type": "divider"
+    },
+    {
+      "type": "section",
+      "text": {
+	"type": "mrkdwn",
+	"text": "*Task Title:*\t\t\t${_Task Title_} \n*Assignee:* \t\t\t${Assignee}\n*Due Date:*\t\t\t${_Due Date_}\n*Phone Number:*\t$[_545-039-5264_]\n*Description:* \t\t${Task_Description}"
+      }
+    },
+    {
+      "type": "actions",
+      "elements": [
+	{
+	  "type": "button",
+	  "text": {
+	    "type": "plain_text",
+	    "emoji": true,
+	    "text": "Approve"
+	  },
+	  "style": "primary",
+	  "value": "approve_123",
+	  "action_id": "actionId-0"
+	},
+	{
+	  "type": "button",
+	  "text": {
+	    "type": "plain_text",
+	    "emoji": true,
+	    "text": "Discard"
+	  },
+	  "style": "danger",
+	  "value": "discard_123",
+	    "action_id": "actionId-1"
+	},
+	{
+	  "type": "button",
+	  "text": {
+	    "type": "plain_text",
+            "text": "Edit",
+	    "emoji": true
+	  },
+	  "value": "edit_123",
+	  "action_id": "actionId-2"
+	}
+      ]
+    },
+    {
+      "type": "divider"
+    }
+  ]
 };
 	
 

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import dotenv from 'dotenv';
-import { confirmationBlock } from '../../blockkit/samleBlocks.js';
+import { confirmationBlock } from '../../blockkit/sampleBlocks.js';
 
 dotenv.config();
 
@@ -61,9 +61,7 @@ export default function testUpdateReply(request, response) {
         console.log(err);
     });
     response.status(200).send('Nice test'); 
-  }
-  }
-  else{
+  } else {
     const replaceBlockRes =  axios({
       method: "post",
       url: response_url,

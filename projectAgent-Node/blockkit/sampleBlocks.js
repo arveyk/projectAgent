@@ -1,8 +1,8 @@
 let channel_id = 'C08R4M9P5SM'
 
 const confirmationBlock = {
-  "channel": `${channel_id}`,
-  "text": "New Paid Time Off request from Fred Enriquez",
+  "text": "Which Field would you like to edit?",
+  "replace_original": true,
   "blocks": [
     {
       "type": "header",

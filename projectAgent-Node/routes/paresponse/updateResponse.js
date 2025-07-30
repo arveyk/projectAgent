@@ -1,6 +1,6 @@
 import axios from 'axios';
 import dotenv from 'dotenv';
-
+import { confirmationBlock } from '../../blockkit/samleBlocks.js';
 
 dotenv.config();
 
@@ -18,6 +18,7 @@ export default function testUpdateReply(request, response) {
 
 
   const action_id = payload['actions'][0]['action_id'];
+  const action_text = payload['actions'][0]['text']['text'];
 
   const trigger_id = payload['trigger_id'];
   const response_url = payload['response_url'];
@@ -26,7 +27,7 @@ export default function testUpdateReply(request, response) {
   
   
   console.log(`TRIGGER_ID VARIABLE :${trigger_id}, Trigg Type: ${typeof(trigger_id)}`);
-  if (action_id === "uSoeH") {
+  if (action_text === "Approval") {
     const replaceBlockRes =  axios({
       method: "post",
       url: response_url,
@@ -45,7 +46,24 @@ export default function testUpdateReply(request, response) {
     });
 
     response.status(200).send('Nice test');
-  } else{
+  } else if (action_text === "Edit") {
+    const editResp =  axios({
+      method: "post",
+      url: response_url,
+      data: confirmationBlock,
+      headers: {
+        "Authorization": `Bearer ${botToken}`,
+        'Content-Type': 'application/json; charset=UTF-8',
+      }
+    }).then((Response) => {
+      console.log('Update msg',Response);
+    }).catch((err) => {
+        console.log(err);
+    });
+    response.status(200).send('Nice test'); 
+  }
+  }
+  else{
     const replaceBlockRes =  axios({
       method: "post",
       url: response_url,

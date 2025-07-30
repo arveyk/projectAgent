@@ -29,8 +29,8 @@ const slashCmdHandler = function(request, response, next) {
           method: 'post',
           url: request.body['response_url'], 
           data: {
-	    "response_type": "ephemeral",
-	    "replace_original": false,
+//	    "response_type": "ephemeral",
+//	    "replace_original": false,
 	    "text": "Format: add ['Task Details']"
 	  }
         }).then((resp) => {
@@ -41,7 +41,7 @@ const slashCmdHandler = function(request, response, next) {
 	axios({
           method: 'post',
           url: request.body['response_url'], 
-          data: confirmationBlock
+          data: requestApprovalBlock
         }).then((resp) => {
           console.log('OK from slack', resp['status']);
 	});

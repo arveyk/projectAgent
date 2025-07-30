@@ -27,7 +27,7 @@ export default function testUpdateReply(request, response) {
   
   
   console.log(`TRIGGER_ID VARIABLE :${trigger_id}, Trigg Type: ${typeof(trigger_id)}`);
-  if (action_text === "Approval") {
+  if (action_text === "Approve") {
     const replaceBlockRes =  axios({
       method: "post",
       url: response_url,

@@ -5,63 +5,134 @@ const confirmationBlock = {
   "replace_original": true,
   "blocks": [
     {
-      "type": "header",
+      "type": "section",
       "text": {
-      "type": "plain_text",
-        "text": "New request",
-        "emoji": true
+	"type": "mrkdwn",
+	"text": "*Which Field would you like to edit?*"
       }
     },
     {
-      "type": "section",
-      "fields": [
-        {
-          "type": "mrkdwn",
-          "text": "*Type:*\nPaid Time Off"
-        },
-        {
-          "type": "mrkdwn",
-          "text": "*Created by:*\n<example.com|Fred Enriquez>"
-        }
-      ]
+      "type": "divider"
     },
     {
       "type": "section",
-      "fields": [
-        {
-          "type": "mrkdwn",
-          "text": "*When:*\nAug 10 - Aug 13"
-        }
-      ]
+      "text": {
+	"type": "mrkdwn",
+	      "text": "*Task Title:*\t\t\t${_Task Title_} \n*Assignee:* \t\t\t${Assignee}\n*Due Date:*\t\t\t${_Due Date_}\n*Phone Number:*\t$[_545-039-5264_]\n*Description:* \t\t${Task_Description}"
+      }
+    },
+    {
+      "type": "input",
+      "element": {
+	"type": "static_select",
+	"placeholder": {
+	  "type": "plain_text",
+	  "text": "Select an item",
+	  "emoji": true
+	},
+	"options": [
+	  {
+	    "text": {
+	      "type": "plain_text",
+	      "text": "*1. Task Title*",
+	      "emoji": true
+	    },
+	    "value": "value-0"
+	  },
+	  {
+	    "text": {
+	      "type": "plain_text",
+	      "text": "*2. Assignee*",
+	      "emoji": true
+	    },
+	    "value": "value-1"
+	  },
+	  {
+	    "text": {
+	      "type": "plain_text",
+		"text": "*3. Due Date*",
+		"emoji": true
+	    },
+	    "value": "value-2"
+	  },
+	  {
+	    "text": {
+	      "type": "plain_text",
+	      "text": "*4. Start Date*",
+	      "emoji": true
+	    },
+	    "value": "value-3"
+	  },
+	  {
+	    "text": {
+	      "type": "plain_text",
+	      "text": "*5. Phone Number*",
+	      "emoji": true
+	    },
+	    "value": "value-4"
+	  },
+	  {
+	    "text": {
+	      "type": "plain_text",
+	      "text": "*6. Description*",
+	      "emoji": true
+	    },
+	    "value": "value-5"
+	  }
+	],
+	"action_id": "static_select-action"
+      },
+      "label": {
+        "type": "plain_text",
+	"text": "Field",
+	"emoji": true
+      }
+    },		
+    {
+      "type": "input",
+      "element": {
+	"type": "plain_text_input",
+	"multiline": true,
+	"action_id": "plain_text_input-action"
+      },
+      "label": {
+	"type": "plain_text",
+	"text": "Value",
+	"emoji": true
+      }
     },
     {
       "type": "actions",
       "elements": [
-        {
-          "type": "button",
+	{
+	  "type": "button",
           "text": {
-            "type": "plain_text",
-            "emoji": true,
-            "text": "Approve"
-          },
-          "style": "primary",
-          "value": "click_me_123"
-        },
-        {
-          "type": "button",
-          "text": {
-            "type": "plain_text",
-            "emoji": true,
-            "text": "Reject"
-          },
-            "style": "danger",
-            "value": "click_me_123"
-        }
+	    "type": "plain_text",
+	    "emoji": true,
+	    "text": "Approve"
+	  },
+	  "style": "primary",
+	  "value": "approve_123",
+	  "action_id": "actionId-0"
+	},
+	{
+	  "type": "button",
+	  "text": {
+	    "type": "plain_text",
+	      "emoji": true,
+	      "text": "Discard"
+	  },
+	  "style": "danger",
+	  "value": "discard_123",
+	  "action_id": "actionId-1"
+	}
       ]
+    },
+    {
+      "type": "divider"
     }
   ]
 };
-
 
 const sampleModal = {
   "trigger_id": "trigger_id",

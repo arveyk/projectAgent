@@ -18,10 +18,14 @@ const postHandler = async function(request, response, next) {
 	      Request: ${JSON.stringify(request.body)}`);
       const channel_id = request.body['event']['channel'];
       const eventResURL = 'https://slack.com/api/chat.postMessage';
+      const screeningResult = screenMessage(request.body);
+      console.log(`result of screening: ${JSON.stringify(screeningResult)}`);
 
-      const aiResult = await aiAgent(request.body);
-      const task = aiResult.task;
-      const isInDB = aiResult.isInDB;
+      if (!request.body['event']['bot_id']) {
+        console.log("it's a task!");
+        const parsedTask = screeningResult.task;
+        //const isInDB = await searchDB(parsedTask);
+
 
       const result = await axios.post(eventResURL, {
           channel: channel_id,

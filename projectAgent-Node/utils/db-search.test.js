@@ -1,6 +1,6 @@
 const request = require('supertest');
 import { searchDB } from './db';
-import { task, task_in_db, task_in_db_reworded, task_not_in_db } from './example-tasks';
+import { task, task_in_db, task_in_db_reworded, task_not_in_db } from '../routes/example-tasks';
 
 // TODO put better example tasks into the database and update example-tasks.js accordingly
 

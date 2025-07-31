@@ -32,7 +32,10 @@ const taskParseResult = z.object({
   task: task.optional().describe("Structured task object")
 });
 
-const structuredLlm = model.withStructuredOutput(taskParseResult);
+// For use with the new message trigger
+const structuredLlmNewMsg = model.withStructuredOutput(taskParseResult);
+// For use with slash commands
+const structuredLlmSlashCmd = model.withStructuredOutput(task);
 
 
 /**
@@ -41,9 +44,23 @@ const structuredLlm = model.withStructuredOutput(taskParseResult);
  * @returns If the message contains a task assignment, returns a TaskParseResult containing true and the formatted task.
  * Else, returns a TaskParseResult containing false.
  */
-const parseTask = async function(reqBody) {
-  const taskParseResult = await structuredLlm.invoke(
+const parseTaskNewMsg = async function(reqBody) {
+  const taskParseResult = await structuredLlmNewMsg.invoke(
     `Please extract information from this message and determine whether or not it is assigning a new task to a person: ${reqBody['event']['text']}`
+  );
+	console.log(`task parse result: ${JSON.stringify(taskParseResult)}`);
+
+  return taskParseResult;
+}
+
+/**
+ * Uses Anthropic to parse a task assignment from a Slack slash command
+ * @param {*} reqBody The body of the request
+ * @returns A TaskParseResult containing the formatted task.
+ */
+const parseTaskSlashCmd = async function(reqBody) {
+  const taskParseResult = await structuredLlmSlashCmd.invoke(
+    `Please extract information from this message: ${reqBody['event']['text']}`
   );
 	console.log(`task parse result: ${JSON.stringify(taskParseResult)}`);
 
@@ -62,7 +79,7 @@ export const screenMessage = async function(reqBody) {
     console.log('Request body is defined', reqBody["event"]);
   
     // Use LLM to check if message is a task assignment
-    const taskParseResult = await parseTask(reqBody);
+    const taskParseResult = await parseTaskNewMsg(reqBody);
     const isTask = taskParseResult.istask;
 
     // Check for a bot_id to determine if the message was sent by a bot
@@ -85,7 +102,7 @@ const aiAgent = async function(reqBody) {
   //console.log(request);
   let UserInteraction;
   try {
-    const taskParseResult = await parseTask(reqBody);
+    const taskParseResult = await parseTaskNewMsg(reqBody);
     const isTask = taskParseResult.istask;
     const screeningResult = screenMessage(request.body);
     console.log(`result of screening: ${JSON.stringify(screeningResult)}`);

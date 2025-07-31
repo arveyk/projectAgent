@@ -33,18 +33,6 @@ const postHandler = async function(request, response, next) {
         const channel_id = request.body['event']['channel'];
         console.log("it's a task!");
 
-      const result = await axios.post(eventResURL, {
-          channel: channel_id,
-	        response_type: "ephemeral",
-          text: `Well Hello there! got a new task for me?`,
-	
-	     }, {
-            headers: {
-              "Authorization": `Bearer ${SLACK_BOT_TOKEN}`,
-              "Content-Type": "application/x-www-form-urlencoded",
-	          }
-	        });
-
     // TODO send 400 bad request when the payload has a formatting error
     // TODO send 401 unauthorized if the payload has a bad token
   }} catch (err){

@@ -1,10 +1,4 @@
 import { 
-  PORT, 
-  SLACK_BOT_TOKEN, 
-  SLACK_SIGNING_SECRET, 
-  NOTION_API_KEY, 
-  NOTION_DATABASE_ID, 
-  ANTHROPIC_API_KEY, 
   PROJ_AGENT_APP_ID 
 } from '../env.js';
 

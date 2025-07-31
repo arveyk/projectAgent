@@ -3,13 +3,9 @@ import { ChatAnthropic } from '@langchain/anthropic';
 import { z } from 'zod';
 
 import { 
-  PORT, 
-  SLACK_BOT_TOKEN, 
-  SLACK_SIGNING_SECRET, 
   NOTION_API_KEY, 
   NOTION_DATABASE_ID, 
   ANTHROPIC_API_KEY, 
-  PROJ_AGENT_APP_ID 
 } from '../env.js';
 
 const notion = new Client({ auth: NOTION_API_KEY });
@@ -46,7 +42,7 @@ export const searchDB = async function(task) {
         }
       }
     });
-    
+
     console.log(`response: ${JSON.stringify(response)}`);
 
     const prompt = `

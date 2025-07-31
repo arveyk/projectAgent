@@ -37,7 +37,7 @@ export const screenMessage = async function(reqBody) {
       const isFromBot = (typeof (reqBody['event']['bot_id']) !== 'undefined');
       //console.log(`text: ${reqBody['event']['text']}, is it from a bot? ${isFromBot}`);
 
-      if (! isFromBot) {
+      if (!isFromBot) {
         return taskParseResult;
       }
       else {
@@ -60,7 +60,7 @@ const postHandler = async function(request, response, next) {
       const screeningResult = screenMessage(request.body);
       console.log(`result of screening: ${JSON.stringify(screeningResult)}`);
 
-      if (screeningResult) {
+      if (!request.body['event']['bot_id']) {
         console.log("it's a task!");
         const parsedTask = screeningResult.task;
         //const isInDB = await searchDB(parsedTask);

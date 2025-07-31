@@ -10,7 +10,7 @@ import {
 import axios from 'axios';
 
 //When we want to use AI agent
-import aiAgent from "../utils/aiagent.js";
+//import aiAgent from "../utils/aiagent.js";
 
 const postHandler = async function(request, response, next) {
     try {
@@ -18,14 +18,11 @@ const postHandler = async function(request, response, next) {
 	      Request: ${JSON.stringify(request.body)}`);
       const channel_id = request.body['event']['channel'];
       const eventResURL = 'https://slack.com/api/chat.postMessage';
-      const screeningResult = screenMessage(request.body);
-      console.log(`result of screening: ${JSON.stringify(screeningResult)}`);
+
+      //const aiResult = aiAgent(request.body);
 
       if (!request.body['event']['bot_id']) {
         console.log("it's a task!");
-        const parsedTask = screeningResult.task;
-        //const isInDB = await searchDB(parsedTask);
-
 
       const result = await axios.post(eventResURL, {
           channel: channel_id,
@@ -33,15 +30,16 @@ const postHandler = async function(request, response, next) {
           text: `Well Hello there! got a new task for me?`,
           //text: JSON.stringify(task),
 	
-	  }, {
+	     }, {
             headers: {
               "Authorization": `Bearer ${SLACK_BOT_TOKEN}`,
               "Content-Type": "application/x-www-form-urlencoded",
-	    }
-	});
+	          }
+	        });
+
     // TODO send 400 bad request when the payload has a formatting error
     // TODO send 401 unauthorized if the payload has a bad token
-  } catch (err){
+  }} catch (err){
     console.log(err);
     return response.status(500).send(`Error and Body${JSON.stringify(err)}`);
   }

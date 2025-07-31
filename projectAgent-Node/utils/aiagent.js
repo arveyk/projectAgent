@@ -91,11 +91,11 @@ export const screenMessage = async function(reqBody) {
   }
 }
 
-const aiAgent = async function(requestText) {
+const aiAgent = async function(reqBody) {
   //console.log(request);
   let UserInteraction;
   try {
-    const taskParseResult = await parseTask(requestText);
+    const taskParseResult = await parseTask(reqBody);
     const isTask = taskParseResult.istask;
     const screeningResult = screenMessage(request.body);
     console.log(`result of screening: ${JSON.stringify(screeningResult)}`);

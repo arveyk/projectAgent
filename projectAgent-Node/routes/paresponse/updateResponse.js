@@ -32,7 +32,7 @@ export default function testUpdateReply(request, response) {
       url: response_url,
       data: { 
 	"replace_original": "true",
-        "text": 'Block Replaced'
+        "text": 'Block Replaced\nNotification: Task Created Successfully'
       },
       headers: {
         "Authorization": `Bearer ${botToken}`,

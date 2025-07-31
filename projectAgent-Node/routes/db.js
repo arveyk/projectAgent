@@ -17,7 +17,7 @@ const notion = new Client({ auth: NOTION_API_KEY });
 const model = new ChatAnthropic({
   model: "claude-3-5-sonnet-20240620",
   temperature: 0,
-  api_key: process.env["ANTHROPIC_API_KEY"]
+  api_key: ANTHROPIC_API_KEY
 });
 
 const databaseSearchResult = z.object({
@@ -34,19 +34,27 @@ const structuredLlm = model.withStructuredOutput(databaseSearchResult);
  */
 export const searchDB = async function(task) {
   try {
-    // retrieve all tasks
+    console.log(JSON.stringify(task));
+
+    // Retrieve tasks with a matching assignee
     const response = await notion.databases.query({
       database_id: NOTION_DATABASE_ID,
+      filter: {
+        property: "Assignee",
+        rich_text: {
+          equals: `${task.assignee}`
+        }
+      }
     });
-    //console.log(`response: ${JSON.stringify(response)}`);
+    
+    console.log(`response: ${JSON.stringify(response)}`);
 
     const prompt = `
-      Please check if a task with the title ${JSON.stringify(task.tasktitle)} and the assignee 
-      ${JSON.stringify(task.assignee)} exists in the database response ${JSON.stringify(response)}. 
-      If you find a task in the database response with the assignee ${JSON.stringify(task.assignee)} 
-      and a title that means the same thing as ${JSON.stringify(task.tasktitle)} but is worded 
-      slightly differently, this counts as a match.
+      Please check if a task with the title ${JSON.stringify(task.tasktitle)} exists in the database response 
+      ${JSON.stringify(response)}. If you find a task in the database response with a title that means the 
+      same thing as ${JSON.stringify(task.tasktitle)} but is worded slightly differently, this counts as a match.
     `
+    
     const result = await structuredLlm.invoke(prompt);
     console.log(`result: ${JSON.stringify(result)}`);
 

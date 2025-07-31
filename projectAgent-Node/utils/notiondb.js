@@ -1,18 +1,12 @@
 import { Client } from "@notionhq/client";
-import { config } from "dotenv";
-
-config();
-
-
-//const pageId = process.env.NOTION_PAGE_ID;
-const databaseId = process.env.NOTION_DATABASE_ID
-const notionApiKey = process.env.NOTION_API_KEY
-
+import { 
+  NOTION_API_KEY, 
+  NOTION_DATABASE_ID, 
+} from '../env.js';
 
 const notion = new Client({
-  auth: notionApiKey,
+  auth: NOTION_API_KEY,
 });
-
 
 const titleArray = [
   {
@@ -109,10 +103,6 @@ const replaceArr = [{
     }	  
 ]
 
-
-
-
-
 const TaskProperties = {
   "Task Title": {
     "type": "title",
@@ -163,4 +153,4 @@ async function addTaskNotionPage(dbID, pageProperties) {
   console.log(newPage);
 }
 
-addTaskNotionPage(databaseId,TaskProperties);
+addTaskNotionPage(NOTION_DATABASE_ID, TaskProperties);

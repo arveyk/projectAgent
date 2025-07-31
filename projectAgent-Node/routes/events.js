@@ -55,12 +55,12 @@ const postHandler = async function(request, response, next) {
     try {
       console.log(`I Handle most events. Any tasks for me?
 	      Request: ${JSON.stringify(request.body)}`);
-      const channel_id = request.body['event']['channel'];
       const eventResURL = 'https://slack.com/api/chat.postMessage';
       const screeningResult = screenMessage(request.body);
       console.log(`result of screening: ${JSON.stringify(screeningResult)}`);
 
       if (!request.body['event']['bot_id']) {
+        const channel_id = request.body['event']['channel'];
         console.log("it's a task!");
         const parsedTask = screeningResult.task;
         //const isInDB = await searchDB(parsedTask);

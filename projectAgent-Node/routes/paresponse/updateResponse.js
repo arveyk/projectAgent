@@ -14,7 +14,7 @@ export default function testUpdateReply(request, response) {
   console.log(`Body.payload${JSON.stringify(request.body.payload)}`);
   console.log('TRIGGER_ID', payload['trigger_id']);
   console.log(`RESPONSE URL ${(payload['response_url'])}`);
-  console.log(payload['actions']);
+  console.log(`ACTIONS: ${JSON.stringify(payload['actions'])}`);
 
 
   const action_id = payload['actions'][0]['action_id'];
@@ -26,7 +26,6 @@ export default function testUpdateReply(request, response) {
   console.log(`TRIGGER_ID VARIABLE ${trigger_id}: RESPONSE_URL ${response_url} MESSAGE ${JSON.stringify(message)}`);
   
   
-  console.log(`TRIGGER_ID VARIABLE :${trigger_id}, Trigg Type: ${typeof(trigger_id)}`);
   if (action_text === "Approve") {
     const replaceBlockRes =  axios({
       method: "post",

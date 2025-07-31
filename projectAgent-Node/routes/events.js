@@ -5,7 +5,7 @@ import {
 import axios from 'axios';
 
 //When we want to use AI agent
-//import aiAgent from "../utils/aiagent.js";
+import aiAgent from "../utils/aiagent.js";
 
 const postHandler = async function(request, response, next) {
     try {
@@ -13,23 +13,23 @@ const postHandler = async function(request, response, next) {
 	      Request: ${JSON.stringify(request.body)}`);
       const eventResURL = 'https://slack.com/api/chat.postMessage';
 
-      // const aiResult = aiAgent(request.body);
-      // const isTask = aiResult.isTask;
-      // if (isTask) {
-      //   const task = aiResult.task;
-      //   const isInDB = aiResult.isInDB;
-      //   if (isInDB) {
-      //     // TODO update task
-      //   }
-      //   else {
-      //     // TODO create new task
-      //   }
-      // }
-      // else {
-      //   // do nothing
-      // }
-
       if (!request.body['event']['bot_id']) {
+        const aiResult = aiAgent(request.body);
+        const isTask = aiResult.isTask;
+        if (isTask) {
+          const task = aiResult.task;
+          const isInDB = aiResult.isInDB;
+          if (isInDB) {
+            // TODO update task
+          }
+          else {
+            // TODO create new task
+          }
+        }
+        else {
+          // do nothing
+        }
+
         const channel_id = request.body['event']['channel'];
         console.log("it's a task!");
 

@@ -40,6 +40,7 @@ describe('Test screenMessage with a message sent by a bot', () => {
         expect(typeof payload_bad_from_app).toBe("object");
 
         const result = await screenMessage(payload_bad_from_app);
+        console.log(`(in test) result: ${JSON.stringify(result)}`);        
         expect(typeof result).toBe("object");
         expect(result.istask).toBeDefined;
         expect(result.istask).toBe(false);

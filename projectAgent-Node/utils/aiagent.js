@@ -57,6 +57,7 @@ const parseTask = async function(reqBody) {
  * Else, returns a TaskParseResult containing false.
  */
 export const screenMessage = async function(reqBody) {
+  // TODO filter out all event types except for message (events that have a subtype field)
   if (typeof reqBody !== 'undefined') {
     console.log('Request body is defined', reqBody["event"]);
   
@@ -72,7 +73,7 @@ export const screenMessage = async function(reqBody) {
       return taskParseResult;
     }
     else {
-      return {isTask: false};
+      return {istask: false};
     }
   }
   else {

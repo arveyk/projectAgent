@@ -1,5 +1,5 @@
 const request = require('supertest');
-import { screenMessage } from './aiagent.js';
+import { screenMessage } from './aiagent';
 
 import payload_good from '../payloads/payload-good.json' with { type: 'json' };
 import payload_bad_not_task from '../payloads/payload-bad-not-task.json' with { type: 'json' };
@@ -12,7 +12,7 @@ describe('Test screenMessage with a message containing a task assignment', () =>
         expect(typeof payload_good).toBe("object");
 
         const result = await screenMessage(payload_good);
-        console.log(`(in test) result: ${result}`);
+        console.log(`(in test) result: ${JSON.stringify(result)}`);
         expect(typeof result).toBe("object");
         expect(result.istask).toBeDefined;
         expect(result.istask).toBe(true);
@@ -26,7 +26,7 @@ describe('Test screenMessage with a message containing no task assignment', () =
         expect(typeof payload_bad_not_task).toBe("object");
 
         const result = await screenMessage(payload_bad_not_task);
-        console.log(`(in test) result: ${result}`);
+        console.log(`(in test) result: ${JSON.stringify(result)}`);
         expect(typeof result).toBe("object");
         expect(result.istask).toBeDefined;
         expect(result.istask).toBe(false);

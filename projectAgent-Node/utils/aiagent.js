@@ -64,25 +64,21 @@ const parseTask = async function(reqBody) {
  */
 export const screenMessage = async function(reqBody) {
   if (typeof reqBody !== 'undefined') {
-    if (typeof reqBody['payload'] === 'undefined') {
-      return { isTask: false };
-    } else {
-      console.log('Request body is defined', reqBody["event"]);
-    
-      // Use LLM to check if message is a task assignment
-      //const taskParseResult = await parseTask(reqBody);
-      //const isTask = taskParseResult.istask;
+    console.log('Request body is defined', reqBody["event"]);
+  
+    // Use LLM to check if message is a task assignment
+    const taskParseResult = await parseTask(reqBody);
+    const isTask = taskParseResult.istask;
 
-      // Check for a bot_id to determine if the message was sent by a bot
-      const isFromBot = (typeof (reqBody['event']['bot_id']) !== 'undefined');
-      //console.log(`text: ${reqBody['event']['text']}, is it from a bot? ${isFromBot}`);
+    // Check for a bot_id to determine if the message was sent by a bot
+    const isFromBot = (typeof reqBody['event']['bot_id'] !== 'undefined');
+    console.log(`text: ${reqBody['event']['text']}, is it from a bot? ${isFromBot}`);
 
-      if (! isFromBot) {
-        return taskParseResult;
-      }
-      else {
-        return {isTask: false};
-      }
+    if (! isFromBot) {
+      return taskParseResult;
+    }
+    else {
+      return {isTask: false};
     }
   }
   else {

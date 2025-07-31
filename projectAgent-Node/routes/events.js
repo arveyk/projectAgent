@@ -16,7 +16,6 @@ const postHandler = async function(request, response, next) {
     try {
       console.log(`I Handle most events. Any tasks for me?
 	      Request: ${JSON.stringify(request.body)}`);
-      const channel_id = request.body['event']['channel'];
       const eventResURL = 'https://slack.com/api/chat.postMessage';
 
       // const aiResult = aiAgent(request.body);
@@ -36,6 +35,7 @@ const postHandler = async function(request, response, next) {
       // }
 
       if (!request.body['event']['bot_id']) {
+        const channel_id = request.body['event']['channel'];
         console.log("it's a task!");
 
       const result = await axios.post(eventResURL, {

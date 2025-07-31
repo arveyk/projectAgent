@@ -6,7 +6,7 @@ console.assert(process.env.SLACK_BOT_TOKEN, "Missing Slack bot token");
 console.assert(process.env.SLACK_SIGNING_SECRET, "Missing Slack signing secret");
 console.assert(process.env.NOTION_API_KEY, "Missing Notion API key");
 console.assert(process.env.NOTION_DATABASE_ID, "Missing Notion database ID");
-console.assert(process.env.ANTHROPIC_API_KEY, "Missing Anthropic API key");
+//console.assert(process.env.ANTHROPIC_API_KEY, "Missing Anthropic API key");
 console.assert(process.env.PROJ_AGENT_APP_ID, "Missing Slack app ID");
 
 export const PORT = process.env.PORT;

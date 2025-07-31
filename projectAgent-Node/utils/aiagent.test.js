@@ -1,5 +1,5 @@
 const request = require('supertest');
-import { screenMessage } from './aiagent';
+import { screenMessage } from './aiagent.js';
 
 import payload_good from '../payloads/payload-good.json' with { type: 'json' };
 import payload_bad_not_task from '../payloads/payload-bad-not-task.json' with { type: 'json' };

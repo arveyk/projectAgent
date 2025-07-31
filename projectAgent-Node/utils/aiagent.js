@@ -62,7 +62,6 @@ const parseTask = async function(reqBody) {
  * @returns If the message is a task assignment, returns a TaskParseResult containing true and the formatted task.
  * Else, returns a TaskParseResult containing false.
  */
-
 export const screenMessage = async function(reqBody) {
   if (typeof reqBody !== 'undefined') {
     if (typeof reqBody['payload'] === 'undefined') {

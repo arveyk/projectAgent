@@ -1,10 +1,5 @@
 import { 
-  PORT, 
-  SLACK_BOT_TOKEN, 
-  SLACK_SIGNING_SECRET, 
-  NOTION_API_KEY, 
-  NOTION_DATABASE_ID, 
-  ANTHROPIC_API_KEY, 
+  SLACK_BOT_TOKEN,
 } from '../env.js';
 
 import axios from 'axios';

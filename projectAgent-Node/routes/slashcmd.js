@@ -1,5 +1,6 @@
 import { confirmationBlock, RequestApprovalBlock } from '../blockkit/sampleBlocks.js';
 import axios from 'axios';
+import { parseTaskSlashCmd } from '../utils/aiagent.js';
 import { 
   PORT, 
   SLACK_BOT_TOKEN, 
@@ -14,7 +15,7 @@ import {
 const webhookURL = process.env.TASK_MANAGEMENT_WEBHOOK_URL 
 const webhookURL0 = "https:slack.com/api/chat.postEphimeral"
 console.log(webhookURL0);
-const slashCmdHandler = function(request, response, next) {
+const slashCmdHandler = async function(request, response, next) {
     try {
       console.log(`slashCmdHandler here. Any tasks for me?
 	  Request Body: ${JSON.stringify(request.body)}`);
@@ -25,26 +26,28 @@ const slashCmdHandler = function(request, response, next) {
       let otherArgs = commandParams.slice(1, -1).join(' ');
 
       if (firstArg !== 'add'){
-	axios({
+	      axios({
           method: 'post',
           url: request.body['response_url'], 
           data: {
-//	    "response_type": "ephemeral",
-//	    "replace_original": false,
-	    "text": "Format: add ['Task Details']"
-	  }
+          // "response_type": "ephemeral",
+          // "replace_original": false,
+	        "text": "Format: add ['Task Details']"
+	      }
         }).then((resp) => {
           console.log('OK from slack Wrong command format Though', resp['status']);
-	});
+	      });
         response.status(200).send("");
       } else {
-	axios({
+        const task = await parseTaskSlashCmd(request.body);
+        // TODO send task in a block
+	      axios({
           method: 'post',
           url: request.body['response_url'], 
           data: RequestApprovalBlock
         }).then((resp) => {
           console.log('OK from slack', resp['status']);
-	});
+	      });
         response.status(200).send("");
       }
     } catch (err){

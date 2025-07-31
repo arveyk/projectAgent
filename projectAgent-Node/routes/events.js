@@ -18,7 +18,6 @@ const postHandler = async function(request, response, next) {
         const isTask = aiResult.isTask;
         if (isTask) {
           const channel_id = request.body['event']['channel'];
-          console.log("it's a task!");
           const task = aiResult.task;
           const isInDB = aiResult.isInDB;
           if (isInDB) {
@@ -30,7 +29,6 @@ const postHandler = async function(request, response, next) {
         }
         else {
           // do nothing
-          console.log('not a task')
         }
 
     // TODO send 400 bad request when the payload has a formatting error

@@ -58,7 +58,7 @@ const parseTaskNewMsg = async function(reqBody) {
  * @param {*} reqBody The body of the request
  * @returns A TaskParseResult containing the formatted task.
  */
-const parseTaskSlashCmd = async function(reqBody) {
+export const parseTaskSlashCmd = async function(reqBody) {
   const taskParseResult = await structuredLlmSlashCmd.invoke(
     `Please extract information from this message: ${reqBody['event']['text']}`
   );

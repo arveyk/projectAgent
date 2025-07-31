@@ -68,7 +68,8 @@ const postHandler = async function(request, response, next) {
 
         const result = await axios.post(eventResURL, {
           channel: channel_id,
-          text: request.body['event']['text'],
+	  response_type: "ephemeral",
+          text: `Well Hello there! got a new task for me?`,
           //text: JSON.stringify(task),
 	
 	  }, {

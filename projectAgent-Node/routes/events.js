@@ -13,10 +13,12 @@ const postHandler = async function(request, response, next) {
 	      Request: ${JSON.stringify(request.body)}`);
       const eventResURL = 'https://slack.com/api/chat.postMessage';
 
-      if (!request.body['event']['bot_id']) {
-        const aiResult = aiAgent(request.body);
+      if (!request.body['event']['bot_id'] && !request.body['event']['subtype']) {
+        const aiResult = await aiAgent(request.body);
         const isTask = aiResult.isTask;
         if (isTask) {
+          const channel_id = request.body['event']['channel'];
+          console.log("it's a task!");
           const task = aiResult.task;
           const isInDB = aiResult.isInDB;
           if (isInDB) {
@@ -28,10 +30,8 @@ const postHandler = async function(request, response, next) {
         }
         else {
           // do nothing
+          console.log('not a task')
         }
-
-        const channel_id = request.body['event']['channel'];
-        console.log("it's a task!");
 
     // TODO send 400 bad request when the payload has a formatting error
     // TODO send 401 unauthorized if the payload has a bad token

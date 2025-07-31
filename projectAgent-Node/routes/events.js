@@ -8,48 +8,9 @@ import {
 } from '../env.js';
 
 import axios from 'axios';
-/*
- * When we want to use AI agent
- * import aiAgent from "../utils/aiagent.js";
- *
- */
 
-
-/**
- * Screens an incoming Slack message to see if it is a task assignment.
- * @param {*} reqBody The body of the incoming Slack request
- * @returns If the message is a task assignment, returns a TaskParseResult containing true and the formatted task.
- * Else, returns a TaskParseResult containing false.
- */
-
-export const screenMessage = async function(reqBody) {
-  if (typeof reqBody !== 'undefined') {
-    if (typeof reqBody['payload'] === 'undefined') {
-      return { isTask: false };
-    } else {
-      console.log('Request body is defined', reqBody["event"]);
-    
-      // Use LLM to check if message is a task assignment
-      //const taskParseResult = await parseTask(reqBody);
-      //const isTask = taskParseResult.istask;
-
-      // Check for a bot_id to determine if the message was sent by a bot
-      const isFromBot = (typeof (reqBody['event']['bot_id']) !== 'undefined');
-      //console.log(`text: ${reqBody['event']['text']}, is it from a bot? ${isFromBot}`);
-
-      if (! isFromBot) {
-        return taskParseResult;
-      }
-      else {
-        return {isTask: false};
-      }
-    }
-    
-  }
-  else {
-    throw new Error('Request body is undefined or Should be Handled by another Router');
-  }
-}
+//When we want to use AI agent
+import aiAgent from "../utils/aiagent.js";
 
 const postHandler = async function(request, response, next) {
     try {
@@ -57,18 +18,14 @@ const postHandler = async function(request, response, next) {
 	      Request: ${JSON.stringify(request.body)}`);
       const channel_id = request.body['event']['channel'];
       const eventResURL = 'https://slack.com/api/chat.postMessage';
-      const screeningResult = screenMessage(request.body);
-      console.log(`result of screening: ${JSON.stringify(screeningResult)}`);
 
-      if (screeningResult) {
-        console.log("it's a task!");
-        const parsedTask = screeningResult.task;
-        //const isInDB = await searchDB(parsedTask);
+      const aiResult = await aiAgent(request.body);
+      const task = aiResult.task;
+      const isInDB = aiResult.isInDB;
 
-
-        const result = await axios.post(eventResURL, {
+      const result = await axios.post(eventResURL, {
           channel: channel_id,
-	  response_type: "ephemeral",
+	        response_type: "ephemeral",
           text: `Well Hello there! got a new task for me?`,
           //text: JSON.stringify(task),
 	
@@ -78,10 +35,6 @@ const postHandler = async function(request, response, next) {
               "Content-Type": "application/x-www-form-urlencoded",
 	    }
 	});
-      console.log(result.data);
-      } else {
-        console.log("not a task");
-      }
     // TODO send 400 bad request when the payload has a formatting error
     // TODO send 401 unauthorized if the payload has a bad token
   } catch (err){

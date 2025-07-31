@@ -105,12 +105,16 @@ const aiAgent = async function(reqBody) {
 	    const parsedTask = screeningResult.task;
       const isInDB = await searchDB(parsedTask);
       return {
+        istask: true,
         task: parsedTask,
         isInDB: isInDB
       }
 
     } else {
       console.log("not a task");
+      return {
+        isTask: false
+      }
     }
     
   } catch (err){

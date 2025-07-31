@@ -19,7 +19,21 @@ const postHandler = async function(request, response, next) {
       const channel_id = request.body['event']['channel'];
       const eventResURL = 'https://slack.com/api/chat.postMessage';
 
-      //const aiResult = aiAgent(request.body);
+      // const aiResult = aiAgent(request.body);
+      // const isTask = aiResult.isTask;
+      // if (isTask) {
+      //   const task = aiResult.task;
+      //   const isInDB = aiResult.isInDB;
+      //   if (isInDB) {
+      //     // TODO update task
+      //   }
+      //   else {
+      //     // TODO create new task
+      //   }
+      // }
+      // else {
+      //   // do nothing
+      // }
 
       if (!request.body['event']['bot_id']) {
         console.log("it's a task!");
@@ -28,7 +42,6 @@ const postHandler = async function(request, response, next) {
           channel: channel_id,
 	        response_type: "ephemeral",
           text: `Well Hello there! got a new task for me?`,
-          //text: JSON.stringify(task),
 	
 	     }, {
             headers: {

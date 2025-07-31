@@ -67,6 +67,9 @@ router.get('/tasks', (request, response) => {
     }
   ]));
 });
+router.get('/', (request, response) => {
+  response.status(200).send("<h1>Welcome to Timely, save and retrieve tasks conveniently</h1>");
+});
 router.post('/tasks/newtask', newTaskHandler);
 router.patch('/tasks/update', patchTaskHandler);
 router.post('/test/resp', testUpdateReply);

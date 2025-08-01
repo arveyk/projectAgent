@@ -37,7 +37,9 @@ export default function testUpdateReply(request, response) {
     const taskDetailsObj =  JSON.parse(payload['actions'][0].value);
 
 
-    addTaskNotionPage(taskDetailsObj)
+    const createRowResult = addTaskNotionPage(taskDetailsObj);
+    console.log(createRowResult);
+
     const replaceBlockRes =  axios({
       method: "post",
       url: response_url,

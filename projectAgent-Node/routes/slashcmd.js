@@ -26,7 +26,7 @@ const slashCmdHandler = async function(request, response, next) {
       let otherArgs = commandParams.slice(1, -1).join(' ');
 
       if (firstArg !== 'add'){
-	      axios({
+	axios({
           method: 'post',
           url: request.body['response_url'], 
           data: {
@@ -51,7 +51,7 @@ const slashCmdHandler = async function(request, response, next) {
         response.status(200).send("");
       }
     } catch (err){
-        console.log(err.status);
+        console.log(err);
 	return response.status(404).send('Server Error in SlashCmdHandler', err);
     }
   next();

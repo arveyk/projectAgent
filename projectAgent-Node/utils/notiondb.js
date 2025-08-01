@@ -12,7 +12,7 @@ const titleArray = [
   {
     "type": "text",
     "text": {
-      "content": "Task Title",
+      "content": "Create Online E-commerce platform",
       "link": null
     },
     "annotations": {
@@ -42,7 +42,6 @@ const richTextArr = [
       "code": false,
       "color": "default"
     },
-    "plain_text": "Jeff B jr",
     "href": null
   }
 ]
@@ -60,7 +59,6 @@ const prefCommChannArr = [
       "code": false,
       "color": "default"
     },
-    "plain_text": "Slack",
     "href": null
   }
 ]
@@ -98,7 +96,6 @@ const replaceArr = [{
         "code": false,
         "color": "default"
       },
-      "plain_text": "Some words ",
       "href": null
     }	  
 ]
@@ -139,18 +136,40 @@ const TaskProperties = {
   },
   "Description": {
     "type": "rich_text",
-    "rich_text": taskDetailsArr
+    "rich_text": replaceArr
   }
 }
 
-async function addTaskNotionPage(dbID, pageProperties) {
+async function addTaskNotionPage(taskObj) {
+  
+  TaskProperties['Task Title']['title'][0]['text']['content'] = taskObj["Task Title"]; 
+  TaskProperties['Assignee']['rich_text'][0]['text']['content'] = taskObj["Assignee"]; 
+  TaskProperties['Due Date']['date']['start'] = new Date(taskObj["Due Date"]); 
+  TaskProperties['Start Date']['date']['start'] = new Date(taskObj["Start Date"]); 
+  TaskProperties['Email']['email'] = taskObj['Email']; 
+  TaskProperties['Phone Number']['phone_number'] = taskObj["Phone Number"]; 
+  TaskProperties['Preferred Channel']['rich_text'][0]['text']['content'] = taskObj["Preferred Channel"]; 
+  TaskProperties['Description']['rich_text'][0]['text']['content'] = taskObj["Task Details"]; 
+  
+
   const newPage = await notion.pages.create({
     parent: {
-      "database_id": dbID,
+      "database_id": NOTION_DATABASE_ID,
     },
-    properties: pageProperties,
+    properties: TaskProperties,
   });
   console.log(newPage);
 }
 
-addTaskNotionPage(NOTION_DATABASE_ID, TaskProperties);
+/*addTaskNotionPage({
+  "Task Title": "Precide over local elections",
+  "Assignee": "Khandi Kitaka",
+  "Due Date": "7-11-2027",
+  "Start Date": "1-11-2027",
+  "Email": "replace@soon.com",
+  "Phone Number": "43-335-344-4344",
+  "Preferred Channel": "Call, email",
+  "Task Details": "Mr Khandi Kitaka, you country needs you, Kasongo must go, please make sure that the elections are done in a transparent manner. Do not let any huligans disrupt the process. Police offices will be assigned to you so they will be under you instructions. You call the shots.",
+});
+*/
+export default addTaskNotionPage;

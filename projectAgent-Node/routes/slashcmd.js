@@ -85,8 +85,8 @@ const slashCmdHandler = async function(request, response, next) {
 	 }, {
 	   "Task Title": "Edit Company Brand promo video",
 	   "Assignee": "Brandon Shaw",
-	   "Due Date": "15-11-2024",
-	   "Start Date": "15-10-2024",
+	   "Due Date": "5-11-2024",
+	   "Start Date": "1-10-2024",
 	   "Email": "brad.shaw@123.com",
 	   "Phone Number": "83-327-3176",
 	   "Preferred Channel": "Discord",
@@ -124,7 +124,7 @@ const slashCmdHandler = async function(request, response, next) {
 
 	      
 // ===========ASYNC CALL TO createBlockNewTask since its an async function=============================
-        const taskBlock = await createBlockNewTaskSync(dummyTasksArray[0]);
+        const taskBlock = await createBlockNewTaskSync(dummyTasksArray[5]);
         RequestApprovalBlock.blocks[3].elements[0].value = JSON.stringify(dummyTasksArray[0]);
 	console.log(`block create by task$${JSON.stringify(taskBlock)}`);
 

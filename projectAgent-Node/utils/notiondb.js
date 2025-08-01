@@ -141,14 +141,23 @@ const TaskProperties = {
 }
 
 async function addTaskNotionPage(taskObj) {
+  const taskTitle = taskObj["tasktitle"];
+  const assignee = taskObj["assignee"]; 
+  const dueDate = new Date(taskObj["duedate"]); 
+  const startDate = new Date(taskObj["startdate"]);
+  const email = taskObj["email"] || "example@email.com";
+  const phoneNumber = taskObj["phonenumber"] || "000***000***";
+  const preferredChannel = taskObj["preferredchannel"] || "Slack";
+
+
   
-  TaskProperties['Task Title']['title'][0]['text']['content'] = taskObj["tasktitle"]; 
-  TaskProperties['Assignee']['rich_text'][0]['text']['content'] = taskObj["assignee"]; 
-  TaskProperties['Due Date']['date']['start'] = new Date(taskObj["duedate"]); 
-  TaskProperties['Start Date']['date']['start'] = new Date(taskObj["startdate"]); 
-  TaskProperties['Email']['email'] = taskObj['email']; 
-  TaskProperties['Phone Number']['phone_number'] = taskObj["phoneumber"]; 
-  TaskProperties['Preferred Channel']['rich_text'][0]['text']['content'] = taskObj["preferredchannel"]; 
+  TaskProperties['Task Title']['title'][0]['text']['content'] = taskTitle;
+  TaskProperties['Assignee']['rich_text'][0]['text']['content'] = assignee;
+  TaskProperties['Due Date']['date']['start'] = dueDate;
+  TaskProperties['Start Date']['date']['start'] = startDate; 
+  TaskProperties['Email']['email'] = email;
+  TaskProperties['Phone Number']['phone_number'] = phoneNumber; 
+  TaskProperties['Preferred Channel']['rich_text'][0]['text']['content'] = preferredChannel; 
   TaskProperties['Description']['rich_text'][0]['text']['content'] = taskObj["taskdetail"]; 
   
 

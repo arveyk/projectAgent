@@ -28,7 +28,7 @@ export default function testUpdateReply(request, response) {
   console.log(`payload Approve button value ${JSON.parse(payload.actions[0].value)}`);
   if (action_text === "Approve") {
 //============PART CONTAININT TASK DETAILS ============
-    const taskDetailsObj =  JSON.parse(payload['events'][0].value);
+    const taskDetailsObj =  JSON.parse(payload['actions'][0].value);
 
 
     addTaskNotionPage(taskDetailsObj)

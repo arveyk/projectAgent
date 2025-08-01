@@ -18,13 +18,20 @@ export default function testUpdateReply(request, response) {
   console.log(`ACTIONS: ${JSON.stringify(payload['actions'])}`);
 
   const action_id = payload['actions'][0]['action_id'];
-  const action_text = payload['actions'][0]['text']['text'];
+  let action_text = "";
+  if (payload['actions'][0]['selected_option']){
+    action_text = payload['actions'][0]['selected_option']['text']['text'];
+    return "Edit Block Yet to be handled";
+  } else {
+    action_text = payload['actions'][0]['text']['text'];
+  }
   
   
   const trigger_id = payload['trigger_id'];
   const response_url = payload['response_url'];
   const message = payload['message'];
   console.log(`TRIGGER_ID VARIABLE ${trigger_id}: RESPONSE_URL ${response_url} MESSAGE ${JSON.stringify(message)}`);
+	
   if (action_text === "Approve") {
 //============PART CONTAININT TASK DETAILS ============
     const taskDetailsObj =  JSON.parse(payload['actions'][0].value);

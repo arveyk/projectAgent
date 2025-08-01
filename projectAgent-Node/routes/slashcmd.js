@@ -1,4 +1,7 @@
-import { confirmationBlock, createBlockNewTask, RequestApprovalBlock } from '../blockkit/createBlocks.js';
+import { confirmationBlock, 
+  createBlockNewTask,
+  createBlockNewTaskSync,
+  RequestApprovalBlock } from '../blockkit/createBlocks.js';
 import axios from 'axios';
 //import { parseTaskSlashCmd } from '../utils/aiagent.js';
 import { 
@@ -121,7 +124,7 @@ const slashCmdHandler = async function(request, response, next) {
 
 	      
 // ===========ASYNC CALL TO createBlockNewTask since its an async function=============================
-        const taskBlock = await createBlockNewTask(dummyTasksArray[0]);
+        const taskBlock = await createBlockNewTaskSync(dummyTasksArray[0]);
         RequestApprovalBlock.blocks[3].elements[0].value = JSON.stringify(dummyTasksArray[0]);
 	console.log(`block create by task$${JSON.stringify(taskBlock)}`);
 
@@ -129,7 +132,7 @@ const slashCmdHandler = async function(request, response, next) {
 	axios({
           method: 'post',
           url: request.body['response_url'], 
-          data: RequestApprovalBlock
+          data: taskBlock
         }).then((resp) => {
           console.log('OK from slack', resp['status']);
 	      });

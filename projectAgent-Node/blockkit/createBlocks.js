@@ -213,7 +213,7 @@ export const createBlockNewTask = async function (task) {
 	      "text": "Approve"
 	    },
 	    "style": "primary",
-            "value": task,
+            "value": JSON.stringify(task),
 	    "action_id": "actionId-0"
 	  },
 	  {
@@ -247,281 +247,76 @@ export const createBlockNewTask = async function (task) {
 }
 
 export const createBlockNewTaskSync = function (task) {
-  const taskTitle = task["Task Title"];
-  const assignee = task["Assignee"];
-  const dueDate = task["Due Date"];
-  const startDate = task["Start Date"];
-  const phoneNumb = task["Phone Number"];
-  const email = task["Email"];
-  const preferredChannel = task["Preferred Channel"];
-  const Description = task["Description"] || task["Task Details"];
+  
   const blockText = `text": "*Task Title:*\t\t\t${task["Task Title"]} \n*Assignee:* \t\t\t${task["Assignee"]}\n*Due Date:*\t\t\t${task["Due Date"]}\n*Start Date:*\t\t\t${task["Start Date"]}\n*Phone Number:*\t${task["Phone Number"]}\n*Email:*\t\t\t${task["Email"]}\n*Preferred Channel:*\t\t\t${task["Preferred Channel"]}\n*Description:* \t\t${task["Description"] || task["Task Details"]}`;
- 
+  
   return {
-  "text": "Which Field would you like to edit?",
-  "text": "Which Field would you like to edit?",
-  "replace_original": true,
-  "blocks": [
-    {
-      "type": "section",
-      "text": {
-	"type": "mrkdwn",
-	"text": "*Which Field would you like to edit?*"
-      }
-    },
-    {
-      "type": "divider"
-    },
-    {
-      "type": "section",
-      "text": {
-	"type": "mrkdwn",
-	      "text": "*Task Title:*\t\t\t${_Task Title_} \n*Assignee:* \t\t\t${Assignee}\n*Due Date:*\t\t\t${_Due Date_}\n*Phone Number:*\t$[_545-039-5264_]\n*Description:* \t\t${Task_Description}"
-      }
-    },
-    {
-      "type": "input",
-      "element": {
-	"type": "static_select",
-	"placeholder": {
-	  "type": "plain_text",
-	  "text": "Select an item",
-	  "emoji": true
-	},
-	"options": [
-	  {
-	    "text": {
-	      "type": "plain_text",
-	      "text": "*1. Task Title*",
-	      "emoji": true
-	    },
-	    "value": "value-0"
-	  },
-	  {
-	    "text": {
-	      "type": "plain_text",
-	      "text": "*2. Assignee*",
-	      "emoji": true
-	    },
-	    "value": "value-1"
-	  },
-	  {
-	    "text": {
-	      "type": "plain_text",
-		"text": "*3. Due Date*",
-		"emoji": true
-	    },
-	    "value": "value-2"
-	  },
-	  {
-	    "text": {
-	      "type": "plain_text",
-	      "text": "*4. Start Date*",
-	      "emoji": true
-	    },
-	    "value": "value-3"
-	  },
-	  {
-	    "text": {
-	      "type": "plain_text",
-	      "text": "*5. Phone Number*",
-	      "emoji": true
-	    },
-	    "value": "value-4"
-	  },
-	  {
-	    "text": {
-	      "type": "plain_text",
-	      "text": "*6. Description*",
-	      "emoji": true
-	    },
-	    "value": "value-5"
-	  }
-	],
-	"action_id": "static_select-action"
+    "blocks": [
+      {
+        "type": "section",
+        "text": {
+          "type": "mrkdwn",
+          "text": "*You Are About to Create a New Task*"
+        }
       },
-      "label": {
-        "type": "plain_text",
-	"text": "Field",
-	"emoji": true
-      }
-    },		
-    {
-      "type": "input",
-      "element": {
-	"type": "plain_text_input",
-	"multiline": true,
-	"action_id": "plain_text_input-action"
+      {
+        "type": "divider"
       },
-      "label": {
-	"type": "plain_text",
-	"text": "Value",
-	"emoji": true
-      }
-    },
-    {
-      "type": "actions",
-      "elements": [
-	{
-	  "type": "button",
-          "text": {
-	    "type": "plain_text",
-	    "emoji": true,
-	    "text": "Approve"
+      {
+        "type": "section",
+        "text": {
+          "type": "mrkdwn",
+	  "text": blockText 
+	}
+      },
+      {
+        "type": "actions",
+        "elements": [
+  	  {
+	    "type": "button",
+	    "text": {
+	      "type": "plain_text",
+	      "emoji": true,
+	      "text": "Approve"
+	    },
+	    "style": "primary",
+            "value": JSON.stringify(task),
+	    "action_id": "actionId-0"
 	  },
-	  "style": "primary",
-	  "value": "approve_123",
-	  "action_id": "actionId-0"
-	},
-	{
-	  "type": "button",
-	  "text": {
-	    "type": "plain_text",
+	  {
+	    "type": "button",
+	    "text": {
+	      "type": "plain_text",
 	      "emoji": true,
 	      "text": "Discard"
+	    },
+	    "style": "danger",
+	    "value": "discard_123",
+	    "action_id": "actionId-1"
 	  },
-	  "style": "danger",
-	  "value": "discard_123",
-	  "action_id": "actionId-1"
-	}
-      ]
-    },
-    {
-      "type": "divider"
-    }
-  ]
-};
-  "replace_original": true,
-  "blocks": [
-    {
-      "type": "section",
-      "text": {
-	"type": "mrkdwn",
-	"text": "*Which Field would you like to edit?*"
-      }
-    },
-    {
-      "type": "divider"
-    },
-    {
-      "type": "section",
-      "text": {
-	"type": "mrkdwn",
-	      "text": "*Task Title:*\t\t\t${_Task Title_} \n*Assignee:* \t\t\t${Assignee}\n*Due Date:*\t\t\t${_Due Date_}\n*Phone Number:*\t$[_545-039-5264_]\n*Description:* \t\t${Task_Description}"
-      }
-    },
-    {
-      "type": "input",
-      "element": {
-	"type": "static_select",
-	"placeholder": {
-	  "type": "plain_text",
-	  "text": "Select an item",
-	  "emoji": true
-	},
-	"options": [
 	  {
+	    "type": "button",
 	    "text": {
 	      "type": "plain_text",
-	      "text": "*1. Task Title*",
+              "text": "Edit",
 	      "emoji": true
 	    },
-	    "value": "value-0"
-	  },
-	  {
-	    "text": {
-	      "type": "plain_text",
-	      "text": "*2. Assignee*",
-	      "emoji": true
-	    },
-	    "value": "value-1"
-	  },
-	  {
-	    "text": {
-	      "type": "plain_text",
-		"text": "*3. Due Date*",
-		"emoji": true
-	    },
-	    "value": "value-2"
-	  },
-	  {
-	    "text": {
-	      "type": "plain_text",
-	      "text": "*4. Start Date*",
-	      "emoji": true
-	    },
-	    "value": "value-3"
-	  },
-	  {
-	    "text": {
-	      "type": "plain_text",
-	      "text": "*5. Phone Number*",
-	      "emoji": true
-	    },
-	    "value": "value-4"
-	  },
-	  {
-	    "text": {
-	      "type": "plain_text",
-	      "text": "*6. Description*",
-	      "emoji": true
-	    },
-	    "value": "value-5"
+	    "value": "edit_123",
+	    "action_id": "actionId-2"
 	  }
-	],
-	"action_id": "static_select-action"
+        ]
       },
-      "label": {
-        "type": "plain_text",
-	"text": "Field",
-	"emoji": true
+      {
+        "type": "divider"
       }
-    },		
-    {
-      "type": "input",
-      "element": {
-	"type": "plain_text_input",
-	"multiline": true,
-	"action_id": "plain_text_input-action"
-      },
-      "label": {
-	"type": "plain_text",
-	"text": "Value",
-	"emoji": true
-      }
-    },
-    {
-      "type": "actions",
-      "elements": [
-	{
-	  "type": "button",
-          "text": {
-	    "type": "plain_text",
-	    "emoji": true,
-	    "text": "Approve"
-	  },
-	  "style": "primary",
-	  "value": "approve_123",
-	  "action_id": "actionId-0"
-	},
-	{
-	  "type": "button",
-	  "text": {
-	    "type": "plain_text",
-	      "emoji": true,
-	      "text": "Discard"
-	  },
-	  "style": "danger",
-	  "value": "discard_123",
-	  "action_id": "actionId-1"
-	}
-      ]
-    },
-    {
-      "type": "divider"
-    }
-  ]
-};
+    ]
+  };
+}
+
+
+
+
+
 const RequestApprovalBlock = {
   "blocks": [
     {

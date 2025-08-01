@@ -1,6 +1,6 @@
 import axios from 'axios';
 import dotenv from 'dotenv';
-import { confirmationBlock } from '../../blockkit/sampleBlocks.js';
+import { confirmationBlock } from '../../blockkit/createBlocks.js';
 
 dotenv.config();
 

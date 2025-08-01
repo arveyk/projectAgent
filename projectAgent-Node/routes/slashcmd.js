@@ -40,6 +40,7 @@ const slashCmdHandler = async function(request, response, next) {
         response.status(200).send("");
       } else {
        // const task = await parseTaskSlashCmd(request.body);
+// =======================DUMMY DATA======================
        const dummyTasksArray = [
          {
 	   "Task Title": "Replenish Credit",
@@ -116,18 +117,24 @@ const slashCmdHandler = async function(request, response, next) {
            "Task Details": "Ailene Njogu, carry out the internal accounts auditing and summarize you findings for us. Please be a thorough as you can. Ask for whichever number of assistance you need, we have inters who are eager to learn and am sure will greatly appreciate you wealth of wisdom",
 	 }
        ];
-        // TODO call searchDB on task to determine if it should create new or edit existing
-	      axios({
+// =========================== END OF DUMMY DATA======================================================
+
+	console.log(`block create by task$${dummyTasksArray[2]}`);
+	      
+// ===========ASYNC CALL TO createBlockNewTask since its an async function=============================
+        const taskBlock = await createBlockNewTask(dummyTasksArray[0]);
+
+//============ TODO call searchDB on task to determine if it should create new or edit existing========
+	axios({
           method: 'post',
           url: request.body['response_url'], 
-          data: createBlockNewTask(dummyTasksArray[0])
+          data: taskBlock
         }).then((resp) => {
           console.log('OK from slack', resp['status']);
 	      });
         response.status(200).send("");
       }
     } catch (err){
-        console.log(err);
 	return response.status(404).send('Server Error in SlashCmdHandler', err);
     }
   next();

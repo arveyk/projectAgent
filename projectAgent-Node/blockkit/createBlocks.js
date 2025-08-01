@@ -163,6 +163,76 @@ const sampleModal = {
         ]
       }
 }
+
+// TODO function that creates blocks for updating a task
+
+/**
+ * 
+ * @param {*} task A task object
+ * @returns A set of Slack blocks containing data from the task, to be used in confirming new tasks
+ */
+export const createBlockNewTask = async function (task) {
+	return [
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+	"text": "*You Are About to Create a New Task*"
+      }
+    },
+    {
+      "type": "divider"
+    },
+    {
+      "type": "section",
+      "text": {
+	"type": "mrkdwn",
+	"text": `*Task Title:*\t\t\t${task.tasktitle} \n*Assignee:* \t\t\t${task.assignee}\n*Due Date:*\t\t\t${task.duedate}\n*Start Date:*\t\t\t${task.startdate}\n*Phone Number:*\t${task.phonenumber}\n*Email:*\t\t\t${task.email}\n*Preferred Channel:*\t\t\t${task.preferredChannel}\n*Description:* \t\t${task.taskdetail}`
+      }
+    },
+    {
+      "type": "actions",
+      "elements": [
+	{
+	  "type": "button",
+	  "text": {
+	    "type": "plain_text",
+	    "emoji": true,
+	    "text": "Approve"
+	  },
+	  "style": "primary",
+	  "value": task,
+	  "action_id": "actionId-0"
+	},
+	{
+	  "type": "button",
+	  "text": {
+	    "type": "plain_text",
+	    "emoji": true,
+	    "text": "Discard"
+	  },
+	  "style": "danger",
+	  "value": "discard_123",
+	    "action_id": "actionId-1"
+	},
+	{
+	  "type": "button",
+	  "text": {
+	    "type": "plain_text",
+            "text": "Edit",
+	    "emoji": true
+	  },
+	  "value": "edit_123",
+	  "action_id": "actionId-2"
+	}
+      ]
+    },
+    {
+      "type": "divider"
+    }
+  ]
+}
+
 const RequestApprovalBlock = {
   "blocks": [
     {

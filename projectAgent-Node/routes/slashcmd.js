@@ -1,4 +1,4 @@
-import { confirmationBlock, RequestApprovalBlock } from '../blockkit/sampleBlocks.js';
+import { confirmationBlock, createBlockNewTask, RequestApprovalBlock } from '../blockkit/createBlocks.js';
 import axios from 'axios';
 import { parseTaskSlashCmd } from '../utils/aiagent.js';
 import { 
@@ -40,11 +40,11 @@ const slashCmdHandler = async function(request, response, next) {
         response.status(200).send("");
       } else {
         const task = await parseTaskSlashCmd(request.body);
-        // TODO send task in a block
+        // TODO call searchDB on task to determine if it should create new or edit existing
 	      axios({
           method: 'post',
           url: request.body['response_url'], 
-          data: RequestApprovalBlock
+          data: createBlockNewTask(task)
         }).then((resp) => {
           console.log('OK from slack', resp['status']);
 	      });

@@ -3,7 +3,7 @@ import { confirmationBlock,
   createBlockNewTaskSync,
   RequestApprovalBlock } from '../blockkit/createBlocks.js';
 import axios from 'axios';
-//import { parseTaskSlashCmd } from '../utils/aiagent.js';
+import { parseTaskSlashCmd } from '../utils/aiagent.js';
 import { 
   PORT, 
   SLACK_BOT_TOKEN, 
@@ -42,7 +42,7 @@ const slashCmdHandler = async function(request, response, next) {
 	      });
         response.status(200).send("");
       } else {
-       // const task = await parseTaskSlashCmd(request.body);
+      const task = await parseTaskSlashCmd(request.body);
 // =======================DUMMY DATA======================
        const dummyTasksArray = [
          {
@@ -124,7 +124,7 @@ const slashCmdHandler = async function(request, response, next) {
 
 	      
 // ===========ASYNC CALL TO createBlockNewTask since its an async function=============================
-        const taskBlock = await createBlockNewTaskSync(dummyTasksArray[5]);
+        const taskBlock = await createBlockNewTaskSync(task);
         RequestApprovalBlock.blocks[3].elements[0].value = JSON.stringify(dummyTasksArray[0]);
 	console.log(`block create by task$${JSON.stringify(taskBlock)}`);
 
@@ -139,6 +139,7 @@ const slashCmdHandler = async function(request, response, next) {
         response.status(200).send("");
       }
     } catch (err){
+	console.log(err);
 	return response.status(404).send('Server Error in SlashCmdHandler', err);
     }
   next();

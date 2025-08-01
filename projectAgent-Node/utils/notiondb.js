@@ -142,14 +142,14 @@ const TaskProperties = {
 
 async function addTaskNotionPage(taskObj) {
   
-  TaskProperties['Task Title']['title'][0]['text']['content'] = taskObj["Task Title"]; 
-  TaskProperties['Assignee']['rich_text'][0]['text']['content'] = taskObj["Assignee"]; 
-  TaskProperties['Due Date']['date']['start'] = new Date(taskObj["Due Date"]); 
-  TaskProperties['Start Date']['date']['start'] = new Date(taskObj["Start Date"]); 
-  TaskProperties['Email']['email'] = taskObj['Email']; 
-  TaskProperties['Phone Number']['phone_number'] = taskObj["Phone Number"]; 
-  TaskProperties['Preferred Channel']['rich_text'][0]['text']['content'] = taskObj["Preferred Channel"]; 
-  TaskProperties['Description']['rich_text'][0]['text']['content'] = taskObj["Task Details"]; 
+  TaskProperties['Task Title']['title'][0]['text']['content'] = taskObj["tasktitle"]; 
+  TaskProperties['Assignee']['rich_text'][0]['text']['content'] = taskObj["assignee"]; 
+  TaskProperties['Due Date']['date']['start'] = new Date(taskObj["duedate"]); 
+  TaskProperties['Start Date']['date']['start'] = new Date(taskObj["startdate"]); 
+  TaskProperties['Email']['email'] = taskObj['email']; 
+  TaskProperties['Phone Number']['phone_number'] = taskObj["phoneumber"]; 
+  TaskProperties['Preferred Channel']['rich_text'][0]['text']['content'] = taskObj["preferredchannel"]; 
+  TaskProperties['Description']['rich_text'][0]['text']['content'] = taskObj["taskdetail"]; 
   
 
   const newPage = await notion.pages.create({

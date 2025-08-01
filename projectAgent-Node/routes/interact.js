@@ -1,6 +1,6 @@
 import axios from 'axios';
 import dotenv from 'dotenv';
-import { sampleModal, RequestApprovalBlock } from '../blockkit/sampleBlocks.js'
+import { sampleModal, RequestApprovalBlock } from '../blockkit/createBlocks.js'
 
 dotenv.config();
 

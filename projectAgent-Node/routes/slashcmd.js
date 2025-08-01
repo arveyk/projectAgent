@@ -94,8 +94,8 @@ const slashCmdHandler = async function(request, response, next) {
 	 }, {
 	   "Task Title": "Precide over local elections",
 	   "Assignee": "Khandi Kitaka",
-	   "Due Date": "21-11-2027",
-	   "Start Date": "18-11-2027",
+	   "Due Date": "8-11-2027",
+	   "Start Date": "2-11-2027",
 	   "Email": "replace@soon.com",
 	   "Phone Number": "43-335-344-4344",
 	   "Preferred Channel": "Call, email",

@@ -172,7 +172,7 @@ const sampleModal = {
  * @returns A set of Slack blocks containing data from the task, to be used in confirming new tasks
  */
 export const createBlockNewTask = async function (task) {
-  const blockText = `*Task Title:*\t\t\t${task["Task Title"]} \n*Assignee:* \t\t\t${task["Assignee"]}\n*Due Date:*\t\t\t${task["Due Date"]}\n*Start Date:*\t\t\t${task["Start Date"]}\n*Phone Number:*\t${task["Phone Number"]}\n*Email:*\t\t\t${task["Email"]}\n*Preferred Channel:*\t\t\t${task["Preferred Channel"]}\n*Description:* \t\t${task["Description"] || task["Task Details"]}`;
+  const blockText = `*Task Title:*\t\t\t${task.tasktitle} \n*Assignee:* \t\t\t${task.assignee}\n*Due Date:*\t\t\t${task.duedate}\n*Start Date:*\t\t\t${task.startdate}\n*Phone Number:*\t${task.phonenumber}\n*Email:*\t\t\t${task.email}\n*Preferred Channel:*\t\t\t${task.preferredChannel}\n*Description:* \t\t${task.taskdetail}`
  
   return {
     "text": "Which Field would you like to edit?",
@@ -240,7 +240,7 @@ export const createBlockNewTask = async function (task) {
 
 export const createBlockNewTaskSync = function (task) {
   
-  const blockText = `*Task Title:*\t\t\t${task["Task Title"]} \n*Assignee:* \t\t\t${task["Assignee"]}\n*Due Date:*\t\t\t${task["Due Date"]}\n*Start Date:*\t\t\t${task["Start Date"]}\n*Phone Number:*\t${task["Phone Number"]}\n*Email:*\t\t\t${task["Email"]}\n*Preferred Channel:*\t\t\t${task["Preferred Channel"]}\n*Description:* \t\t${task["Description"] || task["Task Details"]}`;
+  const blockText = `*Task Title:*\t\t\t${task.tasktitle} \n*Assignee:* \t\t\t${task.assignee}\n*Due Date:*\t\t\t${task.duedate}\n*Start Date:*\t\t\t${task.startdate}\n*Phone Number:*\t${task.phonenumber}\n*Email:*\t\t\t${task.email}\n*Preferred Channel:*\t\t\t${task.preferredChannel}\n*Description:* \t\t${task.taskdetail}`
   
   return {
     "blocks": [

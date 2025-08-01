@@ -25,7 +25,6 @@ export default function testUpdateReply(request, response) {
   const response_url = payload['response_url'];
   const message = payload['message'];
   console.log(`TRIGGER_ID VARIABLE ${trigger_id}: RESPONSE_URL ${response_url} MESSAGE ${JSON.stringify(message)}`);
-  console.log(`payload Approve button value ${JSON.parse(payload.actions[0].value)}`);
   if (action_text === "Approve") {
 //============PART CONTAININT TASK DETAILS ============
     const taskDetailsObj =  JSON.parse(payload['actions'][0].value);

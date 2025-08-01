@@ -119,16 +119,17 @@ const slashCmdHandler = async function(request, response, next) {
        ];
 // =========================== END OF DUMMY DATA======================================================
 
-	console.log(`block create by task$${dummyTasksArray[2]}`);
 	      
 // ===========ASYNC CALL TO createBlockNewTask since its an async function=============================
         const taskBlock = await createBlockNewTask(dummyTasksArray[0]);
+        RequestApprovalBlock.blocks[3].elements[0].value = JSON.stringify(dummyTasksArray[0]);
+	console.log(`block create by task$${JSON.stringify(taskBlock)}`);
 
 //============ TODO call searchDB on task to determine if it should create new or edit existing========
 	axios({
           method: 'post',
           url: request.body['response_url'], 
-          data: taskBlock
+          data: RequestApprovalBlock
         }).then((resp) => {
           console.log('OK from slack', resp['status']);
 	      });

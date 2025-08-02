@@ -1,6 +1,5 @@
 import { confirmationBlock, 
   createBlockNewTask,
-  createBlockNewTaskSync,
   RequestApprovalBlock } from '../blockkit/createBlocks.js';
 import axios from 'axios';
 import { parseTaskSlashCmd } from '../utils/aiagent.js';
@@ -124,7 +123,7 @@ const slashCmdHandler = async function(request, response, next) {
 
 	      
 // ===========ASYNC CALL TO createBlockNewTask since its an async function=============================
-        const taskBlock = await createBlockNewTaskSync(task);
+        const taskBlock = await createBlockNewTask(task);
         RequestApprovalBlock.blocks[3].elements[0].value = JSON.stringify(dummyTasksArray[0]);
 	console.log(`block create by task$${JSON.stringify(taskBlock)}`);
 

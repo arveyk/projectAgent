@@ -5,7 +5,7 @@ import { task, task_in_db, task_in_db_reworded, task_not_in_db } from '../test-d
 describe('Test createBlockNewTask with a valid task object', () => {
     it('returns blocks containing the task data', async () => {
         expect(task).toBeDefined();
-        const blocks = await createBlockNewTask(task);
+        const blocks = createBlockNewTask(task);
         console.log(JSON.stringify(blocks));
 
         expect(JSON.stringify(blocks.blocks)).toMatch(/Task Title.{1,8}Schedule meeting with customer \\n/gm);

@@ -45,6 +45,7 @@ const structuredLlmSlashCmd = model.withStructuredOutput(task);
  * Else, returns a TaskParseResult containing false.
  */
 const parseTaskNewMsg = async function(reqBody) {
+  // TODO make it infer dates
   const taskParseResult = await structuredLlmNewMsg.invoke(
     `Please extract information from this message and determine whether or not it is assigning a new task to a person: ${reqBody['event']['text']}`
   );

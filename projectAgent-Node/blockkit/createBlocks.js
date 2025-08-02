@@ -171,7 +171,7 @@ const sampleModal = {
  * @param {*} task A task object
  * @returns A set of Slack blocks containing data from the task, to be used in confirming new tasks
  */
-export const createBlockNewTask = async function (task) {
+export const createBlockNewTask = function (task) {
   const blockText = `*Task Title:*\t\t\t${task.tasktitle} \n*Assignee:* \t\t\t${task.assignee}\n*Due Date:*\t\t\t${task.duedate}\n*Start Date:*\t\t\t${task.startdate}\n*Phone Number:*\t${task.phonenumber}\n*Email:*\t\t\t${task.email}\n*Preferred Channel:*\t\t\t${task.preferredChannel}\n*Description:* \t\t${task.taskdetail}`
  
   return {
@@ -304,9 +304,6 @@ export const createBlockNewTaskSync = function (task) {
     ]
   };
 }
-
-
-
 
 
 const RequestApprovalBlock = {

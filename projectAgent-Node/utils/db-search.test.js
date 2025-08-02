@@ -1,6 +1,6 @@
 const request = require('supertest');
-import { searchDB } from './db';
-import { task, task_in_db, task_in_db_reworded, task_not_in_db } from '../routes/example-tasks';
+import { searchDB } from './db-search';
+import { task, task_in_db, task_in_db_reworded, task_not_in_db } from '../test-data/tasks/example-tasks';
 
 describe('Test searchDB with a task that is already in the database word for word', () => {
     it('returns true and the task ID from the database', async () => {

@@ -1,10 +1,10 @@
 import { app } from "./index.js";
 const request = require('supertest');
 
-import payload_good from './payloads/payload-good.json' with { type: 'json' };
-import payload_bad_token from './payloads/payload-bad-token.json' with { type: 'json' };
-import payload_bad_formatting from './payloads/payload-bad-formatting.json' with { type: 'json' };
-import payload_bad_from_app from './payloads/payload-bad-from-app.json' with { type: 'json' };
+import payload_good from './test-data/payloads/payload-good.json' with { type: 'json' };
+import payload_bad_token from './test-data/payloads/payload-bad-token.json' with { type: 'json' };
+import payload_bad_formatting from './test-data/payloads/payload-bad-formatting.json' with { type: 'json' };
+import payload_bad_from_app from './test-data/payloads/payload-bad-from-app.json' with { type: 'json' };
 
 // TODO test all endpoints with a second good payload
 describe('POST /events with a valid payload', () => {

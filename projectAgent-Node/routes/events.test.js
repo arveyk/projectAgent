@@ -1,10 +1,10 @@
 import { app } from "../index.js";
 const request = require('supertest');
 
-import payload_good from '../payloads/payload-good.json' with { type: 'json' };
-import payload_bad_not_task from '../payloads/payload-bad-not-task.json' with { type: 'json' };
-import payload_bad_from_app from '../payloads/payload-bad-from-app.json' with { type: 'json' };
-import payload_bad_channel_join from '../payloads/payload-bad-channel-join.json' with { type: 'json' };
+import payload_good from '../test-data/payloads/payload-good.json' with { type: 'json' };
+import payload_bad_not_task from '../test-data/payloads/payload-bad-not-task.json' with { type: 'json' };
+import payload_bad_from_app from '../test-data/payloads/payload-bad-from-app.json' with { type: 'json' };
+import payload_bad_channel_join from '../test-data/payloads/payload-bad-channel-join.json' with { type: 'json' };
 
 // TODO more tests
 describe('POST /events with a valid payload', () => {

@@ -22,6 +22,7 @@
   "type": "module",
   "scripts": {
     "test": "jest",
+    "test-helpers": "npx jest utils/aiagent.test.js utils/db-search.test.js blockkit/createBlocks.test.js",
     "start": "node ./index.js",
     "dev": "nodemon ./index.js"
   },

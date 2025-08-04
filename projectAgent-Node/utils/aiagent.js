@@ -121,7 +121,7 @@ const aiAgent = async function(reqBody) {
       console.log("it's a task!");
     
 	    const parsedTask = screeningResult.task;
-      console.log(JSON.stringify(parsedTask));
+      console.log(`Parsed task: ${JSON.stringify(parsedTask)}`);
       const isInDB = await searchDB(parsedTask);
       return {
         istask: true,

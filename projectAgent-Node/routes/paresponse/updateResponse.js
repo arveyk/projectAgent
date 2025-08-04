@@ -1,6 +1,6 @@
 import axios from 'axios';
 import dotenv from 'dotenv';
-import { confirmationBlock } from '../../blockkit/createBlocks.js';
+import { createConfirmationBlock } from '../../blockkit/createBlocks.js';
 import addTaskNotionPage from '../../utils/notiondb.js';
 
 dotenv.config();
@@ -59,10 +59,14 @@ export default function testUpdateReply(request, response) {
 
     response.status(200).send('Nice test');
   } else if (action_text === "Edit") {
+    const taskDetailsObj =  JSON.parse(payload['actions'][0].value);
+    const block = createConfirmationBlock(taskDetailsObj);
+
+
     const editResp =  axios({
       method: "post",
       url: response_url,
-      data: confirmationBlock,
+      data: block,
       headers: {
         "Authorization": `Bearer ${botToken}`,
         'Content-Type': 'application/json; charset=UTF-8',

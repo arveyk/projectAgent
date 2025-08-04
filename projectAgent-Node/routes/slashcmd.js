@@ -1,4 +1,5 @@
-import { confirmationBlock, 
+import { 
+  createConfirmationBlock, 
   createBlockNewTask,
   RequestApprovalBlock } from '../blockkit/createBlocks.js';
 import axios from 'axios';

@@ -3,7 +3,7 @@ import {
 } from '../env.js';
 
 import axios from 'axios';
-import { confirmationBlock, RequestApprovalBlock } from '../blockkit/createBlocks.js';
+import { createConfirmationBlock, RequestApprovalBlock } from '../blockkit/createBlocks.js';
 import { createBlockNewTask } from '../blockkit/createBlocks.js';
 import { confirmationCreateTask } from '../utils/taskConfirmation.js';
 

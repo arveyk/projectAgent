@@ -36,3 +36,11 @@ contents
 > It is not mandatory that you use it for you own testing and development
 > There are some differences in how projectAgent is implemented in this directory since it is still using slack bolt.
 > In the case that we need to move it to a separate directory please feel free to reach out to Harvey.
+
+
+Handling user Interactions
+
+if (request.body.actions.selected_option is defined )
+	second block.action
+if (request,body.actions.text is defined)
+	first block

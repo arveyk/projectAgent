@@ -1,6 +1,7 @@
 let channel_id = 'C08R4M9P5SM'
 
-const confirmationBlock = {
+const createConfirmationBlock = function confirmBlock(taskObj) {
+  return {
   "text": "Which Field would you like to edit?",
   "replace_original": true,
   "blocks": [
@@ -18,7 +19,7 @@ const confirmationBlock = {
       "type": "section",
       "text": {
 	"type": "mrkdwn",
-	      "text": "*Task Title:*\t\t\t${_Task Title_} \n*Assignee:* \t\t\t${Assignee}\n*Due Date:*\t\t\t${_Due Date_}\n*Phone Number:*\t$[_545-039-5264_]\n*Description:* \t\t${Task_Description}"
+        "text": `*Task Title:*\t\t\t${task.tasktitle} \n*Assignee:* \t\t\t${task.assignee}\n*Due Date:*\t\t\t${task.duedate}\n*Start Date:*\t\t\t${task.startdate}\n*Phone Number:*\t${task.phonenumber}\n*Email:*\t\t\t${task.email}\n*Preferred Channel:*\t\t\t${task.preferredChannel}\n*Description:* \t\t${task.taskdetail}`
       }
     },
     {
@@ -112,7 +113,7 @@ const confirmationBlock = {
 	    "text": "Approve"
 	  },
 	  "style": "primary",
-	  "value": "approve_123",
+	  "value": `${JSON.Stringify(taskObj)}`,
 	  "action_id": "actionId-0"
 	},
 	{
@@ -132,7 +133,9 @@ const confirmationBlock = {
       "type": "divider"
     }
   ]
-};
+
+  };
+}
 
 const sampleModal = {
   "trigger_id": "trigger_id",
@@ -302,7 +305,7 @@ const RequestApprovalBlock = {
 	
 
 export {
-  confirmationBlock,
+  createConfirmationBlock,
   RequestApprovalBlock,
   sampleModal
 };

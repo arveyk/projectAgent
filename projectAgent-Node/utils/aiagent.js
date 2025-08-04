@@ -91,6 +91,7 @@ export const screenMessage = async function(reqBody) {
   
     // Use LLM to check if message is a task assignment
     const taskParseResult = await parseTaskNewMsg(reqBody);
+    console.log(`Parsed task (screenMessage): ${JSON.stringify(taskParseResult)}`);
     const isTask = taskParseResult.istask;
 
     // Check for a bot_id to determine if the message was sent by a bot
@@ -122,7 +123,7 @@ const aiAgent = async function(reqBody) {
     
       // TODO find out why this is undefined
 	    const parsedTask = screeningResult.task;
-      console.log(`Parsed task: ${JSON.stringify(parsedTask)}`);
+      console.log(`Parsed task (aiAgent): ${JSON.stringify(parsedTask)}`);
       const isInDB = await searchDB(parsedTask);
       return {
         istask: true,

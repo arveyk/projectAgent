@@ -19,6 +19,7 @@ const postHandler = async function(request, response, next) {
       if (!request.body['event']['bot_id'] && !request.body['event']['subtype']) {
         const aiResult = await aiAgent(request.body);
         console.log("We are now back in postHandler");
+        console.log(`AI result: ${JSON.stringify(aiResult)}`);
         const isTask = aiResult.isTask;
         if (isTask) {
           console.log("it's a task!");
@@ -36,6 +37,7 @@ const postHandler = async function(request, response, next) {
           }
         }
         else {
+          // FIXME this branch is being taken every time, even if it is a task
           console.log("not a task");
           // do nothing
         }

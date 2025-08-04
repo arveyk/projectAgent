@@ -32,7 +32,7 @@ describe('Test searchDB with a task that is not in the database', () => {
     })
 })
 
-describe('Test searchDB with the task that broke on production', () => {
+describe('Test searchDB with the task that used to break on production', () => {
     it('returns true', async () => {
         const searchResult = await searchDB(task_feed_cats);
         expect(searchResult.exists).toBeDefined();

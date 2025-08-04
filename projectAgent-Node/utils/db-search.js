@@ -30,8 +30,8 @@ const structuredLlm = model.withStructuredOutput(databaseSearchResult);
  */
 export const searchDB = async function(task) {
   try {
-    console.log(`task: ${JSON.stringify(task)}`);
-    console.log(`assignee: ${task.assignee}`);
+    console.log(`task (searchDB): ${JSON.stringify(task)}`);
+    console.log(`assignee (searchDB): ${task.assignee}`);
 
     // Retrieve tasks with a matching assignee
     const response = await notion.databases.query({

@@ -117,6 +117,7 @@ const aiAgent = async function(reqBody) {
     // const taskParseResult = await parseTaskNewMsg(reqBody);
     // const isTask = taskParseResult.istask;
     const screeningResult = screenMessage(reqBody);
+    console.log(`Screening result (aiAgent): ${screeningResult}`);
 
     if (screeningResult) {
       console.log("it's a task!");

@@ -20,13 +20,14 @@ const postHandler = async function(request, response, next) {
         const aiResult = await aiAgent(request.body);
         console.log("We are now back in postHandler");
         console.log(`AI result: ${JSON.stringify(aiResult)}`);
-        const isTask = aiResult.isTask;
+        const isTask = aiResult.istask;
+        console.log(`Is task: ${isTask}`)
         if (isTask) {
           console.log("it's a task!");
           const channel_id = request.body['event']['channel'];
           const task = aiResult.task;
           const isInDB = aiResult.isInDB;
-          console.log(`Is in DB: ${isInDB}`);
+          console.log(`Is in DB: ${JSON.stringify(isInDB)}`);
           if (isInDB) {
             // TODO update task
             console.log("This task is already in the database.")

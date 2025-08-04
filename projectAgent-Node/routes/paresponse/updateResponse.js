@@ -7,23 +7,23 @@ import {
 
 export default function testUpdateReply(request, response) {
   const payload = JSON.parse(request.body.payload);
-  //const payload = request.body.payload;
-  console.log(`Body: ${JSON.stringify(request.body)}`);
-  console.log(`Body.payload${JSON.stringify(request.body.payload)}`);
+  //console.log(`Body: ${JSON.stringify(request.body)}`);
+  //console.log(`Body.payload${JSON.stringify(request.body.payload)}`);
   console.log('TRIGGER_ID', payload['trigger_id']);
   console.log(`RESPONSE URL ${(payload['response_url'])}`);
   console.log(`ACTIONS: ${JSON.stringify(payload['actions'])}`);
 
   const action_id = payload['actions'][0]['action_id'];
   let action_text = "";
-  if (payload['actions'][0]['selected_option']){
+  if (typeof payload['actions'][0]['selected_option'] !== 'undefined' ) {
     action_text = payload['actions'][0]['selected_option']['text']['text'];
-  
-    if (action_text === "Approve") {
-    // Task details
-      const taskDetailsObj =  JSON.parse(payload['actions'][0].value);
-      const createRowResult = addTaskNotionPage(taskDetailsObj); console.log(createRowResult);
-      const replaceBlockRes =  axios({
+    console.log("In SELECTED OPTION");
+    /*
+     * if (action_text === "Approve") {
+        Task details
+        const taskDetailsObj =  JSON.parse(payload['actions'][0].value);
+        const createRowResult = addTaskNotionPage(taskDetailsObj); console.log(createRowResult);
+        const replaceBlockRes =  axios({
         method: "post",
         url: response_url,
         data: { 
@@ -39,11 +39,14 @@ export default function testUpdateReply(request, response) {
       }).catch((err) => {
         console.log(err);
       });
+      }
+*/
+
       return "Edit Block Yet to be handled";
     } else {
       action_text = payload['actions'][0]['text']['text'];
+      console.log("action_text in else block", action_text);
     }
-  }
   
   
   const trigger_id = payload['trigger_id'];
@@ -53,7 +56,7 @@ export default function testUpdateReply(request, response) {
 	
   if (action_text === "Approve") {
     // Task details
-    const taskDetailsObj =  JSON.parse(payload['actions'][0].value);
+    const taskDetailsObj =  JSON.parse(payload['actions'][0]['value']);
 
 
     const createRowResult = addTaskNotionPage(taskDetailsObj);
@@ -95,8 +98,9 @@ export default function testUpdateReply(request, response) {
     }).catch((err) => {
         console.log(err);
     });
-    response.status(200).send('Nice test'); 
+    response.status(200).send('Nice test, Edit'); 
   } else {
+    console.log(`Text in button ${payload.actions[0]['value']}, Action_Text${action_text}`);
     const replaceBlockRes =  axios({
       method: "post",
       url: response_url,
@@ -113,6 +117,6 @@ export default function testUpdateReply(request, response) {
     }).catch((err) => {
         console.log(err);
     });
-    response.status(200).send('Nice test'); 
+    response.status(200).send('Nice test, Discard', payload.actions[0]['value']); 
   }
-};
+}

@@ -118,8 +118,6 @@ const aiAgent = async function(reqBody) {
     console.log(`Screening result (aiAgent): ${screeningResult}`);
 
     if (screeningResult) {
-      console.log("it's a task!");
-    
 	    const parsedTask = screeningResult.task;
       console.log(`Parsed task (aiAgent): ${JSON.stringify(parsedTask)}`);
       const isInDB = await searchDB(parsedTask);
@@ -130,7 +128,6 @@ const aiAgent = async function(reqBody) {
       }
 
     } else {
-      console.log("not a task");
       return {
         isTask: false
       }

@@ -18,8 +18,10 @@ const postHandler = async function(request, response, next) {
 
       if (!request.body['event']['bot_id'] && !request.body['event']['subtype']) {
         const aiResult = await aiAgent(request.body);
+        console.log("We are now back in postHandler");
         const isTask = aiResult.isTask;
         if (isTask) {
+          console.log("it's a task!");
           const channel_id = request.body['event']['channel'];
           const task = aiResult.task;
           const isInDB = aiResult.isInDB;
@@ -34,6 +36,7 @@ const postHandler = async function(request, response, next) {
           }
         }
         else {
+          console.log("not a task");
           // do nothing
         }
 

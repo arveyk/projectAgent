@@ -115,9 +115,9 @@ const aiAgent = async function(reqBody) {
   let UserInteraction;
   try {
     const screeningResult = await screenMessage(reqBody);
-    console.log(`Screening result (aiAgent): ${screeningResult}`);
+    console.log(`Screening result (aiAgent): ${JSON.stringify(screeningResult)}`);
 
-    if (screeningResult) {
+    if (screeningResult.istask) {
 	    const parsedTask = screeningResult.task;
       console.log(`Parsed task (aiAgent): ${JSON.stringify(parsedTask)}`);
       const isInDB = await searchDB(parsedTask);

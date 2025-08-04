@@ -122,7 +122,7 @@ const aiAgent = async function(reqBody) {
       console.log(`Parsed task (aiAgent): ${JSON.stringify(parsedTask)}`);
       const isInDB = await searchDB(parsedTask);
       return {
-        istask: true,
+        isTask: true,
         task: parsedTask,
         isInDB: isInDB
       }

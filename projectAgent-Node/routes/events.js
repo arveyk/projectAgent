@@ -20,7 +20,7 @@ const postHandler = async function(request, response, next) {
         const aiResult = await aiAgent(request.body);
         console.log("We are now back in postHandler");
         console.log(`AI result: ${JSON.stringify(aiResult)}`);
-        const isTask = aiResult.istask;
+        const isTask = aiResult.isTask;
         console.log(`Is task: ${isTask}`)
         if (isTask) {
           console.log("it's a task!");
@@ -33,12 +33,11 @@ const postHandler = async function(request, response, next) {
             console.log("This task is already in the database.")
           }
           else {
-            await sendConfirmationCreateTask(task, request.body['response_url']);
+            const res = await sendConfirmationCreateTask(task, request.body['response_url']);
             // TODO add the task to the database
           }
         }
         else {
-          // FIXME this branch is being taken every time, even if it is a task
           console.log("not a task");
           // do nothing
         }

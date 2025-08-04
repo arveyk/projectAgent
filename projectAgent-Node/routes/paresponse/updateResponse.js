@@ -20,14 +20,14 @@ export default function testUpdateReply(request, response) {
     action_text = payload['actions'][0]['selected_option']['text']['text'];
   
     if (action_text === "Approve") {
-//============PART CONTAININ TASK DETAILS ============
+    // Task details
       const taskDetailsObj =  JSON.parse(payload['actions'][0].value);
       const createRowResult = addTaskNotionPage(taskDetailsObj); console.log(createRowResult);
       const replaceBlockRes =  axios({
         method: "post",
         url: response_url,
         data: { 
-	  "replace_original": "true",
+	        "replace_original": "true",
           "text": 'Block Replaced\nNotification: Task Created Successfully'
         },
         headers: {
@@ -52,7 +52,7 @@ export default function testUpdateReply(request, response) {
   console.log(`TRIGGER_ID VARIABLE ${trigger_id}: RESPONSE_URL ${response_url} MESSAGE ${JSON.stringify(message)}`);
 	
   if (action_text === "Approve") {
-//============PART CONTAININ TASK DETAILS ============
+    // Task details
     const taskDetailsObj =  JSON.parse(payload['actions'][0].value);
 
 
@@ -63,7 +63,7 @@ export default function testUpdateReply(request, response) {
       method: "post",
       url: response_url,
       data: { 
-	"replace_original": "true",
+	      "replace_original": "true",
         "text": 'Block Replaced\nNotification: Task Created Successfully'
       },
       headers: {
@@ -101,7 +101,7 @@ export default function testUpdateReply(request, response) {
       method: "post",
       url: response_url,
       data: { 
-	"replace_original": "true",
+	      "replace_original": "true",
         "text": 'Changes Not Approved: \n Please Note that these actions are only visible to you'
       },
       headers: {
@@ -115,5 +115,4 @@ export default function testUpdateReply(request, response) {
     });
     response.status(200).send('Nice test'); 
   }
-
 };

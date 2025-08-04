@@ -3,7 +3,7 @@ import { createConfirmationBlock } from '../../blockkit/createBlocks.js';
 import addTaskNotionPage from '../../utils/notiondb.js';
 import { 
   SLACK_BOT_TOKEN 
-} from '../env.js';
+} from '../../env.js';
 
 export default function testUpdateReply(request, response) {
   const payload = JSON.parse(request.body.payload);

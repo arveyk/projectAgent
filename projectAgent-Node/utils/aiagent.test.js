@@ -5,6 +5,7 @@ import payload_good from '../test-data/payloads/payload-good.json' with { type: 
 import payload_bad_not_task from '../test-data/payloads/payload-bad-not-task.json' with { type: 'json' };
 import payload_bad_from_app from '../test-data/payloads/payload-bad-from-app.json' with { type: 'json' };
 import payload_bad_channel_join from '../test-data/payloads/payload-bad-channel-join.json' with { type: 'json' };
+import payload_broke_prod from '../test-data/payloads/payload-broke-prod.json' with { type: 'json' };
 
 describe('Test screenMessage with a message containing a task assignment', () => {
     it('Returns true, along with the parsed task', async () => {
@@ -59,5 +60,20 @@ describe('Test screenMessage with a channel join message', () => {
         expect(typeof result).toBe("object");
         expect(result.istask).toBeDefined;
         expect(result.istask).toBe(false);
+    })
+})
+
+describe('Test screenMessage with the message that broke production', () => {
+    it('Returns true, along with the parsed task', async () => {
+        //console.log(JSON.stringify(payload_good));
+        expect(payload_broke_prod).toBeDefined;
+        expect(typeof payload_broke_prod).toBe("object");
+
+        const result = await screenMessage(payload_broke_prod);
+        console.log(`(in test) result: ${JSON.stringify(result)}`);
+        expect(typeof result).toBe("object");
+        expect(result.istask).toBeDefined;
+        expect(result.istask).toBe(true);
+        expect(result.parsedtask).toBeDefined;
     })
 })

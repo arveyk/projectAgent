@@ -5,7 +5,7 @@ import {
 import axios from 'axios';
 import { createConfirmationBlock, RequestApprovalBlock } from '../blockkit/createBlocks.js';
 import { createBlockNewTask } from '../blockkit/createBlocks.js';
-import { confirmationCreateTask } from '../utils/taskConfirmation.js';
+import { sendConfirmationCreateTask } from '../utils/taskConfirmation.js';
 
 //When we want to use AI agent
 import aiAgent from "../utils/aiagent.js";
@@ -28,7 +28,8 @@ const postHandler = async function(request, response, next) {
             console.log("This task is already in the database.")
           }
           else {
-            const res = confirmationCreateTask(task, request.body['response_url']);
+            const taskBlock = sendConfirmationCreateTask(task, request.body['response_url']);
+            // TODO send the response
             // TODO add the task to the database
           }
         }

@@ -31,9 +31,8 @@ router.use(express.json());
 //router.post('/events', asyncHandler(eventsHandler), (request, response) => {
 router.post('/events', (request, response) => {
   response.send(JSON.stringify({
-    channel: request.body['event']['channel'],
-    text: request.body['event']['text'],
     challenge: request.body['challenge'],
+    body: JSON.stringify(request.body)
   }));
 });
 

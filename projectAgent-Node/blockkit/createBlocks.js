@@ -1,6 +1,6 @@
 let channel_id = 'C08R4M9P5SM'
 
-const createConfirmationBlock = function confirmBlock(taskObj) {
+const createConfirmationBlock = function confirmBlock(task) {
   return {
   "text": "Which Field would you like to edit?",
   "replace_original": true,
@@ -113,7 +113,7 @@ const createConfirmationBlock = function confirmBlock(taskObj) {
 	    "text": "Approve"
 	  },
 	  "style": "primary",
-	  "value": `${JSON.Stringify(taskObj)}`,
+	  "value": `${JSON.stringify(task)}`,
 	  "action_id": "actionId-0"
 	},
 	{

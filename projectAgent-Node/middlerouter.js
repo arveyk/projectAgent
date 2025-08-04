@@ -28,8 +28,7 @@ const router = express.Router();
 router.use(express.urlencoded({extended: false}));
 router.use(express.json());
 
-//router.post('/events', asyncHandler(eventsHandler), (request, response) => {
-router.post('/events', (request, response) => {
+router.post('/events', asyncHandler(eventsHandler), (request, response) => {
   response.send(JSON.stringify({
     challenge: request.body['challenge'],
     body: JSON.stringify(request.body)

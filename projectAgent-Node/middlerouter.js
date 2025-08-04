@@ -28,7 +28,8 @@ const router = express.Router();
 router.use(express.urlencoded({extended: false}));
 router.use(express.json());
 
-router.post('/events', asyncHandler(eventsHandler), (request, response) => {
+//router.post('/events', asyncHandler(eventsHandler), (request, response) => {
+router.post('/events', (request, response) => {
   response.send(JSON.stringify({
     channel: request.body['event']['channel'],
     text: request.body['event']['text'],

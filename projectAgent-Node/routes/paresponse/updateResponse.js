@@ -1,12 +1,9 @@
 import axios from 'axios';
-import dotenv from 'dotenv';
 import { createConfirmationBlock } from '../../blockkit/createBlocks.js';
 import addTaskNotionPage from '../../utils/notiondb.js';
-
-dotenv.config();
-
-
-const botToken = process.env.SLACK_BOT_TOKEN;
+import { 
+  SLACK_BOT_TOKEN 
+} from '../env.js';
 
 export default function testUpdateReply(request, response) {
   const payload = JSON.parse(request.body.payload);
@@ -34,7 +31,7 @@ export default function testUpdateReply(request, response) {
           "text": 'Block Replaced\nNotification: Task Created Successfully'
         },
         headers: {
-          "Authorization": `Bearer ${botToken}`,
+          "Authorization": `Bearer ${SLACK_BOT_TOKEN}`,
           "Content-Type": "application/json; charset=UTF-8",
         }
       }).then((Response) => {
@@ -70,7 +67,7 @@ export default function testUpdateReply(request, response) {
         "text": 'Block Replaced\nNotification: Task Created Successfully'
       },
       headers: {
-        "Authorization": `Bearer ${botToken}`,
+        "Authorization": `Bearer ${SLACK_BOT_TOKEN}`,
         'Content-Type': 'application/json; charset=UTF-8',
       }
     }).then((Response) => {
@@ -90,7 +87,7 @@ export default function testUpdateReply(request, response) {
       url: response_url,
       data: block,
       headers: {
-        "Authorization": `Bearer ${botToken}`,
+        "Authorization": `Bearer ${SLACK_BOT_TOKEN}`,
         'Content-Type': 'application/json; charset=UTF-8',
       }
     }).then((Response) => {
@@ -108,7 +105,7 @@ export default function testUpdateReply(request, response) {
         "text": 'Changes Not Approved: \n Please Note that these actions are only visible to you'
       },
       headers: {
-        "Authorization": `Bearer ${botToken}`,
+        "Authorization": `Bearer ${SLACK_BOT_TOKEN}`,
         'Content-Type': 'application/json; charset=UTF-8',
       }
     }).then((Response) => {

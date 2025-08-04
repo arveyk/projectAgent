@@ -23,13 +23,13 @@ const postHandler = async function(request, response, next) {
           const channel_id = request.body['event']['channel'];
           const task = aiResult.task;
           const isInDB = aiResult.isInDB;
+          console.log(`Is in DB: ${isInDB}`);
           if (isInDB) {
             // TODO update task
             console.log("This task is already in the database.")
           }
           else {
-            const taskBlock = sendConfirmationCreateTask(task, request.body['response_url']);
-            // TODO send the response
+            await sendConfirmationCreateTask(task, request.body['response_url']);
             // TODO add the task to the database
           }
         }

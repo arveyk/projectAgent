@@ -114,15 +114,12 @@ const aiAgent = async function(reqBody) {
   //console.log(request);
   let UserInteraction;
   try {
-    // const taskParseResult = await parseTaskNewMsg(reqBody);
-    // const isTask = taskParseResult.istask;
     const screeningResult = await screenMessage(reqBody);
     console.log(`Screening result (aiAgent): ${screeningResult}`);
 
     if (screeningResult) {
       console.log("it's a task!");
     
-      // TODO find out why this is undefined
 	    const parsedTask = screeningResult.task;
       console.log(`Parsed task (aiAgent): ${JSON.stringify(parsedTask)}`);
       const isInDB = await searchDB(parsedTask);

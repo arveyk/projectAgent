@@ -39,7 +39,7 @@ export const searchDB = async function(task) {
       filter: {
         property: "Assignee",
         rich_text: {
-          equals: `${task.assignee}` // TODO fix problem of assignee being undefined
+          equals: `${task.assignee}`
         }
       }
     });

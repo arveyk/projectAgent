@@ -21,9 +21,31 @@ export default function testUpdateReply(request, response) {
   let action_text = "";
   if (payload['actions'][0]['selected_option']){
     action_text = payload['actions'][0]['selected_option']['text']['text'];
-    return "Edit Block Yet to be handled";
-  } else {
-    action_text = payload['actions'][0]['text']['text'];
+  
+    if (action_text === "Approve") {
+//============PART CONTAININ TASK DETAILS ============
+      const taskDetailsObj =  JSON.parse(payload['actions'][0].value);
+      const createRowResult = addTaskNotionPage(taskDetailsObj); console.log(createRowResult);
+      const replaceBlockRes =  axios({
+        method: "post",
+        url: response_url,
+        data: { 
+	  "replace_original": "true",
+          "text": 'Block Replaced\nNotification: Task Created Successfully'
+        },
+        headers: {
+          "Authorization": `Bearer ${botToken}`,
+          "Content-Type": "application/json; charset=UTF-8",
+        }
+      }).then((Response) => {
+        console.log('Update msg',Response);
+      }).catch((err) => {
+        console.log(err);
+      });
+      return "Edit Block Yet to be handled";
+    } else {
+      action_text = payload['actions'][0]['text']['text'];
+    }
   }
   
   
@@ -33,7 +55,7 @@ export default function testUpdateReply(request, response) {
   console.log(`TRIGGER_ID VARIABLE ${trigger_id}: RESPONSE_URL ${response_url} MESSAGE ${JSON.stringify(message)}`);
 	
   if (action_text === "Approve") {
-//============PART CONTAININT TASK DETAILS ============
+//============PART CONTAININ TASK DETAILS ============
     const taskDetailsObj =  JSON.parse(payload['actions'][0].value);
 
 

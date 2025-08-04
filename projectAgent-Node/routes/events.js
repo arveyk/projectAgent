@@ -33,7 +33,21 @@ const postHandler = async function(request, response, next) {
             console.log("This task is already in the database.")
           }
           else {
-            const res = await sendConfirmationCreateTask(task, request.body['response_url']);
+            console.log(`response url: ${request.body['response_url']}`);
+            //const res = await sendConfirmationCreateTask(task, eventResURL);
+
+            const taskBlock = createBlockNewTask(task);
+	          console.log(`Task block: ${JSON.stringify(taskBlock)}`);
+
+            axios({
+              method: 'post',
+              url: request.body['response_url'], 
+              data: taskBlock
+            }).then((resp) => {
+              console.log('OK from slack', resp['status']);
+            });
+            response.status(200).send("");
+
             // TODO add the task to the database
           }
         }

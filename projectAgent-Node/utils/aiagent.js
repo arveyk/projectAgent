@@ -120,11 +120,11 @@ const aiAgent = async function(reqBody) {
     if (screeningResult.istask) {
 	    const parsedTask = screeningResult.task;
       console.log(`Parsed task (aiAgent): ${JSON.stringify(parsedTask)}`);
-      const isInDB = await searchDB(parsedTask);
+      const dbResult = await searchDB(parsedTask);
       return {
         isTask: true,
         task: parsedTask,
-        isInDB: isInDB
+        dbResult: dbResult
       }
 
     } else {

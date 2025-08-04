@@ -26,7 +26,7 @@ const postHandler = async function(request, response, next) {
           console.log("it's a task!");
           const channel_id = request.body['event']['channel'];
           const task = aiResult.task;
-          const isInDB = aiResult.isInDB;
+          const isInDB = aiResult.dbResult.exists;
           console.log(`Is in DB: ${JSON.stringify(isInDB)}`);
           if (isInDB) {
             // TODO update task

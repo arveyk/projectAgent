@@ -55,7 +55,6 @@ export default function testUpdateReply(request, response) {
     // Task details
         const taskDetailsObj =  JSON.parse(payload['actions'][0]['value']);
 
-
         const createRowResult = addTaskNotionPage(taskDetailsObj);
         console.log(createRowResult);
 

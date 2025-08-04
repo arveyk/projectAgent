@@ -229,7 +229,7 @@ export const createBlockNewTask = function (task) {
               "text": "Edit",
 	      "emoji": true
 	    },
-	    "value": "edit_123",
+            "value": JSON.stringify(task),
 	    "action_id": "actionId-2"
 	  }
 	]

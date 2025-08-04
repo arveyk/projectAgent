@@ -25,6 +25,7 @@ const postHandler = async function(request, response, next) {
           const isInDB = aiResult.isInDB;
           if (isInDB) {
             // TODO update task
+            console.log("This task is already in the database.")
           }
           else {
             const res = confirmationCreateTask(task, request.body['response_url']);

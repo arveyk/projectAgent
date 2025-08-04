@@ -41,3 +41,14 @@ export const task_not_in_db = {
     "preferredChannel":"Slack",
     "taskdetail":"Take over the Tri-State Area"
 }
+
+export const task_feed_cats = {
+    "tasktitle":"Feed the cats",
+    "assignee":"Josh",
+    "duedate":"2023-08-07",
+    "startdate":"2023-08-01",
+    "phonenumber":"123-456-7890",
+    "email":"josh@example.com",
+    "preferredChannel":"Slack",
+    "taskdetail":"Feed the cats every day from August 1 to August 7. Give them their pills and ensure they have enough clean water."
+}

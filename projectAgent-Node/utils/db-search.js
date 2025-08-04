@@ -31,6 +31,7 @@ const structuredLlm = model.withStructuredOutput(databaseSearchResult);
 export const searchDB = async function(task) {
   try {
     console.log(JSON.stringify(task));
+    console.log(task.assignee);
 
     // Retrieve tasks with a matching assignee
     const response = await notion.databases.query({
@@ -38,7 +39,7 @@ export const searchDB = async function(task) {
       filter: {
         property: "Assignee",
         rich_text: {
-          equals: `${task.assignee}`
+          equals: `${task.assignee}` // TODO fix problem of assignee being undefined
         }
       }
     });

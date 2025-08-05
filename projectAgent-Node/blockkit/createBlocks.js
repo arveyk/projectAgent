@@ -1,5 +1,5 @@
 let channel_id = 'C08R4M9P5SM';
-export  { createEditBlock } from "./editblock.js";
+export  { createEditBlock, createFinalBlock } from "./editblock.js";
 
 const createConfirmationBlock = function confirmBlock(task) {
   return {

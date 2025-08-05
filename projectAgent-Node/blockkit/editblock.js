@@ -126,7 +126,7 @@ export  function createEditBlock(task) {
 	      "text": {
 	        "type": "plain_text",
 		"emoji": true,
-		"text": "Approve"
+		"text": "Submit"
 	      },
 	      "style": "primary",
 	      "value": `${JSON.stringify(task)}`,
@@ -153,3 +153,56 @@ export  function createEditBlock(task) {
   }
 }
 
+export function createFinalBlock(task) {
+  return {
+	"blocks": [
+		{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": "*Which Field would you like to edit?*"
+			}
+		},
+		{
+			"type": "divider"
+		},
+		{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": `*Task Title:*\t\t\t${task.tasktitle} \n*Assignee:* \t\t\t${task.assignee}\n*Due Date:*\t\t\t${task.duedate}\n*Start Date:*\t\t\t${task.startdate}\n*Phone Number:*\t${task.phonenumber}\n*Email:*\t\t\t\t\t${task.email}\n*Preferred Channel:*\t${task.preferredChannel}\n*Description:* \t\t${task.taskdetail}`
+			}
+		},
+		{
+			"type": "divider"
+		},
+		{
+			"type": "actions",
+			"elements": [
+				{
+					"type": "button",
+					"text": {
+						"type": "plain_text",
+						"emoji": true,
+						"text": "Approve"
+					},
+					"style": "primary",
+					"value": `${JSON.stringify(task)}`,
+					"action_id": "actionId-0"
+				},
+				{
+					"type": "button",
+					"text": {
+						"type": "plain_text",
+						"emoji": true,
+						"text": "Discard"
+					},
+					"style": "danger",
+					"value": "discard_123",
+					"action_id": "actionId-1"
+				}
+			]
+		}
+	]
+  }
+}

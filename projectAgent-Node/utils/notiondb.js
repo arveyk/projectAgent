@@ -137,6 +137,12 @@ const TaskProperties = {
   "Description": {
     "type": "rich_text",
     "rich_text": replaceArr
+  },
+  "Date Assigned": {
+    "type": "date",
+    "date": { 
+      "start": "2025-05-11"
+    }
   }
 }
 
@@ -144,12 +150,11 @@ async function addTaskNotionPage(taskObj) {
   const taskTitle = taskObj["tasktitle"];
   const assignee = taskObj["assignee"]; 
   const dueDate = new Date(taskObj["duedate"]); 
-  const startDate = new Date(taskObj["startdate"]);
+  const startDate = new Date(taskObj["startdate"]) || new Date();
   const email = taskObj["email"] || "example@email.com";
   const phoneNumber = taskObj["phonenumber"] || "000***000***";
   const preferredChannel = taskObj["preferredchannel"] || "Slack";
-
-
+  const dateAssigned = new Date();
   
   TaskProperties['Task Title']['title'][0]['text']['content'] = taskTitle;
   TaskProperties['Assignee']['rich_text'][0]['text']['content'] = assignee;
@@ -158,7 +163,8 @@ async function addTaskNotionPage(taskObj) {
   TaskProperties['Email']['email'] = email;
   TaskProperties['Phone Number']['phone_number'] = phoneNumber; 
   TaskProperties['Preferred Channel']['rich_text'][0]['text']['content'] = preferredChannel; 
-  TaskProperties['Description']['rich_text'][0]['text']['content'] = taskObj["taskdetail"]; 
+  TaskProperties['Description']['rich_text'][0]['text']['content'] = taskObj["taskdetail"];
+  TaskProperties['Date Assigned']['date']['start'] = dateAssigned; 
   
 
   const newPage = await notion.pages.create({

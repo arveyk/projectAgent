@@ -1,25 +1,12 @@
 import axios from 'axios';
 import { confirmationBlock, RequestApprovalBlock } from './sampleBlocks.js'
-import dotenv from 'dotenv';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import { TASK_MANAHEMENT_WEBHOOK_URL, TASK_N8N_WEBHOOK_URL } from '../env.js';
 
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-
-dotenv.config({ path: path.join(__dirname, '..', '.env') });
-
-const webhookURL0 = process.env.TASK_MANAGEMENT_WEBHOOK_URL 
-const webhookURL1 = process.env.TASK_N8N_WEBHOOK_URL
-
-
-console.log(webhookURL0)
+console.log(TASK_MANAHEMENT_WEBHOOK_URL)
 //task management webhook url
 axios({
   method: 'post',
-  url: webhookURL0,
+  url: TASK_MANAHEMENT_WEBHOOK_URL,
   data: confirmationBlock
 }).then((response) => {
   console.log(response);

@@ -5,7 +5,6 @@ import {
 import axios from 'axios';
 import { createConfirmationBlock, RequestApprovalBlock } from '../blockkit/createBlocks.js';
 import { createBlockNewTask } from '../blockkit/createBlocks.js';
-import { sendConfirmationCreateTask } from '../utils/taskConfirmation.js';
 
 //When we want to use AI agent
 import aiAgent from "../utils/aiagent.js";
@@ -33,15 +32,14 @@ const postHandler = async function(request, response, next) {
             console.log("This task is already in the database.")
           }
           else {
-            console.log(`response url: ${request.body['response_url']}`);
+            console.log(`channel: ${channel_id}`);
             //const res = await sendConfirmationCreateTask(task, eventResURL);
 
             const taskBlock = createBlockNewTask(task);
 	          console.log(`Task block: ${JSON.stringify(taskBlock)}`);
 
-            axios({
-              method: 'post',
-              url: request.body['response_url'], 
+            await axios.post(eventResURL, {
+              channel: channel_id,
               data: taskBlock
             }).then((resp) => {
               console.log('OK from slack', resp['status']);

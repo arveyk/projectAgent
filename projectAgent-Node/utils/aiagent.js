@@ -1,14 +1,6 @@
-import { 
-  PROJ_AGENT_APP_ID 
-} from '../env.js';
-
-import axios from 'axios';
 import { ChatAnthropic } from '@langchain/anthropic';
-import { tool } from '@langchain/core/tools';
 import { z } from 'zod';
 import { searchDB } from './db-search.js';
-
-const APP_ID = PROJ_AGENT_APP_ID;
 
 const model = new ChatAnthropic({
   model: "claude-3-5-sonnet-20240620",
@@ -37,18 +29,18 @@ const structuredLlmNewMsg = model.withStructuredOutput(taskParseResult);
 // For use with slash commands
 const structuredLlmSlashCmd = model.withStructuredOutput(task);
 
-
 /**
  * Uses Anthropic to parse a task assignment from an incoming Slack webhook
  * @param {*} reqBody The body of the request
  * @returns If the message contains a task assignment, returns a TaskParseResult containing true and the formatted task.
  * Else, returns a TaskParseResult containing false.
  */
-const parseTaskNewMsg = async function(reqBody) {
-  // TODO make it infer dates
-  const taskParseResult = await structuredLlmNewMsg.invoke(
-    `Please extract information from this message and determine whether or not it is assigning a new task to a person: ${reqBody['event']['text']}`
-  );
+export const parseTaskNewMsg = async function(reqBody) {
+  const today = new Date();
+  const prompt = `Today's date is ${today}. Please extract information from this message and determine whether or not it is assigning a new task to a person: ${reqBody['event']['text']}`
+  console.log(`prompt: ${prompt}`);
+
+  const taskParseResult = await structuredLlmNewMsg.invoke(prompt);
 	console.log(`task parse result: ${JSON.stringify(taskParseResult)}`);
 
   return taskParseResult;

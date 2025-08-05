@@ -70,6 +70,8 @@ router.get('/', (request, response) => {
 });
 router.post('/tasks/newtask', newTaskHandler);
 router.patch('/tasks/update', patchTaskHandler);
-router.post('/test/resp', testUpdateReply);
+router.post('/test/resp', testUpdateReply, (request, response) => {
+  response.status(200).send('Received Payload from Slack'); 
+});
 
 export default router;

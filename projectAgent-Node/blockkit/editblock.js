@@ -38,49 +38,37 @@ export  function createEditBlock(task) {
 	  "element": {
 	    "type": "plain_text_input",
 	    "action_id": "plain_text_input-action"
-	},
-	"label": {
-	  "type": "plain_text",
-	  "text": "Assignee",
-	  "emoji": true
-	}
-	},
-	{
-	  "type": "input",
-	  "element": {
-	    "type": "datepicker",
-	    "initial_date": "1990-04-28",
-	    "placeholder": {
-	      "type": "plain_text",
-	      "text": "Select a date",
-	      "emoji": true
-	    },
-	    "action_id": "datepicker-action"
 	  },
 	  "label": {
-	  "type": "plain_text",
-	  "text": "Due Date",
-	  "emoji": true
-	}
-      },
-      {
-	"type": "input",
-	"element": {
-          "type": "datepicker",
-	  "initial_date": "1990-04-28",
-	  "placeholder": {
 	    "type": "plain_text",
-	    "text": "Select a date",
+	    "text": "Assignee",
 	    "emoji": true
-	  },
-	  "action_id": "datepicker-action"
+	  }
 	},
-	"label": {
-	  "type": "plain_text",
-	  "text": "Start Date",
-	  "emoji": true
-	}
-      },
+	    {
+			"type": "input",
+			"element": {
+				"type": "plain_text_input",
+				"action_id": "due_date_id"
+			},
+			"label": {
+				"type": "plain_text",
+				"text": "Due Date",
+				"emoji": true
+			}
+		},
+	    {
+			"type": "input",
+			"element": {
+				"type": "plain_text_input",
+				"action_id": "start_date_id"
+			},
+			"label": {
+				"type": "plain_text",
+				"text": "Start Date",
+				"emoji": true
+			}
+		},
       {
 	"type": "input",
 	"element": {

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { createEditBlock } from '../../blockkit/createBlocks.js';
+import { createEditBlock, createFinalBlock } from '../../blockkit/createBlocks.js';
 import addTaskNotionPage from '../../utils/notiondb.js';
 import { 
   SLACK_BOT_TOKEN 
@@ -22,7 +22,7 @@ export default function testUpdateReply(request, response) {
   let action_text = "";
   
   if (typeof payload['actions'][0]['selected_option'] !== 'undefined' ) {
-    action_text = payload['actions'][0]['selected_option']['text']['text'];
+   /* action_text = payload['actions'][0]['selected_option']['text']['text'];
     
     if (action_text === "Approve") {
       const taskDetailsObj =  JSON.parse(payload['actions'][0].value);
@@ -45,7 +45,8 @@ export default function testUpdateReply(request, response) {
       }); 
     } else {
       console.log('Changed Discarded'); 
-    }
+    }*/
+    console.log('Changed, No longer Handling these Blocks'); 
   } else {
     action_text = payload['actions'][0]['text']['text'];
     console.log("action_text in else block", action_text);
@@ -75,6 +76,8 @@ export default function testUpdateReply(request, response) {
       });
 
     } else if (action_text === "Edit") {
+  //  TODO Change the approve to Submit
+	    //  Set its Submit value to 
       const taskDetailsObj =  JSON.parse(payload['actions'][0].value);
       const block = createEditBlock(taskDetailsObj);
 
@@ -91,7 +94,25 @@ export default function testUpdateReply(request, response) {
       }).catch((err) => {
         console.log(err);
       });
-    } else {
+    } else if (action_text === "Submit") {
+	   // Another block?
+      const taskDetailsObj = json.parse(payload['actions'][0].value);
+      const block = createFinalBlock(taskDetailsObj);
+
+      const editResp =  axios({
+        method: "post",
+        url: response_url,
+        data: block,
+        headers: {
+          "Authorization": `Bearer ${SLACK_BOT_TOKEN}`,
+          "Content-Type": "application/json; charset=UTF-8",
+        }
+      }).then((Response) => {
+        console.log('Final Block Submission',Response);
+      }).catch((err) => {
+        console.log(err);
+      });
+    }else {
       console.log(`Text in button ${payload.actions[0]['value']}, Action_Text${action_text}`);
       const replaceBlockRes =  axios({
         method: "post",

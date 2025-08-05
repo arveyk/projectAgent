@@ -11,7 +11,7 @@ import aiAgent from "../utils/aiagent.js";
 
 const postHandler = async function(request, response, next) {
   try {
-    console.log('Request Headers::: ', JSON.stringify(req.headers));
+    console.log('Request Headers::: ', JSON.stringify(request.headers));
     console.log(`I Handle most events. Any tasks for me?
       Request: ${JSON.stringify(request.body)}`);
     const eventResURL = 'https://slack.com/api/chat.postMessage';
@@ -29,7 +29,7 @@ const postHandler = async function(request, response, next) {
         const isInDB = aiResult.dbResult.exists;
         console.log(`Is in DB: ${JSON.stringify(isInDB)}`);
         if (isInDB) {
-          // TODO update task
+          // TODO update existing task
           console.log("This task is already in the database.")
         }
         else {
@@ -38,7 +38,6 @@ const postHandler = async function(request, response, next) {
           const taskBlock = createBlockNewTask(task);
           console.log(`Task block: ${JSON.stringify(taskBlock)}`);
 
-    // FIXME it is not appearing in the channel, even though Slack is sending back a 200 response
           await axios.post(eventResURL, {
             channel: channel_id,
             text: "",
@@ -51,8 +50,6 @@ const postHandler = async function(request, response, next) {
           }).then((resp) => {
             console.log('OK from slack', resp['status']);
           });
-          response.status(200).send("");
-            // TODO add the task to the database
         }
       }
       else {

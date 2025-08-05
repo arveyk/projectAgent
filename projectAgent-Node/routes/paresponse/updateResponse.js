@@ -20,6 +20,7 @@ export default function testUpdateReply(request, response) {
 	
   const action_id = payload['actions'][0]['action_id'];
   let action_text = "";
+  response.status(200).send('Received Payload from Slack'); 
   
   if (typeof payload['actions'][0]['selected_option'] !== 'undefined' ) {
     action_text = payload['actions'][0]['selected_option']['text']['text'];
@@ -44,7 +45,7 @@ export default function testUpdateReply(request, response) {
         console.log(err);
       }); 
     } else {
-      response.status(200).send('Changed Discarded'); 
+      console.log('Changed Discarded'); 
     }
   } else {
     action_text = payload['actions'][0]['text']['text'];
@@ -74,7 +75,6 @@ export default function testUpdateReply(request, response) {
         console.log(err);
       });
 
-      response.status(200).send('Nice test');
     } else if (action_text === "Edit") {
       const taskDetailsObj =  JSON.parse(payload['actions'][0].value);
       const block = createEditBlock(taskDetailsObj);
@@ -92,7 +92,6 @@ export default function testUpdateReply(request, response) {
       }).catch((err) => {
         console.log(err);
       });
-      response.status(200).send('Nice test, Edit'); 
     } else {
       console.log(`Text in button ${payload.actions[0]['value']}, Action_Text${action_text}`);
       const replaceBlockRes =  axios({
@@ -111,7 +110,6 @@ export default function testUpdateReply(request, response) {
       }).catch((err) => {
         console.log(err);
       });
-      response.status(200).send('Nice test, Discard', payload.actions[0]['value']); 
     }  
   }
 }

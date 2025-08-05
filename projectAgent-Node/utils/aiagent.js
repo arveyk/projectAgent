@@ -64,7 +64,7 @@ export const parseTaskSlashCmd = async function(reqBody) {
   }
   
   const today = new Date();
-  const prompt = `Today's date is ${today}. Please extract information from this message and determine whether or not it is assigning a new task to a person: ${reqBody['event']['text']}`
+  const prompt = `Today's date is ${today}. Please extract information from this message and determine whether or not it is assigning a new task to a person: ${textToParse}`
   console.log(`prompt: ${prompt}`);
   const taskParseResult = await structuredLlmSlashCmd.invoke(prompt);
 	console.log(`task parse result: ${JSON.stringify(taskParseResult)}`);

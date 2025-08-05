@@ -62,9 +62,11 @@ export const parseTaskSlashCmd = async function(reqBody) {
   } else {
     taskToParse = "No Task available";
   }
-  const taskParseResult = await structuredLlmSlashCmd.invoke(
-    `Please extract information from this message: ${textToParse}`
-  );
+  
+  const today = new Date();
+  const prompt = `Today's date is ${today}. Please extract information from this message and determine whether or not it is assigning a new task to a person: ${reqBody['event']['text']}`
+  console.log(`prompt: ${prompt}`);
+  const taskParseResult = await structuredLlmSlashCmd.invoke(prompt);
 	console.log(`task parse result: ${JSON.stringify(taskParseResult)}`);
 
   return taskParseResult;

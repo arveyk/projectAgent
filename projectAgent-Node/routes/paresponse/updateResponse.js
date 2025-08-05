@@ -20,7 +20,6 @@ export default function testUpdateReply(request, response) {
 	
   const action_id = payload['actions'][0]['action_id'];
   let action_text = "";
-  response.status(200).send('Received Payload from Slack'); 
   
   if (typeof payload['actions'][0]['selected_option'] !== 'undefined' ) {
     action_text = payload['actions'][0]['selected_option']['text']['text'];

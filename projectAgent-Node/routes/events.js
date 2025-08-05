@@ -40,7 +40,13 @@ const postHandler = async function(request, response, next) {
             // FIXME it is not appearing in the channel, even though Slack is sending back a 200 response
             await axios.post(eventResURL, {
               channel: channel_id,
-              data: taskBlock
+	      text: "",
+              blocks: taskBlock.blocks
+	    }, {
+	      headers: {
+	        "Authorization": `Bearer ${SLACK_BOT_TOKEN}`,
+	        "Content-Type": "application/json; charset=UTF-8"
+	      }
             }).then((resp) => {
               console.log('OK from slack', resp['status']);
             });
@@ -60,7 +66,8 @@ const postHandler = async function(request, response, next) {
     console.log(err);
     return response.status(500).send(`Error and Body${JSON.stringify(err)}`);
   }
-  next(); // FIXME this is somehow trying to set headers after they are already sent
+  response.status(204).send('Events Handler');
+  //next(); // FIXME this is somehow trying to set headers after they are already sent
 }
 
 export default postHandler;

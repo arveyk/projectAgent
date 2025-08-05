@@ -10,6 +10,7 @@ import { createBlockNewTask } from '../blockkit/createBlocks.js';
 import aiAgent from "../utils/aiagent.js";
 
 const postHandler = async function(request, response, next) {
+  response.status(200).send('Received Payload from Slack'); 
   try {
     response.status(200).send("");
     console.log('Request Headers::: ', JSON.stringify(request.headers));
@@ -62,10 +63,8 @@ const postHandler = async function(request, response, next) {
     // TODO send 401 unauthorized if the payload has a bad token
     }
   } catch (err){
-    console.log(err);
-	  return (`Error and Body${JSON.stringify(err)}`);
+    console.log(`Error and Body${JSON.stringify(err)}`);
   }
-  next(); // FIXME this is somehow trying to set headers after they are already sent
 }
 
 export default postHandler;

@@ -11,6 +11,7 @@ import aiAgent from "../utils/aiagent.js";
 
 const postHandler = async function(request, response, next) {
   try {
+    console.log('Request Headers::: ', JSON.stringify(req.headers));
     console.log(`I Handle most events. Any tasks for me?
       Request: ${JSON.stringify(request.body)}`);
     const eventResURL = 'https://slack.com/api/chat.postMessage';

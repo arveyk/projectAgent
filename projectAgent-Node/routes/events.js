@@ -5,6 +5,7 @@ import {
 import axios from 'axios';
 import { createConfirmationBlock, RequestApprovalBlock } from '../blockkit/createBlocks.js';
 import { createBlockNewTask } from '../blockkit/createBlocks.js';
+import { convertEmptyFields } from '../utils/convertEmptyFields.js';
 
 // When we want to use AI agent
 import aiAgent from "../utils/aiagent.js";
@@ -26,7 +27,7 @@ const postHandler = async function(request, response, next) {
       if (isTask) {
         console.log("it's a task!");
         const channel_id = request.body['event']['channel'];
-        const task = aiResult.task;
+        const task = convertEmptyFields(aiResult.task);
         const isInDB = aiResult.dbResult.exists;
         console.log(`Is in DB: ${JSON.stringify(isInDB)}`);
         if (isInDB) {

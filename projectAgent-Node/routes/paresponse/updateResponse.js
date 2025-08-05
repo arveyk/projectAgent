@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { createConfirmationBlock } from '../../blockkit/createBlocks.js';
+import { createEditBlock } from '../../blockkit/createBlocks.js';
 import addTaskNotionPage from '../../utils/notiondb.js';
 import { 
   SLACK_BOT_TOKEN 
@@ -77,7 +77,7 @@ export default function testUpdateReply(request, response) {
       response.status(200).send('Nice test');
     } else if (action_text === "Edit") {
       const taskDetailsObj =  JSON.parse(payload['actions'][0].value);
-      const block = createConfirmationBlock(taskDetailsObj);
+      const block = createEditBlock(taskDetailsObj);
 
       const editResp =  axios({
         method: "post",

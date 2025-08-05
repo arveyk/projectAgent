@@ -1,4 +1,5 @@
-let channel_id = 'C08R4M9P5SM'
+let channel_id = 'C08R4M9P5SM';
+import { editBlock } from "./editblock.js";
 
 const createConfirmationBlock = function confirmBlock(task) {
   return {

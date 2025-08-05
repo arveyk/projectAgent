@@ -6,7 +6,7 @@ import axios from 'axios';
 import { createConfirmationBlock, RequestApprovalBlock } from '../blockkit/createBlocks.js';
 import { createBlockNewTask } from '../blockkit/createBlocks.js';
 
-//When we want to use AI agent
+// When we want to use AI agent
 import aiAgent from "../utils/aiagent.js";
 
 const postHandler = async function(request, response, next) {
@@ -33,11 +33,11 @@ const postHandler = async function(request, response, next) {
           }
           else {
             console.log(`channel: ${channel_id}`);
-            //const res = await sendConfirmationCreateTask(task, eventResURL);
 
             const taskBlock = createBlockNewTask(task);
 	          console.log(`Task block: ${JSON.stringify(taskBlock)}`);
 
+            // FIXME it is not appearing in the channel, even though Slack is sending back a 200 response
             await axios.post(eventResURL, {
               channel: channel_id,
               data: taskBlock
@@ -60,7 +60,7 @@ const postHandler = async function(request, response, next) {
     console.log(err);
     return response.status(500).send(`Error and Body${JSON.stringify(err)}`);
   }
-  next();
+  next(); // FIXME this is somehow trying to set headers after they are already sent
 }
 
 export default postHandler;

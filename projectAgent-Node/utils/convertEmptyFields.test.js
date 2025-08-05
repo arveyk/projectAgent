@@ -1,6 +1,5 @@
-import { convertEmptyFields } from "./emptyFields";
+import { convertEmptyFields } from "./convertEmptyFields";
 import { task, task_unknown_fields } from "../test-data/tasks/example-tasks";
-import { NEVER } from "zod";
 
 describe('Test convertEmptyFields with a task containing empty fields', () => {
     it('Returns the task with the <UNKNOWN> fields replaced by empty strings', () => {

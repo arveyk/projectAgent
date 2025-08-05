@@ -12,7 +12,6 @@ import aiAgent from "../utils/aiagent.js";
 const postHandler = async function(request, response, next) {
   response.status(200).send('Received Payload from Slack'); 
   try {
-    response.status(200).send("");
     console.log('Request Headers::: ', JSON.stringify(request.headers));
     console.log(`I Handle most events. Any tasks for me?
       Request: ${JSON.stringify(request.body)}`);

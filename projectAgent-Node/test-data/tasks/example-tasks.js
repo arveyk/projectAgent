@@ -52,3 +52,14 @@ export const task_feed_cats = {
     "preferredChannel":"Slack",
     "taskdetail":"Feed the cats every day from August 1 to August 7. Give them their pills and ensure they have enough clean water."
 }
+
+export const task_unknown_fields = {
+    "tasktitle":"Schedule meeting with customer",
+    "assignee":"Jacob",
+    "duedate":"2025-05-11",
+    "startdate":"<UNKNOWN>",
+    "phonenumber": "<UNKNOWN>",
+    "email": "jacob@email.com",
+    "preferredChannel":"Slack",
+    "taskdetail":"Schedule a meeting with the customer. Check the sender's Calendly for available times."
+}

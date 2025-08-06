@@ -25,7 +25,7 @@ export  function createEditBlock(task) {
 	  "type": "input",
 	  "element": {
 	  "type": "plain_text_input",
-	  "action_id": "plain_text_input-action"
+	  "action_id": "tasktitle_id"
 	},
 	"label": {
 	  "type": "plain_text",
@@ -37,7 +37,7 @@ export  function createEditBlock(task) {
 	  "type": "input",
 	  "element": {
 	    "type": "plain_text_input",
-	    "action_id": "plain_text_input-action"
+	    "action_id": "assignee_id"
 	  },
 	  "label": {
 	    "type": "plain_text",
@@ -45,47 +45,47 @@ export  function createEditBlock(task) {
 	    "emoji": true
 	  }
 	},
-	    {
-			"type": "input",
-			"element": {
-				"type": "plain_text_input",
-				"action_id": "due_date_id"
-			},
-			"label": {
-				"type": "plain_text",
-				"text": "Due Date",
-				"emoji": true
-			}
-		},
-	    {
-			"type": "input",
-			"element": {
-				"type": "plain_text_input",
-				"action_id": "start_date_id"
-			},
-			"label": {
-				"type": "plain_text",
-				"text": "Start Date",
-				"emoji": true
-			}
-		},
-      {
-	"type": "input",
-	"element": {
-	  "type": "plain_text_input",
-	  "action_id": "plain_text_input-action"
+        {
+          "type": "input",
+	  "element": {
+	    "type": "plain_text_input",
+	    "action_id": "due_date_id"
+	  },
+	  "label": {
+	    "type": "plain_text",
+	    "text": "Due Date",
+	    "emoji": true
+	  }
+        },
+	{
+	  "type": "input",
+	  "element": {
+	    "type": "plain_text_input",
+	    "action_id": "start_date_id"
+	  },
+	  "label": {
+	    "type": "plain_text",
+	    "text": "Start Date",
+	    "emoji": true
+	  }
 	},
-	"label": {
-	  "type": "plain_text",
-	  "text": "Email",
-	  "emoji": true
-	}
+        {
+	  "type": "input",
+          "element": {
+	    "type": "plain_text_input",
+	    "action_id": "email_id"
+	  },
+	  "label": {
+	    "type": "plain_text",
+	    "text": "Email",
+	    "emoji": true
+	  }
 	},
 	{
 	  "type": "input",
 	  "element": {
 	    "type": "plain_text_input",
-	    "action_id": "plain_text_input-action"
+	    "action_id": "phone_number_id"
 	  },
 	  "label": {
 	    "type": "plain_text",
@@ -97,7 +97,7 @@ export  function createEditBlock(task) {
 	  "type": "input",
 	  "element": {
 	    "type": "plain_text_input",
-	    "action_id": "plain_text_input-action"
+	    "action_id": "preferred_channel_id"
 	  },
 	  "label": {
 	    "type": "plain_text",
@@ -110,7 +110,7 @@ export  function createEditBlock(task) {
 	  "element": {
 	    "type": "plain_text_input",
 	    "multiline": true,
-	    "action_id": "plain_text_input-action"
+	    "action_id": "task_details_id"
 	  },
 	  "label": {
 	    "type": "plain_text",

@@ -96,7 +96,43 @@ export default function testUpdateReply(request, response) {
       });
     } else if (action_text === "Submit") {
 	   // Another block?
-      const taskDetailsObj = json.parse(payload['actions'][0].value);
+      const taskDetailsObj = JSON.parse(payload['actions'][0].value);
+      
+      const actionKeysArr = Object.keys(payload.state.values);
+      const userInputs = payload.state.values;
+
+      actionKeysArr.map((key) => {
+        const actionIdKey = Object.keys(userInputs[key]);
+	console.log("ActionIDKey: ", actionIdKey);
+
+	switch (actionIdKey[0]) {
+	  case "task_title_id":
+	    taskDetailsObj.tasktitle = userInputs[key][actionIdKey].value;
+	    break;
+	  case "assignee_id":
+	    taskDetailsObj.assignee = userInputs[key][actionIdKey].value;
+	    break;
+	  case "due_date_id":
+	    taskDetailsObj.duedate = userInputs[key][actionIdKey].value;
+	    break;
+	  case "start_date_id":
+	    taskDetailsObj.startdate = userInputs[key][actionIdKey].value;
+	    break;
+	  case "email_id":
+	    taskDetailsObj.assignee = userInputs[key][actionIdKey].value;
+	    break;
+	  case "phone_number_id":
+	    taskDetailsObj.phonenumber = userInputs[key][actionIdKey].value;
+	    break;
+	  case "preferred_channel_id":
+	    taskDetailsObj.preferredchannel = userInputs[key][actionIdKey].value;
+	    break;
+	  case "task_details_id":
+	    taskDetailsObj.taskdetails = userInputs[key][actionIdKey].value;
+	    break;
+	}
+      });
+      
       const block = createFinalBlock(taskDetailsObj);
 
       const editResp =  axios({

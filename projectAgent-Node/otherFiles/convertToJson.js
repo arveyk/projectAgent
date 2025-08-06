@@ -14,9 +14,53 @@ const payloadStr3 = {"payload":"{\"type\":\"block_actions\",\"user\":{\"id\":\"U
 
 const payloadStr4 = {"payload":"{\"type\":\"block_actions\",\"user\":{\"id\":\"U08UDKY38QK\",\"username\":\"harveykisiangani\",\"name\":\"harveykisiangani\",\"team_id\":\"T08VADHH17S\"},\"api_app_id\":\"A0935EDQRHB\",\"token\":\"JWNJnukcVaHbRoRl6CwWYan6\",\"container\":{\"type\":\"message\",\"message_ts\":\"1754332155.000300\",\"channel_id\":\"C08VADJ7SEL\",\"is_ephemeral\":true},\"trigger_id\":\"9302258314498.8996459579264.06205e9e082b4a6ed987da5d76382df9\",\"team\":{\"id\":\"T08VADHH17S\",\"domain\":\"solutionalpro-1c61413\"},\"enterprise\":null,\"is_enterprise_install\":false,\"channel\":{\"id\":\"C08VADJ7SEL\",\"name\":\"all-solutional-project-agent\"},\"state\":{\"values\":{}},\"response_url\":\"https:\\/\\/hooks.slack.com\\/actions\\/T08VADHH17S\\/9302258309234\\/C7LbyUbWYeY5JDI0tJfdZxPb\",\"actions\":[{\"action_id\":\"actionId-0\",\"block_id\":\"JiHFo\",\"text\":{\"type\":\"plain_text\",\"text\":\"Approve\",\"emoji\":true},\"value\":\"{\\\"tasktitle\\\":\\\"Feed the cats daily\\\",\\\"assignee\\\":\\\"Josh\\\",\\\"duedate\\\":\\\"2023-08-07\\\",\\\"startdate\\\":\\\"2023-08-01\\\",\\\"phonenumber\\\":\\\"123-456-7890\\\",\\\"email\\\":\\\"josh@example.com\\\",\\\"preferredChannel\\\":\\\"Slack\\\",\\\"taskdetail\\\":\\\"Feed the cats every day. Give them their pills and ensure they have enough clean water.\\\"}\",\"style\":\"primary\",\"type\":\"button\",\"action_ts\":\"1754332162.717920\"}]}"};
 
-const jsonPayload = JSON.parse(payloadStr4.payload);
+
+const payloadStr5 = {"payload":"{\"type\":\"block_actions\",\"user\":{\"id\":\"U08UDKY38QK\",\"username\":\"harveykisiangani\",\"name\":\"harveykisiangani\",\"team_id\":\"T08VADHH17S\"},\"api_app_id\":\"A0935EDQRHB\",\"token\":\"JWNJnukcVaHbRoRl6CwWYan6\",\"container\":{\"type\":\"message\",\"message_ts\":\"1754419668.004500\",\"channel_id\":\"C08VADJ7SEL\",\"is_ephemeral\":true},\"trigger_id\":\"9306879423365.8996459579264.392a2f57f8c9a5c9299ef5df069a8b1d\",\"team\":{\"id\":\"T08VADHH17S\",\"domain\":\"solutionalpro-1c61413\"},\"enterprise\":null,\"is_enterprise_install\":false,\"channel\":{\"id\":\"C08VADJ7SEL\",\"name\":\"all-solutional-project-agent\"},\"state\":{\"values\":{\"CCRO7\":{\"plain_text_input-action0\":{\"type\":\"plain_text_input\",\"value\":\"franklin@example.com\"}},\"JIcMD\":{\"plain_text_input-action\":{\"type\":\"plain_text_input\",\"value\":\"097-389-839-1038\"}}}},\"response_url\":\"https:\\/\\/hooks.slack.com\\/actions\\/T08VADHH17S\\/9306879416597\\/mfilvTsilTxhw75fsMG54CeQ\",\"actions\":[{\"action_id\":\"actionId-0\",\"block_id\":\"dC8lj\",\"text\":{\"type\":\"plain_text\",\"text\":\"Approve\",\"emoji\":true},\"value\":\"{\\\"tasktitle\\\":\\\"Add Franklin bug books about American History\\\",\\\"assignee\\\":\\\"Franklin\\\",\\\"duedate\\\":\\\"2025-06-08\\\",\\\"startdate\\\":\\\"2025-06-07\\\",\\\"preferredChannel\\\":\\\"phone\\\",\\\"taskdetail\\\":\\\"Add bug books about American History to the collection. Call if any additional information or clarification is needed.\\\"}\",\"style\":\"primary\",\"type\":\"button\",\"action_ts\":\"1754419737.198841\"}]}"}
+
+const jsonPayload = JSON.parse(payloadStr5.payload);
 console.log("Payload ", jsonPayload);
 console.log("Payload Message", jsonPayload.message);
 
 const taskDetails = JSON.parse(jsonPayload.actions[0].value);
 console.log(taskDetails.Email);
+
+ const taskDetailsObj = JSON.parse(jsonPayload['actions'][0].value);
+
+      const actionKeysArr = Object.keys(jsonPayload.state.values);
+      const userInputs = jsonPayload.state.values;
+      console.log("UserInputs",userInputs)
+
+ 
+      actionKeysArr.map((key) => {
+        const actionIdKey = Object.keys(userInputs[key])
+        console.log("actionIdKey", actionIdKey[0]); 
+        switch (actionIdKey[0]) {
+          case "task_title_id":
+	    console.log(jsonPayload.state.values[key][actionIdKey]['value']);
+            break;
+          case "assignee_id":
+	    console.log(jsonPayload.state.values[key][actionIdKey]['value']);
+            break;
+          case "due_date_id":
+	    console.log(jsonPayload.state.values[key][actionIdKey]['value']);
+            break;
+          case "start_date_id":
+	    console.log(jsonPayload.state.values[key][actionIdKey]['value']);
+            break;
+          case "email_id":
+	    console.log(jsonPayload.state.values[key][actionIdKey]['value']);
+            break;
+          case "phone_number_id":
+	    console.log(jsonPayload.state.values[key][actionIdKey]['value']);
+            break;
+          case "preferred_channel_id":
+	    console.log(jsonPayload.state.values[key][actionIdKey]['value']);
+            break;
+          case "plain_text_input-action0":
+	    console.log("pxt0", jsonPayload.state.values[key][actionIdKey]['value']);
+	    break;
+          case "plain_text_input-action":
+	    console.log("pxt", userInputs[key][actionIdKey]['value']);
+            break;
+        }
+      });

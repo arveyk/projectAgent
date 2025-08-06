@@ -170,7 +170,7 @@ export default function testUpdateReply(request, response, next) {
 	    }
 	    break;
 	  case "email_id":
-	    taskDetailsObj.assignee = userInputs[key][actionIdKey].value;
+	    taskDetailsObj.email = userInputs[key][actionIdKey].value;
 	    break;
 	  case "phone_number_id":
 	    taskDetailsObj.phonenumber = userInputs[key][actionIdKey].value;

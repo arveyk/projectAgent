@@ -59,7 +59,7 @@ export default function testUpdateReply(request, response, next) {
       console.log(`CREATE ROW RESULT:${createRowResult}\n ROW ID:${createRowResult.id}`);
 
       let replaceBlockRes
-      if (createRowResult.id) {
+      if (createRowResult['object']) {
 	replaceBlockRes =  axios({
           method: "post",
           url: response_url,

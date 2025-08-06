@@ -175,16 +175,17 @@ async function addTaskNotionPage(taskObj) {
   });
   console.log(newPage);
 }
-
-/*addTaskNotionPage({
-  "Task Title": "Precide over local elections",
-  "Assignee": "Khandi Kitaka",
-  "Due Date": "7-11-2027",
-  "Start Date": "1-11-2027",
-  "Email": "replace@soon.com",
-  "Phone Number": "43-335-344-4344",
-  "Preferred Channel": "Call, email",
-  "Task Details": "Mr Khandi Kitaka, you country needs you, Kasongo must go, please make sure that the elections are done in a transparent manner. Do not let any huligans disrupt the process. Police offices will be assigned to you so they will be under you instructions. You call the shots.",
+/*
+const taskObj = addTaskNotionPage({
+  "tasktitle": "End of Hamas and rescue hostages",
+  "assignee": "Benjamin Noah",
+  "duedate": "7-11-2027",
+  "startdate": "1-11-2027",
+  "email": "replace@soon.com",
+  "phonenumber": "43-335-344-4344",
+  "preferredchannel": "Call, email",
+  "taskdetail": "Benjamin Noah, draw for us a strategy for ending this war, many innocents are dying, especially on our side. What ever it takes, we must take them down and rescue our people",
 });
 */
+
 export default addTaskNotionPage;

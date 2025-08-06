@@ -131,7 +131,41 @@ export default function testUpdateReply(request, response, next) {
               });
           }
         } else {
-          // TODO send error message that the date can't be in the past
+          // Send the user an error message that the date can't be in the past, and make them edit the date
+          axios({
+            method: "post",
+            url: response_url,
+            data: {blocks: [
+              {
+                type: "section",
+                text: {
+                  type: "mrkdwn",
+                  text: ":x: Due dates cannot be in the past. Please edit the due date.",
+                },
+              }
+            ]},
+            headers: {
+              Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
+              "Content-Type": "application/json; charset=UTF-8",
+            },
+          })
+          
+          const block = createEditBlock(taskDetailsObj);
+          const editResp = axios({
+            method: "post",
+            url: response_url,
+            data: block,
+            headers: {
+              Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
+              "Content-Type": "application/json; charset=UTF-8",
+            },
+          })
+          .then((Response) => {
+            console.log("Update msg", Response);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
         }
       })();
     } else if (action_text === "Edit") {

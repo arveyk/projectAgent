@@ -3,9 +3,9 @@
   "results": [
     {
       "object": "page",
-      "id": "2387b3ca-5344-816b-8884-c997d1efd0b6",
-      "created_time": "2025-07-22T14:31:00.000Z",
-      "last_edited_time": "2025-07-22T14:31:00.000Z",
+      "id": "2437b3ca-5344-81c2-a7b1-fbc160d657a0",
+      "created_time": "2025-08-02T00:44:00.000Z",
+      "last_edited_time": "2025-08-02T00:44:00.000Z",
       "created_by": {
         "object": "user",
         "id": "77db293e-684f-4cf7-9ea1-c915c02855a4"
@@ -26,7 +26,7 @@
         "Phone Number": {
           "id": "%3C%5EUP",
           "type": "phone_number",
-          "phone_number": "124-542-0973"
+          "phone_number": "123-456-7890"
         },
         "Description": {
           "id": "%40Ydr",
@@ -35,7 +35,7 @@
             {
               "type": "text",
               "text": {
-                "content": "Some details missing",
+                "content": "Feed the cats every day. Give them their pills and ensure they have enough clean water.",
                 "link": null
               },
               "annotations": {
@@ -46,7 +46,7 @@
                 "code": false,
                 "color": "default"
               },
-              "plain_text": "Some details missing",
+              "plain_text": "Feed the cats every day. Give them their pills and ensure they have enough clean water.",
               "href": null
             }
           ]
@@ -58,7 +58,7 @@
             {
               "type": "text",
               "text": {
-                "content": "Slack or What",
+                "content": "Slack",
                 "link": null
               },
               "annotations": {
@@ -69,7 +69,7 @@
                 "code": false,
                 "color": "default"
               },
-              "plain_text": "Slack or What",
+              "plain_text": "Slack",
               "href": null
             }
           ]
@@ -77,37 +77,53 @@
         "Email": {
           "id": "C%7BQM",
           "type": "email",
-          "email": "example@email.com"
+          "email": "josh@example.com"
         },
         "Start Date": {
           "id": "PAhZ",
           "type": "date",
           "date": {
-            "start": "2026-01-11",
+            "start": "2023-08-01T00:00:00.000+00:00",
             "end": null,
             "time_zone": null
           }
         },
         "Assignee": {
           "id": "jDlj",
-          "type": "created_by",
-          "created_by": {
-            "object": "user",
-            "id": "77db293e-684f-4cf7-9ea1-c915c02855a4",
-            "name": "all-access",
-            "avatar_url": null,
-            "type": "bot",
-            "bot": {}
-          }
+          "type": "rich_text",
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Josh",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "Josh",
+              "href": null
+            }
+          ]
         },
         "Due Date": {
           "id": "r%3ErR",
           "type": "date",
           "date": {
-            "start": "2025-05-11",
+            "start": "2023-08-07T00:00:00.000+00:00",
             "end": null,
             "time_zone": null
           }
+        },
+        "Date Assigned": {
+          "id": "vaoD",
+          "type": "date",
+          "date": null
         },
         "Task Title": {
           "id": "title",
@@ -116,7 +132,7 @@
             {
               "type": "text",
               "text": {
-                "content": "Task Title",
+                "content": "Feed the cats daily",
                 "link": null
               },
               "annotations": {
@@ -127,148 +143,13 @@
                 "code": false,
                 "color": "default"
               },
-              "plain_text": "Task Title",
+              "plain_text": "Feed the cats daily",
               "href": null
             }
           ]
         }
       },
-      "url": "https://www.notion.so/Task-Title-2387b3ca5344816b8884c997d1efd0b6",
-      "public_url": null
-    },
-    {
-      "object": "page",
-      "id": "2387b3ca-5344-819f-b696-dbf3b6753983",
-      "created_time": "2025-07-22T14:27:00.000Z",
-      "last_edited_time": "2025-07-22T14:27:00.000Z",
-      "created_by": {
-        "object": "user",
-        "id": "77db293e-684f-4cf7-9ea1-c915c02855a4"
-      },
-      "last_edited_by": {
-        "object": "user",
-        "id": "77db293e-684f-4cf7-9ea1-c915c02855a4"
-      },
-      "cover": null,
-      "icon": null,
-      "parent": {
-        "type": "database_id",
-        "database_id": "2387b3ca-5344-8085-9025-c97f0548887a"
-      },
-      "archived": false,
-      "in_trash": false,
-      "properties": {
-        "Phone Number": {
-          "id": "%3C%5EUP",
-          "type": "phone_number",
-          "phone_number": "124-542-0973"
-        },
-        "Description": {
-          "id": "%40Ydr",
-          "type": "rich_text",
-          "rich_text": [
-            {
-              "type": "text",
-              "text": {
-                "content": "Some details missing",
-                "link": null
-              },
-              "annotations": {
-                "bold": false,
-                "italic": false,
-                "strikethrough": false,
-                "underline": false,
-                "code": false,
-                "color": "default"
-              },
-              "plain_text": "Some details missing",
-              "href": null
-            }
-          ]
-        },
-        "Preferred Channel": {
-          "id": "%40~%3F%3A",
-          "type": "rich_text",
-          "rich_text": [
-            {
-              "type": "text",
-              "text": {
-                "content": "Slack or What",
-                "link": null
-              },
-              "annotations": {
-                "bold": false,
-                "italic": false,
-                "strikethrough": false,
-                "underline": false,
-                "code": false,
-                "color": "default"
-              },
-              "plain_text": "Slack or What",
-              "href": null
-            }
-          ]
-        },
-        "Email": {
-          "id": "C%7BQM",
-          "type": "email",
-          "email": "example@email.com"
-        },
-        "Start Date": {
-          "id": "PAhZ",
-          "type": "date",
-          "date": {
-            "start": "2026-01-11",
-            "end": null,
-            "time_zone": null
-          }
-        },
-        "Assignee": {
-          "id": "jDlj",
-          "type": "created_by",
-          "created_by": {
-            "object": "user",
-            "id": "77db293e-684f-4cf7-9ea1-c915c02855a4",
-            "name": "all-access",
-            "avatar_url": null,
-            "type": "bot",
-            "bot": {}
-          }
-        },
-        "Due Date": {
-          "id": "r%3ErR",
-          "type": "date",
-          "date": {
-            "start": "2025-05-11",
-            "end": null,
-            "time_zone": null
-          }
-        },
-        "Task Title": {
-          "id": "title",
-          "type": "title",
-          "title": [
-            {
-              "type": "text",
-              "text": {
-                "content": "Task Title",
-                "link": null
-              },
-              "annotations": {
-                "bold": false,
-                "italic": false,
-                "strikethrough": false,
-                "underline": false,
-                "code": false,
-                "color": "default"
-              },
-              "plain_text": "Task Title",
-              "href": null
-            }
-          ]
-        }
-      },
-      "url": "https://www.notion.so/Task-Title-2387b3ca5344819fb696dbf3b6753983",
+      "url": "https://www.notion.so/Feed-the-cats-daily-2437b3ca534481c2a7b1fbc160d657a0",
       "public_url": null
     }
   ],
@@ -276,5 +157,5 @@
   "has_more": false,
   "type": "page_or_database",
   "page_or_database": {},
-  "request_id": "74d13661-f5c7-4324-9f2a-9dfe7c3ce476"
+  "request_id": "ab8e4b88-b86a-4d9e-a91e-51455965feb1"
 }

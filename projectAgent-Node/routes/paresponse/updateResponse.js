@@ -56,7 +56,7 @@ export default function testUpdateReply(request, response, next) {
       const taskDetailsObj =  JSON.parse(payload['actions'][0]['value']);
 
       const createRowResult = addTaskNotionPage(taskDetailsObj);
-      console.log(`CREATE ROW RESULT:${createRowResult}\n ROW ID:${createRowResult.id}`);
+      console.log(`CREATE ROW RESULT:${JSON.stringify(createRowResult)}\n ROW ID:${createRowResult.id}`);
 
       let replaceBlockRes
       if (createRowResult['object']) {

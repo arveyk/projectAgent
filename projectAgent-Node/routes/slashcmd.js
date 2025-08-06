@@ -1,71 +1,74 @@
-import { 
-  createConfirmationBlock, 
+import {
+  createConfirmationBlock,
   createBlockNewTask,
-  RequestApprovalBlock } from '../blockkit/createBlocks.js';
-import axios from 'axios';
-import { parseTaskSlashCmd } from '../utils/aiagent.js';
-import { convertEmptyFields } from '../utils/convertEmptyFields.js';
-import { 
-  PORT, 
-  SLACK_BOT_TOKEN, 
-  SLACK_SIGNING_SECRET, 
-  NOTION_API_KEY, 
-  NOTION_DATABASE_ID, 
-  ANTHROPIC_API_KEY, 
-  PROJ_AGENT_APP_ID 
-} from '../env.js';
+  RequestApprovalBlock,
+} from "../blockkit/createBlocks.js";
+import axios from "axios";
+import { parseTaskSlashCmd } from "../utils/aiagent.js";
+import { convertEmptyFields } from "../utils/convertEmptyFields.js";
+import {
+  PORT,
+  SLACK_BOT_TOKEN,
+  SLACK_SIGNING_SECRET,
+  NOTION_API_KEY,
+  NOTION_DATABASE_ID,
+  ANTHROPIC_API_KEY,
+  PROJ_AGENT_APP_ID,
+} from "../env.js";
 
 // webhook for taskmanagement channel only
-const webhookURL = process.env.TASK_MANAGEMENT_WEBHOOK_URL 
-const webhookURL0 = "https:slack.com/api/chat.postEphimeral"
+const webhookURL = process.env.TASK_MANAGEMENT_WEBHOOK_URL;
+const webhookURL0 = "https:slack.com/api/chat.postEphimeral";
 console.log(webhookURL0);
-const slashCmdHandler = async function(request, response, next) {
-    try {
-      console.log(`slashCmdHandler here. Any tasks for me?
+const slashCmdHandler = async function (request, response, next) {
+  try {
+    console.log(`slashCmdHandler here. Any tasks for me?
 	  Request Body: ${JSON.stringify(request.body)}`);
-      const command = request.body['command'];
+    const command = request.body["command"];
 
-      const commandParams = request.body['text'].trim().split(' ');
-      let firstArg = commandParams[0] 
-      let otherArgs = commandParams.slice(1, -1).join(' ');
+    const commandParams = request.body["text"].trim().split(" ");
+    let firstArg = commandParams[0];
+    let otherArgs = commandParams.slice(1, -1).join(" ");
 
-      if (firstArg !== 'add'){
-	axios({
-          method: 'post',
-          url: request.body['response_url'], 
-          data: {
+    if (firstArg !== "add") {
+      axios({
+        method: "post",
+        url: request.body["response_url"],
+        data: {
           // "response_type": "ephemeral",
           // "replace_original": false,
-	        "text": "Format: add ['Task Details']"
-	      }
-        }).then((resp) => {
-          console.log('OK from slack Wrong command format Though', resp['status']);
-	      });
-        response.status(200).send("");
-      } else {
+          text: "Format: add ['Task Details']",
+        },
+      }).then((resp) => {
+        console.log(
+          "OK from slack Wrong command format Though",
+          resp["status"],
+        );
+      });
+      response.status(200).send("");
+    } else {
       const task = await parseTaskSlashCmd(request.body);
       const convertedTask = convertEmptyFields(task);
 
-	      
-// ===========ASYNC CALL TO createBlockNewTask since its an async function=============================
-        const taskBlock = await createBlockNewTask(convertedTask);
-	console.log(`block create by task$${JSON.stringify(taskBlock)}`);
+      // ===========ASYNC CALL TO createBlockNewTask since its an async function=============================
+      const taskBlock = await createBlockNewTask(convertedTask);
+      console.log(`block create by task$${JSON.stringify(taskBlock)}`);
 
-//============ TODO call searchDB on task to determine if it should create new or edit existing========
-	axios({
-          method: 'post',
-          url: request.body['response_url'], 
-          data: taskBlock
-        }).then((resp) => {
-          console.log('OK from slack', resp['status']);
-	      });
-        response.status(200).send("");
-      }
-    } catch (err){
-	console.log(err);
-	return response.status(404).send('Server Error in SlashCmdHandler', err);
+      //============ TODO call searchDB on task to determine if it should create new or edit existing========
+      axios({
+        method: "post",
+        url: request.body["response_url"],
+        data: taskBlock,
+      }).then((resp) => {
+        console.log("OK from slack", resp["status"]);
+      });
+      response.status(200).send("");
     }
+  } catch (err) {
+    console.log(err);
+    return response.status(404).send("Server Error in SlashCmdHandler", err);
+  }
   next();
-}
+};
 
 export default slashCmdHandler;

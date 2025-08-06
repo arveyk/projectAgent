@@ -1,5 +1,5 @@
-const updateTaskHandler = function(request, response, next) {
-  console.log('updating task');
+const updateTaskHandler = function (request, response, next) {
+  console.log("updating task");
   next();
 };
 

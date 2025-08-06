@@ -1,25 +1,23 @@
-import { json } from 'express';
-import express from 'express';
-import router from './index.js';
-import dotenv from 'dotenv';
-import App from '@slack/bolt';
+import { json } from "express";
+import express from "express";
+import router from "./index.js";
+import dotenv from "dotenv";
+import App from "@slack/bolt";
 
-const { ExpressReceiver } = App; 
+const { ExpressReceiver } = App;
 
 dotenv.config();
 
 const PORT = parseInt(process.env.PORT) || 8080;
 
-
 const homeHandler = {
-  path: '/',
-  method: ['GET'],
+  path: "/",
+  method: ["GET"],
   handler: (request, response) => {
     response.writeHead(200);
-    response.end(`Request Body content${
-      JSON.stringify(request.body)}`);
-  } 
-}
+    response.end(`Request Body content${JSON.stringify(request.body)}`);
+  },
+};
 
 const receiver = new ExpressReceiver({
   signingSecret: process.env.SLACK_SIGNING_SECRET,
@@ -28,13 +26,11 @@ const receiver = new ExpressReceiver({
 const slackApp = new App.App({
   token: process.env.SLACK_BOT_TOKEN,
   receiver,
-  customRoutes: [
-    homeHandler
-  ],
+  customRoutes: [homeHandler],
 });
 
-slackApp.event('message', async ({ event, client }) => {
-  await client.chat.postMessage('...');
+slackApp.event("message", async ({ event, client }) => {
+  await client.chat.postMessage("...");
 });
 
 receiver.router.use(router);
@@ -52,7 +48,6 @@ receiver.router.post('/events', (request, response) => {
 });
 */
 
-
 //const app = express();
 
 /*
@@ -65,7 +60,6 @@ app.listen(PORT, () => {
   console.log(`Server's ears on port: ${PORT}`);
 });
 */
-
 
 (async () => {
   await slackApp.start(PORT);

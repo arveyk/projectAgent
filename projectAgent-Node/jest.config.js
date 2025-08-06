@@ -1,4 +1,4 @@
 export const transform = {
-    '^.+\\.js$': 'babel-jest',
+  "^.+\\.js$": "babel-jest",
 };
-export const moduleFileExtensions = ['js', 'jsx'];
+export const moduleFileExtensions = ["js", "jsx"];

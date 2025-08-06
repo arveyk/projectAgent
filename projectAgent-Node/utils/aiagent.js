@@ -1,11 +1,11 @@
-import { ChatAnthropic } from '@langchain/anthropic';
-import { z } from 'zod';
-import { searchDB } from './db-search.js';
+import { ChatAnthropic } from "@langchain/anthropic";
+import { z } from "zod";
+import { searchDB } from "./db-search.js";
 
 const model = new ChatAnthropic({
   model: "claude-3-5-sonnet-20240620",
   temperature: 0,
-  api_key: process.env["ANTHROPIC_API_KEY"]
+  api_key: process.env["ANTHROPIC_API_KEY"],
 });
 
 const task = z.object({
@@ -15,13 +15,15 @@ const task = z.object({
   startdate: z.string().optional().describe("Task Start-date"),
   phonenumber: z.string().optional().describe("Assingnee phone number"),
   email: z.string().optional().describe("Assignee's email address"),
-  preferredChannel: z.string().describe("Assignee\'s preferred channel of communication"),
+  preferredChannel: z
+    .string()
+    .describe("Assignee\'s preferred channel of communication"),
   taskdetail: z.string().describe("details of the task"),
 });
 
 const taskParseResult = z.object({
   istask: z.boolean().describe("True if it is a task, else false"),
-  task: task.optional().describe("Structured task object")
+  task: task.optional().describe("Structured task object"),
 });
 
 // For use with the new message trigger
@@ -35,42 +37,42 @@ const structuredLlmSlashCmd = model.withStructuredOutput(task);
  * @returns If the message contains a task assignment, returns a TaskParseResult containing true and the formatted task.
  * Else, returns a TaskParseResult containing false.
  */
-export const parseTaskNewMsg = async function(reqBody) {
+export const parseTaskNewMsg = async function (reqBody) {
   const today = new Date();
-  const prompt = `Today's date is ${today}. Please extract information from this message and determine whether or not it is assigning a new task to a person: ${reqBody['event']['text']}`
+  const prompt = `Today's date is ${today}. Please extract information from this message and determine whether or not it is assigning a new task to a person: ${reqBody["event"]["text"]}`;
   console.log(`prompt: ${prompt}`);
 
   const taskParseResult = await structuredLlmNewMsg.invoke(prompt);
-	console.log(`task parse result: ${JSON.stringify(taskParseResult)}`);
+  console.log(`task parse result: ${JSON.stringify(taskParseResult)}`);
 
   return taskParseResult;
-}
+};
 
 /**
  * Uses Anthropic to parse a task assignment from a Slack slash command
  * @param {*} reqBody The body of the request
  * @returns A TaskParseResult containing the formatted task.
  */
-export const parseTaskSlashCmd = async function(reqBody) {
+export const parseTaskSlashCmd = async function (reqBody) {
   let textToParse;
-  
+
   //slash cmd text can be immediately accessed, for other events it is indirect, through events field
   if (reqBody["command"]) {
-    textToParse = reqBody['text'];
+    textToParse = reqBody["text"];
   } else if (reqBody["event"]) {
-    textToParse = reqBody['text'];
+    textToParse = reqBody["text"];
   } else {
     taskToParse = "No Task available";
   }
-  
+
   const today = new Date();
-  const prompt = `Today's date is ${today}. Please extract information from this message and determine whether or not it is assigning a new task to a person: ${textToParse}`
+  const prompt = `Today's date is ${today}. Please extract information from this message and determine whether or not it is assigning a new task to a person: ${textToParse}`;
   console.log(`prompt: ${prompt}`);
   const taskParseResult = await structuredLlmSlashCmd.invoke(prompt);
-	console.log(`task parse result: ${JSON.stringify(taskParseResult)}`);
+  console.log(`task parse result: ${JSON.stringify(taskParseResult)}`);
 
   return taskParseResult;
-}
+};
 
 /**
  * Screens an incoming Slack message to see if it is a task assignment.
@@ -78,59 +80,63 @@ export const parseTaskSlashCmd = async function(reqBody) {
  * @returns If the message is a task assignment, returns a TaskParseResult containing true and the formatted task.
  * Else, returns a TaskParseResult containing false.
  */
-export const screenMessage = async function(reqBody) {
+export const screenMessage = async function (reqBody) {
   // TODO filter out all event types except for message (events that have a subtype field)
-  if (typeof reqBody !== 'undefined') {
-    console.log('Request body is defined', reqBody["event"]);
-  
+  if (typeof reqBody !== "undefined") {
+    console.log("Request body is defined", reqBody["event"]);
+
     // Use LLM to check if message is a task assignment
     const taskParseResult = await parseTaskNewMsg(reqBody);
-    console.log(`Parsed task (screenMessage): ${JSON.stringify(taskParseResult)}`);
+    console.log(
+      `Parsed task (screenMessage): ${JSON.stringify(taskParseResult)}`,
+    );
     const isTask = taskParseResult.istask;
 
     // Check for a bot_id to determine if the message was sent by a bot
-    const isFromBot = (typeof reqBody['event']['bot_id'] !== 'undefined');
-    console.log(`text: ${reqBody['event']['text']}, is it from a bot? ${isFromBot}`);
+    const isFromBot = typeof reqBody["event"]["bot_id"] !== "undefined";
+    console.log(
+      `text: ${reqBody["event"]["text"]}, is it from a bot? ${isFromBot}`,
+    );
 
-    if (! isFromBot) {
+    if (!isFromBot) {
       return taskParseResult;
+    } else {
+      return { istask: false };
     }
-    else {
-      return {istask: false};
-    }
+  } else {
+    throw new Error(
+      "Request body is undefined or Should be Handled by another Router",
+    );
   }
-  else {
-    throw new Error('Request body is undefined or Should be Handled by another Router');
-  }
-}
+};
 
-const aiAgent = async function(reqBody) {
+const aiAgent = async function (reqBody) {
   //console.log(request);
   let UserInteraction;
   try {
     const screeningResult = await screenMessage(reqBody);
-    console.log(`Screening result (aiAgent): ${JSON.stringify(screeningResult)}`);
+    console.log(
+      `Screening result (aiAgent): ${JSON.stringify(screeningResult)}`,
+    );
 
     if (screeningResult.istask) {
-	    const parsedTask = screeningResult.task;
+      const parsedTask = screeningResult.task;
       console.log(`Parsed task (aiAgent): ${JSON.stringify(parsedTask)}`);
       const dbResult = await searchDB(parsedTask);
       return {
         isTask: true,
         task: parsedTask,
-        dbResult: dbResult
-      }
-
+        dbResult: dbResult,
+      };
     } else {
       return {
-        isTask: false
-      }
+        isTask: false,
+      };
     }
-    
-  } catch (err){
+  } catch (err) {
     console.log(err);
-    return (`Error : \n${err}`);
+    return `Error : \n${err}`;
   }
-}
+};
 
 export default aiAgent;

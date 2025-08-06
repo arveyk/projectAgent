@@ -24,7 +24,8 @@
     "test": "jest",
     "test-helpers": "npx jest utils/aiagent.test.js utils/db-search.test.js blockkit/createBlocks.test.js utils/convertEmptyFields.test.js",
     "start": "node ./index.js",
-    "dev": "nodemon ./index.js"
+    "dev": "nodemon ./index.js",
+    "format": "npx prettier . --write"
   },
   "keywords": [],
   "author": "",
@@ -38,6 +39,7 @@
     "babel-plugin-transform-import-meta": "^2.3.3",
     "jest": "^30.0.4",
     "node-mocks-http": "^1.17.2",
+    "prettier": "3.6.2",
     "supertest": "^7.1.3"
   }
 }

@@ -11,7 +11,7 @@
     "country": "New Zealand",
     "phone": "(823) 703-6204",
     "photo": "https://json-server.dev/ai-profiles/9.png"
-  }, 
+  },
   {
     "id": 2,
     "name": "Kaycee Faker Attribute Error: person.astName is not supported",
@@ -24,7 +24,7 @@
     "country": "Eritrea",
     "phone": "794-279-8159",
     "photo": "https://json-server.dev/ai-profiles/63.png"
-  }, 
+  },
   {
     "id": 3,
     "name": "Greta Ernser",
@@ -37,7 +37,7 @@
     "country": "Tuvalu",
     "phone": "368.684.5890 x44228",
     "photo": "https://json-server.dev/ai-profiles/48.png"
-  }, 
+  },
   {
     "id": 4,
     "name": "Darron Rempel",
@@ -50,7 +50,7 @@
     "country": "Benin",
     "phone": "1-618-487-5363",
     "photo": "https://json-server.dev/ai-profiles/60.png"
-  }, 
+  },
   {
     "id": 5,
     "name": "Vivien Christiansen-Barton",
@@ -63,7 +63,7 @@
     "country": "Spain",
     "phone": "1-227-381-4745 x199",
     "photo": "https://json-server.dev/ai-profiles/17.png"
-  }, 
+  },
   {
     "id": 6,
     "name": "Judy Braun",
@@ -76,7 +76,7 @@
     "country": "Honduras",
     "phone": "326-863-8077 x70331",
     "photo": "https://json-server.dev/ai-profiles/93.png"
-  }, 
+  },
   {
     "id": 7,
     "name": "Ward Barton",
@@ -102,7 +102,7 @@
     "country": "Suriname",
     "phone": "307-414-2432 x3268",
     "photo": "https://json-server.dev/ai-profiles/88.png"
-  }, 
+  },
   {
     "id": 9,
     "name": "Lonnie Reichert",
@@ -115,7 +115,7 @@
     "country": "Belize",
     "phone": "1-460-209-9983 x858",
     "photo": "https://json-server.dev/ai-profiles/98.png"
-  }, 
+  },
   {
     "id": 10,
     "name": "Shaun Treutel",
@@ -129,51 +129,54 @@
     "phone": "376.304.5119 x27018",
     "photo": "https://json-server.dev/ai-profiles/87.png"
   },
-         {
-	   "Task Title": "Replenish Credit",
-	   "Assignee": "Albert Hines",
-	   "Due Date": "2-08-2025",
-	   "Start Date": "1-08-2025",
-	   "Email": "albert@example.com",
-	   "Phone Number": "+211-515-8920",
-	   "Preferred Channel": "Slack",
-	   "Task Details": "Hi Albert, our Anthropic credits are out again, could you please look into refilling so that we can get to the Project Agent app?"
-	 }, 
-	 {
-	   "Task Title": "Sculpt Minions",
-	   "Assignee": "Pharrel Williams",
-	   "Due Date": "1-02-2021",
-	   "Start Date": "4-07-2022",
-	   "Email": "pharrel.causeimhappy@gmail.com",
-	   "Phone Number": "159-383-6411",
-	   "Preferred Channel": "Skype",
-	   "Task Details": "Pharrel, my guy. Thank you so much for allowing us to work with you on this project, could yu please share some ideas you have in mind perhaps sculpt a minion for us as a model for the animation"
-	 }, {
-	   "Task Title": "Compose a violin piece",
-	   "Assignee": "Boccherini",
-	   "Due Date": "7-08-2025",
-	   "Start Date": "09-2-2024",
-	   "Email": "example@replaceme.com",
-	   "Phone Number": "244-328-38717",
-	   "Preferred Channel": "Phone Call",
-           "Task Details": "Boccherini compose a beautiful violin piece for the national parade"
-	 }, {
-	   "Task Title": "Create new Resume",
-	   "Assignee": "Samantha Halley",
-	   "Due Date": "12-05-2021",
-	   "Start Date": "10-05-2021",
-	   "Email": "smtsmith@yahoo.com",
-	   "Phone Number": "038-489-7361",
-	   "Preferred Channel": "Gmail",
-           "Task Details": "Create a new resume using enhancv app and send to me. Want to see the difference that itt adds"
-	 }, {
-	   "Task Title": "Edit Company Brand promo video",
-	   "Assignee": "Brandon Shaw",
-	   "Due Date": "5-11-2024",
-	   "Start Date": "1-10-2024",
-	   "Email": "brad.shaw@123.com",
-	   "Phone Number": "83-327-3176",
-	   "Preferred Channel": "Discord",
-           "Task Details": "Brandon Shaw, we need the Company promo video to create traction online, can you edit and get it ready in one month? Any challenges please let me know"
-	 }
+  {
+    "Task Title": "Replenish Credit",
+    "Assignee": "Albert Hines",
+    "Due Date": "2-08-2025",
+    "Start Date": "1-08-2025",
+    "Email": "albert@example.com",
+    "Phone Number": "+211-515-8920",
+    "Preferred Channel": "Slack",
+    "Task Details": "Hi Albert, our Anthropic credits are out again, could you please look into refilling so that we can get to the Project Agent app?"
+  },
+  {
+    "Task Title": "Sculpt Minions",
+    "Assignee": "Pharrel Williams",
+    "Due Date": "1-02-2021",
+    "Start Date": "4-07-2022",
+    "Email": "pharrel.causeimhappy@gmail.com",
+    "Phone Number": "159-383-6411",
+    "Preferred Channel": "Skype",
+    "Task Details": "Pharrel, my guy. Thank you so much for allowing us to work with you on this project, could yu please share some ideas you have in mind perhaps sculpt a minion for us as a model for the animation"
+  },
+  {
+    "Task Title": "Compose a violin piece",
+    "Assignee": "Boccherini",
+    "Due Date": "7-08-2025",
+    "Start Date": "09-2-2024",
+    "Email": "example@replaceme.com",
+    "Phone Number": "244-328-38717",
+    "Preferred Channel": "Phone Call",
+    "Task Details": "Boccherini compose a beautiful violin piece for the national parade"
+  },
+  {
+    "Task Title": "Create new Resume",
+    "Assignee": "Samantha Halley",
+    "Due Date": "12-05-2021",
+    "Start Date": "10-05-2021",
+    "Email": "smtsmith@yahoo.com",
+    "Phone Number": "038-489-7361",
+    "Preferred Channel": "Gmail",
+    "Task Details": "Create a new resume using enhancv app and send to me. Want to see the difference that itt adds"
+  },
+  {
+    "Task Title": "Edit Company Brand promo video",
+    "Assignee": "Brandon Shaw",
+    "Due Date": "5-11-2024",
+    "Start Date": "1-10-2024",
+    "Email": "brad.shaw@123.com",
+    "Phone Number": "83-327-3176",
+    "Preferred Channel": "Discord",
+    "Task Details": "Brandon Shaw, we need the Company promo video to create traction online, can you edit and get it ready in one month? Any challenges please let me know"
+  }
 ]

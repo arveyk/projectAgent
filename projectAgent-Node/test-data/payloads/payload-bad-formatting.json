@@ -16,36 +16,35 @@
       }
     ],
 
-      "blocks": [
-        {
-          "elements": [
-            {
-              "type": "rich_text_section",
-              "elements": [
-                {
-                  "user_id": "U08TS0Z9725",
-                  "type": "user"
-                },
-                {
-                  "type": "text",
-                  "text": " Carol hand me some file on Skyline design portfolio"
-                }
-              ]
-            }
-          ],
-          "type": "rich_text",
-          "block_id": "XBQyU"
-        }
-      ],
-      "event_ts": "1752586063.569079",
-      "channel": "C08R4M9P5SM",
-      "text": "<@U08TS0Z9725> Carol hand me some file on Skyline design portfolio",
-      "user": "U03T772MESH",
-      "type": "app_mention",
-      "team": "T03TNQFN62V",
-      "client_msg_id": "ea3ffb61-65cc-4c6a-a18b-db4051373bf1",
-      "ts": "1752586063.569079"
-    ,
+    "blocks": [
+      {
+        "elements": [
+          {
+            "type": "rich_text_section",
+            "elements": [
+              {
+                "user_id": "U08TS0Z9725",
+                "type": "user"
+              },
+              {
+                "type": "text",
+                "text": " Carol hand me some file on Skyline design portfolio"
+              }
+            ]
+          }
+        ],
+        "type": "rich_text",
+        "block_id": "XBQyU"
+      }
+    ],
+    "event_ts": "1752586063.569079",
+    "channel": "C08R4M9P5SM",
+    "text": "<@U08TS0Z9725> Carol hand me some file on Skyline design portfolio",
+    "user": "U03T772MESH",
+    "type": "app_mention",
+    "team": "T03TNQFN62V",
+    "client_msg_id": "ea3ffb61-65cc-4c6a-a18b-db4051373bf1",
+    "ts": "1752586063.569079",
     "type": "event_callback",
     "is_ext_shared_channel": false,
     "team_id": "T03TNQFN62V"

@@ -100,11 +100,12 @@ export default function testUpdateReply(request, response) {
       
       const actionKeysArr = Object.keys(payload.state.values);
       const userInputs = payload.state.values;
+      const validDate = true;
 
       actionKeysArr.map((key) => {
         const actionIdKey = Object.keys(userInputs[key]);
 	console.log("ActionIDKey: ", actionIdKey);
-
+        
 	switch (actionIdKey[0]) {
 	  case "task_title_id":
 	    taskDetailsObj.tasktitle = userInputs[key][actionIdKey].value;
@@ -113,10 +114,18 @@ export default function testUpdateReply(request, response) {
 	    taskDetailsObj.assignee = userInputs[key][actionIdKey].value;
 	    break;
 	  case "due_date_id":
-	    taskDetailsObj.duedate = userInputs[key][actionIdKey].value;
+	    try {
+	      taskDetailsObj.duedate = new Date(userInputs[key][actionIdKey].value);
+	    } catch (error) {
+	      validDate = false;
+	    }
 	    break;
 	  case "start_date_id":
-	    taskDetailsObj.startdate = userInputs[key][actionIdKey].value;
+	    try {
+	      taskDetailsObj.startdate = new Date(userInputs[key][actionIdKey].value);
+	    } catch (error) {
+	      validDate = false;
+	    }
 	    break;
 	  case "email_id":
 	    taskDetailsObj.assignee = userInputs[key][actionIdKey].value;

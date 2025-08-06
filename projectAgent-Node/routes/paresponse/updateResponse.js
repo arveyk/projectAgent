@@ -25,30 +25,6 @@ export default function testUpdateReply(request, response, next) {
   let action_text = "";
 
   if (typeof payload["actions"][0]["selected_option"] !== "undefined") {
-    /* action_text = payload['actions'][0]['selected_option']['text']['text'];
-    
-    if (action_text === "Approve") {
-      const taskDetailsObj =  JSON.parse(payload['actions'][0].value);
-      const createRowResult = addTaskNotionPage(taskDetailsObj); console.log(createRowResult);
-      const replaceBlockRes =  axios({
-        method: "post",
-        url: response_url,
-        data: { 
-	        "replace_original": "true",
-          "text": 'Block Replaced\nNotification: Task Created Successfully'
-        },
-        headers: {
-          "Authorization": `Bearer ${SLACK_BOT_TOKEN}`,
-          "Content-Type": "application/json; charset=UTF-8",
-        }
-      }).then((Response) => {
-        console.log('Update msg',Response);
-      }).catch((err) => {
-        console.log(err);
-      }); 
-    } else {
-      console.log('Changed Discarded'); 
-    }*/
     console.log("Changed, No longer Handling these Blocks");
   } else {
     action_text = payload["actions"][0]["text"]["text"];
@@ -56,210 +32,227 @@ export default function testUpdateReply(request, response, next) {
 
     if (action_text === "Approve") {
       // Task details
-      const taskDetailsObj = JSON.parse(payload["actions"][0]["value"]);
-
-      let createRowResult;
-      (async () => {
-        createRowResult = await addTaskNotionPage(taskDetailsObj);
-
-        if (createRowResult.success) {
-          const newRow = createRowResult.page;
-          console.log(`ROW ID:${JSON.stringify(newRow.id)}}`);
-
-          let replaceBlockRes;
-          if (newRow) {
-            replaceBlockRes = axios({
-              method: "post",
-              url: response_url,
-              data: {
-                replace_original: "true",
-                text: "Block Replaced\nNotification: Task Created Successfully",
-                blocks: [
-                  {
-                    type: "section",
-                    text: {
-                      type: "mrkdwn",
-                      text: `:white_check_mark: *Task Successfully Created*\n Row URL: ${newRow.url}`,
-                    },
-                  },
-                ],
-              },
-              headers: {
-                Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
-                "Content-Type": "application/json; charset=UTF-8",
-              },
-            })
-              .then((Response) => {
-                console.log("Update msg", Response);
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-          } else {
-            replaceBlockRes = axios(
-              {
-                method: "post",
-                url: response_url,
-                data: {
-                  replace_original: "true",
-                  text: "Block Replaced",
-                  blocks: [
-                    {
-                      type: "section",
-                      text: {
-                        type: "mrkdwn",
-                        text: ":heavy_multiplication_x: *Unable to Create Entry*, ",
-                      },
-                    },
-                  ],
-                },
-              },
-              {
-                headers: {
-                  Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
-                  "Content-Type": "application/json; charset=UTF-8",
-                },
-              },
-            )
-              .then((Response) => {
-                console.log(
-                  "Error while Attempting to create row, Please check inputs",
-                  Response,
-                );
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-          }
-        } else {
-          // TODO send appropriate error messages and make the user edit the task until it succeeds
-        }
-      })();
+      sendApprove(payload, response_url);
     } else if (action_text === "Edit") {
       //  TODO Change the approve to Submit
       //  Set its Submit value to
-      const taskDetailsObj = JSON.parse(payload["actions"][0].value);
-      const block = createEditBlock(taskDetailsObj);
-
-      const editResp = axios({
-        method: "post",
-        url: response_url,
-        data: block,
-        headers: {
-          Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
-          "Content-Type": "application/json; charset=UTF-8",
-        },
-      })
-        .then((Response) => {
-          console.log("Update msg", Response);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      sendEdit(payload, response_url);
     } else if (action_text === "Submit") {
       // Another block?
-      const taskDetailsObj = JSON.parse(payload["actions"][0].value);
-
-      const actionKeysArr = Object.keys(payload.state.values);
-      const userInputs = payload.state.values;
-      const validDate = true;
-
-      actionKeysArr.map((key) => {
-        const actionIdKey = Object.keys(userInputs[key]);
-        console.log("ActionIDKey: ", actionIdKey);
-
-        switch (actionIdKey[0]) {
-          case "task_title_id":
-            taskDetailsObj.tasktitle = userInputs[key][actionIdKey].value;
-            break;
-          case "assignee_id":
-            taskDetailsObj.assignee = userInputs[key][actionIdKey].value;
-            break;
-          case "due_date_id":
-            try {
-              const dueDate = new Date(
-                userInputs[key][actionIdKey].value,
-              ).toString();
-              taskDetailsObj.duedate = dueDate;
-            } catch (error) {
-              validDate = false;
-            }
-            break;
-          case "start_date_id":
-            try {
-              const startDate = new Date(
-                userInputs[key][actionIdKey].value,
-              ).toString();
-              taskDetailsObj.startdate = startDate;
-            } catch (error) {
-              validDate = false;
-            }
-            break;
-          case "email_id":
-            taskDetailsObj.email = userInputs[key][actionIdKey].value;
-            break;
-          case "phone_number_id":
-            taskDetailsObj.phonenumber = userInputs[key][actionIdKey].value;
-            break;
-          case "preferred_channel_id":
-            taskDetailsObj.preferredchannel =
-              userInputs[key][actionIdKey].value;
-            break;
-          case "task_details_id":
-            taskDetailsObj.taskdetails = userInputs[key][actionIdKey].value;
-            break;
-        }
-      });
-
-      const block = createFinalBlock(taskDetailsObj);
-
-      const editResp = axios({
-        method: "post",
-        url: response_url,
-        data: block,
-        headers: {
-          Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
-          "Content-Type": "application/json; charset=UTF-8",
-        },
-      })
-        .then((Response) => {
-          console.log("Final Block Submission", Response);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      sendSubmit(payload, response_url);
     } else {
-      console.log(
-        `Text in button ${payload.actions[0]["value"]}, Action_Text${action_text}`,
-      );
-      const replaceBlockRes = axios({
-        method: "post",
-        url: response_url,
-        data: {
-          replace_original: "true",
-          text: "Changes Not Approved",
-          blocks: [
-            {
-              type: "section",
-              text: {
-                type: "mrkdwn",
-                text: ":x: *Task Not Created*, ",
-              },
-            },
-          ],
-        },
-        headers: {
-          Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
-          "Content-Type": "application/json; charset=UTF-8",
-        },
-      })
-        .then((Response) => {
-          console.log("Update msg", Response);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      sendReject(payload, action_text, response_url);
     }
   }
   next();
 }
+
+function sendReject(payload, action_text, response_url) {
+  console.log(
+    `Text in button ${payload.actions[0]["value"]}, Action_Text${action_text}`
+  );
+  const replaceBlockRes = axios({
+    method: "post",
+    url: response_url,
+    data: {
+      replace_original: "true",
+      text: "Changes Not Approved",
+      blocks: [
+        {
+          type: "section",
+          text: {
+            type: "mrkdwn",
+            text: ":x: *Task Not Created*, ",
+          },
+        },
+      ],
+    },
+    headers: {
+      Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
+      "Content-Type": "application/json; charset=UTF-8",
+    },
+  })
+    .then((Response) => {
+      console.log("Update msg", Response);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
+function sendEdit(payload, response_url) {
+  const taskDetailsObj = JSON.parse(payload["actions"][0].value);
+  const block = createEditBlock(taskDetailsObj);
+
+  const editResp = axios({
+    method: "post",
+    url: response_url,
+    data: block,
+    headers: {
+      Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
+      "Content-Type": "application/json; charset=UTF-8",
+    },
+  })
+    .then((Response) => {
+      console.log("Update msg", Response);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
+function sendSubmit(payload, response_url) {
+  const taskDetailsObj = JSON.parse(payload["actions"][0].value);
+
+  const actionKeysArr = Object.keys(payload.state.values);
+  const userInputs = payload.state.values;
+  const validDate = true;
+
+  actionKeysArr.map((key) => {
+    const actionIdKey = Object.keys(userInputs[key]);
+    console.log("ActionIDKey: ", actionIdKey);
+
+    switch (actionIdKey[0]) {
+      case "task_title_id":
+        taskDetailsObj.tasktitle = userInputs[key][actionIdKey].value;
+        break;
+      case "assignee_id":
+        taskDetailsObj.assignee = userInputs[key][actionIdKey].value;
+        break;
+      case "due_date_id":
+        try {
+          const dueDate = new Date(
+            userInputs[key][actionIdKey].value
+          ).toString();
+          taskDetailsObj.duedate = dueDate;
+        } catch (error) {
+          validDate = false;
+        }
+        break;
+      case "start_date_id":
+        try {
+          const startDate = new Date(
+            userInputs[key][actionIdKey].value
+          ).toString();
+          taskDetailsObj.startdate = startDate;
+        } catch (error) {
+          validDate = false;
+        }
+        break;
+      case "email_id":
+        taskDetailsObj.email = userInputs[key][actionIdKey].value;
+        break;
+      case "phone_number_id":
+        taskDetailsObj.phonenumber = userInputs[key][actionIdKey].value;
+        break;
+      case "preferred_channel_id":
+        taskDetailsObj.preferredchannel =
+          userInputs[key][actionIdKey].value;
+        break;
+      case "task_details_id":
+        taskDetailsObj.taskdetails = userInputs[key][actionIdKey].value;
+        break;
+    }
+  });
+
+  const block = createFinalBlock(taskDetailsObj);
+
+  const editResp = axios({
+    method: "post",
+    url: response_url,
+    data: block,
+    headers: {
+      Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
+      "Content-Type": "application/json; charset=UTF-8",
+    },
+  })
+    .then((Response) => {
+      console.log("Final Block Submission", Response);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
+function sendApprove(payload, response_url) {
+  const taskDetailsObj = JSON.parse(payload["actions"][0]["value"]);
+
+  let createRowResult;
+  (async () => {
+    createRowResult = await addTaskNotionPage(taskDetailsObj);
+
+    if (createRowResult.success) {
+      const newRow = createRowResult.page;
+      console.log(`ROW ID:${JSON.stringify(newRow.id)}}`);
+
+      let replaceBlockRes;
+      if (newRow) {
+        replaceBlockRes = axios({
+          method: "post",
+          url: response_url,
+          data: {
+            replace_original: "true",
+            text: "Block Replaced\nNotification: Task Created Successfully",
+            blocks: [
+              {
+                type: "section",
+                text: {
+                  type: "mrkdwn",
+                  text: `:white_check_mark: *Task Successfully Created*\n Row URL: ${newRow.url}`,
+                },
+              },
+            ],
+          },
+          headers: {
+            Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
+            "Content-Type": "application/json; charset=UTF-8",
+          },
+        })
+          .then((Response) => {
+            console.log("Update msg", Response);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        replaceBlockRes = axios(
+          {
+            method: "post",
+            url: response_url,
+            data: {
+              replace_original: "true",
+              text: "Block Replaced",
+              blocks: [
+                {
+                  type: "section",
+                  text: {
+                    type: "mrkdwn",
+                    text: ":heavy_multiplication_x: *Unable to Create Entry*, ",
+                  },
+                },
+              ],
+            },
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
+              "Content-Type": "application/json; charset=UTF-8",
+            },
+          }
+        )
+          .then((Response) => {
+            console.log(
+              "Error while Attempting to create row, Please check inputs",
+              Response
+            );
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    } else {
+      // TODO send appropriate error messages and make the user edit the task until it succeeds
+    }
+  })();
+}
+

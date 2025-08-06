@@ -174,6 +174,7 @@ async function addTaskNotionPage(taskObj) {
     properties: TaskProperties,
   });
   console.log(newPage);
+  return newPage;
 }
 /*
 const taskObj = addTaskNotionPage({

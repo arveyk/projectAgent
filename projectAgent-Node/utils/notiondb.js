@@ -151,8 +151,8 @@ async function addTaskNotionPage(taskObj) {
   const assignee = taskObj["assignee"]; 
   const dueDate = new Date(taskObj["duedate"]); 
   const startDate = (taskObj["startdate"] !== "") ? new Date(taskObj["startdate"]) : new Date();
-  const email = taskObj["email"] || "example@email.com";
-  const phoneNumber = taskObj["phonenumber"] || "000***000***";
+  const email = taskObj["email"] || "";
+  const phoneNumber = taskObj["phonenumber"] || "";
   const preferredChannel = taskObj["preferredchannel"] || "Slack";
   const dateAssigned = new Date();
   

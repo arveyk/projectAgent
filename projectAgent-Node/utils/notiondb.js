@@ -149,7 +149,8 @@ const TaskProperties = {
 async function addTaskNotionPage(taskObj) {
   const taskTitle = taskObj["tasktitle"];
   const assignee = taskObj["assignee"]; 
-  const dueDate = new Date(taskObj["duedate"]); 
+  //const dueDate = new Date(taskObj["duedate"]); 
+  const dueDate = taskObj["duedate"];
   const startDate = (taskObj["startdate"] !== "") ? new Date(taskObj["startdate"]) : new Date();
   const email = taskObj["email"] || "";
   const phoneNumber = taskObj["phonenumber"] || "";

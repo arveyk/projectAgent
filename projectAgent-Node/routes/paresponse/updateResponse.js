@@ -58,11 +58,11 @@ export default function testUpdateReply(request, response, next) {
       let createRowResult;
       (async () => {
 	createRowResult = await addTaskNotionPage(taskDetailsObj);
+        console.log(`CREATE ROW RESULT:${JSON.stringify(createRowResult)}}`);
       })();
-      console.log(`CREATE ROW RESULT:${JSON.stringify(createRowResult)},\n ROW ID: ${createRowResult.id}`);
 
       let replaceBlockRes
-      if (createRowResult) {
+      if (true) {
 	replaceBlockRes =  axios({
           method: "post",
           url: response_url,

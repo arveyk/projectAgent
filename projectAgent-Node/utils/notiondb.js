@@ -155,28 +155,43 @@ async function addTaskNotionPage(taskObj) {
   const phoneNumber = taskObj["phonenumber"] || "";
   const preferredChannel = taskObj["preferredchannel"] || "Slack";
   const dateAssigned = new Date();
-  
-  TaskProperties['Task Title']['title'][0]['text']['content'] = taskTitle;
-  TaskProperties['Assignee']['rich_text'][0]['text']['content'] = assignee;
-  TaskProperties['Due Date']['date']['start'] = dueDate;
-  TaskProperties['Start Date']['date']['start'] = startDate; 
-  TaskProperties['Email']['email'] = email;
-  TaskProperties['Phone Number']['phone_number'] = phoneNumber; 
-  TaskProperties['Preferred Channel']['rich_text'][0]['text']['content'] = preferredChannel; 
-  TaskProperties['Description']['rich_text'][0]['text']['content'] = taskObj["taskdetail"];
-  TaskProperties['Date Assigned']['date']['start'] = dateAssigned; 
-  
-  try {
-    const newPage = await notion.pages.create({
-      parent: {
-        "database_id": NOTION_DATABASE_ID,
-      },
-      properties: TaskProperties,
-    });
-    console.log(newPage);
-    return newPage;
-  } catch (error) {
-    return error;
+
+  // Make sure due date is not in the past
+  if (validateDueDate(dueDate)) {
+    TaskProperties['Task Title']['title'][0]['text']['content'] = taskTitle;
+    TaskProperties['Assignee']['rich_text'][0]['text']['content'] = assignee;
+    TaskProperties['Due Date']['date']['start'] = dueDate;
+    TaskProperties['Start Date']['date']['start'] = startDate; 
+    TaskProperties['Email']['email'] = email;
+    TaskProperties['Phone Number']['phone_number'] = phoneNumber; 
+    TaskProperties['Preferred Channel']['rich_text'][0]['text']['content'] = preferredChannel; 
+    TaskProperties['Description']['rich_text'][0]['text']['content'] = taskObj["taskdetail"];
+    TaskProperties['Date Assigned']['date']['start'] = dateAssigned; 
+    
+    try {
+      const newPage = await notion.pages.create({
+        parent: {
+          "database_id": NOTION_DATABASE_ID,
+        },
+        properties: TaskProperties,
+      });
+      console.log(newPage);
+      return {
+        success: true,
+        page: newPage
+      };
+    } catch (error) {
+      return {
+        success: false,
+        errorMsg: error
+      };
+    }
+  }
+  else {
+    return {
+      success: false,
+      errorMsg: "A due date can't be in the past"
+    }
   }
 }
 /*

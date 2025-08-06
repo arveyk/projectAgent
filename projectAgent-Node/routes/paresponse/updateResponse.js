@@ -62,11 +62,12 @@ export default function testUpdateReply(request, response, next) {
       (async () => {
         createRowResult = await addTaskNotionPage(taskDetailsObj);
 
-        if (createRowResult.url) {
-          console.log(`ROW ID:${JSON.stringify(createRowResult.id)}}`);
+        if (createRowResult.success) {
+          const newRow = createRowResult.page;
+          console.log(`ROW ID:${JSON.stringify(newRow.id)}}`);
 
           let replaceBlockRes;
-          if (createRowResult) {
+          if (newRow) {
             replaceBlockRes = axios({
               method: "post",
               url: response_url,
@@ -78,7 +79,7 @@ export default function testUpdateReply(request, response, next) {
                     type: "section",
                     text: {
                       type: "mrkdwn",
-                      text: `:white_check_mark: *Task Successfully Created*\n Row URL: ${createRowResult.url}`,
+                      text: `:white_check_mark: *Task Successfully Created*\n Row URL: ${newRow.url}`,
                     },
                   },
                 ],
@@ -131,7 +132,7 @@ export default function testUpdateReply(request, response, next) {
               });
           }
         } else {
-          // TODO send error message that the date can't be in the past
+          // TODO send appropriate error messages and make the user edit the task until it succeeds
         }
       })();
     } else if (action_text === "Edit") {

@@ -115,14 +115,16 @@ export default function testUpdateReply(request, response) {
 	    break;
 	  case "due_date_id":
 	    try {
-	      taskDetailsObj.duedate = new Date(userInputs[key][actionIdKey].value);
+	      const dueDate = new Date(userInputs[key][actionIdKey].value).toString();
+	      taskDetailsObj.duedate = dueDate;
 	    } catch (error) {
 	      validDate = false;
 	    }
 	    break;
 	  case "start_date_id":
 	    try {
-	      taskDetailsObj.startdate = new Date(userInputs[key][actionIdKey].value);
+	      const startDate = new Date(userInputs[key][actionIdKey].value).toString();
+	      taskDetailsObj.startdate = startDate;
 	    } catch (error) {
 	      validDate = false;
 	    }

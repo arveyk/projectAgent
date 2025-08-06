@@ -118,7 +118,7 @@ export default function testUpdateReply(request, response, next) {
 	  }); 
 	}
       })();
-
+    }
           let replaceBlockRes;
           if (createRowResult) {
             replaceBlockRes = axios({

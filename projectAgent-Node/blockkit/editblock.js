@@ -15,7 +15,7 @@ export  function createEditBlock(task) {
 	"type": "section",
 	"text": {
 	  "type": "mrkdwn",
-	  "text": `*Task Title:*\t\t\t${task.tasktitle} \n*Assignee:* \t\t\t${task.assignee}\n*Due Date:*\t\t\t${task.duedate}\n*Start Date:*\t\t\t${task.startdate}\n*Phone Number:*\t${task.phonenumber}\n*Email:*\t\t\t${task.email}\n*Preferred Channel:*\t\t\t${task.preferredChannel}\n*Description:* \t\t${task.taskdetail}`
+	  "text": `*Task Title:*\t\t\t${task.tasktitle} \n*Assignee:* \t\t\t${task.assignee}\n*Due Date:*\t\t\t${task.duedate}\n*Start Date:*\t\t\t${task.startdate}\n*Phone Number:*\t${task.phonenumber}\n*Email:*\t\t\t${task.email}\n*Preferred Channel:*\t\t\t${task.preferredchannel}\n*Description:* \t\t${task.taskdetail}`
 	}
 	},
 	{
@@ -170,7 +170,7 @@ export function createFinalBlock(task) {
 			"type": "section",
 			"text": {
 				"type": "mrkdwn",
-				"text": `*Task Title:*\t\t\t${task.tasktitle} \n*Assignee:* \t\t\t${task.assignee}\n*Due Date:*\t\t\t${task.duedate}\n*Start Date:*\t\t\t${task.startdate}\n*Phone Number:*\t${task.phonenumber}\n*Email:*\t\t\t\t\t${task.email}\n*Preferred Channel:*\t${task.preferredChannel}\n*Description:* \t\t${task.taskdetail}`
+				"text": `*Task Title:*\t\t\t${task.tasktitle} \n*Assignee:* \t\t\t${task.assignee}\n*Due Date:*\t\t\t${task.duedate}\n*Start Date:*\t\t\t${task.startdate}\n*Phone Number:*\t${task.phonenumber}\n*Email:*\t\t\t\t\t${task.email}\n*Preferred Channel:*\t${task.preferredchannel}\n*Description:* \t\t${task.taskdetail}`
 			}
 		},
 		{

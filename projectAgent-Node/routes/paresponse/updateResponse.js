@@ -62,7 +62,7 @@ export default function testUpdateReply(request, response, next) {
       (async () => {
         createRowResult = await addTaskNotionPage(taskDetailsObj);
 
-        if (createRowResult) {
+        if (createRowResult.url) {
           console.log(`ROW ID:${JSON.stringify(createRowResult.id)}}`);
 
           let replaceBlockRes;

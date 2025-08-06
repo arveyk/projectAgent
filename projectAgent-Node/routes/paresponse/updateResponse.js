@@ -77,7 +77,7 @@ export default function testUpdateReply(request, response, next) {
                   "type": "section",
 	          "text": {
 	            "type": "mrkdwn",
-		    "text": `:white_check_mark: *Task Successfully Created*\n Row ID: ${createRowResult.id}`
+		    "text": `:white_check_mark: *Task Successfully Created*\n Row URL: ${createRowResult.url}`
 	          }
 	        },
 	      ],

@@ -25,7 +25,7 @@ export  function createEditBlock(task) {
 	  "type": "input",
 	  "element": {
 	  "type": "plain_text_input",
-	  "action_id": "tasktitle_id"
+	  "action_id": "task_title_id"
 	},
 	"label": {
 	  "type": "plain_text",

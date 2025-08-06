@@ -56,34 +56,64 @@ export default function testUpdateReply(request, response, next) {
       const taskDetailsObj =  JSON.parse(payload['actions'][0]['value']);
 
       const createRowResult = addTaskNotionPage(taskDetailsObj);
-      console.log(createRowResult);
+      console.log(`CREATE ROW RESULT:${createRowResult}\n ROW ID:${createRowResult.id}`);
 
-      const replaceBlockRes =  axios({
-        method: "post",
-        url: response_url,
-        data: { 
-          "replace_original": "true",
-          "text": 'Block Replaced\nNotification: Task Created Successfully',
-	  "blocks": [
-	     {
-               "type": "section",
-	       "text": {
-	         "type": "mrkdwn",
-		 "text": ":white_check_mark: *Task Successfully Created*, "
-	       }
-	     },
-	  ],
-        },
-        headers: {
-          "Authorization": `Bearer ${SLACK_BOT_TOKEN}`,
-          "Content-Type": "application/json; charset=UTF-8",
-        }
-      }).then((Response) => {
-        console.log('Update msg',Response);
-      }).catch((err) => {
-        console.log(err);
-      });
-
+      let replaceBlockRes
+      if (createRowResult.id) {
+	replaceBlockRes =  axios({
+          method: "post",
+          url: response_url,
+          data: { 
+            "replace_original": "true",
+            "text": 'Block Replaced\nNotification: Task Created Successfully',
+            "blocks": [
+	      {
+                "type": "section",
+	        "text": {
+	          "type": "mrkdwn",
+		  "text": ":white_check_mark: *Task Successfully Created*, "
+	        }
+	      },
+	    ],
+	  },
+          headers: {
+            "Authorization": `Bearer ${SLACK_BOT_TOKEN}`,
+            "Content-Type": "application/json; charset=UTF-8",
+          }
+        }).then((Response) => {
+          console.log('Update msg',Response);
+        }).catch((err) => {
+          console.log(err);
+        });
+    } else {
+       replaceBlockRes =  axios({
+         method: "post",
+         url: response_url,
+         data: { 
+           "replace_original": "true",
+           "text": 'Block Replaced',
+	   "blocks": [
+	      {
+                "type": "section",
+	        "text": {
+	          "type": "mrkdwn",
+		  "text": ":heavy_multiplication_x: *Unable to Create Entry*, "
+	        }
+	      },
+	    ],
+	  }
+       }, {
+       headers: {
+         "Authorization": `Bearer ${SLACK_BOT_TOKEN}`,
+         "Content-Type": "application/json; charset=UTF-8",
+       }
+     }).then((Response) => {
+       console.log('Error while Attempting to create row, Please check inputs',Response);
+     }).catch((err) => {
+       console.log(err);
+     });
+    
+    }
     } else if (action_text === "Edit") {
   //  TODO Change the approve to Submit
 	    //  Set its Submit value to 
@@ -168,7 +198,7 @@ export default function testUpdateReply(request, response, next) {
       }).catch((err) => {
         console.log(err);
       });
-    }else {
+    } else {
       console.log(`Text in button ${payload.actions[0]['value']}, Action_Text${action_text}`);
       const replaceBlockRes =  axios({
         method: "post",

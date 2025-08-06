@@ -58,65 +58,69 @@ export default function testUpdateReply(request, response, next) {
       let createRowResult;
       (async () => {
 	createRowResult = await addTaskNotionPage(taskDetailsObj);
-        console.log(`CREATE ROW RESULT:${JSON.stringify(createRowResult)}}`);
+        console.log(`ROW ID:${JSON.stringify(createRowResult.id)}}`);
+
+
+
+        let replaceBlockRes
+
+
+        if (createRowResult) {
+	  replaceBlockRes =  axios({
+            method: "post",
+            url: response_url,
+            data: { 
+              "replace_original": "true",
+              "text": 'Block Replaced\nNotification: Task Created Successfully',
+              "blocks": [
+                {
+                  "type": "section",
+	          "text": {
+	            "type": "mrkdwn",
+		    "text": `:white_check_mark: *Task Successfully Created*\n Row ID: ${createRowResult.id}`
+	          }
+	        },
+	      ],
+	    },
+            headers: {
+              "Authorization": `Bearer ${SLACK_BOT_TOKEN}`,
+              "Content-Type": "application/json; charset=UTF-8",
+            }
+	  }).then((Response) => {
+            console.log('Update msg',Response);
+          }).catch((err) => {
+            console.log(err);
+          });
+	} else {
+          replaceBlockRes =  axios({
+            method: "post",
+            url: response_url,
+            data: { 
+              "replace_original": "true",
+              "text": 'Block Replaced',
+	      "blocks": [
+	        {
+                  "type": "section",
+	          "text": {
+	            "type": "mrkdwn",
+		    "text": ":heavy_multiplication_x: *Unable to Create Entry*, ",
+		  }
+		},
+	      ],
+	    }
+	  }, {
+            headers: {
+             "Authorization": `Bearer ${SLACK_BOT_TOKEN}`,
+             "Content-Type": "application/json; charset=UTF-8",
+	    }
+	  }).then((Response) => {
+            console.log('Error while Attempting to create row, Please check inputs',Response);
+	  }).catch((err) => {
+	    console.log(err);
+	  }); 
+	}
       })();
 
-      let replaceBlockRes
-      if (true) {
-	replaceBlockRes =  axios({
-          method: "post",
-          url: response_url,
-          data: { 
-            "replace_original": "true",
-            "text": 'Block Replaced\nNotification: Task Created Successfully',
-            "blocks": [
-	      {
-                "type": "section",
-	        "text": {
-	          "type": "mrkdwn",
-		  "text": ":white_check_mark: *Task Successfully Created*, "
-	        }
-	      },
-	    ],
-	  },
-          headers: {
-            "Authorization": `Bearer ${SLACK_BOT_TOKEN}`,
-            "Content-Type": "application/json; charset=UTF-8",
-          }
-        }).then((Response) => {
-          console.log('Update msg',Response);
-        }).catch((err) => {
-          console.log(err);
-        });
-    } else {
-       replaceBlockRes =  axios({
-         method: "post",
-         url: response_url,
-         data: { 
-           "replace_original": "true",
-           "text": 'Block Replaced',
-	   "blocks": [
-	      {
-                "type": "section",
-	        "text": {
-	          "type": "mrkdwn",
-		  "text": ":heavy_multiplication_x: *Unable to Create Entry*, "
-	        }
-	      },
-	    ],
-	  }
-       }, {
-       headers: {
-         "Authorization": `Bearer ${SLACK_BOT_TOKEN}`,
-         "Content-Type": "application/json; charset=UTF-8",
-       }
-     }).then((Response) => {
-       console.log('Error while Attempting to create row, Please check inputs',Response);
-     }).catch((err) => {
-       console.log(err);
-     });
-    
-    }
     } else if (action_text === "Edit") {
   //  TODO Change the approve to Submit
 	    //  Set its Submit value to 

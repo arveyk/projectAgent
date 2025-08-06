@@ -63,7 +63,7 @@ export default function testUpdateReply(request, response, next) {
         url: response_url,
         data: { 
           "replace_original": "true",
-          "text": 'Block Replaced\nNotification: Task Created Successfully'
+          "text": 'Block Replaced\nNotification: Task Created Successfully',
 	  "blocks": [
 	     {
                "type": "section",

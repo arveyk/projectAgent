@@ -179,7 +179,7 @@ export const createBlockNewTask = function (task) {
   const blockText = `*Task Title:*\t\t\t${task.tasktitle} \n*Assignee:* \t\t\t${task.assignee}\n*Due Date:*\t\t\t${task.duedate}\n*Start Date:*\t\t\t${task.startdate}\n*Phone Number:*\t${task.phonenumber}\n*Email:*\t\t\t${task.email}\n*Preferred Channel:*\t\t\t${task.preferredChannel}\n*Description:* \t\t${task.taskdetail}`
  
   return {
-    "text": "Which Field would you like to edit?",
+    "text": "Creating a new Task?",
     "blocks": [
       {
         "type": "section",

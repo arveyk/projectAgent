@@ -4,6 +4,7 @@ import {
   RequestApprovalBlock } from '../blockkit/createBlocks.js';
 import axios from 'axios';
 import { parseTaskSlashCmd } from '../utils/aiagent.js';
+import { convertEmptyFields } from '../utils/convertEmptyFields.js';
 import { 
   PORT, 
   SLACK_BOT_TOKEN, 
@@ -43,6 +44,7 @@ const slashCmdHandler = async function(request, response, next) {
         response.status(200).send("");
       } else {
       const task = await parseTaskSlashCmd(request.body);
+      const convertedTask = convertEmptyFields(task);
 // =======================DUMMY DATA======================
        const dummyTasksArray = [
          {
@@ -124,8 +126,7 @@ const slashCmdHandler = async function(request, response, next) {
 
 	      
 // ===========ASYNC CALL TO createBlockNewTask since its an async function=============================
-        const taskBlock = await createBlockNewTask(task);
-        RequestApprovalBlock.blocks[3].elements[0].value = JSON.stringify(dummyTasksArray[0]);
+        const taskBlock = await createBlockNewTask(convertedTask);
 	console.log(`block create by task$${JSON.stringify(taskBlock)}`);
 
 //============ TODO call searchDB on task to determine if it should create new or edit existing========

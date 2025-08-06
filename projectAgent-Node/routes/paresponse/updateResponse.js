@@ -57,16 +57,12 @@ export default function testUpdateReply(request, response, next) {
 
       let createRowResult;
       (async () => {
-	createRowResult = await addTaskNotionPage(taskDetailsObj);
+	      createRowResult = await addTaskNotionPage(taskDetailsObj);
         console.log(`ROW ID:${JSON.stringify(createRowResult.id)}}`);
 
-
-
         let replaceBlockRes
-
-
         if (createRowResult) {
-	  replaceBlockRes =  axios({
+	        replaceBlockRes =  axios({
             method: "post",
             url: response_url,
             data: { 
@@ -75,9 +71,9 @@ export default function testUpdateReply(request, response, next) {
               "blocks": [
                 {
                   "type": "section",
-	          "text": {
-	            "type": "mrkdwn",
-		    "text": `:white_check_mark: *Task Successfully Created*\n Row URL: ${createRowResult.url}`
+              "text": {
+                "type": "mrkdwn",
+              "text": `:white_check_mark: *Task Successfully Created*\n Row URL: ${createRowResult.url}`
 	          }
 	        },
 	      ],
@@ -98,7 +94,7 @@ export default function testUpdateReply(request, response, next) {
             data: { 
               "replace_original": "true",
               "text": 'Block Replaced',
-	      "blocks": [
+	            "blocks": [
 	        {
                   "type": "section",
 	          "text": {

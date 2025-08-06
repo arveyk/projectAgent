@@ -5,7 +5,7 @@ import {
   SLACK_BOT_TOKEN 
 } from '../../env.js';
 
-export default function testUpdateReply(request, response) {
+export default function testUpdateReply(request, response, next) {
   const payload = JSON.parse(request.body.payload);
   console.log(`Body: ${JSON.stringify(request.body)}`);
   console.log(`Body.payload${JSON.stringify(request.body.payload)}`);
@@ -64,6 +64,15 @@ export default function testUpdateReply(request, response) {
         data: { 
           "replace_original": "true",
           "text": 'Block Replaced\nNotification: Task Created Successfully'
+	  "blocks": [
+	     {
+               "type": "section",
+	       "text": {
+	         "type": "mrkdwn",
+		 "text": ":white_check_mark: *Task Successfully Created*, "
+	       }
+	     },
+	  ],
         },
         headers: {
           "Authorization": `Bearer ${SLACK_BOT_TOKEN}`,
@@ -166,7 +175,16 @@ export default function testUpdateReply(request, response) {
         url: response_url,
         data: { 
           "replace_original": "true",
-          "text": 'Changes Not Approved: \n Please Note that these actions are only visible to you'
+          "text": 'Changes Not Approved',
+	  "blocks": [
+	    {
+	      "type": "section",
+	      "text": {
+	        "type": "mrkdwn",
+		"text": ":x: *Task Not Created*, "
+	      }
+	    },
+	  ],
         },
         headers: {
           "Authorization": `Bearer ${SLACK_BOT_TOKEN}`,
@@ -179,4 +197,5 @@ export default function testUpdateReply(request, response) {
       });
     }  
   }
+  next();
 }

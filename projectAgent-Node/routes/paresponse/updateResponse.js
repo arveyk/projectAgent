@@ -59,6 +59,7 @@ export default function testUpdateReply(request, response, next) {
         console.log(`CREATE ROW RESULT:${JSON.stringify(createRowResult)}\n ROW ID:${createRowResult.id}`);
       });
 
+      const createRowResult = {"object": "Present"}
       let replaceBlockRes
       if (createRowResult['object']) {
 	replaceBlockRes =  axios({

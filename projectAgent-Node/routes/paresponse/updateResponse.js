@@ -56,7 +56,7 @@ export default function testUpdateReply(request, response, next) {
       const taskDetailsObj =  JSON.parse(payload['actions'][0]['value']);
 
       addTaskNotionPage(taskDetailsObj).then((createRowResult) => {
-        console.log(`CREATE ROW RESULT:${JSON.stringify(createRowResult)}\n ROW ID:${createRowResult.id}`);
+        console.log(`CREATE ROW RESULT:${JSON.stringify(createRowResult)}`);
       });
 
       const createRowResult = {"object": "Present"}

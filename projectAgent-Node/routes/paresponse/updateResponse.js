@@ -62,8 +62,62 @@ export default function testUpdateReply(request, response, next) {
       (async () => {
         createRowResult = await addTaskNotionPage(taskDetailsObj);
 
-        if (createRowResult) {
+        if (createRowResult.url) {
           console.log(`ROW ID:${JSON.stringify(createRowResult.id)}}`);
+	  replaceBlockRes =  axios({
+            method: "post",
+            url: response_url,
+            data: { 
+              "replace_original": "true",
+              "text": 'Block Replaced\nNotification: Task Created Successfully',
+              "blocks": [
+                {
+                  "type": "section",
+	          "text": {
+	            "type": "mrkdwn",
+		    "text": `:white_check_mark: *Task Successfully Created*\n Row URL: ${createRowResult.url}`
+	          }
+	        },
+	      ],
+	    },
+            headers: {
+              "Authorization": `Bearer ${SLACK_BOT_TOKEN}`,
+              "Content-Type": "application/json; charset=UTF-8",
+            }
+	  }).then((Response) => {
+            console.log('Update msg',Response);
+          }).catch((err) => {
+            console.log(err);
+          });
+	} else {
+          replaceBlockRes =  axios({
+            method: "post",
+            url: response_url,
+            data: { 
+              "replace_original": "true",
+              "text": 'Block Replaced',
+	      "blocks": [
+	        {
+                  "type": "section",
+	          "text": {
+	            "type": "mrkdwn",
+		    "text": ":heavy_multiplication_x: *Unable to Create Entry*, ",
+		  }
+		},
+	      ],
+	    }
+	  }, {
+            headers: {
+             "Authorization": `Bearer ${SLACK_BOT_TOKEN}`,
+             "Content-Type": "application/json; charset=UTF-8",
+	    }
+	  }).then((Response) => {
+            console.log('Error while Attempting to create row, Please check inputs',Response);
+	  }).catch((err) => {
+	    console.log(err);
+	  }); 
+	}
+      })();
 
           let replaceBlockRes;
           if (createRowResult) {

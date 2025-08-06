@@ -62,63 +62,9 @@ export default function testUpdateReply(request, response, next) {
       (async () => {
         createRowResult = await addTaskNotionPage(taskDetailsObj);
 
-        if (createRowResult.url) {
+        if (createRowResult) {
           console.log(`ROW ID:${JSON.stringify(createRowResult.id)}}`);
-	  replaceBlockRes =  axios({
-            method: "post",
-            url: response_url,
-            data: { 
-              "replace_original": "true",
-              "text": 'Block Replaced\nNotification: Task Created Successfully',
-              "blocks": [
-                {
-                  "type": "section",
-	          "text": {
-	            "type": "mrkdwn",
-		    "text": `:white_check_mark: *Task Successfully Created*\n Row URL: ${createRowResult.url}`
-	          }
-	        },
-	      ],
-	    },
-            headers: {
-              "Authorization": `Bearer ${SLACK_BOT_TOKEN}`,
-              "Content-Type": "application/json; charset=UTF-8",
-            }
-	  }).then((Response) => {
-            console.log('Update msg',Response);
-          }).catch((err) => {
-            console.log(err);
-          });
-	} else {
-          replaceBlockRes =  axios({
-            method: "post",
-            url: response_url,
-            data: { 
-              "replace_original": "true",
-              "text": 'Block Replaced',
-	      "blocks": [
-	        {
-                  "type": "section",
-	          "text": {
-	            "type": "mrkdwn",
-		    "text": ":heavy_multiplication_x: *Unable to Create Entry*, ",
-		  }
-		},
-	      ],
-	    }
-	  }, {
-            headers: {
-             "Authorization": `Bearer ${SLACK_BOT_TOKEN}`,
-             "Content-Type": "application/json; charset=UTF-8",
-	    }
-	  }).then((Response) => {
-            console.log('Error while Attempting to create row, Please check inputs',Response);
-	  }).catch((err) => {
-	    console.log(err);
-	  }); 
-	}
-      })();
-    }
+
           let replaceBlockRes;
           if (createRowResult) {
             replaceBlockRes = axios({
@@ -185,41 +131,7 @@ export default function testUpdateReply(request, response, next) {
               });
           }
         } else {
-          // Send the user an error message that the date can't be in the past, and make them edit the date
-          axios({
-            method: "post",
-            url: response_url,
-            data: {blocks: [
-              {
-                type: "section",
-                text: {
-                  type: "mrkdwn",
-                  text: ":x: Due dates cannot be in the past. Please edit the due date.",
-                },
-              }
-            ]},
-            headers: {
-              Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
-              "Content-Type": "application/json; charset=UTF-8",
-            },
-          })
-          
-          const block = createEditBlock(taskDetailsObj);
-          const editResp = axios({
-            method: "post",
-            url: response_url,
-            data: block,
-            headers: {
-              Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
-              "Content-Type": "application/json; charset=UTF-8",
-            },
-          })
-          .then((Response) => {
-            console.log("Update msg", Response);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+          // TODO send error message that the date can't be in the past
         }
       })();
     } else if (action_text === "Edit") {

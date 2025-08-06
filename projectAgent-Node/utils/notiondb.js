@@ -1,7 +1,6 @@
 import { Client } from "@notionhq/client";
 import { validateDueDate } from "./validation.js";
 import { NOTION_API_KEY, NOTION_DATABASE_ID } from "../env.js";
-import e from "express";
 
 const notion = new Client({
   auth: NOTION_API_KEY,
@@ -156,36 +155,29 @@ async function addTaskNotionPage(taskObj) {
   const phoneNumber = taskObj["phonenumber"] || "";
   const preferredChannel = taskObj["preferredchannel"] || "Slack";
   const dateAssigned = new Date();
-
-  if (validateDueDate(dueDate)) {
-    TaskProperties['Task Title']['title'][0]['text']['content'] = taskTitle;
-    TaskProperties['Assignee']['rich_text'][0]['text']['content'] = assignee;
-    TaskProperties['Due Date']['date']['start'] = dueDate;
-    TaskProperties['Start Date']['date']['start'] = startDate; 
-    TaskProperties['Email']['email'] = email;
-    TaskProperties['Phone Number']['phone_number'] = phoneNumber; 
-    TaskProperties['Preferred Channel']['rich_text'][0]['text']['content'] = preferredChannel; 
-    TaskProperties['Description']['rich_text'][0]['text']['content'] = taskObj["taskdetail"];
-    TaskProperties['Date Assigned']['date']['start'] = dateAssigned; 
-    
-    try {
-      const newPage = await notion.pages.create({
-        parent: {
-          "database_id": NOTION_DATABASE_ID,
-        },
-        properties: TaskProperties,
-      });
-      console.log(newPage);
-      return newPage;
-    } catch (error) {
-      return error;
-    }
-  }
-  else {
-    return false;
-  }
   
+  TaskProperties['Task Title']['title'][0]['text']['content'] = taskTitle;
+  TaskProperties['Assignee']['rich_text'][0]['text']['content'] = assignee;
+  TaskProperties['Due Date']['date']['start'] = dueDate;
+  TaskProperties['Start Date']['date']['start'] = startDate; 
+  TaskProperties['Email']['email'] = email;
+  TaskProperties['Phone Number']['phone_number'] = phoneNumber; 
+  TaskProperties['Preferred Channel']['rich_text'][0]['text']['content'] = preferredChannel; 
+  TaskProperties['Description']['rich_text'][0]['text']['content'] = taskObj["taskdetail"];
+  TaskProperties['Date Assigned']['date']['start'] = dateAssigned; 
   
+  try {
+    const newPage = await notion.pages.create({
+      parent: {
+        "database_id": NOTION_DATABASE_ID,
+      },
+      properties: TaskProperties,
+    });
+    console.log(newPage);
+    return newPage;
+  } catch (error) {
+    return error;
+  }
 }
 /*
 const taskObj = addTaskNotionPage({

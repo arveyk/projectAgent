@@ -1,6 +1,7 @@
 import { Client } from "@notionhq/client";
 import { ChatAnthropic } from "@langchain/anthropic";
 import { z } from "zod";
+import { simplifyDBResults } from "./simplifyDBResults.js";
 
 import {
   NOTION_API_KEY,
@@ -23,7 +24,7 @@ const databaseSearchResult = z.object({
   task_id: z
     .string()
     .optional()
-    .describe("The page ID of the task entry from the database"),
+    .describe("The ID of the task entry from the database"),
 });
 
 const structuredLlm = model.withStructuredOutput(databaseSearchResult);
@@ -50,10 +51,11 @@ export const searchDB = async function (task) {
     });
 
     console.log(`response: ${JSON.stringify(response)}`);
+    const simplifiedResponse = simplifyDBResults(response);
 
     const prompt = `
       Please check if a task with the title ${JSON.stringify(task.tasktitle)} exists in the database response 
-      ${JSON.stringify(response)}. If you find a task in the database response with a title that means the 
+      ${JSON.stringify(simplifiedResponse)}. If you find a task in the database response with a title that means the 
       same thing as ${JSON.stringify(task.tasktitle)} but is worded slightly differently, this counts as a match.
     `;
 

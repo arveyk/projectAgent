@@ -4,21 +4,19 @@
  * @returns A simplified version of the Notion database results.
  */
 export const simplifyDBResults = function(dbResults) {
-    const resultList = dbResults["list"];
+    console.log(`search results: ${JSON.stringify(dbResults)}`);
+
+    const resultList = dbResults["results"];
+    console.log(`list of results: ${JSON.stringify(resultList)}`);
+
     const simplifiedResults = new Array();
     for (let result of resultList) {
         const properties = result["properties"];
         simplifiedResults.push(
             {
                 pageId: result["id"],
-                tasktitle: properties["Task Title"]["title"]["plain_text"],
-                assignee: properties["Assignee"]["rich_text"]["plain_text"],
-                duedate: properties["Due Date"]["date"]["start"],
-                startdate: properties["Start Date"]["date"]["start"],
-                phonenumber: properties["Phone Number"]["phone_number"],
-                email: properties["Email"]["email"],
-                preferredChannel: properties["Preferred Chaannel"]["rich_text"]["plain_text"],
-                taskdetail: properties["Description"]["rich_text"]["plain_text"]
+                tasktitle: properties["Task Title"]["title"][0]["plain_text"],
+                assignee: properties["Assignee"]["rich_text"][0]["plain_text"],
             }
         );
     }

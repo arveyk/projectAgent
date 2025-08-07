@@ -6,6 +6,17 @@ import {
 import addTaskNotionPage from "../../utils/notiondb.js";
 import { SLACK_BOT_TOKEN } from "../../env.js";
 
+/**
+ * testUpdateReply - Response to user interactions with blocks when a button
+ * 		     is pressed
+ *
+ * @request - request from slack
+ * @response - response that the function sends
+ * @next - function to pass control to other functions that router uses
+ *
+ * Return - No return value
+ */
+
 export default function testUpdateReply(request, response, next) {
   const payload = JSON.parse(request.body.payload);
   console.log(`Body: ${JSON.stringify(request.body)}`);
@@ -31,14 +42,10 @@ export default function testUpdateReply(request, response, next) {
     console.log("action_text in else block", action_text);
 
     if (action_text === "Approve") {
-      // Task details
       sendApprove(payload, response_url);
     } else if (action_text === "Edit") {
-      //  TODO Change the approve to Submit
-      //  Set its Submit value to
       sendEdit(payload, response_url);
     } else if (action_text === "Submit") {
-      // Another block?
       sendSubmit(payload, response_url);
     } else {
       sendReject(payload, action_text, response_url);

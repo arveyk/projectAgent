@@ -12,7 +12,10 @@ import { convertEmptyFields } from "../utils/convertEmptyFields.js";
 import aiAgent from "../utils/aiagent.js";
 
 const postHandler = async function (request, response, next) {
-  response.status(200).send("Received Payload from Slack");
+  response.status(200).send({
+    message: "Received Payload from Slack",
+    challenge: request.body.challenge
+  });
   try {
     console.log("Request Headers::: ", JSON.stringify(request.headers));
     console.log(`I Handle most events. Any tasks for me?

@@ -10,6 +10,15 @@ const webhookURL0 = "https:slack.com/api/chat.postEphimeral";
 console.log(webhookURL0);
 
 const slashCmdHandler = async function (request, response, next) {
+  // Send OK
+  response.status(200).send(
+    JSON.stringify({
+      status: 200,
+      challenge: request.body["challenge"],
+      text: "Received Payload from Slack",
+    }),
+  );
+
   try {
     console.log(`slashCmdHandler here. Any tasks for me?
 	  Request Body: ${JSON.stringify(request.body)}`);
@@ -24,8 +33,6 @@ const slashCmdHandler = async function (request, response, next) {
         method: "post",
         url: request.body["response_url"],
         data: {
-          // "response_type": "ephemeral",
-          // "replace_original": false,
           text: "Format: add ['Task Details']",
         },
       }).then((resp) => {

@@ -68,7 +68,7 @@ const slashCmdHandler = async function (request, response, next) {
           }).then((resp) => {
             console.log("OK from slack", resp["status"]);
           });
-        response.status(200).send("Already Exists");
+        response.status(200).send("");
       } else {
           axios({
             method: "post",

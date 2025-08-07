@@ -193,7 +193,7 @@ function sendApprove(payload, response_url) {
                 type: "section",
                 text: {
                   type: "mrkdwn",
-                  text: `:white_check_mark: *Task Successfully Created*\nApproved by ${username}\nRow URL: <${newRow.url}|View>`,
+                  text: `:white_check_mark: *Task Successfully Created*\nApproved by ${username} <${newRow.url}|View>`,
                 },
               },
             ],

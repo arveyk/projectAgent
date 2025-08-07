@@ -33,6 +33,7 @@ router.post("/events", asyncHandler(eventsHandler), (request, response) => {
   response.status(200).send(
     JSON.stringify({
       challenge: request.body["challenge"],
+      text: "Received Payload from Slack"
     }),
   );
 });

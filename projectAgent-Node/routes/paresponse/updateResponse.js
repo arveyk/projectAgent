@@ -83,7 +83,7 @@ function sendReject(payload, action_text, response_url) {
       console.log("Update msg", Response);
     })
     .catch((err) => {
-      console.log(err);
+      console.log("AXIOS ERROR in sendReject", err);
     });
 }
 
@@ -104,7 +104,7 @@ function sendEdit(payload, response_url) {
       console.log("Update msg", Response);
     })
     .catch((err) => {
-      console.log(err);
+      console.log("AXIOS ERROR in sendEdit", err);
     });
 }
 
@@ -162,7 +162,7 @@ function sendSubmit(payload, response_url) {
       console.log("Final Block Submission", Response);
     })
     .catch((err) => {
-      console.log(err);
+      console.log("AXIOS ERROR in sendSubmit", err);
     });
 }
 
@@ -179,6 +179,7 @@ function sendApprove(payload, response_url) {
 
       let replaceBlockRes;
       if (newRow) {
+	const username = payload.username;
         replaceBlockRes = axios({
           method: "post",
           url: response_url,
@@ -190,7 +191,7 @@ function sendApprove(payload, response_url) {
                 type: "section",
                 text: {
                   type: "mrkdwn",
-                  text: `:white_check_mark: *Task Successfully Created*\n Row URL: ${newRow.url}`,
+                  text: `:white_check_mark: *Task Successfully Created*\nApproved by ${username}\nRow URL: ${newRow.url}`,
                 },
               },
             ],
@@ -204,10 +205,12 @@ function sendApprove(payload, response_url) {
             console.log("Update msg", Response);
           })
           .catch((err) => {
-            console.log(err);
+            console.log("1st AXIOS ERROR in sendApprove", err);
           });
-      } else {
-        replaceBlockRes = axios(
+      }
+      
+    } else {
+        axios(
           {
             method: "post",
             url: response_url,
@@ -239,12 +242,12 @@ function sendApprove(payload, response_url) {
             );
           })
           .catch((err) => {
-            console.log(err);
+            console.log("2nd AXIOS ERROR in sendSubmit", err.response);
           });
       }
-    } else {
+/*	 else {
       // TODO send appropriate error messages and make the user edit the task until it succeeds
-    }
+    }*/
   })();
 }
 

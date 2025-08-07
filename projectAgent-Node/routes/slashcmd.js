@@ -50,6 +50,24 @@ const slashCmdHandler = async function (request, response, next) {
       
       if (isInDatabase.exists) {
         console.log("Already in Database");
+          axios({
+            method: "post",
+            url: request.body["response_url"],
+            data: {
+	      text: "Already in Block",
+	      blocks: [
+	        {
+		  "type": "section",
+		  "text": {
+		    "type": "mrkdwn",
+		    "text": "*Task Already Exists*",
+		  }
+		}
+	      ]
+	    },
+          }).then((resp) => {
+            console.log("OK from slack", resp["status"]);
+          });
         response.status(200).send("Already Exists");
       } else {
           axios({

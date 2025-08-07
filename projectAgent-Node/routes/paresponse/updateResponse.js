@@ -255,7 +255,6 @@ function sendError(createRowResult, payload, response_url) {
   // If the due date is in the past, make the user edit it 
   if (createRowResult.errorMsg === "A due date can't be in the past") {
     console.log(createRowResult.errorMsg);
-    // TODO fix invalid blocks
     sendEdit(payload, response_url);
   }
   else {

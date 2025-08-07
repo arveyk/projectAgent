@@ -50,7 +50,7 @@ export function createEditBlock(task) {
           action_id: "due_date_id",
           placeholder: {
             type: "plain_text",
-            text: `Due date must not be in past: Current Value${task.duedate || " "}`,
+            text: `Due date must not be in past. Current Value: ${task.duedate || " "}`,
           },
         },
         label: {

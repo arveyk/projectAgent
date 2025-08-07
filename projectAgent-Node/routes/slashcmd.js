@@ -39,7 +39,6 @@ const slashCmdHandler = async function (request, response, next) {
       const task = await parseTaskSlashCmd(request.body);
       const convertedTask = convertEmptyFields(task);
 
-      // ===========ASYNC CALL TO createBlockNewTask since its an async function=============================
       const taskBlock = await createBlockNewTask(convertedTask);
       console.log(`block create by task$${JSON.stringify(taskBlock)}`);
 

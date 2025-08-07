@@ -25,7 +25,8 @@
     "test-helpers": "npx jest utils/aiagent.test.js utils/db-search.test.js blockkit/createBlocks.test.js utils/convertEmptyFields.test.js utils/simplifyDBResults.test.js",
     "start": "node ./index.js",
     "dev": "nodemon ./index.js",
-    "format": "npx prettier . --write"
+    "format": "npx prettier . --write",
+    "lint": "npx eslint"
   },
   "keywords": [],
   "author": "",
@@ -34,9 +35,12 @@
   "devDependencies": {
     "@babel/core": "^7.28.0",
     "@babel/preset-env": "^7.28.0",
+    "@eslint/js": "^9.32.0",
     "@google-cloud/functions": "^4.2.0",
     "babel-jest": "^30.0.4",
     "babel-plugin-transform-import-meta": "^2.3.3",
+    "eslint": "^9.32.0",
+    "globals": "^16.3.0",
     "jest": "^30.0.4",
     "node-mocks-http": "^1.17.2",
     "prettier": "3.6.2",

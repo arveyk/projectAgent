@@ -1,4 +1,3 @@
-import { json } from "express";
 import express from "express";
 
 import eventsHandler from "./routes/events.js";
@@ -7,7 +6,6 @@ import newTaskHandler from "./routes/tasks/newtask.js";
 import updateTaskHandler from "./routes/tasks/update.js";
 
 const router = express.Router();
-const PORT = parseInt(process.env.PORT) || 8080;
 
 router.use(express.urlencoded({ extended: false }));
 router.use(express.json());

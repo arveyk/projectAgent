@@ -61,25 +61,6 @@ const prefCommChannArr = [
   },
 ];
 
-const taskDetailsArr = [
-  {
-    type: "text",
-    text: {
-      content: "Some details missing",
-      link: null,
-    },
-    annotations: {
-      bold: false,
-      italic: false,
-      strikethrough: false,
-      code: false,
-      color: "default",
-    },
-    plain_text: "Do the task",
-    href: null,
-  },
-];
-
 const replaceArr = [
   {
     type: "text",

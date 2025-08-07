@@ -1,6 +1,4 @@
-import { json, Router } from "express";
-import bodyParser from "body-parser";
-import dotenv from "dotenv";
+import { Router } from "express";
 import axios from "axios";
 
 const authRouter = Router();

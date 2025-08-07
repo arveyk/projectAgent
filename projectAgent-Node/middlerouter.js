@@ -1,28 +1,11 @@
 import express from "express";
-import asyncHandler from "express-async-handler";
 
 import slashCmdHandler from "./routes/slashcmd.js";
 import newTaskHandler from "./routes/tasks/newtask.js";
 import patchTaskHandler from "./routes/tasks/update.js";
 import testUpdateReply from "./routes/paresponse/updateResponse.js";
-
-import {
-  interactionsHandler,
-  interactHandlerBlocks,
-} from "./routes/interact.js";
 import { threadMsg } from "./routes/threadReply.js";
 
-import {
-  PORT,
-  SLACK_BOT_TOKEN,
-  SLACK_SIGNING_SECRET,
-  NOTION_API_KEY,
-  NOTION_DATABASE_ID,
-  ANTHROPIC_API_KEY,
-  PROJ_AGENT_APP_ID,
-} from "./env.js";
-
-const APP_PORT = parseInt(PORT) || 8080;
 const router = express.Router();
 
 router.use(express.urlencoded({ extended: false }));

@@ -1,5 +1,3 @@
-import { json } from "express";
-import express from "express";
 import router from "./index.js";
 import dotenv from "dotenv";
 import App from "@slack/bolt";
@@ -39,27 +37,6 @@ receiver.router.use((request, response, next) => {
   slackApp.logger.info(`Great timing! What is your request ${Date.now()}`);
   next();
 });
-/*receiver.router.get('/', (request, response) => {
-  response.send('Get Request');
-});
-
-receiver.router.post('/events', (request, response) => {
-  response.send('Live event');
-});
-*/
-
-//const app = express();
-
-/*
-app.use(express.urlencoded({extended: false}));
-app.use(express.json());
-
-app.use(router);
-
-app.listen(PORT, () => {
-  console.log(`Server's ears on port: ${PORT}`);
-});
-*/
 
 (async () => {
   await slackApp.start(PORT);

@@ -1,5 +1,4 @@
 import { http } from "@google-cloud/functions-framework";
-import { json } from "express";
 
 http("helloHttp", (req, res) => {
   const request_params = req.body.request_params;

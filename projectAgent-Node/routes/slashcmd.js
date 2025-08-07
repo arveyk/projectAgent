@@ -1,20 +1,9 @@
 import {
-  createConfirmationBlock,
-  createBlockNewTask,
-  RequestApprovalBlock,
+  createBlockNewTask
 } from "../blockkit/createBlocks.js";
 import axios from "axios";
 import { parseTaskSlashCmd } from "../utils/aiagent.js";
 import { convertEmptyFields } from "../utils/convertEmptyFields.js";
-import {
-  PORT,
-  SLACK_BOT_TOKEN,
-  SLACK_SIGNING_SECRET,
-  NOTION_API_KEY,
-  NOTION_DATABASE_ID,
-  ANTHROPIC_API_KEY,
-  PROJ_AGENT_APP_ID,
-} from "../env.js";
 
 // webhook for taskmanagement channel only
 const webhookURL = process.env.TASK_MANAGEMENT_WEBHOOK_URL;

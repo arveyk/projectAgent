@@ -1,6 +1,5 @@
 import { ChatAnthropic } from "@langchain/anthropic";
 import { z } from "zod";
-import { searchDB } from "./db-search.js";
 
 const model = new ChatAnthropic({
   model: "claude-3-5-sonnet-20240620",

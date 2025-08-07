@@ -179,7 +179,7 @@ function sendApprove(payload, response_url) {
 
       let replaceBlockRes;
       if (newRow) {
-	const username = payload.username;
+	const username = payload.user.username;
         replaceBlockRes = axios({
           method: "post",
           url: response_url,

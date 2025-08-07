@@ -17,17 +17,15 @@ const task = {
     "Benjamin Noah, draw for us a strategy for ending this war, many innocents are dying, especially on our side. What ever it takes, we must take them down and rescue our people",
 };
 const task_b = {
-  "tasktitle":"Add Timothy",
-  "assignee":" ",
-  "duedate":" ",
-  "startdate":"2025-08-07",
-  "phonenumber":" ",
-  "email":" ",
-  "preferredchannel":" ",
-  "taskdetail":"Add Timothy to an unspecified system or list",
-}
-
-
+  tasktitle: "Add Timothy",
+  assignee: " ",
+  duedate: " ",
+  startdate: "2025-08-07",
+  phonenumber: " ",
+  email: " ",
+  preferredchannel: " ",
+  taskdetail: "Add Timothy to an unspecified system or list",
+};
 
 const blocks_01 = createEditBlock(task_b);
 

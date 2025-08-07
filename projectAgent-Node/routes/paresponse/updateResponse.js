@@ -240,26 +240,24 @@ function sendError(createRowResult, payload, response_url) {
         Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
         "Content-Type": "application/json; charset=UTF-8",
       },
-    }
+    },
   )
     .then((Response) => {
       console.log(
         "Error while Attempting to create row, Please check inputs",
-        Response
+        Response,
       );
     })
     .catch((err) => {
       console.log("2nd AXIOS ERROR in sendSubmit", err.response);
     });
 
-  // If the due date is in the past, make the user edit it 
+  // If the due date is in the past, make the user edit it
   if (createRowResult.errorMsg === "A due date can't be in the past") {
     console.log(createRowResult.errorMsg);
     sendEdit(payload, response_url);
-  }
-  else {
+  } else {
     // TODO handle other error cases
     console.log(JSON.stringify(createRowResult.errorMsg));
   }
 }
-

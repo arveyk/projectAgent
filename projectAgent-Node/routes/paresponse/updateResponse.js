@@ -56,7 +56,7 @@ export default function testUpdateReply(request, response, next) {
 
 function sendReject(payload, action_text, response_url) {
   console.log(
-    `Text in button ${payload.actions[0]["value"]}, Action_Text${action_text}`
+    `Text in button ${payload.actions[0]["value"]}, Action_Text${action_text}`,
   );
   const replaceBlockRes = axios({
     method: "post",
@@ -129,10 +129,10 @@ function sendSubmit(payload, response_url) {
         taskDetailsObj.assignee = userInputs[key][actionIdKey].value;
         break;
       case "due_date_id":
-        taskDetailsObj.duedate = userInputs[key][actionIdKey].value
+        taskDetailsObj.duedate = userInputs[key][actionIdKey].value;
         break;
       case "start_date_id":
-        taskDetailsObj.startdate = userInputs[key][actionIdKey].value
+        taskDetailsObj.startdate = userInputs[key][actionIdKey].value;
         break;
       case "email_id":
         taskDetailsObj.email = userInputs[key][actionIdKey].value;
@@ -141,8 +141,7 @@ function sendSubmit(payload, response_url) {
         taskDetailsObj.phonenumber = userInputs[key][actionIdKey].value;
         break;
       case "preferred_channel_id":
-        taskDetailsObj.preferredchannel =
-          userInputs[key][actionIdKey].value;
+        taskDetailsObj.preferredchannel = userInputs[key][actionIdKey].value;
         break;
       case "task_details_id":
         taskDetailsObj.taskdetails = userInputs[key][actionIdKey].value;
@@ -182,7 +181,7 @@ function sendApprove(payload, response_url) {
 
       let replaceBlockRes;
       if (newRow) {
-	const username = payload.user.username;
+        const username = payload.user.username;
         replaceBlockRes = axios({
           method: "post",
           url: response_url,
@@ -211,46 +210,44 @@ function sendApprove(payload, response_url) {
             console.log("1st AXIOS ERROR in sendApprove", err);
           });
       }
-      
     } else {
-        axios(
-          {
-            method: "post",
-            url: response_url,
-            data: {
-              replace_original: "true",
-              text: "Block Replaced",
-              blocks: [
-                {
-                  type: "section",
-                  text: {
-                    type: "mrkdwn",
-                    text: ":heavy_multiplication_x: *Unable to Create Entry*, ",
-                  },
+      axios(
+        {
+          method: "post",
+          url: response_url,
+          data: {
+            replace_original: "true",
+            text: "Block Replaced",
+            blocks: [
+              {
+                type: "section",
+                text: {
+                  type: "mrkdwn",
+                  text: ":heavy_multiplication_x: *Unable to Create Entry*, ",
                 },
-              ],
-            },
+              },
+            ],
           },
-          {
-            headers: {
-              Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
-              "Content-Type": "application/json; charset=UTF-8",
-            },
-          }
-        )
-          .then((Response) => {
-            console.log(
-              "Error while Attempting to create row, Please check inputs",
-              Response
-            );
-          })
-          .catch((err) => {
-            console.log("2nd AXIOS ERROR in sendSubmit", err.response);
-          });
-      }
-/*	 else {
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
+            "Content-Type": "application/json; charset=UTF-8",
+          },
+        },
+      )
+        .then((Response) => {
+          console.log(
+            "Error while Attempting to create row, Please check inputs",
+            Response,
+          );
+        })
+        .catch((err) => {
+          console.log("2nd AXIOS ERROR in sendSubmit", err.response);
+        });
+    }
+    /*	 else {
       // TODO send appropriate error messages and make the user edit the task until it succeeds
     }*/
   })();
 }
-

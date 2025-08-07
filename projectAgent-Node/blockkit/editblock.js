@@ -17,9 +17,9 @@ export function createEditBlock(task) {
           type: "plain_text_input",
           action_id: "task_title_id",
           placeholder: {
-            "type": "plain_text",
-            "text": `${task.tasktitle}`,
-          }
+            type: "plain_text",
+            text: `${task.tasktitle}`,
+          },
         },
         label: {
           type: "plain_text",
@@ -33,9 +33,9 @@ export function createEditBlock(task) {
           type: "plain_text_input",
           action_id: "assignee_id",
           placeholder: {
-            "type": "plain_text",
-            "text": `${task.assignee}`,
-          }
+            type: "plain_text",
+            text: `${task.assignee}`,
+          },
         },
         label: {
           type: "plain_text",
@@ -49,9 +49,9 @@ export function createEditBlock(task) {
           type: "plain_text_input",
           action_id: "due_date_id",
           placeholder: {
-            "type": "plain_text",
-            "text": `${task.duedate}`,
-          }
+            type: "plain_text",
+            text: `${task.duedate}`,
+          },
         },
         label: {
           type: "plain_text",
@@ -65,9 +65,9 @@ export function createEditBlock(task) {
           type: "plain_text_input",
           action_id: "start_date_id",
           placeholder: {
-            "type": "plain_text",
-            "text": `${task.startdate}`,
-          }
+            type: "plain_text",
+            text: `${task.startdate}`,
+          },
         },
         label: {
           type: "plain_text",
@@ -81,9 +81,9 @@ export function createEditBlock(task) {
           type: "plain_text_input",
           action_id: "email_id",
           placeholder: {
-            "type": "plain_text",
-            "text": `${task.email}`,
-          }
+            type: "plain_text",
+            text: `${task.email}`,
+          },
         },
         label: {
           type: "plain_text",
@@ -97,9 +97,9 @@ export function createEditBlock(task) {
           type: "plain_text_input",
           action_id: "phone_number_id",
           placeholder: {
-            "type": "plain_text",
-            "text": `${task.phonenumber}`,
-          }
+            type: "plain_text",
+            text: `${task.phonenumber}`,
+          },
         },
         label: {
           type: "plain_text",
@@ -113,9 +113,9 @@ export function createEditBlock(task) {
           type: "plain_text_input",
           action_id: "preferred_channel_id",
           placeholder: {
-            "type": "plain_text",
-            "text": `${task.preferredchannel}`,
-          }
+            type: "plain_text",
+            text: `${task.preferredchannel}`,
+          },
         },
         label: {
           type: "plain_text",
@@ -130,9 +130,9 @@ export function createEditBlock(task) {
           multiline: true,
           action_id: "task_details_id",
           placeholder: {
-            "type": "plain_text",
-            "text": "Please enter a value if you wish to change task details" 
-          }
+            type: "plain_text",
+            text: "Please enter a value if you wish to change task details",
+          },
         },
         label: {
           type: "plain_text",
@@ -141,14 +141,14 @@ export function createEditBlock(task) {
         },
       },
       {
-        "type": "context",
-        "elements": [
+        type: "context",
+        elements: [
           {
-            "type": "plain_text",
-            "text": `Current Task Details ${task.taskdetail}`,
-            "emoji": true
-          }
-        ]
+            type: "plain_text",
+            text: `Current Task Details ${task.taskdetail}`,
+            emoji: true,
+          },
+        ],
       },
       {
         type: "actions",

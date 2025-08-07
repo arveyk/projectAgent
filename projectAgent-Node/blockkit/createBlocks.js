@@ -3,8 +3,8 @@ export { createEditBlock, createFinalBlock } from "./editblock.js";
 
 const createConfirmationBlock = function confirmBlock(task) {
   if (task.preferredchannel === undefined) {
-    task.preferredchannel = ' ';
-  } 
+    task.preferredchannel = " ";
+  }
   return {
     text: "Which Field would you like to edit?",
     replace_original: true,

@@ -16,7 +16,8 @@ const task = z.object({
   phonenumber: z.string().optional().describe("Assingnee phone number"),
   email: z.string().optional().describe("Assignee's email address"),
   preferredchannel: z
-    .string().optional()
+    .string()
+    .optional()
     .describe("Assignee\'s preferred channel of communication"),
   taskdetail: z.string().describe("details of the task"),
 });

@@ -4,6 +4,8 @@ import {
 import axios from "axios";
 import { parseTaskSlashCmd } from "../utils/aiagent.js";
 import { convertEmptyFields } from "../utils/convertEmptyFields.js";
+import { searchDB } from "../utils/db-search.js";
+
 
 // webhook for taskmanagement channel only
 const webhookURL = process.env.TASK_MANAGEMENT_WEBHOOK_URL;
@@ -38,6 +40,8 @@ const slashCmdHandler = async function (request, response, next) {
     } else {
       const task = await parseTaskSlashCmd(request.body);
       const convertedTask = convertEmptyFields(task);
+      
+      const isInDatabase = await dbSearch(convertedTask);
 
       const taskBlock = await createBlockNewTask(convertedTask);
       console.log(`block create by task$${JSON.stringify(taskBlock)}`);

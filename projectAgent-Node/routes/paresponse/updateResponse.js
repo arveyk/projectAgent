@@ -14,7 +14,7 @@ import { SLACK_BOT_TOKEN } from "../../env.js";
  * @response - response that the function sends
  * @next - function to pass control to other functions that router uses
  *
- * Return - No return value
+ * @return - No return value
  */
 
 export default function testUpdateReply(request, response, next) {
@@ -113,7 +113,6 @@ function sendSubmit(payload, response_url) {
 
   const actionKeysArr = Object.keys(payload.state.values);
   const userInputs = payload.state.values;
-  const validDate = true;
 
   actionKeysArr.map((key) => {
     const actionIdKey = Object.keys(userInputs[key]);
@@ -150,7 +149,7 @@ function sendSubmit(payload, response_url) {
 
   const block = createFinalBlock(taskDetailsObj);
 
-  const editResp = axios({
+  axios({
     method: "post",
     url: response_url,
     data: block,
@@ -170,14 +169,13 @@ function sendSubmit(payload, response_url) {
 function sendApprove(payload, response_url) {
   const taskDetailsObj = JSON.parse(payload["actions"][0]["value"]);
 
-  let createRowResult;
   (async () => {
-    createRowResult = await addTaskNotionPage(taskDetailsObj);
+    const createRowResult = await addTaskNotionPage(taskDetailsObj);
     console.log(`Page added successfully? ${createRowResult.success}`);
 
-    if (createRowResult.success) {
+    if (createRowResult.success === true) {
       const newRow = createRowResult.page;
-      console.log(`ROW ID:${JSON.stringify(newRow.id)}}`);
+      console.log(`ROW URL:${JSON.stringify(newRow.url)}}`);
 
       let replaceBlockRes;
       if (newRow) {

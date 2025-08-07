@@ -34,7 +34,7 @@ export function createEditBlock(task) {
           action_id: "assignee_id",
           placeholder: {
             type: "plain_text",
-            text: `${task.assignee}`,
+            text: `${task.assignee || " "}`,
           },
         },
         label: {
@@ -50,7 +50,7 @@ export function createEditBlock(task) {
           action_id: "due_date_id",
           placeholder: {
             type: "plain_text",
-            text: `${task.duedate}`,
+            text: `${task.duedate || " "}`,
           },
         },
         label: {
@@ -66,7 +66,7 @@ export function createEditBlock(task) {
           action_id: "start_date_id",
           placeholder: {
             type: "plain_text",
-            text: `${task.startdate}`,
+            text: `${task.startdate || " "}`,
           },
         },
         label: {
@@ -82,7 +82,7 @@ export function createEditBlock(task) {
           action_id: "email_id",
           placeholder: {
             type: "plain_text",
-            text: `${task.email}`,
+            text: `${task.email || " "}`,
           },
         },
         label: {
@@ -98,7 +98,7 @@ export function createEditBlock(task) {
           action_id: "phone_number_id",
           placeholder: {
             type: "plain_text",
-            text: `${task.phonenumber}`,
+            text: `${task.phonenumber || " "}`,
           },
         },
         label: {
@@ -114,7 +114,7 @@ export function createEditBlock(task) {
           action_id: "preferred_channel_id",
           placeholder: {
             type: "plain_text",
-            text: `${task.preferredchannel}`,
+            text: `${task.preferredchannel || " "}`,
           },
         },
         label: {

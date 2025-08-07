@@ -42,11 +42,15 @@ const slashCmdHandler = async function (request, response, next) {
       const convertedTask = convertEmptyFields(task);
       
       const isInDatabase = await searchDB(convertedTask);
-
+      console.log("IS in database?", JSON.stringify(isInDatabase));
       const taskBlock = await createBlockNewTask(convertedTask);
       console.log(`block create by task$${JSON.stringify(taskBlock)}`);
 
       //============ TODO call searchDB on task to determine if it should create new or edit existing========
+      
+      if (isInDatabase.exists) {
+        console.log("Already in Database");
+      } else {
       axios({
         method: "post",
         url: request.body["response_url"],
@@ -54,7 +58,8 @@ const slashCmdHandler = async function (request, response, next) {
       }).then((resp) => {
         console.log("OK from slack", resp["status"]);
       });
-      response.status(200).send("");
+        response.status(200).send("");
+      }
     }
   } catch (err) {
     console.log(err);

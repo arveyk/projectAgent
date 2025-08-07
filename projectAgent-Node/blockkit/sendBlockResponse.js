@@ -10,13 +10,26 @@ const task = {
   assignee: "Benjamin Noah",
   duedate: "7-11-2027",
   startdate: "1-11-2027",
-  email: "replace@soon.com",
+  email1: "replace@soon.com",
   phonenumber: "43-335-344-4344",
   preferredchannel: "Call, email",
   taskdetail:
     "Benjamin Noah, draw for us a strategy for ending this war, many innocents are dying, especially on our side. What ever it takes, we must take them down and rescue our people",
 };
-const blocks_01 = createEditBlock(task);
+const task_b = {
+  "tasktitle":"Add Timothy",
+  "assignee":" ",
+  "duedate":" ",
+  "startdate":"2025-08-07",
+  "phonenumber":" ",
+  "email":" ",
+  "preferredchannel":" ",
+  "taskdetail":"Add Timothy to an unspecified system or list",
+}
+
+
+
+const blocks_01 = createEditBlock(task_b);
 
 axios({
   method: "post",

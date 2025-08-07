@@ -1,7 +1,6 @@
 import express from "express";
 import asyncHandler from "express-async-handler";
 
-import eventsHandler from "./routes/events.js";
 import slashCmdHandler from "./routes/slashcmd.js";
 import newTaskHandler from "./routes/tasks/newtask.js";
 import patchTaskHandler from "./routes/tasks/update.js";
@@ -28,17 +27,6 @@ const router = express.Router();
 
 router.use(express.urlencoded({ extended: false }));
 router.use(express.json());
-
-router.post("/events", asyncHandler(eventsHandler), (request, response) => {
-  response.status(200).send(
-    JSON.stringify({
-      status: 200,
-      challenge: request.body["challenge"],
-      text: "Received Payload from Slack"
-    }),
-  );
-  console.log("Slack Event Triggered");
-});
 
 router.post("/slashcmd", slashCmdHandler);
 

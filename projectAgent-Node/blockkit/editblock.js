@@ -131,7 +131,7 @@ export function createEditBlock(task) {
           action_id: "task_details_id",
           placeholder: {
             "type": "plain_text",
-            "text": `${task.taskdetail}`,
+            "text": "Please enter a value if you wish to change task details" 
           }
         },
         label: {
@@ -139,6 +139,16 @@ export function createEditBlock(task) {
           text: "Task Detail",
           emoji: true,
         },
+      },
+      {
+        "type": "context",
+        "elements": [
+          {
+            "type": "plain_text",
+            "text": `Current Task Details ${task.taskdetail}`,
+            "emoji": true
+          }
+        ]
       },
       {
         type: "actions",

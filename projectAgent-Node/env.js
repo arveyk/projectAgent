@@ -13,7 +13,7 @@ console.assert(process.env.ANTHROPIC_API_KEY, "Missing Anthropic API key");
 console.assert(process.env.PROJ_AGENT_APP_ID, "Missing Slack app ID");
 console.assert(process.env.TASK_N8N_WEBHOOK_URL, "Missing N8N webhook url");
 console.assert(
-  process.env.TASK_MANAHEMENT_WEBHOOK_URL,
+  process.env.ALL_SLN_WEBHOOK_URL,
   "Missing task management webhook url",
 );
 
@@ -25,5 +25,5 @@ export const NOTION_DATABASE_ID = process.env.NOTION_DATABASE_ID;
 export const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
 export const PROJ_AGENT_APP_ID = process.env.PROJ_AGENT_APP_ID;
 export const TASK_N8N_WEBHOOK_URL = process.env.TASK_N8N_WEBHOOK_URL;
-export const TASK_MANAHEMENT_WEBHOOK_URL =
-  process.env.TASK_MANAHEMENT_WEBHOOK_URL;
+export const ALL_SLN_WEBHOOK_URL =
+  process.env.ALL_SLN_WEBHOOK_URL;

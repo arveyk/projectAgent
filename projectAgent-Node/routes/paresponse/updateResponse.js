@@ -180,6 +180,7 @@ function sendApprove(payload, response_url) {
   let createRowResult;
   (async () => {
     createRowResult = await addTaskNotionPage(taskDetailsObj);
+    console.log(`Page added successfully? ${createRowResult.success}`);
 
     if (createRowResult.success) {
       const newRow = createRowResult.page;

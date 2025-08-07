@@ -158,6 +158,8 @@ async function addTaskNotionPage(taskObj) {
 
   // Make sure due date is not in the past
   if (validateDueDate(dueDate)) {
+    console.log("yay! the due date is not in the past!");
+
     TaskProperties['Task Title']['title'][0]['text']['content'] = taskTitle;
     TaskProperties['Assignee']['rich_text'][0]['text']['content'] = assignee;
     TaskProperties['Due Date']['date']['start'] = dueDate;
@@ -188,6 +190,7 @@ async function addTaskNotionPage(taskObj) {
     }
   }
   else {
+    console.log("uh oh, the due date is in the past");
     return {
       success: false,
       errorMsg: "A due date can't be in the past"

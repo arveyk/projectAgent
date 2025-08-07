@@ -41,7 +41,7 @@ const slashCmdHandler = async function (request, response, next) {
       const task = await parseTaskSlashCmd(request.body);
       const convertedTask = convertEmptyFields(task);
       
-      const isInDatabase = await dbSearch(convertedTask);
+      const isInDatabase = await searchDB(convertedTask);
 
       const taskBlock = await createBlockNewTask(convertedTask);
       console.log(`block create by task$${JSON.stringify(taskBlock)}`);

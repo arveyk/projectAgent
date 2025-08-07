@@ -11,7 +11,7 @@ export const convertEmptyFields = function (task) {
     startdate: "",
     phonenumber: "",
     email: "",
-    preferredChannel: "",
+    preferredchannel: "",
     taskdetail: "",
   };
   for (let [key, value] of Object.entries(task)) {

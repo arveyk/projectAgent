@@ -4,6 +4,8 @@ import {
 import axios from "axios";
 import { parseTaskSlashCmd } from "../utils/aiagent.js";
 import { convertEmptyFields } from "../utils/convertEmptyFields.js";
+import { searchDB } from "../utils/db-search.js";
+
 
 // webhook for taskmanagement channel only
 const webhookURL = process.env.TASK_MANAGEMENT_WEBHOOK_URL;
@@ -19,7 +21,7 @@ const slashCmdHandler = async function (request, response, next) {
     let firstArg = commandParams[0];
     let otherArgs = commandParams.slice(1, -1).join(" ");
 
-    if (firstArg !== "add") {
+    if (firstArg !== "add" || otherArgs.length < 5) {
       axios({
         method: "post",
         url: request.body["response_url"],
@@ -38,21 +40,47 @@ const slashCmdHandler = async function (request, response, next) {
     } else {
       const task = await parseTaskSlashCmd(request.body);
       const convertedTask = convertEmptyFields(task);
-
-      // ===========ASYNC CALL TO createBlockNewTask since its an async function=============================
+      
+      const isInDatabase = await searchDB(convertedTask);
+      console.log("IS in database?", JSON.stringify(isInDatabase));
       const taskBlock = await createBlockNewTask(convertedTask);
       console.log(`block create by task$${JSON.stringify(taskBlock)}`);
 
       //============ TODO call searchDB on task to determine if it should create new or edit existing========
-      axios({
-        method: "post",
-        url: request.body["response_url"],
-        data: taskBlock,
-      }).then((resp) => {
-        console.log("OK from slack", resp["status"]);
-      });
-      response.status(200).send("");
-    }
+      
+      if (isInDatabase.exists) {
+        console.log("Already in Database");
+          axios({
+            method: "post",
+            url: request.body["response_url"],
+            data: {
+	      text: "Already in Block",
+	      blocks: [
+	        {
+		  "type": "section",
+		  "text": {
+		    "type": "mrkdwn",
+		    "text": "*Task Already Exists*",
+		  }
+		}
+	      ]
+	    },
+          }).then((resp) => {
+            console.log("OK from slack", resp["status"]);
+          });
+        response.status(200).send("");
+      } else {
+          axios({
+            method: "post",
+            url: request.body["response_url"],
+            data: taskBlock,
+          }).then((resp) => {
+            console.log("OK from slack", resp["status"]);
+          });
+          response.status(200).send("");
+        }
+      }
+    
   } catch (err) {
     console.log(err);
     return response.status(404).send("Server Error in SlashCmdHandler", err);

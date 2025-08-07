@@ -39,7 +39,7 @@ export const parseTaskSlashCmd = async function (reqBody) {
   } else if (reqBody["event"]) {
     textToParse = reqBody["text"];
   } else {
-    taskToParse = "No Task available";
+    textToParse = "No Task available";
   }
 
   const today = new Date();

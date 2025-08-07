@@ -67,3 +67,34 @@ export const task_unknown_fields = {
   taskdetail:
     "Schedule a meeting with the customer. Check the sender's Calendly for available times.",
 };
+
+export const taskGood = {
+  tasktitle: "Defeat the king",
+  assignee: "Mirabelle",
+  duedate: "2025-09-01",
+  startdate: "2025-08-06",
+  phonenumber: "<UNKNOWN>",
+  email: "<UNKNOWN>",
+  preferredChannel: "Slack",
+  taskdetail:
+    "Defeat the king before he freezes the whole country in time",
+}
+
+export const taskInferDates = {
+  tasktitle: "Gather information and write report on similar preexisting products",
+  assignee: "Ellen",
+  duedate: "2025-08-06",
+  startdate: "2025-08-05",
+  phonenumber: "<UNKNOWN>",
+  email: "<UNKNOWN>",
+  preferredChannel: "Slack",
+  taskdetail:
+    "Gather information about similar preexisting products and write up a report",
+}
+
+export const noTask = {
+  tasktitle:"No Task Available",
+  assignee:"<UNKNOWN>",
+  duedate:"<UNKNOWN>",
+  taskdetail:"No task is currently available or assigned"
+}

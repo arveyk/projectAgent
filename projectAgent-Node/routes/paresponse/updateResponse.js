@@ -211,47 +211,46 @@ function sendApprove(payload, response_url) {
           });
       }
     } else {
-      // TODO send appropriate error messages and make the user edit the task until it succeeds
       sendError(createRowResult, payload, response_url);
     }
   })();
 }
 function sendError(createRowResult, payload, response_url) {
   // Send error message
-  axios(
-    {
-      method: "post",
-      url: response_url,
-      data: {
-        replace_original: "true",
-        text: "Block Replaced",
-        blocks: [
-          {
-            type: "section",
-            text: {
-              type: "mrkdwn",
-              text: ":heavy_multiplication_x: *Unable to Create Entry*, ",
-            },
-          },
-        ],
-      },
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
-        "Content-Type": "application/json; charset=UTF-8",
-      },
-    }
-  )
-    .then((Response) => {
-      console.log(
-        "Error while Attempting to create row, Please check inputs",
-        Response
-      );
-    })
-    .catch((err) => {
-      console.log("2nd AXIOS ERROR in sendSubmit", err.response);
-    });
+  // axios(
+  //   {
+  //     method: "post",
+  //     url: response_url,
+  //     data: {
+  //       replace_original: "true",
+  //       text: "Block Replaced",
+  //       blocks: [
+  //         {
+  //           type: "section",
+  //           text: {
+  //             type: "mrkdwn",
+  //             text: ":heavy_multiplication_x: *Unable to Create Entry*, ",
+  //           },
+  //         },
+  //       ],
+  //     },
+  //   },
+  //   {
+  //     headers: {
+  //       Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
+  //       "Content-Type": "application/json; charset=UTF-8",
+  //     },
+  //   }
+  // )
+  //   .then((Response) => {
+  //     console.log(
+  //       "Error while Attempting to create row, Please check inputs",
+  //       Response
+  //     );
+  //   })
+  //   .catch((err) => {
+  //     console.log("2nd AXIOS ERROR in sendSubmit", err.response);
+  //   });
 
   // If the due date is in the past, make the user edit it 
   if (createRowResult.errorMsg === "A due date can't be in the past") {
@@ -260,6 +259,7 @@ function sendError(createRowResult, payload, response_url) {
   }
   else {
     // TODO handle other error cases
+    console.log(JSON.stringify(createRowResult.errorMsg));
   }
 }
 

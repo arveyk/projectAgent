@@ -32,6 +32,7 @@ router.use(express.json());
 router.post("/events", asyncHandler(eventsHandler), (request, response) => {
   response.status(200).send(
     JSON.stringify({
+      status: 200,
       challenge: request.body["challenge"],
       text: "Received Payload from Slack"
     }),

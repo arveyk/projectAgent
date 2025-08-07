@@ -21,7 +21,7 @@ const slashCmdHandler = async function (request, response, next) {
     let firstArg = commandParams[0];
     let otherArgs = commandParams.slice(1, -1).join(" ");
 
-    if (firstArg !== "add") {
+    if (firstArg !== "add" || otherArgs.length < 5) {
       axios({
         method: "post",
         url: request.body["response_url"],
@@ -50,17 +50,19 @@ const slashCmdHandler = async function (request, response, next) {
       
       if (isInDatabase.exists) {
         console.log("Already in Database");
+        response.status(200).send("Already Exists");
       } else {
-      axios({
-        method: "post",
-        url: request.body["response_url"],
-        data: taskBlock,
-      }).then((resp) => {
-        console.log("OK from slack", resp["status"]);
-      });
-        response.status(200).send("");
+          axios({
+            method: "post",
+            url: request.body["response_url"],
+            data: taskBlock,
+          }).then((resp) => {
+            console.log("OK from slack", resp["status"]);
+          });
+          response.status(200).send("");
+        }
       }
-    }
+    
   } catch (err) {
     console.log(err);
     return response.status(404).send("Server Error in SlashCmdHandler", err);

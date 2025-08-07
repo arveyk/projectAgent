@@ -89,12 +89,15 @@ function sendReject(payload, action_text, response_url) {
 
 function sendEdit(payload, response_url) {
   const taskDetailsObj = JSON.parse(payload["actions"][0].value);
-  const block = createEditBlock(taskDetailsObj);
+  const blockObj = createEditBlock(taskDetailsObj);
 
   const editResp = axios({
     method: "post",
     url: response_url,
-    data: block,
+    data: {
+      text: "Edit Block",
+      blocks: blockObj.blocks,
+    },
     headers: {
       Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
       "Content-Type": "application/json; charset=UTF-8",

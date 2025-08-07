@@ -1,5 +1,7 @@
 import axios from "axios";
 import { ALL_SLN_WEBHOOK_URL }  from '../env.js';
+import { createEditBlock } from './editblock.js'
+
 
 console.log(ALL_SLN_WEBHOOK_URL);
 //task management webhook url
@@ -14,13 +16,8 @@ const task = {
   "preferredchannel": "Call, email",
   "taskdetail": "Benjamin Noah, draw for us a strategy for ending this war, many innocents are dying, especially on our side. What ever it takes, we must take them down and rescue our people",
 }
-
-axios({
-  method: "post",
-  url: ALL_SLN_WEBHOOK_URL,
-  data: {
-     text: "Message testing block", 
-     blocks: [
+const blocks_01 = createEditBlock(task);
+const blocks_02 = [
       {
         type: "section",
         text: {
@@ -199,8 +196,16 @@ axios({
       },
       {
         type: "divider",
-      },
-    ],
+      },   
+]
+
+
+axios({
+  method: "post",
+  url: ALL_SLN_WEBHOOK_URL,
+  data: {
+     text: "Message testing block", 
+     blocks: blocks_01.blocks
   }
 
 }).then((response) => {

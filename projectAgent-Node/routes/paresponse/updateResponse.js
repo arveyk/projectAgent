@@ -120,24 +120,10 @@ function sendSubmit(payload, response_url) {
         taskDetailsObj.assignee = userInputs[key][actionIdKey].value;
         break;
       case "due_date_id":
-        try {
-          const dueDate = new Date(
-            userInputs[key][actionIdKey].value
-          ).toString();
-          taskDetailsObj.duedate = dueDate;
-        } catch (error) {
-          validDate = false;
-        }
+        taskDetailsObj.duedate = userInputs[key][actionIdKey].value
         break;
       case "start_date_id":
-        try {
-          const startDate = new Date(
-            userInputs[key][actionIdKey].value
-          ).toString();
-          taskDetailsObj.startdate = startDate;
-        } catch (error) {
-          validDate = false;
-        }
+        taskDetailsObj.startdate = userInputs[key][actionIdKey].value
         break;
       case "email_id":
         taskDetailsObj.email = userInputs[key][actionIdKey].value;

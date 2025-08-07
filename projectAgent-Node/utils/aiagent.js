@@ -1,10 +1,11 @@
 import { ChatAnthropic } from "@langchain/anthropic";
 import { z } from "zod";
+import { ANTHROPIC_API_KEY } from "../env.js";
 
 const model = new ChatAnthropic({
   model: "claude-3-5-sonnet-20240620",
   temperature: 0,
-  api_key: process.env["ANTHROPIC_API_KEY"],
+  api_key: ANTHROPIC_API_KEY,
 });
 
 const task = z.object({

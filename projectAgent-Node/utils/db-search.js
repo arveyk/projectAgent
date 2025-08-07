@@ -50,8 +50,8 @@ export const searchDB = async function (task) {
       },
     });
 
-    console.log(`response: ${JSON.stringify(response)}`);
     const simplifiedResponse = simplifyDBResults(response);
+    console.log(`response: ${JSON.stringify(simplifiedResponse)}`);
 
     const prompt = `
       Please check if a task with the title ${JSON.stringify(task.tasktitle)} exists in the database response 

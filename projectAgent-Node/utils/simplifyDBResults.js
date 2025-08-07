@@ -4,10 +4,7 @@
  * @returns A simplified version of the Notion database results.
  */
 export const simplifyDBResults = function (dbResults) {
-  console.log(`search results: ${JSON.stringify(dbResults)}`);
-
   const resultList = dbResults["results"];
-  console.log(`list of results: ${JSON.stringify(resultList)}`);
 
   const simplifiedResults = new Array();
   for (let result of resultList) {

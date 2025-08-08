@@ -40,7 +40,7 @@ const slashCmdHandler = async function (request, response, next) {
           resp["status"],
         );
       });
-      response.status(200).send("");
+
     } else {
       const task = await parseTaskSlashCmd(request.body);
       const convertedTask = convertEmptyFields(task);

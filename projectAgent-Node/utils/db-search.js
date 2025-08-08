@@ -67,3 +67,7 @@ export const searchDB = async function (task) {
     console.log(err);
   }
 };
+
+export const getTaskProperties = async function(id) {
+  // TODO get task by ID and return all properties
+}

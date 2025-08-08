@@ -126,7 +126,7 @@ const TaskProperties = {
   },
   Project: {
     type: "rich_text",
-    rich_text: " ",
+    rich_text: richTextArr,
   },
 };
 

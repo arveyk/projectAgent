@@ -1,7 +1,11 @@
 import { app } from "./index.js";
 const request = require("supertest");
 
-import { payloadGood, payloadBadToken, payloadFormattingError } from "./test-data/payloads/slashcmd/payloads.js";
+import {
+  payloadGood,
+  payloadBadToken,
+  payloadFormattingError,
+} from "./test-data/payloads/slashcmd/payloads.js";
 
 // TODO replace the payloads
 describe("POST /slashcmd with a valid payload", () => {

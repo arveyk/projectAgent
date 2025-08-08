@@ -151,6 +151,22 @@ export function createEditBlock(task) {
         ],
       },
       {
+        type: "input",
+        element: {
+          type: "plain_text_input",
+          action_id: "project_id",
+          placeholder: {
+            type: "plain_text",
+            text: `${" "}`,
+          },
+        },
+        label: {
+          type: "plain_text",
+          text: "Project",
+          emoji: true,
+        },
+      },
+      {
         type: "actions",
         elements: [
           {

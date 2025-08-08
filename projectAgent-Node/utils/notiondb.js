@@ -124,6 +124,10 @@ const TaskProperties = {
       start: "2025-05-11",
     },
   },
+  Project: {
+    type: "rich_text",
+    rich_text: replaceArr,
+  },
 };
 
 async function addTaskNotionPage(taskObj) {
@@ -154,6 +158,7 @@ async function addTaskNotionPage(taskObj) {
     TaskProperties["Description"]["rich_text"][0]["text"]["content"] =
       taskObj["taskdetail"];
     TaskProperties["Date Assigned"]["date"]["start"] = dateAssigned;
+    TaskProperties["Project"]["rich_text"] = " ";
 
     try {
       const newPage = await notion.pages.create({
@@ -181,18 +186,5 @@ async function addTaskNotionPage(taskObj) {
     };
   }
 }
-/*
-const taskObj = addTaskNotionPage({
-  "tasktitle": "Operation Sting",
-  "assignee": "Benjamin Noah",
-  "duedate": "07-11-2027",
-  "startdate": "01-11-2027",
-  "email": "replace@soon.com",
-  "phonenumber": "43-335-344-4344",
-  "preferredchannel": "Call, email",
-  "taskdetail": "Benjamin Noah, draw for us a strategy for ending this war, and bring back out hostages, rescue our people, hamas must be eliminated",
-});
-console.log(await taskObj);
-*/
 
 export default addTaskNotionPage;

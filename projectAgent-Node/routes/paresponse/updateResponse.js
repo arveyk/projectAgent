@@ -150,6 +150,9 @@ function sendSubmit(payload, response_url) {
       case "task_details_id":
         taskDetailsObj.taskdetails = userInputs[key][actionIdKey].value;
         break;
+      case "project_id":
+        taskDetailsObj.project = userInputs[key][actionIdKey].value;
+        break;
     }
   });
 

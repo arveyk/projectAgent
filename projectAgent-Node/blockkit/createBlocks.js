@@ -169,8 +169,6 @@ const sampleModal = {
   },
 };
 
-// TODO function that creates blocks for updating a task
-
 /**
  *
  * @param {*} task A task object

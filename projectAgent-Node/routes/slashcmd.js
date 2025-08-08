@@ -12,11 +12,7 @@ console.log(webhookURL0);
 
 const slashCmdHandler = async function (request, response, next) {
   // Send OK
-  response.status(200).send(
-    JSON.stringify({
-      challenge: request.body["challenge"],
-    }),
-  );
+  response.status(200).send();
 
   try {
     console.log(`slashCmdHandler here. Any tasks for me?

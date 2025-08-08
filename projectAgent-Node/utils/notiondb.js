@@ -129,13 +129,13 @@ const TaskProperties = {
 async function addTaskNotionPage(taskObj) {
   const taskTitle = taskObj["tasktitle"];
   const assignee = taskObj["assignee"];
-  const dueDate = taskObj["duedate"];
+  const dueDate = new Date(taskObj["duedate"]).toISOString();
   const startDate =
-    taskObj["startdate"] !== "" ? new Date(taskObj["startdate"]) : new Date();
+    taskObj["startdate"] !== "" ? new Date(taskObj["startdate"]).toISOString() : new Date().toISOString();
   const email = taskObj["email"] || " ";
   const phoneNumber = taskObj["phonenumber"] || " ";
   const preferredChannel = taskObj["preferredchannel"] || "Slack";
-  const dateAssigned = new Date();
+  const dateAssigned = new Date().toISOString();
 
   // Make sure due date is not in the past
   if (validateDueDate(dueDate)) {
@@ -181,15 +181,16 @@ async function addTaskNotionPage(taskObj) {
 }
 /*
 const taskObj = addTaskNotionPage({
-  "tasktitle": "End of Hamas and rescue hostages",
+  "tasktitle": "Operation Sting",
   "assignee": "Benjamin Noah",
-  "duedate": "7-11-2027",
-  "startdate": "1-11-2027",
+  "duedate": "07-11-2027",
+  "startdate": "01-11-2027",
   "email": "replace@soon.com",
   "phonenumber": "43-335-344-4344",
   "preferredchannel": "Call, email",
-  "taskdetail": "Benjamin Noah, draw for us a strategy for ending this war, many innocents are dying, especially on our side. What ever it takes, we must take them down and rescue our people",
+  "taskdetail": "Benjamin Noah, draw for us a strategy for ending this war, and bring back out hostages, rescue our people, hamas must be eliminated",
 });
+console.log(await taskObj);
 */
 
 export default addTaskNotionPage;

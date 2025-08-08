@@ -20,6 +20,7 @@ const task = z.object({
     .optional()
     .describe("Assignee\'s preferred channel of communication"),
   taskdetail: z.string().describe("details of the task"),
+  project: z.string().optional().describe("The project the task belongs to")
 });
 
 // For use with slash commands

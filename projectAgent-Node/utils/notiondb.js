@@ -126,7 +126,7 @@ const TaskProperties = {
   },
   Project: {
     type: "rich_text",
-    rich_text: replaceArr,
+    rich_text: " ",
   },
 };
 
@@ -142,6 +142,7 @@ async function addTaskNotionPage(taskObj) {
   const phoneNumber = taskObj["phonenumber"] || " ";
   const preferredChannel = taskObj["preferredchannel"] || "Slack";
   const dateAssigned = new Date().toISOString();
+  const project = taskObj["project"] || " ";
 
   // Make sure due date is not in the past
   if (validateDueDate(dueDate)) {
@@ -158,7 +159,7 @@ async function addTaskNotionPage(taskObj) {
     TaskProperties["Description"]["rich_text"][0]["text"]["content"] =
       taskObj["taskdetail"];
     TaskProperties["Date Assigned"]["date"]["start"] = dateAssigned;
-    TaskProperties["Project"]["rich_text"] = " ";
+    TaskProperties["Project"]["rich_text"] = project;
 
     try {
       const newPage = await notion.pages.create({

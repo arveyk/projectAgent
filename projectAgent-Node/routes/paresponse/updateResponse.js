@@ -49,14 +49,16 @@ export default function testUpdateReply(request, response, next) {
       sendSubmit(payload, response_url);
     } else if (action_text === "Yes") {
       sendEdit(payload, response_url);
+    } else if(action_text === "No") {
+      sendReject(payload, action_text, response_url, "Updated");
     } else {
-      sendReject(payload, action_text, response_url);
+      sendReject(payload, action_text, response_url, "Added");
     }
   }
   next();
 }
 
-function sendReject(payload, action_text, response_url) {
+function sendReject(payload, action_text, response_url, action) {
   console.log(
     `Text in button ${payload.actions[0]["value"]}, Action_Text${action_text}`,
   );
@@ -71,7 +73,7 @@ function sendReject(payload, action_text, response_url) {
           type: "section",
           text: {
             type: "mrkdwn",
-            text: ":x: *Task Not Created*, ",
+            text: `:x: *Action Rejected: Task not ${action}*`,
           },
         },
       ],

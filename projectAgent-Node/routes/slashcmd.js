@@ -38,7 +38,7 @@ const slashCmdHandler = async function (request, response, next) {
           url: request.body["response_url"],
           data: {
             text: "Already in DB",
-            blocks: updateBlock.blocks
+            blocks: updateBlock.blocks,
           },
         }).then((resp) => {
           console.log("OK from slack", resp["status"]);
@@ -52,7 +52,6 @@ const slashCmdHandler = async function (request, response, next) {
           console.log("OK from slack", resp["status"]);
         });
       }
-
     } else {
       axios({
         method: "post",
@@ -82,7 +81,7 @@ export function isValidCmd(reqBody) {
   const commandParams = reqBody["text"].trim().split(" ");
   let firstArg = commandParams[0];
   let otherArgs = commandParams.slice(1, -1).join(" ");
-  const isValidCmd = (firstArg === "add" && otherArgs.length >= 5);
+  const isValidCmd = firstArg === "add" && otherArgs.length >= 5;
   return isValidCmd;
 }
 

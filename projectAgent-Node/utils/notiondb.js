@@ -26,7 +26,7 @@ const titleArray = [
   },
 ];
 
-const richTextArr = [
+const assigneeArr = [
   {
     type: "text",
     text: {
@@ -61,7 +61,7 @@ const prefCommChannArr = [
   },
 ];
 
-const replaceArr = [
+const descriptionArr = [
   {
     type: "text",
     text: {
@@ -81,6 +81,24 @@ const replaceArr = [
   },
 ];
 
+const projectArr = [
+  {
+    type: "text",
+    text: {
+      content: "A Project",
+      link: null,
+    },
+    annotations: {
+      bold: false,
+      italic: false,
+      strikethrough: false,
+      code: false,
+      color: "default",
+    },
+    href: null,
+  },
+];
+
 const TaskProperties = {
   "Task Title": {
     type: "title",
@@ -88,7 +106,7 @@ const TaskProperties = {
   },
   Assignee: {
     type: "rich_text",
-    rich_text: richTextArr,
+    rich_text: assigneeArr,
   },
   "Due Date": {
     type: "date",
@@ -116,7 +134,7 @@ const TaskProperties = {
   },
   Description: {
     type: "rich_text",
-    rich_text: replaceArr,
+    rich_text: descriptionArr,
   },
   "Date Assigned": {
     type: "date",
@@ -126,7 +144,7 @@ const TaskProperties = {
   },
   Project: {
     type: "rich_text",
-    rich_text: richTextArr,
+    rich_text: projectArr,
   },
 };
 

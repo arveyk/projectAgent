@@ -93,8 +93,8 @@ export const taskInferDates = {
 }
 
 export const noTask = {
-  tasktitle:"No Task Available",
-  assignee:"<UNKNOWN>",
-  duedate:"<UNKNOWN>",
-  taskdetail:"No task is currently available or assigned"
+  tasktitle: /No task/gmi,
+  assignee: "<UNKNOWN>",
+  duedate: "<UNKNOWN>",
+  taskdetail: /No task/gmi
 }

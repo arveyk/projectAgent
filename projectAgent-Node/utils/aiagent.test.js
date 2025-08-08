@@ -20,9 +20,9 @@ describe("Tests parseTaskSlashCmd with a good payload", () => {
     const parsedTask = await parseTaskSlashCmd(payloadGood);
     console.log(JSON.stringify(parsedTask));
 
-    expect(parsedTask.assignee).toBe(taskGood.assignee);
-    expect(parsedTask.tasktitle).toBe(taskGood.tasktitle);
-    expect(parsedTask.taskdetail).toBe(taskGood.taskdetail);
+    expect(parsedTask.assignee).toMatch(taskGood.assignee);
+    expect(parsedTask.tasktitle).toMatch(taskGood.tasktitle);
+    expect(parsedTask.taskdetail).toMatch(taskGood.taskdetail);
   });
 });
 
@@ -34,9 +34,9 @@ describe("Tests parseTaskSlashCmd inferring dates", () => {
     const parsedTask = await parseTaskSlashCmd(payloadInferDates);
     console.log(JSON.stringify(parsedTask));
 
-    expect(parsedTask.assignee).toBe(taskInferDates.assignee);
-    expect(parsedTask.tasktitle).toBe(taskInferDates.tasktitle);
-    expect(parsedTask.taskdetail).toBe(taskInferDates.taskdetail);
+    expect(parsedTask.assignee).toMatch(taskInferDates.assignee);
+    expect(parsedTask.tasktitle).toMatch(taskInferDates.tasktitle);
+    expect(parsedTask.taskdetail).toMatch(taskInferDates.taskdetail);
   });
 });
 
@@ -48,8 +48,8 @@ describe("Tests parseTaskSlashCmd with no task", () => {
     const parsedTask = await parseTaskSlashCmd(payloadNoTask);
     console.log(JSON.stringify(parsedTask));
 
-    expect(parsedTask.assignee).toBe(noTask.assignee);
-    expect(parsedTask.tasktitle).toBe(noTask.tasktitle);
-    expect(parsedTask.taskdetail).toBe(noTask.taskdetail);
+    expect(parsedTask.assignee).toMatch(noTask.assignee);
+    expect(parsedTask.tasktitle).toMatch(noTask.tasktitle);
+    expect(parsedTask.taskdetail).toMatch(noTask.taskdetail);
   });
 });

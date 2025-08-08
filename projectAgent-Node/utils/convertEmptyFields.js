@@ -13,6 +13,7 @@ export const convertEmptyFields = function (task) {
     email: "",
     preferredchannel: "",
     taskdetail: "",
+    project: "",
   };
   for (let [key, value] of Object.entries(task)) {
     if (value !== "<UNKNOWN>") {

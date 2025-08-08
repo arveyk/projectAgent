@@ -26,14 +26,27 @@ const slashCmdHandler = async function (request, response, next) {
 
       const isInDatabase = await searchDB(convertedTask);
       console.log("IS in database?", JSON.stringify(isInDatabase));
-      const taskBlock = createBlockNewTask(convertedTask);
+
       console.log(`block create by task$${JSON.stringify(taskBlock)}`);
 
       if (isInDatabase.exists) {
         console.log("Already in Database");
-        const updateBlock = createUpdateBlock(task);
 
-	const pageProp = await getTaskProperties(isInDatabase.task_id);
+        const pageObject = await getTaskProperties(isInDatabase.task_id);
+        const properties = pageObject.properties;
+        const existingTask = {
+          tasktitle: properties["Task Title"].title[0].plain_text,
+          assignee: properties["Assignee"].rich_text[0].plain_text,
+          duedate: properties["Due Date"].date.start,
+          startdate: properties["Start Date"].date.start,
+          email: properties["Email"].email,
+          phonenumber: properties["Phone Number"].phone_number,
+          preferredchannel:
+            properties["Preferred Channel"].rich_text[0].plain_text,
+          taskdetails: properties["Description"].rich_text[0].plain_text,
+        };
+        const convertedExistingTask = convertEmptyFields(existingTask);
+        const updateBlock = createUpdateBlock(convertExistingTask);
 
         axios({
           method: "post",
@@ -46,6 +59,7 @@ const slashCmdHandler = async function (request, response, next) {
           console.log("OK from slack", resp["status"]);
         });
       } else {
+        const taskBlock = createBlockNewTask(convertedTask);
         axios({
           method: "post",
           url: request.body["response_url"],

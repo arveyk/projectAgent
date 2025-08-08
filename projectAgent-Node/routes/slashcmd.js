@@ -20,7 +20,7 @@ const slashCmdHandler = async function (request, response, next) {
 	  Request Body: ${JSON.stringify(request.body)}`);
     const command = request.body["command"];
 
-    if (isValidCmd(request)) {
+    if (isValidCmd(request.body)) {
       const task = await parseTaskSlashCmd(request.body);
       const convertedTask = convertEmptyFields(task);
 
@@ -75,11 +75,11 @@ const slashCmdHandler = async function (request, response, next) {
 
 /**
  * Parses a slash command and determines if it is a valid command.
- * @param {*} request Request from Slack containing a slash command
+ * @param {*} reqBody Request from Slack containing a slash command
  * @returns true if the slash command is valid, else returns false.
  */
-function isValidCmd(request) {
-  const commandParams = request.body["text"].trim().split(" ");
+export function isValidCmd(reqBody) {
+  const commandParams = reqBody["text"].trim().split(" ");
   let firstArg = commandParams[0];
   let otherArgs = commandParams.slice(1, -1).join(" ");
   const isValidCmd = (firstArg === "add" && otherArgs.length >= 5);

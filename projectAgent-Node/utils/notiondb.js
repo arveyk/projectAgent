@@ -159,7 +159,7 @@ async function addTaskNotionPage(taskObj) {
     TaskProperties["Description"]["rich_text"][0]["text"]["content"] =
       taskObj["taskdetail"];
     TaskProperties["Date Assigned"]["date"]["start"] = dateAssigned;
-    TaskProperties["Project"]["rich_text"] = project;
+    TaskProperties["Project"]["rich_text"][0]["text"]["content"] = project;
 
     try {
       const newPage = await notion.pages.create({

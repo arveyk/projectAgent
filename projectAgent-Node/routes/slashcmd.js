@@ -15,7 +15,6 @@ const slashCmdHandler = async function (request, response, next) {
     JSON.stringify({
       status: 200,
       challenge: request.body["challenge"],
-      text: "Received Payload from Slack",
     }),
   );
 

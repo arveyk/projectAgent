@@ -4,6 +4,7 @@ import { createUpdateBlock } from "../blockkit/updateBlock.js";
 import { convertEmptyFields } from "../utils/convertEmptyFields.js";
 import { parseTaskSlashCmd } from "../utils/aiagent.js";
 import { searchDB } from "../utils/db-search.js";
+import { filterMessages } from "@langchain/core/messages";
 
 // webhook for taskmanagement channel only
 const webhookURL = process.env.TASK_MANAGEMENT_WEBHOOK_URL;
@@ -19,25 +20,7 @@ const slashCmdHandler = async function (request, response, next) {
 	  Request Body: ${JSON.stringify(request.body)}`);
     const command = request.body["command"];
 
-    const commandParams = request.body["text"].trim().split(" ");
-    let firstArg = commandParams[0];
-    let otherArgs = commandParams.slice(1, -1).join(" ");
-
-    if (firstArg !== "add" || otherArgs.length < 5) {
-      axios({
-        method: "post",
-        url: request.body["response_url"],
-        data: {
-          text: "Format: add ['Task Details']",
-        },
-      }).then((resp) => {
-        console.log(
-          "OK from slack Wrong command format Though",
-          resp["status"],
-        );
-      });
-
-    } else {
+    if (isValidCmd(request)) {
       const task = await parseTaskSlashCmd(request.body);
       const convertedTask = convertEmptyFields(task);
 
@@ -48,7 +31,7 @@ const slashCmdHandler = async function (request, response, next) {
 
       if (isInDatabase.exists) {
         console.log("Already in Database");
-	const updateBlock = createUpdateBlock(task);
+        const updateBlock = createUpdateBlock(task);
 
         axios({
           method: "post",
@@ -69,11 +52,38 @@ const slashCmdHandler = async function (request, response, next) {
           console.log("OK from slack", resp["status"]);
         });
       }
+
+    } else {
+      axios({
+        method: "post",
+        url: request.body["response_url"],
+        data: {
+          text: "Format: add ['Task Details']",
+        },
+      }).then((resp) => {
+        console.log(
+          "OK from slack Wrong command format Though",
+          resp["status"],
+        );
+      });
     }
   } catch (err) {
     console.log(err);
     return response.status(404).send("Server Error in SlashCmdHandler", err);
   }
 };
+
+/**
+ * Parses a slash command and determines if it is a valid command.
+ * @param {*} request Request from Slack containing a slash command
+ * @returns true if the slash command is valid, else returns false.
+ */
+function isValidCmd(request) {
+  const commandParams = request.body["text"].trim().split(" ");
+  let firstArg = commandParams[0];
+  let otherArgs = commandParams.slice(1, -1).join(" ");
+  const isValidCmd = (firstArg === "add" && otherArgs.length >= 5);
+  return isValidCmd;
+}
 
 export default slashCmdHandler;

@@ -1,7 +1,8 @@
-import { createBlockNewTask } from "../blockkit/createBlocks.js";
 import axios from "axios";
-import { parseTaskSlashCmd } from "../utils/aiagent.js";
+import { createBlockNewTask } from "../blockkit/createBlocks.js";
+import { createUpdateBlock } from "../blockkit/updateBlock.js";
 import { convertEmptyFields } from "../utils/convertEmptyFields.js";
+import { parseTaskSlashCmd } from "../utils/aiagent.js";
 import { searchDB } from "../utils/db-search.js";
 
 // webhook for taskmanagement channel only
@@ -51,20 +52,14 @@ const slashCmdHandler = async function (request, response, next) {
 
       if (isInDatabase.exists) {
         console.log("Already in Database");
+	const updateBlock = createUpdateBlock(task);
+
         axios({
           method: "post",
           url: request.body["response_url"],
           data: {
-            text: "Already in Block",
-            blocks: [
-              {
-                type: "section",
-                text: {
-                  type: "mrkdwn",
-                  text: "*Task Already Exists*",
-                },
-              },
-            ],
+            text: "Already in DB",
+            blocks: updateBlock.blocks
           },
         }).then((resp) => {
           console.log("OK from slack", resp["status"]);

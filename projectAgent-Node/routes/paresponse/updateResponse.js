@@ -47,6 +47,8 @@ export default function testUpdateReply(request, response, next) {
       sendEdit(payload, response_url);
     } else if (action_text === "Submit") {
       sendSubmit(payload, response_url);
+    } else if (action_text === "Yes") {
+      sendEdit(payload, response_url);
     } else {
       sendReject(payload, action_text, response_url);
     }

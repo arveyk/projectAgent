@@ -3,8 +3,8 @@ import { createBlockNewTask } from "../blockkit/createBlocks.js";
 import { createUpdateBlock } from "../blockkit/updateBlock.js";
 import { convertEmptyFields } from "../utils/convertEmptyFields.js";
 import { parseTaskSlashCmd } from "../utils/aiagent.js";
-import { searchDB } from "../utils/db-search.js";
 import { filterMessages } from "@langchain/core/messages";
+import { searchDB, getTaskProperties } from "../utils/db-search.js";
 
 // webhook for taskmanagement channel only
 const webhookURL = process.env.TASK_MANAGEMENT_WEBHOOK_URL;
@@ -32,6 +32,8 @@ const slashCmdHandler = async function (request, response, next) {
       if (isInDatabase.exists) {
         console.log("Already in Database");
         const updateBlock = createUpdateBlock(task);
+
+	const pageProp = await getTaskProperties(isInDatabase.task_id);
 
         axios({
           method: "post",

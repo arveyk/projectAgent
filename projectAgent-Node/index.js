@@ -7,8 +7,8 @@ const APP_PORT = parseInt(PORT) || 8080;
 
 const expressApp = express();
 
-expressApp.use(express.urlencoded({ extended: false }));
-expressApp.use(express.json());
+//expressApp.use(express.urlencoded({ extended: false }));
+//expressApp.use(express.json());
 expressApp.use(router);
 
 expressApp.use((request, response, next) => {

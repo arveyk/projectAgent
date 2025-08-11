@@ -97,7 +97,7 @@ export function isValidCmd(reqBody) {
   let firstArg = commandParams[0];
   let otherArgs = commandParams.slice(1, -1).join(" ");
   const isValidCmd = {};
-  isValidCmd.isValid = (firstArg === "add" || "update") && otherArgs.length >= 5;
+  isValidCmd.isValid = (firstArg.toLowerCase() === "add" || "update") && otherArgs.length >= 5;
   firstArg === "add" ? isValidCmd.action = "add" : "update"
   return isValidCmd;
 }

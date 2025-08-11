@@ -84,7 +84,7 @@ const slashCmdHandler = async function (request, response, next) {
     }
   } catch (err) {
     console.log(err);
-    return response.status(404).send("Server Error in SlashCmdHandler", err);
+    return ("Server Error in SlashCmdHandler", err);
   }
 };
 

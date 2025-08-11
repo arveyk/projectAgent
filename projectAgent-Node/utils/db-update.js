@@ -54,8 +54,7 @@ export const updateDbPage = async function (task) {
 		 }
 	       }
 	     ]  
-	  }
-	},
+	  },
 	  "Project": {
 	     "rich_text": [
 	       {
@@ -63,13 +62,13 @@ export const updateDbPage = async function (task) {
 		   "content": task.project,
 		 }
 	       }
-	     ]  
+	     ]	 
 	  }
-	},
+	}
     });
     return {
-	    success: true,
-	    page: response
+      success: true,
+      page: response
     };
   } catch (err) {
     console.log(err);

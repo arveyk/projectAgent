@@ -4,7 +4,7 @@ import {
   createFinalBlock,
 } from "../../blockkit/createBlocks.js";
 import addTaskNotionPage from "../../utils/notiondb.js";
-import { updateDbPage } from "../db-update.js";
+import { updateDbPage } from "../../utils/db-update.js";
 
 import { SLACK_BOT_TOKEN } from "../../env.js";
 

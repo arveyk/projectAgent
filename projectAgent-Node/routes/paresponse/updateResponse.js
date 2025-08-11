@@ -4,6 +4,8 @@ import {
   createFinalBlock,
 } from "../../blockkit/createBlocks.js";
 import addTaskNotionPage from "../../utils/notiondb.js";
+import { updateDbPage } from "../db-update.js";
+
 import { SLACK_BOT_TOKEN } from "../../env.js";
 
 /**
@@ -179,28 +181,36 @@ function sendApprove(payload, response_url) {
   const taskDetailsObj = JSON.parse(payload["actions"][0]["value"]);
 
   (async () => {
-    const createRowResult = await addTaskNotionPage(taskDetailsObj);
-    console.log(`Page added successfully? ${createRowResult.success}`);
+    let rowActionResult, actionMessage;
 
-    if (createRowResult.success === true) {
-      const newRow = createRowResult.page;
-      console.log(`ROW URL:${JSON.stringify(newRow.url)}}`);
+    if (taskDetailsObj.url) {
+      rowActionResult = await updateDbPage(taskDetailsObj);
+      console.log("Update Action");
+      actionMessage = "Updated";
+    } else {
+      rowActionResult = await addTaskNotionPage(taskDetailsObj);
+      actionMessage = "Created";
+      console.log(`Page added successfully? ${rowActionResult.success}`);
+    }
+    if (rowActionResult.success === true) {
+      const Row = rowActionResult.page;
+      console.log(`ROW URL:${JSON.stringify(Row.url)}}`);
 
       let replaceBlockRes;
-      if (newRow) {
+      if (Row) {
         const username = payload.user.username;
         replaceBlockRes = axios({
           method: "post",
           url: response_url,
           data: {
             replace_original: "true",
-            text: "Block Replaced\nNotification: Task Created Successfully",
+            text: `Block Replaced\nNotification: Task ${actionMessage} Successfully`,
             blocks: [
               {
                 type: "section",
                 text: {
                   type: "mrkdwn",
-                  text: `:white_check_mark: *Task Successfully Created*\nApproved by ${username} <${newRow.url}|(View)>`,
+                  text: `:white_check_mark: *Task Successfully Created*\nApproved by ${username} <${Row.url}|(View)>`,
                 },
               },
             ],
@@ -218,10 +228,11 @@ function sendApprove(payload, response_url) {
           });
       }
     } else {
-      sendError(createRowResult, payload, response_url);
+      sendError(rowActionResult, payload, response_url);
     }
   })();
 }
+
 function sendError(createRowResult, payload, response_url) {
   // Send error message
   axios(

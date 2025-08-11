@@ -27,7 +27,6 @@ const slashCmdHandler = async function (request, response, next) {
       const isInDatabase = await searchDB(convertedTask);
       console.log("IS in database?", JSON.stringify(isInDatabase));
 
-
       if (isInDatabase.exists) {
         console.log("Already in Database");
 
@@ -42,7 +41,9 @@ const slashCmdHandler = async function (request, response, next) {
           phonenumber: properties["Phone Number"].phone_number,
           preferredchannel:
             properties["Preferred Channel"].rich_text[0].plain_text,
-          taskdetails: properties["Description"].rich_text[0].plain_text,
+          taskdetail: properties["Description"].rich_text[0].plain_text,
+          url: pageObject.url,
+	  pageID: pageObject.id
         };
         const convertedExistingTask = convertEmptyFields(existingTask);
         const updateBlock = createUpdateBlock(convertedExistingTask);
@@ -97,8 +98,9 @@ export function isValidCmd(reqBody) {
   let firstArg = commandParams[0];
   let otherArgs = commandParams.slice(1, -1).join(" ");
   const isValidCmd = {};
-  isValidCmd.isValid = (firstArg.toLowerCase() === "add" || "update") && otherArgs.length >= 5;
-  firstArg === "add" ? isValidCmd.action = "add" : "update"
+  isValidCmd.isValid =
+    (firstArg.toLowerCase() === "add" || "update") && otherArgs.length >= 5;
+  firstArg === "add" ? (isValidCmd.action = "add") : "update";
   return isValidCmd;
 }
 

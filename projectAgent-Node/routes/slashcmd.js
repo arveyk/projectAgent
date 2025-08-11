@@ -27,7 +27,6 @@ const slashCmdHandler = async function (request, response, next) {
       const isInDatabase = await searchDB(convertedTask);
       console.log("IS in database?", JSON.stringify(isInDatabase));
 
-      console.log(`block create by task$${JSON.stringify(taskBlock)}`);
 
       if (isInDatabase.exists) {
         console.log("Already in Database");

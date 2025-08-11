@@ -19,8 +19,8 @@ const slashCmdHandler = async function (request, response, next) {
     console.log(`slashCmdHandler here. Any tasks for me?
 	  Request Body: ${JSON.stringify(request.body)}`);
     const command = request.body["command"];
-
-    if (isValidCmd(request.body)) {
+    const validate = isValidCmd(request.body);
+    if (validate.isValid) {
       const task = await parseTaskSlashCmd(request.body);
       const convertedTask = convertEmptyFields(task);
 
@@ -45,7 +45,7 @@ const slashCmdHandler = async function (request, response, next) {
           taskdetails: properties["Description"].rich_text[0].plain_text,
         };
         const convertedExistingTask = convertEmptyFields(existingTask);
-        const updateBlock = createUpdateBlock(convertExistingTask);
+        const updateBlock = createUpdateBlock(convertedExistingTask);
 
         axios({
           method: "post",
@@ -96,7 +96,9 @@ export function isValidCmd(reqBody) {
   const commandParams = reqBody["text"].trim().split(" ");
   let firstArg = commandParams[0];
   let otherArgs = commandParams.slice(1, -1).join(" ");
-  const isValidCmd = firstArg === "add" && otherArgs.length >= 5;
+  const isValidCmd = {};
+  isValidCmd.isValid = (firstArg === "add" || "update") && otherArgs.length >= 5;
+  firstArg === "add" ? isValidCmd.action = "add" : "update"
   return isValidCmd;
 }
 

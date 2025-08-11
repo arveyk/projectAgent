@@ -185,8 +185,8 @@ function sendApprove(payload, response_url) {
 
     if (taskDetailsObj.url) {
       rowActionResult = await updateDbPage(taskDetailsObj);
-      console.log("Update Action");
       actionMessage = "Updated";
+      console.log("Update Action");
     } else {
       rowActionResult = await addTaskNotionPage(taskDetailsObj);
       actionMessage = "Created";

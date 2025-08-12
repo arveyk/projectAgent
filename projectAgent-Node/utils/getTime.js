@@ -9,34 +9,32 @@ const MINUTES_IN_HOUR = 60;
  * @param {*} userID The user's ID
  * @returns The user's timezone, timezone label, and offset from UTC
  */
-export const getUserTimezone = async function(userID) {
-    const resp = await axios({
-        method: "get",
-        url: `https://slack.com/api/users.info?user=${userID}`,
-        headers: {
-              "Content-Type": "application/json; charset=UTF-8",
-              Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
-            },
-    });
+export const getUserTimezone = async function (userID) {
+  const resp = await axios({
+    method: "get",
+    url: `https://slack.com/api/users.info?user=${userID}`,
+    headers: {
+      "Content-Type": "application/json; charset=UTF-8",
+      Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
+    },
+  });
 
-    if (resp.data["ok"]) {
-        const userData = resp.data["user"];
-        return {
-            tz: userData["tz"],
-            tz_label: userData["tz_label"],
-            tz_offset: userData["tz_offset"] / (SECONDS_IN_MINUTE * MINUTES_IN_HOUR)
-        }
-    }
-    else {
-        throw new Error("Invalid user ID");
-    }
-    
-}
+  if (resp.data["ok"]) {
+    const userData = resp.data["user"];
+    return {
+      tz: userData["tz"],
+      tz_label: userData["tz_label"],
+      tz_offset: userData["tz_offset"] / (SECONDS_IN_MINUTE * MINUTES_IN_HOUR),
+    };
+  } else {
+    throw new Error("Invalid user ID");
+  }
+};
 
-export const getTime = async function(reqBody) {
-    // TODO get event timestamp and convert it to a date in the sender's timezone
-    const userID = reqBody["user_id"];
-    console.log(userID);
-    const userTZ = await getUserTimezone(userID);
-    console.log(userTZ);
-}
+export const getTime = async function (reqBody) {
+  // TODO get event timestamp and convert it to a date in the sender's timezone
+  const userID = reqBody["user_id"];
+  console.log(userID);
+  const userTZ = await getUserTimezone(userID);
+  console.log(userTZ);
+};

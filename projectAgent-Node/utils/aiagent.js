@@ -11,8 +11,13 @@ const model = new ChatAnthropic({
 const task = z.object({
   tasktitle: z.string().describe("Short descriptive title of the task"),
   assignee: z.string().describe("Name of person assigned with the task"),
-  duedate: z.string().describe("Task due date in ISO standard format with timezone included"),
-  startdate: z.string().optional().describe("Task start date in ISO standard format with timezone included"),
+  duedate: z
+    .string()
+    .describe("Task due date in ISO standard format with timezone included"),
+  startdate: z
+    .string()
+    .optional()
+    .describe("Task start date in ISO standard format with timezone included"),
   phonenumber: z.string().optional().describe("Assingnee phone number"),
   email: z.string().optional().describe("Assignee's email address"),
   preferredchannel: z
@@ -20,13 +25,11 @@ const task = z.object({
     .optional()
     .describe("Assignee\'s preferred channel of communication"),
   taskdetail: z.string().describe("details of the task"),
-  project: z.string().optional().describe("The project the task belongs to")
+  project: z.string().optional().describe("The project the task belongs to"),
 });
 
 // For use with slash commands
 const structuredLlmSlashCmd = model.withStructuredOutput(task);
-
-// TODO get timezone of sender and give it to the LLM
 
 /**
  * Uses Anthropic to parse a task assignment from a Slack slash command

@@ -1,6 +1,6 @@
-export const createTaskInfoBlock = function(task) {
-  return `*Task Title:*\t\t\t${task.tasktitle} \n*Assignee:* \t\t\t${task.assignee}\n*Due Date:*\t\t\t${task.duedate}\n*Start Date:*\t\t\t${task.startdate}\n*Phone Number:*\t${task.phonenumber}\n*Email:*\t\t\t${task.email}\n*Preferred Channel:*\t\t\t${task.preferredchannel}\n*Description:* \t\t${task.taskdetail}\n*Project:* \t\t${task.project}`
-}
+export const createTaskInfoBlock = function (task) {
+  return `*Task Title:*\t\t\t${task.tasktitle} \n*Assignee:* \t\t\t${task.assignee}\n*Due Date:*\t\t\t${task.duedate}\n*Start Date:*\t\t\t${task.startdate}\n*Phone Number:*\t${task.phonenumber}\n*Email:*\t\t\t${task.email}\n*Preferred Channel:*\t\t\t${task.preferredchannel}\n*Description:* \t\t${task.taskdetail}\n*Project:* \t\t${task.project}`;
+};
 
 export function createEditBlock(task) {
   return {
@@ -221,7 +221,7 @@ export function createFinalBlock(task) {
         type: "section",
         text: {
           type: "mrkdwn",
-          text: createTaskInfoBlock(task)
+          text: createTaskInfoBlock(task),
         },
       },
       {

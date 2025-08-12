@@ -1,5 +1,5 @@
 export { createEditBlock, createFinalBlock } from "./editblock.js";
-import { createTaskInfoBlock } from './editblock.js';
+import { createTaskInfoBlock } from "./editblock.js";
 
 const createConfirmationBlock = function confirmBlock(task) {
   if (task.preferredchannel === undefined) {
@@ -23,7 +23,7 @@ const createConfirmationBlock = function confirmBlock(task) {
         type: "section",
         text: {
           type: "mrkdwn",
-          text: createTaskInfoBlock(task)
+          text: createTaskInfoBlock(task),
         },
       },
       {
@@ -176,7 +176,7 @@ const sampleModal = {
  * @returns A set of Slack blocks containing data from the task, to be used in confirming new tasks
  */
 export const createBlockNewTask = function (task) {
-  const blockText = createTaskInfoBlock(task)
+  const blockText = createTaskInfoBlock(task);
 
   return {
     text: "Creating a new Task?",

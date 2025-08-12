@@ -43,7 +43,7 @@ const slashCmdHandler = async function (request, response, next) {
             properties["Preferred Channel"].rich_text[0].plain_text,
           taskdetail: properties["Description"].rich_text[0].plain_text,
           url: pageObject.url,
-	  pageID: pageObject.id
+          pageID: pageObject.id,
         };
         const convertedExistingTask = convertEmptyFields(existingTask);
         const updateBlock = createUpdateBlock(convertedExistingTask);

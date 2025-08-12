@@ -18,6 +18,7 @@ const slashCmdHandler = async function (request, response, next) {
   try {
     console.log(`slashCmdHandler here. Any tasks for me?
 	  Request Body: ${JSON.stringify(request.body)}`);
+    console.log(`headers: ${request.headers}`)
     const command = request.body["command"];
     const validate = isValidCmd(request.body);
     if (validate.isValid) {

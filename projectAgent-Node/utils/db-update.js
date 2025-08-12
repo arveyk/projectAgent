@@ -24,10 +24,10 @@ export const updateDbPage = async function (task) {
         },
         "Start Date": {
           date: {
-            start: new Date(startdate),
+            start: new Date(task.startdate),
           },
         },
-        Email: {
+        "Email": {
           email: task.email,
         },
         "Phone Number": {
@@ -42,7 +42,7 @@ export const updateDbPage = async function (task) {
             },
           ],
         },
-        Description: {
+        "Description": {
           rich_text: [
             {
               text: {
@@ -51,7 +51,7 @@ export const updateDbPage = async function (task) {
             },
           ],
         },
-        Project: {
+        "Project": {
           rich_text: [
             {
               text: {

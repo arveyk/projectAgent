@@ -13,7 +13,7 @@ export function createUpdateBlock(task) {
         type: "section",
         text: {
           type: "mrkdwn",
-          text: `*Task title*:\t\t\t\t\t\t\t ${task.tasktitle} \n *Assignee*  \t\t\t\t\t\t\t${task.assignee}\n* Due Date*  \t\t\t\t\t\t  ${task.duedate}\n*Email:* \t\t\t\t\t\t\t\t  ${task.email} \n*Phone Number:* \t\t\t\t${task.phonenumber}\n *Preferred Channel:* \t\t\t${task.preferredchannel} \n*Task Details:*\t\t\t\t\t ${task.taskdetail}\n*Task Link* \t\t\t\t\t\t\t<${task.url}|link>`,
+          text: `*Task title*:\t\t\t\t\t\t\t ${task.tasktitle} \n *Assignee*  \t\t\t\t\t\t\t${task.assignee}\n* Due Date*  \t\t\t\t\t\t  ${task.duedate}\n*Email:* \t\t\t\t\t\t\t\t  ${task.email} \n*Phone Number:* \t\t\t\t${task.phonenumber}\n *Preferred Channel:* \t\t\t${task.preferredchannel} \n*Task Details:*\t\t\t\t\t ${task.taskdetail}\n*Project:*\t\t\t\t\t\t${task.project}\n*Task Link* \t\t\t\t\t\t\t<${task.url}|link>`,
         },
       },
       {

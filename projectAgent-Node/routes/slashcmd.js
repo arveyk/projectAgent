@@ -22,7 +22,9 @@ const slashCmdHandler = async function (request, response, next) {
     const command = request.body["command"];
     const validate = isValidCmd(request.body);
     if (validate.isValid) {
-      const task = await parseTaskSlashCmd(request.body);
+      const timestamp = request.headers["timestamp"];
+      console.log(timestamp)
+      const task = await parseTaskSlashCmd(request.body, timestamp);
       const convertedTask = convertEmptyFields(task);
 
       const isInDatabase = await searchDB(convertedTask);

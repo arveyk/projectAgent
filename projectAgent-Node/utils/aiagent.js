@@ -1,6 +1,7 @@
 import { ChatAnthropic } from "@langchain/anthropic";
 import { z } from "zod";
 import { ANTHROPIC_API_KEY } from "../env.js";
+import { getTime } from "./getTime.js";
 
 const model = new ChatAnthropic({
   model: "claude-3-5-sonnet-20240620",
@@ -36,7 +37,7 @@ const structuredLlmSlashCmd = model.withStructuredOutput(task);
  * @param {*} reqBody The body of the request
  * @returns A TaskParseResult containing the formatted task.
  */
-export const parseTaskSlashCmd = async function (reqBody) {
+export const parseTaskSlashCmd = async function (reqBody, timestamp) {
   let textToParse;
 
   //slash cmd text can be immediately accessed, for other events it is indirect, through events field
@@ -50,6 +51,8 @@ export const parseTaskSlashCmd = async function (reqBody) {
 
   // TODO replace this date with the timestamp of the message and the timezone of the sender
   const today = new Date();
+  //const today = getTime(reqBody, timestamp);
+
   const prompt = `Today's date is ${today}. Please extract information from this message and determine whether or not it is assigning a new task to a person: ${textToParse}`;
   console.log(`prompt: ${prompt}`);
   const taskParseResult = await structuredLlmSlashCmd.invoke(prompt);

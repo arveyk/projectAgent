@@ -31,10 +31,11 @@ export const getUserTimezone = async function (userID) {
   }
 };
 
-export const getTime = async function (reqBody) {
+export const getTime = async function (reqBody, timestamp) {
   // TODO get event timestamp and convert it to a date in the sender's timezone
   const userID = reqBody["user_id"];
   console.log(userID);
   const userTZ = await getUserTimezone(userID);
-  console.log(userTZ);
+  console.log(`timezone: ${userTZ}`);
+  console.log(`timestamp: ${timestamp}`);
 };

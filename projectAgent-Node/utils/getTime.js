@@ -18,10 +18,17 @@ export const getUserTimezone = async function(userID) {
               Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
             },
     });
-    const userData = resp.data["user"];
-    return {
-        tz: userData["tz"],
-        tz_label: userData["tz_label"],
-        tz_offset: userData["tz_offset"] / (SECONDS_IN_MINUTE * MINUTES_IN_HOUR)
+
+    if (resp.data["ok"]) {
+        const userData = resp.data["user"];
+        return {
+            tz: userData["tz"],
+            tz_label: userData["tz_label"],
+            tz_offset: userData["tz_offset"] / (SECONDS_IN_MINUTE * MINUTES_IN_HOUR)
+        }
     }
+    else {
+        throw new Error("Invalid user ID");
+    }
+    
 }

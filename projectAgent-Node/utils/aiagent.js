@@ -11,8 +11,8 @@ const model = new ChatAnthropic({
 const task = z.object({
   tasktitle: z.string().describe("Short descriptive title of the task"),
   assignee: z.string().describe("Name of person assigned with the task"),
-  duedate: z.string().describe("Task Due-date"),
-  startdate: z.string().optional().describe("Task Start-date"),
+  duedate: z.string().describe("Task due date in ISO standard format with timezone included"),
+  startdate: z.string().optional().describe("Task start date in ISO standard format with timezone included"),
   phonenumber: z.string().optional().describe("Assingnee phone number"),
   email: z.string().optional().describe("Assignee's email address"),
   preferredchannel: z
@@ -25,6 +25,8 @@ const task = z.object({
 
 // For use with slash commands
 const structuredLlmSlashCmd = model.withStructuredOutput(task);
+
+// TODO get timezone of sender and give it to the LLM
 
 /**
  * Uses Anthropic to parse a task assignment from a Slack slash command
@@ -43,6 +45,7 @@ export const parseTaskSlashCmd = async function (reqBody) {
     textToParse = "No Task available";
   }
 
+  // TODO replace this date with the timestamp of the message and the timezone of the sender
   const today = new Date();
   const prompt = `Today's date is ${today}. Please extract information from this message and determine whether or not it is assigning a new task to a person: ${textToParse}`;
   console.log(`prompt: ${prompt}`);

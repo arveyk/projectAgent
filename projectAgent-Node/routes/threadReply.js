@@ -3,10 +3,7 @@
  */
 
 import axios from "axios";
-import dotenv from "dotenv";
-dotenv.config();
-
-const botToken = process.env.SLACK_BOT_TOKEN;
+import { SLACK_BOT_TOKEN } from "../env.js";
 
 function threadMsg(request, response) {
   const payloadStr = request.body.payload;
@@ -22,7 +19,7 @@ function threadMsg(request, response) {
       text: "This is A threaded reply",
     },
     headers: {
-      Authorization: `Bearer ${botToken}`,
+      Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
       "Content-Type": "application/json; charset=UTF-8",
     },
   });

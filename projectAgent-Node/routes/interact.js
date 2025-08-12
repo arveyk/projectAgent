@@ -1,10 +1,6 @@
 import axios from "axios";
-import dotenv from "dotenv";
 import { sampleModal, RequestApprovalBlock } from "../blockkit/createBlocks.js";
-
-dotenv.config();
-
-const bearerToken = process.env.SLACK_BOT_TOKEN;
+import { SLACK_BOT_TOKEN } from "../env.js";
 
 function interactionsHandler(request, response, next) {
   const payloadStr = request.body.payload;
@@ -31,7 +27,7 @@ function interactionsHandler(request, response, next) {
     data: sampleModal,
     headers: {
       "Content-Type": "application/json; charset=UTF-8",
-      Authorization: `Bearer ${bearerToken}`,
+      Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
     },
   })
     .then((modalResponse) => {

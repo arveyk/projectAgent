@@ -22,7 +22,7 @@ export function createEditBlock(task) {
           action_id: "task_title_id",
           placeholder: {
             type: "plain_text",
-            text: `${task.tasktitle}`,
+            text: `${task.tasktitle || " "}`,
           },
         },
         label: {
@@ -149,7 +149,7 @@ export function createEditBlock(task) {
         elements: [
           {
             type: "plain_text",
-            text: `Current Task Details ${task.taskdetail}`,
+            text: `Current Task Details ${task.taskdetail || " "}`,
             emoji: true,
           },
         ],
@@ -161,7 +161,7 @@ export function createEditBlock(task) {
           action_id: "project_id",
           placeholder: {
             type: "plain_text",
-            text: `${task.project}`,
+            text: `${" "}`,
           },
         },
         label: {

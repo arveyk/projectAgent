@@ -84,6 +84,7 @@ function sendReject(payload, action_text, response_url, action) {
       Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
       "Content-Type": "application/json; charset=UTF-8",
     },
+    family: 4
   })
     .then((Response) => {
       console.log("Update msg", Response);
@@ -108,6 +109,7 @@ function sendEdit(payload, response_url) {
       Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
       "Content-Type": "application/json; charset=UTF-8",
     },
+    family: 4
   })
     .then((Response) => {
       console.log("Update msg", Response);
@@ -168,6 +170,7 @@ function sendSubmit(payload, response_url) {
       Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
       "Content-Type": "application/json; charset=UTF-8",
     },
+    family: 4
   })
     .then((Response) => {
       console.log("Final Block Submission", Response);
@@ -219,6 +222,7 @@ function sendApprove(payload, response_url) {
             Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
             "Content-Type": "application/json; charset=UTF-8",
           },
+	  family: 4
         })
           .then((Response) => {
             console.log("Update msg", Response);
@@ -258,6 +262,7 @@ function sendError(createRowResult, payload, response_url) {
         Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
         "Content-Type": "application/json; charset=UTF-8",
       },
+      family: 4
     },
   )
     .then((Response) => {

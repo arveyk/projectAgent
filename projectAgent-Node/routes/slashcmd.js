@@ -42,6 +42,7 @@ const slashCmdHandler = async function (request, response, next) {
           preferredchannel:
             properties["Preferred Channel"].rich_text[0].plain_text,
           taskdetail: properties["Description"].rich_text[0].plain_text,
+          project: properties["Project"].rich_text[0].plain_text,
           url: pageObject.url,
           pageID: pageObject.id,
         };
@@ -55,6 +56,7 @@ const slashCmdHandler = async function (request, response, next) {
             text: "Already in DB",
             blocks: updateBlock.blocks,
           },
+	  family: 4
         }).then((resp) => {
           console.log("OK from slack", resp["status"]);
         });
@@ -75,6 +77,7 @@ const slashCmdHandler = async function (request, response, next) {
         data: {
           text: "Format: add ['Task Details']",
         },
+	family: 4
       }).then((resp) => {
         console.log(
           "OK from slack Wrong command format Though",

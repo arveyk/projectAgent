@@ -56,7 +56,7 @@ const slashCmdHandler = async function (request, response, next) {
             text: "Already in DB",
             blocks: updateBlock.blocks,
           },
-	  family: 4
+          family: 4,
         }).then((resp) => {
           console.log("OK from slack", resp["status"]);
         });
@@ -66,7 +66,7 @@ const slashCmdHandler = async function (request, response, next) {
           method: "post",
           url: request.body["response_url"],
           data: taskBlock,
-	  family: 4
+          family: 4,
         }).then((resp) => {
           console.log("OK from slack", resp["status"]);
         });
@@ -78,7 +78,7 @@ const slashCmdHandler = async function (request, response, next) {
         data: {
           text: "Format: add ['Task Details']",
         },
-	family: 4
+        family: 4,
       }).then((resp) => {
         console.log(
           "OK from slack Wrong command format Though",

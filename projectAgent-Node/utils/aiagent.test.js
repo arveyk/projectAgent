@@ -12,6 +12,8 @@ import {
   noTask,
 } from "../test-data/tasks/example-tasks";
 
+// TODO add event timestamps to tests
+
 describe("Tests parseTaskSlashCmd with a good payload", () => {
   it("Parses the task correctly", async () => {
     expect(payloadGood).toBeDefined;

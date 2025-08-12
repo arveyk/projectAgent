@@ -22,8 +22,8 @@ const slashCmdHandler = async function (request, response, next) {
     const command = request.body["command"];
     const validate = isValidCmd(request.body);
     if (validate.isValid) {
-      const timestamp = request.headers["timestamp"];
-      console.log(timestamp)
+      const timestamp = request.headers["x-slack-request-timestamp"];
+      console.log(`timestamp: ${timestamp}`)
       const task = await parseTaskSlashCmd(request.body, timestamp);
       const convertedTask = convertEmptyFields(task);
 

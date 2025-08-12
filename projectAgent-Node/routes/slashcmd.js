@@ -66,6 +66,7 @@ const slashCmdHandler = async function (request, response, next) {
           method: "post",
           url: request.body["response_url"],
           data: taskBlock,
+	  family: 4
         }).then((resp) => {
           console.log("OK from slack", resp["status"]);
         });

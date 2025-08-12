@@ -94,9 +94,13 @@ function sendReject(payload, action_text, response_url, action) {
     });
 }
 
-function sendEdit(payload, response_url) {
+function sendEdit(payload, response_url, err) {
   const taskDetailsObj = JSON.parse(payload["actions"][0].value);
   const blockObj = createEditBlock(taskDetailsObj);
+  
+  if (err){
+    blockObj.blocks[0].text.text = "*Due Date cannot be a past Date*"
+  }
 
   const editResp = axios({
     method: "post",
@@ -279,7 +283,7 @@ function sendError(createRowResult, payload, response_url) {
 
   // If the due date is in the past, make the user edit it
   if (createRowResult.errorMsg === "A due date can't be in the past") {
-    console.log(createRowResult.errorMsg);
+    console.log(createRowResult.errorMsg, "DueDate");
     sendEdit(payload, response_url);
   } else {
     // TODO handle other error cases

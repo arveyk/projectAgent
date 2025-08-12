@@ -1,5 +1,9 @@
 export { createEditBlock, createFinalBlock } from "./editblock.js";
 
+export const createTaskInfoBlock = function(task) {
+  return `*Task Title:*\t\t\t${task.tasktitle} \n*Assignee:* \t\t\t${task.assignee}\n*Due Date:*\t\t\t${task.duedate}\n*Start Date:*\t\t\t${task.startdate}\n*Phone Number:*\t${task.phonenumber}\n*Email:*\t\t\t${task.email}\n*Preferred Channel:*\t\t\t${task.preferredchannel}\n*Description:* \t\t${task.taskdetail}\n*Project:* \t\t${task.project}`
+}
+
 const createConfirmationBlock = function confirmBlock(task) {
   if (task.preferredchannel === undefined) {
     task.preferredchannel = " ";
@@ -22,7 +26,7 @@ const createConfirmationBlock = function confirmBlock(task) {
         type: "section",
         text: {
           type: "mrkdwn",
-          text: `*Task Title:*\t\t\t${task.tasktitle} \n*Assignee:* \t\t\t${task.assignee}\n*Due Date:*\t\t\t${task.duedate}\n*Start Date:*\t\t\t${task.startdate}\n*Phone Number:*\t${task.phonenumber}\n*Email:*\t\t\t${task.email}\n*Preferred Channel:*\t\t\t${task.preferredchannel}\n*Description:* \t\t${task.taskdetail}\n*Project:* \t\t${task.project}`,
+          text: createTaskInfoBlock(task)
         },
       },
       {
@@ -175,7 +179,7 @@ const sampleModal = {
  * @returns A set of Slack blocks containing data from the task, to be used in confirming new tasks
  */
 export const createBlockNewTask = function (task) {
-  const blockText = `*Task Title:*\t\t\t${task.tasktitle} \n*Assignee:* \t\t\t${task.assignee}\n*Due Date:*\t\t\t${task.duedate}\n*Start Date:*\t\t\t${task.startdate}\n*Phone Number:*\t${task.phonenumber}\n*Email:*\t\t\t${task.email}\n*Preferred Channel:*\t\t\t${task.preferredchannel}\n*Description:* \t\t${task.taskdetail}\n*Project:* \t\t${task.project}`;
+  const blockText = createTaskInfoBlock(task)
 
   return {
     text: "Creating a new Task?",

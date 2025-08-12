@@ -1,3 +1,5 @@
+import { createTaskInfoBlock } from "./createBlocks";
+
 export function createEditBlock(task) {
   return {
     blocks: [
@@ -217,7 +219,7 @@ export function createFinalBlock(task) {
         type: "section",
         text: {
           type: "mrkdwn",
-          text: `*Task Title:*\t\t\t${task.tasktitle} \n*Assignee:* \t\t\t${task.assignee}\n*Due Date:*\t\t\t${task.duedate}\n*Start Date:*\t\t\t${task.startdate}\n*Phone Number:*\t${task.phonenumber}\n*Email:*\t\t\t\t\t${task.email}\n*Preferred Channel:*\t${task.preferredchannel}\n*Description:* \t\t${task.taskdetail}\n*Project:* \t\t${task.project}`,
+          text: createTaskInfoBlock(task)
         },
       },
       {

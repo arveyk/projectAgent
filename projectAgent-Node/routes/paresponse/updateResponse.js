@@ -184,15 +184,17 @@ function sendApprove(payload, response_url) {
   const taskDetailsObj = JSON.parse(payload["actions"][0]["value"]);
 
   (async () => {
-    let rowActionResult, actionMessage;
+    let rowActionResult, actionMessage, emoji;
 
     if (taskDetailsObj.url) {
       rowActionResult = await updateDbPage(taskDetailsObj);
       actionMessage = "Updated";
+      emoji = "pencil2";
       console.log("Update Action");
     } else {
       rowActionResult = await addTaskNotionPage(taskDetailsObj);
       actionMessage = "Created";
+      emoji = "white_check_mark";
       console.log(`Page added successfully? ${rowActionResult.success}`);
     }
     if (rowActionResult.success === true) {
@@ -213,7 +215,7 @@ function sendApprove(payload, response_url) {
                 type: "section",
                 text: {
                   type: "mrkdwn",
-                  text: `:white_check_mark: *Task Successfully ${actionMessage}*\nApproved by ${username} <${Row.url}|(View)>`,
+                  text: `:${emoji}: *Task Successfully ${actionMessage}*\nApproved by ${username} <${Row.url}|(View)>`,
                 },
               },
             ],

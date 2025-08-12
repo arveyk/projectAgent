@@ -1,5 +1,5 @@
-import { ExpressReceiver } from "@slack/bolt";
-import { getUserTimezone } from "./getTime";
+import { getUserTimezone, getTime } from "./getTime";
+import { payloadGood } from "../test-data/payloads/slashcmd/payloads";
 import dotenv from 'dotenv'
 dotenv.config()
 const userID = process.env.TEST_USER_ID;
@@ -23,5 +23,11 @@ describe("Tests getUserTimezone with an invalid user id", () => {
         await expect(async () => {
             await getUserTimezone(userIDBad);
         }).rejects.toThrow("Invalid user ID");
+    })
+})
+
+describe("Tests getTime with a valid payload", () => {
+    it("Returns the time of the event in the user's timezone", async () => {
+        await getTime(payloadGood);
     })
 })

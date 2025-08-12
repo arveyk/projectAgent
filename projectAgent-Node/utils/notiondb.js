@@ -180,6 +180,7 @@ async function addTaskNotionPage(taskObj) {
     TaskProperties["Project"]["rich_text"][0]["text"]["content"] = project;
 
     try {
+      throw new Error("sabotage");
       const newPage = await notion.pages.create({
         parent: {
           database_id: NOTION_DATABASE_ID,

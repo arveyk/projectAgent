@@ -69,6 +69,5 @@ export const searchDB = async function (task) {
 };
 
 export const getTaskProperties = async function (pageID) {
-  // TODO get task by ID and return all properties
   return await notion.pages.retrieve({ page_id: pageID });
 };

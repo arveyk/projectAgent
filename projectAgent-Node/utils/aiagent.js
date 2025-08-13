@@ -50,10 +50,8 @@ export const parseTaskSlashCmd = async function (reqBody, timestamp) {
   }
 
   const timeData = await getEventTimeData(reqBody, timestamp);
-  const timeISO = timeData.timeISO;
-  const timezoneOffset = timeData.timezoneOffset;
 
-  const prompt = `Today's date in ISO format is ${timeISO}, and our time zone offset is ${timezoneOffset}. Please extract information from this message and determine whether or not it is assigning a new task to a person: ${textToParse}`;
+  const prompt = `Today's date and time in ISO format is ${timeData.timeISO}, and our timezone is ${timeData.timezone} (offset of ${timeData.timezoneOffset} hours). Please extract information from this message, making sure to include the timezone offset in any date fields: ${textToParse}`;
   console.log(`prompt: ${prompt}`);
   const taskParseResult = await structuredLlmSlashCmd.invoke(prompt);
   console.log(`task parse result: ${JSON.stringify(taskParseResult)}`);

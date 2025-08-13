@@ -161,7 +161,7 @@ export function createEditBlock(task) {
           action_id: "project_id",
           placeholder: {
             type: "plain_text",
-            text: `${" "}`,
+            text: `${task.project}`,
           },
         },
         label: {

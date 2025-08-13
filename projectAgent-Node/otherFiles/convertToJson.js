@@ -34,10 +34,10 @@ const payloadStr5 = {
 };
 const payloadStr6 = {"payload":"{\"type\":\"block_actions\",\"user\":{\"id\":\"U08UDKY38QK\",\"username\":\"harveykisiangani\",\"name\":\"harveykisiangani\",\"team_id\":\"T08VADHH17S\"},\"api_app_id\":\"A0935EDQRHB\",\"token\":\"JWNJnukcVaHbRoRl6CwWYan6\",\"container\":{\"type\":\"message\",\"message_ts\":\"1755023592.001500\",\"channel_id\":\"C08VADJ7SEL\",\"is_ephemeral\":true},\"trigger_id\":\"9369413940160.8996459579264.c869ca832af100d51ce28b97edee3bb9\",\"team\":{\"id\":\"T08VADHH17S\",\"domain\":\"solutionalpro-1c61413\"},\"enterprise\":null,\"is_enterprise_install\":false,\"channel\":{\"id\":\"C08VADJ7SEL\",\"name\":\"all-solutional-project-agent\"},\"state\":{\"values\":{}},\"response_url\":\"https:\\/\\/hooks.slack.com\\/actions\\/T08VADHH17S\\/9369413877984\\/6T1x5hhdvUIkBd6qKaPlSZE1\",\"actions\":[{\"action_id\":\"actionId-2\",\"block_id\":\"vwlxD\",\"text\":{\"type\":\"plain_text\",\"text\":\"Edit\",\"emoji\":true},\"value\":\"{\\\"tasktitle\\\":\\\"Search logs for Axios errors\\\",\\\"assignee\\\":\\\"Anna\\\",\\\"duedate\\\":\\\"2025-08-15T00:00:00+00:00\\\",\\\"startdate\\\":\\\"2025-08-12T18:33:01+00:00\\\",\\\"phonenumber\\\":\\\"\\\",\\\"email\\\":\\\"\\\",\\\"preferredchannel\\\":\\\"\\\",\\\"taskdetail\\\":\\\"Search the logs for any Axios errors and report back\\\",\\\"project\\\":\\\" \\\"}\",\"type\":\"button\",\"action_ts\":\"1755023648.841217\"}]}"}
 
+const payloadStr7 =  {"payload":"{\"type\":\"block_actions\",\"user\":{\"id\":\"U08UDKY38QK\",\"username\":\"harveykisiangani\",\"name\":\"harveykisiangani\",\"team_id\":\"T08VADHH17S\"},\"api_app_id\":\"A0935EDQRHB\",\"token\":\"JWNJnukcVaHbRoRl6CwWYan6\",\"container\":{\"type\":\"message\",\"message_ts\":\"1755083145.000300\",\"channel_id\":\"C08VADJ7SEL\",\"is_ephemeral\":true},\"trigger_id\":\"9345906559493.8996459579264.31aff65c475013ee1ff5e29babcd9385\",\"team\":{\"id\":\"T08VADHH17S\",\"domain\":\"solutionalpro-1c61413\"},\"enterprise\":null,\"is_enterprise_install\":false,\"channel\":{\"id\":\"C08VADJ7SEL\",\"name\":\"all-solutional-project-agent\"},\"state\":{\"values\":{}},\"response_url\":\"https:\\/\\/hooks.slack.com\\/actions\\/T08VADHH17S\\/9345906525493\\/fyPXOi6sPAzIMqWohkDSFOja\",\"actions\":[{\"action_id\":\"actionId-1\",\"block_id\":\"GVTGh\",\"text\":{\"type\":\"plain_text\",\"text\":\"Yes\",\"emoji\":true},\"value\":\"{\\\"tasktitle\\\":\\\"Change generator starter motor\\\",\\\"assignee\\\":\\\"Felix\\\",\\\"duedate\\\":\\\"2025-09-03T20:59:00.000+00:00\\\",\\\"startdate\\\":\\\"2025-08-13T10:45:00.000+00:00\\\",\\\"phonenumber\\\":\\\" \\\",\\\"email\\\":\\\"felix@example.com\\\",\\\"preferredchannel\\\":\\\"Slack\\\",\\\"taskdetail\\\":\\\"Change the generator starter motor\\\",\\\"project\\\":\\\"Meaty Forum\\\",\\\"url\\\":\\\"https:\\/\\/www.notion.so\\/Change-generator-starter-motor-24e7b3ca534481df88ead3f1817a9aae\\\",\\\"pageID\\\":\\\"24e7b3ca-5344-81df-88ea-d3f1817a9aae\\\"}\",\"style\":\"primary\",\"type\":\"button\",\"action_ts\":\"1755083153.715876\"}]}"}
 
 
-
-const jsonPayload = JSON.parse(payloadStr6.payload);
+const jsonPayload = JSON.parse(payloadStr7.payload);
 console.log("Payload ", jsonPayload);
 console.log("Payload Message", jsonPayload.message);
 
@@ -75,7 +75,7 @@ actionKeysArr.map((key) => {
     case "preferred_channel_id":
       console.log(jsonPayload.state.values[key][actionIdKey]["value"]);
       break;
-    case "plain_text_input-action0":
+    case "project_id":
       console.log("pxt0", jsonPayload.state.values[key][actionIdKey]["value"]);
       break;
     case "plain_text_input-action":

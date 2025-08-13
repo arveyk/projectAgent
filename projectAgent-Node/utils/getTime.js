@@ -33,7 +33,6 @@ export const getUserTimezoneData = async function (userID) {
 };
 
 export const getEventTimeData = async function (reqBody, timestamp) {
-  // TODO get event timestamp and convert it to a date in the sender's timezone
   const userID = reqBody["user_id"];
   const userTZData = await getUserTimezoneData(userID);
   // console.log(`user timezone data: ${JSON.stringify(userTZData)}`);

@@ -77,7 +77,7 @@ export const taskGood = {
   email: "<UNKNOWN>",
   preferredChannel: "Slack",
   taskdetail:
-    /Finish the mural/gmi,
+    /mural/gmi,
 }
 
 export const taskInferDates = {

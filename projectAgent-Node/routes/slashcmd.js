@@ -18,12 +18,12 @@ const slashCmdHandler = async function (request, response, next) {
   try {
     console.log(`slashCmdHandler here. Any tasks for me?
 	  Request Body: ${JSON.stringify(request.body)}`);
-    console.log(`headers: ${JSON.stringify(request.headers)}`)
+    console.log(`headers: ${JSON.stringify(request.headers)}`);
     const command = request.body["command"];
     const validate = isValidCmd(request.body);
     if (validate.isValid) {
       const timestamp = request.headers["x-slack-request-timestamp"];
-      console.log(`timestamp: ${timestamp}`)
+      console.log(`timestamp: ${timestamp}`);
       const task = await parseTaskSlashCmd(request.body, timestamp);
       const convertedTask = convertEmptyFields(task);
 

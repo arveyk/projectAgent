@@ -41,13 +41,13 @@ export const getEventTimeData = async function (reqBody, timestamp) {
 
   const timestampMillis = parseInt(timestamp) * MILLISECONDS;
   // console.log(`timestamp (milliseconds: ${timestampMillis}`);
-  
+
   const timeISO = new Date(timestampMillis).toISOString();
   // console.log(`time (ISO): ${timeISO}`);
 
   return {
     timeISO: timeISO,
     timezone: userTZData.tz,
-    timezoneOffset: userTZData.tz_offset
+    timezoneOffset: userTZData.tz_offset,
   };
 };

@@ -64,7 +64,6 @@ export const updateDbPage = async function (task) {
             ],
           },
         },
-
       });
       return {
         success: true,

@@ -97,9 +97,9 @@ function sendReject(payload, action_text, response_url, action) {
 function sendEdit(payload, response_url, err) {
   const taskDetailsObj = JSON.parse(payload["actions"][0].value);
   const blockObj = createEditBlock(taskDetailsObj);
-  
-  if (err){
-    blockObj.blocks[0].text.text = "*Due Date cannot be a past Date*"
+
+  if (err) {
+    blockObj.blocks[0].text.text = "*Due Date cannot be a past Date*";
   }
 
   const editResp = axios({

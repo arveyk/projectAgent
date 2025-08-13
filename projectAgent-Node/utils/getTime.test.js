@@ -1,5 +1,8 @@
 import { getUserTimezoneData, getEventTimeData } from "./getTime";
-import { payloadGood as payloadCeci, payloadHarvey } from "../test-data/payloads/slashcmd/payloads";
+import {
+  payloadGood as payloadCeci,
+  payloadHarvey,
+} from "../test-data/payloads/slashcmd/payloads";
 import dotenv from "dotenv";
 dotenv.config();
 const userID = process.env.TEST_USER_ID;
@@ -36,8 +39,8 @@ describe("Tests getTime with a valid payload from Harvey", () => {
     expect(timeData).toMatchObject({
       timeISO: "2025-08-12T23:01:22.000Z",
       timezone: "Africa/Nairobi",
-      timezoneOffset: 3
-    })
+      timezoneOffset: 3,
+    });
   });
 });
 
@@ -50,7 +53,7 @@ describe("Tests getTime with a valid payload from Ceci", () => {
     expect(timeData).toMatchObject({
       timeISO: "2025-08-12T23:01:22.000Z",
       timezone: "America/Los_Angeles",
-      timezoneOffset: -7
-    })
+      timezoneOffset: -7,
+    });
   });
 });

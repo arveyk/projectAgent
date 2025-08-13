@@ -3,13 +3,14 @@ import { SLACK_BOT_TOKEN } from "../env.js";
 
 const SECONDS_IN_MINUTE = 60;
 const MINUTES_IN_HOUR = 60;
+const MILLISECONDS = 1000;
 
 /**
  * Gets timezone data about a user.
  * @param {*} userID The user's ID
  * @returns The user's timezone, timezone label, and offset from UTC
  */
-export const getUserTimezone = async function (userID) {
+export const getUserTimezoneData = async function (userID) {
   const resp = await axios({
     method: "get",
     url: `https://slack.com/api/users.info?user=${userID}`,
@@ -31,11 +32,22 @@ export const getUserTimezone = async function (userID) {
   }
 };
 
-export const getTime = async function (reqBody, timestamp) {
+export const getEventTimeData = async function (reqBody, timestamp) {
   // TODO get event timestamp and convert it to a date in the sender's timezone
   const userID = reqBody["user_id"];
-  console.log(userID);
-  const userTZ = await getUserTimezone(userID);
-  console.log(`timezone: ${userTZ}`);
-  console.log(`timestamp: ${timestamp}`);
+  const userTZData = await getUserTimezoneData(userID);
+  // console.log(`user timezone data: ${JSON.stringify(userTZData)}`);
+  // console.log(`timestamp: ${timestamp}`);
+
+  const timestampMillis = parseInt(timestamp) * MILLISECONDS;
+  // console.log(`timestamp (milliseconds: ${timestampMillis}`);
+  
+  const timeISO = new Date(timestampMillis).toISOString();
+  // console.log(`time (ISO): ${timeISO}`);
+
+  return {
+    timeISO: timeISO,
+    timezone: userTZData.tz,
+    timezoneOffset: userTZData.tz_offset
+  };
 };

@@ -98,3 +98,15 @@ export const noTask = {
   duedate: "<UNKNOWN>",
   taskdetail: /No task/gmi
 }
+
+export const taskHarvey = {
+  tasktitle: "Send photos for LinkedIn shout out",
+  assignee: "Harvey",
+  duedate: "2025-08-06",
+  startdate: "2025-08-05",
+  phonenumber: "<UNKNOWN>",
+  email: "<UNKNOWN>",
+  preferredChannel: "Slack",
+  taskdetail:
+    "Send some photos for a LinkedIn shout out",
+}

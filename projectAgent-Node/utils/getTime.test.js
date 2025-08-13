@@ -1,12 +1,13 @@
-import { getUserTimezone, getTime } from "./getTime";
-import { payloadGood } from "../test-data/payloads/slashcmd/payloads";
+import { getUserTimezoneData, getEventTimeData } from "./getTime";
+import { payloadGood as payloadCeci, payloadHarvey } from "../test-data/payloads/slashcmd/payloads";
 import dotenv from "dotenv";
 dotenv.config();
 const userID = process.env.TEST_USER_ID;
+const userID2 = process.env.TEST_USER_ID_2;
 
 describe("Tests getUserTimezone with a user from the workspace", () => {
   it("Returns the user's timezone", async () => {
-    const timezone = await getUserTimezone(userID);
+    const timezone = await getUserTimezoneData(userID);
     console.log(JSON.stringify(timezone));
 
     expect(timezone).toMatchObject({
@@ -21,13 +22,35 @@ describe("Tests getUserTimezone with an invalid user id", () => {
   it("Throws error", async () => {
     const userIDBad = "ABC1DEF2GHI";
     await expect(async () => {
-      await getUserTimezone(userIDBad);
+      await getUserTimezoneData(userIDBad);
     }).rejects.toThrow("Invalid user ID");
   });
 });
 
-describe("Tests getTime with a valid payload", () => {
-  it("Returns the time of the event in the user's timezone", async () => {
-    await getTime(payloadGood);
+describe("Tests getTime with a valid payload from Harvey", () => {
+  it("Returns the time of the event in Harvey's timezone", async () => {
+    const timestamp = "1755039682";
+    const timeData = await getEventTimeData(payloadHarvey, timestamp);
+    console.log(`time data: ${JSON.stringify(timeData)}`);
+
+    expect(timeData).toMatchObject({
+      timeISO: "2025-08-12T23:01:22.000Z",
+      timezone: "Africa/Nairobi",
+      timezoneOffset: 3
+    })
+  });
+});
+
+describe("Tests getTime with a valid payload from Ceci", () => {
+  it("Returns the time of the event in Ceci's timezone", async () => {
+    const timestamp = "1755039682";
+    const timeData = await getEventTimeData(payloadCeci, timestamp);
+    console.log(`time data: ${JSON.stringify(timeData)}`);
+
+    expect(timeData).toMatchObject({
+      timeISO: "2025-08-12T23:01:22.000Z",
+      timezone: "America/Los_Angeles",
+      timezoneOffset: -7
+    })
   });
 });

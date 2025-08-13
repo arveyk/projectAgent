@@ -69,15 +69,15 @@ export const task_unknown_fields = {
 };
 
 export const taskGood = {
-  tasktitle: "Defeat the king",
-  assignee: "Mirabelle",
+  tasktitle: "Finish the mural",
+  assignee: "Jeff",
   duedate: "2025-09-01",
   startdate: "2025-08-06",
   phonenumber: "<UNKNOWN>",
   email: "<UNKNOWN>",
   preferredChannel: "Slack",
   taskdetail:
-    "Defeat the king before he freezes the whole country in time",
+    /Finish the mural/gmi,
 }
 
 export const taskInferDates = {

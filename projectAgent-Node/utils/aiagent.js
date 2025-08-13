@@ -51,7 +51,7 @@ export const parseTaskSlashCmd = async function (reqBody, timestamp) {
 
   const timeData = await getEventTimeData(reqBody, timestamp);
 
-  const prompt = `Today's date and time in ISO format is ${timeData.timeISO}, and our timezone is ${timeData.timezone} (offset of ${timeData.timezoneOffset} hours). Please extract information from this message, making sure to include the timezone offset in any date fields: ${textToParse}`;
+  const prompt = `Today's date and time in ISO format is ${timeData.timeISO}, and our timezone is ${timeData.timezone} (offset of ${timeData.timezoneOffset} hours). Please extract information from this message, making sure to convert any date fields from UTC to ISO with timezone offset: ${textToParse}`;
   console.log(`prompt: ${prompt}`);
   const taskParseResult = await structuredLlmSlashCmd.invoke(prompt);
   console.log(`task parse result: ${JSON.stringify(taskParseResult)}`);

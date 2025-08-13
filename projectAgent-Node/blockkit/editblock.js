@@ -211,7 +211,7 @@ export function createFinalBlock(task) {
         type: "section",
         text: {
           type: "mrkdwn",
-          text: "*Which Field would you like to edit?*",
+          text: "*Please approve to enact Changes or Decline by discard*",
         },
       },
       {

@@ -3,6 +3,17 @@ export const createTaskInfoBlock = function (task) {
 };
 
 export function createEditBlock(task) {
+  let duedate, startdate;
+  try {
+    duedate = new Date(task.duedate);
+  } catch (error) {
+    duedate = new Date().toISOString();
+  }
+  try {
+    stardate = new Date(task.startdate);
+  } catch (error) {
+    startdate = new Date().toISOString();
+  }
   return {
     blocks: [
       {
@@ -54,7 +65,7 @@ export function createEditBlock(task) {
           action_id: "due_date_id",
           placeholder: {
             type: "plain_text",
-            text: `Due date must not be in past. Current Value: ${task.duedate || " "}`,
+            text: `Due date must not be in past. Current Value: ${duedate}`,
           },
         },
         label: {
@@ -70,7 +81,7 @@ export function createEditBlock(task) {
           action_id: "start_date_id",
           placeholder: {
             type: "plain_text",
-            text: `${task.startdate || " "}`,
+            text: `${startdate}`,
           },
         },
         label: {
@@ -149,7 +160,7 @@ export function createEditBlock(task) {
         elements: [
           {
             type: "plain_text",
-            text: `Current Task Details ${task.taskdetail || " "}`,
+            text: `Current Task Details: ${task.taskdetail || " "}`,
             emoji: true,
           },
         ],

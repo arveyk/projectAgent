@@ -283,8 +283,8 @@ function sendError(createRowResult, payload, response_url) {
 
   // If the due date is in the past, make the user edit it
   if (createRowResult.errorMsg === "A due date can't be in the past") {
-    console.log(createRowResult.errorMsg, "DueDate");
-    sendEdit(payload, response_url);
+    console.log(createRowResult.errorMsg);
+    sendEdit(payload, response_url, "Past DueDate");
   } else {
     // TODO handle other error cases
     console.log(JSON.stringify(createRowResult.errorMsg));

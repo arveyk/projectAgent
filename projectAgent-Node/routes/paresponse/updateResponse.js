@@ -192,15 +192,15 @@ function sendApprove(payload, response_url) {
     let rowActionResult, actionMessage, emoji;
 
     if (taskDetailsObj.url) {
-      // TODO send loading message
-      //await sendLoadingMsg("Adding Task", channel_id);
+      await sendLoadingMsg("Adding Task", response_url);
+
       rowActionResult = await updateDbPage(taskDetailsObj);
       actionMessage = "Updated";
       emoji = "pencil2";
       console.log("Update Action");
     } else {
-      // TODO send loading message
-      //await sendLoadingMsg("Updating Task", channel_id);
+      await sendLoadingMsg("Updating Task", response_url);
+
       rowActionResult = await addTaskNotionPage(taskDetailsObj);
       actionMessage = "Created";
       emoji = "white_check_mark";

@@ -180,6 +180,7 @@ export const createBlockNewTask = function (task) {
 
   return {
     text: "Creating a new Task?",
+    replace_original: true,
     blocks: [
       {
         type: "section",

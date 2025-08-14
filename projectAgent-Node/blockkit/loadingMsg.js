@@ -7,6 +7,7 @@ import axios from "axios";
  */
 export const createBlockLoadingMsg = function (message) {
   return {
+    replace_original: true,
     blocks: [
       {
         type: "section",

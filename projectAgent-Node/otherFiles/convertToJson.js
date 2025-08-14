@@ -39,7 +39,7 @@ const payloadStr7 =  {"payload":"{\"type\":\"block_actions\",\"user\":{\"id\":\"
 
 const jsonPayload = JSON.parse(payloadStr7.payload);
 console.log("Payload ", jsonPayload);
-console.log("Payload Message", jsonPayload.message);
+console.log("Payload response_url", jsonPayload.response_url);
 
 const taskDetails = JSON.parse(jsonPayload.actions[0].value);
 console.log(taskDetails.Email);

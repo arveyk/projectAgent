@@ -23,14 +23,17 @@ const slashCmdHandler = async function (request, response, next) {
     const validate = isValidCmd(request.body);
     if (validate.isValid) {
       const channel_id = request.body["channel_id"];
-      await sendLoadingMsg("Parsing Task", channel_id);
+      await sendLoadingMsg("Parsing Task", response_url);
+
+      const payload = JSON.parse(request.body.payload);
+      const response_url = payload["response_url"];
 
       const timestamp = request.headers["x-slack-request-timestamp"];
       console.log(`timestamp: ${timestamp}`);
       const task = await parseTaskSlashCmd(request.body, timestamp);
       const convertedTask = convertEmptyFields(task);
 
-      await sendLoadingMsg("Searching Database", channel_id);
+      await sendLoadingMsg("Searching Database", response_url);
       const isInDatabase = await searchDB(convertedTask);
       console.log("IS in database?", JSON.stringify(isInDatabase));
 

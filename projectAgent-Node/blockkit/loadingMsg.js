@@ -15,22 +15,21 @@ export const createBlockLoadingMsg = function (message) {
   };
 };
 
-export const sendLoadingMsg = async function (message, channel_id) {
+export const sendLoadingMsg = async function (message, response_url) {
   const blocks = createBlockLoadingMsg(message);
   const eventResURL = "https://slack.com/api/chat.postMessage";
   try {
     // TODO make the message only appear to the user who triggered the slash command
     // TODO make the message go away when the wait is over
     await axios.post(
-      eventResURL,
+      response_url,
       {
-        channel: channel_id,
         text: "Some Text",
         blocks: blocks.blocks,
       },
       {
         headers: {
-          Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
+          //Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
           "Content-Type": "application/json; charset=UTF-8",
         },
 	family: 4

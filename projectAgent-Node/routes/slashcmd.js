@@ -23,8 +23,7 @@ const slashCmdHandler = async function (request, response, next) {
     const validate = isValidCmd(request.body);
     if (validate.isValid) {
       const channel_id = request.body["channel_id"];
-      const payload = JSON.parse(request.body.payload);
-      const response_url = payload["response_url"];
+      const response_url = request.body["response_url"];
 
       await sendLoadingMsg("Parsing Task", response_url);
 

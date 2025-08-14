@@ -3,8 +3,8 @@ import { createBlockNewTask } from "../blockkit/createBlocks.js";
 import { createUpdateBlock } from "../blockkit/updateBlock.js";
 import { convertEmptyFields } from "../utils/convertEmptyFields.js";
 import { parseTaskSlashCmd } from "../utils/aiagent.js";
-import { filterMessages } from "@langchain/core/messages";
 import { searchDB, getTaskProperties } from "../utils/db-search.js";
+import { sendLoadingMsg } from "../blockkit/loadingMsg.js";
 
 // webhook for taskmanagement channel only
 const webhookURL = process.env.TASK_MANAGEMENT_WEBHOOK_URL;
@@ -22,11 +22,15 @@ const slashCmdHandler = async function (request, response, next) {
     const command = request.body["command"];
     const validate = isValidCmd(request.body);
     if (validate.isValid) {
+      const channel_id = request.body["channel_id"];
+      await sendLoadingMsg("Parsing Task", channel_id);
+
       const timestamp = request.headers["x-slack-request-timestamp"];
       console.log(`timestamp: ${timestamp}`);
       const task = await parseTaskSlashCmd(request.body, timestamp);
       const convertedTask = convertEmptyFields(task);
 
+      await sendLoadingMsg("Searching Database", channel_id);
       const isInDatabase = await searchDB(convertedTask);
       console.log("IS in database?", JSON.stringify(isInDatabase));
 
@@ -52,6 +56,8 @@ const slashCmdHandler = async function (request, response, next) {
         const convertedExistingTask = convertEmptyFields(existingTask);
         const updateBlock = createUpdateBlock(convertedExistingTask);
 
+        await sendLoadingMsg("Editing Task", channel_id);
+
         axios({
           method: "post",
           url: request.body["response_url"],
@@ -65,6 +71,7 @@ const slashCmdHandler = async function (request, response, next) {
         });
       } else {
         const taskBlock = createBlockNewTask(convertedTask);
+        await sendLoadingMsg("Adding Task", channel_id);
         axios({
           method: "post",
           url: request.body["response_url"],

@@ -10,7 +10,7 @@ export function createEditBlock(task) {
     duedate = new Date().toISOString();
   }
   try {
-    stardate = new Date(task.startdate);
+    startdate = new Date(task.startdate);
   } catch (error) {
     startdate = new Date().toISOString();
   }

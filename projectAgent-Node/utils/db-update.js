@@ -12,9 +12,9 @@ const notion = new Client({ auth: NOTION_API_KEY });
  * @returns true if the task is found, else returns false
  */
 export const updateDbPage = async function (task) {
-  const dueDate = new Date(task["duedate"]).toISOString();
-  if (validateDueDate(dueDate)) {
-    try {
+  try {
+    const dueDate = new Date(task["duedate"]).toISOString();
+    if (validateDueDate(dueDate)) {
       console.log(`task (searchDB): ${JSON.stringify(task)}`);
 
       const response = await notion.pages.update({
@@ -69,15 +69,15 @@ export const updateDbPage = async function (task) {
         success: true,
         page: response,
       };
-    } catch (err) {
-      console.log(err);
-      return { success: false };
+    } else {
+      console.log("uh oh, the due date is in the past");
+      return {
+        success: false,
+        errorMsg: "A due date can't be in the past",
+      };
     }
-  } else {
-    console.log("uh oh, the due date is in the past");
-    return {
-      success: false,
-      errorMsg: "A due date can't be in the past",
-    };
+  } catch (err) {
+    console.log(err);
+    return { success: false };
   }
 };

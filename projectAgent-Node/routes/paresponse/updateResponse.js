@@ -192,14 +192,14 @@ function sendApprove(payload, response_url) {
     let rowActionResult, actionMessage, emoji;
 
     if (taskDetailsObj.url) {
-      await sendLoadingMsg("Adding Task", response_url);
+      await sendLoadingMsg("Updating Task", response_url);
 
       rowActionResult = await updateDbPage(taskDetailsObj);
       actionMessage = "Updated";
       emoji = "pencil2";
       console.log("Update Action");
     } else {
-      await sendLoadingMsg("Updating Task", response_url);
+      await sendLoadingMsg("Adding Task", response_url);
 
       rowActionResult = await addTaskNotionPage(taskDetailsObj);
       actionMessage = "Created";

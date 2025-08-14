@@ -1,6 +1,10 @@
 import axios from "axios";
-import { SLACK_BOT_TOKEN } from "../env.js";
 
+/**
+ * Creates a Slack block for the loading message.
+ * @param {*} message 
+ * @returns 
+ */
 export const createBlockLoadingMsg = function (message) {
   return {
     blocks: [
@@ -15,6 +19,11 @@ export const createBlockLoadingMsg = function (message) {
   };
 };
 
+/**
+ * Sends a loading message to the user who triggered a Slack event.
+ * @param {*} message 
+ * @param {*} response_url 
+ */
 export const sendLoadingMsg = async function (message, response_url) {
   const blocks = createBlockLoadingMsg(message);
   try {
@@ -27,7 +36,6 @@ export const sendLoadingMsg = async function (message, response_url) {
       },
       {
         headers: {
-          //Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
           "Content-Type": "application/json; charset=UTF-8",
         },
 	family: 4

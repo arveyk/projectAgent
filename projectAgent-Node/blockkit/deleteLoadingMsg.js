@@ -1,23 +1,8 @@
 import axios from "axios";
 import { SLACK_BOT_TOKEN } from "../env.js";
 
-export const createBlockLoadingMsg = function (message) {
-  return {
-    blocks: [
-      {
-        type: "section",
-        text: {
-          type: "mrkdwn",
-          text: `:arrows_counterclockwise: ${message}…`,
-        },
-      },
-    ],
-  };
-};
-
-export const sendLoadingMsg = async function (message, channel_id) {
-  const blocks = createBlockLoadingMsg(message);
-  const eventResURL = "https://slack.com/api/chat.postMessage";
+export const deleteLoadingMsg = async function (timeStamp, channel_id) {
+  const eventResURL = "https://slack.com/api/chat.delete";
   try {
     // TODO make the message only appear to the user who triggered the slash command
     // TODO make the message go away when the wait is over
@@ -26,7 +11,7 @@ export const sendLoadingMsg = async function (message, channel_id) {
       {
         channel: channel_id,
         text: "Some Text",
-        blocks: blocks.blocks,
+	ts: timeStamp
       },
       {
         headers: {
@@ -39,4 +24,4 @@ export const sendLoadingMsg = async function (message, channel_id) {
   } catch (err) {
     console.log(err);
   }
-};
+}

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { SLACK_BOT_TOKEN } from "../env";
+import { SLACK_BOT_TOKEN } from "../env.js";
 
 export const createBlockLoadingMsg = function (message) {
   return {
@@ -15,13 +15,11 @@ export const createBlockLoadingMsg = function (message) {
   };
 };
 
-
-export const sendLoadingMsg = async function(message, channel_id) {
+export const sendLoadingMsg = async function (message, channel_id) {
   const blocks = createBlockLoadingMsg(message);
   const eventResURL = "https://slack.com/api/chat.postMessage";
   try {
-    await axios
-    .post(
+    await axios.post(
       eventResURL,
       {
         channel: channel_id,
@@ -34,9 +32,8 @@ export const sendLoadingMsg = async function(message, channel_id) {
           "Content-Type": "application/json; charset=UTF-8",
         },
       },
-    )
-  }
-  catch (err) {
+    );
+  } catch (err) {
     console.log(err);
   }
 };

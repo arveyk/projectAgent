@@ -52,5 +52,8 @@ router.patch("/tasks/update", patchTaskHandler);
 router.post("/test/resp", testUpdateReply, (request, response) => {
   response.status(200).send("Received Payload from Slack");
 });
-
+router.post("/events", (request, response) => {
+  console.log(`Request Body${JSON.stringify(request.body)}`);
+  response.status(200).send(request.body["challenge"]);
+});
 export default router;

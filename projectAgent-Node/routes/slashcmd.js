@@ -56,8 +56,6 @@ const slashCmdHandler = async function (request, response, next) {
         const convertedExistingTask = convertEmptyFields(existingTask);
         const updateBlock = createUpdateBlock(convertedExistingTask);
 
-        await sendLoadingMsg("Editing Task", channel_id);
-
         axios({
           method: "post",
           url: request.body["response_url"],
@@ -71,7 +69,6 @@ const slashCmdHandler = async function (request, response, next) {
         });
       } else {
         const taskBlock = createBlockNewTask(convertedTask);
-        await sendLoadingMsg("Adding Task", channel_id);
         axios({
           method: "post",
           url: request.body["response_url"],

@@ -19,6 +19,8 @@ export const sendLoadingMsg = async function (message, channel_id) {
   const blocks = createBlockLoadingMsg(message);
   const eventResURL = "https://slack.com/api/chat.postMessage";
   try {
+    // TODO make the message only appear to the user who triggered the slash command
+    // TODO make the message go away when the wait is over
     await axios.post(
       eventResURL,
       {

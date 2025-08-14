@@ -2,8 +2,8 @@ import axios from "axios";
 
 /**
  * Creates a Slack block for the loading message.
- * @param {*} message 
- * @returns 
+ * @param {*} message
+ * @returns
  */
 export const createBlockLoadingMsg = function (message) {
   return {
@@ -21,8 +21,8 @@ export const createBlockLoadingMsg = function (message) {
 
 /**
  * Sends a loading message to the user who triggered a Slack event.
- * @param {*} message 
- * @param {*} response_url 
+ * @param {*} message
+ * @param {*} response_url
  */
 export const sendLoadingMsg = async function (message, response_url) {
   const blocks = createBlockLoadingMsg(message);
@@ -38,7 +38,7 @@ export const sendLoadingMsg = async function (message, response_url) {
         headers: {
           "Content-Type": "application/json; charset=UTF-8",
         },
-	family: 4
+        family: 4,
       },
     );
   } catch (err) {

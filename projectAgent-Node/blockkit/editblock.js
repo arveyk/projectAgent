@@ -172,7 +172,7 @@ export function createEditBlock(task) {
           action_id: "project_id",
           placeholder: {
             type: "plain_text",
-            text: `${task.project || "xxx" }`,
+            text: `${task.project || "xxx"}`,
           },
         },
         label: {
@@ -216,11 +216,11 @@ export function createEditBlock(task) {
 }
 
 export function createFinalBlock(task) {
-  task.email ? "Ok FinalBlock" : task.email = " ";
-  task.preferredchannel ? "Ok FinalBlock" : task.preferredchannel = " ";
-  task.project ? "Ok FinalBlock" :  task.project = " ";
-  task.phonenumber ? "Ok FinalBlock" : task.phonenumber = " ";
-  task.taskdetail ? "Ok FinalBlock" : task.taskdetail = " ";
+  task.email ? "Ok FinalBlock" : (task.email = " ");
+  task.preferredchannel ? "Ok FinalBlock" : (task.preferredchannel = " ");
+  task.project ? "Ok FinalBlock" : (task.project = " ");
+  task.phonenumber ? "Ok FinalBlock" : (task.phonenumber = " ");
+  task.taskdetail ? "Ok FinalBlock" : (task.taskdetail = " ");
   return {
     blocks: [
       {

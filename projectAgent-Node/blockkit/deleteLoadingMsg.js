@@ -11,17 +11,17 @@ export const deleteLoadingMsg = async function (timeStamp, channel_id) {
       {
         channel: channel_id,
         text: "Some Text",
-	ts: timeStamp
+        ts: timeStamp,
       },
       {
         headers: {
           Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
           "Content-Type": "application/json; charset=UTF-8",
         },
-	family: 4
+        family: 4,
       },
     );
   } catch (err) {
     console.log(err);
   }
-}
+};

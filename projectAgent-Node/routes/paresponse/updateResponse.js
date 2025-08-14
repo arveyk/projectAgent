@@ -250,6 +250,13 @@ function sendApprove(payload, response_url) {
 
 function sendError(createRowResult, payload, response_url) {
   // Send error message
+  const taskDetailsObj = JSON.parse(payload["actions"][0]["value"]);
+  let errMessage = "Create";
+  let errEmoji = "heavy_multiplication_x";
+  if (taskDetailsObj.url) {
+    errMessage = "Update";
+    errEmoji = "x";
+  }
   axios(
     {
       method: "post",
@@ -262,7 +269,7 @@ function sendError(createRowResult, payload, response_url) {
             type: "section",
             text: {
               type: "mrkdwn",
-              text: ":heavy_multiplication_x: *Unable to Create Entry*, ",
+              text: `:${errEmoji}: *Unable to ${errMessage} Entry*, `,
             },
           },
         ],

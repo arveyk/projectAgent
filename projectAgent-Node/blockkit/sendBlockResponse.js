@@ -35,7 +35,7 @@ axios({
   url: ALL_SLN_WEBHOOK_URL,
   data: {
     text: "Message testing block",
-    blocks: blocks_02.blocks,
+    blocks: blocks_01.blocks,
   },
   headers: {
     "Content-Type": "application/json",

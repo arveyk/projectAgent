@@ -3,3 +3,5 @@ node_modules\
 .env
 bolt/.env
 ijkk
+parseToJson.js
+otherFiles/post.test.js

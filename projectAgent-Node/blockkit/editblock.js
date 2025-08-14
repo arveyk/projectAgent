@@ -33,7 +33,7 @@ export function createEditBlock(task) {
           action_id: "task_title_id",
           placeholder: {
             type: "plain_text",
-            text: `${task.tasktitle || " "}`,
+            text: `${task.tasktitle || "xxx"}`,
           },
         },
         label: {
@@ -49,7 +49,7 @@ export function createEditBlock(task) {
           action_id: "assignee_id",
           placeholder: {
             type: "plain_text",
-            text: `${task.assignee || " "}`,
+            text: `${task.assignee || "xxx"}`,
           },
         },
         label: {
@@ -65,7 +65,7 @@ export function createEditBlock(task) {
           action_id: "due_date_id",
           placeholder: {
             type: "plain_text",
-            text: `Due date must not be in past. Current Value: ${duedate}`,
+            text: `Due date must not be in past. Current Value: ${duedate || "xxx"}`,
           },
         },
         label: {
@@ -97,7 +97,7 @@ export function createEditBlock(task) {
           action_id: "email_id",
           placeholder: {
             type: "plain_text",
-            text: `${task.email || " "}`,
+            text: `${task.email || "xxx"}`,
           },
         },
         label: {
@@ -113,7 +113,7 @@ export function createEditBlock(task) {
           action_id: "phone_number_id",
           placeholder: {
             type: "plain_text",
-            text: `${task.phonenumber || " "}`,
+            text: `${task.phonenumber || "xxx"}`,
           },
         },
         label: {
@@ -129,7 +129,7 @@ export function createEditBlock(task) {
           action_id: "preferred_channel_id",
           placeholder: {
             type: "plain_text",
-            text: `${task.preferredchannel || " "}`,
+            text: `${task.preferredchannel || "xxx"}`,
           },
         },
         label: {
@@ -160,7 +160,7 @@ export function createEditBlock(task) {
         elements: [
           {
             type: "plain_text",
-            text: `Current Task Details: ${task.taskdetail || " "}`,
+            text: `Current Task Details: ${task.taskdetail || "xxx"}`,
             emoji: true,
           },
         ],
@@ -172,7 +172,7 @@ export function createEditBlock(task) {
           action_id: "project_id",
           placeholder: {
             type: "plain_text",
-            text: `${task.project}`,
+            text: `${task.project || "xxx" }`,
           },
         },
         label: {

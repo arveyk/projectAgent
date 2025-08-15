@@ -5,12 +5,12 @@ export const createTaskInfoBlock = function (task) {
 export function createEditBlock(task) {
   let duedate, startdate;
   try {
-    duedate = new Date(task.duedate);
+    duedate = new Date(task.duedate).toISOString();
   } catch (error) {
     duedate = new Date().toISOString();
   }
   try {
-    stardate = new Date(task.startdate);
+    stardate = new Date(task.startdate).toISOString();
   } catch (error) {
     startdate = new Date().toISOString();
   }

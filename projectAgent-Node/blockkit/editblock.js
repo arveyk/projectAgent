@@ -262,6 +262,16 @@ export function createFinalBlock(task) {
             value: "discard_123",
             action_id: "actionId-1",
           },
+          {
+            type: "button",
+            text: {
+              type: "plain_text",
+              text: "Edit",
+              emoji: true,
+            },
+            value: JSON.stringify(task),
+            action_id: "actionId-2",
+          },
         ],
       },
     ],

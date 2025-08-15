@@ -146,6 +146,10 @@ const TaskProperties = {
     type: "rich_text",
     rich_text: projectArr,
   },
+  "Assigned By": {
+    type: "rich_text",
+    rich_text: "xxx",
+  },
 };
 
 /**

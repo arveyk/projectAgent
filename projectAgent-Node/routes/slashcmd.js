@@ -49,7 +49,7 @@ const slashCmdHandler = async function (request, response, next) {
           phonenumber: properties["Phone Number"].phone_number,
           preferredchannel:
             properties["Preferred Channel"].rich_text[0].plain_text,
-          taskdetail: properties["Description"].rich_text[0].plain_text,
+          description: properties["Description"].rich_text[0].plain_text,
           project: properties["Project"].rich_text[0].plain_text,
           url: pageObject.url,
           pageID: pageObject.id,

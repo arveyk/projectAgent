@@ -10,7 +10,7 @@ import { sendLoadingMsg } from "../../blockkit/loadingMsg.js";
 import { SLACK_BOT_TOKEN } from "../../env.js";
 
 /**
- * testUpdateReply - Response to user interactions with blocks when a button
+ * interactionHandler - Response to user interactions with blocks when a button
  * 		     is pressed
  *
  * @request - request from slack
@@ -20,7 +20,7 @@ import { SLACK_BOT_TOKEN } from "../../env.js";
  * @return - No return value
  */
 
-export default function testUpdateReply(request, response, next) {
+export default function interactionHandler(request, response, next) {
   const payload = JSON.parse(request.body.payload);
   console.log(`Body: ${JSON.stringify(request.body)}`);
   console.log(`Body.payload${JSON.stringify(request.body.payload)}`);

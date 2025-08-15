@@ -3,7 +3,7 @@ import express from "express";
 import slashCmdHandler from "./routes/slashcmd.js";
 import newTaskHandler from "./routes/tasks/newtask.js";
 import patchTaskHandler from "./routes/tasks/update.js";
-import testUpdateReply from "./routes/paresponse/updateResponse.js";
+import interactionHandler from "./routes/paresponse/updateResponse.js";
 import { threadMsg } from "./routes/threadReply.js";
 
 const router = express.Router();
@@ -49,7 +49,7 @@ router.get("/", (request, response) => {
 });
 router.post("/tasks/newtask", newTaskHandler);
 router.patch("/tasks/update", patchTaskHandler);
-router.post("/test/resp", testUpdateReply, (request, response) => {
+router.post("/test/resp", interactionHandler, (request, response) => {
   response.status(200).send("Received Payload from Slack");
 });
 router.post("/events", (request, response) => {

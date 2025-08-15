@@ -8,10 +8,8 @@ import { createConfirmationBlock } from "./createBlocks.js";
 import { createFinalBlock } from "./editblock.js";
 import { createUpdateBlock } from "./updateBlock.js";
 
-let ALL_SLN_WEBHOOK_URL = "https://hooks.slack.com/services/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"
-
-
-
+let ALL_SLN_WEBHOOK_URL =
+  "https://hooks.slack.com/services/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";
 
 const task = {
   tasktitle: "End of year Plans",
@@ -44,15 +42,23 @@ const blocks_01 = createEditBlock(task);
 const blocks_04 = createFinalBlock(task);
 //let taskDetailsObj = JSON.parse(blocks["actions"][0]["value"]);
 
+const blocks_11 = createFinalBlock(
+  JSON.parse(blocks_02.blocks[3].elements[0].value),
+);
 
-const blocks_11 = createFinalBlock(JSON.parse(blocks_02.blocks[3].elements[0].value));
+const blocks_12 = createEditBlock(
+  JSON.parse(blocks_02.blocks[3].elements[0].value),
+);
+const blocks_13 = createFinalBlock(
+  JSON.parse(blocks_12.blocks[12].elements[0].value),
+);
 
-const blocks_12 = createEditBlock(JSON.parse(blocks_02.blocks[3].elements[0].value));
-const blocks_13 = createFinalBlock(JSON.parse(blocks_12.blocks[12].elements[0].value));
-
-const blocks_14 = createEditBlock(JSON.parse(blocks_05.blocks[2].elements[1].value));
-const blocks_15 = createFinalBlock(JSON.parse(blocks_14.blocks[12].elements[0].value));
-
+const blocks_14 = createEditBlock(
+  JSON.parse(blocks_05.blocks[2].elements[1].value),
+);
+const blocks_15 = createFinalBlock(
+  JSON.parse(blocks_14.blocks[12].elements[0].value),
+);
 
 axios({
   method: "post",

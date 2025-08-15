@@ -12,8 +12,8 @@ export const dateHandler = function (dateString) {
     }
     return convertedDate.toISOString();
   } catch (err) {
-    console.log("Cannot Convert string",err);
-    return ("Invalid Date Value");
+    console.log("Cannot Convert string", err);
+    return "Invalid Date Value";
   }
   //console.log(convertedDate);
 };

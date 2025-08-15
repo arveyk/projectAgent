@@ -1,19 +1,14 @@
+import { dateHandler } from "../utils/dateHandler.js";
+
+
 export const createTaskInfoBlock = function (task) {
-  return `*Task Title:*\t\t\t${task.tasktitle} \n*Assignee:* \t\t\t${task.assignee}\n*Due Date:*\t\t\t${task.duedate}\n*Start Date:*\t\t\t${task.startdate}\n*Phone Number:*\t${task.phonenumber}\n*Email:*\t\t\t${task.email}\n*Preferred Channel:*\t\t\t${task.preferredchannel}\n*Description:* \t\t${task.taskdetail}\n*Project:* \t\t${task.project}`;
+  return `*Task Title:*\t\t\t${task.tasktitle} \n*Assignee:* \t\t\t${task.assignee}\n*Due Date:*\t\t\t${task.duedate}\n*Start Date:*\t\t\t${task.startdate}\n*Phone Number:*\t${task.phonenumber}\n*Email:*\t\t\t${task.email}\n*Preferred Channel:*\t\t\t${task.preferredchannel}\n*Description:* \t\t${task.description}\n*Project:* \t\t${task.project}`;
 };
 
 export function createEditBlock(task) {
   let duedate, startdate;
-  try {
-    duedate = new Date(task.duedate);
-  } catch (error) {
-    duedate = new Date().toISOString();
-  }
-  try {
-    startdate = new Date(task.startdate);
-  } catch (error) {
-    startdate = new Date().toISOString();
-  }
+    duedate = dateHandler(task.duedate);
+    startdate = dateHandler(task.startdate);
   return {
     blocks: [
       {
@@ -143,7 +138,7 @@ export function createEditBlock(task) {
         element: {
           type: "plain_text_input",
           multiline: true,
-          action_id: "task_details_id",
+          action_id: "description_id",
           placeholder: {
             type: "plain_text",
             text: "Please enter a value if you wish to change task details",
@@ -151,7 +146,7 @@ export function createEditBlock(task) {
         },
         label: {
           type: "plain_text",
-          text: "Task Detail",
+          text: "Task Description",
           emoji: true,
         },
       },
@@ -160,7 +155,7 @@ export function createEditBlock(task) {
         elements: [
           {
             type: "plain_text",
-            text: `Current Task Details: ${task.taskdetail || "xxx"}`,
+            text: `Current Task Details: ${task.description || "xxx"}`,
             emoji: true,
           },
         ],
@@ -220,7 +215,7 @@ export function createFinalBlock(task) {
   task.preferredchannel ? "Ok FinalBlock" : (task.preferredchannel = " ");
   task.project ? "Ok FinalBlock" : (task.project = " ");
   task.phonenumber ? "Ok FinalBlock" : (task.phonenumber = " ");
-  task.taskdetail ? "Ok FinalBlock" : (task.taskdetail = " ");
+  task.description ? "Ok FinalBlock" : (task.description = " ");
   return {
     blocks: [
       {

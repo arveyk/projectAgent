@@ -1,12 +1,23 @@
 import { SLACK_BOT_TOKEN } from "../env.js";
 
 import axios from "axios";
-import { RequestApprovalBlock } from "../blockkit/createBlocks.js";
+import { createConfirmationBlock } from "../blockkit/createBlocks.js";
+import { createBlockNewTask } from "../blockkit/createBlocks.js";
+import { createEditBlock } from "../blockkit/editblock.js";
+import { createFinalBlock } from "../blockkit/editblock.js";
+import { createUpdateBlock } from "../blockkit/updateBlock.js";
+import { readFile } from "./parseToJson.js";
+import {  RequestApprovalBlock } from "../blockkit/createBlocks.js";
+
+
+(async () => {
+  const personsArray = await readFile("./users.json");
+  console.log(personsArray);
+})();
+
 
 try {
   const eventResURL = "https://slack.com/api/chat.postMessage";
-  //
-  //
   const eventPayload = {
     token: "JWNJnukcVaHbRoRl6CwWYan6",
     team_id: "T08VADHH17S",
@@ -84,6 +95,7 @@ try {
           Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
           "Content-Type": "application/json; charset=UTF-8",
         },
+	family: 4,
       },
     )
     .then((resp) => {

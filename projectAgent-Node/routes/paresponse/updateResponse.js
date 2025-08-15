@@ -156,8 +156,8 @@ function sendSubmit(payload, response_url) {
       case "preferred_channel_id":
         taskDetailsObj.preferredchannel = userInputs[key][actionIdKey].value;
         break;
-      case "task_details_id":
-        taskDetailsObj.taskdetails = userInputs[key][actionIdKey].value;
+      case "description_id":
+        taskDetailsObj.description = userInputs[key][actionIdKey].value;
         break;
       case "project_id":
         taskDetailsObj.project = userInputs[key][actionIdKey].value;

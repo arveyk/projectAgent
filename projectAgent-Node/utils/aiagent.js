@@ -25,7 +25,7 @@ const task = z.object({
     .string()
     .optional()
     .describe("Assignee\'s preferred channel of communication"),
-  taskdetail: z.string().describe("details of the task"),
+  description: z.string().describe("details of the task"),
   project: z.string().optional().describe("The project the task belongs to"),
 });
 
@@ -51,7 +51,7 @@ export const parseTaskSlashCmd = async function (reqBody, timestamp) {
 
   const timeData = await getEventTimeData(reqBody, timestamp);
 
-  const prompt = `Today's date and time in ISO format is ${timeData.timeISO}, and our timezone is ${timeData.timezone} (offset of ${timeData.timezoneOffset} hours from UTC). Please extract information from this message, making sure to list any dates in ISO format with timezone offset. "By the end of the day" means by 17:00 in our timezone. If the message says to finish a task "by" some date but does not specify a time, that means by 0:00 of that date in our timezone. """Example: Input: Bob, starting tomorrow, please write a draft of the article and have it finished by August 20, 2025. Output: {tasktitle: "Write article draft", assignee: "Bob", duedate: "2025-08-20T00:00-7:00", taskdetail: "Write a draft of the article"}""" Here is the message: ${textToParse}`;
+  const prompt = `Today's date and time in ISO format is ${timeData.timeISO}, and our timezone is ${timeData.timezone} (offset of ${timeData.timezoneOffset} hours from UTC). Please extract information from this message, making sure to list any dates in ISO format with timezone offset. "By the end of the day" means by 17:00 in our timezone. If the message says to finish a task "by" some date but does not specify a time, that means by 0:00 of that date in our timezone. """Example: Input: Bob, starting tomorrow, please write a draft of the article and have it finished by August 20, 2025. Output: {tasktitle: "Write article draft", assignee: "Bob", duedate: "2025-08-20T00:00-7:00", description: "Write a draft of the article"}""" Here is the message: ${textToParse}`;
   console.log(`prompt: ${prompt}`);
   const taskParseResult = await structuredLlmSlashCmd.invoke(prompt);
   console.log(`task parse result: ${JSON.stringify(taskParseResult)}`);

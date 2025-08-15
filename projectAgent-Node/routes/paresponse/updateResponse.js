@@ -200,9 +200,7 @@ function sendApprove(payload, response_url) {
       console.log("Update Action");
     } else {
       await sendLoadingMsg("Adding Task", response_url);
-      // TODO pass name of person who assigned task'
-      console.log(`user: ${JSON.stringify(payload.user)}`);
-      rowActionResult = await addTaskNotionPage(taskDetailsObj);
+      rowActionResult = await addTaskNotionPage(taskDetailsObj, payload.user.username);
       actionMessage = "Created";
       emoji = "white_check_mark";
       console.log(`Page added successfully? ${rowActionResult.success}`);

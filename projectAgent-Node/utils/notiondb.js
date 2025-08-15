@@ -148,7 +148,13 @@ const TaskProperties = {
   },
 };
 
-async function addTaskNotionPage(taskObj) {
+/**
+ * Adds a new task to Notion
+ * @param {*} taskObj Object containing task data
+ * @param {*} username The username of the person who assigned the task
+ * @returns If successful, returns true and the url of the new page. Else, returns false and the error message.
+ */
+async function addTaskNotionPage(taskObj, username) {
   const taskTitle = taskObj["tasktitle"];
   const assignee = taskObj["assignee"];
   const dueDate = new Date(taskObj["duedate"]).toISOString();
@@ -178,8 +184,7 @@ async function addTaskNotionPage(taskObj) {
       taskObj["description"];
     TaskProperties["Date Assigned"]["date"]["start"] = dateAssigned;
     TaskProperties["Project"]["rich_text"][0]["text"]["content"] = project;
-    // TODO pass name of person who assigned task'
-    TaskProperties["Assigned By"]["rich_text"][0]["text"]["content"] = payload.user.username;
+    TaskProperties["Assigned By"]["rich_text"][0]["text"]["content"] = username;
 
     try {
       const newPage = await notion.pages.create({

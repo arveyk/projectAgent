@@ -143,7 +143,7 @@ export function createEditBlock(task) {
         element: {
           type: "plain_text_input",
           multiline: true,
-          action_id: "task_details_id",
+          action_id: "description_id",
           placeholder: {
             type: "plain_text",
             text: "Please enter a value if you wish to change task details",
@@ -151,7 +151,7 @@ export function createEditBlock(task) {
         },
         label: {
           type: "plain_text",
-          text: "Task Detail",
+          text: "Task Description",
           emoji: true,
         },
       },

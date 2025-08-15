@@ -178,6 +178,8 @@ async function addTaskNotionPage(taskObj) {
       taskObj["description"];
     TaskProperties["Date Assigned"]["date"]["start"] = dateAssigned;
     TaskProperties["Project"]["rich_text"][0]["text"]["content"] = project;
+    // TODO pass name of person who assigned task'
+    TaskProperties["Assigned By"]["rich_text"][0]["text"]["content"] = payload.user.username;
 
     try {
       const newPage = await notion.pages.create({

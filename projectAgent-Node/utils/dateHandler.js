@@ -3,7 +3,7 @@ export const dateHandler = function (dateString) {
   const dateArray = dateString.split("-");
   let convertedDate;
   try {
-    console.log(dateArray);
+    //console.log(dateArray);
     if (dateArray[0] !== year) {
       convertedDate = dateArray.reverse().join("-");
       convertedDate = new Date(convertedDate);

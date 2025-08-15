@@ -1,19 +1,14 @@
+import { dateHandler } from "../utils/dateHandler.js";
+
+
 export const createTaskInfoBlock = function (task) {
   return `*Task Title:*\t\t\t${task.tasktitle} \n*Assignee:* \t\t\t${task.assignee}\n*Due Date:*\t\t\t${task.duedate}\n*Start Date:*\t\t\t${task.startdate}\n*Phone Number:*\t${task.phonenumber}\n*Email:*\t\t\t${task.email}\n*Preferred Channel:*\t\t\t${task.preferredchannel}\n*Description:* \t\t${task.description}\n*Project:* \t\t${task.project}`;
 };
 
 export function createEditBlock(task) {
   let duedate, startdate;
-  try {
-    duedate = new Date(task.duedate).toISOString();
-  } catch (error) {
-    duedate = new Date().toISOString();
-  }
-  try {
-    stardate = new Date(task.startdate).toISOString();
-  } catch (error) {
-    startdate = new Date().toISOString();
-  }
+    duedate = dateHandler(task.duedate);
+    startdate = dateHandler(task.startdate);
   return {
     blocks: [
       {

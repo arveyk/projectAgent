@@ -12,7 +12,7 @@ export const convertEmptyFields = function (task) {
     phonenumber: "",
     email: "",
     preferredchannel: "",
-    taskdetail: "",
+    description: "",
     project: "",
   };
   for (let [key, value] of Object.entries(task)) {

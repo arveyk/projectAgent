@@ -1,5 +1,5 @@
 export const createTaskInfoBlock = function (task) {
-  return `*Task Title:*\t\t\t${task.tasktitle} \n*Assignee:* \t\t\t${task.assignee}\n*Due Date:*\t\t\t${task.duedate}\n*Start Date:*\t\t\t${task.startdate}\n*Phone Number:*\t${task.phonenumber}\n*Email:*\t\t\t${task.email}\n*Preferred Channel:*\t\t\t${task.preferredchannel}\n*Description:* \t\t${task.taskdetail}\n*Project:* \t\t${task.project}`;
+  return `*Task Title:*\t\t\t${task.tasktitle} \n*Assignee:* \t\t\t${task.assignee}\n*Due Date:*\t\t\t${task.duedate}\n*Start Date:*\t\t\t${task.startdate}\n*Phone Number:*\t${task.phonenumber}\n*Email:*\t\t\t${task.email}\n*Preferred Channel:*\t\t\t${task.preferredchannel}\n*Description:* \t\t${task.description}\n*Project:* \t\t${task.project}`;
 };
 
 export function createEditBlock(task) {
@@ -160,7 +160,7 @@ export function createEditBlock(task) {
         elements: [
           {
             type: "plain_text",
-            text: `Current Task Details: ${task.taskdetail || "xxx"}`,
+            text: `Current Task Details: ${task.description || "xxx"}`,
             emoji: true,
           },
         ],
@@ -220,7 +220,7 @@ export function createFinalBlock(task) {
   task.preferredchannel ? "Ok FinalBlock" : (task.preferredchannel = " ");
   task.project ? "Ok FinalBlock" : (task.project = " ");
   task.phonenumber ? "Ok FinalBlock" : (task.phonenumber = " ");
-  task.taskdetail ? "Ok FinalBlock" : (task.taskdetail = " ");
+  task.description ? "Ok FinalBlock" : (task.description = " ");
   return {
     blocks: [
       {

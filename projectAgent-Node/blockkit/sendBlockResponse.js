@@ -1,7 +1,17 @@
 import axios from "axios";
-import { ALL_SLN_WEBHOOK_URL } from "../env.js";
+//import { ALL_SLN_WEBHOOK_URL } from "../env.js";
+
 import { createEditBlock } from "./editblock.js";
 import { createBlockNewTask } from "./createBlocks.js";
+import { createConfirmationBlock } from "./createBlocks.js";
+
+import { createFinalBlock } from "./editblock.js";
+import { createUpdateBlock } from "./updateBlock.js";
+
+let ALL_SLN_WEBHOOK_URL = "https://hooks.slack.com/services/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"
+
+
+
 
 const task = {
   tasktitle: "End of year Plans",
@@ -11,7 +21,7 @@ const task = {
   email1: "replace@soon.com",
   phonenumber: "43-335-344-4344",
   preferredchannel: "Call, email",
-  taskdetail:
+  description:
     "Benjamin, create a routing plan for end of year. As a Company I would like for us to visit one another ang get to know each other",
   project: "Project Agent",
 };
@@ -23,19 +33,33 @@ const task_b = {
   phonenumber: " ",
   email: " ",
   preferredchannel: " ",
-  taskdetail: "Add Timothy to an unspecified system or list",
+  description: "Add Timothy to an unspecified system or list",
   project: "Project Agent",
 };
 
-const blocks_01 = createEditBlock(task);
 const blocks_02 = createBlockNewTask(task_b);
+const blocks_05 = createUpdateBlock(task);
+const blocks_01 = createEditBlock(task);
+//const blocks_03 = createConfirmationBlock(task);
+const blocks_04 = createFinalBlock(task);
+//let taskDetailsObj = JSON.parse(blocks["actions"][0]["value"]);
+
+
+const blocks_11 = createFinalBlock(JSON.parse(blocks_02.blocks[3].elements[0].value));
+
+const blocks_12 = createEditBlock(JSON.parse(blocks_02.blocks[3].elements[0].value));
+const blocks_13 = createFinalBlock(JSON.parse(blocks_12.blocks[12].elements[0].value));
+
+const blocks_14 = createEditBlock(JSON.parse(blocks_05.blocks[2].elements[1].value));
+const blocks_15 = createFinalBlock(JSON.parse(blocks_14.blocks[12].elements[0].value));
+
 
 axios({
   method: "post",
   url: ALL_SLN_WEBHOOK_URL,
   data: {
     text: "Message testing block",
-    blocks: blocks_01.blocks,
+    blocks: blocks_15.blocks,
   },
   headers: {
     "Content-Type": "application/json",

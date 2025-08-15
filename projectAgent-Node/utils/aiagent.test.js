@@ -25,7 +25,7 @@ describe("Tests parseTaskSlashCmd with a good payload", () => {
 
     expect(parsedTask.assignee).toMatch(taskGood.assignee);
     expect(parsedTask.tasktitle).toMatch(taskGood.tasktitle);
-    expect(parsedTask.taskdetail).toMatch(taskGood.taskdetail);
+    expect(parsedTask.description).toMatch(taskGood.taskdetail);
   });
 });
 
@@ -40,7 +40,7 @@ describe("Tests parseTaskSlashCmd with a good payload from Harvey", () => {
 
     expect(parsedTask.assignee).toMatch(taskHarvey.assignee);
     expect(parsedTask.tasktitle).toMatch(taskHarvey.tasktitle);
-    expect(parsedTask.taskdetail).toMatch(taskHarvey.taskdetail);
+    expect(parsedTask.description).toMatch(taskHarvey.taskdetail);
   });
 });
 
@@ -55,7 +55,7 @@ describe("Tests parseTaskSlashCmd inferring dates", () => {
 
     expect(parsedTask.assignee).toMatch(taskInferDates.assignee);
     expect(parsedTask.tasktitle).toMatch(taskInferDates.tasktitle);
-    expect(parsedTask.taskdetail).toMatch(taskInferDates.taskdetail);
+    expect(parsedTask.description).toMatch(taskInferDates.taskdetail);
   });
 });
 
@@ -70,6 +70,6 @@ describe("Tests parseTaskSlashCmd with no task", () => {
 
     expect(parsedTask.assignee).toMatch(noTask.assignee);
     expect(parsedTask.tasktitle).toMatch(noTask.tasktitle);
-    expect(parsedTask.taskdetail).toMatch(noTask.taskdetail);
+    expect(parsedTask.description).toMatch(noTask.taskdetail);
   });
 });

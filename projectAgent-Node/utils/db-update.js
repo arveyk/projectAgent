@@ -49,7 +49,7 @@ export const updateDbPage = async function (task) {
             rich_text: [
               {
                 text: {
-                  content: task.taskdetail,
+                  content: task.description,
                 },
               },
             ],

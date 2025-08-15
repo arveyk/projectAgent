@@ -175,7 +175,7 @@ async function addTaskNotionPage(taskObj) {
     TaskProperties["Preferred Channel"]["rich_text"][0]["text"]["content"] =
       preferredChannel;
     TaskProperties["Description"]["rich_text"][0]["text"]["content"] =
-      taskObj["taskdetail"];
+      taskObj["description"];
     TaskProperties["Date Assigned"]["date"]["start"] = dateAssigned;
     TaskProperties["Project"]["rich_text"][0]["text"]["content"] = project;
 

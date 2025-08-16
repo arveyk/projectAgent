@@ -156,10 +156,10 @@ const notion = new Client({
 /**
  * Adds a new task to Notion
  * @param {*} taskObj Object containing task data
- * @param {*} username The username of the person who assigned the task
+ * @param {*} assignedBy The username of the person who assigned the task
  * @returns If successful, returns true and the url of the new page. Else, returns false and the error message.
  */
-async function addTaskNotionPage(taskObj, username) {
+async function addTaskNotionPage(taskObj, assignedBy) {
   // const taskTitle = taskObj["tasktitle"];
   // const assignee = taskObj["assignee"];
   // const dueDate = new Date(taskObj["duedate"]).toISOString();
@@ -191,7 +191,7 @@ async function addTaskNotionPage(taskObj, username) {
     // TaskProperties["Project"]["rich_text"][0]["text"]["content"] = project;
     // TaskProperties["Assigned By"]["rich_text"][0]["text"]["content"] = username;
 
-    const taskProperties = setTaskProperties(taskObj, username);
+    const taskProperties = setTaskProperties(taskObj, assignedBy);
     try {
       const newPage = await notion.pages.create({
         parent: {

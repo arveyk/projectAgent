@@ -96,7 +96,26 @@ const setProjectArray = function (project) {
     },
   ];
 };
-export const setTaskProperties = function (taskObj, username) {
+const setAssignedByArray = function (assignedBy) {
+  return [
+    {
+      type: "text",
+      text: {
+        content: assignedBy,
+        link: null,
+      },
+      annotations: {
+        bold: false,
+        italic: false,
+        strikethrough: false,
+        code: false,
+        color: "default",
+      },
+      href: null,
+    },
+  ];
+};
+export const setTaskProperties = function (taskObj, assignedBy) {
   const taskTitle = taskObj["tasktitle"];
   const assignee = taskObj["assignee"];
   const dueDate = new Date(taskObj["duedate"]).toISOString();
@@ -160,7 +179,7 @@ export const setTaskProperties = function (taskObj, username) {
     },
     "Assigned By": {
       type: "rich_text",
-      rich_text: username,
+      rich_text: setAssignedByArray(assignedBy),
     },
   };
 };

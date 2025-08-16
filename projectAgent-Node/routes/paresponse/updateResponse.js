@@ -200,7 +200,10 @@ function sendApprove(payload, response_url) {
       console.log("Update Action");
     } else {
       await sendLoadingMsg("Adding Task", response_url);
-      rowActionResult = await addTaskNotionPage(taskDetailsObj, payload.user.username);
+      rowActionResult = await addTaskNotionPage(
+        taskDetailsObj,
+        payload.user.username,
+      );
       actionMessage = "Created";
       emoji = "white_check_mark";
       console.log(`Page added successfully? ${rowActionResult.success}`);

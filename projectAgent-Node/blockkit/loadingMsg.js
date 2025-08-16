@@ -32,7 +32,7 @@ export const sendLoadingMsg = async function (message, response_url) {
     await axios.post(
       response_url,
       {
-        text: "Some Text",
+        text: message,
         blocks: blocks.blocks,
       },
       {

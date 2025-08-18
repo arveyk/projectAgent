@@ -1,6 +1,5 @@
 import { dateHandler, formatSlackDate } from "../utils/dateHandler.js";
 
-// TODO format dates
 export const createTaskInfoBlock = function (task) {
   return `*Task Title:*\t\t\t${task.tasktitle} \n*Assignee:* \t\t\t${task.assignee}\n*Due Date:*\t\t\t${formatSlackDate(task.duedate)}\n*Start Date:*\t\t\t${task.startdate ? formatSlackDate(task.startdate) : task.startdate}\n*Phone Number:*\t${task.phonenumber}\n*Email:*\t\t\t${task.email}\n*Preferred Channel:*\t\t\t${task.preferredchannel}\n*Description:* \t\t${task.description}\n*Project:* \t\t${task.project}`;
 };
@@ -60,7 +59,7 @@ export function createEditBlock(task) {
           action_id: "due_date_id",
           placeholder: {
             type: "plain_text",
-            text: `${duedate || "xxx"}`,
+            text: `${duedate ? formatSlackDate(duedate) : "xxx"}`,
           },
         },
         label: {
@@ -76,7 +75,7 @@ export function createEditBlock(task) {
           action_id: "start_date_id",
           placeholder: {
             type: "plain_text",
-            text: `${startdate}`,
+            text: `${startdate ? formatSlackDate(startdate) : "xxx"}`,
           },
         },
         label: {

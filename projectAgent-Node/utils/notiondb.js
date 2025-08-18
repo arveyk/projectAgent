@@ -7,7 +7,6 @@ const notion = new Client({
   auth: NOTION_API_KEY,
 });
 
-
 /**
  * Adds a new task to Notion
  * @param {*} taskObj Object containing task data

@@ -65,14 +65,14 @@ axios({
     text: "Message testing block",
     //blocks: blocks_05.blocks,
     blocks: [
-		{
-			"type": "section",
-			"text": {
-				"type": "mrkdwn",
-				"text": ":x: *Unable to Update Entry*"
-			}
-		}
-	]
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: ":x: *Unable to Update Entry*",
+        },
+      },
+    ],
   },
   headers: {
     "Content-Type": "application/json",

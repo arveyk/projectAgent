@@ -59,7 +59,7 @@ export function createEditBlock(task) {
           action_id: "due_date_id",
           placeholder: {
             type: "plain_text",
-            text: `${duedate ? formatSlackDate(duedate) : "xxx"}`,
+            text: `${formatSlackDate(duedate)}`,
           },
         },
         label: {
@@ -75,7 +75,7 @@ export function createEditBlock(task) {
           action_id: "start_date_id",
           placeholder: {
             type: "plain_text",
-            text: `${startdate ? formatSlackDate(startdate) : "xxx"}`,
+            text: `${formatSlackDate(startdate)}`,
           },
         },
         label: {

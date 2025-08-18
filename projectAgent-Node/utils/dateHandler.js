@@ -10,7 +10,7 @@ export const dateHandler = function (dateString) {
     } else {
       convertedDate = new Date(dateString);
     }
-    return convertedDate.toISOString();
+    return convertedDate.toString();
   } catch (err) {
     console.log("Cannot Convert string", err);
     return "Invalid Date Value";

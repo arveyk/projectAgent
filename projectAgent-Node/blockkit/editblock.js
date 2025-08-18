@@ -6,14 +6,8 @@ export const createTaskInfoBlock = function (task) {
 
 export function createEditBlock(task) {
   let duedate, startdate;
-  duedate = dateHandler(task.duedate);
-  startdate = dateHandler(task.startdate);
-  console.log(`start date (unformatted): ${task.startdate}`);
-  console.log(`due date (unformatted): ${task.duedate}`);
-  // duedate = task.duedate ? formatSlackDate(task.duedate) : "xxx";
-  // startdate = task.startdate ? formatSlackDate(task.startdate) : "xxx";
-  // console.log(`start date (formatted): ${startdate}`);
-  // console.log(`due date (formatted): ${duedate}`);
+  duedate = task.duedate ? dateHandler(task.duedate) : "xxx";
+  startdate = task.startdate ? dateHandler(task.startdate) : "xxx";
   
   return {
     blocks: [
@@ -66,7 +60,7 @@ export function createEditBlock(task) {
           action_id: "due_date_id",
           placeholder: {
             type: "plain_text",
-            text: `${duedate || "xxx"}`,
+            text: `${duedate}`,
           },
         },
         label: {
@@ -82,7 +76,7 @@ export function createEditBlock(task) {
           action_id: "start_date_id",
           placeholder: {
             type: "plain_text",
-            text: `${startdate || "xxx"}`,
+            text: `${startdate}`,
           },
         },
         label: {

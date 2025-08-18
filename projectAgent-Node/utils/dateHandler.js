@@ -15,5 +15,9 @@ export const dateHandler = function (dateString) {
     console.log("Cannot Convert string", err);
     return "Invalid Date Value";
   }
-  //console.log(convertedDate);
 };
+
+export const formatSlackDate = function(date) {
+  const timestamp = Date.parse(date)/1000;
+  return `<!date^${timestamp}^{date_long}|${date}>`;
+}

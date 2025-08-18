@@ -1,20 +1,11 @@
-export const dateHandler = function (dateString) {
+export const validateDate = function (dateString) {
   const year = new Date().getFullYear().toString();
   const dateArray = dateString.split("-");
-  let convertedDate;
-  try {
-    //console.log(dateArray);
     if (dateArray[0] !== year) {
-      convertedDate = dateArray.reverse().join("-");
-      convertedDate = new Date(convertedDate);
+      return "Invalid Date Value";
     } else {
-      convertedDate = new Date(dateString);
+      return new Date(dateString).toString();
     }
-    return convertedDate.toString();
-  } catch (err) {
-    console.log("Cannot Convert string", err);
-    return "Invalid Date Value";
-  }
 };
 
 export const formatSlackDate = function(date) {

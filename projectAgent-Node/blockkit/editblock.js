@@ -1,4 +1,4 @@
-import { dateHandler, formatSlackDate } from "../utils/dateHandler.js";
+import { validateDate, formatSlackDate } from "../utils/dateHandler.js";
 
 export const createTaskInfoBlock = function (task) {
   return `*Task Title:*\t\t\t${task.tasktitle} \n*Assignee:* \t\t\t${task.assignee}\n*Due Date:*\t\t\t${formatSlackDate(task.duedate)}\n*Start Date:*\t\t\t${task.startdate ? formatSlackDate(task.startdate) : task.startdate}\n*Phone Number:*\t${task.phonenumber}\n*Email:*\t\t\t${task.email}\n*Preferred Channel:*\t\t\t${task.preferredchannel}\n*Description:* \t\t${task.description}\n*Project:* \t\t${task.project}`;
@@ -6,8 +6,8 @@ export const createTaskInfoBlock = function (task) {
 
 export function createEditBlock(task) {
   let duedate, startdate;
-  duedate = task.duedate ? dateHandler(task.duedate) : "xxx";
-  startdate = task.startdate ? dateHandler(task.startdate) : "xxx";
+  duedate = task.duedate ? validateDate(task.duedate) : "xxx";
+  startdate = task.startdate ? validateDate(task.startdate) : "xxx";
   
   return {
     blocks: [

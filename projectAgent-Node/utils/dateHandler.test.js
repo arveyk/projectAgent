@@ -1,4 +1,4 @@
-import { formatSlackDate, dateHandler } from "./dateHandler";
+import { formatSlackDate, validateDate } from "./dateHandler";
 
 describe("Tests formatSlackDate with a timestamp in ISO format with timezone offset", () => {
     it("Returns a properly formatted Slack date string", () => {
@@ -10,12 +10,22 @@ describe("Tests formatSlackDate with a timestamp in ISO format with timezone off
     })
 })
 
-describe("Tests dateHandler with a timestamp in ISO format with timezone offset", () => {
+describe("Tests validateDate with a timestamp in ISO format with timezone offset", () => {
     it("Returns a properly formatted date string", () => {
         const timestamp = "2025-08-18T14:00:00-07:00";
-        const dateString = dateHandler(timestamp);
+        const dateString = validateDate(timestamp);
 
         console.log(dateString);
         expect(dateString).toMatch("Mon Aug 18 2025 14:00:00 GMT-0700 (Pacific Daylight Time)");
+    })
+})
+
+describe("Tests validateDate with a timestamp in a year different than this year", () => {
+    it("Returns Invalid Date Value", () => {
+        const timestamp = "2024-08-18T14:00:00-07:00";
+        const dateString = validateDate(timestamp);
+
+        console.log(dateString);
+        expect(dateString).toMatch("Invalid Date Value");
     })
 })

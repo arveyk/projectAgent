@@ -1,4 +1,9 @@
 export function createUpdateBlock(task) {
+  const startDate = task.startdate.split("T")[0];
+  const dueDate = task.startdate.split("T")[0];
+
+  task.startdate = startDate;
+  task.duedate = dueDate;
   return {
     blocks: [
       {
@@ -13,7 +18,7 @@ export function createUpdateBlock(task) {
         type: "section",
         text: {
           type: "mrkdwn",
-          text: `*Task title*:\t\t\t\t\t\t\t ${task.tasktitle} \n *Assignee*  \t\t\t\t\t\t\t${task.assignee}\n* Due Date*  \t\t\t\t\t\t  ${task.duedate.split("T")[0]}\n*Start Date*  \t\t\t\t\t\t  ${task.startdate.split("T")[0]}\n*Email:* \t\t\t\t\t\t\t\t  ${task.email} \n*Phone Number:* \t\t\t\t${task.phonenumber}\n *Preferred Channel:* \t\t\t${task.preferredchannel} \n*Task Details:*\t\t\t\t\t ${task.description}\n*Project:*\t\t\t\t\t\t${task.project}\n*Task Link* \t\t\t\t\t\t\t<${task.url}|link>`,
+          text: `*Task title*:\t\t\t\t\t\t\t ${task.tasktitle} \n *Assignee*  \t\t\t\t\t\t\t${task.assignee}\n* Due Date*  \t\t\t\t\t\t  ${dueDate}\n*Start Date*  \t\t\t\t\t\t  ${startDate}\n*Email:* \t\t\t\t\t\t\t\t  ${task.email} \n*Phone Number:* \t\t\t\t${task.phonenumber}\n *Preferred Channel:* \t\t\t${task.preferredchannel} \n*Task Details:*\t\t\t\t\t ${task.description}\n*Project:*\t\t\t\t\t\t${task.project}\n*Task Link* \t\t\t\t\t\t\t<${task.url}|link>`,
         },
       },
       {

@@ -8,6 +8,10 @@ export function createEditBlock(task) {
   let duedate, startdate;
   duedate = dateHandler(task.duedate);
   startdate = dateHandler(task.startdate);
+  console.log(`start date (unformatted): ${startdate}`);
+  console.log(`due date (unformatted): ${duedate}`);
+  // duedate = task.duedate;
+  // startdate = task.startdate;
   return {
     blocks: [
       {

@@ -1,5 +1,5 @@
 import axios from "axios";
-//import { ALL_SLN_WEBHOOK_URL } from "../env.js";
+import { ALL_SLN_WEBHOOK_URL } from "../env.js";
 
 import { createEditBlock } from "./editblock.js";
 import { createBlockNewTask } from "./createBlocks.js";
@@ -7,9 +7,6 @@ import { createConfirmationBlock } from "./createBlocks.js";
 
 import { createFinalBlock } from "./editblock.js";
 import { createUpdateBlock } from "./updateBlock.js";
-
-let ALL_SLN_WEBHOOK_URL =
-  "https://hooks.slack.com/services/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";
 
 const task = {
   tasktitle: "End of year Plans",
@@ -46,7 +43,7 @@ const blocks_11 = createFinalBlock(
   JSON.parse(blocks_02.blocks[3].elements[0].value),
 );
 
-const blocks_12 = createEditBlock(
+/*const blocks_12 = createEditBlock(
   JSON.parse(blocks_02.blocks[3].elements[0].value),
 );
 const blocks_13 = createFinalBlock(
@@ -59,13 +56,23 @@ const blocks_14 = createEditBlock(
 const blocks_15 = createFinalBlock(
   JSON.parse(blocks_14.blocks[12].elements[0].value),
 );
+*/
 
 axios({
   method: "post",
   url: ALL_SLN_WEBHOOK_URL,
   data: {
     text: "Message testing block",
-    blocks: blocks_15.blocks,
+    //blocks: blocks_05.blocks,
+    blocks: [
+		{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": ":x: *Unable to Update Entry*"
+			}
+		}
+	]
   },
   headers: {
     "Content-Type": "application/json",

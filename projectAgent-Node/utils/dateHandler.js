@@ -18,7 +18,6 @@ export const dateHandler = function (dateString) {
 };
 
 export const formatSlackDate = function(date) {
-  console.log(`Unformatted date: ${date}`);
   const timestamp = Date.parse(date)/1000;
   return `<!date^${timestamp}^{date_long}|${date}>`;
 }

@@ -97,6 +97,7 @@ function sendReject(payload, action_text, response_url, action) {
 
 function sendEdit(payload, response_url, err) {
   const taskDetailsObj = JSON.parse(payload["actions"][0].value);
+  console.log(`taskDetailsObj: ${JSON.stringify(taskDetailsObj)}`);
   const blockObj = createEditBlock(taskDetailsObj);
 
   if (err) {

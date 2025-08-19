@@ -8,7 +8,7 @@ export function createEditBlock(task) {
   let duedate, startdate;
   duedate = task.duedate ? validateDate(task.duedate) : "xxx";
   startdate = task.startdate ? validateDate(task.startdate) : "xxx";
-  
+
   return {
     blocks: [
       {

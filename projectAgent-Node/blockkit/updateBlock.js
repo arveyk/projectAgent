@@ -1,6 +1,6 @@
 export function createUpdateBlock(task) {
   const startDate = task.startdate.split("T")[0];
-  const dueDate = task.startdate.split("T")[0];
+  const dueDate = task.duedate.split("T")[0];
 
   task.startdate = startDate;
   task.duedate = dueDate;

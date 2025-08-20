@@ -3,7 +3,7 @@ import { createTaskInfoBlock } from "./editblock.js";
 
 const createConfirmationBlock = function confirmBlock(task) {
   if (task.preferredchannel === undefined) {
-    task.preferredchannel = " ";
+    task.preferredchannel = "Slack";
   }
   return {
     text: "Which Field would you like to edit?",

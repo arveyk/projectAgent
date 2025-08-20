@@ -212,7 +212,7 @@ export function createEditBlock(task) {
 
 export function createFinalBlock(task) {
   task.email ? "Ok FinalBlock" : (task.email = " ");
-  task.preferredchannel ? "Ok FinalBlock" : (task.preferredchannel = " ");
+  task.preferredchannel ? "Ok FinalBlock" : (task.preferredchannel = "Slack");
   task.project ? "Ok FinalBlock" : (task.project = " ");
   task.phonenumber ? "Ok FinalBlock" : (task.phonenumber = " ");
   task.description ? "Ok FinalBlock" : (task.description = " ");

@@ -1,10 +1,15 @@
 export const validateDate = function (dateString) {
   const year = new Date().getFullYear().toString();
   let dateArray;
+  let delim = "-";
   if (dateString.includes("-")) {
     dateArray = dateString.split("-");
   } else if (dateString.includes("/")) {
     dateArray = dateString.split("/");
+    delim = "/"
+  }
+  if (dateArray[2] === year) {
+    dateString = dateArray.reverse().join(delim);
   }
   if (dateArray[0] !== year) {
     return "Invalid Date Value";

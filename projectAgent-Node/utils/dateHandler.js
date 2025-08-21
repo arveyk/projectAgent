@@ -6,7 +6,7 @@ export const validateDate = function (dateString) {
     dateArray = dateString.split("-");
   } else if (dateString.includes("/")) {
     dateArray = dateString.split("/");
-    delim = "/"
+    delim = "/";
   }
   if (dateArray[2] === year) {
     dateString = dateArray.reverse().join(delim);

@@ -19,7 +19,19 @@ describe("Tests validateDate with a timestamp in ISO format with timezone offset
 
     console.log(dateString);
     expect(dateString).toMatch(
-      "Mon Aug 18 2025 14:00:00 GMT-0700 (Pacific Daylight Time)",
+      "Mon Aug 18 2025 14:00:00 GMT-0700 (Pacific Daylight Time",
+    );
+  });
+});
+
+describe("Tests validateDate with a timestamp in ISO format with timezone offset", () => {
+  it("Returns a properly formatted date string", () => {
+    const timestamp = "20-09-2025";
+    const dateString = validateDate(timestamp);
+
+    console.log(dateString);
+    expect(dateString).toMatch(
+	    "Sat Sep 20 2025 03:00:00 GMT+0300 (East Africa Time)",
     );
   });
 });

@@ -20,6 +20,7 @@ export const getNotionUsers = async function () {
   allUserArray.forEach((user) => {
     if (user.type === "person") {
       humanUsers.push({
+	source: "notion",
         name: user.name,
         email: user.person.email,
       });

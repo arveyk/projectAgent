@@ -1,9 +1,8 @@
 import dotenv from "dotenv";
-dotenv.config({ path: "../../.env" });
 import { getNotionUsers }  from "./getNotionUsers.js";
 import { getSlackUsers } from "./getUsers.js";
-//import { notionUsers, slackUsers } from "../../storage/users.js";
 
+//import { notionUsers, slackUsers } from "../../storage/users.js";
 const notionUsers = await getNotionUsers();
 const slackUsers = await getSlackUsers();
 
@@ -49,7 +48,8 @@ notionUsers.forEach((user) => {
   if (user.type === "person") {
     humanUsers.push({
       name: user.name,
-       email: user.person.email,
+      email: user.person.email,
+      source: "notion"
      });
    }
 });
@@ -61,10 +61,11 @@ slackUsers.forEach((element) => {
     //console.log(
     //  `realname: ${element.real_name}, email: ${element.profile.email}, phone:${element.profile.phone}`,
     //);
-   usersArr.push({
+    usersArr.push({
       name: element.name,
       email: element.email,
-        phone: element.phone
+      phone: element.phone,
+      source: "slack"
     });
   }
 })

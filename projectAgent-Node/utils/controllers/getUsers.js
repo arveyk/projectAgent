@@ -24,6 +24,7 @@ export const getSlackUsers = async function () {
         `realname: ${element.real_name}, email: ${element.profile.email}, phone:${element.profile.phone}`,
       );
       usersArr.push({
+	source: "slack",
         name: element.real_name,
         email: element.profile.email,
         phone: element.profile.phone

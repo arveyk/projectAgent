@@ -2,6 +2,7 @@ import { Client } from "@notionhq/client";
 import { validateDueDate } from "./validation.js";
 import { NOTION_API_KEY, NOTION_DATABASE_ID } from "../env.js";
 import { setTaskProperties } from "./setTaskProperties.js";
+import { validateDate } from "./dateHandler.js";
 
 const notion = new Client({
   auth: NOTION_API_KEY,
@@ -15,7 +16,9 @@ const notion = new Client({
  */
 async function addTaskNotionPage(taskObj, assignedBy) {
   // Make sure due date is not in the past
-  if (validateDueDate(new Date(taskObj["duedate"]).toISOString())) {
+  
+  const duedate = new Date(validateDate(taskObj["duedate"]));
+  if (validateDueDate(duedate.toISOString())) {
     console.log("yay! the due date is not in the past!");
 
     const taskProperties = setTaskProperties(taskObj, assignedBy);

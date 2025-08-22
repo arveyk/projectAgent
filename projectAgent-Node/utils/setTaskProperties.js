@@ -124,7 +124,7 @@ export const setTaskProperties = function (taskObj, assignedBy) {
   const startDate =
     taskObj["startdate"] !== ""
       ? //new Date(taskObj["startdate"]).toISOString()
-	new Date(validateDate(taskObj["startdate"])).toISOString()
+        new Date(validateDate(taskObj["startdate"])).toISOString()
       : new Date().toISOString();
   const email = taskObj["email"] || " ";
   const phoneNumber = taskObj["phonenumber"] || " ";

@@ -31,7 +31,7 @@ describe("Tests validateDate with a timestamp in ISO format with timezone offset
 
     console.log(dateString);
     expect(dateString).toMatch(
-	    "Sat Sep 20 2025 03:00:00 GMT+0300 (East Africa Time)",
+      "Sat Sep 20 2025 03:00:00 GMT+0300 (East Africa Time)",
     );
   });
 });

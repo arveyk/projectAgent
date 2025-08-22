@@ -1,7 +1,7 @@
 import axios from "axios";
 import dotenv from "dotenv";
 
-dotenv.config({path: "../../.env"});
+dotenv.config({ path: "../../.env" });
 //console.log(process.env);
 
 export const getSlackUsers = async function () {
@@ -24,13 +24,14 @@ export const getSlackUsers = async function () {
         `realname: ${element.real_name}, email: ${element.profile.email}, phone:${element.profile.phone}`,
       );
       usersArr.push({
-	source: "slack",
+        source: "slack",
+        userID: element.id,
         name: element.real_name,
         email: element.profile.email,
-        phone: element.profile.phone
+        phone: element.profile.phone,
       });
     }
-  })
+  });
   return usersArr;
-}
+};
 //getSlackUsers();

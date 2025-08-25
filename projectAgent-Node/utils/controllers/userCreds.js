@@ -103,13 +103,14 @@ export const getMatchingUser = async function (task, ) {
     case 1:
       // only one source for exact match
       console.log("Exact Match, use searcRes[0]");
+      userParseResult = retrieveUsers[0]
       break;
     case 2:
       // notion and slack exact match
       if (retrieveUsers[0].source !== retrieveUsers[1].source) {
         retrieveUsers[0].source === "slack"
-          ? console.log("use [0]")
-          : console.log("use [1]");
+          ? console.log(` ${userParseResult = retrieveUsers[0]}`)
+          : console.log(`${userParseResult = retrieveUsers[1]}`)
       }
       break;
     default:

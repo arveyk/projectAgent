@@ -5,6 +5,7 @@ import { convertEmptyFields } from "../utils/convertEmptyFields.js";
 import { parseTaskSlashCmd } from "../utils/aiagent.js";
 import { searchDB, getTaskProperties } from "../utils/db-search.js";
 import { sendLoadingMsg } from "../blockkit/loadingMsg.js";
+import { getMatchingUser } from "../utils/controllers/userCreds.js"
 
 // webhook for taskmanagement channel only
 const webhookURL = process.env.TASK_MANAGEMENT_WEBHOOK_URL;
@@ -69,7 +70,9 @@ const slashCmdHandler = async function (request, response, next) {
           console.log("OK from slack", resp["status"]);
         });
       } else {
+	let searchUserInSlack_Notion = await getMatchingUser(task)
         const taskBlock = createBlockNewTask(convertedTask);
+	taskBlock.blocks[0].text.text += JSON.stringify(searchUserInSlack_Notion);
         axios({
           method: "post",
           url: request.body["response_url"],

@@ -4,8 +4,6 @@ import { getSlackUsers } from "./getUsers.js";
 import { searchUser } from "./searchUserAi.js";
 //dotenv.config();
 //import { notionUsers, slackUsers } from "../../storage/users.js";
-const notionUsers = await getNotionUsers();
-const slackUsers = await getSlackUsers();
 
 //const notionUsers = ;
 //const slackUsers = ;
@@ -58,7 +56,10 @@ const tasks = [
     },
   ];
 
-export const getUserInfo = async function () {
+export const getMatchingUser = async function (task, ) {
+  const notionUsers = await getNotionUsers();
+  const slackUsers = await getSlackUsers();
+
   const usersArr = [];
 
   slackUsers.forEach((element) => {
@@ -92,7 +93,7 @@ export const getUserInfo = async function () {
   switch (retrieveUsers.length) {
     case 0:
       console.log("No Match, use ai? search substring?");
-      userParseResult = await searchUser(tasks[4], sampleUser);
+      userParseResult = await searchUser(task, notionUsers);
       console.log(`User Search result: ${JSON.stringify(userParseResult)}`);
       if (!userParseResult.found) {
         console.log("Not found use as-is");
@@ -125,12 +126,12 @@ export const getUserInfo = async function () {
      *     "Content-Type: application/json:charset=utf-8",
      *     "Authorization": `Bearer SLACK_BOT_TOKEN`,
      *    }, family: 4
-     * }
+     * }`
      * )
      *
      */
   }
   console.log(retrieveUsers);
+  return userParseResult;
 };
-
-getUserInfo();
+//getMatchingUser;

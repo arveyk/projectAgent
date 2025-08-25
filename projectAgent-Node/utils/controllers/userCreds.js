@@ -98,6 +98,7 @@ export const getMatchingUser = async function (task, ) {
       if (!userParseResult.found) {
         console.log("Not found use as-is");
       }
+      userParseResult = { found: false };
       break;
     case 1:
       // only one source for exact match
@@ -112,7 +113,7 @@ export const getMatchingUser = async function (task, ) {
       }
     default:
       console.log("Multiple results");
-      userParseResult = await searchUser(tasks[4], sampleUser);
+      userParseResult = await searchUser(task, retrieveUsers);
       console.log(`User Search result: ${JSON.stringify(userParseResult)}`);
       if (!userParseResult.found) {
         console.log("Not found use as-is");

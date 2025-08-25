@@ -93,7 +93,7 @@ export const getMatchingUser = async function (task, ) {
   switch (retrieveUsers.length) {
     case 0:
       console.log("No Match, use ai? search substring?");
-      userParseResult = await searchUser(task, notionUsers);
+      userParseResult = await searchUser(task, retrieveUsers);
       console.log(`User Search result: ${JSON.stringify(userParseResult)}`);
       if (!userParseResult.found) {
         console.log("Not found use as-is");
@@ -111,6 +111,7 @@ export const getMatchingUser = async function (task, ) {
           ? console.log("use [0]")
           : console.log("use [1]");
       }
+      break;
     default:
       console.log("Multiple results");
       userParseResult = await searchUser(task, retrieveUsers);

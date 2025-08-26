@@ -56,7 +56,7 @@ const tasks = [
     },
   ];
 
-export const getMatchingUser = async function (task, ) {
+export const getMatchingUser = async function (task) {
   const notionUsers = await getNotionUsers();
   const slackUsers = await getSlackUsers();
 
@@ -77,13 +77,13 @@ export const getMatchingUser = async function (task, ) {
   //tasks.forEach(task => {
   //});
   usersArr.forEach((user) => {
-    if (tasks[2].name.replace("@", "") === user.name.replace("@", "")) {
+    if (task.assignee.replace("@", "") === user.name.replace("@", "")) {
       console.log("Matching user", user);
       retrieveUsers.push(user);
     }
   });
   notionUsers.forEach((person) => {
-    if (person.name.replace("@", "") === tasks[2].name.replace("@", "")) {
+    if (person.assignee.replace("@", "") === tasks[2].name.replace("@", "")) {
       //   console.log("Matching Person", person);
       retrieveUsers.push(person);
     }
@@ -98,7 +98,6 @@ export const getMatchingUser = async function (task, ) {
       if (!userParseResult.found) {
         console.log("Not found use as-is");
       }
-      userParseResult = { found: false };
       break;
     case 1:
       // only one source for exact match

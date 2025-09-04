@@ -83,7 +83,7 @@ export const getMatchingUser = async function (task) {
     }
   });
   notionUsers.forEach((person) => {
-    if (person.name.replace("@", "") === tasks[2].assignee.replace("@", "")) {
+    if (task.assignee.replace("@", "") === person.name.replace("@", "")) {
       //   console.log("Matching Person", person);
       retrieveUsers.push(person);
     }

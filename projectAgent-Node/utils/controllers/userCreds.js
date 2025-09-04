@@ -41,20 +41,20 @@ const tasks = [
     email: "bobbybrown@outlook.com",
   },
 ];
-  const sampleUser = [
-    {
-      name: "@Gladys",
-      email: "gladys@gmail.com",
-    },
-    {
-      name: "brain",
-      email: "brialliantb@yahool.com",
-    },
-    {
-      name: "@Ceci Kurdelak",
-      email: "@cecideak@sonal.com",
-    },
-  ];
+const sampleUser = [
+  {
+    name: "@Gladys",
+    email: "gladys@gmail.com",
+  },
+  {
+    name: "brain",
+    email: "brialliantb@yahool.com",
+  },
+  {
+    name: "@Ceci Kurdelak",
+    email: "@cecideak@sonal.com",
+  },
+];
 
 export const getMatchingUser = async function (task) {
   const notionUsers = await getNotionUsers();
@@ -102,16 +102,17 @@ export const getMatchingUser = async function (task) {
     case 1:
       // only one source for exact match
       console.log("Exact Match, use searcRes[0]");
-      userParseResult = retrieveUsers[0]
+      userParseResult = retrieveUsers[0];
       break;
     case 2:
       // notion and slack exact match
       if (retrieveUsers[0].source !== retrieveUsers[1].source) {
         retrieveUsers[0].source === "slack"
-          ? console.log(` ${userParseResult = retrieveUsers[0]}`)
-          : console.log(`${userParseResult = retrieveUsers[1]}`)
+          ? console.log(`${(userParseResult = retrieveUsers[0])}`)
+          : console.log(`${(userParseResult = retrieveUsers[1])}`);
       }
       break;
+    /*
     default:
       console.log("Multiple results");
       userParseResult = await searchUser(task, retrieveUsers);
@@ -120,7 +121,6 @@ export const getMatchingUser = async function (task) {
         console.log("Not found use as-is");
       }
       break;
-    /*
      * userActivityArr = await = axios.get("https://slack.com/api/users.getPresence", {
      *   user: userID,
      * }, {

@@ -10,7 +10,7 @@ export const validateDate = function (dateString) {
   }
   if (dateArray[2] === year) {
     dateString = dateArray.reverse().join(delim);
-    dateArray = dateArray.reverse()
+    dateArray = dateArray.reverse();
   }
   if (dateArray[0] !== year) {
     return "Invalid Date Value";

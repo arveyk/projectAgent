@@ -92,7 +92,7 @@ export const getMatchingUser = async function (task) {
   let userParseResult;
   switch (retrieveUsers.length) {
     case 0:
-      console.log("No Match, use ai? search substring?");
+      console.log("No Match, use ai? search substring?", JSON.stringify(retrieveUsers));
       userParseResult = await searchUser(task, retrieveUsers);
       console.log(`User Search result: ${JSON.stringify(userParseResult)}`);
       if (!userParseResult.found) {

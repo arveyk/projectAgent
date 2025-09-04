@@ -10,7 +10,7 @@ import { searchUser } from "./searchUserAi.js";
 const tasks = [
   {
     name: "@Danil D",
-    email: "daniel@solutional.com",
+    email: "daniel@solul.com",
   },
   {
     name: "Bill Jones",
@@ -18,7 +18,7 @@ const tasks = [
   },
   {
     name: "@Ceci Kurdelak",
-    email: "@ceci.kurdelak@solutional.com",
+    email: "@ceci.kurdk@solal.com",
   },
   {
     name: "Emily",
@@ -52,7 +52,7 @@ const tasks = [
     },
     {
       name: "@Ceci Kurdelak",
-      email: "@ceci.kurdelak@solutional.com",
+      email: "@cecideak@sonal.com",
     },
   ];
 

@@ -9,7 +9,7 @@ import { searchUser } from "./searchUserAi.js";
 //const slackUsers = ;
 const sampleUser = [
   {
-    assignee: "@Gladys",
+    assignee: "@Gladys.Mlamwa",
     phone: "+2984783493434",
     email: "gladys@gmail.com",
   },
@@ -35,6 +35,13 @@ const sampleUser = [
   },
 ];
 
+/**
+ * getMatchingUser - function to check for a user with matching credentials
+ *  existing in Slack channel
+ *
+ * @param: task - object constaining task fields including assignee
+ * @Returns: resulting matching user
+ */
 export const getMatchingUser = async function (task) {
   const notionUsers = await getNotionUsers();
   const slackUsers = await getSlackUsers();
@@ -55,7 +62,7 @@ export const getMatchingUser = async function (task) {
   //tasks.forEach(task => {
   //});
   usersArr.forEach((user) => {
-    if (task.assignee.replace("@", "") === user.name.replace("@", "")) {
+    if (task.assignee.replace("@", "").replace(".", " ") === user.name.replace("@", "")) {
       console.log("Found Matching user", user);
       retrieveUsers.push(user);
     }
@@ -75,12 +82,17 @@ export const getMatchingUser = async function (task) {
       console.log("No Match, use ai? search substring?", JSON.stringify(retrieveUsers));
       userParseResult = await searchUser(task, retrieveUsers);
       /**
+       * search using substring
+       *
        * usersArr.forEach((user) => {
-       *   if (task.assignee.replace("@", "").includes(user.name.replace("@", ""))) {
+       *   if (task.assignee.replace("@", "").includes(user.name.replace("@", "")) || user.name.replace("@", "").includes(task.assignee.replace("@", ""))) {
        *     console.log("Found Matching user", user);
        *     retrieveUsers.push(user);
        *   }
        * });
+       * retrieveUsers.length > 0
+       *   ? console.log("found using substring")
+       *   : console.log("Not found even with substring");
        */
       console.log(`User Search result: ${JSON.stringify(userParseResult)}`);
       if (userParseResult.found === false) {
@@ -125,4 +137,40 @@ export const getMatchingUser = async function (task) {
   console.log(retrieveUsers);
   return userParseResult;
 };
+
+export async matchResultCheck(retrievedUsers) {
+  switch (retrievedUsers.length) {
+    case 0:
+      console.log("No Match, use ai? search substring?", JSON.stringify(retrievedUsers));
+      userParseResult = await searchUser(task, retrievedUsers);
+      console.log(`User Search result: ${JSON.stringify(userParseResult)}`);
+      if (userParseResult.found === false) {
+        console.log("Not found use as-is");
+	userParseResult = task;
+      }
+      break;
+    case 1:
+      // only one source for exact match
+      console.log("Exact Match, use searcRes[0]");
+      userParseResult = retrieveUsers[0];
+      break;
+    case 2:
+      // notion and slack exact match
+      if (retrieveUsers[0].source !== retrieveUsers[1].source) {
+        retrieveUsers[0].source === "slack"
+          ? userParseResult = retrieveUsers[0]
+          : userParseResult = retrieveUsers[1];
+      }
+      break;
+    /**
+    default:
+      console.log("Multiple results");
+      userParseResult = await searchUser(task, retrieveUsers);
+      console.log(`User Search result: ${JSON.stringify(userParseResult)}`);
+      if (!userParseResult.found) {
+        console.log("Not found use as-is");
+      }
+      break;
+      */
+}
 getMatchingUser(sampleUser[0]);

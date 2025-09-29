@@ -7,52 +7,31 @@ import { searchUser } from "./searchUserAi.js";
 
 //const notionUsers = ;
 //const slackUsers = ;
-const tasks = [
-  {
-    name: "@Danil D",
-    email: "daniel@solul.com",
-  },
-  {
-    name: "Bill Jones",
-    email: "billjones@gmail.com",
-  },
-  {
-    name: "@Ceci Kurdelak",
-    email: "@ceci.kurdk@solal.com",
-  },
-  {
-    name: "Emily",
-    email: "",
-  },
-  {
-    name: "Cecilia Omondi",
-    email: "ceciliaomosh@yahoo.com",
-  },
-  {
-    name: "Harvey Kisiangani",
-    email: "harvey@gmail.com",
-  },
-  {
-    name: "Bob Fischer",
-    email: "",
-  },
-  {
-    name: "Bobby",
-    email: "bobbybrown@outlook.com",
-  },
-];
 const sampleUser = [
   {
-    name: "@Gladys",
+    assignee: "@Gladys",
+    phone: "+2984783493434",
     email: "gladys@gmail.com",
   },
   {
-    name: "brain",
+    assignee: "brain",
+    phone: "+5298477203434",
     email: "brialliantb@yahool.com",
   },
   {
-    name: "@Ceci Kurdelak",
-    email: "@cecideak@sonal.com",
+    assignee: "@Ceci Drlak",
+    phone: "+12984783434",
+    email: "@cecidk@sonal.com"
+  },
+  {
+    assignee: "Cecilia Omondi",
+    phone: "32",
+    email: "ceciliaomosh@yahoo.com"
+  },
+  {
+    assignee: "Bobby",
+    phone: "303948625",
+    email: "bobbybrown@outlook.com"
   },
 ];
 
@@ -70,7 +49,6 @@ export const getMatchingUser = async function (task) {
       usersArr.push(element);
     }
   });
-
   //console.log(usersArr, notionUsers);
 
   let retrieveUsers = [];
@@ -78,25 +56,36 @@ export const getMatchingUser = async function (task) {
   //});
   usersArr.forEach((user) => {
     if (task.assignee.replace("@", "") === user.name.replace("@", "")) {
-      console.log("Matching user", user);
+      console.log("Found Matching user", user);
       retrieveUsers.push(user);
     }
   });
+  /**
   notionUsers.forEach((person) => {
     if (task.assignee.replace("@", "") === person.name.replace("@", "")) {
       //   console.log("Matching Person", person);
       retrieveUsers.push(person);
     }
   });
+  */
 
   let userParseResult;
   switch (retrieveUsers.length) {
     case 0:
       console.log("No Match, use ai? search substring?", JSON.stringify(retrieveUsers));
       userParseResult = await searchUser(task, retrieveUsers);
+      /**
+       * usersArr.forEach((user) => {
+       *   if (task.assignee.replace("@", "").includes(user.name.replace("@", ""))) {
+       *     console.log("Found Matching user", user);
+       *     retrieveUsers.push(user);
+       *   }
+       * });
+       */
       console.log(`User Search result: ${JSON.stringify(userParseResult)}`);
-      if (!userParseResult.found) {
+      if (userParseResult.found === false) {
         console.log("Not found use as-is");
+	userParseResult = task;
       }
       break;
     case 1:
@@ -108,8 +97,8 @@ export const getMatchingUser = async function (task) {
       // notion and slack exact match
       if (retrieveUsers[0].source !== retrieveUsers[1].source) {
         retrieveUsers[0].source === "slack"
-          ? console.log(`${(userParseResult = retrieveUsers[0])}`)
-          : console.log(`${(userParseResult = retrieveUsers[1])}`);
+          ? userParseResult = retrieveUsers[0]
+          : userParseResult = retrieveUsers[1];
       }
       break;
     /*
@@ -136,4 +125,4 @@ export const getMatchingUser = async function (task) {
   console.log(retrieveUsers);
   return userParseResult;
 };
-//getMatchingUser;
+getMatchingUser(sampleUser[0]);

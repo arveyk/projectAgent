@@ -13,12 +13,12 @@ export const users = [
   },
   {
     name: "@Nick Furry",
-    email: "nick@shield.com"
+    email: "nick@shield.com",
   },
   {
     name: "@Nick Furry",
-    email: "nickfurry@shield.com"
-  }
+    email: "nickfurry@shield.com",
+  },
 ];
 
 export const task = {

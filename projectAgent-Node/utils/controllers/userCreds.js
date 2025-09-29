@@ -62,14 +62,14 @@ export const getMatchingUser = async function (task) {
   //tasks.forEach(task => {
   //});
   usersArr.forEach((user) => {
-    if (task.assignee.replace("@", "").replace(".", " ") === user.name.replace("@", "")) {
+    if (task.assignee.replace("@", "").replace(".", " ").toLowerCase() === user.name.replace("@", "").toLowerCase()) {
       console.log("Found Matching user", user);
       retrieveUsers.push(user);
     }
   });
   /**
   notionUsers.forEach((person) => {
-    if (task.assignee.replace("@", "") === person.name.replace("@", "")) {
+    if (task.assignee.replace("@", "").replace(".", " ").toLowerCase() === person.name.replace("@", "").toLowerCase()) {
       //   console.log("Matching Person", person);
       retrieveUsers.push(person);
     }

@@ -21,7 +21,7 @@ const userSearch = z.object({
 
 export const searchUser = async function (personDetails, searchArea) {
   const structuredLlmSearchUser = model.withStructuredOutput(userSearch);
-  const prompt = `Please return matches with name: from this ${JSON.stringify(personDetails)} in the following array of ${JSON.stringify(searchArea)} . Note that the name may have an @symbol at the beginning, ignore that and compare using the rest of the characters.`;
+  const prompt = `Using this info ${JSON.stringify(personDetails)} please look for a match in the following: ${JSON.stringify(searchArea)}. Note that the name may have an @symbol at the beginning, ignore that and compare using the rest of the characters. Respond appropriately if there is no match`;
   const userParseResult = await structuredLlmSearchUser.invoke(prompt);
   console.log(`User Search result: ${JSON.stringify(userParseResult)}`);
   return userParseResult;

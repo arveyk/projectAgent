@@ -16,6 +16,7 @@
     "luxon": "^3.7.2",
     "n-readlines": "^1.0.1",
     "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
     "zod": "^3.25.76"
   },
   "name": "projectagent-node",
@@ -25,8 +26,8 @@
   "scripts": {
     "test": "jest",
     "test-helpers": "npx jest utils/aiagent.test.js utils/db-search.test.js blockkit/createBlocks.test.js utils/convertEmptyFields.test.js utils/simplifyDBResults.test.js",
-    "start": "node ./index.js",
-    "dev": "nodemon ./index.js",
+    "start": "npx ts-node src/index.ts",
+    "dev": "nodemon src/index.js",
     "format": "npx prettier . --write",
     "lint": "npx eslint"
   },

@@ -13,7 +13,7 @@ const webhookURL = process.env.TASK_MANAGEMENT_WEBHOOK_URL;
 const webhookURL0 = "https:slack.com/api/chat.postEphimeral";
 console.log(webhookURL0);
 
-const slashCmdHandler = async function (request: Request, response: Response, next: NextFunction) {
+const slashCmdHandler = async function (request: Request, response: Response, next: NextFunction): Promise<void> {
   // Send OK
   response.status(200).send();
 
@@ -100,9 +100,9 @@ const slashCmdHandler = async function (request: Request, response: Response, ne
         );
       });
     }
-  } catch (err) {
+  } catch (err: Error | any) {
     console.log(err);
-    return ("Server Error in SlashCmdHandler", err);
+    return (err);
   }
 };
 
@@ -111,11 +111,15 @@ const slashCmdHandler = async function (request: Request, response: Response, ne
  * @param {*} reqBody Request from Slack containing a slash command
  * @returns true if the slash command is valid, else returns false.
  */
-export function isValidCmd(reqBody) {
+export function isValidCmd(reqBody: Request["body"]): { isValid: boolean; action?: string } {
   const commandParams = reqBody["text"].trim().split(" ");
   let firstArg = commandParams[0];
   let otherArgs = commandParams.slice(1, -1).join(" ");
-  const isValidCmd = {};
+  const isValidCmd = {
+    isValid: false,
+    action: "",
+  };
+  
   isValidCmd.isValid =
     (firstArg.toLowerCase() === "add" || "update") && otherArgs.length >= 5;
   firstArg === "add" ? (isValidCmd.action = "add") : "update";

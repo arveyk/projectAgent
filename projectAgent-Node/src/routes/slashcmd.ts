@@ -7,7 +7,6 @@ import { parseTaskSlashCmd } from "../utils/aiagent.js";
 import { searchDB, getTaskProperties } from "../utils/db-search.js";
 import { sendLoadingMsg } from "../blockkit/loadingMsg.js";
 import { getMatchingUser } from "../utils/controllers/userCreds.js";
-import { NextFunction } from "express";
 
 // webhook for taskmanagement channel only
 const webhookURL = process.env.TASK_MANAGEMENT_WEBHOOK_URL;

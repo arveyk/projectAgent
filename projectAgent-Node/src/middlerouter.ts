@@ -1,10 +1,10 @@
 import express from "express";
 
-import slashCmdHandler from "./routes/slashcmd.js";
-import newTaskHandler from "./routes/tasks/newtask.js";
-import patchTaskHandler from "./routes/tasks/update.js";
-import interactionHandler from "./routes/paresponse/updateResponse.js";
-import { threadMsg } from "./routes/threadReply.js";
+import slashCmdHandler from "./routes/slashcmd";
+import newTaskHandler from "./routes/tasks/newtask";
+import patchTaskHandler from "./routes/tasks/update";
+import interactionHandler from "./routes/paresponse/updateResponse";
+import { threadMsg } from "./routes/threadReply";
 
 const router = express.Router();
 

@@ -1,4 +1,4 @@
-export const validateDate = function (dateString) {
+export function validateDate(dateString: string): Date | "Invalid Date Value" {
   const year = new Date().getFullYear().toString();
   let dateArray;
   let delim = "-";
@@ -7,6 +7,9 @@ export const validateDate = function (dateString) {
   } else if (dateString.includes("/")) {
     dateArray = dateString.split("/");
     delim = "/";
+  }
+  else {
+    return "Invalid Date Value";
   }
   if (dateArray[2] === year) {
     dateString = dateArray.reverse().join(delim);
@@ -19,7 +22,7 @@ export const validateDate = function (dateString) {
   }
 };
 
-export const formatSlackDate = function (date) {
+export function formatSlackDate(date: string): string {
   const timestamp = Date.parse(date) / 1000;
   return `<!date^${timestamp}^{date_long}|${date}>`;
 };

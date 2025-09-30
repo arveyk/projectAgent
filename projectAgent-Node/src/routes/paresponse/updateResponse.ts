@@ -1,11 +1,12 @@
 import axios from "axios";
+import { Request, Response, NextFunction } from "express";
 import {
   createEditBlock,
   createFinalBlock,
-} from "../../blockkit/createBlocks.js";
-import addTaskNotionPage from "../../utils/notiondb.js";
-import { updateDbPage } from "../../utils/db-update.js";
-import { sendLoadingMsg } from "../../blockkit/loadingMsg.js";
+} from "../../blockkit/createBlocks";
+import addTaskNotionPage from "../../utils/notiondb";
+import { updateDbPage } from "../../utils/db-update";
+import { sendLoadingMsg } from "../../blockkit/loadingMsg";
 
 import { SLACK_BOT_TOKEN } from "../../env.js";
 
@@ -20,7 +21,7 @@ import { SLACK_BOT_TOKEN } from "../../env.js";
  * @return - No return value
  */
 
-export default function interactionHandler(request, response, next) {
+export default function interactionHandler(request: Request, response: Response, next: NextFunction) {
   const payload = JSON.parse(request.body.payload);
   console.log(`Body: ${JSON.stringify(request.body)}`);
   console.log(`Body.payload${JSON.stringify(request.body.payload)}`);
@@ -28,9 +29,9 @@ export default function interactionHandler(request, response, next) {
   console.log(`RESPONSE URL ${payload["response_url"]}`);
   console.log(`ACTIONS: ${JSON.stringify(payload["actions"])}`);
 
-  const trigger_id = payload["trigger_id"];
-  const response_url = payload["response_url"];
-  const message = payload["message"];
+  const trigger_id: string = payload["trigger_id"];
+  const response_url: string = payload["response_url"];
+  const message: string = payload["message"];
   console.log(
     `TRIGGER_ID VARIABLE ${trigger_id}: RESPONSE_URL ${response_url} MESSAGE ${JSON.stringify(message)}`,
   );
@@ -95,7 +96,7 @@ function sendReject(payload, action_text, response_url, action) {
     });
 }
 
-function sendEdit(payload, response_url, err) {
+function sendEdit(payload, response_url, err: string | undefined) {
   const taskDetailsObj = JSON.parse(payload["actions"][0].value);
   console.log(`taskDetailsObj: ${JSON.stringify(taskDetailsObj)}`);
   const blockObj = createEditBlock(taskDetailsObj);

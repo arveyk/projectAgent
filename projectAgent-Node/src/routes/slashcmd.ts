@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from "express";
 import { createBlockNewTask } from "../blockkit/createBlocks.js";
 import { createUpdateBlock } from "../blockkit/updateBlock.js";
 import { convertEmptyFields } from "../utils/convertEmptyFields.js";
-import { parseTaskSlashCmd } from "../utils/aiagent.js";
+import { parseTaskSlashCmd } from "../utils/aiagent";
 import { searchDB, getTaskProperties } from "../utils/db-search.js";
 import { sendLoadingMsg } from "../blockkit/loadingMsg.js";
 import { getMatchingUser } from "../utils/controllers/userCreds.js";

@@ -1,12 +1,14 @@
 import { ChatAnthropic } from "@langchain/anthropic";
 import { z } from "zod";
-import { ANTHROPIC_API_KEY } from "../env.js";
-import { getEventTimeData } from "./getTime.js";
+import { ANTHROPIC_API_KEY } from "../env";
+import { getEventTimeData } from "./getTime";
+import { RunnableConfig, Runnable } from "@langchain/core/runnables";
+import { BaseLanguageModelInput } from "@langchain/core/language_models/base";
 
 const model = new ChatAnthropic({
   model: "claude-3-5-sonnet-20240620",
   temperature: 0,
-  api_key: ANTHROPIC_API_KEY,
+  apiKey: ANTHROPIC_API_KEY,
 });
 
 // TODO consider storing dates as Unix timestamps/Date objects to make it easier to display them
@@ -31,14 +33,14 @@ const task = z.object({
 });
 
 // For use with slash commands
-const structuredLlmSlashCmd = model.withStructuredOutput(task);
+const structuredLlmSlashCmd: Runnable<BaseLanguageModelInput, Record<string, any>, RunnableConfig<Record<string, any>>> = model.withStructuredOutput(task);
 
 /**
  * Uses Anthropic to parse a task assignment from a Slack slash command
  * @param {*} reqBody The body of the request
  * @returns A TaskParseResult containing the formatted task.
  */
-export const parseTaskSlashCmd = async function (reqBody, timestamp) {
+export const parseTaskSlashCmd = async function (reqBody, timestamp: string) {
   let textToParse;
 
   //slash cmd text can be immediately accessed, for other events it is indirect, through events field

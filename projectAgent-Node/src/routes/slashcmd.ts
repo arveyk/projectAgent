@@ -6,13 +6,14 @@ import { parseTaskSlashCmd } from "../utils/aiagent.js";
 import { searchDB, getTaskProperties } from "../utils/db-search.js";
 import { sendLoadingMsg } from "../blockkit/loadingMsg.js";
 import { getMatchingUser } from "../utils/controllers/userCreds.js";
+import { NextFunction } from "express";
 
 // webhook for taskmanagement channel only
 const webhookURL = process.env.TASK_MANAGEMENT_WEBHOOK_URL;
 const webhookURL0 = "https:slack.com/api/chat.postEphimeral";
 console.log(webhookURL0);
 
-const slashCmdHandler = async function (request, response, next) {
+const slashCmdHandler = async function (request: Request, response: Response, next: NextFunction) {
   // Send OK
   response.status(200).send();
 

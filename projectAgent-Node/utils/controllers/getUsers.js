@@ -48,5 +48,6 @@ export async function getSlackUserById (userID){
       Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
     },
     family: 4,
+  });
 }
 //getSlackUsers();

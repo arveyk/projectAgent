@@ -120,11 +120,11 @@ const setAssignedByArray = function (assignedBy) {
 export const setTaskProperties = function (taskObj, assignedBy) {
   const taskTitle = taskObj["tasktitle"];
   const assignee = taskObj["assignee"];
-  const dueDate = new Date(validateDate(taskObj["duedate"]));
+  const dueDate = validateDate(taskObj["duedate"]);
   const startDate =
     taskObj["startdate"] !== ""
       ? //new Date(taskObj["startdate"]).toISOString()
-        new Date(validateDate(taskObj["startdate"])).toISOString()
+        new validateDate(taskObj["startdate"]).toISOString()
       : new Date().toISOString();
   const email = taskObj["email"] || " ";
   const phoneNumber = taskObj["phonenumber"] || " ";

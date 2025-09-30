@@ -6,8 +6,8 @@ export const createTaskInfoBlock = function (task) {
 
 export function createEditBlock(task) {
   let duedate, startdate;
-  duedate = task.duedate ? validateDate(task.duedate) : "xxx";
-  startdate = task.startdate ? validateDate(task.startdate) : "xxx";
+  duedate = task.duedate ? validateDate(task.duedate).toString() : "xxx";
+  startdate = task.startdate ? validateDate(task.startdate).toString() : "xxx";
 
   return {
     blocks: [

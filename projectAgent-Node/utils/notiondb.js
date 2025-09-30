@@ -17,7 +17,7 @@ const notion = new Client({
 async function addTaskNotionPage(taskObj, assignedBy) {
   // Make sure due date is not in the past
 
-  const duedate = new Date(validateDate(taskObj["duedate"]));
+  const duedate = validateDate(taskObj["duedate"]);
   if (validateDueDate(duedate.toISOString())) {
     console.log("yay! the due date is not in the past!");
 

@@ -15,7 +15,7 @@ describe("Tests formatSlackDate with a timestamp in ISO format with timezone off
 describe("Tests validateDate with a timestamp in ISO format with timezone offset", () => {
   it("Returns a properly formatted date string", () => {
     const timestamp = "2025-08-18T14:00:00-07:00";
-    const dateString = validateDate(timestamp);
+    const dateString = validateDate(timestamp).toString();
 
     console.log(dateString);
     expect(dateString).toMatch(
@@ -27,7 +27,7 @@ describe("Tests validateDate with a timestamp in ISO format with timezone offset
 describe("Tests validateDate with a timestamp in ISO format with timezone offset", () => {
   it("Returns a properly formatted date string", () => {
     const timestamp = "20-09-2025";
-    const dateString = validateDate(timestamp);
+    const dateString = validateDate(timestamp).toString();
 
     console.log(dateString);
     expect(dateString).toMatch(
@@ -39,7 +39,7 @@ describe("Tests validateDate with a timestamp in ISO format with timezone offset
 describe("Tests validateDate with a timestamp in a year different than this year", () => {
   it("Returns Invalid Date Value", () => {
     const timestamp = "2024-08-18T14:00:00-07:00";
-    const dateString = validateDate(timestamp);
+    const dateString = validateDate(timestamp).toString();
 
     console.log(dateString);
     expect(dateString).toMatch("Invalid Date Value");

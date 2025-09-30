@@ -15,7 +15,7 @@ export const validateDate = function (dateString) {
   if (dateArray[0] !== year) {
     return "Invalid Date Value";
   } else {
-    return new Date(dateString).toString();
+    return new Date(dateString);
   }
 };
 

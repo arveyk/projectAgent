@@ -9,6 +9,7 @@ const model = new ChatAnthropic({
   api_key: ANTHROPIC_API_KEY,
 });
 
+// TODO consider storing dates as Unix timestamps/Date objects to make it easier to display them
 const task = z.object({
   tasktitle: z.string().describe("Short descriptive title of the task"),
   assignee: z.string().describe("Name of person assigned with the task"),

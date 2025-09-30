@@ -10,7 +10,7 @@ export function createUpdateBlock(task) {
         type: "header",
         text: {
           type: "plain_text",
-          text: "Task Already exist, would you like to Update it?",
+          text: "Task already exists, would you like to update it?",
           emoji: true,
         },
       },

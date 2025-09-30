@@ -9,11 +9,13 @@ axios({
   method: "GET",
   url: getUserUrl,
   data: {
-    user: userID
-  }, headers: {
-    "Authorization": `Bearer ${SLACK_BOT_TOKEN}`,
-    "Content-type": "application/json; charset=UTF-8"
-  }, family: 4
+    user: userID,
+  },
+  headers: {
+    Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
+    "Content-type": "application/json; charset=UTF-8",
+  },
+  family: 4,
 }).then((response) => {
-  console.log(response)
+  console.log(response);
 });

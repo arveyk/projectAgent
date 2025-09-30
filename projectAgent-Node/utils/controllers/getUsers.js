@@ -36,14 +36,14 @@ export const getSlackUsers = async function () {
 };
 
 const sampleUserId = "U092TCSFAA2";
-export async function getSlackUserById (userID){
+export async function getSlackUserById(userID) {
   console.log("User ID", userID);
-  const getUserInfoUrl = "https://slack.com/api/users.info"
-  const userInfo = await axio.get(getUserInfoUrl, { 
-  data: {
-	  user: userId
-  },
-  headers: {
+  const getUserInfoUrl = "https://slack.com/api/users.info";
+  const userInfo = await axio.get(getUserInfoUrl, {
+    data: {
+      user: userId,
+    },
+    headers: {
       "Content-Type": "application/json charset=utf-8",
       Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
     },

@@ -21,28 +21,29 @@ const sampleUser = [
   {
     assignee: "@Ceci Drlak",
     phone: "+12984783434",
-    email: "@cecidk@sonal.com"
+    email: "@cecidk@sonal.com",
   },
   {
     assignee: "Cecilia Omondi",
     phone: "32",
-    email: "ceciliaomosh@yahoo.com"
+    email: "ceciliaomosh@yahoo.com",
   },
   {
     assignee: "Bobby",
     phone: "303948625",
-    email: "bobbybrown@outlook.com"
+    email: "bobbybrown@outlook.com",
   },
 ];
 
 /**
- * getMatchingUser - function to check for a user with matching credentials
+ * getUserInChannel - function to check for a user with matching credentials
  *  existing in Slack channel
  *
  * @param: task - object constaining task fields including assignee
  * @Returns: resulting matching user
  */
 export const getMatchingUser = async function (task) {
+	//Change function name to getUserInChannel
   const notionUsers = await getNotionUsers();
   const slackUsers = await getSlackUsers();
 
@@ -62,7 +63,10 @@ export const getMatchingUser = async function (task) {
   //tasks.forEach(task => {
   //});
   usersArr.forEach((user) => {
-    if (task.assignee.replace("@", "").replace(".", " ").toLowerCase() === user.name.replace("@", "").toLowerCase()) {
+    if (
+      task.assignee.replace("@", "").replace(".", " ").toLowerCase() ===
+      user.name.replace("@", "").toLowerCase()
+    ) {
       console.log("Found Matching user", user);
       retrieveUsers.push(user);
     }
@@ -79,7 +83,10 @@ export const getMatchingUser = async function (task) {
   let userParseResult;
   switch (retrieveUsers.length) {
     case 0:
-      console.log("No Match, use ai? search substring?", JSON.stringify(retrieveUsers));
+      console.log(
+        "No Match, use ai? search substring?",
+        JSON.stringify(retrieveUsers),
+      );
       userParseResult = await searchUser(task, retrieveUsers);
       /**
        * search using substring
@@ -97,7 +104,7 @@ export const getMatchingUser = async function (task) {
       console.log(`User Search result: ${JSON.stringify(userParseResult)}`);
       if (userParseResult.found === false) {
         console.log("Not found use as-is");
-	userParseResult = task;
+        userParseResult = task;
       }
       break;
     case 1:
@@ -109,8 +116,8 @@ export const getMatchingUser = async function (task) {
       // notion and slack exact match
       if (retrieveUsers[0].source !== retrieveUsers[1].source) {
         retrieveUsers[0].source === "slack"
-          ? userParseResult = retrieveUsers[0]
-          : userParseResult = retrieveUsers[1];
+          ? (userParseResult = retrieveUsers[0])
+          : (userParseResult = retrieveUsers[1]);
       }
       break;
     /*
@@ -141,12 +148,15 @@ export const getMatchingUser = async function (task) {
 export async function matchResultCheck(retrievedUsers) {
   switch (retrievedUsers.length) {
     case 0:
-      console.log("No Match, use ai? search substring?", JSON.stringify(retrievedUsers));
+      console.log(
+        "No Match, use ai? search substring?",
+        JSON.stringify(retrievedUsers),
+      );
       userParseResult = await searchUser(task, retrievedUsers);
       console.log(`User Search result: ${JSON.stringify(userParseResult)}`);
       if (userParseResult.found === false) {
         console.log("Not found use as-is");
-	userParseResult = task;
+        userParseResult = task;
       }
       break;
     case 1:
@@ -158,8 +168,8 @@ export async function matchResultCheck(retrievedUsers) {
       // notion and slack exact match
       if (retrieveUsers[0].source !== retrieveUsers[1].source) {
         retrieveUsers[0].source === "slack"
-          ? userParseResult = retrieveUsers[0]
-          : userParseResult = retrieveUsers[1];
+          ? (userParseResult = retrieveUsers[0])
+          : (userParseResult = retrieveUsers[1]);
       }
       break;
     /**
@@ -172,6 +182,6 @@ export async function matchResultCheck(retrievedUsers) {
       }
       break;
       */
+  }
 }
-getMatchingUser(sampleUser[0]);
-}
+// getMatchingUser(sampleUser[0]);

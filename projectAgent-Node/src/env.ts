@@ -2,27 +2,37 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-console.assert(process.env.SLACK_BOT_TOKEN, "Missing Slack bot token");
-console.assert(
-  process.env.SLACK_SIGNING_SECRET,
-  "Missing Slack signing secret",
-);
-console.assert(process.env.NOTION_API_KEY, "Missing Notion API key");
-console.assert(process.env.NOTION_DATABASE_ID, "Missing Notion database ID");
-console.assert(process.env.ANTHROPIC_API_KEY, "Missing Anthropic API key");
-console.assert(process.env.PROJ_AGENT_APP_ID, "Missing Slack app ID");
-//console.assert(process.env.TASK_N8N_WEBHOOK_URL, "Missing N8N webhook url");
-console.assert(
-  process.env.ALL_SLN_WEBHOOK_URL,
-  "Missing task management webhook url",
-);
+if (!process.env.SLACK_BOT_TOKEN) {
+  throw new Error("Missing Slack bot token");
+}
+if (!process.env.SLACK_SIGNING_SECRET) {
+  throw new Error("Missing Slack signing secret");
+}
+if (!process.env.NOTION_API_KEY) {
+  throw new Error("Missing Notion API key");
+}
+if (!process.env.NOTION_DATABASE_ID) {
+  throw new Error("Missing Notion database ID");
+}
+if (!process.env.ANTHROPIC_API_KEY) {
+  throw new Error("Missing Anthropic API key");
+}
+if (!process.env.PROJ_AGENT_APP_ID) {
+  throw new Error("Missing Slack app ID");
+}
+if (!process.env.TASK_N8N_WEBHOOK_URL) {
+  throw new Error("Missing N8N webhook url");
+}
+if (!process.env.ALL_SLN_WEBHOOK_URL) {
+  throw new Error("Missing task management webhook url");
+}
 
-export const PORT = process.env.PORT;
-export const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;
-export const SLACK_SIGNING_SECRET = process.env.SLACK_SIGNING_SECRET;
-export const NOTION_API_KEY = process.env.NOTION_API_KEY;
-export const NOTION_DATABASE_ID = process.env.NOTION_DATABASE_ID;
-export const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
-export const PROJ_AGENT_APP_ID = process.env.PROJ_AGENT_APP_ID;
-//export const TASK_N8N_WEBHOOK_URL = process.env.TASK_N8N_WEBHOOK_URL;
-export const ALL_SLN_WEBHOOK_URL = process.env.ALL_SLN_WEBHOOK_URL;
+export const PORT: string | undefined = process.env.PORT;
+export const SLACK_BOT_TOKEN: string = process.env.SLACK_BOT_TOKEN;
+export const SLACK_SIGNING_SECRET: string = process.env.SLACK_SIGNING_SECRET;
+export const NOTION_API_KEY: string = process.env.NOTION_API_KEY;
+export const NOTION_DATABASE_ID: string = process.env.NOTION_DATABASE_ID;
+export const ANTHROPIC_API_KEY: string = process.env.ANTHROPIC_API_KEY;
+export const PROJ_AGENT_APP_ID: string = process.env.PROJ_AGENT_APP_ID;
+export const TASK_N8N_WEBHOOK_URL: string = process.env.TASK_N8N_WEBHOOK_URL;
+export const ALL_SLN_WEBHOOK_URL: string = process.env.ALL_SLN_WEBHOOK_URL;

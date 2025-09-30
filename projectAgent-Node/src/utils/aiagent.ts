@@ -16,10 +16,10 @@ const task = z.object({
   tasktitle: z.string().describe("Short descriptive title of the task"),
   assignee: z.string().describe("Name of person assigned with the task"),
   duedate: z
-    .string()
+    .string().datetime({offset: true})
     .describe("Task due date in ISO standard format with timezone included"),
   startdate: z
-    .string()
+    .string().datetime({offset: true})
     .optional()
     .describe("Task start date in ISO standard format with timezone included"),
   phonenumber: z.string().optional().describe("Assingnee phone number"),
@@ -59,5 +59,6 @@ export const parseTaskSlashCmd = async function (reqBody, timestamp: string) {
   const taskParseResult = await structuredLlmSlashCmd.invoke(prompt);
   console.log(`task parse result: ${JSON.stringify(taskParseResult)}`);
 
+  // TODO return Task object
   return taskParseResult;
 };

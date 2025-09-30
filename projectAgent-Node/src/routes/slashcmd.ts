@@ -31,6 +31,7 @@ const slashCmdHandler = async function (request: Request, response: Response, ne
       const timestamp = request.headers["x-slack-request-timestamp"];
       console.log(`timestamp: ${timestamp}`);
       const task = await parseTaskSlashCmd(request.body, timestamp);
+      // TODO remove this conversion once we get parseTaskSlashCmd to return a Task object
       const convertedTask = convertEmptyFields(task);
 
       await sendLoadingMsg("Searching Database", response_url);

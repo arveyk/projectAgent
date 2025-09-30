@@ -2,19 +2,20 @@ import { Client } from "@notionhq/client";
 import { ChatAnthropic } from "@langchain/anthropic";
 import { z } from "zod";
 import { simplifyDBResults } from "./simplifyDBResults.js";
+import { Task } from "./task";
 
 import {
   NOTION_API_KEY,
   NOTION_DATABASE_ID,
   ANTHROPIC_API_KEY,
-} from "../env.js";
+} from "../env";
 
 const notion = new Client({ auth: NOTION_API_KEY });
 
 const model = new ChatAnthropic({
   model: "claude-3-5-sonnet-20240620",
   temperature: 0,
-  api_key: ANTHROPIC_API_KEY,
+  apiKey: ANTHROPIC_API_KEY,
 });
 
 const databaseSearchResult = z.object({
@@ -34,7 +35,7 @@ const structuredLlm = model.withStructuredOutput(databaseSearchResult);
  * @param {*} task The task object
  * @returns true if the task is found, else returns false
  */
-export const searchDB = async function (task) {
+export const searchDB = async function (task: Task) {
   try {
     console.log(`task (searchDB): ${JSON.stringify(task)}`);
     console.log(`assignee (searchDB): ${task.assignee}`);
@@ -68,6 +69,6 @@ export const searchDB = async function (task) {
   }
 };
 
-export const getTaskProperties = async function (pageID) {
+export const getTaskProperties = async function (pageID: string) {
   return await notion.pages.retrieve({ page_id: pageID });
 };

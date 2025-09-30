@@ -1,8 +1,6 @@
 import axios from "axios";
-import dotenv from "dotenv";
+import { SLACK_BOT_TOKEN } from "../../env.js";
 
-dotenv.config({ path: "../../.env" });
-//console.log(process.env);
 
 export const getSlackUsers = async function () {
   const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;
@@ -26,22 +24,24 @@ export const getSlackUsers = async function () {
       usersArr.push({
         source: "slack",
         userID: element.id,
-        name: element.real_name,
+        name: element.name.replace(".", " "),
         email: element.profile.email,
         phone: element.profile.phone,
       });
     }
   });
+  // console.log(membersArray[2]);
   return usersArr;
 };
 
 const sampleUserId = "U092TCSFAA2";
+const user2 = "U08UDKYJVBM";
 export async function getSlackUserById(userID) {
   console.log("User ID", userID);
   const getUserInfoUrl = "https://slack.com/api/users.info";
-  const userInfo = await axio.get(getUserInfoUrl, {
+  const userInfo = await axios.get(getUserInfoUrl, {
     data: {
-      user: userId,
+      user: userID,
     },
     headers: {
       "Content-Type": "application/json charset=utf-8",
@@ -49,5 +49,6 @@ export async function getSlackUserById(userID) {
     },
     family: 4,
   });
-}
-//getSlackUsers();
+  console.log(userInfo);
+};
+getSlackUserById(user2);

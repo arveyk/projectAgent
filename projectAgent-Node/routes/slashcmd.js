@@ -5,7 +5,7 @@ import { convertEmptyFields } from "../utils/convertEmptyFields.js";
 import { parseTaskSlashCmd } from "../utils/aiagent.js";
 import { searchDB, getTaskProperties } from "../utils/db-search.js";
 import { sendLoadingMsg } from "../blockkit/loadingMsg.js";
-import { getMatchingUser } from "../utils/controllers/userCreds.js";
+import { getUserInChannel } from "../utils/controllers/userCreds.js";
 
 // webhook for taskmanagement channel only
 const webhookURL = process.env.TASK_MANAGEMENT_WEBHOOK_URL;

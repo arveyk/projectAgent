@@ -16,7 +16,7 @@ const userSearch = z.object({
   multipleFound: z.boolean().describe("If search has multiple results"),
   name: z.string().describe("Name of person"),
   email: z.string().describe("persons's email"),
-  phone: z.string().optional().describe("persons's phone number"),
+  phonenumber: z.string().optional().describe("persons's phone number"),
 });
 
 export const searchUser = async function (personDetails, searchArea) {

@@ -1,39 +1,11 @@
-//import dotenv from "dotenv";
 import { getNotionUsers } from "./getNotionUsers.js";
 import { getSlackUsers } from "./getUsers.js";
 import { searchUser } from "./searchUserAi.js";
-//dotenv.config();
-//import { notionUsers, slackUsers } from "../../storage/users.js";
+import { task_feed_cats } from "../../test-data/tasks/example-tasks.js";
 
+//import { notionUsers, slackUsers } from "../../storage/users.js";
 //const notionUsers = ;
 //const slackUsers = ;
-const sampleUser = [
-  {
-    assignee: "@Gladys.Mlamwa",
-    phone: "+2984783493434",
-    email: "gladys@gmail.com",
-  },
-  {
-    assignee: "brain",
-    phone: "+5298477203434",
-    email: "brialliantb@yahool.com",
-  },
-  {
-    assignee: "@Ceci Drlak",
-    phone: "+12984783434",
-    email: "@cecidk@sonal.com",
-  },
-  {
-    assignee: "Cecilia Omondi",
-    phone: "32",
-    email: "ceciliaomosh@yahoo.com",
-  },
-  {
-    assignee: "Bobby",
-    phone: "303948625",
-    email: "bobbybrown@outlook.com",
-  },
-];
 
 /**
  * getUserInChannel - function to check for a user with matching credentials
@@ -42,7 +14,7 @@ const sampleUser = [
  * @param: task - object constaining task fields including assignee
  * @Returns: resulting matching user
  */
-export const getMatchingUser = async function (task) {
+export const getUserInChannel = async function (task) {
 	//Change function name to getUserInChannel
   const notionUsers = await getNotionUsers();
   const slackUsers = await getSlackUsers();
@@ -57,7 +29,6 @@ export const getMatchingUser = async function (task) {
       usersArr.push(element);
     }
   });
-  //console.log(usersArr, notionUsers);
 
   let retrieveUsers = [];
   //tasks.forEach(task => {
@@ -65,7 +36,7 @@ export const getMatchingUser = async function (task) {
   usersArr.forEach((user) => {
     if (
       task.assignee.replace("@", "").replace(".", " ").toLowerCase() ===
-      user.name.replace("@", "").toLowerCase()
+      user.name
     ) {
       console.log("Found Matching user", user);
       retrieveUsers.push(user);
@@ -111,6 +82,12 @@ export const getMatchingUser = async function (task) {
       // only one source for exact match
       console.log("Exact Match, use searcRes[0]");
       userParseResult = retrieveUsers[0];
+      retrieveUsers.email
+	? console.log(' e')
+	: task.email = retr
+      retrieveUsers.phonenumber
+	? console.log(' p') 
+	: task.phonenumber = retrieveUsers.phonenumber
       break;
     case 2:
       // notion and slack exact match
@@ -184,4 +161,4 @@ export async function matchResultCheck(retrievedUsers) {
       */
   }
 }
-// getMatchingUser(sampleUser[0]);
+getUserInChannel(task_feed_cats);

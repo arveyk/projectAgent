@@ -8,12 +8,23 @@ import { createConfirmationBlock } from "./createBlocks.js";
 import { createFinalBlock } from "./editblock.js";
 import { createUpdateBlock } from "./updateBlock.js";
 
-const task = {
+export type Task = {
+  tasktitle: string;
+  assignee: string;
+  duedate: Date | string;
+  startdate: Date | string;
+  email: string,
+  phonenumber: string;
+  preferredchannel: string;
+  description: string;
+  project: string;
+};
+const task: Task = {
   tasktitle: "End of year Plans",
   assignee: "Benjamin Noah",
-  duedate: "7-11-2027",
-  startdate: "1-11-2027",
-  email1: "replace@soon.com",
+  duedate: new Date("7-11-2027"),
+  startdate: new Date("1-11-2027"),
+  email: "replace@soon.com",
   phonenumber: "43-335-344-4344",
   preferredchannel: "Call, email",
   description:
@@ -39,10 +50,11 @@ const blocks_01 = createEditBlock(task);
 const blocks_04 = createFinalBlock(task);
 //let taskDetailsObj = JSON.parse(blocks["actions"][0]["value"]);
 
-const blocks_11 = createFinalBlock(
-  JSON.parse(blocks_02.blocks[3].elements[0].value),
-);
-
+if (blocks_02.blocks[3].elements) {
+  const blocks_11 = createFinalBlock(
+    JSON.parse(blocks_02.blocks[3].elements[0].value),
+  );
+}
 /*const blocks_12 = createEditBlock(
   JSON.parse(blocks_02.blocks[3].elements[0].value),
 );

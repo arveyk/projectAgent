@@ -1,7 +1,12 @@
 export { createEditBlock, createFinalBlock } from "./editblock.js";
 import { createTaskInfoBlock } from "./editblock.js";
-
-const createConfirmationBlock = function confirmBlock(task) {
+import { Task } from "./sendBlockResponse.js"
+/**
+ *
+ * @param task A task object
+ * @returns A set of Slack blocks containing data from the task, to be used in editing tasks
+ */
+const createConfirmationBlock = function confirmBlock(task: Task) {
   if (task.preferredchannel === undefined) {
     task.preferredchannel = "Slack";
   }

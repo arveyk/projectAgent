@@ -12,11 +12,7 @@ const model = new ChatAnthropic({
   api_key: ANTHROPIC_API_KEY,
 });
 
-type Person = {
-  name: string;
-  email?: string,
-  phone?: string
-}
+code 
 const userSearch = z.object({
   found: z.boolean().describe("If a specific person match is found"),
   multipleFound: z.boolean().describe("If search has multiple results"),

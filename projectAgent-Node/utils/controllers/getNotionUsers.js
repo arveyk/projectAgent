@@ -1,11 +1,9 @@
 import axios from "axios";
 import dotenv from "dotenv";
-
-dotenv.config({ path: "../../.env" });
+import { NOTION_API_KEY } from "../../env.js";
 
 export const getNotionUsers = async function () {
-  const NOTION_API_KEY = process.env.NOTION_API_KEY;
-  console.log(process.env.NOTION_API_KEY);
+  console.log(NOTION_API_KEY);
   const notionUsers = await axios.get("https://api.notion.com/v1/users", {
     headers: {
       Authorization: `Bearer ${NOTION_API_KEY}`,

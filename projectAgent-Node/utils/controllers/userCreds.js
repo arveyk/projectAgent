@@ -138,7 +138,7 @@ export const getMatchingUser = async function (task) {
   return userParseResult;
 };
 
-export async matchResultCheck(retrievedUsers) {
+export async function matchResultCheck(retrievedUsers) {
   switch (retrievedUsers.length) {
     case 0:
       console.log("No Match, use ai? search substring?", JSON.stringify(retrievedUsers));
@@ -174,3 +174,4 @@ export async matchResultCheck(retrievedUsers) {
       */
 }
 getMatchingUser(sampleUser[0]);
+}

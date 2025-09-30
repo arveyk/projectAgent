@@ -1,11 +1,11 @@
 import { validateDate, formatSlackDate } from "../utils/dateHandler.js";
 import { DateTime } from "luxon";
-
-export const createTaskInfoBlock = function (task) {
+import { Task } from "./sendBlockResponse.js";
+export const createTaskInfoBlock = function (task: Task) {
   return `*Task Title:*\t\t\t${task.tasktitle} \n*Assignee:* \t\t\t${task.assignee}\n*Due Date:*\t\t\t${formatSlackDate(task.duedate)}\n*Start Date:*\t\t\t${task.startdate ? formatSlackDate(task.startdate) : task.startdate}\n*Phone Number:*\t${task.phonenumber}\n*Email:*\t\t\t${task.email}\n*Preferred Channel:*\t\t\t${task.preferredchannel}\n*Description:* \t\t${task.description}\n*Project:* \t\t${task.project}`;
 };
 
-export function createEditBlock(task) {
+export function createEditBlock(task: Task) {
   // TODO display date in user's local timezone
   let duedate, startdate;
   duedate = task.duedate ? validateDate(task.duedate).toString() : "xxx";
@@ -212,7 +212,7 @@ export function createEditBlock(task) {
   };
 }
 
-export function createFinalBlock(task) {
+export function createFinalBlock(task:Task) {
   task.email ? "Ok FinalBlock" : (task.email = " ");
   task.preferredchannel ? "Ok FinalBlock" : (task.preferredchannel = "Slack");
   task.project ? "Ok FinalBlock" : (task.project = " ");

@@ -1,4 +1,11 @@
-export function createUpdateBlock(task) {
+import { Task } from "./sendBlockResponse.js";
+
+/**
+ *
+ * @param task: A task object
+ * @returns: A set of Slack blocks for updating a task
+ */
+export function createUpdateBlock(task: Task) {
   const startDate = task.startdate.split("T")[0];
   const dueDate = task.duedate.split("T")[0];
 

@@ -4,7 +4,7 @@ import { ANTHROPIC_API_KEY } from "../env";
 import { getEventTimeData } from "./getTime";
 import { RunnableConfig, Runnable } from "@langchain/core/runnables";
 import { BaseLanguageModelInput } from "@langchain/core/language_models/base";
-import { Task } from "./task";
+import { convertTask, Task } from "./task";
 import { BaseMessage } from "@langchain/core/messages";
 
 const model = new ChatAnthropic({
@@ -51,6 +51,7 @@ export const parseTaskSlashCmd = async function (
   reqBody,
   timestamp: string,
 ): Promise<Task> {
+  // TODO type annotation for reqBody
   let textToParse;
 
   //slash cmd text can be immediately accessed, for other events it is indirect, through events field
@@ -69,6 +70,6 @@ export const parseTaskSlashCmd = async function (
   const taskParseResult = await structuredLlmSlashCmd.invoke(prompt);
   console.log(`task parse result: ${JSON.stringify(taskParseResult)}`);
 
-  // TODO return Task object
-  return taskParseResult;
+  // Convert the LLM output to a Task object for future ease of use
+  return convertTask(taskParseResult);
 };

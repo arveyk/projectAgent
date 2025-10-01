@@ -51,9 +51,9 @@ export const searchDB = async function (task: Task) {
     console.log(`response: ${JSON.stringify(simplifiedResponse)}`);
 
     const prompt = `
-      Please check if a task with the title ${JSON.stringify(task.tasktitle)} exists in the database response 
+      Please check if a task with the title ${JSON.stringify(task.taskTitle)} exists in the database response 
       ${JSON.stringify(simplifiedResponse)}. If you find a task in the database response with a title that means the 
-      same thing as ${JSON.stringify(task.tasktitle)} but is worded slightly differently, this counts as a match.
+      same thing as ${JSON.stringify(task.taskTitle)} but is worded slightly differently, this counts as a match.
     `;
 
     const result = await structuredLlm.invoke(prompt);

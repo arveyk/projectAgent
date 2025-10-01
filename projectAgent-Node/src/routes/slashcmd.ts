@@ -35,13 +35,14 @@ const slashCmdHandler = async function (
       const timestamp = request.headers["x-slack-request-timestamp"];
       console.log(`timestamp: ${timestamp}`);
       const task = await parseTaskSlashCmd(request.body, timestamp);
-      // TODO remove this conversion once we get parseTaskSlashCmd to return a Task object
-      const convertedTask = convertEmptyFields(task);
 
       await sendLoadingMsg("Searching Database", response_url);
-      const isInDatabase = await searchDB(convertedTask);
+      const isInDatabase = await searchDB(task);
       console.log("IS in database?", JSON.stringify(isInDatabase));
 
+      if (isInDatabase === undefined) {
+        throw new Error("The database did not return a result");
+      }
       if (isInDatabase.exists) {
         console.log("Already in Database");
 
@@ -77,7 +78,7 @@ const slashCmdHandler = async function (
         });
       } else {
         let searchUserInSlack_Notion = await getMatchingUser(task);
-        const taskBlock = createBlockNewTask(convertedTask);
+        const taskBlock = createBlockNewTask(task);
         taskBlock.blocks[0].text.text += JSON.stringify(
           searchUserInSlack_Notion,
         );

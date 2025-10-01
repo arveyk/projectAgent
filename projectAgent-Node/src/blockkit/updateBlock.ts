@@ -1,4 +1,4 @@
-import { Task } from "./sendBlockResponse.js";
+import { Task } from "../utils/task";
 
 /**
  *

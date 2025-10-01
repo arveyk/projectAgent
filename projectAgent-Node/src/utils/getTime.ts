@@ -60,7 +60,7 @@ export async function getEventTimeData(
   reqBody: SlashCommand,
   timestamp: string,
 ): Promise<DateTime> {
-  // TODO type annotation for reqBody
+  // Done type annotation for reqBody
 
   const userID = reqBody["user_id"];
   const userTZData = await getUserTimezoneData(userID);

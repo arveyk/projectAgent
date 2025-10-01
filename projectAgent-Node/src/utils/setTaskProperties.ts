@@ -1,6 +1,7 @@
 import { validateDate } from "./dateHandler.js";
+import { Task } from "./task.js";
 
-const setTitleArray = function (taskTitle) {
+const setTitleArray = function (taskTitle: string) {
   return [
     {
       type: "text",
@@ -21,7 +22,7 @@ const setTitleArray = function (taskTitle) {
     },
   ];
 };
-const setAssigneeArray = function (assignee) {
+const setAssigneeArray = function (assignee: string) {
   return [
     {
       type: "text",
@@ -40,7 +41,7 @@ const setAssigneeArray = function (assignee) {
     },
   ];
 };
-const setPreferredChannelArray = function (preferredChannel) {
+const setPreferredChannelArray = function (preferredChannel: string) {
   return [
     {
       type: "text",
@@ -59,7 +60,7 @@ const setPreferredChannelArray = function (preferredChannel) {
     },
   ];
 };
-const setDescriptionArray = function (description) {
+const setDescriptionArray = function (description: string) {
   return [
     {
       type: "text",
@@ -79,7 +80,7 @@ const setDescriptionArray = function (description) {
     },
   ];
 };
-const setProjectArray = function (project) {
+const setProjectArray = function (project: string) {
   return [
     {
       type: "text",
@@ -98,7 +99,7 @@ const setProjectArray = function (project) {
     },
   ];
 };
-const setAssignedByArray = function (assignedBy) {
+const setAssignedByArray = function (assignedBy: {name: string, email: string}[]) {
   return [
     {
       type: "text",
@@ -117,18 +118,19 @@ const setAssignedByArray = function (assignedBy) {
     },
   ];
 };
-export const setTaskProperties = function (taskObj, assignedBy) {
-  const taskTitle = taskObj["tasktitle"];
+export const setTaskProperties = function (taskObj: Task, assignedBy: {name: string, email: string}[]) {
+  const taskTitle = taskObj["taskTitle"];
   const assignee = taskObj["assignee"];
-  const dueDate = validateDate(taskObj["duedate"]);
+  const dueDate = validateDate(taskObj["dueDate"].toISOString());
   const startDate =
-    taskObj["startdate"] !== ""
-      ? //new Date(taskObj["startdate"]).toISOString()
-        new validateDate(taskObj["startdate"]).toISOString()
-      : new Date().toISOString();
+    taskObj["startDate"] ? validateDate(taskObj["startDate"].toISOString()): new Date().toISOString();
+    // taskObj["startDate"] !== ""
+    //? new Date(taskObj["startdate"]).toISOString()
+    //    new validateDate(taskObj["startDate"]).toISOString()
+    //  : new Date().toISOString();
   const email = taskObj["email"] || " ";
-  const phoneNumber = taskObj["phonenumber"] || " ";
-  const preferredChannel = taskObj["preferredchannel"] || "Slack";
+  const phoneNumber = taskObj["phoneNumber"] || " ";
+  const preferredChannel = taskObj["preferredChannel"] || "Slack";
   const description = taskObj["description"];
   const dateAssigned = new Date().toISOString();
   const project = taskObj["project"] || " ";

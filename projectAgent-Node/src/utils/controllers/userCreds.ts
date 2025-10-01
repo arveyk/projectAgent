@@ -43,7 +43,7 @@ const sampleUser = [
  * @Returns: resulting matching user
  */
 export const getMatchingUser = async function (task) {
-	//Change function name to getUserInChannel
+  //Change function name to getUserInChannel
   const notionUsers = await getNotionUsers();
   const slackUsers = await getSlackUsers();
 

@@ -25,7 +25,10 @@ export const createBlockLoadingMsg = function (message: string) {
  * @param {*} message
  * @param {*} response_url
  */
-export const sendLoadingMsg = async function (message: string, response_url: string) {
+export const sendLoadingMsg = async function (
+  message: string,
+  response_url: string,
+) {
   const blocks = createBlockLoadingMsg(message);
   try {
     // TODO make the message go away when the wait is over

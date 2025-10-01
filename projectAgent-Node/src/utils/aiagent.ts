@@ -16,10 +16,12 @@ const task = z.object({
   tasktitle: z.string().describe("Short descriptive title of the task"),
   assignee: z.string().describe("Name of person assigned with the task"),
   duedate: z
-    .string().datetime({offset: true})
+    .string()
+    .datetime({ offset: true })
     .describe("Task due date in ISO standard format with timezone included"),
   startdate: z
-    .string().datetime({offset: true})
+    .string()
+    .datetime({ offset: true })
     .optional()
     .describe("Task start date in ISO standard format with timezone included"),
   phonenumber: z.string().optional().describe("Assingnee phone number"),
@@ -33,14 +35,21 @@ const task = z.object({
 });
 
 // For use with slash commands
-const structuredLlmSlashCmd: Runnable<BaseLanguageModelInput, Record<string, any>, RunnableConfig<Record<string, any>>> = model.withStructuredOutput(task);
+const structuredLlmSlashCmd: Runnable<
+  BaseLanguageModelInput,
+  Record<string, any>,
+  RunnableConfig<Record<string, any>>
+> = model.withStructuredOutput(task);
 
 /**
  * Uses Anthropic to parse a task assignment from a Slack slash command
  * @param {*} reqBody The body of the request
  * @returns A TaskParseResult containing the formatted task.
  */
-export const parseTaskSlashCmd = async function (reqBody, timestamp: string): Promise<Task> {
+export const parseTaskSlashCmd = async function (
+  reqBody,
+  timestamp: string,
+): Promise<Task> {
   let textToParse;
 
   //slash cmd text can be immediately accessed, for other events it is indirect, through events field

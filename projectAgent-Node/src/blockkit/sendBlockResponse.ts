@@ -13,7 +13,7 @@ export type Task = {
   assignee: string;
   duedate: string;
   startdate: string;
-  email: string,
+  email: string;
   phonenumber: string;
   preferredchannel: string;
   description: string;

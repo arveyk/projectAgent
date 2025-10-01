@@ -1,7 +1,10 @@
 import axios from "axios";
 import { SLACK_BOT_TOKEN } from "../env.js";
 
-export const deleteLoadingMsg = async function (timeStamp: string, channel_id: string) {
+export const deleteLoadingMsg = async function (
+  timeStamp: string,
+  channel_id: string,
+) {
   const eventResURL = "https://slack.com/api/chat.delete";
   try {
     // TODO make the message only appear to the user who triggered the slash command

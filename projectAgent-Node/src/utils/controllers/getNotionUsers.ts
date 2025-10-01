@@ -3,7 +3,6 @@ import { User } from "./someTypes.js";
 import { ListUsersResponse } from "@notionhq/client/build/src/api-endpoints.js";
 import { NOTION_API_KEY } from "../../env.js";
 
-
 const notion = require("@notionhq/client").Client({
   auth: NOTION_API_KEY,
 });
@@ -13,13 +12,16 @@ if (!NOTION_API_KEY) throw new Error("No Notion API Key given");
 // Function to get Notion users
 export const getNotionUsers = async function () {
   console.log(NOTION_API_KEY);
-  const notionUsers: ListUsersResponse = await axios.get("https://api.notion.com/v1/users", {
-    headers: {
-      Authorization: `Bearer ${NOTION_API_KEY}`,
-      "Notion-Version": "2022-06-28",
+  const notionUsers: ListUsersResponse = await axios.get(
+    "https://api.notion.com/v1/users",
+    {
+      headers: {
+        Authorization: `Bearer ${NOTION_API_KEY}`,
+        "Notion-Version": "2022-06-28",
+      },
+      family: 4,
     },
-    family: 4,
-  });
+  );
 
   //console.log(notionUsers.data.results);
   const allUserArray = notionUsers.results;

@@ -34,7 +34,7 @@ export type PersonDetails = {
   name: string;
   email: string;
   phone: string;
-}
+};
 
 export type PersonsList = {
   name: string;

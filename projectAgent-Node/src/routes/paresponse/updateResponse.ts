@@ -1,9 +1,6 @@
 import axios from "axios";
 import { Request, Response, NextFunction } from "express";
-import {
-  createEditBlock,
-  createFinalBlock,
-} from "../../blockkit/createBlocks";
+import { createEditBlock, createFinalBlock } from "../../blockkit/createBlocks";
 import addTaskNotionPage from "../../utils/notiondb";
 import { updateDbPage } from "../../utils/db-update";
 import { sendLoadingMsg } from "../../blockkit/loadingMsg";
@@ -21,7 +18,11 @@ import { SLACK_BOT_TOKEN } from "../../env.js";
  * @return - No return value
  */
 
-export default function interactionHandler(request: Request, response: Response, next: NextFunction) {
+export default function interactionHandler(
+  request: Request,
+  response: Response,
+  next: NextFunction,
+) {
   const payload = JSON.parse(request.body.payload);
   console.log(`Body: ${JSON.stringify(request.body)}`);
   console.log(`Body.payload${JSON.stringify(request.body.payload)}`);

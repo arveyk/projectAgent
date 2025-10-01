@@ -1,5 +1,9 @@
-import {Request, Response, NextFunction } from "express";
-const newTaskHandler = function (request: Request, response: Response, next: NextFunction) {
+import { Request, Response, NextFunction } from "express";
+const newTaskHandler = function (
+  request: Request,
+  response: Response,
+  next: NextFunction,
+) {
   console.log("creating new task...");
   response.status(201).send(
     JSON.stringify({

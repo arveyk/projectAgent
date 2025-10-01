@@ -4,11 +4,7 @@ import { z } from "zod";
 import { simplifyDBResults } from "./simplifyDBResults.js";
 import { Task } from "./task";
 
-import {
-  NOTION_API_KEY,
-  NOTION_DATABASE_ID,
-  ANTHROPIC_API_KEY,
-} from "../env";
+import { NOTION_API_KEY, NOTION_DATABASE_ID, ANTHROPIC_API_KEY } from "../env";
 
 const notion = new Client({ auth: NOTION_API_KEY });
 

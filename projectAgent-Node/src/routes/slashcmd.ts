@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Request, Response, NextFunction } from "express"; 
+import { Request, Response, NextFunction } from "express";
 import { createBlockNewTask } from "../blockkit/createBlocks.js";
 import { createUpdateBlock } from "../blockkit/updateBlock.js";
 import { convertEmptyFields } from "../utils/convertEmptyFields.js";
@@ -13,7 +13,11 @@ const webhookURL = process.env.TASK_MANAGEMENT_WEBHOOK_URL;
 const webhookURL0 = "https:slack.com/api/chat.postEphimeral";
 console.log(webhookURL0);
 
-const slashCmdHandler = async function (request: Request, response: Response, next: NextFunction): Promise<void> {
+const slashCmdHandler = async function (
+  request: Request,
+  response: Response,
+  next: NextFunction,
+): Promise<void> {
   // Send OK
   response.status(200).send();
 
@@ -103,7 +107,7 @@ const slashCmdHandler = async function (request: Request, response: Response, ne
     }
   } catch (err: Error | any) {
     console.log(err);
-    return (err);
+    return err;
   }
 };
 
@@ -112,7 +116,10 @@ const slashCmdHandler = async function (request: Request, response: Response, ne
  * @param {*} reqBody Request from Slack containing a slash command
  * @returns true if the slash command is valid, else returns false.
  */
-export function isValidCmd(reqBody: Request["body"]): { isValid: boolean; action?: string } {
+export function isValidCmd(reqBody: Request["body"]): {
+  isValid: boolean;
+  action?: string;
+} {
   const commandParams = reqBody["text"].trim().split(" ");
   let firstArg = commandParams[0];
   let otherArgs = commandParams.slice(1, -1).join(" ");
@@ -120,7 +127,7 @@ export function isValidCmd(reqBody: Request["body"]): { isValid: boolean; action
     isValid: false,
     action: "",
   };
-  
+
   isValidCmd.isValid =
     (firstArg.toLowerCase() === "add" || "update") && otherArgs.length >= 5;
   firstArg === "add" ? (isValidCmd.action = "add") : "update";

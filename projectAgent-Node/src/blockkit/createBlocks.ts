@@ -180,7 +180,7 @@ const sampleModal = {
  * @param {*} task A task object
  * @returns A set of Slack blocks containing data from the task, to be used in confirming new tasks
  */
-export const createBlockNewTask = function (task) {
+export const createBlockNewTask = function (task: Task) {
   const blockText = createTaskInfoBlock(task);
 
   return {

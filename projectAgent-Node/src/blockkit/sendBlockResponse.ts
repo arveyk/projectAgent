@@ -11,8 +11,8 @@ import { createUpdateBlock } from "./updateBlock.js";
 export type Task = {
   tasktitle: string;
   assignee: string;
-  duedate: Date | string;
-  startdate: Date | string;
+  duedate: string;
+  startdate: string;
   email: string,
   phonenumber: string;
   preferredchannel: string;
@@ -22,8 +22,8 @@ export type Task = {
 const task: Task = {
   tasktitle: "End of year Plans",
   assignee: "Benjamin Noah",
-  duedate: new Date("7-11-2027"),
-  startdate: new Date("1-11-2027"),
+  duedate: "7-11-2027",
+  startdate: "1-11-2027",
   email: "replace@soon.com",
   phonenumber: "43-335-344-4344",
   preferredchannel: "Call, email",

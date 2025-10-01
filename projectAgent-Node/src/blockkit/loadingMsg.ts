@@ -5,7 +5,7 @@ import axios from "axios";
  * @param {*} message
  * @returns
  */
-export const createBlockLoadingMsg = function (message) {
+export const createBlockLoadingMsg = function (message: string) {
   return {
     replace_original: true,
     blocks: [
@@ -25,7 +25,7 @@ export const createBlockLoadingMsg = function (message) {
  * @param {*} message
  * @param {*} response_url
  */
-export const sendLoadingMsg = async function (message, response_url) {
+export const sendLoadingMsg = async function (message: string, response_url: string) {
   const blocks = createBlockLoadingMsg(message);
   try {
     // TODO make the message go away when the wait is over

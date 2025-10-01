@@ -1,12 +1,19 @@
 import axios from "axios";
-import dotenv from "dotenv";
+import { notionUser } from "./someTypes.js";
+import { ListUsersResponse } from "@notionhq/client/build/src/api-endpoints.js";
+import { NOTION_API_KEY } from "../../env.js";
 
-dotenv.config({ path: "../../.env" });
 
+const notion = require("@notionhq/client").Client({
+  auth: NOTION_API_KEY,
+});
+
+if (!NOTION_API_KEY) throw new Error("No Notion API Key given");
+
+// Function to get Notion users
 export const getNotionUsers = async function () {
-  const NOTION_API_KEY = process.env.NOTION_API_KEY;
-  console.log(process.env.NOTION_API_KEY);
-  const notionUsers = await axios.get("https://api.notion.com/v1/users", {
+  console.log(NOTION_API_KEY);
+  const notionUsers: ListUsersResponse = await axios.get("https://api.notion.com/v1/users", {
     headers: {
       Authorization: `Bearer ${NOTION_API_KEY}`,
       "Notion-Version": "2022-06-28",
@@ -15,8 +22,12 @@ export const getNotionUsers = async function () {
   });
 
   //console.log(notionUsers.data.results);
-  const allUserArray = notionUsers.data.results;
-  const humanUsers = [];
+  const allUserArray = notionUsers.results;
+  const humanUsers: notionUser[] = [];
+
+  const notionResp = await notion.users.list({});
+  console.log(notionResp);
+
   allUserArray.forEach((user) => {
     if (user.type === "person") {
       humanUsers.push({
@@ -29,4 +40,4 @@ export const getNotionUsers = async function () {
   console.log(JSON.stringify(humanUsers));
   return humanUsers;
 };
-//getNotionUsers();
+getNotionUsers();

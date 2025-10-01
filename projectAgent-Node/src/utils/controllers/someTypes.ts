@@ -27,3 +27,28 @@ export const task = {
   tasktitle: "Avengers Initiative",
   due: "20-04-2025",
 };
+
+export type PersonDetails = {
+  found: boolean;
+  multipleFound: boolean;
+  name: string;
+  email: string;
+  phone: string;
+}
+
+export type PersonsList = {
+  name: string;
+  email: string;
+}[];
+
+export type notionUser = {
+  source: string;
+  name: string | null;
+  email: string | null;
+};
+
+export type slackUser = {
+  source: string;
+  name: string | null;
+  email: string | null;
+};

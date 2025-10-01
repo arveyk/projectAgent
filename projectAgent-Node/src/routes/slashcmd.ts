@@ -49,7 +49,11 @@ const slashCmdHandler = async function (
         console.log("Already in Database");
 
         const pageObject = await getTaskProperties(isInDatabase.task_id || "");
-        const properties = pageObject.properties;
+        if (!("properties " in pageObject)) {
+          throw new Error("Error getting task properties");
+        }
+
+        const properties = pageObject["properties"];
         const existingTask = {
           tasktitle: properties["Task Title"].title[0].plain_text,
           assignee: properties["Assignee"].rich_text[0].plain_text,

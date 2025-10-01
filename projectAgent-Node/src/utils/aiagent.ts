@@ -52,6 +52,7 @@ export const parseTaskSlashCmd = async function (
   timestamp: string,
 ): Promise<Task> {
   // TODO type annotation for reqBody
+  
   let textToParse;
 
   //slash cmd text can be immediately accessed, for other events it is indirect, through events field

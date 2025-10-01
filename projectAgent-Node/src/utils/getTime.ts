@@ -59,6 +59,8 @@ export async function getEventTimeData(
   reqBody,
   timestamp: string,
 ): Promise<DateTime> {
+  // TODO type annotation for reqBody
+
   const userID = reqBody["user_id"];
   const userTZData = await getUserTimezoneData(userID);
   // console.log(`user timezone data: ${JSON.stringify(userTZData)}`);

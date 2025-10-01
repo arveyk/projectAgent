@@ -6,6 +6,7 @@ import { RunnableConfig, Runnable } from "@langchain/core/runnables";
 import { BaseLanguageModelInput } from "@langchain/core/language_models/base";
 import { convertTask, Task } from "./task";
 import { BaseMessage } from "@langchain/core/messages";
+import { SlashCommand } from "@slack/bolt";
 
 const model = new ChatAnthropic({
   model: "claude-3-5-sonnet-20240620",
@@ -48,7 +49,7 @@ const structuredLlmSlashCmd: Runnable<
  * @returns A TaskParseResult containing the formatted task.
  */
 export const parseTaskSlashCmd = async function (
-  reqBody,
+  reqBody: SlashCommand,
   timestamp: string,
 ): Promise<Task> {
   // TODO type annotation for reqBody

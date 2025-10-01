@@ -7,7 +7,7 @@ import { searchDB, getTaskProperties } from "../utils/db-search.js";
 import { sendLoadingMsg } from "../blockkit/loadingMsg.js";
 import { getMatchingUser } from "../utils/controllers/userCreds.js";
 import { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints.js";
-
+import { SlashCommand } from "@slack/bolt";
 
 // webhook for taskmanagement channel only
 const webhookURL = process.env.TASK_MANAGEMENT_WEBHOOK_URL;
@@ -35,7 +35,7 @@ const slashCmdHandler = async function (
 
       const timestamp = request.headers["x-slack-request-timestamp"];
       console.log(`timestamp: ${timestamp}`);
-      const task = await parseTaskSlashCmd(request.body, timestamp as string);
+      const task = await parseTaskSlashCmd(request.body as SlashCommand, timestamp as string);
 
       await sendLoadingMsg("Searching Database", response_url);
       const isInDatabase = await searchDB(task);
@@ -49,39 +49,41 @@ const slashCmdHandler = async function (
         console.log("Already in Database");
 
         const pageObject = await getTaskProperties(isInDatabase.taskId || "");
-        if (!("properties " in pageObject)) {
-          throw new Error("Error getting task properties");
+        if ("properties" in pageObject) {
+          // TODO type narrowing
+
+          const properties = pageObject["properties"];
+          const existingTask = {
+            taskTitle: "title" in properties["Task Title"] ? properties["Task Title"].title[0].plain_text : "No Title Provided",
+            assignee: "rich_text" in properties.Assignee ? properties["Assignee"].rich_text[0].plain_text : "No Assignee",
+            dueDate: "date" in properties["Due Date"] ? properties["Due Date"].date ? properties["Due Date"].date.start : "": "date Undefined",
+            startDate: "date" in properties["Start Date"] ? properties["Start Date"].date ? properties["Start Date"].date.start: "": "date Undefined",
+            email: "email" in properties["Email"] ? properties["Email"].email : "",
+            phoneNumber: "phone_number" in properties["Phone Number"] ? properties["Phone Number"].phone_number : "",
+            preferredChannel:
+              "rich_text" in properties["Preferred Channel"] ? properties["Preferred Channel"].rich_text[0].plain_text: "",
+            description: "rich_text" in properties["Description"] ? properties["Description"].rich_text[0].plain_text : "",
+            project: "rich_text" in properties["Project"] ?  properties["Project"].rich_text[0].plain_text: "",
+            url: pageObject.url,
+            pageID: pageObject.id,
+          };
+          const updateBlock = createUpdateBlock(existingTask);
+
+          axios({
+            method: "post",
+            url: request.body["response_url"],
+            data: {
+              text: "Already in DB",
+              blocks: updateBlock.blocks,
+            },
+            family: 4,
+          }).then((resp) => {
+            console.log("OK from slack", resp["status"]);
+          });
+        } else {
+          throw new Error("Error getting page properties");
         }
 
-        // TODO type narrowing
-        const properties = pageObject["properties"];
-        const existingTask = {
-          taskTitle: properties["Task Title"].title[0].plain_text,
-          assignee: properties["Assignee"].rich_text[0].plain_text,
-          dueDate: properties["Due Date"].date.start,
-          startDate: properties["Start Date"].date.start,
-          email: properties["Email"].email,
-          phoneNumber: properties["Phone Number"].phone_number,
-          preferredChannel:
-            properties["Preferred Channel"].rich_text[0].plain_text,
-          description: properties["Description"].rich_text[0].plain_text,
-          project: properties["Project"].rich_text[0].plain_text,
-          url: pageObject.url,
-          pageID: pageObject.id,
-        };
-        const updateBlock = createUpdateBlock(existingTask);
-
-        axios({
-          method: "post",
-          url: request.body["response_url"],
-          data: {
-            text: "Already in DB",
-            blocks: updateBlock.blocks,
-          },
-          family: 4,
-        }).then((resp) => {
-          console.log("OK from slack", resp["status"]);
-        });
       } else {
         let searchUserInSlack_Notion: PageObjectResponse = await getMatchingUser(task);
         const taskBlock = createBlockNewTask(task);

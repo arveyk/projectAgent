@@ -43,6 +43,7 @@ export type PersonsList = {
 
 export type User = {
   source: string;
+  userId?: string;
   name: string | null;
   email?: string;
 };

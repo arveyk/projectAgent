@@ -50,7 +50,7 @@ const slashCmdHandler = async function (
 
         const pageObject = await getTaskProperties(isInDatabase.taskId || "");
         if ("properties" in pageObject) {
-          // TODO type narrowing
+          // Done type narrowing
 
           const properties = pageObject["properties"];
           const existingTask = {

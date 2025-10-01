@@ -52,7 +52,7 @@ export const parseTaskSlashCmd = async function (
   reqBody: SlashCommand,
   timestamp: string,
 ): Promise<Task> {
-  // TODO type annotation for reqBody
+  //Done type annotation for reqBody
   
   let textToParse;
 

@@ -36,7 +36,6 @@ const slashCmdHandler = async function (
 
       const timestamp = request.headers["x-slack-request-timestamp"];
       console.log(`timestamp: ${timestamp}`);
-      const task = await parseTaskSlashCmd(request.body, timestamp);
       const task = await parseTaskSlashCmd(request.body, timestamp as string);
       // TODO remove this conversion once we get parseTaskSlashCmd to return a Task object
       const convertedTask = convertEmptyFields(task);

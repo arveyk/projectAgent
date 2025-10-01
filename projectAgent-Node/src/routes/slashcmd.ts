@@ -2,7 +2,6 @@ import axios from "axios";
 import { Request, Response, NextFunction } from "express";
 import { createBlockNewTask } from "../blockkit/createBlocks.js";
 import { createUpdateBlock } from "../blockkit/updateBlock.js";
-import { convertEmptyFields } from "../utils/convertEmptyFields.js";
 import { parseTaskSlashCmd } from "../utils/aiagent";
 import { searchDB, getTaskProperties } from "../utils/db-search.js";
 import { sendLoadingMsg } from "../blockkit/loadingMsg.js";
@@ -37,8 +36,6 @@ const slashCmdHandler = async function (
       const timestamp = request.headers["x-slack-request-timestamp"];
       console.log(`timestamp: ${timestamp}`);
       const task = await parseTaskSlashCmd(request.body, timestamp as string);
-      // TODO remove this conversion once we get parseTaskSlashCmd to return a Task object
-      const convertedTask = convertEmptyFields(task);
 
       await sendLoadingMsg("Searching Database", response_url);
       const isInDatabase = await searchDB(task);
@@ -67,8 +64,7 @@ const slashCmdHandler = async function (
           url: pageObject.url,
           pageID: pageObject.id,
         };
-        const convertedExistingTask = convertEmptyFields(existingTask);
-        const updateBlock = createUpdateBlock(convertedExistingTask);
+        const updateBlock = createUpdateBlock(existingTask);
 
         axios({
           method: "post",
@@ -83,7 +79,7 @@ const slashCmdHandler = async function (
         });
       } else {
         let searchUserInSlack_Notion: PageObjectResponse = await getMatchingUser(task);
-        const taskBlock = createBlockNewTask(convertedTask);
+        const taskBlock = createBlockNewTask(task);
         // taskBlock.blocks[0].text.text += JSON.stringify(
         //   searchUserInSlack_Notion,
         // );

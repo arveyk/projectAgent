@@ -3,12 +3,13 @@ import { ALL_SLN_WEBHOOK_URL } from "../env.js";
 
 import { createEditBlock } from "./editblock.js";
 import { createBlockNewTask } from "./createBlocks.js";
-import { createConfirmationBlock } from "./createBlocks.js";
+// import { createConfirmationBlock } from "./createBlocks.js";
 
 import { createFinalBlock } from "./editblock.js";
 import { createUpdateBlock } from "./updateBlock.js";
+import { Task } from  "../utils/task.js";
 
-export type Task = {
+/*type Task = {
   tasktitle: string;
   assignee: string;
   duedate: string;
@@ -19,11 +20,12 @@ export type Task = {
   description: string;
   project: string;
 };
+*/
 const task: Task = {
   tasktitle: "End of year Plans",
   assignee: "Benjamin Noah",
-  duedate: "7-11-2027",
-  startdate: "1-11-2027",
+  duedate: new Date("7-11-2027"),
+  startdate: new Date("1-11-2027"),
   email: "replace@soon.com",
   phonenumber: "43-335-344-4344",
   preferredchannel: "Call, email",
@@ -34,8 +36,8 @@ const task: Task = {
 const task_b = {
   tasktitle: "Add Timothy",
   assignee: " ",
-  duedate: " ",
-  startdate: "2025-08-07",
+  duedate: new Date(),
+  startdate: new Date("2025-08-07"),
   phonenumber: " ",
   email: " ",
   preferredchannel: " ",

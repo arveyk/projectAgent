@@ -24,6 +24,11 @@ const databaseSearchResult = z.object({
     .describe("The ID of the task entry from the database"),
 });
 
+export type dbSearchResult = {
+  exists: boolean,
+  taskId?: string
+}
+
 const structuredLlm = model.withStructuredOutput(databaseSearchResult);
 
 /**
@@ -31,38 +36,34 @@ const structuredLlm = model.withStructuredOutput(databaseSearchResult);
  * @param {*} task The task object
  * @returns true if the task is found, else returns false
  */
-export const searchDB = async function (task: Task) {
-  try {
-    console.log(`task (searchDB): ${JSON.stringify(task)}`);
-    console.log(`assignee (searchDB): ${task.assignee}`);
+export const searchDB = async function (task: Task): Promise<dbSearchResult> {
+  console.log(`task (searchDB): ${JSON.stringify(task)}`);
+  console.log(`assignee (searchDB): ${task.assignee}`);
 
-    // Retrieve tasks with a matching assignee
-    const response = await notion.databases.query({
-      database_id: NOTION_DATABASE_ID,
-      filter: {
-        property: "Assignee",
-        rich_text: {
-          equals: `${task.assignee}`,
-        },
+  // Retrieve tasks with a matching assignee
+  const response = await notion.databases.query({
+    database_id: NOTION_DATABASE_ID,
+    filter: {
+      property: "Assignee",
+      rich_text: {
+        equals: `${task.assignee}`,
       },
-    });
+    },
+  });
 
-    const simplifiedResponse = simplifyDBResults(response);
-    console.log(`response: ${JSON.stringify(simplifiedResponse)}`);
+  const simplifiedResponse = simplifyDBResults(response);
+  console.log(`response: ${JSON.stringify(simplifiedResponse)}`);
 
-    const prompt = `
+  const prompt = `
       Please check if a task with the title ${JSON.stringify(task.taskTitle)} exists in the database response 
       ${JSON.stringify(simplifiedResponse)}. If you find a task in the database response with a title that means the 
       same thing as ${JSON.stringify(task.taskTitle)} but is worded slightly differently, this counts as a match.
     `;
 
-    const result = await structuredLlm.invoke(prompt);
-    console.log(`result: ${JSON.stringify(result)}`);
+  const result: dbSearchResult = await structuredLlm.invoke(prompt);
+  console.log(`result: ${JSON.stringify(result)}`);
 
-    return result;
-  } catch (err) {
-    console.log(err);
-  }
+  return result;
 };
 
 export const getTaskProperties = async function (pageID: string) {

@@ -3,7 +3,6 @@ import { validateDueDate } from "./validation";
 
 import { NOTION_API_KEY } from "../env";
 import { TaskPage } from "./task";
-import { ta } from "zod/dist/types/v4/locales";
 
 const notion = new Client({ auth: NOTION_API_KEY });
 

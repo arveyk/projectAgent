@@ -10,6 +10,11 @@ export type Task = {
   project?: string;
 };
 
+export type TaskPage = {
+  task: Task;
+  pageId: string
+}
+
 export function convertTask(taskInput: Record<string, any>): Task {
   console.log(JSON.stringify(taskInput));
   if (!taskInput["tasktitle"]){

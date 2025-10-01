@@ -21,6 +21,14 @@ export const simplifyDBResults = function (dbResults: QueryDatabaseResponse): db
       throw new Error("Database response is not a full page");
     }
     const properties = result["properties"];
+    if (properties["Task Title"]["type"] !== "title")
+    {
+      throw new Error("Task Title is the wrong type");
+    }
+    if (properties["Assignee"]["type"] !== "rich_text")
+    {
+      throw new Error("Assignee is the wrong type");
+    }
     simplifiedResults.push({
       pageId: result["id"],
       taskTitle: properties["Task Title"]["title"][0]["plain_text"],

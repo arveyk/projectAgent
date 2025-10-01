@@ -1,6 +1,7 @@
 import axios from "axios";
 import { SLACK_BOT_TOKEN } from "../env.js";
 import { DateTime } from "luxon";
+import { SlashCommand } from "@slack/bolt";
 
 const SECONDS_IN_MINUTE = 60;
 const MINUTES_IN_HOUR = 60;
@@ -56,7 +57,7 @@ export async function getUserTimezoneData(
 }
 
 export async function getEventTimeData(
-  reqBody,
+  reqBody: SlashCommand,
   timestamp: string,
 ): Promise<DateTime> {
   // TODO type annotation for reqBody

@@ -8,6 +8,7 @@ export type Task = {
   preferredChannel?: string;
   description: string;
   project?: string;
+  url?: string;
 };
 
 export type TaskPage = {

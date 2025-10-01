@@ -4,6 +4,7 @@ import { ANTHROPIC_API_KEY } from "../env";
 import { getEventTimeData } from "./getTime";
 import { RunnableConfig, Runnable } from "@langchain/core/runnables";
 import { BaseLanguageModelInput } from "@langchain/core/language_models/base";
+import { Task } from "./task";
 
 const model = new ChatAnthropic({
   model: "claude-3-5-sonnet-20240620",
@@ -11,7 +12,6 @@ const model = new ChatAnthropic({
   apiKey: ANTHROPIC_API_KEY,
 });
 
-// TODO consider storing dates as Unix timestamps/Date objects to make it easier to display them
 const task = z.object({
   tasktitle: z.string().describe("Short descriptive title of the task"),
   assignee: z.string().describe("Name of person assigned with the task"),
@@ -40,7 +40,7 @@ const structuredLlmSlashCmd: Runnable<BaseLanguageModelInput, Record<string, any
  * @param {*} reqBody The body of the request
  * @returns A TaskParseResult containing the formatted task.
  */
-export const parseTaskSlashCmd = async function (reqBody, timestamp: string) {
+export const parseTaskSlashCmd = async function (reqBody, timestamp: string): Promise<Task> {
   let textToParse;
 
   //slash cmd text can be immediately accessed, for other events it is indirect, through events field
@@ -54,7 +54,7 @@ export const parseTaskSlashCmd = async function (reqBody, timestamp: string) {
 
   const timeData = await getEventTimeData(reqBody, timestamp);
 
-  const prompt = `Today's date and time in ISO format is ${timeData.timeISO}, and our timezone is ${timeData.timezone} (offset of ${timeData.timezoneOffset} hours from UTC). Please extract information from this message, making sure to list any dates in ISO format with timezone offset. "By the end of the day" means by 17:00 in our timezone. If the message says to finish a task "by" some date but does not specify a time, that means by 0:00 of that date in our timezone. """Example: Input: Bob, starting tomorrow, please write a draft of the article and have it finished by August 20, 2025. Output: {tasktitle: "Write article draft", assignee: "Bob", duedate: "2025-08-20T00:00-7:00", description: "Write a draft of the article"}""" Here is the message: ${textToParse}`;
+  const prompt = `Today's date and time in ISO format is ${timeData.toISO}, and our timezone is ${timeData.zoneName} (offset of ${timeData.zone} hours from UTC). Please extract information from this message, making sure to list any dates in ISO format with timezone offset. "By the end of the day" means by 17:00 in our timezone. If the message says to finish a task "by" some date but does not specify a time, that means by 0:00 of that date in our timezone. """Example: Input: Bob, starting tomorrow, please write a draft of the article and have it finished by August 20, 2025. Output: {tasktitle: "Write article draft", assignee: "Bob", duedate: "2025-08-20T00:00-7:00", description: "Write a draft of the article"}""" Here is the message: ${textToParse}`;
   console.log(`prompt: ${prompt}`);
   const taskParseResult = await structuredLlmSlashCmd.invoke(prompt);
   console.log(`task parse result: ${JSON.stringify(taskParseResult)}`);

@@ -1,7 +1,7 @@
 import { Client } from "@notionhq/client";
-import { validateDueDate } from "./validation.js";
+import { validateDueDate } from "./validation";
 
-import { NOTION_API_KEY } from "../env.js";
+import { NOTION_API_KEY } from "../env";
 
 const notion = new Client({ auth: NOTION_API_KEY });
 

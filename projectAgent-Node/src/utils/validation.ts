@@ -3,10 +3,9 @@
  * @param {*} dueDate The due date
  * @returns true if the due date is not in the past, else returns false.
  */
-export const validateDueDate = function (dueDate) {
+export const validateDueDate = function (dueDate: Date): boolean {
   const today = new Date();
-  const formattedDueDate = new Date(dueDate);
-  console.log(`Today: ${today}\nDue Date: ${formattedDueDate}`);
+  console.log(`Today: ${today}\nDue Date: ${dueDate}`);
 
-  return formattedDueDate >= today;
+  return dueDate >= today;
 };

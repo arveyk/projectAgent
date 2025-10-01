@@ -2,45 +2,48 @@ import { Client } from "@notionhq/client";
 import { validateDueDate } from "./validation";
 
 import { NOTION_API_KEY } from "../env";
+import { TaskPage } from "./task";
+import { ta } from "zod/dist/types/v4/locales";
 
 const notion = new Client({ auth: NOTION_API_KEY });
 
 /**
  * Update Notion database page
- * @param {*} task The task object
+ * @param {*} taskPageInfo The task object
  *
  * @returns true if the task is found, else returns false
  */
-export const updateDbPage = async function (task) {
+export const updateDbPage = async function (taskPageInfo: TaskPage) {
+  const task = taskPageInfo.task;
   try {
-    const dueDate = new Date(task["duedate"]).toISOString();
+    const dueDate = task.dueDate;
     if (validateDueDate(dueDate)) {
-      console.log(`task (searchDB): ${JSON.stringify(task)}`);
+      console.log(`task (searchDB): ${JSON.stringify(taskPageInfo)}`);
 
       const response = await notion.pages.update({
-        page_id: task.pageID,
+        page_id: taskPageInfo.pageId,
         properties: {
           "Due Date": {
             date: {
-              start: new Date(task.duedate),
+              start: dueDate.toISOString(),
             },
           },
           "Start Date": {
             date: {
-              start: new Date(task.startdate),
+              start: task.startDate ? task.startDate.toISOString() : "",
             },
           },
           Email: {
-            email: task.email,
+            email: task.email ? task.email : "",
           },
           "Phone Number": {
-            phone_number: task.phonenumber,
+            phone_number: task.phoneNumber ? task.phoneNumber : "",
           },
           "Preferred Channel": {
             rich_text: [
               {
                 text: {
-                  content: task.preferredchannel,
+                  content: task.preferredChannel ? task.preferredChannel : "",
                 },
               },
             ],
@@ -49,7 +52,7 @@ export const updateDbPage = async function (task) {
             rich_text: [
               {
                 text: {
-                  content: task.description,
+                  content: task.description ? task.description : "",
                 },
               },
             ],
@@ -58,7 +61,7 @@ export const updateDbPage = async function (task) {
             rich_text: [
               {
                 text: {
-                  content: task.project,
+                  content: task.project ? task.project : "",
                 },
               },
             ],

@@ -41,14 +41,8 @@ export type PersonsList = {
   email: string;
 }[];
 
-export type notionUser = {
+export type User = {
   source: string;
   name: string | null;
-  email: string | null;
-};
-
-export type slackUser = {
-  source: string;
-  name: string | null;
-  email: string | null;
+  email?: string;
 };

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { notionUser } from "./someTypes.js";
+import { User } from "./someTypes.js";
 import { ListUsersResponse } from "@notionhq/client/build/src/api-endpoints.js";
 import { NOTION_API_KEY } from "../../env.js";
 
@@ -23,7 +23,7 @@ export const getNotionUsers = async function () {
 
   //console.log(notionUsers.data.results);
   const allUserArray = notionUsers.results;
-  const humanUsers: notionUser[] = [];
+  const humanUsers: User[] = [];
 
   const notionResp = await notion.users.list({});
   console.log(notionResp);

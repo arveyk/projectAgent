@@ -5,6 +5,7 @@ import { getEventTimeData } from "./getTime";
 import { RunnableConfig, Runnable } from "@langchain/core/runnables";
 import { BaseLanguageModelInput } from "@langchain/core/language_models/base";
 import { Task } from "./task";
+import { BaseMessage } from "@langchain/core/messages";
 
 const model = new ChatAnthropic({
   model: "claude-3-5-sonnet-20240620",
@@ -37,7 +38,7 @@ const task = z.object({
 // For use with slash commands
 const structuredLlmSlashCmd: Runnable<
   BaseLanguageModelInput,
-  Record<string, any>,
+   Record<string, any>,
   RunnableConfig<Record<string, any>>
 > = model.withStructuredOutput(task);
 

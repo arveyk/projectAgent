@@ -43,6 +43,7 @@
     "@google-cloud/functions": "^4.2.0",
     "@types/dotenv": "^6.1.1",
     "@types/jest": "^30.0.0",
+    "@types/luxon": "^3.7.1",
     "babel-jest": "^30.0.4",
     "babel-plugin-transform-import-meta": "^2.3.3",
     "eslint": "^9.32.0",

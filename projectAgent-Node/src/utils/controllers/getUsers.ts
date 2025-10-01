@@ -11,8 +11,8 @@ import { User } from "./someTypes.js";
  */
 // eslint-disable-next-line no-unused-vars
 
- 
-export const getSlackUsers = async function () {
+
+export const getSlackUsers = async function (): Promise<User[]> {
   const listUsersURL = "https://slack.com/api/users.list";
   const slackResp: UsersListResponse = await axios.get(listUsersURL, {
     headers: {
@@ -25,20 +25,22 @@ export const getSlackUsers = async function () {
   const membersArray = slackResp.members;
   const usersArr: User[] = [];
 
-  membersArray.forEach((element) => {
-    if (element.is_bot !== true) {
-      console.log(
-        `realname: ${element.real_name}, email: ${element.profile.email}, phone:${element.profile.phone}`,
-      );
-      usersArr.push({
-        source: "slack",
-        userID: element.id,
-        name: element.real_name,
-        email: element.profile ? element.profile.email: null,
-        phone: element.profile? element.profile.phone : null,
-      });
-    }
-  });
+  if (membersArray) {
+    membersArray.forEach((element) => {
+      if (element.is_bot !== true) {
+        console.log(
+          `realname: ${element.real_name}, email: ${element.profile ? element.profile.email : null}, phone:${element.profile ? element.profile.phone: null}`,
+        );
+        usersArr.push({
+          source: "slack",
+          userId: element.id,
+          name: element.real_name || null,
+          email: element.profile ? element.profile.email : undefined,
+          phonenumber: element.profile ? element.profile.phone : null,
+        });
+      }
+    });
+  }
   return usersArr;
 };
 

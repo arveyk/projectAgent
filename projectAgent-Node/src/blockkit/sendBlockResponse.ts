@@ -22,25 +22,25 @@ import { Task } from  "../utils/task.js";
 };
 */
 const task: Task = {
-  tasktitle: "End of year Plans",
+  taskTitle: "End of year Plans",
   assignee: "Benjamin Noah",
-  duedate: new Date("7-11-2027"),
-  startdate: new Date("1-11-2027"),
+  dueDate: new Date("7-11-2027"),
+  startDate: new Date("1-11-2027"),
   email: "replace@soon.com",
-  phonenumber: "43-335-344-4344",
-  preferredchannel: "Call, email",
+  phoneNumber: "43-335-344-4344",
+  preferredChannel: "Call, email",
   description:
     "Benjamin, create a routing plan for end of year. As a Company I would like for us to visit one another ang get to know each other",
   project: "Project Agent",
 };
 const task_b = {
-  tasktitle: "Add Timothy",
+  taskTitle: "Add Timothy",
   assignee: " ",
-  duedate: new Date(),
-  startdate: new Date("2025-08-07"),
-  phonenumber: " ",
+  dueDate: new Date(),
+  startDate: new Date("2025-08-07"),
+  phoneNumber: " ",
   email: " ",
-  preferredchannel: " ",
+  preferredChannel: " ",
   description: "Add Timothy to an unspecified system or list",
   project: "Project Agent",
 };

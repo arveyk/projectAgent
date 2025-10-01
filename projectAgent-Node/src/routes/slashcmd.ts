@@ -56,13 +56,13 @@ const slashCmdHandler = async function (
         // TODO type narrowing
         const properties = pageObject["properties"];
         const existingTask = {
-          tasktitle: properties["Task Title"].title[0].plain_text,
+          taskTitle: properties["Task Title"].title[0].plain_text,
           assignee: properties["Assignee"].rich_text[0].plain_text,
-          duedate: properties["Due Date"].date.start,
-          startdate: properties["Start Date"].date.start,
+          dueDate: properties["Due Date"].date.start,
+          startDate: properties["Start Date"].date.start,
           email: properties["Email"].email,
-          phonenumber: properties["Phone Number"].phone_number,
-          preferredchannel:
+          phoneNumber: properties["Phone Number"].phone_number,
+          preferredChannel:
             properties["Preferred Channel"].rich_text[0].plain_text,
           description: properties["Description"].rich_text[0].plain_text,
           project: properties["Project"].rich_text[0].plain_text,

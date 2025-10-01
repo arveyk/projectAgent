@@ -7,8 +7,8 @@ import { Task } from "../utils/task.js";
  * @returns A set of Slack blocks containing data from the task, to be used in editing tasks
  */
 const createConfirmationBlock = function confirmBlock(task: Task) {
-  if (task.preferredchannel === undefined) {
-    task.preferredchannel = "Slack";
+  if (task.preferredChannel === undefined) {
+    task.preferredChannel = "Slack";
   }
   return {
     text: "Which Field would you like to edit?",

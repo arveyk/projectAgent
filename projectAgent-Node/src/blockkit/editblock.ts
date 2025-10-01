@@ -2,14 +2,14 @@ import { validateDate, formatSlackDate } from "../utils/dateHandler.js";
 import { DateTime } from "luxon";
 import { Task } from "../utils/task.js";
 export const createTaskInfoBlock = function (task: Task) {
-  return `*Task Title:*\t\t\t${task.tasktitle} \n*Assignee:* \t\t\t${task.assignee}\n*Due Date:*\t\t\t${formatSlackDate(task.duedate.toISOString())}\n*Start Date:*\t\t\t${task.startdate ? formatSlackDate(task.startdate.toISOString()) : task.startdate}\n*Phone Number:*\t${task.phonenumber}\n*Email:*\t\t\t${task.email}\n*Preferred Channel:*\t\t\t${task.preferredchannel}\n*Description:* \t\t${task.description}\n*Project:* \t\t${task.project}`;
+  return `*Task Title:*\t\t\t${task.taskTitle} \n*Assignee:* \t\t\t${task.assignee}\n*Due Date:*\t\t\t${formatSlackDate(task.dueDate.toISOString())}\n*Start Date:*\t\t\t${task.startDate ? formatSlackDate(task.startDate.toISOString()) : task.startDate}\n*Phone Number:*\t${task.phoneNumber}\n*Email:*\t\t\t${task.email}\n*Preferred Channel:*\t\t\t${task.preferredChannel}\n*Description:* \t\t${task.description}\n*Project:* \t\t${task.project}`;
 };
 
 export function createEditBlock(task: Task) {
   // TODO display date in user's local timezone
-  let duedate, startdate;
-  duedate = task.duedate ? validateDate(task.duedate.toISOString()) : "xxx";
-  startdate = task.startdate ? validateDate(task.startdate.toISOString()) : "xxx";
+  let dueDate, startDate;
+  dueDate = task.dueDate ? validateDate(task.dueDate.toISOString()) : "xxx";
+  startDate = task.startDate ? validateDate(task.startDate.toISOString()) : "xxx";
 
   return {
     blocks: [
@@ -30,7 +30,7 @@ export function createEditBlock(task: Task) {
           action_id: "task_title_id",
           placeholder: {
             type: "plain_text",
-            text: `${task.tasktitle || "xxx"}`,
+            text: `${task.taskTitle || "xxx"}`,
           },
         },
         label: {
@@ -62,7 +62,7 @@ export function createEditBlock(task: Task) {
           action_id: "due_date_id",
           placeholder: {
             type: "plain_text",
-            text: `${duedate}`,
+            text: `${dueDate}`,
           },
         },
         label: {
@@ -78,7 +78,7 @@ export function createEditBlock(task: Task) {
           action_id: "start_date_id",
           placeholder: {
             type: "plain_text",
-            text: `${startdate}`,
+            text: `${startDate}`,
           },
         },
         label: {
@@ -110,7 +110,7 @@ export function createEditBlock(task: Task) {
           action_id: "phone_number_id",
           placeholder: {
             type: "plain_text",
-            text: `${task.phonenumber || "xxx"}`,
+            text: `${task.phoneNumber || "xxx"}`,
           },
         },
         label: {
@@ -126,7 +126,7 @@ export function createEditBlock(task: Task) {
           action_id: "preferred_channel_id",
           placeholder: {
             type: "plain_text",
-            text: `${task.preferredchannel || "xxx"}`,
+            text: `${task.preferredChannel || "xxx"}`,
           },
         },
         label: {
@@ -214,9 +214,9 @@ export function createEditBlock(task: Task) {
 
 export function createFinalBlock(task: Task) {
   task.email ? "Ok FinalBlock" : (task.email = " ");
-  task.preferredchannel ? "Ok FinalBlock" : (task.preferredchannel = "Slack");
+  task.preferredChannel ? "Ok FinalBlock" : (task.preferredChannel = "Slack");
   task.project ? "Ok FinalBlock" : (task.project = " ");
-  task.phonenumber ? "Ok FinalBlock" : (task.phonenumber = " ");
+  task.phoneNumber ? "Ok FinalBlock" : (task.phoneNumber = " ");
   task.description ? "Ok FinalBlock" : (task.description = " ");
   return {
     blocks: [

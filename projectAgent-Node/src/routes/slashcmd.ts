@@ -7,6 +7,8 @@ import { parseTaskSlashCmd } from "../utils/aiagent";
 import { searchDB, getTaskProperties } from "../utils/db-search.js";
 import { sendLoadingMsg } from "../blockkit/loadingMsg.js";
 import { getMatchingUser } from "../utils/controllers/userCreds.js";
+import { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints.js";
+
 
 // webhook for taskmanagement channel only
 const webhookURL = process.env.TASK_MANAGEMENT_WEBHOOK_URL;
@@ -25,7 +27,7 @@ const slashCmdHandler = async function (
     console.log(`slashCmdHandler here. Any tasks for me?
 	  Request Body: ${JSON.stringify(request.body)}`);
     console.log(`headers: ${JSON.stringify(request.headers)}`);
-    const command = request.body["command"];
+    // const command = request.body["command"];
     const validate = isValidCmd(request.body);
     if (validate.isValid) {
       const response_url = request.body["response_url"];
@@ -34,19 +36,22 @@ const slashCmdHandler = async function (
 
       const timestamp = request.headers["x-slack-request-timestamp"];
       console.log(`timestamp: ${timestamp}`);
-      const task = await parseTaskSlashCmd(request.body, timestamp);
+      const task = await parseTaskSlashCmd(request.body, timestamp as string);
+      // TODO remove this conversion once we get parseTaskSlashCmd to return a Task object
+      const convertedTask = convertEmptyFields(task);
 
       await sendLoadingMsg("Searching Database", response_url);
       const isInDatabase = await searchDB(task);
       console.log("IS in database?", JSON.stringify(isInDatabase));
 
-      if (isInDatabase === undefined) {
-        throw new Error("The database did not return a result");
+      if (!isInDatabase) {
+        throw new Error("Error searching database");
       }
+
       if (isInDatabase.exists) {
         console.log("Already in Database");
 
-        const pageObject = await getTaskProperties(isInDatabase.task_id);
+        const pageObject = await getTaskProperties(isInDatabase.task_id || "");
         const properties = pageObject.properties;
         const existingTask = {
           tasktitle: properties["Task Title"].title[0].plain_text,
@@ -77,11 +82,11 @@ const slashCmdHandler = async function (
           console.log("OK from slack", resp["status"]);
         });
       } else {
-        let searchUserInSlack_Notion = await getMatchingUser(task);
-        const taskBlock = createBlockNewTask(task);
-        taskBlock.blocks[0].text.text += JSON.stringify(
-          searchUserInSlack_Notion,
-        );
+        let searchUserInSlack_Notion: PageObjectResponse = await getMatchingUser(task);
+        const taskBlock = createBlockNewTask(convertedTask);
+        // taskBlock.blocks[0].text.text += JSON.stringify(
+        //   searchUserInSlack_Notion,
+        // );
         axios({
           method: "post",
           url: request.body["response_url"],

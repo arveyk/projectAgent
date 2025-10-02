@@ -12,7 +12,7 @@ if (!NOTION_API_KEY) throw new Error("No Notion API Key given");
 // Function to get Notion users
 export const getNotionUsers = async function () {
   const humanUsers: User[] = [];
-  
+
   const notionResp = await notion.users.list({});
   console.log("Logging  in getNotionUsere", notionResp);
 
@@ -28,4 +28,4 @@ export const getNotionUsers = async function () {
   console.log(JSON.stringify(humanUsers));
   return humanUsers;
 };
-getNotionUsers();
+// getNotionUsers();

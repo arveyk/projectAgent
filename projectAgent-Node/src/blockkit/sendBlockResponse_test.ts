@@ -46,7 +46,7 @@ const task_b = {
 };
 
 const blocks_02 = createBlockNewTask(task_b);
-const blocks_05 = createUpdateBlock(task);
+//const blocks_05 = createUpdateBlock(task);
 const blocks_01 = createEditBlock(task);
 //const blocks_03 = createConfirmationBlock(task);
 const blocks_04 = createFinalBlock(task);

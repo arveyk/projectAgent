@@ -1,11 +1,12 @@
-import { Task } from "../utils/task";
+import { Task, TaskPage } from "../utils/task";
 
 /**
  *
  * @param task: A task object
  * @returns: A set of Slack blocks for updating a task
  */
-export function createUpdateBlock(task: Task) {
+export function createUpdateBlock(taskPage: TaskPage) {
+  const task = taskPage.task;
   const startDate = task.startDate 
     ? task.startDate.toISOString().split("T")[0] 
     : new Date().toISOString().split("T")[0];
@@ -27,7 +28,7 @@ export function createUpdateBlock(task: Task) {
         type: "section",
         text: {
           type: "mrkdwn",
-          text: `*Task title*:\t\t\t\t\t\t\t ${task.taskTitle} \n *Assignee*  \t\t\t\t\t\t\t${task.assignee}\n* Due Date*  \t\t\t\t\t\t  ${dueDate}\n*Start Date*  \t\t\t\t\t\t  ${startDate}\n*Email:* \t\t\t\t\t\t\t\t  ${task.email} \n*Phone Number:* \t\t\t\t${task.phoneNumber}\n *Preferred Channel:* \t\t\t${task.preferredChannel} \n*Task Details:*\t\t\t\t\t ${task.description}\n*Project:*\t\t\t\t\t\t${task.project}\n*Task Link* \t\t\t\t\t\t\t<${task.url}|link>`,
+          text: `*Task title*:\t\t\t\t\t\t\t ${task.taskTitle} \n *Assignee*  \t\t\t\t\t\t\t${task.assignee}\n* Due Date*  \t\t\t\t\t\t  ${dueDate}\n*Start Date*  \t\t\t\t\t\t  ${startDate}\n*Email:* \t\t\t\t\t\t\t\t  ${task.email} \n*Phone Number:* \t\t\t\t${task.phoneNumber}\n *Preferred Channel:* \t\t\t${task.preferredChannel} \n*Task Details:*\t\t\t\t\t ${task.description}\n*Project:*\t\t\t\t\t\t${task.project}\n*Task Link* \t\t\t\t\t\t\t<${taskPage.url}|link>`,
         },
       },
       {

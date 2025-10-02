@@ -10,12 +10,12 @@ export type Task = {
   preferredChannel?: string;
   description: string;
   project?: string;
-  url?: string;
 };
 
 export type TaskPage = {
   task: Task;
-  pageId: string
+  pageId: string;
+    url?: string;
 }
 
 export function convertTask(taskInput: Record<string, any>): Task {

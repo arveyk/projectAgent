@@ -20,9 +20,9 @@ if (!process.env.ANTHROPIC_API_KEY) {
 if (!process.env.PROJ_AGENT_APP_ID) {
   throw new Error("Missing Slack app ID");
 }
-if (!process.env.TASK_N8N_WEBHOOK_URL) {
-  throw new Error("Missing N8N webhook url");
-}
+// if (!process.env.TASK_N8N_WEBHOOK_URL) {
+//  throw new Error("Missing N8N webhook url");
+//}
 if (!process.env.ALL_SLN_WEBHOOK_URL) {
   throw new Error("Missing task management webhook url");
 }
@@ -34,5 +34,5 @@ export const NOTION_API_KEY: string = process.env.NOTION_API_KEY;
 export const NOTION_DATABASE_ID: string = process.env.NOTION_DATABASE_ID;
 export const ANTHROPIC_API_KEY: string = process.env.ANTHROPIC_API_KEY;
 export const PROJ_AGENT_APP_ID: string = process.env.PROJ_AGENT_APP_ID;
-export const TASK_N8N_WEBHOOK_URL: string = process.env.TASK_N8N_WEBHOOK_URL;
+// export const TASK_N8N_WEBHOOK_URL: string = process.env.TASK_N8N_WEBHOOK_URL;
 export const ALL_SLN_WEBHOOK_URL: string = process.env.ALL_SLN_WEBHOOK_URL;

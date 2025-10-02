@@ -32,13 +32,13 @@ export function convertTask(taskInput: Record<string, any>): Task {
   }
 
   const dueDate = new Date(taskInput["duedate"]);
-  const startDate = new Date(taskInput["startdate"]);
+  const startDate = taskInput["startdate"] !== "<UNKNOWN>" ? new Date(taskInput["startdate"]) : undefined;
 
   return {
     taskTitle: taskInput["tasktitle"],
     assignee: taskInput["assignee"],
     dueDate: dueDate,
-    startDate: taskInput["startdate"] !== "<UNKNOWN>" ? startDate : undefined,
+    startDate: startDate,
     phoneNumber: taskInput["phonenumber"] !== "<UNKNOWN>" ? taskInput["phonenumber"] : undefined,
     email: taskInput["email"] !== "<UNKNOWN>" ? taskInput["email"] : undefined,
     preferredChannel: taskInput["preferredchannel"] !== "<UNKNOWN>" ? taskInput["preferredchannel"] : undefined,

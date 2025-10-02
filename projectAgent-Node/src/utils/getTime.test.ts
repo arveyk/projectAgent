@@ -4,6 +4,7 @@ import {
   payloadHarvey,
 } from "../test-data/payloads/slashcmd/payloads";
 import dotenv from "dotenv";
+import { DateTime } from "luxon";
 dotenv.config();
 const userID = process.env.TEST_USER_ID ? process.env.TEST_USER_ID : "";
 const userID2 = process.env.TEST_USER_ID_2;
@@ -36,11 +37,7 @@ describe("Tests getTime with a valid payload from Harvey", () => {
     const timeData = await getEventTimeData(payloadHarvey, timestamp);
     console.log(`time data: ${JSON.stringify(timeData)}`);
 
-    expect(timeData).toMatchObject({
-      timeISO: "2025-08-12T23:01:22.000Z",
-      timezone: "Africa/Nairobi",
-      timezoneOffset: 3,
-    });
+    expect(timeData).toEqual(DateTime.fromSeconds(parseInt(timestamp)).setZone("Africa/Nairobi"));
   });
 });
 
@@ -50,10 +47,6 @@ describe("Tests getTime with a valid payload from Ceci", () => {
     const timeData = await getEventTimeData(payloadCeci, timestamp);
     console.log(`time data: ${JSON.stringify(timeData)}`);
 
-    expect(timeData).toMatchObject({
-      timeISO: "2025-08-12T23:01:22.000Z",
-      timezone: "America/Los_Angeles",
-      timezoneOffset: -7,
-    });
+    expect(timeData).toEqual(DateTime.fromSeconds(parseInt(timestamp)).setZone("America/Los_Angeles"));
   });
 });

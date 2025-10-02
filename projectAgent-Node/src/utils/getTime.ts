@@ -5,7 +5,6 @@ import { SlashCommand } from "@slack/bolt";
 
 const SECONDS_IN_MINUTE = 60;
 const MINUTES_IN_HOUR = 60;
-const MILLISECONDS = 1000;
 
 export type TimezoneInfo = {
   tz: string;
@@ -33,6 +32,7 @@ export async function getUserTimezoneData(
   if (!resp.data["ok"]) {
     throw new Error("Invalid user ID");
   } else {
+    console.log(`user data response: ${JSON.stringify(resp.data["user"])}`);
     const userData = resp.data["user"];
     if (typeof userData["tz"] !== "string") {
       throw new Error("Invalid timezone response");
@@ -40,10 +40,10 @@ export async function getUserTimezoneData(
     if (typeof userData["tz_label"] !== "string") {
       throw new Error("Invalid timezone label");
     }
-    if (typeof userData["tz_offset"] !== "string") {
+    if (typeof userData["tz_offset"] !== "number") {
       throw new Error("Invalid timezone offset");
     }
-    const offsetSeconds: number = parseInt(userData["tz_offset"]);
+    const offsetSeconds: number = userData["tz_offset"];
     if (isNaN(offsetSeconds)) {
       throw new Error("Timezone offset is not a number");
     }
@@ -60,21 +60,20 @@ export async function getEventTimeData(
   reqBody: SlashCommand,
   timestamp: string,
 ): Promise<DateTime> {
-  // Done type annotation for reqBody
 
   const userID = reqBody["user_id"];
   const userTZData = await getUserTimezoneData(userID);
   // console.log(`user timezone data: ${JSON.stringify(userTZData)}`);
   // console.log(`timestamp: ${timestamp}`);
 
-  const timestampMillis = parseInt(timestamp) * MILLISECONDS;
+  const timestampNumber = parseInt(timestamp);
   // console.log(`timestamp (milliseconds: ${timestampMillis}`);
 
-  if (isNaN(timestampMillis)) {
+  if (isNaN(timestampNumber)) {
     throw new Error("Timestamp is not a number");
   }
 
-  const time = DateTime.fromMillis(timestampMillis).setZone(userTZData.tz);
+  const time = DateTime.fromSeconds(timestampNumber).setZone(userTZData.tz);
 
   return time;
 }

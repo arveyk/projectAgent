@@ -1,5 +1,3 @@
-// Make dates union of Date and string? Problem, Existing tasks can have 
-// Start Date undefined which cannot be assigned to a Date type
 export type Task = {
   taskTitle: string;
   assignee: string;
@@ -15,7 +13,7 @@ export type Task = {
 export type TaskPage = {
   task: Task;
   pageId: string;
-    url?: string;
+  url?: string;
 }
 
 export function convertTask(taskInput: Record<string, any>): Task {
@@ -39,8 +37,8 @@ export function convertTask(taskInput: Record<string, any>): Task {
   return {
     taskTitle: taskInput["tasktitle"],
     assignee: taskInput["assignee"],
-    dueDate: taskInput["duedate"],
-    startDate: taskInput["startdate"] !== "<UNKNOWN>" ? taskInput["startdate"] : undefined,
+    dueDate: dueDate,
+    startDate: taskInput["startdate"] !== "<UNKNOWN>" ? startDate : undefined,
     phoneNumber: taskInput["phonenumber"] !== "<UNKNOWN>" ? taskInput["phonenumber"] : undefined,
     email: taskInput["email"] !== "<UNKNOWN>" ? taskInput["email"] : undefined,
     preferredChannel: taskInput["preferredchannel"] !== "<UNKNOWN>" ? taskInput["preferredchannel"] : undefined,

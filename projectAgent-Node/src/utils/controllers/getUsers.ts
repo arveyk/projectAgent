@@ -20,6 +20,12 @@ export const getSlackUsers = async function (): Promise<User[]> {
       Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
     },
     family: 4,
+  }).then((response) => {
+    // console.log("Slack users response:", response.data);
+    return response.data;
+  }).catch((error) => {
+    console.error("Error fetching Slack users:", error);
+    throw new Error("Failed to fetch Slack users");
   });
 
   const membersArray = slackResp.members;
@@ -29,18 +35,20 @@ export const getSlackUsers = async function (): Promise<User[]> {
     membersArray.forEach((element) => {
       if (element.is_bot !== true) {
         console.log(
-          `realname: ${element.real_name}, email: ${element.profile ? element.profile.email : null}, phone:${element.profile ? element.profile.phone: null}`,
+          `realname: ${element.real_name}, email: ${element.profile ? element.profile.email : null}, phone:${element.profile ? element.profile.phone : null}`,
         );
         usersArr.push({
           source: "slack",
           userId: element.id,
           name: element.real_name || null,
           email: element.profile ? element.profile.email : undefined,
-          phonenumber: element.profile ? element.profile.phone : null,
+          phoneNumber: element.profile ? element.profile.phone : null,
         });
       }
     });
   }
+  console.log("Users array:", JSON.stringify(usersArr));
+  console.log(`Total users found: ${usersArr.length}`);
   return usersArr;
 };
 
@@ -58,6 +66,26 @@ export async function getSlackUserById(userID: string) {
       Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
     },
     family: 4,
-  });
+  }).then((response) => {
+    return response.data;
+  }).
+    catch((error) => {
+      console.error("Error fetching Slack user by ID:", error);
+      throw new Error("Failed to fetch Slack user by ID");
+    });
+  console.log("User info:", JSON.stringify(userInfo));
+  if (userInfo.ok !== true) {
+    throw new Error(`Error fetching user by ID: ${userInfo.error}`);
+  }
+  return [
+    {
+      source: "slack",
+      userId: userInfo.user.id,
+      name: userInfo.user.real_name,
+      email: userInfo.user.profile ? userInfo.user.profile.email : null,
+      phoneNumber: userInfo.user.profile ? userInfo.user.profile.phone : null,
+      // Uncomment below if you want to include the profile image URL     
+    }];
 }
-//getSlackUsers();
+// getSlackUsers();
+// getSlackUserById(sampleUserId);

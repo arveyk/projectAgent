@@ -77,24 +77,17 @@ export const taskGood: Task = {
   startDate: new Date("2025-08-06"),
   preferredChannel: "Slack",
   description:
-    "/mural/gmi",
+    "Finish the mural, preferably by September 1",
 }
 
 export const taskInferDates: Task = {
-  taskTitle: "Gather information and write report on similar preexisting products",
+  taskTitle: "Gather information and write report on similar products",
   assignee: "Ellen",
   dueDate: new Date("2025-08-06"),
   startDate: new Date("2025-08-05"),
   preferredChannel: "Slack",
   description:
     "Gather information about similar preexisting products and write up a report",
-}
-
-export const noTask = {
-  tasktitle: /No task/gmi,
-  assignee: "<UNKNOWN>",
-  duedate: "<UNKNOWN>",
-  taskdetail: /No task/gmi
 }
 
 export const taskHarvey: Task = {

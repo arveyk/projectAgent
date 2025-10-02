@@ -29,23 +29,8 @@ export function convertTask(taskInput: Record<string, any>): Task {
   if (!taskInput["duedate"]){
     throw new Error("Due date is missing");
   }
-  if (!taskInput["startdate"]){
-    throw new Error("Start date is missing");
-  }
-  if (!taskInput["phonenumber"]){
-    throw new Error("Phone number is missing");
-  }
-  if (!taskInput["email"]){
-    throw new Error("Email is missing");
-  }
-  if (!taskInput["preferredchannel"]){
-    throw new Error("Preferred channel is missing");
-  }
   if (!taskInput["description"]){
     throw new Error("Description is missing");
-  }
-  if (!taskInput["project"]){
-    throw new Error("Project is missing");
   }
 
   const dueDate = new Date(taskInput["duedate"]);

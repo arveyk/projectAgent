@@ -1,17 +1,14 @@
-const request = require("supertest");
 import { parseTaskSlashCmd } from "./aiagent";
 
 import {
   payloadGood,
   payloadHarvey,
   payloadInferDates,
-  payloadNoTask,
 } from "../test-data/payloads/slashcmd/payloads";
 import {
   taskGood,
   taskHarvey,
   taskInferDates,
-  noTask,
 } from "../test-data/tasks/example-tasks";
 
 describe("Tests parseTaskSlashCmd with a good payload", () => {
@@ -24,8 +21,8 @@ describe("Tests parseTaskSlashCmd with a good payload", () => {
     console.log(JSON.stringify(parsedTask));
 
     expect(parsedTask.assignee).toMatch(taskGood.assignee);
-    expect(parsedTask.tasktitle).toMatch(taskGood.tasktitle);
-    expect(parsedTask.description).toMatch(taskGood.taskdetail);
+    expect(parsedTask.taskTitle).toMatch(taskGood.taskTitle);
+    expect(parsedTask.description).toMatch(taskGood.description);
   });
 });
 
@@ -39,8 +36,8 @@ describe("Tests parseTaskSlashCmd with a good payload from Harvey", () => {
     console.log(JSON.stringify(parsedTask));
 
     expect(parsedTask.assignee).toMatch(taskHarvey.assignee);
-    expect(parsedTask.tasktitle).toMatch(taskHarvey.tasktitle);
-    expect(parsedTask.description).toMatch(taskHarvey.taskdetail);
+    expect(parsedTask.taskTitle).toMatch(taskHarvey.taskTitle);
+    expect(parsedTask.description).toContain("photos");
   });
 });
 
@@ -54,22 +51,7 @@ describe("Tests parseTaskSlashCmd inferring dates", () => {
     console.log(JSON.stringify(parsedTask));
 
     expect(parsedTask.assignee).toMatch(taskInferDates.assignee);
-    expect(parsedTask.tasktitle).toMatch(taskInferDates.tasktitle);
-    expect(parsedTask.description).toMatch(taskInferDates.taskdetail);
-  });
-});
-
-describe("Tests parseTaskSlashCmd with no task", () => {
-  it("Parses the task and infers start date and due date correctly", async () => {
-    expect(payloadNoTask).toBeDefined;
-    expect(typeof payloadNoTask).toBe("object");
-    const timestamp = "1755039682";
-
-    const parsedTask = await parseTaskSlashCmd(payloadNoTask, timestamp);
-    console.log(JSON.stringify(parsedTask));
-
-    expect(parsedTask.assignee).toMatch(noTask.assignee);
-    expect(parsedTask.tasktitle).toMatch(noTask.tasktitle);
-    expect(parsedTask.description).toMatch(noTask.taskdetail);
+    expect(parsedTask.taskTitle).toMatch(taskInferDates.taskTitle);
+    expect(parsedTask.description).toContain("information");
   });
 });

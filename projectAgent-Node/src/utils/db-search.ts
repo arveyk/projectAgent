@@ -1,7 +1,7 @@
 import { Client } from "@notionhq/client";
 import { ChatAnthropic } from "@langchain/anthropic";
 import { z } from "zod";
-import { simplifyDBResults } from "./simplifyDBResults.js";
+import { simplifyDBResults } from "./simplifyDBResults";
 import { Task } from "./task";
 
 import { NOTION_API_KEY, NOTION_DATABASE_ID, ANTHROPIC_API_KEY } from "../env";

@@ -24,14 +24,14 @@ export const getNotionUsers = async function () {
     },
   );
 
-  //console.log(notionUsers.data.results);
-  const allUserArray = notionUsers.results;
+  // console.log(notionUsers.data.results);
+  // const allUserArray = notionUsers.results;
   const humanUsers: User[] = [];
 
   const notionResp = await notion.users.list({});
-  console.log(notionResp);
+  console.log("Logging  in getNotionUsere", notionResp);
 
-  allUserArray.forEach((user) => {
+  notionResp.results.forEach((user) => {
     if (user.type === "person") {
       humanUsers.push({
         source: "notion",

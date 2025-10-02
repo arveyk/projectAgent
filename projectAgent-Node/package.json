@@ -19,6 +19,7 @@
     "n-readlines": "^1.0.1",
     "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",
+    "tsx": "^4.20.6",
     "zod": "3.25.32"
   },
   "name": "projectagent-node",

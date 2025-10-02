@@ -1,4 +1,4 @@
-import { Client } from "@notionhq/client";
+import { Client, UpdatePageResponse } from "@notionhq/client";
 import { validateDueDate } from "./validation";
 
 import { NOTION_API_KEY } from "../env";
@@ -12,7 +12,7 @@ const notion = new Client({ auth: NOTION_API_KEY });
  *
  * @returns true if the task is found, else returns false
  */
-export const updateDbPage = async function (taskPageInfo: TaskPage) {
+export const updateDbPage = async function (taskPageInfo: TaskPage): Promise<{ success: boolean, page?: UpdatePageResponse, errorMsg?: string}> {
   const task = taskPageInfo.task;
   try {
     const dueDate = task.dueDate;

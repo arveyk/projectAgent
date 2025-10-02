@@ -3,7 +3,7 @@ import { PORT } from "./env.js";
 import express from "express";
 import router from "./middlerouter";
 
-const APP_PORT = parseInt(PORT) || 8080;
+const APP_PORT = parseInt(PORT);
 
 const expressApp = express();
 

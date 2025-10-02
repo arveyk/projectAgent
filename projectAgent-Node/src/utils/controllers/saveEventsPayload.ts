@@ -70,8 +70,7 @@ const targetDir = "../../storage";
 const fileName = "events.json";
 //const eventArray = [];
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+
 const fullPath = path.join(__dirname, targetDir, fileName);
 let eventData;
 fs.readFile(fullPath, "utf8", (err, data) => {

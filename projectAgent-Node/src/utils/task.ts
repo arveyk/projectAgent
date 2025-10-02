@@ -1,3 +1,5 @@
+// Make dates union of Date and string? Problem, Existing tasks can have 
+// Start Date undefined which cannot be assigned to a Date type
 export type Task = {
   taskTitle: string;
   assignee: string;

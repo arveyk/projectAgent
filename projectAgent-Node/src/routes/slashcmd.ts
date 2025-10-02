@@ -56,10 +56,18 @@ const slashCmdHandler = async function (
           const existingTask = {
             taskTitle: "title" in properties["Task Title"] ? properties["Task Title"].title[0].plain_text : "No Title Provided",
             assignee: "rich_text" in properties.Assignee ? properties["Assignee"].rich_text[0].plain_text : "No Assignee",
-            dueDate: "date" in properties["Due Date"] ? properties["Due Date"].date ? properties["Due Date"].date.start : "": "date Undefined",
-            startDate: "date" in properties["Start Date"] ? properties["Start Date"].date ? properties["Start Date"].date.start: "": "date Undefined",
-            email: "email" in properties["Email"] ? properties["Email"].email : "",
-            phoneNumber: "phone_number" in properties["Phone Number"] ? properties["Phone Number"].phone_number : "",
+            dueDate: "date" in properties["Due Date"] 
+              ? properties["Due Date"].date
+                ? new Date(properties["Due Date"].date.start)
+                : new Date()
+              : new Date(),
+            startDate: "date" in properties["Start Date"]
+              ? properties["Start Date"].date
+                ? new Date(properties["Start Date"].date.start)
+                : new Date()
+              : new Date(),
+            email: "email" in properties["Email"] ? properties["Email"].email || undefined : undefined,
+            phoneNumber: "phone_number" in properties["Phone Number"] ? properties["Phone Number"].phone_number || undefined : undefined,
             preferredChannel:
               "rich_text" in properties["Preferred Channel"] ? properties["Preferred Channel"].rich_text[0].plain_text: "",
             description: "rich_text" in properties["Description"] ? properties["Description"].rich_text[0].plain_text : "",
@@ -67,6 +75,7 @@ const slashCmdHandler = async function (
             url: pageObject.url,
             pageID: pageObject.id,
           };
+          // existingTask.startDate = new Date(existingTask.startDate)
           const updateBlock = createUpdateBlock(existingTask);
 
           axios({

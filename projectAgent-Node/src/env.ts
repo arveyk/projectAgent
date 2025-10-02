@@ -27,7 +27,7 @@ if (!process.env.ALL_SLN_WEBHOOK_URL) {
   throw new Error("Missing task management webhook url");
 }
 
-export const PORT: string | undefined = process.env.PORT;
+export const PORT: string = process.env.PORT || "8080";
 export const SLACK_BOT_TOKEN: string = process.env.SLACK_BOT_TOKEN;
 export const SLACK_SIGNING_SECRET: string = process.env.SLACK_SIGNING_SECRET;
 export const NOTION_API_KEY: string = process.env.NOTION_API_KEY;

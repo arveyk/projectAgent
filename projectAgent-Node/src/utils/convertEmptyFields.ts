@@ -1,9 +1,12 @@
+import { Task } from "../utils/task.js"
+
+
 /**
  * Replaces "<UNKNOWN>" fields with empty strings.
  * @param {*} task A task object
  * @returns A task object with all "<UNKNOWN>" fields replaced with empty strings.
  */
-export const convertEmptyFields = function (task) {
+export const convertEmptyFields = function (task: Task): Task {
   let newTask = {
     tasktitle: "",
     assignee: "",

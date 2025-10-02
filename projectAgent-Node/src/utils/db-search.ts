@@ -60,7 +60,11 @@ export const searchDB = async function (task: Task): Promise<dbSearchResult> {
       same thing as ${JSON.stringify(task.taskTitle)} but is worded slightly differently, this counts as a match.
     `;
 
-  const result: dbSearchResult = await structuredLlm.invoke(prompt);
+  const llmResult = await structuredLlm.invoke(prompt);
+  const result: dbSearchResult = {
+    exists: llmResult.exists,
+    taskId: llmResult.task_id !== "<UNKNOWN>" ? llmResult.task_id : undefined
+  };
   console.log(`result: ${JSON.stringify(result)}`);
 
   return result;

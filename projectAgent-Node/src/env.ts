@@ -1,7 +1,6 @@
 import dotenv from "dotenv";
 
 dotenv.config();
-console.log(`bot token: ${process.env.SLACK_BOT_TOKEN}`);
 
 if (!process.env.SLACK_BOT_TOKEN) {
   throw new Error("Missing Slack bot token");

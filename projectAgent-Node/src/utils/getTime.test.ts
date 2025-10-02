@@ -5,7 +5,7 @@ import {
 } from "../test-data/payloads/slashcmd/payloads";
 import dotenv from "dotenv";
 dotenv.config();
-const userID = process.env.TEST_USER_ID;
+const userID = process.env.TEST_USER_ID ? process.env.TEST_USER_ID : "";
 const userID2 = process.env.TEST_USER_ID_2;
 
 describe("Tests getUserTimezone with a user from the workspace", () => {

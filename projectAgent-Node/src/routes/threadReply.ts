@@ -3,7 +3,7 @@
  */
 
 import axios from "axios";
-import { SLACK_BOT_TOKEN } from "../env.js";
+import { SLACK_BOT_TOKEN } from "../env";
 import { Request, Response } from "express";
 
 

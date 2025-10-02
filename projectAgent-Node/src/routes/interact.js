@@ -1,6 +1,6 @@
 import axios from "axios";
-import { sampleModal, RequestApprovalBlock } from "../blockkit/createBlocks.js";
-import { SLACK_BOT_TOKEN } from "../env.js";
+import { sampleModal, RequestApprovalBlock } from "../blockkit/createBlocks";
+import { SLACK_BOT_TOKEN } from "../env";
 
 function interactionsHandler(request, response, next) {
   const payloadStr = request.body.payload;

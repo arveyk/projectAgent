@@ -1,4 +1,4 @@
-import { createBlockNewTask } from "./blockkit/createBlocks.js";
+import { createBlockNewTask } from "./blockkit/createBlocks";
 
 const taskArr = {
   "Task Title": "Compose a violin piece",

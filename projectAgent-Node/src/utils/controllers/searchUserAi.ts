@@ -1,8 +1,8 @@
 import { ChatAnthropic } from "@langchain/anthropic";
 import { z } from "zod";
-import { ANTHROPIC_API_KEY } from "../../env.js";
-import { User } from "./someTypes.js";
-import { Task } from "../task.js";
+import { ANTHROPIC_API_KEY } from "../../env";
+import { User } from "./someTypes";
+import { Task } from "../task";
 
 ANTHROPIC_API_KEY === undefined || ANTHROPIC_API_KEY === null
   ? console.error("Throw Me Over the Top")

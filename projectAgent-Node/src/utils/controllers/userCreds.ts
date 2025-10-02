@@ -1,9 +1,9 @@
 //import dotenv from "dotenv";
-import { Task } from "../task.js";
-import { getNotionUsers } from "./getNotionUsers.js";
-import { getSlackUsers } from "./getUsers.js";
-import { searchUser } from "./searchUserAi.js";
-import { User } from "./someTypes.js";
+import { Task } from "../task";
+import { getNotionUsers } from "./getNotionUsers";
+import { getSlackUsers } from "./getUsers";
+import { searchUser } from "./searchUserAi";
+import { User } from "./someTypes";
 
 //dotenv.config();
 //import { notionUsers, slackUsers } from "../../storage/users.js";

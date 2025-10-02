@@ -1,6 +1,6 @@
-export { createEditBlock, createFinalBlock } from "./editblock.js";
-import { createTaskInfoBlock } from "./editblock.js";
-import { Task } from "../utils/task.js";
+export { createEditBlock, createFinalBlock } from "./editblock";
+import { createTaskInfoBlock } from "./editblock";
+import { Task } from "../utils/task";
 /**
  *
  * @param task A task object

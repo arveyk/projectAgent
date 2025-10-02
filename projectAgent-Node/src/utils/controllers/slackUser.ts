@@ -1,5 +1,5 @@
 import axios from "axios";
-import { SLACK_BOT_TOKEN } from "../../env.js";
+import { SLACK_BOT_TOKEN } from "../../env";
 const userID = "U092TCSFAA2";
 
 const getUserUrl = "https://slack.com/api/users.info";

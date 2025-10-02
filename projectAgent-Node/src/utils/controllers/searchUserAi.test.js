@@ -1,6 +1,6 @@
 const request = require("supertest");
-import { searchUser } from "./searchUserAi.js";
-import { users, task } from "./sample.js";
+import { searchUser } from "./searchUserAi";
+import { users, task } from "./sample";
 
 describe("Seach with ai", () => {
   it("Should return result with value false if user in not in Users", async () => {

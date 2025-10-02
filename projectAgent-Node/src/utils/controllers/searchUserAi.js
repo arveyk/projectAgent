@@ -1,6 +1,6 @@
 import { ChatAnthropic } from "@langchain/anthropic";
 import { z } from "zod";
-import { ANTHROPIC_API_KEY } from "../../env.js";
+import { ANTHROPIC_API_KEY } from "../../env";
 
 ANTHROPIC_API_KEY === undefined || ANTHROPIC_API_KEY === null
   ? console.error("Me Over the Top")

@@ -1,9 +1,9 @@
 import { Client, CreatePageResponse } from "@notionhq/client";
-import { validateDueDate } from "./validation.js";
-import { NOTION_API_KEY, NOTION_DATABASE_ID } from "../env.js";
-import { setTaskProperties } from "./setTaskProperties.js";
-import { validateDate } from "./dateHandler.js";
-import { Task } from "./task.js";
+import { validateDueDate } from "./validation";
+import { NOTION_API_KEY, NOTION_DATABASE_ID } from "../env";
+import { setTaskProperties } from "./setTaskProperties";
+import { validateDate } from "./dateHandler";
+import { Task } from "./task";
 
 export type PageAddResult = {
   success: boolean;

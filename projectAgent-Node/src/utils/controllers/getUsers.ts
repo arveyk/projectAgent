@@ -1,7 +1,7 @@
 import axios from "axios";
-import { SLACK_BOT_TOKEN } from "../../env.js";
+import { SLACK_BOT_TOKEN } from "../../env";
 import { UsersListResponse } from "@slack/web-api";
-import { User } from "./someTypes.js";
+import { User } from "./someTypes";
 
 /**
  * Fetches a list of users from Slack and returns an array of user objects.

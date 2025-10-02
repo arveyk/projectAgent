@@ -4,7 +4,7 @@ import { createEditBlock, createFinalBlock } from "../../blockkit/createBlocks";
 import addTaskNotionPage, { PageAddResult } from "../../utils/notiondb";
 import { updateDbPage } from "../../utils/db-update";
 import { sendLoadingMsg } from "../../blockkit/loadingMsg";
-import { SLACK_BOT_TOKEN } from "../../env.js";
+import { SLACK_BOT_TOKEN } from "../../env";
 import { BlockAction, ButtonAction } from "@slack/bolt";
 import { CreatePageResponse, UpdatePageResponse } from "@notionhq/client";
 

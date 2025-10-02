@@ -1,5 +1,5 @@
-import { validateDate } from "./dateHandler.js";
-import { Task } from "./task.js";
+import { validateDate } from "./dateHandler";
+import { Task } from "./task";
 
 const setTitleArray = function (taskTitle: string) {
   return [

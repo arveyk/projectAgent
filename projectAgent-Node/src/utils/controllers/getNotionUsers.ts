@@ -1,7 +1,7 @@
 import axios from "axios";
-import { User } from "./someTypes.js";
-import { ListUsersResponse } from "@notionhq/client/build/src/api-endpoints.js";
-import { NOTION_API_KEY } from "../../env.js";
+import { User } from "./someTypes";
+import { ListUsersResponse } from "@notionhq/client/build/src/api-endpoints";
+import { NOTION_API_KEY } from "../../env";
 
 const notion = require("@notionhq/client").Client({
   auth: NOTION_API_KEY,

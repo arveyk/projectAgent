@@ -1,13 +1,13 @@
-import { SLACK_BOT_TOKEN } from "../env.js";
+import { SLACK_BOT_TOKEN } from "../env";
 
 import axios from "axios";
-import { createConfirmationBlock } from "../blockkit/createBlocks.js";
-import { createBlockNewTask } from "../blockkit/createBlocks.js";
-import { createEditBlock } from "../blockkit/editblock.js";
-import { createFinalBlock } from "../blockkit/editblock.js";
-import { createUpdateBlock } from "../blockkit/updateBlock.js";
-import { readFile } from "./parseToJson.js";
-import {  RequestApprovalBlock } from "../blockkit/createBlocks.js";
+import { createConfirmationBlock } from "../blockkit/createBlocks";
+import { createBlockNewTask } from "../blockkit/createBlocks";
+import { createEditBlock } from "../blockkit/editblock";
+import { createFinalBlock } from "../blockkit/editblock";
+import { createUpdateBlock } from "../blockkit/updateBlock";
+import { readFile } from "./parseToJson";
+import {  RequestApprovalBlock } from "../blockkit/createBlocks";
 
 
 (async () => {

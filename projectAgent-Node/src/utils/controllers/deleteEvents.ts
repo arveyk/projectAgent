@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import { deleteLoadingMsg } from "../../blockkit/deleteLoadingMsg.js";
+import { deleteLoadingMsg } from "../../blockkit/deleteLoadingMsg";
 
 const targetDir = "../storage";
 const fileName = "events.json";

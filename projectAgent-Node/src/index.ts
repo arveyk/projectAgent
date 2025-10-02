@@ -1,4 +1,4 @@
-import { PORT } from "./env.js";
+import { PORT } from "./env";
 
 import express from "express";
 import router from "./middlerouter";

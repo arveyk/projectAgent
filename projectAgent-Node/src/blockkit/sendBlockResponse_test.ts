@@ -1,13 +1,13 @@
 import axios from "axios";
-import { ALL_SLN_WEBHOOK_URL } from "../env.js";
+import { ALL_SLN_WEBHOOK_URL } from "../env";
 
-import { createEditBlock } from "./editblock.js";
-import { createBlockNewTask } from "./createBlocks.js";
-// import { createConfirmationBlock } from "./createBlocks.js";
+import { createEditBlock } from "./editblock";
+import { createBlockNewTask } from "./createBlocks";
+// import { createConfirmationBlock } from "./createBlocks";
 
-import { createFinalBlock } from "./editblock.js";
-import { createUpdateBlock } from "./updateBlock.js";
-import { Task } from  "../utils/task.js";
+import { createFinalBlock } from "./editblock";
+import { createUpdateBlock } from "./updateBlock";
+import { Task } from  "../utils/task";
 
 /*type Task = {
   tasktitle: string;

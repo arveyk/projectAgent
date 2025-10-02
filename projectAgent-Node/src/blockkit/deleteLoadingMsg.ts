@@ -1,5 +1,5 @@
 import axios from "axios";
-import { SLACK_BOT_TOKEN } from "../env.js";
+import { SLACK_BOT_TOKEN } from "../env";
 
 export const deleteLoadingMsg = async function (
   timeStamp: string,

@@ -1,14 +1,14 @@
 import axios from "axios";
 import { Request, Response, NextFunction } from "express";
-import { createBlockNewTask } from "../blockkit/createBlocks.js";
-import { createUpdateBlock } from "../blockkit/updateBlock.js";
+import { createBlockNewTask } from "../blockkit/createBlocks";
+import { createUpdateBlock } from "../blockkit/updateBlock";
 import { parseTaskSlashCmd } from "../utils/aiagent";
-import { searchDB, getTaskProperties } from "../utils/db-search.js";
-import { sendLoadingMsg } from "../blockkit/loadingMsg.js";
-import { getMatchingUser } from "../utils/controllers/userCreds.js";
-import { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints.js";
+import { searchDB, getTaskProperties } from "../utils/db-search";
+import { sendLoadingMsg } from "../blockkit/loadingMsg";
+import { getMatchingUser } from "../utils/controllers/userCreds";
+import { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 import { SlashCommand } from "@slack/bolt";
-import { TaskPage } from "../utils/task.js";
+import { TaskPage } from "../utils/task";
 
 // webhook for taskmanagement channel only
 const webhookURL = process.env.TASK_MANAGEMENT_WEBHOOK_URL;

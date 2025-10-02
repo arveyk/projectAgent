@@ -1,7 +1,7 @@
 import express from "express";
 import asyncHandler from "express-async-handler";
 import axios from "axios";
-import { SLACK_BOT_TOKEN } from "../env.js";
+import { SLACK_BOT_TOKEN } from "../env";
 
 const app = express();
 const router = express.Router();

@@ -13,26 +13,29 @@ describe("Tests formatSlackDate with a timestamp in ISO format with timezone off
 });
 
 describe("Tests validateDate with a timestamp in ISO format with timezone offset", () => {
-  it("Returns a properly formatted date string", () => {
+  it("Returns a valid date when given a valid PDT date string", () => {
     const timestamp = "2025-08-18T14:00:00-07:00";
-    const dateString = validateDate(timestamp).toString();
+    const date = validateDate(timestamp);
 
-    console.log(dateString);
-    expect(dateString).toMatch(
-      "Mon Aug 18 2025 14:00:00 GMT-0700 (Pacific Daylight Time",
-    );
+    console.log(date);
+    expect(typeof date === "string").toBeFalsy();
+    if (typeof date !== "string") {
+      expect(date.toISOString()).toMatch(
+        "2025-08-18T21:00:00.000Z",
+      );
+    }
   });
-});
+  it("Returns a valid date when given a valid EAT date string", () => {
+    const timestamp = "2025-09-20T03:00:00+03:00";
+    const date = validateDate(timestamp);
 
-describe("Tests validateDate with a timestamp in ISO format with timezone offset", () => {
-  it("Returns a properly formatted date string", () => {
-    const timestamp = "20-09-2025";
-    const dateString = validateDate(timestamp).toString();
-
-    console.log(dateString);
-    expect(dateString).toMatch(
-      "Sat Sep 20 2025 03:00:00 GMT+0300 (East Africa Time)",
-    );
+    console.log(date);
+    expect(typeof date === "string").toBeFalsy();
+    if (typeof date !== "string") {
+      expect(date.toISOString()).toMatch(
+        "2025-09-20T00:00:00.000Z",
+      );
+    }
   });
 });
 

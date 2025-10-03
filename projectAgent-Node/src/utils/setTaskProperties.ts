@@ -1,5 +1,4 @@
 import de from "zod/dist/types/v4/locales/de.js";
-import { task } from "./controllers/someTypes.js";
 import { validateDate } from "./dateHandler.js";
 import { Task } from "./task.js";
 
@@ -38,25 +37,6 @@ const setPreferredChannelArray = function (preferredChannel: string) {
       },
     },
   ]
-  /*{
-    type: "text",
-    text: {
-      content: preferredChannel,
-      link: null,
-    },
-    
-    annotations: {
-      bold: false,
-      italic: false,
-      strikethrough: false,
-      code: false,
-      color: "default",
-    },
-    href: null,
-   
-  }, */
-
-
 };
 const setDescriptionArray = function (description: string) {
   return [
@@ -66,27 +46,6 @@ const setDescriptionArray = function (description: string) {
       },
     },
   ]
-  /*[
-    {
-      type: "text",
-      text: {
-        content: description,
-        link: null,
-      },
-
-      annotations: {
-        bold: false,
-        italic: false,
-        strikethrough: false,
-        underline: false,
-        code: false,
-        color: "default",
-      },
-      href: null,
-
-    },  
-  ];
-  */
 };
 const setProjectArray = function (project: string) {
   return [
@@ -94,16 +53,6 @@ const setProjectArray = function (project: string) {
       text: {
         content: project,
       },
-      /*
-      annotations: {
-        bold: false,
-        italic: false,
-        strikethrough: false,
-        code: false,
-        color: "default",
-      },
-      href: null,
-      */
     },
   ];
 };
@@ -114,15 +63,6 @@ const setAssignedByArray = function (assignedBy: string) {
       text: {
         content: assignedBy,
       },
-      /*
-      annotations: {
-        bold: false,
-        italic: false,
-        strikethrough: false,
-        code: false,
-        color: "default",
-      },
-      */
       href: null,
     },
   ];

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { SLACK_BOT_TOKEN } from "../../env";
+import { SLACK_BOT_TOKEN, SLACK_USER_OAUTH_TOKEN } from "../../env";
 import { UsersListResponse } from "@slack/web-api";
 import { User } from "./someTypes";
 
@@ -57,14 +57,14 @@ export const getSlackUsers = async function (): Promise<User[]> {
 const sampleUserId = "U092TCSFAA2";
 export async function getSlackUserById(userID: string) {
   console.log("User ID", userID);
-  const getUserInfoUrl = "https://slack.com/api/users.info";
+  const getUserInfoUrl = "https://slack.com/api/users.profile.get";
   const userInfo = await axios.get(getUserInfoUrl, {
     data: {
       user: userID,
     },
     headers: {
       "Content-Type": "application/json charset=utf-8",
-      Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
+      Authorization: `Bearer ${SLACK_USER_OAUTH_TOKEN}`,
     },
     family: 4,
   }).then((response) => {
@@ -80,12 +80,12 @@ export async function getSlackUserById(userID: string) {
   return [
     {
       source: "slack",
-      userId: userInfo.user.id,
-      name: userInfo.user.real_name,
-      email: userInfo.user.profile ? userInfo.user.profile.email : null,
-      phoneNumber: userInfo.user.profile ? userInfo.user.profile.phone : null,
+      userId: userID,
+      name: userInfo.profile.real_name,
+      email: userInfo.profile ? userInfo.profile.email : null,
+      phoneNumber: userInfo.profile ? userInfo.profile.phone : null,
       // Uncomment below if you want to include the profile image URL     
     }];
 }
-getSlackUsers();
-// getSlackUserById(sampleUserId);
+// getSlackUsers();
+// getSlackUserById("U09AE554J85");

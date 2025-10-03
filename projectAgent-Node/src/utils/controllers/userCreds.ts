@@ -72,14 +72,12 @@ export const getMatchingUser = async function (task: Task): Promise<any> {
       retrieveUsers.push(user);
     }
   });
-  /**
   notionUsers.forEach((person) => {
     if (task.assignee.replace("@", "").replace(".", " ").toLowerCase() === person.name.replace("@", "").toLowerCase()) {
       //   console.log("Matching Person", person);
       retrieveUsers.push(person);
     }
   });
-  */
 
   let userParseResult;
   switch (retrieveUsers.length) {
@@ -116,7 +114,7 @@ export const getMatchingUser = async function (task: Task): Promise<any> {
     case 2:
       // notion and slack exact match
       if (retrieveUsers[0].source !== retrieveUsers[1].source) {
-        retrieveUsers[0].source === "slack"
+        retrieveUsers[0].source === "notion"
           ? (userParseResult = retrieveUsers[0])
           : (userParseResult = retrieveUsers[1]);
       }

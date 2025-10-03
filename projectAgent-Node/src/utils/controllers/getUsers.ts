@@ -3,6 +3,7 @@ import { SLACK_BOT_TOKEN } from "../../env";
 import { UsersListResponse } from "@slack/web-api";
 import { User } from "./someTypes";
 
+
 /**
  * Fetches a list of users from Slack and returns an array of user objects.
  * Each user object contains the source, userID, name, email, and phone.
@@ -68,8 +69,7 @@ export async function getSlackUserById(userID: string) {
     family: 4,
   }).then((response) => {
     return response.data;
-  }).
-    catch((error) => {
+  }).catch((error) => {
       console.error("Error fetching Slack user by ID:", error);
       throw new Error("Failed to fetch Slack user by ID");
     });
@@ -87,5 +87,5 @@ export async function getSlackUserById(userID: string) {
       // Uncomment below if you want to include the profile image URL     
     }];
 }
-// getSlackUsers();
+getSlackUsers();
 // getSlackUserById(sampleUserId);

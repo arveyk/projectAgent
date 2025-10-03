@@ -1,26 +1,3 @@
-export const users = [
-  {
-    name: "@Danil D",
-    email: "daniel@solul.com",
-  },
-  {
-    name: "Bill Jones",
-    email: "billjones@gmail.com",
-  },
-  {
-    name: "@Ceci Kurdelak",
-    email: "@ceci.kurdk@solal.com",
-  },
-  {
-    name: "@Nick Furry",
-    email: "nick@shield.com",
-  },
-  {
-    name: "@Nick Furry",
-    email: "nickfurry@shield.com",
-  },
-];
-
 export const task = {
   assignee: "Nick Furry",
   email: "nick@shield.com",
@@ -48,3 +25,31 @@ export type User = {
   email?: string;
   phoneNumber?: string | null;
 };
+
+export const users: User[] = [
+  {
+    source: "notion",
+    name: "@Danil D",
+    email: "daniel@solul.com",
+  },
+  {
+    source: "slack",
+    name: "Bill Jones",
+    email: "billjones@gmail.com",
+  },
+  {
+    source: "slack",
+    name: "@Ceci Kurdelak",
+    email: "@ceci.kurdk@solal.com",
+  },
+  {
+    source: "Top Secret",
+    name: "@Nick Furry",
+    email: "nick@shield.com",
+  },
+  {
+    source: "notion",
+    name: "@Nick Furry",
+    email: "nickfurry@shield.com",
+  },
+];

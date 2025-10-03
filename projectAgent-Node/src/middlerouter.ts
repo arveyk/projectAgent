@@ -33,7 +33,7 @@ router.get("/tasks", (request, response) => {
         preferredChannel: "Slack",
       },
       {
-        TasksTitle: "Broad Spectrum",
+        TasksTitle: "Spectrum Analysis",
         Assignee: "Peterson Mukwana",
         Due_Date: "2025-09-05",
         Start_Date: `${Date.now()}`,

@@ -29,7 +29,7 @@
   "scripts": {
     "test": "jest",
     "test-helpers": "npx jest utils/aiagent.test.js utils/db-search.test.js blockkit/createBlocks.test.js utils/convertEmptyFields.test.js utils/simplifyDBResults.test.js",
-    "start": "npx ts-node src/index.ts",
+    "start": "npx tsx src/index.ts",
     "dev": "nodemon src/index.js",
     "format": "npx prettier . --write",
     "lint": "npx eslint"

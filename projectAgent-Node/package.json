@@ -6,16 +6,21 @@
     "@notionhq/client": "^4.0.0",
     "@slack/bolt": "^4.4.0",
     "@slack/socket-mode": "^2.0.4",
+    "@slack/types": "^2.16.0",
     "@slack/web-api": "^7.9.3",
+    "@types/express": "^5.0.3",
     "axios": "^1.10.0",
     "body-parser": "^2.2.0",
     "dotenv": "^17.0.1",
     "express": "^5.1.0",
     "express-async-handler": "^1.2.0",
+    "langchain": "^0.3.35",
     "luxon": "^3.7.2",
     "n-readlines": "^1.0.1",
     "nodemon": "^3.1.10",
-    "zod": "^3.25.76"
+    "ts-node": "^10.9.2",
+    "tsx": "^4.20.6",
+    "zod": "3.25.32"
   },
   "name": "projectagent-node",
   "version": "1.0.0",
@@ -24,8 +29,8 @@
   "scripts": {
     "test": "jest",
     "test-helpers": "npx jest utils/aiagent.test.js utils/db-search.test.js blockkit/createBlocks.test.js utils/convertEmptyFields.test.js utils/simplifyDBResults.test.js",
-    "start": "node ./index.js",
-    "dev": "nodemon ./index.js",
+    "start": "npx tsx src/index.ts",
+    "dev": "nodemon src/index.js",
     "format": "npx prettier . --write",
     "lint": "npx eslint"
   },
@@ -38,6 +43,9 @@
     "@babel/preset-env": "^7.28.0",
     "@eslint/js": "^9.32.0",
     "@google-cloud/functions": "^4.2.0",
+    "@types/dotenv": "^6.1.1",
+    "@types/jest": "^30.0.0",
+    "@types/luxon": "^3.7.1",
     "babel-jest": "^30.0.4",
     "babel-plugin-transform-import-meta": "^2.3.3",
     "eslint": "^9.32.0",
@@ -45,6 +53,8 @@
     "jest": "^30.0.4",
     "node-mocks-http": "^1.17.2",
     "prettier": "3.6.2",
-    "supertest": "^7.1.3"
+    "supertest": "^7.1.3",
+    "ts-jest": "^29.4.4",
+    "typescript": "^5.9.2"
   }
 }

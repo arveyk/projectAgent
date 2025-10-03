@@ -1,4 +1,11 @@
-export const transform = {
-  "^.+\\.js$": "babel-jest",
+import { createDefaultPreset } from "ts-jest";
+
+const tsJestTransformCfg = createDefaultPreset().transform;
+
+/** @type {import("jest").Config} **/
+export default {
+  testEnvironment: "node",
+  transform: {
+    ...tsJestTransformCfg,
+  },
 };
-export const moduleFileExtensions = ["js", "jsx"];

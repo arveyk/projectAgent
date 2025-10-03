@@ -1,0 +1,57 @@
+import { parseTaskSlashCmd } from "./aiagent";
+
+import {
+  payloadGood,
+  payloadHarvey,
+  payloadInferDates,
+} from "../test-data/payloads/slashcmd/payloads";
+import {
+  taskGood,
+  taskHarvey,
+  taskInferDates,
+} from "../test-data/tasks/example-tasks";
+
+describe("Tests parseTaskSlashCmd with a good payload", () => {
+  it("Parses the task correctly", async () => {
+    expect(payloadGood).toBeDefined;
+    expect(typeof payloadGood).toBe("object");
+    const timestamp = "1755039682";
+
+    const parsedTask = await parseTaskSlashCmd(payloadGood, timestamp);
+    console.log(JSON.stringify(parsedTask));
+
+    expect(parsedTask.assignee).toMatch(taskGood.assignee);
+    expect(parsedTask.taskTitle).toMatch(taskGood.taskTitle);
+    expect(parsedTask.description).toMatch(taskGood.description);
+  });
+});
+
+describe("Tests parseTaskSlashCmd with a good payload from Harvey", () => {
+  it("Parses the task correctly", async () => {
+    expect(payloadHarvey).toBeDefined;
+    expect(typeof payloadHarvey).toBe("object");
+    const timestamp = "1755039682";
+
+    const parsedTask = await parseTaskSlashCmd(payloadHarvey, timestamp);
+    console.log(JSON.stringify(parsedTask));
+
+    expect(parsedTask.assignee).toMatch(taskHarvey.assignee);
+    expect(parsedTask.taskTitle).toMatch(taskHarvey.taskTitle);
+    expect(parsedTask.description).toContain("photos");
+  });
+});
+
+describe("Tests parseTaskSlashCmd inferring dates", () => {
+  it("Parses the task and infers start date and due date correctly", async () => {
+    expect(payloadInferDates).toBeDefined;
+    expect(typeof payloadInferDates).toBe("object");
+    const timestamp = "1755039682";
+
+    const parsedTask = await parseTaskSlashCmd(payloadInferDates, timestamp);
+    console.log(JSON.stringify(parsedTask));
+
+    expect(parsedTask.assignee).toMatch(taskInferDates.assignee);
+    expect(parsedTask.taskTitle).toMatch(taskInferDates.taskTitle);
+    expect(parsedTask.description).toContain("information");
+  });
+});

@@ -5,3 +5,4 @@ bolt/.env
 ijkk
 parseToJson.js
 otherFiles/post.test.js
+dist/

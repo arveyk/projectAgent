@@ -2,6 +2,15 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+console.log(`SLACK_BOT_TOKEN: ${process.env.SLACK_BOT_TOKEN}`);
+console.log(`SLACK_SIGNING_SECRET: ${process.env.SLACK_SIGNING_SECRET}`);
+console.log(`NOTION_API_KEY: ${process.env.NOTION_API_KEY}`);
+console.log(`NOTION_DATABASE_ID: ${process.env.NOTION_DATABASE_ID}`);
+console.log(`ANTHROPIC_API_KEY: ${process.env.ANTHROPIC_API_KEY}`);
+console.log(`PROJ_AGENT_APP_ID: ${process.env.PROJ_AGENT_APP_ID}`);
+console.log(`SLACK_USER_OAUTH_TOKEN: ${process.env.SLACK_USER_OAUTH_TOKEN}`);
+console.log(`ALL_SLN_WEBHOOK_URL: ${process.env.ALL_SLN_WEBHOOK_URL}`);
+
 if (!process.env.SLACK_BOT_TOKEN) {
   throw new Error("Missing Slack bot token");
 }

@@ -22,11 +22,11 @@ import {
  */
 function useDetailsFromSearch(userParseResult: User, task: Task) {
   userParseResult.email
-        ? task.email = userParseResult.email ? userParseResult.email : " "
-        : console.log(' e missing')
+        ? task.email = userParseResult.email
+        : task.email = " ";
       userParseResult.phoneNumber
-        ? task.phoneNumber = userParseResult.phoneNumber ? userParseResult.phoneNumber : " "
-        : console.log(' p missing')
+        ? task.phoneNumber = userParseResult.phoneNumber
+        : task.phoneNumber = " ";
 }
 /**
  * getUserInChannel - function to check for a user with matching credentials

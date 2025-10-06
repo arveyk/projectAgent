@@ -107,4 +107,12 @@ export const taskSubstr: Task = {
   startDate: new Date("2025-10-02"),
   preferredChannel: "Slack",
   description: "Crown the winner of the marathon with the golden diadem, and a sash of silver"
-`}
+}
+export const taskSubstr2: Task = {
+  taskTitle: "Organize the files",
+  assignee: "Lyn",
+  dueDate: new Date("2025-10-7"),
+  startDate: new Date("2025-10-13"),
+  preferredChannel: "Slack",
+  description: "Contact out list of attendees for teh DCD conference next week Monday"
+}

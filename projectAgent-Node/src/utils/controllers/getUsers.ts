@@ -43,12 +43,12 @@ export const getSlackUsers = async function (): Promise<User[]> {
           userId: element.id,
           name: element.real_name || null,
           email: element.profile ? element.profile.email : undefined,
-          phoneNumber: element.profile ? element.profile.phone : null,
+          phoneNumber: element.profile ? element.profile.phone : undefined,
         });
       }
     });
   }
-  console.log("Users array:", JSON.stringify(usersArr));
+  // console.log("Users array:", JSON.stringify(usersArr));
   console.log(`Total users found: ${usersArr.length}`);
   return usersArr;
 };

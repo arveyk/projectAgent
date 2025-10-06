@@ -23,10 +23,10 @@ import {
 function useDetailsFromSearch(userParseResult: User, task: Task) {
   userParseResult.email
         ? task.email = userParseResult.email
-        : task.email = " ";
+        : task.email = task.email || " ";
       userParseResult.phoneNumber
         ? task.phoneNumber = userParseResult.phoneNumber
-        : task.phoneNumber = " ";
+        : task.phoneNumber = task.phoneNumber || " ";
 }
 /**
  * getUserInChannel - function to check for a user with matching credentials

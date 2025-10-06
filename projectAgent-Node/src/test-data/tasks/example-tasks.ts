@@ -98,6 +98,7 @@ export const taskHarvey: Task = {
   preferredChannel: "Slack",
   description:
     "Send some photos for a LinkedIn shout out",
+  phoneNumber: "555-555-5555",
 }
 
 export const taskSubstr: Task = {

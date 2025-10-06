@@ -99,3 +99,12 @@ export const taskHarvey: Task = {
   description:
     "Send some photos for a LinkedIn shout out",
 }
+
+export const taskSubstr: Task = {
+  taskTitle: "Crown the winner",
+  assignee: "Dan",
+  dueDate: new Date("2025-10-7"),
+  startDate: new Date("2025-10-02"),
+  preferredChannel: "Slack",
+  description: "Crown the winner of the marathon with the golden diadem, and a sash of silver"
+`}

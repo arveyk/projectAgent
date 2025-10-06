@@ -1,16 +1,8 @@
-//import dotenv from "dotenv";
 import { Task } from "../task";
 import { getNotionUsers } from "./getNotionUsers";
 import { getSlackUsers } from "./getUsers";
 import { searchUser } from "./searchUserAi";
 import { User } from "./someTypes";
-
-//dotenv.config();
-//import { notionUsers, slackUsers } from "../../storage/users.js";
-
-//import { notionUsers, slackUsers } from "../../storage/users.js";
-//const notionUsers = ;
-//const slackUsers = ;
 
 /**
  * getUserInChannel - function to check for a user with matching credentials
@@ -24,19 +16,19 @@ export const getMatchingUser = async function (task: Task): Promise<any> {
   const notionUsers = await getNotionUsers();
   const slackUsers = await getSlackUsers();
 
-  const usersArr: User[] = [];
+  // const usersArr: User[] = [];
 
   slackUsers.forEach((element) => {
-      //console.log(
-      //  `realname: ${element.real_name}, email: ${element.profile.email}, phone:${element.profile.phone}`,
-      //);
-      usersArr.push(element);
+      console.log(
+        `realname: ${element.real_name}, email: ${element.profile.email}, phone:${element.profile.phone}`,
+      );
+      // usersArr.push(element);
   });
 
   let retrieveUsers: User[] = [];
   //tasks.forEach(task => {
   //});
-  usersArr.forEach((user) => {
+  slackUsers.forEach((user) => {
     if (
       task.assignee.replace("@", "").replace(".", " ").toLowerCase() ===
       user.name ? user.name.replace("@", "").toLowerCase() : "NO NAME"
@@ -52,31 +44,41 @@ export const getMatchingUser = async function (task: Task): Promise<any> {
     }
   });
 
-  let userParseResult;
+  let userParseResult = { found: false };
   switch (retrieveUsers.length) {
     case 0:
       console.log(
         "No Match, use ai? search substring?",
         JSON.stringify(retrieveUsers),
       );
-      userParseResult = await searchUser(task, retrieveUsers);
       /**
        * search using substring
        *
-       * usersArr.forEach((user) => {
+       * slackUsers.forEach((user) => {
        *   if (task.assignee.replace("@", "").includes(user.name.replace("@", "")) || user.name.replace("@", "").includes(task.assignee.replace("@", ""))) {
        *     console.log("Found Matching user", user);
        *     retrieveUsers.push(user);
        *   }
        * });
-       * retrieveUsers.length > 0
-       *   ? console.log("found using substring")
+       * notionUsers.forEach((user) => {
+       *   if (task.assignee.replace("@", "").includes(user.name.replace("@", "")) || user.name.replace("@", "").includes(task.assignee.replace("@", ""))) {
+       *     console.log("Found Matching user", user);
+       *     retrieveUsers.push(user);
+       *   }
+       * });
+       *
+       * retrieveUsers.length === 1
+       *   ? console.log("found using substring") userParseResult = retrieveUsers[0]
        *   : console.log("Not found even with substring");
        */
+      userParseResult = await searchUser(task, retrieveUsers);
+       /**
+	* if(!userParseResult.found || userParseResult.multiple)
+	*
+	*/
       console.log(`User Search result: ${JSON.stringify(userParseResult)}`);
       if (userParseResult.found === false) {
         console.log("Not found use as-is");
-        userParseResult = task;
       }
       break;
     case 1:
@@ -85,7 +87,7 @@ export const getMatchingUser = async function (task: Task): Promise<any> {
       userParseResult = retrieveUsers[0];
       retrieveUsers.email
 	? console.log(' e')
-	: task.email = retr
+	: task.email = retrieveUsers.email
       retrieveUsers.phonenumber
 	? console.log(' p') 
 	: task.phonenumber = retrieveUsers.phonenumber
@@ -96,7 +98,7 @@ export const getMatchingUser = async function (task: Task): Promise<any> {
         retrieveUsers[0].source === "notion"
           ? (userParseResult = retrieveUsers[0])
           : (userParseResult = retrieveUsers[1]);
-      }
+      } 
       break;
     /*
     default:
@@ -123,6 +125,12 @@ export const getMatchingUser = async function (task: Task): Promise<any> {
   return userParseResult;
 };
 
+
+/**
+ * function to decide on how the number of user
+ * @param: retrievedUser - the array of users found in Notion and/or Slack
+ * @param: task - task to match against?
+ */
 export async function matchResultCheck(retrievedUsers: User[], task: Task) {
   let userParseResult;
   switch (retrievedUsers.length) {

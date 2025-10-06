@@ -21,7 +21,7 @@ import {
  * @param: task - object constaining task fields including assignee
  * @Returns: resulting matching user
  */
-export const getMatchingUser = async function (task: Task): Promise<any> {
+export const getMatchingUser = async function (task: Task): Promise<User | undefined> {
   //Change function name to getUserInChannel
   const notionUsers = await getNotionUsers();
   const slackUsers = await getSlackUsers();
@@ -35,6 +35,7 @@ export const getMatchingUser = async function (task: Task): Promise<any> {
     const userName = user.name
       ? user.name.replace("@", "").toLowerCase()
       : "No Name";
+
     if (
       task.assignee.replace("@", "").replace(".", " ").toLowerCase() ===
       userName
@@ -83,7 +84,7 @@ export const getMatchingUser = async function (task: Task): Promise<any> {
       index = 0;
       notionUsers.forEach((user) => {
         user.name = user.name ? user.name : "Nameless"
-        if (user.name.toLowerCase().includes(task.assignee.toLowerCase())) {
+        if (compareNames(user.name, task.assignee)) {
           console.log(user.name, task.assignee);
         }
 
@@ -149,13 +150,17 @@ export const getMatchingUser = async function (task: Task): Promise<any> {
   return userParseResult;
 };
 
-
 /**
- * function to decide on how the number of user
- * @param: retrievedUser - the array of users found in Notion and/or Slack
- * @param: task - task to match against?
+ * compareNames - function to compare two names
+ *
+ * @param: name1 - first name to compare
+ * @param: name2 - second name to compare
+ * @Returns: boolean indicating if names match
  */
-export function matchResultCheck(notionMatch: { count: number, position: number }, notionUsers: User[], retrievedUsers: User[], slackUsers: User[],task: Task, userParseResult: any) {
-  console.log("In matchResultCheck", notionMatch, notionUsers, retrievedUsers, slackUsers, task, userParseResult);
-};
+function compareNames(nameOfUser: string, assigneeName: string): boolean {
+  if (nameOfUser.toLowerCase().replace("@", "").includes(assigneeName.toLowerCase().replace("@", ""))) {
+    console.log("Found Matching user, CompareNames Function", nameOfUser);
+    return true;
+  } return false;
+}
 // getMatchingUser(task_feed_cats);

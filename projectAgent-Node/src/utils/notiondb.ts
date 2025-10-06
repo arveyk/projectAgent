@@ -45,10 +45,18 @@ async function addTaskNotionPage(
         page: newPage,
       };
     } catch (error) {
-      return {
-        success: false,
-        errorMsg: error,
-      };
+      if (error instanceof Error) {
+        return {
+          success: false,
+          errorMsg: error,
+        };
+      }
+      else {
+        return {
+          success: false,
+          errorMsg: "Unknown error",
+        };
+      }
     }
   } else {
     console.log("uh oh, the due date is in the past");

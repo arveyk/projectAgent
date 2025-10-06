@@ -58,7 +58,8 @@ export const getMatchingUser = async function (task: Task): Promise<any> {
       notionMatch.count += 1
       notionMatch.position = index;
     }
-    index = index + 1
+    console.log("index, position", index, notionMatch.position)
+    index += 1
   });
 
   /*let userParseResult = {
@@ -92,12 +93,13 @@ export const getMatchingUser = async function (task: Task): Promise<any> {
 	    notionMatch.count += 1;
 	    notionMatch.position = index;
 	 }
-	 index = index + 1
+	 console.log("index, position", index, notionMatch.position)
 
          if (task.assignee.toLowerCase().replace("@", "").includes(user.name.toLowerCase().replace("@", "")) || user.name.toLowerCase().replace("@", "").includes(task.assignee.toLowerCase().replace("@", ""))) {
            console.log("Found Matching user", user);
            retrieveUsers.push(user);
          }
+	 index = index + 1
        });
       
        retrieveUsers.length === 1
@@ -106,7 +108,7 @@ export const getMatchingUser = async function (task: Task): Promise<any> {
       
       // Check for notion User
       if (notionMatch.count === 1) {
-        userParseResult = retrieveUsers[notionMatch.position]
+        userParseResult = retrieveUsers[notionMatch.position - 1]
 	console.log("Found", notionMatch.position);
       } 
       /*
@@ -144,28 +146,8 @@ export const getMatchingUser = async function (task: Task): Promise<any> {
       console.log("Multiple found");
       console.log(notionMatch);
       if (notionMatch.count === 1) {
-        userParseResult = retrieveUsers[notionMatch.position]
-      } else {
-	userParseResult = await searchUser(task, retrieveUsers);
-	console.log(`User Search result: ${JSON.stringify(userParseResult)}`);
-	if (!userParseResult.found) {
-          console.log("Not found use as-is");
-	}
-      }
-     /**
-      *
-      break;
-     * userActivityArr = await = axios.get("https://slack.com/api/users.getPresence", {
-     *   user: userID,
-     * }, {
-     *   headers: {
-     *     "Content-Type: application/json:charset=utf-8",
-     *     "Authorization": `Bearer SLACK_BOT_TOKEN`,
-     *    }, family: 4
-     * }`
-     * )
-     *
-     */
+        userParseResult = retrieveUsers[notionMatch.position - 1]
+      } 
   }
   console.log(retrieveUsers);
   console.log("UserParseResult", userParseResult);
@@ -186,12 +168,13 @@ export async function matchResultCheck(retrievedUsers: User[], task: Task) {
         "No Match, use ai? search substring?",
         JSON.stringify(retrievedUsers),
       );
-      userParseResult = await searchUser(task, retrievedUsers);
+      /**
+       * userParseResult = await searchUser(task, retrievedUsers);
       console.log(`User Search result: ${JSON.stringify(userParseResult)}`);
       if (userParseResult.found === false) {
         console.log("Not found use as-is");
         userParseResult = task;
-      }
+      }*/
       break;
     case 1:
       // only one source for exact match
@@ -209,11 +192,6 @@ export async function matchResultCheck(retrievedUsers: User[], task: Task) {
     /**
     default:
       console.log("Multiple results");
-      userParseResult = await searchUser(task, retrieveUsers);
-      console.log(`User Search result: ${JSON.stringify(userParseResult)}`);
-      if (!userParseResult.found) {
-        console.log("Not found use as-is");
-      }
       break;
       */
   }

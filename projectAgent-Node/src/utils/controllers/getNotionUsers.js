@@ -36,40 +36,40 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.searchUser = void 0;
-var anthropic_1 = require("@langchain/anthropic");
-var zod_1 = require("zod");
-var env_1 = require("../../env");
-env_1.ANTHROPIC_API_KEY === undefined || env_1.ANTHROPIC_API_KEY === null
-    ? console.error("Throw Me Over the Top")
-    : console.log("We cool!");
-var model = new anthropic_1.ChatAnthropic({
-    model: "claude-3-5-sonnet-20240620",
-    temperature: 0,
-    apiKey: env_1.ANTHROPIC_API_KEY,
+exports.getNotionUsers = void 0;
+var env_js_1 = require("../../env.js");
+var client_1 = require("@notionhq/client");
+var notion = new client_1.Client({
+    auth: env_js_1.NOTION_API_KEY,
 });
-var userSearch = zod_1.z.object({
-    found: zod_1.z.boolean().describe("If a specific person match is found"),
-    multipleFound: zod_1.z.boolean().describe("If search has multiple results"),
-    name: zod_1.z.string().describe("Name of person"),
-    email: zod_1.z.string().describe("persons's email"),
-    phoneNumber: zod_1.z.string().optional().describe("persons's phone number"),
-});
-var searchUser = function (taskDetails, listOfPersons) {
+if (!env_js_1.NOTION_API_KEY)
+    throw new Error("No Notion API Key given");
+// Function to get Notion users
+var getNotionUsers = function () {
     return __awaiter(this, void 0, void 0, function () {
-        var structuredLlmSearchUser, prompt, userParseResult;
+        var humanUsers, notionResp;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    structuredLlmSearchUser = model.withStructuredOutput(userSearch);
-                    prompt = "Using this info ".concat(JSON.stringify(taskDetails), " please look for a match in the following: ").concat(JSON.stringify(listOfPersons), ". Note that the name may have an @symbol at the beginning, ignore that and compare using the rest of the characters. For multiple matches please favour those from Notion if any exists from Notion. Respond appropriately if there is no match");
-                    return [4 /*yield*/, structuredLlmSearchUser.invoke(prompt)];
+                    humanUsers = [];
+                    return [4 /*yield*/, notion.users.list({})];
                 case 1:
-                    userParseResult = _a.sent();
-                    console.log("User Search result: ".concat(JSON.stringify(userParseResult)));
-                    return [2 /*return*/, userParseResult];
+                    notionResp = _a.sent();
+                    console.log("Logging  in getNotionUsere", notionResp);
+                    notionResp.results.forEach(function (user) {
+                        if (user.type === "person") {
+                            humanUsers.push({
+                                source: "notion",
+                                name: user.name,
+                                email: user.person.email,
+                            });
+                        }
+                    });
+                    console.log(JSON.stringify(humanUsers));
+                    return [2 /*return*/, humanUsers];
             }
         });
     });
 };
-exports.searchUser = searchUser;
+exports.getNotionUsers = getNotionUsers;
+// getNotionUsers();

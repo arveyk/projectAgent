@@ -6,7 +6,7 @@ import { User } from "./someTypes";
 import {
   taskHarvey,
   taskSubstr,
-  taskSubstr2 
+  taskSubstr2
 } from "../../test-data/tasks/example-tasks";
 
 
@@ -29,10 +29,10 @@ export const getMatchingUser = async function (task: Task): Promise<any> {
   // const usersArr: User[] = [];
 
   slackUsers.forEach((element) => {
-      console.log(
-        `realname: ${element.name}, email: ${element.email}, phone:${element.phoneNumber}`,
-      );
-      // usersArr.push(element);
+    console.log(
+      `realname: ${element.name}, email: ${element.email}, phone:${element.phoneNumber}`,
+    );
+    // usersArr.push(element);
   });
 
   let retrieveUsers: User[] = [];
@@ -40,10 +40,10 @@ export const getMatchingUser = async function (task: Task): Promise<any> {
   //});
   slackUsers.forEach((user) => {
     const userName = user.name
-	    ? user.name.replace("@", "").toLowerCase() 
-	    : "No Name";
+      ? user.name.replace("@", "").toLowerCase()
+      : "No Name";
     if (
-      task.assignee.replace("@", "").replace(".", " ").toLowerCase() === 
+      task.assignee.replace("@", "").replace(".", " ").toLowerCase() ===
       userName
     ) {
       console.log("Found Matching user", user);
@@ -52,13 +52,15 @@ export const getMatchingUser = async function (task: Task): Promise<any> {
   });
   let index = 0;
   notionUsers.forEach((person) => {
+    person.name = person.name ? person.name : "No Name";
     if (task.assignee.replace("@", "").replace(".", " ").toLowerCase() === person.name.replace("@", "").toLowerCase()) {
       //   console.log("Matching Person", person);
       retrieveUsers.push(person);
       notionMatch.count += 1
       notionMatch.position = index;
     }
-    index = index + 1
+    console.log("index, position", index, notionMatch.position)
+    index += 1
   });
 
   /*let userParseResult = {
@@ -76,61 +78,64 @@ export const getMatchingUser = async function (task: Task): Promise<any> {
         JSON.stringify(retrieveUsers),
       );
       /* search using substring */
-       slackUsers.forEach((user) => {
-	 if (user.name.toLowerCase().includes(task.assignee.toLowerCase()))
-		 console.log(user.name, task.assignee);
+      slackUsers.forEach((user) => {
+        user.name = user.name ? user.name : "Nameless";
+        if (user.name.toLowerCase().includes(task.assignee.toLowerCase()))
+          console.log(user.name, task.assignee);
 
-         if (task.assignee.toLowerCase().replace("@", "").includes(user.name.toLowerCase().replace("@", "")) || user.name.toLowerCase().replace("@", "").includes(task.assignee.toLowerCase().replace("@", ""))) {
-           console.log("Found Matching user", user);
-           retrieveUsers.push(user);
-         }
-       });
-       index = 0;
-       notionUsers.forEach((user) => {
-	 if (user.name.toLowerCase().includes(task.assignee.toLowerCase())) {
-	    console.log(user.name, task.assignee);
-	    notionMatch.count += 1;
-	    notionMatch.position = index;
-	 }
-	 index = index + 1
+        if (task.assignee.toLowerCase().replace("@", "").includes(user.name.toLowerCase().replace("@", "")) || user.name.toLowerCase().replace("@", "").includes(task.assignee.toLowerCase().replace("@", ""))) {
+          console.log("Found Matching user", user);
+          retrieveUsers.push(user);
+        }
+      });
+      index = 0;
+      notionUsers.forEach((user) => {
+        user.name = user.name ? user.name : "Nameless"
+        if (user.name.toLowerCase().includes(task.assignee.toLowerCase())) {
+          console.log(user.name, task.assignee);
+          notionMatch.count += 1;
+          notionMatch.position = index;
+        }
+        console.log("index, position", index, notionMatch.position)
 
-         if (task.assignee.toLowerCase().replace("@", "").includes(user.name.toLowerCase().replace("@", "")) || user.name.toLowerCase().replace("@", "").includes(task.assignee.toLowerCase().replace("@", ""))) {
-           console.log("Found Matching user", user);
-           retrieveUsers.push(user);
-         }
-       });
-      
-       retrieveUsers.length === 1
-         ? userParseResult = retrieveUsers[0]
-         : console.log("Zero or Multiple found even with Sub-stringing");
-      
+        if (task.assignee.toLowerCase().replace("@", "").includes(user.name.toLowerCase().replace("@", "")) || user.name.toLowerCase().replace("@", "").includes(task.assignee.toLowerCase().replace("@", ""))) {
+          console.log("Found Matching user", user);
+          retrieveUsers.push(user);
+        }
+        index = index + 1
+      });
+      const retrivedUsersCount = Number(retrieveUsers.length);
+      retrivedUsersCount === 1
+        ? userParseResult = retrieveUsers[0]
+        : console.log("Zero or Multiple found even with Sub-stringing");
+
       // Check for notion User
       if (notionMatch.count === 1) {
-        userParseResult = retrieveUsers[notionMatch.position]
-	console.log("Found", notionMatch.position);
-      } 
+        userParseResult = retrieveUsers[notionMatch.position - 1]
+        console.log("Found", notionMatch.position);
+      }
       /*
        *
        const aiSearchResult = await searchUser(task, retrieveUsers);
-	* if(!userParseResult.found || userParseResult.multiple)
-	*
+  * if(!userParseResult.found || userParseResult.multiple)
+  *
       console.log(`User Search result: ${JSON.stringify(userParseResult)}`);
       
       if (aiSearchResult.found === false) {
         console.log("Not found use as-is");
       }
-	*/
+  */
       break;
     case 1:
       // only one source for exact match
       console.log("Exact Match, use searcRes[0]");
       userParseResult = retrieveUsers[0];
       userParseResult.email
-	? console.log(' e')
-	: task.email = userParseResult.email
+        ? console.log(' e')
+        : task.email = userParseResult.email
       userParseResult.phoneNumber
-	? console.log(' p') 
-	: task.phoneNumber = retrieveUsers[0].phoneNumber
+        ? console.log(' p')
+        : task.phoneNumber = retrieveUsers[0].phoneNumber
       break;
     case 2:
       // notion and slack exact match
@@ -138,34 +143,14 @@ export const getMatchingUser = async function (task: Task): Promise<any> {
         retrieveUsers[0].source === "notion"
           ? (userParseResult = retrieveUsers[0])
           : (userParseResult = retrieveUsers[1]);
-      } 
+      }
       break;
     default:
       console.log("Multiple found");
       console.log(notionMatch);
       if (notionMatch.count === 1) {
-        userParseResult = retrieveUsers[notionMatch.position]
-      } else {
-	userParseResult = await searchUser(task, retrieveUsers);
-	console.log(`User Search result: ${JSON.stringify(userParseResult)}`);
-	if (!userParseResult.found) {
-          console.log("Not found use as-is");
-	}
+        userParseResult = retrieveUsers[notionMatch.position - 1]
       }
-     /**
-      *
-      break;
-     * userActivityArr = await = axios.get("https://slack.com/api/users.getPresence", {
-     *   user: userID,
-     * }, {
-     *   headers: {
-     *     "Content-Type: application/json:charset=utf-8",
-     *     "Authorization": `Bearer SLACK_BOT_TOKEN`,
-     *    }, family: 4
-     * }`
-     * )
-     *
-     */
   }
   console.log(retrieveUsers);
   console.log("UserParseResult", userParseResult);
@@ -186,12 +171,13 @@ export async function matchResultCheck(retrievedUsers: User[], task: Task) {
         "No Match, use ai? search substring?",
         JSON.stringify(retrievedUsers),
       );
-      userParseResult = await searchUser(task, retrievedUsers);
+      /**
+       * userParseResult = await searchUser(task, retrievedUsers);
       console.log(`User Search result: ${JSON.stringify(userParseResult)}`);
       if (userParseResult.found === false) {
         console.log("Not found use as-is");
         userParseResult = task;
-      }
+      }*/
       break;
     case 1:
       // only one source for exact match
@@ -209,11 +195,6 @@ export async function matchResultCheck(retrievedUsers: User[], task: Task) {
     /**
     default:
       console.log("Multiple results");
-      userParseResult = await searchUser(task, retrieveUsers);
-      console.log(`User Search result: ${JSON.stringify(userParseResult)}`);
-      if (!userParseResult.found) {
-        console.log("Not found use as-is");
-      }
       break;
       */
   }

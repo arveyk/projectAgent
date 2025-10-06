@@ -23,7 +23,7 @@ export type User = {
   userId?: string;
   name: string | null;
   email?: string;
-  phoneNumber?: string | null;
+  phoneNumber?: string;
 };
 
 export const users: User[] = [

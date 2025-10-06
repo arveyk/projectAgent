@@ -43,7 +43,7 @@ export const getSlackUsers = async function (): Promise<User[]> {
           userId: element.id,
           name: element.real_name || null,
           email: element.profile ? element.profile.email : undefined,
-          phoneNumber: element.profile ? element.profile.phone : null,
+          phoneNumber: element.profile ? element.profile.phone : undefined,
         });
       }
     });

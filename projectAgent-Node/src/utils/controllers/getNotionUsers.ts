@@ -22,6 +22,7 @@ export const getNotionUsers = async function () {
         source: "notion",
         name: user.name,
         email: user.person.email,
+        phoneNumber: undefined,
       });
     }
   });

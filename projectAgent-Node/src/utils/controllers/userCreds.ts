@@ -15,6 +15,20 @@ import {
 
 
 /**
+ * useDetailsFromSearch - function to update task details from user search result
+ * @param userParseResult - user details result from search
+ * @param task - task object used for searching and comparing
+ * @Returns: void (updates task object directly)
+ */
+function useDetailsFromSearch(userParseResult: User, task: Task) {
+  userParseResult.email
+        ? task.email = userParseResult.email ? userParseResult.email : " "
+        : console.log(' e missing')
+      userParseResult.phoneNumber
+        ? task.phoneNumber = userParseResult.phoneNumber ? userParseResult.phoneNumber : " "
+        : console.log(' p missing')
+}
+/**
  * getUserInChannel - function to check for a user with matching credentials
  *  existing in Slack channel
  *
@@ -76,7 +90,6 @@ export const getMatchingUser = async function (task: Task): Promise<User | undef
         user.name = user.name ? user.name : "Nameless";
 
         if (user.name.toLowerCase().replace("@", "").includes(task.assignee.toLowerCase().replace("@", ""))) {
-
           console.log("Found Matching user", user);
           retrieveUsers.push(user);
         }
@@ -89,7 +102,6 @@ export const getMatchingUser = async function (task: Task): Promise<User | undef
         }
 
         if (user.name.toLowerCase().replace("@", "").includes(task.assignee.toLowerCase().replace("@", ""))) {
-
           console.log("Found Matching user", user);
           retrieveUsers.push(user);
           notionMatch.count += 1;
@@ -98,37 +110,56 @@ export const getMatchingUser = async function (task: Task): Promise<User | undef
         index += 1
       });
       const retrivedUsersCount = Number(retrieveUsers.length);
-      retrivedUsersCount === 1
-        ? userParseResult = retrieveUsers[0]
-        : console.log("Zero or Multiple found even with Sub-stringing");
+      if (retrivedUsersCount === 1) {
+        userParseResult = retrieveUsers[0];
+        useDetailsFromSearch(userParseResult, task);
+        /*userParseResult.email
+          ? console.log(' e absent')
+          : task.email = userParseResult.email
+        userParseResult.phoneNumber
+          ? console.log(' p absent')
+          : task.phoneNumber = retrieveUsers[0].phoneNumber
+          */
+        console.log("Found with Sub-stringing", retrieveUsers[0]);
+        task.assignee = retrieveUsers[0].name ? retrieveUsers[0].name : task.assignee
+      } else {
+        console.log("Zero or Multiple found even with Sub-stringing");
+      }
 
       // Check for notion User
       if (notionMatch.count === 1) {
         userParseResult = notionUsers[notionMatch.position]
+        /*userParseResult.email
+          ? console.log(' e absent')
+          : task.email = userParseResult.email
+        userParseResult.phoneNumber
+          ? console.log(' p absent')
+          : task.phoneNumber = userParseResult.phoneNumber;
+          */
+        useDetailsFromSearch(userParseResult, task);
+        task.assignee = userParseResult.name || task.assignee;
         console.log("Found", notionMatch.position);
       }
       /*
        *
        const aiSearchResult = await searchUser(task, retrieveUsers);
-  * if(!userParseResult.found || userParseResult.multiple)
-  *
+      * if(!userParseResult.found || userParseResult.multiple)
+      *
       console.log(`User Search result: ${JSON.stringify(userParseResult)}`);
-      
-      if (aiSearchResult.found === false) {
-        console.log("Not found use as-is");
-      }
-  */
+      */
       break;
     case 1:
       // only one source for exact match
       console.log("Exact Match, use searcRes[0]");
       userParseResult = retrieveUsers[0];
-      userParseResult.email
+      /*userParseResult.email
         ? console.log(' e')
         : task.email = userParseResult.email
       userParseResult.phoneNumber
         ? console.log(' p')
         : task.phoneNumber = retrieveUsers[0].phoneNumber
+        */
+      useDetailsFromSearch(userParseResult, task);
       break;
     case 2:
       // notion and slack exact match
@@ -136,6 +167,7 @@ export const getMatchingUser = async function (task: Task): Promise<User | undef
         retrieveUsers[0].source === "notion"
           ? (userParseResult = retrieveUsers[0])
           : (userParseResult = retrieveUsers[1]);
+        useDetailsFromSearch(userParseResult, task);
       }
       break;
     default:
@@ -144,7 +176,7 @@ export const getMatchingUser = async function (task: Task): Promise<User | undef
       if (notionMatch.count === 1) {
         userParseResult = retrieveUsers[notionMatch.position - 1]
       }
-  } 
+  }
   console.log("2nd Last", retrieveUsers);
   console.log("UserParseResult", userParseResult);
   return userParseResult;
@@ -163,4 +195,5 @@ function compareNames(nameOfUser: string, assigneeName: string): boolean {
     return true;
   } return false;
 }
-// getMatchingUser(task_feed_cats);
+await getMatchingUser(taskHarvey);
+console.log(taskHarvey);

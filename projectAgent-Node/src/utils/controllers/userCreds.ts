@@ -26,19 +26,7 @@ export const getMatchingUser = async function (task: Task): Promise<any> {
     position: 0
   };
 
-  // const usersArr: User[] = [];
-
-  /*slackUsers.forEach((element) => {
-    console.log(
-      `realname: ${element.name}, email: ${element.email}, phone:${element.phoneNumber}`,
-    );
-    // usersArr.push(element);
-  });
-  */
-
   let retrieveUsers: User[] = [];
-  //tasks.forEach(task => {
-  //});
   slackUsers.forEach((user) => {
     const userName = user.name
       ? user.name.replace("@", "").toLowerCase()
@@ -72,6 +60,8 @@ export const getMatchingUser = async function (task: Task): Promise<any> {
     phone: ""
   };*/
   let userParseResult;
+
+  // matchResultCheck(notionMatch, notionUsers, retrieveUsers, slackUsers, task, userParseResult);
   switch (retrieveUsers.length) {
     case 0:
       console.log(
@@ -87,7 +77,7 @@ export const getMatchingUser = async function (task: Task): Promise<any> {
         // if (task.assignee.toLowerCase().replace("@", "").includes(user.name.toLowerCase().replace("@", "")) || user.name.toLowerCase().replace("@", "").includes(task.assignee.toLowerCase().replace("@", ""))) {
         if (user.name.toLowerCase().replace("@", "").includes(task.assignee.toLowerCase().replace("@", ""))) {
 
-                console.log("Found Matching user", user);
+          console.log("Found Matching user", user);
           retrieveUsers.push(user);
         }
       });
@@ -156,8 +146,8 @@ export const getMatchingUser = async function (task: Task): Promise<any> {
       if (notionMatch.count === 1) {
         userParseResult = retrieveUsers[notionMatch.position - 1]
       }
-  }
-  console.log(retrieveUsers);
+  } 
+  console.log("2nd Last", retrieveUsers);
   console.log("UserParseResult", userParseResult);
   return userParseResult;
 };
@@ -168,40 +158,96 @@ export const getMatchingUser = async function (task: Task): Promise<any> {
  * @param: retrievedUser - the array of users found in Notion and/or Slack
  * @param: task - task to match against?
  */
-export async function matchResultCheck(retrievedUsers: User[], task: Task) {
-  let userParseResult;
+export function matchResultCheck(notionMatch: { count: number, position: number }, notionUsers: User[], retrievedUsers: User[], slackUsers: User[],task: Task, userParseResult: any) {
+  let index = 0;
   switch (retrievedUsers.length) {
     case 0:
       console.log(
         "No Match, use ai? search substring?",
         JSON.stringify(retrievedUsers),
       );
-      /**
-       * userParseResult = await searchUser(task, retrievedUsers);
+      /* search using substring */
+      slackUsers.forEach((user) => {
+        user.name = user.name ? user.name : "Nameless";
+        if (user.name.toLowerCase().includes(task.assignee.toLowerCase()))
+          console.log(user.name, task.assignee);
+
+        // if (task.assignee.toLowerCase().replace("@", "").includes(user.name.toLowerCase().replace("@", "")) || user.name.toLowerCase().replace("@", "").includes(task.assignee.toLowerCase().replace("@", ""))) {
+        if (user.name.toLowerCase().replace("@", "").includes(task.assignee.toLowerCase().replace("@", ""))) {
+
+          console.log("Found Matching user", user);
+          retrievedUsers.push(user);
+        }
+      });
+      index = 0;
+      notionUsers.forEach((user) => {
+        console.log("index, position", index, notionMatch.position)
+        user.name = user.name ? user.name : "Nameless"
+        if (user.name.toLowerCase().includes(task.assignee.toLowerCase())) {
+          console.log(user.name, task.assignee);
+        }
+
+        // if (task.assignee.toLowerCase().replace("@", "").includes(user.name.toLowerCase().replace("@", "")) || user.name.toLowerCase().replace("@", "").includes(task.assignee.toLowerCase().replace("@", ""))) {
+        if (user.name.toLowerCase().replace("@", "").includes(task.assignee.toLowerCase().replace("@", ""))) {
+
+          console.log("Found Matching user", user);
+          retrievedUsers.push(user);
+          notionMatch.count += 1;
+          notionMatch.position = index;
+        }
+        index += 1
+      });
+      const retrivedUsersCount = Number(retrievedUsers.length);
+      retrivedUsersCount === 1
+        ? userParseResult = retrievedUsers[0]
+        : console.log("Zero or Multiple found even with Sub-stringing");
+
+      // Check for notion User
+      if (notionMatch.count === 1) {
+        userParseResult = notionUsers[notionMatch.position]
+        console.log("Found", notionMatch.position);
+      }
+      /*
+       *
+       const aiSearchResult = await searchUser(task, retrieveUsers);
+  * if(!userParseResult.found || userParseResult.multiple)
+  *
       console.log(`User Search result: ${JSON.stringify(userParseResult)}`);
-      if (userParseResult.found === false) {
+      
+      if (aiSearchResult.found === false) {
         console.log("Not found use as-is");
-        userParseResult = task;
-      }*/
+      }
+  */
       break;
     case 1:
       // only one source for exact match
       console.log("Exact Match, use searcRes[0]");
       userParseResult = retrievedUsers[0];
+      userParseResult.email
+        ? console.log(' e')
+        : task.email = userParseResult.email
+      userParseResult.phoneNumber
+        ? console.log(' p')
+        : task.phoneNumber = retrievedUsers[0].phoneNumber
       break;
     case 2:
       // notion and slack exact match
       if (retrievedUsers[0].source !== retrievedUsers[1].source) {
-        retrievedUsers[0].source === "slack"
+        retrievedUsers[0].source === "notion"
           ? (userParseResult = retrievedUsers[0])
           : (userParseResult = retrievedUsers[1]);
       }
       break;
-    /**
     default:
-      console.log("Multiple results");
+      console.log("Multiple found");
+      console.log(notionMatch);
+      if (notionMatch.count === 1) {
+        userParseResult = retrievedUsers[notionMatch.position - 1]
+      }
       break;
-      */
   }
-}
-// getMatchingUser(taskHarvey);
+  // console.log(retrievedUsers);
+  // console.log("UserParseResult", userParseResult);
+  return userParseResult;
+};
+getMatchingUser(taskHarvey);

@@ -5,6 +5,10 @@ import { searchUser } from "./searchUserAi";
 import { User } from "./someTypes";
 import {
   taskHarvey,
+  task_feed_cats,
+  task_unknown_fields,
+  taskGood,
+  taskInferDates,
   taskSubstr,
   taskSubstr2
 } from "../../test-data/tasks/example-tasks";
@@ -43,12 +47,10 @@ export const getMatchingUser = async function (task: Task): Promise<any> {
   notionUsers.forEach((person) => {
     person.name = person.name ? person.name : "No Name";
     if (task.assignee.replace("@", "").replace(".", " ").toLowerCase() === person.name.replace("@", "").toLowerCase()) {
-      //   console.log("Matching Person", person);
       retrieveUsers.push(person);
       notionMatch.count += 1
       notionMatch.position = index;
     }
-    // console.log("index, position", index, notionMatch.position)
     index += 1
   });
 
@@ -71,10 +73,7 @@ export const getMatchingUser = async function (task: Task): Promise<any> {
       /* search using substring */
       slackUsers.forEach((user) => {
         user.name = user.name ? user.name : "Nameless";
-        if (user.name.toLowerCase().includes(task.assignee.toLowerCase()))
-          console.log(user.name, task.assignee);
 
-        // if (task.assignee.toLowerCase().replace("@", "").includes(user.name.toLowerCase().replace("@", "")) || user.name.toLowerCase().replace("@", "").includes(task.assignee.toLowerCase().replace("@", ""))) {
         if (user.name.toLowerCase().replace("@", "").includes(task.assignee.toLowerCase().replace("@", ""))) {
 
           console.log("Found Matching user", user);
@@ -83,13 +82,11 @@ export const getMatchingUser = async function (task: Task): Promise<any> {
       });
       index = 0;
       notionUsers.forEach((user) => {
-        console.log("index, position", index, notionMatch.position)
         user.name = user.name ? user.name : "Nameless"
         if (user.name.toLowerCase().includes(task.assignee.toLowerCase())) {
           console.log(user.name, task.assignee);
         }
 
-        // if (task.assignee.toLowerCase().replace("@", "").includes(user.name.toLowerCase().replace("@", "")) || user.name.toLowerCase().replace("@", "").includes(task.assignee.toLowerCase().replace("@", ""))) {
         if (user.name.toLowerCase().replace("@", "").includes(task.assignee.toLowerCase().replace("@", ""))) {
 
           console.log("Found Matching user", user);
@@ -161,4 +158,4 @@ export const getMatchingUser = async function (task: Task): Promise<any> {
 export function matchResultCheck(notionMatch: { count: number, position: number }, notionUsers: User[], retrievedUsers: User[], slackUsers: User[],task: Task, userParseResult: any) {
   console.log("In matchResultCheck", notionMatch, notionUsers, retrievedUsers, slackUsers, task, userParseResult);
 };
-getMatchingUser(taskHarvey);
+getMatchingUser(task_feed_cats);

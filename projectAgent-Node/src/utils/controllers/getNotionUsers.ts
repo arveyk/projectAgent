@@ -14,7 +14,7 @@ export const getNotionUsers = async function () {
   const humanUsers: User[] = [];
 
   const notionResp = await notion.users.list({});
-  console.log("Logging  in getNotionUsere", notionResp);
+  // console.log("Logging  in getNotionUser", notionResp);
 
   notionResp.results.forEach((user) => {
     if (user.type === "person") {

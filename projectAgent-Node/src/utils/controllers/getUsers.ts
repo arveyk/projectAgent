@@ -48,7 +48,7 @@ export const getSlackUsers = async function (): Promise<User[]> {
       }
     });
   }
-  console.log("Users array:", JSON.stringify(usersArr));
+  // console.log("Users array:", JSON.stringify(usersArr));
   console.log(`Total users found: ${usersArr.length}`);
   return usersArr;
 };

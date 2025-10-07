@@ -8,7 +8,7 @@ export const createTaskInfoBlock = function (task: Task) {
    */
   task.dueDate = new Date(task.dueDate);
   console.log(`CreateTaskInfoBlock log message => due date: ${task.dueDate}`);
-  return `*Task Title:*\t\t\t${task.taskTitle} \n*Assignee:* \t\t\t${task.assignee}\n*Due Date:*\t\t\t${formatSlackDate(task.dueDate)}\n*Start Date:*\t\t\t${(task.startDate !== null && task.startDate !== undefined) ? formatSlackDate(task.startDate) : task.startDate}\n*Phone Number:*\t${task.phoneNumber}\n*Email:*\t\t\t${task.email}\n*Preferred Channel:*\t\t\t${task.preferredChannel}\n*Description:* \t\t${task.description}\n*Project:* \t\t${task.project}`;
+  return `*Task Title:*\t\t\t${task.taskTitle} \n*Assignee:* \t\t\t${task.assignee}\n*Due Date:*\t\t\t${formatSlackDate(task.dueDate)}\n*Start Date:*\t\t\t${(task.startDate !== new Date(NaN) && task.startDate !== undefined) ? formatSlackDate(task.startDate) : task.startDate}\n*Phone Number:*\t${task.phoneNumber}\n*Email:*\t\t\t${task.email}\n*Preferred Channel:*\t\t\t${task.preferredChannel}\n*Description:* \t\t${task.description}\n*Project:* \t\t${task.project}`;
 };
 
 export function createEditBlock(task: Task) {

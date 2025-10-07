@@ -3,6 +3,7 @@ import { DateTime } from "luxon";
 import { Task } from "../utils/task";
 
 export const createTaskInfoBlock = function (task: Task) {
+  console.log(`due date: ${task.dueDate}`);
   return `*Task Title:*\t\t\t${task.taskTitle} \n*Assignee:* \t\t\t${task.assignee}\n*Due Date:*\t\t\t${formatSlackDate(task.dueDate.toISOString())}\n*Start Date:*\t\t\t${task.startDate ? formatSlackDate(task.startDate.toISOString()) : task.startDate}\n*Phone Number:*\t${task.phoneNumber}\n*Email:*\t\t\t${task.email}\n*Preferred Channel:*\t\t\t${task.preferredChannel}\n*Description:* \t\t${task.description}\n*Project:* \t\t${task.project}`;
 };
 

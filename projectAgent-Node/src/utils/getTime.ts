@@ -82,6 +82,6 @@ export async function getEventTimeData(
   }
 
   const time = DateTime.fromSeconds(timestampNumber).setZone(userTZData.tz);
-
+  console.log(`Event time in user's timezone: ${time.toString()}`);
   return time;
 }

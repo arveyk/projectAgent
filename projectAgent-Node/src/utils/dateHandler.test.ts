@@ -1,9 +1,10 @@
+import { DateTime } from "luxon";
 import { formatSlackDate, validateDate } from "./dateHandler";
 
 describe("Tests formatSlackDate with a timestamp in ISO format with timezone offset", () => {
   it("Returns a properly formatted Slack date string", () => {
-    const timestamp = "2025-08-18T14:00:00-07:00";
-    const slackDateString = formatSlackDate(timestamp);
+    const date: Date = DateTime.fromISO("2025-08-18T14:00:00-07:00").toJSDate();
+    const slackDateString = formatSlackDate(date);
 
     console.log(slackDateString);
     expect(slackDateString).toMatch(

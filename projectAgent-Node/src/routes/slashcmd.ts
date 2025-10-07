@@ -115,6 +115,7 @@ const slashCmdHandler = async function (
 
       } else {
         let searchUserInSlack_Notion = await getMatchingUser(task);
+        console.log("Task to be passed to createBloclNewTask", JSON.stringify(task));
         const taskBlock = createBlockNewTask(task);
         taskBlock.blocks[0].text  ? 
         taskBlock.blocks[0].text.text += JSON.stringify(

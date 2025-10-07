@@ -181,6 +181,7 @@ const sampleModal = {
  * @returns A set of Slack blocks containing data from the task, to be used in confirming new tasks
  */
 export const createBlockNewTask = function (task: Task) {
+  // console.log("Another console.log, Task", JSON.stringify(task));
   const blockText = createTaskInfoBlock(task);
 
   return {

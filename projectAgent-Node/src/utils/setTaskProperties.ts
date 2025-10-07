@@ -72,9 +72,9 @@ export const setTaskProperties = function (taskObj: Task, assignedBy: string) {
   // export const setTaskProperties = function (taskObj: Task, assignedBy: {name: string, email: string}[]) {
   const taskTitle = taskObj["taskTitle"];
   const assignee = taskObj["assignee"];
-  const dueDate = validateDate(taskObj["dueDate"].toISOString());
+  const dueDate = taskObj["dueDate"];
   const startDate = taskObj["startDate"]
-    ? validateDate(taskObj["startDate"].toISOString())
+    ? taskObj["startDate"]
     : new Date().toISOString();
   // taskObj["startDate"] !== ""
   //? new Date(taskObj["startdate"]).toISOString()

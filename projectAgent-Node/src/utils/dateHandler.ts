@@ -21,7 +21,7 @@ export function validateDate(dateString: string): Date | "Invalid Date Value" {
   }
 }
 
-export function formatSlackDate(date: string): string {
-  const timestamp = Date.parse(date) / 1000;
+export function formatSlackDate(date: Date): string {
+  const timestamp: number = date.getUTCSeconds();
   return `<!date^${timestamp}^{date_long}|${date}>`;
 }

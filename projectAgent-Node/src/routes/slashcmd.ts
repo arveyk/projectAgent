@@ -36,9 +36,12 @@ const slashCmdHandler = async function (
 
       const timestamp: number = Date.now();
       console.log(`timestamp: ${timestamp}`);
-      
+
       // Sample payloads can be found in ../test-data/payloads/slashcmd/payloads.ts
-      const task = await parseTaskSlashCmd(request.body as SlashCommand, timestamp);
+      const task = await parseTaskSlashCmd(
+        request.body as SlashCommand,
+        timestamp,
+      );
 
       await sendLoadingMsg("Searching Database", response_url);
       const isInDatabase = await searchDB(task);
@@ -58,24 +61,46 @@ const slashCmdHandler = async function (
           const properties = pageObject["properties"];
           const existingTask: TaskPage = {
             task: {
-              taskTitle: "title" in properties["Task Title"] ? properties["Task Title"].title[0].plain_text : "No Title Provided",
-              assignee: "rich_text" in properties.Assignee ? properties["Assignee"].rich_text[0].plain_text : "No Assignee",
-              dueDate: "date" in properties["Due Date"]
-                ? properties["Due Date"].date
-                  ? new Date(properties["Due Date"].date.start)
-                  : new Date()
-                : new Date(),
-              startDate: "date" in properties["Start Date"]
-                ? properties["Start Date"].date
-                  ? new Date(properties["Start Date"].date.start)
-                  : new Date()
-                : new Date(),
-              email: "email" in properties["Email"] ? properties["Email"].email || undefined : undefined,
-              phoneNumber: "phone_number" in properties["Phone Number"] ? properties["Phone Number"].phone_number || undefined : undefined,
+              taskTitle:
+                "title" in properties["Task Title"]
+                  ? properties["Task Title"].title[0].plain_text
+                  : "No Title Provided",
+              assignee:
+                "rich_text" in properties.Assignee
+                  ? properties["Assignee"].rich_text[0].plain_text
+                  : "No Assignee",
+              dueDate:
+                "date" in properties["Due Date"]
+                  ? properties["Due Date"].date
+                    ? new Date(properties["Due Date"].date.start)
+                    : new Date()
+                  : new Date(),
+              startDate:
+                "date" in properties["Start Date"]
+                  ? properties["Start Date"].date
+                    ? new Date(properties["Start Date"].date.start)
+                    : new Date()
+                  : new Date(),
+              email:
+                "email" in properties["Email"]
+                  ? properties["Email"].email || undefined
+                  : undefined,
+              phoneNumber:
+                "phone_number" in properties["Phone Number"]
+                  ? properties["Phone Number"].phone_number || undefined
+                  : undefined,
               preferredChannel:
-                "rich_text" in properties["Preferred Channel"] ? properties["Preferred Channel"].rich_text[0].plain_text : "",
-              description: "rich_text" in properties["Description"] ? properties["Description"].rich_text[0].plain_text : "",
-              project: "rich_text" in properties["Project"] ? properties["Project"].rich_text[0].plain_text : "",
+                "rich_text" in properties["Preferred Channel"]
+                  ? properties["Preferred Channel"].rich_text[0].plain_text
+                  : "",
+              description:
+                "rich_text" in properties["Description"]
+                  ? properties["Description"].rich_text[0].plain_text
+                  : "",
+              project:
+                "rich_text" in properties["Project"]
+                  ? properties["Project"].rich_text[0].plain_text
+                  : "",
             },
             url: pageObject.url,
             pageId: pageObject.id,
@@ -97,15 +122,18 @@ const slashCmdHandler = async function (
         } else {
           throw new Error("Error getting page properties");
         }
-
       } else {
         let searchUserInSlack_Notion = await getMatchingUser(task);
-        console.log("Task to be passed to createBloclNewTask", JSON.stringify(task));
+        console.log(
+          "Task to be passed to createBloclNewTask",
+          JSON.stringify(task),
+        );
         const taskBlock = createBlockNewTask(task);
-        taskBlock.blocks[0].text  ? 
-        taskBlock.blocks[0].text.text += JSON.stringify(
-          searchUserInSlack_Notion
-        ) : console.log("First Text undefined");
+        taskBlock.blocks[0].text
+          ? (taskBlock.blocks[0].text.text += JSON.stringify(
+              searchUserInSlack_Notion,
+            ))
+          : console.log("First Text undefined");
         axios({
           method: "post",
           url: request.body["response_url"],

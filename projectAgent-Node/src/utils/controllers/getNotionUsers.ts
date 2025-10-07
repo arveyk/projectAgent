@@ -1,7 +1,7 @@
 import { User } from "./someTypes.js";
 import { ListUsersResponse } from "@notionhq/client/build/src/api-endpoints.js";
 import { NOTION_API_KEY } from "../../env";
-import { Client} from "@notionhq/client";
+import { Client } from "@notionhq/client";
 
 const notion = new Client({
   auth: NOTION_API_KEY,

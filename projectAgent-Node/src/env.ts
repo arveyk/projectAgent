@@ -43,5 +43,6 @@ export const NOTION_API_KEY: string = process.env.NOTION_API_KEY;
 export const NOTION_DATABASE_ID: string = process.env.NOTION_DATABASE_ID;
 export const ANTHROPIC_API_KEY: string = process.env.ANTHROPIC_API_KEY;
 export const PROJ_AGENT_APP_ID: string = process.env.PROJ_AGENT_APP_ID;
-export const SLACK_USER_OAUTH_TOKEN: string = process.env.SLACK_USER_OAUTH_TOKEN;
+export const SLACK_USER_OAUTH_TOKEN: string =
+  process.env.SLACK_USER_OAUTH_TOKEN;
 export const ALL_SLN_WEBHOOK_URL: string = process.env.ALL_SLN_WEBHOOK_URL;

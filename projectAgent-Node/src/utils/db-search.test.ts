@@ -3,7 +3,7 @@ import {
   task_in_db,
   task_in_db_reworded,
   task_not_in_db,
-  task_feed_cats
+  task_feed_cats,
 } from "../test-data/tasks/example-tasks";
 import { dbSearchResult } from "./db-search";
 

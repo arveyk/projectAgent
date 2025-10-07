@@ -20,9 +20,7 @@ describe("Tests validateDate with a timestamp in ISO format with timezone offset
     console.log(date);
     expect(typeof date === "string").toBeFalsy();
     if (typeof date !== "string") {
-      expect(date.toISOString()).toMatch(
-        "2025-08-18T21:00:00.000Z",
-      );
+      expect(date.toISOString()).toMatch("2025-08-18T21:00:00.000Z");
     }
   });
   it("Returns a valid date when given a valid EAT date string", () => {
@@ -32,9 +30,7 @@ describe("Tests validateDate with a timestamp in ISO format with timezone offset
     console.log(date);
     expect(typeof date === "string").toBeFalsy();
     if (typeof date !== "string") {
-      expect(date.toISOString()).toMatch(
-        "2025-09-20T00:00:00.000Z",
-      );
+      expect(date.toISOString()).toMatch("2025-09-20T00:00:00.000Z");
     }
   });
 });

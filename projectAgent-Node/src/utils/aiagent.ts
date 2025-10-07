@@ -39,7 +39,7 @@ const task = z.object({
 // For use with slash commands
 const structuredLlmSlashCmd: Runnable<
   BaseLanguageModelInput,
-   Record<string, any>,
+  Record<string, any>,
   RunnableConfig<Record<string, any>>
 > = model.withStructuredOutput(task);
 
@@ -53,7 +53,7 @@ export const parseTaskSlashCmd = async function (
   timestamp: number,
 ): Promise<Task> {
   //Done type annotation for reqBody
-  
+
   let textToParse;
 
   //slash cmd text can be immediately accessed, for other events it is indirect, through events field

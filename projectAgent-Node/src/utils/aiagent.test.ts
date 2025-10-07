@@ -4,13 +4,13 @@ import {
   payloadGood,
   payloadHarvey,
   payloadInferDates,
-  payloadNew
+  payloadNew,
 } from "../test-data/payloads/slashcmd/payloads";
 import {
   taskGood,
   taskHarvey,
   taskInferDates,
-  taskKitchen
+  taskKitchen,
 } from "../test-data/tasks/example-tasks";
 
 describe("Tests parseTaskSlashCmd with a good payload", () => {
@@ -47,7 +47,7 @@ describe("Tests parseTaskSlashCmd inferring dates", () => {
   it("Parses the task and infers start date and due date correctly", async () => {
     expect(payloadInferDates).toBeDefined;
     expect(typeof payloadInferDates).toBe("object");
-    const timestamp = 1755039682* 1000;
+    const timestamp = 1755039682 * 1000;
 
     const parsedTask = await parseTaskSlashCmd(payloadInferDates, timestamp);
     console.log(JSON.stringify(parsedTask));
@@ -67,5 +67,5 @@ describe("tests parseTaskSlashCmd with the payload that's been causing trouble",
     const parsedTask = await parseTaskSlashCmd(payloadNew, timestamp);
     console.log(JSON.stringify(parsedTask));
     console.log(JSON.stringify(taskKitchen));
-  })
-})
+  });
+});

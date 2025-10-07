@@ -7,8 +7,8 @@ import { Task, TaskPage } from "../utils/task";
  */
 export function createUpdateBlock(taskPage: TaskPage) {
   const task = taskPage.task;
-  const startDate = task.startDate 
-    ? task.startDate.toISOString().split("T")[0] 
+  const startDate = task.startDate
+    ? task.startDate.toISOString().split("T")[0]
     : new Date().toISOString().split("T")[0];
   const dueDate = task.dueDate.toISOString().split("T")[0];
 

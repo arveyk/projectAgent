@@ -7,7 +7,7 @@ import { createBlockNewTask } from "./createBlocks";
 
 import { createFinalBlock } from "./editblock";
 import { createUpdateBlock } from "./updateBlock";
-import { Task } from  "../utils/task";
+import { Task } from "../utils/task";
 
 /*type Task = {
   tasktitle: string;

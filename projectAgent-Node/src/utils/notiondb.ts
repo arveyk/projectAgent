@@ -50,8 +50,7 @@ async function addTaskNotionPage(
           success: false,
           errorMsg: error,
         };
-      }
-      else {
+      } else {
         return {
           success: false,
           errorMsg: "Unknown error",

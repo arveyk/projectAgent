@@ -15,7 +15,9 @@ export function createEditBlock(task: Task) {
   // TODO display date in user's local timezone
   let dueDate, startDate;
   dueDate = task.dueDate ? validateDate(task.dueDate.toISOString()) : "xxx";
-  startDate = task.startDate ? validateDate(task.startDate.toISOString()) : "xxx";
+  startDate = task.startDate
+    ? validateDate(task.startDate.toISOString())
+    : "xxx";
 
   return {
     blocks: [

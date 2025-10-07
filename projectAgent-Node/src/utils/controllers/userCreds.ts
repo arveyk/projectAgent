@@ -10,9 +10,8 @@ import {
   taskGood,
   taskInferDates,
   taskSubstr,
-  taskSubstr2
+  taskSubstr2,
 } from "../../test-data/tasks/example-tasks";
-
 
 /**
  * useDetailsFromSearch - function to update task details from user search result
@@ -22,11 +21,11 @@ import {
  */
 function useDetailsFromSearch(userParseResult: User, task: Task) {
   userParseResult.email
-    ? task.email = userParseResult.email
-    : task.email = task.email || " ";
+    ? (task.email = userParseResult.email)
+    : (task.email = task.email || " ");
   userParseResult.phoneNumber
-    ? task.phoneNumber = userParseResult.phoneNumber
-    : task.phoneNumber = task.phoneNumber || " ";
+    ? (task.phoneNumber = userParseResult.phoneNumber)
+    : (task.phoneNumber = task.phoneNumber || " ");
 }
 
 /**
@@ -36,13 +35,15 @@ function useDetailsFromSearch(userParseResult: User, task: Task) {
  * @param: task - object constaining task fields including assignee
  * @Returns: resulting matching user
  */
-export const getMatchingUser = async function (task: Task): Promise<User | undefined> {
+export const getMatchingUser = async function (
+  task: Task,
+): Promise<User | undefined> {
   //Change function name to getUserInChannel
   const notionUsers = await getNotionUsers();
   const slackUsers = await getSlackUsers();
   const notionMatch = {
     count: 0,
-    position: 0
+    position: 0,
   };
 
   let retrieveUsers: User[] = [];
@@ -65,10 +66,10 @@ export const getMatchingUser = async function (task: Task): Promise<User | undef
     // if (task.assignee.replace("@", "").replace(".", " ").toLowerCase() === person.name.replace("@", "").toLowerCase()) {
     if (compareNames(task.assignee, person.name)) {
       retrieveUsers.push(person);
-      notionMatch.count += 1
+      notionMatch.count += 1;
       notionMatch.position = index;
     }
-    index += 1
+    index += 1;
   });
   /*let userParseResult = {
     found: false,
@@ -90,25 +91,35 @@ export const getMatchingUser = async function (task: Task): Promise<User | undef
       slackUsers.forEach((user) => {
         user.name = user.name ? user.name : "Nameless";
 
-        if (user.name.toLowerCase().replace("@", "").includes(task.assignee.toLowerCase().replace("@", ""))) {
+        if (
+          user.name
+            .toLowerCase()
+            .replace("@", "")
+            .includes(task.assignee.toLowerCase().replace("@", ""))
+        ) {
           console.log("Found Matching user", user);
           retrieveUsers.push(user);
         }
       });
       index = 0;
       notionUsers.forEach((user) => {
-        user.name = user.name ? user.name : "Nameless"
+        user.name = user.name ? user.name : "Nameless";
         if (compareNames(user.name, task.assignee)) {
           console.log(user.name, task.assignee);
         }
 
-        if (user.name.toLowerCase().replace("@", "").includes(task.assignee.toLowerCase().replace("@", ""))) {
+        if (
+          user.name
+            .toLowerCase()
+            .replace("@", "")
+            .includes(task.assignee.toLowerCase().replace("@", ""))
+        ) {
           console.log("Found Matching user", user);
           retrieveUsers.push(user);
           notionMatch.count += 1;
           notionMatch.position = index;
         }
-        index += 1
+        index += 1;
       });
       const retrivedUsersCount = Number(retrieveUsers.length);
       if (retrivedUsersCount === 1) {
@@ -116,13 +127,15 @@ export const getMatchingUser = async function (task: Task): Promise<User | undef
         useDetailsFromSearch(userParseResult, task);
 
         console.log("Found with Sub-stringing", retrieveUsers[0]);
-        task.assignee = retrieveUsers[0].name ? retrieveUsers[0].name : task.assignee
+        task.assignee = retrieveUsers[0].name
+          ? retrieveUsers[0].name
+          : task.assignee;
       } else {
         console.log("Zero or Multiple found even with Sub-stringing");
       }
       // Check for notion User
       if (notionMatch.count === 1) {
-        userParseResult = notionUsers[notionMatch.position]
+        userParseResult = notionUsers[notionMatch.position];
 
         useDetailsFromSearch(userParseResult, task);
         task.assignee = userParseResult.name || task.assignee;
@@ -148,7 +161,7 @@ export const getMatchingUser = async function (task: Task): Promise<User | undef
       console.log("Multiple found");
       console.log(notionMatch);
       if (notionMatch.count === 1) {
-        userParseResult = notionUsers[notionMatch.position]
+        userParseResult = notionUsers[notionMatch.position];
       }
   }
   console.log("2nd Last", retrieveUsers);
@@ -164,7 +177,10 @@ export const getMatchingUser = async function (task: Task): Promise<User | undef
  * @Returns: true indicating names match, false otherwise
  */
 function compareNames(nameOfUser: string, assigneeName: string): boolean {
-  if (nameOfUser.toLowerCase().replace("@", "") === assigneeName.toLowerCase().replace(".", " ").replace("@", "")) {
+  if (
+    nameOfUser.toLowerCase().replace("@", "") ===
+    assigneeName.toLowerCase().replace(".", " ").replace("@", "")
+  ) {
     console.log("Found Matching user, CompareNames Function", nameOfUser);
     return true;
   }

@@ -25,9 +25,9 @@ const databaseSearchResult = z.object({
 });
 
 export type dbSearchResult = {
-  exists: boolean,
-  taskId?: string
-}
+  exists: boolean;
+  taskId?: string;
+};
 
 const structuredLlm = model.withStructuredOutput(databaseSearchResult);
 
@@ -63,7 +63,7 @@ export const searchDB = async function (task: Task): Promise<dbSearchResult> {
   const llmResult = await structuredLlm.invoke(prompt);
   const result: dbSearchResult = {
     exists: llmResult.exists,
-    taskId: llmResult.task_id !== "<UNKNOWN>" ? llmResult.task_id : undefined
+    taskId: llmResult.task_id !== "<UNKNOWN>" ? llmResult.task_id : undefined,
   };
   console.log(`result: ${JSON.stringify(result)}`);
 

@@ -6,9 +6,10 @@ const setTitleArray = function (taskTitle: string) {
   return [
     {
       text: {
-        content: taskTitle
-      }
-    }];
+        content: taskTitle,
+      },
+    },
+  ];
 };
 const setAssigneeArray = function (assignee: string) {
   return [
@@ -16,7 +17,7 @@ const setAssigneeArray = function (assignee: string) {
       text: {
         content: assignee,
       },
-    }
+    },
     /*
     annotations: {
       bold: false,
@@ -33,10 +34,10 @@ const setPreferredChannelArray = function (preferredChannel: string) {
   return [
     {
       text: {
-        content: preferredChannel
+        content: preferredChannel,
       },
     },
-  ]
+  ];
 };
 const setDescriptionArray = function (description: string) {
   return [
@@ -45,7 +46,7 @@ const setDescriptionArray = function (description: string) {
         content: description,
       },
     },
-  ]
+  ];
 };
 const setProjectArray = function (project: string) {
   return [
@@ -72,8 +73,9 @@ export const setTaskProperties = function (taskObj: Task, assignedBy: string) {
   const taskTitle = taskObj["taskTitle"];
   const assignee = taskObj["assignee"];
   const dueDate = validateDate(taskObj["dueDate"].toISOString());
-  const startDate =
-    taskObj["startDate"] ? validateDate(taskObj["startDate"].toISOString()) : new Date().toISOString();
+  const startDate = taskObj["startDate"]
+    ? validateDate(taskObj["startDate"].toISOString())
+    : new Date().toISOString();
   // taskObj["startDate"] !== ""
   //? new Date(taskObj["startdate"]).toISOString()
   //    new validateDate(taskObj["startDate"]).toISOString()

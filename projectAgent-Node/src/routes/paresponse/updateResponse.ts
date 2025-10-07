@@ -8,7 +8,6 @@ import { SLACK_BOT_TOKEN } from "../../env";
 import { BlockAction, ButtonAction } from "@slack/bolt";
 import { CreatePageResponse, UpdatePageResponse } from "@notionhq/client";
 
-
 const key: string = "value";
 
 /**
@@ -69,7 +68,12 @@ export default function interactionHandler(
   next();
 }
 
-function sendReject(payload: BlockAction, action_text: string, response_url: string, action: string) {
+function sendReject(
+  payload: BlockAction,
+  action_text: string,
+  response_url: string,
+  action: string,
+) {
   console.log(
     `Text in button ${"value" in payload.actions[0] ? payload.actions[0]["value"] : "No value"}, Action_Text${action_text}`,
   );
@@ -103,7 +107,11 @@ function sendReject(payload: BlockAction, action_text: string, response_url: str
     });
 }
 
-function sendEdit(payload: BlockAction, response_url: string, err: string | undefined) {
+function sendEdit(
+  payload: BlockAction,
+  response_url: string,
+  err: string | undefined,
+) {
   if (payload["actions"][0].type === "button") {
     const interactionsTextPayload = payload["actions"][0].value;
     const taskDetailsObj = JSON.parse(interactionsTextPayload || "{}");
@@ -111,7 +119,9 @@ function sendEdit(payload: BlockAction, response_url: string, err: string | unde
     const blockObj = createEditBlock(taskDetailsObj);
 
     if (err) {
-      blockObj.blocks[0].text ? blockObj.blocks[0].text.text = "*Due Date cannot be a past Date*" : null;
+      blockObj.blocks[0].text
+        ? (blockObj.blocks[0].text.text = "*Due Date cannot be a past Date*")
+        : null;
     }
 
     const editResp = axios({
@@ -138,10 +148,11 @@ function sendEdit(payload: BlockAction, response_url: string, err: string | unde
 
 function sendSubmit(payload: BlockAction, response_url: string) {
   if (payload["actions"][0].type === "button") {
-
     const taskDetailsObj = JSON.parse(payload["actions"][0].value || "{}");
 
-    const actionKeysArr = Object.keys(payload.state ? payload.state.values : {});
+    const actionKeysArr = Object.keys(
+      payload.state ? payload.state.values : {},
+    );
     const userInputs = payload.state ? payload.state.values : {};
 
     actionKeysArr.map((key) => {
@@ -168,7 +179,8 @@ function sendSubmit(payload: BlockAction, response_url: string) {
           taskDetailsObj.phonenumber = userInputs[key][`${actionIdKey}`].value;
           break;
         case "preferred_channel_id":
-          taskDetailsObj.preferredchannel = userInputs[key][`${actionIdKey}`].value;
+          taskDetailsObj.preferredchannel =
+            userInputs[key][`${actionIdKey}`].value;
           break;
         case "description_id":
           taskDetailsObj.description = userInputs[key][`${actionIdKey}`].value;
@@ -202,15 +214,16 @@ function sendSubmit(payload: BlockAction, response_url: string) {
 
 function sendApprove(payload: BlockAction, response_url: string) {
   if (payload["actions"][0].type === "button") {
-
     const taskDetailsObj = JSON.parse(payload["actions"][0]["value"] || "{}");
 
     (async () => {
       let rowActionResult: {
-        success: boolean;
-        page?: CreatePageResponse | CreatePageResponse;
-        erroMsg?: string;
-      }, actionMessage: string, emoji: string;
+          success: boolean;
+          page?: CreatePageResponse | CreatePageResponse;
+          erroMsg?: string;
+        },
+        actionMessage: string,
+        emoji: string;
 
       if (taskDetailsObj.url) {
         await sendLoadingMsg("Updating Task", response_url);
@@ -272,10 +285,13 @@ function sendApprove(payload: BlockAction, response_url: string) {
   }
 }
 
-function sendError(createRowResult: PageAddResult, payload: BlockAction, response_url: string) {
+function sendError(
+  createRowResult: PageAddResult,
+  payload: BlockAction,
+  response_url: string,
+) {
   // Send error message
   if (payload["actions"][0].type === "button") {
-
     const taskDetailsObj = JSON.parse(payload["actions"][0]["value"] || "{}");
     let errMessage = "Create";
     let errEmoji = "heavy_multiplication_x";
@@ -301,27 +317,30 @@ function sendError(createRowResult: PageAddResult, payload: BlockAction, respons
         },
       },
       */
-    axios.post(response_url,
-      {
-        replace_original: "true",
-        text: "Block Replaced",
-        blocks: [
-          {
-            type: "section",
-            text: {
-              type: "mrkdwn",
-              text: `:${errEmoji}: *Unable to ${errMessage} Entry*, `,
+    axios
+      .post(
+        response_url,
+        {
+          replace_original: "true",
+          text: "Block Replaced",
+          blocks: [
+            {
+              type: "section",
+              text: {
+                type: "mrkdwn",
+                text: `:${errEmoji}: *Unable to ${errMessage} Entry*, `,
+              },
             },
+          ],
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
+            "Content-Type": "application/json; charset=UTF-8",
           },
-        ],
-      }, {
-      headers: {
-        Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
-        "Content-Type": "application/json; charset=UTF-8",
-      },
-      family: 4,
-    },
-    )
+          family: 4,
+        },
+      )
       .then((Response) => {
         console.log(
           "Error while Attempting to create row, Please check inputs",

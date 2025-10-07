@@ -97,11 +97,12 @@ const slashCmdHandler = async function (
         }
 
       } else {
-        let searchUserInSlack_Notion: PageObjectResponse = await getMatchingUser(task);
+        let searchUserInSlack_Notion = await getMatchingUser(task);
         const taskBlock = createBlockNewTask(task);
-        // taskBlock.blocks[0].text.text += JSON.stringify(
-        //   searchUserInSlack_Notion,
-        // );
+        taskBlock.blocks[0].text  ? 
+        taskBlock.blocks[0].text.text += JSON.stringify(
+          searchUserInSlack_Notion
+        ) : console.log("First Text undefined");
         axios({
           method: "post",
           url: request.body["response_url"],

@@ -27,7 +27,15 @@ export async function getUserTimezoneData(
       "Content-Type": "application/json; charset=UTF-8",
       Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
     },
+    family: 4
+  }).then((response) => {
+    return response;
+  }).catch((error) => {
+    console.error("Error fetching Slack user TimeZone:", error);
+    throw new Error("Failed to fetch Slack user TimeZone");
   });
+
+  console.log(`user data raw response: ${JSON.stringify(resp.data)}`);
 
   if (!resp.data["ok"]) {
     throw new Error("Invalid user ID");
@@ -63,8 +71,8 @@ export async function getEventTimeData(
 
   const userID = reqBody["user_id"];
   const userTZData = await getUserTimezoneData(userID);
-  // console.log(`user timezone data: ${JSON.stringify(userTZData)}`);
-  // console.log(`timestamp: ${timestamp}`);
+  console.log(`user timezone data: ${JSON.stringify(userTZData)}`);
+  console.log(`timestamp: ${timestamp}`);
 
   const timestampNumber = parseInt(timestamp);
   // console.log(`timestamp (milliseconds: ${timestampMillis}`);

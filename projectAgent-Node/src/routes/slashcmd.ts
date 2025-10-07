@@ -6,7 +6,7 @@ import { parseTaskSlashCmd } from "../utils/aiagent";
 import { searchDB, getTaskProperties } from "../utils/db-search";
 import { sendLoadingMsg } from "../blockkit/loadingMsg";
 import { getMatchingUser } from "../utils/controllers/userCreds";
-import { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints";
+// import { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 import { SlashCommand } from "@slack/bolt";
 import { TaskPage } from "../utils/task";
 
@@ -34,7 +34,24 @@ const slashCmdHandler = async function (
 
       await sendLoadingMsg("Parsing Task", response_url);
 
-      const timestamp = request.headers["x-slack-request-timestamp"];
+      /* payload seems to have been changed there is no timestamp
+       * sample payload for slash command
+       * {
+       *   "token":"JWNJnukcVaHbRoRl6CwWYan6",
+       *   "team_id":"T08VADHH17S",
+       *   "team_domain":"solutionalpro-1c61413",
+       *   "channel_id":"C08VADJ7SEL",
+       *   "channel_name":"all-solutional-project-agent",
+       *   "user_id":"U08UDKY38QK",
+       *   "user_name":"harveykisiangani",
+       *   "command":"/timely_01",
+       *   "text":"add Jeremy fix the leaking sink on the 3rd floor kitchen this week. Let me know as soon as you are done.",
+       *   "api_app_id":"A0935EDQRHB",
+       *   "is_enterprise_install":"false",
+       *   "response_url":"https://hooks.slack.com/commands/T08VADHH17S/9645396805875/8m7n2Tgyen66YIGllYQFSjHg",
+       *   "trigger_id":"9648333579493.8996459579264.6c83ac3fbbe46e9a9ec8923afa718be8"}
+       */
+      const timestamp = request.headers["x-slack-request-timestamp"] || Date.now().toString();
       console.log(`timestamp: ${timestamp}`);
       const task = await parseTaskSlashCmd(request.body as SlashCommand, timestamp as string);
 

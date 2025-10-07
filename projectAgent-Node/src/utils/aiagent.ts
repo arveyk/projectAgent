@@ -50,7 +50,7 @@ const structuredLlmSlashCmd: Runnable<
  */
 export const parseTaskSlashCmd = async function (
   reqBody: SlashCommand,
-  timestamp: string,
+  timestamp: number,
 ): Promise<Task> {
   //Done type annotation for reqBody
   

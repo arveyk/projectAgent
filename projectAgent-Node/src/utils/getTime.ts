@@ -66,7 +66,7 @@ export async function getUserTimezoneData(
 
 export async function getEventTimeData(
   reqBody: SlashCommand,
-  timestamp: string,
+  timestamp: number,
 ): Promise<DateTime> {
 
   const userID = reqBody["user_id"];
@@ -74,14 +74,7 @@ export async function getEventTimeData(
   console.log(`user timezone data: ${JSON.stringify(userTZData)}`);
   console.log(`timestamp: ${timestamp}`);
 
-  const timestampNumber = parseInt(timestamp);
-  // console.log(`timestamp (milliseconds: ${timestampMillis}`);
-
-  if (isNaN(timestampNumber)) {
-    throw new Error("Timestamp is not a number");
-  }
-
-  const time = DateTime.fromSeconds(timestampNumber).setZone(userTZData.tz);
+  const time = DateTime.fromMillis(timestamp).setZone(userTZData.tz);
 
   return time;
 }

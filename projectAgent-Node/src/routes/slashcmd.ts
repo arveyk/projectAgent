@@ -51,9 +51,9 @@ const slashCmdHandler = async function (
        *   "response_url":"https://hooks.slack.com/commands/T08VADHH17S/9645396805875/8m7n2Tgyen66YIGllYQFSjHg",
        *   "trigger_id":"9648333579493.8996459579264.6c83ac3fbbe46e9a9ec8923afa718be8"}
        */
-      const timestamp = request.headers["x-slack-request-timestamp"] || Date.now().toString();
+      const timestamp: number = Date.now();
       console.log(`timestamp: ${timestamp}`);
-      const task = await parseTaskSlashCmd(request.body as SlashCommand, timestamp as string);
+      const task = await parseTaskSlashCmd(request.body as SlashCommand, timestamp);
 
       await sendLoadingMsg("Searching Database", response_url);
       const isInDatabase = await searchDB(task);

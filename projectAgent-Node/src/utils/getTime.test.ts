@@ -33,20 +33,20 @@ describe("Tests getUserTimezone with an invalid user id", () => {
 
 describe("Tests getTime with a valid payload from Harvey", () => {
   it("Returns the time of the event in Harvey's timezone", async () => {
-    const timestamp = "1755039682";
+    const timestamp = 1755039682 *  1000;
     const timeData = await getEventTimeData(payloadHarvey, timestamp);
     console.log(`time data: ${JSON.stringify(timeData)}`);
 
-    expect(timeData).toEqual(DateTime.fromSeconds(parseInt(timestamp)).setZone("Africa/Nairobi"));
+    expect(timeData).toEqual(DateTime.fromMillis(timestamp).setZone("Africa/Nairobi"));
   });
 });
 
 describe("Tests getTime with a valid payload from Ceci", () => {
   it("Returns the time of the event in Ceci's timezone", async () => {
-    const timestamp = "1755039682";
+    const timestamp = 1755039682 * 1000;
     const timeData = await getEventTimeData(payloadCeci, timestamp);
     console.log(`time data: ${JSON.stringify(timeData)}`);
 
-    expect(timeData).toEqual(DateTime.fromSeconds(parseInt(timestamp)).setZone("America/Los_Angeles"));
+    expect(timeData).toEqual(DateTime.fromMillis(timestamp).setZone("America/Los_Angeles"));
   });
 });

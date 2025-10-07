@@ -70,7 +70,6 @@ export const getMatchingUser = async function (task: Task): Promise<User | undef
     }
     index += 1
   });
-
   /*let userParseResult = {
     found: false,
     multipleFound: false,

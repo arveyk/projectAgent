@@ -1,3 +1,4 @@
+import { DateTime } from "luxon";
 import { Task } from "../../utils/task";
 
 export const task: Task = {
@@ -116,4 +117,11 @@ export const taskSubstr2: Task = {
   startDate: new Date("2025-10-13"),
   preferredChannel: "Slack",
   description: "Contact out list of attendees for teh DCD conference next week Monday"
+}
+
+export const taskKitchen: Task = { 
+  taskTitle: "Fix plumbing issue in second floor kitchen", 
+  assignee: "Jeremy", 
+  dueDate: DateTime.fromMillis(1759852422989).setZone("Africa/Nairobi").toJSDate(), 
+  description: "Fix the plumbing issue in the second floor kitchen. Call when the task is completed." 
 }

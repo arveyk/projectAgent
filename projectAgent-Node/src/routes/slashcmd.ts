@@ -8,7 +8,8 @@ import { sendLoadingMsg } from "../blockkit/loadingMsg";
 import { getMatchingUser } from "../utils/controllers/userCreds";
 // import { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 import { SlashCommand } from "@slack/bolt";
-import { TaskPage } from "../utils/task";
+import { convertTaskPageFromDbResponse, TaskPage } from "../utils/task";
+import { GetPageResponse } from "@notionhq/client";
 
 // webhook for taskmanagement channel only
 const webhookURL = process.env.TASK_MANAGEMENT_WEBHOOK_URL;
@@ -54,57 +55,10 @@ const slashCmdHandler = async function (
       if (isInDatabase.exists) {
         console.log("Already in Database");
 
-        const pageObject = await getTaskProperties(isInDatabase.taskId || "");
+        const pageObject: GetPageResponse = await getTaskProperties(isInDatabase.taskId || "");
         if ("properties" in pageObject) {
-          // Done type narrowing
 
-          const properties = pageObject["properties"];
-          const existingTask: TaskPage = {
-            task: {
-              taskTitle:
-                "title" in properties["Task Title"]
-                  ? properties["Task Title"].title[0].plain_text
-                  : "No Title Provided",
-              assignee:
-                "rich_text" in properties.Assignee
-                  ? properties["Assignee"].rich_text[0].plain_text
-                  : "No Assignee",
-              dueDate:
-                "date" in properties["Due Date"]
-                  ? properties["Due Date"].date
-                    ? new Date(properties["Due Date"].date.start)
-                    : new Date()
-                  : new Date(),
-              startDate:
-                "date" in properties["Start Date"]
-                  ? properties["Start Date"].date
-                    ? new Date(properties["Start Date"].date.start)
-                    : new Date()
-                  : new Date(),
-              email:
-                "email" in properties["Email"]
-                  ? properties["Email"].email || undefined
-                  : undefined,
-              phoneNumber:
-                "phone_number" in properties["Phone Number"]
-                  ? properties["Phone Number"].phone_number || undefined
-                  : undefined,
-              preferredChannel:
-                "rich_text" in properties["Preferred Channel"]
-                  ? properties["Preferred Channel"].rich_text[0].plain_text
-                  : "",
-              description:
-                "rich_text" in properties["Description"]
-                  ? properties["Description"].rich_text[0].plain_text
-                  : "",
-              project:
-                "rich_text" in properties["Project"]
-                  ? properties["Project"].rich_text[0].plain_text
-                  : "",
-            },
-            url: pageObject.url,
-            pageId: pageObject.id,
-          };
+          const existingTask: TaskPage = convertTaskPageFromDbResponse(pageObject);
           // existingTask.startDate = new Date(existingTask.startDate)
           const updateBlock = createUpdateBlock(existingTask);
 

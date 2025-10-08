@@ -237,6 +237,7 @@ function sendApprove(payload: BlockAction, response_url: string) {
         console.log("Update Action");
       } else {
         await sendLoadingMsg("Adding Task", response_url);
+        console.log(`(sendApprove) taskDetailsObj.task: ${taskDetailsObj.task}`);
         rowActionResult = await addTaskNotionPage(
           taskDetailsObj.task,
           payload.user.username,

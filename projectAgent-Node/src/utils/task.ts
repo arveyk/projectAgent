@@ -81,41 +81,29 @@ export function convertTaskPageFromDbResponse(pageResponse: PageObjectResponse):
   const startDate = "date" in properties["Start Date"]
     ? properties["Start Date"].date
       ? new Date(properties["Start Date"].date.start)
-      : new Date()
-    : new Date();
+      : undefined
+    : undefined;
   const email = "email" in properties["Email"]
     ? properties["Email"].email || undefined
     : undefined;
   const phoneNumber = "phone_number" in properties["Phone Number"]
     ? properties["Phone Number"].phone_number || undefined
     : undefined;
-  const preferredChannel = "rich_text" in properties["Preferred Channel"] 
+  const preferredChannel = ("rich_text" in properties["Preferred Channel"] && properties["Preferred Channel"]["rich_text"][0] !== undefined)
   ? "plain_text" in properties["Preferred Channel"]["rich_text"][0]
     ? properties["Preferred Channel"].rich_text[0].plain_text
-    : ""
-  : "";
-  const description = "rich_text" in properties["Description"] 
+    : undefined
+  : undefined;
+  const description = ("rich_text" in properties["Description"] && properties["Description"]["rich_text"][0] !== undefined)
   ? "plain_text" in properties["Description"]["rich_text"][0]
     ? properties["Description"].rich_text[0].plain_text
     : ""
   : "";
-  // const project = "rich_text" in properties["Project"] 
-  // ? "plain_text" in properties["Project"]["rich_text"][0]
-  //   ? properties["Project"].rich_text[0].plain_text
-  //   : ""
-  // : "";
-  let project;
-  if ("rich_text" in properties["Project"] && properties["Project"]["rich_text"][0] !== undefined) {
-    if ("plain_text" in properties["Project"]["rich_text"][0]) {
-      project = properties["Project"].rich_text[0].plain_text;
-    }
-    else {
-      project = "";
-    }
-  }
-  else {
-    project = "";
-  }
+  const project = ("rich_text" in properties["Project"] && properties["Project"]["rich_text"][0] !== undefined) 
+  ? "plain_text" in properties["Project"]["rich_text"][0]
+    ? properties["Project"].rich_text[0].plain_text
+    : undefined
+  : undefined;
   const url = pageResponse.url;
   const pageId = pageResponse.id;
 

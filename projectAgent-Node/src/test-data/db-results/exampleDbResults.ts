@@ -632,7 +632,7 @@ export const exampleDbResult_2: QueryDatabaseResponse = {
   "page_or_database": {},
 }
 
-const exampleDbResultExistingTask: PageObjectResponse = { 
+export const exampleDbResultExistingTask: PageObjectResponse = { 
   "object": "page", 
   "id": "2407b3ca-5344-8173-b5ff-f0bf8b869b82", 
   "created_time": "2025-07-30T07:45:00.000Z", 

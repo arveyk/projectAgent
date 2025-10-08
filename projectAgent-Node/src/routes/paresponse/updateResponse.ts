@@ -161,25 +161,25 @@ function sendSubmit(payload: BlockAction, response_url: string) {
 
       switch (actionIdKey[0]) {
         case "task_title_id":
-          taskDetailsObj.tasktitle = userInputs[key][`${actionIdKey}`].value;
+          taskDetailsObj.taskTitle = userInputs[key][`${actionIdKey}`].value;
           break;
         case "assignee_id":
           taskDetailsObj.assignee = userInputs[key][`${actionIdKey}`].value;
           break;
         case "due_date_id":
-          taskDetailsObj.duedate = userInputs[key][`${actionIdKey}`].value;
+          taskDetailsObj.dueDate = userInputs[key][`${actionIdKey}`].value;
           break;
         case "start_date_id":
-          taskDetailsObj.startdate = userInputs[key][`${actionIdKey}`].value;
+          taskDetailsObj.startDate = userInputs[key][`${actionIdKey}`].value;
           break;
         case "email_id":
           taskDetailsObj.email = userInputs[key][`${actionIdKey}`].value;
           break;
         case "phone_number_id":
-          taskDetailsObj.phonenumber = userInputs[key][`${actionIdKey}`].value;
+          taskDetailsObj.phoneNumber = userInputs[key][`${actionIdKey}`].value;
           break;
         case "preferred_channel_id":
-          taskDetailsObj.preferredchannel =
+          taskDetailsObj.preferredChannel =
             userInputs[key][`${actionIdKey}`].value;
           break;
         case "description_id":

@@ -62,7 +62,7 @@ export function convertTask(taskInput: Record<string, any>): Task {
 
 export function convertTaskPageFromButtonPayload(payload: BlockAction): TaskPage {
   if (payload["actions"][0].type === "button") {
-    // TODO convert payload from sendApprove to TaskPage object
+    // TODO convert button payload to TaskPage object
     const taskDetailsObj: TaskPage = JSON.parse(payload["actions"][0]["value"] || "{}");
 
     const taskPage: TaskPage = {

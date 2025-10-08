@@ -105,7 +105,7 @@ export function convertTaskPageFromDbResponse(pageResponse: PageObjectResponse):
   //   : ""
   // : "";
   let project;
-  if ("rich_text" in properties["Project"]) {
+  if ("rich_text" in properties["Project"] && properties["Project"]["rich_text"][0] !== undefined) {
     if ("plain_text" in properties["Project"]["rich_text"][0]) {
       project = properties["Project"].rich_text[0].plain_text;
     }

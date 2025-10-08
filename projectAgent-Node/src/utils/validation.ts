@@ -4,7 +4,7 @@
  * @returns true if the due date is not in the past, else returns false.
  */
 export const validateDueDate = function (dueDate: Date): boolean {
-  const today = new Date();
+  const today = new Date(Date.now());
   console.log(`Today: ${today}\nDue Date: ${dueDate}`);
 
   return dueDate >= today;

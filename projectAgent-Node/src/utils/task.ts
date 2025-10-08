@@ -18,38 +18,38 @@ export type TaskPage = {
 
 export function convertTask(taskInput: Record<string, any>): Task {
   console.log(JSON.stringify(taskInput));
-  if (!taskInput["tasktitle"]) {
+  if (!taskInput["taskTitle"]) {
     throw new Error("Task title is missing");
   }
   if (!taskInput["assignee"]) {
     throw new Error("Assignee is missing");
   }
-  if (!taskInput["duedate"]) {
+  if (!taskInput["dueDate"]) {
     throw new Error("Due date is missing");
   }
   if (!taskInput["description"]) {
     throw new Error("Description is missing");
   }
 
-  const dueDate = new Date(taskInput["duedate"]);
+  const dueDate = new Date(taskInput["dueDate"]);
   const startDate =
     taskInput["startdate"] !== "<UNKNOWN>"
-      ? new Date(taskInput["startdate"])
+      ? new Date(taskInput["startDate"])
       : undefined;
 
   return {
-    taskTitle: taskInput["tasktitle"],
+    taskTitle: taskInput["taskTitle"],
     assignee: taskInput["assignee"],
     dueDate: dueDate,
     startDate: startDate,
     phoneNumber:
-      taskInput["phonenumber"] !== "<UNKNOWN>"
-        ? taskInput["phonenumber"]
+      taskInput["phoneNumber"] !== "<UNKNOWN>"
+        ? taskInput["phoNenumber"]
         : undefined,
     email: taskInput["email"] !== "<UNKNOWN>" ? taskInput["email"] : undefined,
     preferredChannel:
-      taskInput["preferredchannel"] !== "<UNKNOWN>"
-        ? taskInput["preferredchannel"]
+      taskInput["preferredChannel"] !== "<UNKNOWN>"
+        ? taskInput["preferredChannel"]
         : undefined,
     description: taskInput["description"],
     project:

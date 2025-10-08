@@ -60,11 +60,11 @@ export const task_feed_cats: Task = {
 };
 
 export const task_unknown_fields = {
-  tasktitle: "Schedule meeting with customer",
+  taskTitle: "Schedule meeting with customer",
   assignee: "Jacob",
-  duedate: "2025-05-11",
-  startdate: "<UNKNOWN>",
-  phonenumber: "<UNKNOWN>",
+  dueDate: "2025-05-11",
+  startDate: "<UNKNOWN>",
+  phoneNumber: "<UNKNOWN>",
   email: "jacob@email.com",
   preferredChannel: "Slack",
   taskdetail:

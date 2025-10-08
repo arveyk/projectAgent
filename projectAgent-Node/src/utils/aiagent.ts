@@ -15,20 +15,20 @@ const model = new ChatAnthropic({
 });
 
 const task = z.object({
-  tasktitle: z.string().describe("Short descriptive title of the task"),
+  taskTitle: z.string().describe("Short descriptive title of the task"),
   assignee: z.string().describe("Name of person assigned with the task"),
-  duedate: z
+  dueDate: z
     .string()
     .datetime({ offset: true })
     .describe("Task due date in ISO standard format with timezone included"),
-  startdate: z
+  startDate: z
     .string()
     .datetime({ offset: true })
     .optional()
     .describe("Task start date in ISO standard format with timezone included"),
   phonenumber: z.string().optional().describe("Assingnee phone number"),
   email: z.string().optional().describe("Assignee's email address"),
-  preferredchannel: z
+  preferredChannel: z
     .string()
     .optional()
     .describe("Assignee\'s preferred channel of communication"),

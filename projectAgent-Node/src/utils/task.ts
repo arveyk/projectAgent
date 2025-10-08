@@ -99,11 +99,23 @@ export function convertTaskPageFromDbResponse(pageResponse: PageObjectResponse):
     ? properties["Description"].rich_text[0].plain_text
     : ""
   : "";
-  const project = "rich_text" in properties["Project"] 
-  ? "plain_text" in properties["Project"]["rich_text"][0]
-    ? properties["Project"].rich_text[0].plain_text
-    : ""
-  : "";
+  // const project = "rich_text" in properties["Project"] 
+  // ? "plain_text" in properties["Project"]["rich_text"][0]
+  //   ? properties["Project"].rich_text[0].plain_text
+  //   : ""
+  // : "";
+  let project;
+  if ("rich_text" in properties["Project"]) {
+    if ("plain_text" in properties["Project"]["rich_text"][0]) {
+      project = properties["Project"].rich_text[0].plain_text;
+    }
+    else {
+      project = "";
+    }
+  }
+  else {
+    project = "";
+  }
   const url = pageResponse.url;
   const pageId = pageResponse.id;
 

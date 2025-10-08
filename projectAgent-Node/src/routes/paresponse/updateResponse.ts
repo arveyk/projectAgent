@@ -7,7 +7,11 @@ import { sendLoadingMsg } from "../../blockkit/loadingMsg";
 import { SLACK_BOT_TOKEN } from "../../env";
 import { BlockAction, ButtonAction } from "@slack/bolt";
 import { CreatePageResponse, UpdatePageResponse } from "@notionhq/client";
-import { convertTaskPageFromButtonPayload, Task, TaskPage } from "../../utils/task";
+import {
+  convertTaskPageFromButtonPayload,
+  Task,
+  TaskPage,
+} from "../../utils/task";
 
 const key: string = "value";
 

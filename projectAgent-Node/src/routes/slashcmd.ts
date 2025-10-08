@@ -55,11 +55,15 @@ const slashCmdHandler = async function (
       if (isInDatabase.exists) {
         console.log("Already in Database");
 
-        const pageObject: GetPageResponse = await getTaskProperties(isInDatabase.taskId || "");
+        const pageObject: GetPageResponse = await getTaskProperties(
+          isInDatabase.taskId || "",
+        );
         if ("properties" in pageObject) {
-
-          const existingTask: TaskPage = convertTaskPageFromDbResponse(pageObject);
-          console.log(`(slashCmdHandler) existingTask: ${JSON.stringify(existingTask)}`);
+          const existingTask: TaskPage =
+            convertTaskPageFromDbResponse(pageObject);
+          console.log(
+            `(slashCmdHandler) existingTask: ${JSON.stringify(existingTask)}`,
+          );
           // existingTask.startDate = new Date(existingTask.startDate)
           const updateBlock = createUpdateBlock(existingTask);
 

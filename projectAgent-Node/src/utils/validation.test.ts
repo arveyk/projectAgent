@@ -1,13 +1,22 @@
 import { validateDueDate } from "./validation";
 
 describe("Test validateDueDate with a date in the future", () =>
-  it("Returns true", () => {
+  {it("Returns true", () => {
     const testDate = new Date();
     testDate.setDate(testDate.getDate() + 1);
     const isValid = validateDueDate(testDate);
 
     expect(isValid).toBeTruthy();
-  }));
+  })
+  it("returns true", () => {
+    const testDate = new Date("2025-10-15");
+    console.log(testDate);
+    
+    const isValid = validateDueDate(testDate);
+
+    expect(isValid).toBeTruthy();
+  })}
+);
 
 describe("Test validateDueDate with a date in the past", () =>
   it("Returns false", () => {

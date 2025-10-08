@@ -1,4 +1,5 @@
 import { PageObjectResponse } from "@notionhq/client";
+import { BlockAction } from "@slack/bolt";
 
 export type Task = {
   taskTitle: string;
@@ -59,9 +60,42 @@ export function convertTask(taskInput: Record<string, any>): Task {
   };
 }
 
-// export function convertTaskPage(taskPageInput): TaskPage {
-//   // TODO convert payload from sendApprove to TaskPage object
-// }
+export function convertTaskPageFromButtonPayload(payload: BlockAction): TaskPage {
+  if (payload["actions"][0].type === "button") {
+    // TODO convert payload from sendApprove to TaskPage object
+    const taskDetailsObj: TaskPage = JSON.parse(payload["actions"][0]["value"] || "{}");
+
+    const taskPage: TaskPage = {
+    task: {
+      taskTitle:
+        title,
+      assignee:
+        assignee,
+      dueDate:
+        dueDate,
+      startDate:
+        startDate,
+      email:
+        email,
+      phoneNumber:
+        phoneNumber,
+      preferredChannel:
+        preferredChannel,
+      description:
+        description,
+      project:
+        project,
+    },
+    url: url,
+    pageId: pageId,
+  };
+
+  return taskPage;
+  }
+  else {
+    throw new Error("Somehow, the button payload is not a button payload")
+  }
+}
 
 export function convertTaskPageFromDbResponse(pageResponse: PageObjectResponse): TaskPage {
   console.log(`(convertTaskPageFromDbResponse) pageResponse: ${JSON.stringify(pageResponse)}`);

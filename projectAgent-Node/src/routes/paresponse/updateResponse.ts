@@ -7,7 +7,7 @@ import { sendLoadingMsg } from "../../blockkit/loadingMsg";
 import { SLACK_BOT_TOKEN } from "../../env";
 import { BlockAction, ButtonAction } from "@slack/bolt";
 import { CreatePageResponse, UpdatePageResponse } from "@notionhq/client";
-import { Task, TaskPage } from "../../utils/task";
+import { convertTaskPageFromButtonPayload, Task, TaskPage } from "../../utils/task";
 
 const key: string = "value";
 
@@ -215,9 +215,8 @@ function sendSubmit(payload: BlockAction, response_url: string) {
 
 function sendApprove(payload: BlockAction, response_url: string) {
   if (payload["actions"][0].type === "button") {
-    const taskDetailsObj: TaskPage = JSON.parse(payload["actions"][0]["value"] || "{}");
-    console.log(`(sendApprove) taskDetailsObj: ${JSON.stringify(taskDetailsObj)}`);
-    // TODO convert this to a TaskPage object before sending it anywhere
+    const taskPage = convertTaskPageFromButtonPayload(payload);
+    console.log(`(sendApprove) taskPage: ${JSON.stringify(taskPage)}`);
 
     (async () => {
       let rowActionResult: {
@@ -228,18 +227,18 @@ function sendApprove(payload: BlockAction, response_url: string) {
         actionMessage: string,
         emoji: string;
 
-      if (taskDetailsObj.url) {
+      if (taskPage.url) {
         await sendLoadingMsg("Updating Task", response_url);
 
-        rowActionResult = await updateDbPage(taskDetailsObj);
+        rowActionResult = await updateDbPage(taskPage);
         actionMessage = "Updated";
         emoji = "pencil2";
         console.log("Update Action");
       } else {
         await sendLoadingMsg("Adding Task", response_url);
-        console.log(`(sendApprove) taskDetailsObj.task: ${taskDetailsObj.task}`);
+        console.log(`(sendApprove) taskDetailsObj.task: ${taskPage.task}`);
         rowActionResult = await addTaskNotionPage(
-          taskDetailsObj.task,
+          taskPage.task,
           payload.user.username,
         );
         actionMessage = "Created";

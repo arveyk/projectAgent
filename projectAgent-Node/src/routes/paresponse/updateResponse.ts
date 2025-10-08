@@ -7,6 +7,7 @@ import { sendLoadingMsg } from "../../blockkit/loadingMsg";
 import { SLACK_BOT_TOKEN } from "../../env";
 import { BlockAction, ButtonAction } from "@slack/bolt";
 import { CreatePageResponse, UpdatePageResponse } from "@notionhq/client";
+import { Task, TaskPage } from "../../utils/task";
 
 const key: string = "value";
 
@@ -214,7 +215,7 @@ function sendSubmit(payload: BlockAction, response_url: string) {
 
 function sendApprove(payload: BlockAction, response_url: string) {
   if (payload["actions"][0].type === "button") {
-    const taskDetailsObj = JSON.parse(payload["actions"][0]["value"] || "{}");
+    const taskDetailsObj: TaskPage = JSON.parse(payload["actions"][0]["value"] || "{}");
     console.log(`taskDetailsObj: ${JSON.stringify(taskDetailsObj)}`);
     // TODO convert this to a TaskPage object before sending it anywhere
 
@@ -237,7 +238,7 @@ function sendApprove(payload: BlockAction, response_url: string) {
       } else {
         await sendLoadingMsg("Adding Task", response_url);
         rowActionResult = await addTaskNotionPage(
-          taskDetailsObj,
+          taskDetailsObj.task,
           payload.user.username,
         );
         actionMessage = "Created";

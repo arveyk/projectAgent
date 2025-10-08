@@ -5,6 +5,7 @@
  */
 export const validateDueDate = function (dueDate: Date): boolean {
   const today = new Date(Date.now());
+  console.log(`Due Date value ${dueDate} and ${today}in validateDueDate:`);
   console.log(`Today: ${today}\nDue Date: ${dueDate}`);
 
   return dueDate >= today;

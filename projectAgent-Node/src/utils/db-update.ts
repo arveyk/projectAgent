@@ -19,7 +19,7 @@ export const updateDbPage = async function (
   try {
     const dueDate = task.dueDate;
     if (validateDueDate(dueDate)) {
-      console.log(`task (searchDB): ${JSON.stringify(taskPageInfo)}`);
+      console.log(`task (updateDbPage): ${JSON.stringify(taskPageInfo)}`);
 
       const response = await notion.pages.update({
         page_id: taskPageInfo.pageId,

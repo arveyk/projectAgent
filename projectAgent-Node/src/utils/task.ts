@@ -56,3 +56,7 @@ export function convertTask(taskInput: Record<string, any>): Task {
       taskInput["project"] !== "<UNKNOWN>" ? taskInput["project"] : undefined,
   };
 }
+
+export function convertTaskPage(taskPageInput): TaskPage {
+  // TODO convert payload from sendApprove to TaskPage object
+}

@@ -63,7 +63,6 @@ export function convertTask(taskInput: Record<string, any>): Task {
 //   // TODO convert payload from sendApprove to TaskPage object
 // }
 
-
 export function convertTaskPageFromDbResponse(pageResponse: PageObjectResponse): TaskPage {
   console.log(`(convertTaskPageFromDbResponse) pageResponse: ${JSON.stringify(pageResponse)}`);
   const properties = pageResponse["properties"];
@@ -90,17 +89,17 @@ export function convertTaskPageFromDbResponse(pageResponse: PageObjectResponse):
   const phoneNumber = "phone_number" in properties["Phone Number"]
           ? properties["Phone Number"].phone_number || undefined
           : undefined;
-  const preferredChannel = "rich_text" in properties["Preferred Channel"]
+  const preferredChannel = ("rich_text" in properties["Preferred Channel"] && "plain_text" in properties["Preferred Channel"]["rich_text"][0])
           ? properties["Preferred Channel"].rich_text[0].plain_text
           : "";
-  const description = "rich_text" in properties["Description"]
+  const description = ("rich_text" in properties["Description"] && "plain_text" in properties["Description"]["rich_text"][0])
           ? properties["Description"].rich_text[0].plain_text
           : "";
-  const project = "rich_text" in properties["Project"]
+  const project = ("rich_text" in properties["Project"] && "plain_text" in properties["Project"]["rich_text"][0])
           ? properties["Project"].rich_text[0].plain_text
           : "";
-  const url = properties.url;
-  const pageId = properties.id;
+  const url = pageResponse.url;
+  const pageId = pageResponse.id;
 
   const existingTaskPage: TaskPage = {
     task: {
@@ -123,8 +122,8 @@ export function convertTaskPageFromDbResponse(pageResponse: PageObjectResponse):
       project:
         project,
     },
-    url: "",
-    pageId: "",
+    url: url,
+    pageId: pageId,
   };
 
   return existingTaskPage;

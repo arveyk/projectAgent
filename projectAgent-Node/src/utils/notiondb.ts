@@ -26,6 +26,7 @@ async function addTaskNotionPage(
 ): Promise<PageAddResult> {
   // Make sure due date is not in the past
 
+  console.log(`(addTaskNotion) taskObj: ${JSON.stringify(taskObj)}`);
   const duedate = taskObj.dueDate;
   if (validateDueDate(duedate)) {
     console.log("yay! the due date is not in the past!");

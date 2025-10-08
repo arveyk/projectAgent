@@ -216,7 +216,7 @@ function sendSubmit(payload: BlockAction, response_url: string) {
 function sendApprove(payload: BlockAction, response_url: string) {
   if (payload["actions"][0].type === "button") {
     const taskDetailsObj: TaskPage = JSON.parse(payload["actions"][0]["value"] || "{}");
-    console.log(`taskDetailsObj: ${JSON.stringify(taskDetailsObj)}`);
+    console.log(`(sendApprove) taskDetailsObj: ${JSON.stringify(taskDetailsObj)}`);
     // TODO convert this to a TaskPage object before sending it anywhere
 
     (async () => {

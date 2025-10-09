@@ -228,11 +228,9 @@ export function createEditBlock(taskPageObj: TaskPage) {
   };
 }
 
-export function createFinalBlock(task: Task) {
-/**
- *  export function createFinalBlock(taskPageObj: TaskPage) {
- * const task = taskPageObj.task;
- */
+// export function createFinalBlock(task: Task) {
+export function createFinalBlock(taskPageObj: TaskPage) {
+  const task = taskPageObj.task;
 
   task.email ? "Ok FinalBlock" : (task.email = " ");
   task.preferredChannel ? "Ok FinalBlock" : (task.preferredChannel = "Slack");

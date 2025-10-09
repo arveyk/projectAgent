@@ -12,6 +12,8 @@ import {
   Task,
   TaskPage,
 } from "../../utils/task";
+import { task } from "../../utils/controllers/someTypes";
+import { taskGood } from "../../test-data/tasks/example-tasks";
 
 const key: string = "value";
 
@@ -196,14 +198,13 @@ function sendSubmit(payload: BlockAction, response_url: string) {
       }
     });
 
-    const block = createFinalBlock(taskDetailsObj);
-    /**
-     * const block = createFinalBlock(
-     *   task: taskPageObj.task,
-     *   url:  taskPageObj,url
-     *   userId: taskPageObj.userId
-     * );
-     */
+    // const block = createFinalBlock(taskDetailsObj);
+
+    const block = createFinalBlock({
+      task: taskDetailsObj,
+      url: "",
+      pageId: "",
+    });
 
     axios({
       method: "post",
@@ -226,17 +227,17 @@ function sendSubmit(payload: BlockAction, response_url: string) {
 
 function sendApprove(payload: BlockAction, response_url: string) {
   if (payload["actions"][0].type === "button") {
-    
+
     const taskPage = convertTaskPageFromButtonPayload(payload);
 
     console.log(`(sendApprove) taskPage: ${JSON.stringify(taskPage)}`);
 
     (async () => {
       let rowActionResult: {
-          success: boolean;
-          page?: CreatePageResponse | CreatePageResponse;
-          erroMsg?: string;
-        },
+        success: boolean;
+        page?: CreatePageResponse | CreatePageResponse;
+        erroMsg?: string;
+      },
         actionMessage: string,
         emoji: string;
 

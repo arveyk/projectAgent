@@ -70,8 +70,10 @@ export function convertTaskPageFromButtonPayload(
     const taskDetailsObj: TaskPage = JSON.parse(
       payload["actions"][0]["value"] || "{}",
     );
-
+    console.log("INteractions Value", JSON.stringify(interactionsValue));
+    console.log("Task Details Obj", JSON.stringify(taskDetailsObj));
     let taskPage: TaskPage;
+
     if (interactionsValue.url) {
       taskPage = {
         task: {

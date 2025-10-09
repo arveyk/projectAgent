@@ -39,7 +39,7 @@ export const validateDueDate = function (dueDate: Date): boolean {
   // new Date(taskInput["dueDate"])
   const today: Date = new Date();
   //const today = DateTime.now().setZone("utc").toJSDate();
-  console.log(`(validateDueDate) Today: ${today} (${today.getUTCMilliseconds()} millis) Due Date: ${dueDate} (${dueDate.getUTCMilliseconds()} millis)`);
+  console.log(`(validateDueDate) Today: ${today} (${today.getTime()} millis) Due Date: ${dueDate} (${dueDate.getTime()} millis)`);
 
   return dueDate >= today;
 };

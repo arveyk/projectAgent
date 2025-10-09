@@ -1,6 +1,6 @@
 import { validateDate, formatSlackDate } from "../utils/dateHandler";
 import { DateTime } from "luxon";
-import { Task } from "../utils/task";
+import { Task, TaskPage } from "../utils/task";
 
 export const createTaskInfoBlock = function (task: Task) {
   /**
@@ -16,6 +16,11 @@ export const createTaskInfoBlock = function (task: Task) {
 };
 
 export function createEditBlock(task: Task) {
+/**
+ * export function createEditBlock(taskPageObj: TaskPage) {
+ * const task = taskPageObj.task;
+ */
+
   // TODO display date in user's local timezone
   let dueDate, startDate;
   dueDate = task.dueDate ? task.dueDate : "xxx";
@@ -200,7 +205,7 @@ export function createEditBlock(task: Task) {
               text: "Submit",
             },
             style: "primary",
-            value: `${JSON.stringify(task)}`,
+            value: `${JSON.stringify(task)}`, // value: `${JSON.stringify(taskPageObj)}`,
             action_id: "actionId-0",
           },
           {
@@ -224,6 +229,11 @@ export function createEditBlock(task: Task) {
 }
 
 export function createFinalBlock(task: Task) {
+/**
+ *  export function createFinalBlock(taskPageObj: TaskPage) {
+ * const task = taskPageObj.task;
+ */
+
   task.email ? "Ok FinalBlock" : (task.email = " ");
   task.preferredChannel ? "Ok FinalBlock" : (task.preferredChannel = "Slack");
   task.project ? "Ok FinalBlock" : (task.project = " ");
@@ -262,7 +272,7 @@ export function createFinalBlock(task: Task) {
               text: "Approve",
             },
             style: "primary",
-            value: `${JSON.stringify(task)}`,
+            value: `${JSON.stringify(task)}`,  // value: `${JSON.stringify(taskPageObj)}`,
             action_id: "actionId-0",
           },
           {
@@ -283,7 +293,7 @@ export function createFinalBlock(task: Task) {
               text: "Edit",
               emoji: true,
             },
-            value: JSON.stringify(task),
+            value: JSON.stringify(task), //  value: JSON.stringify(taskPageObj),
             action_id: "actionId-2",
           },
         ],

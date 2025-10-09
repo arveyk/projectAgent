@@ -7,6 +7,11 @@ import { Task } from "../utils/task";
  * @returns A set of Slack blocks containing data from the task, to be used in editing tasks
  */
 const createConfirmationBlock = function confirmBlock(task: Task) {
+/**
+ * const createConfirmationBlock = function confirmBlock(taskPageObj: TaskPage) {
+ * const task = taskPageObj.task;
+ */
+
   if (task.preferredChannel === undefined) {
     task.preferredChannel = "Slack";
   }
@@ -122,7 +127,7 @@ const createConfirmationBlock = function confirmBlock(task: Task) {
               text: "Approve",
             },
             style: "primary",
-            value: `${JSON.stringify(task)}`,
+            value: `${JSON.stringify(task)}`, // value: `${JSON.stringify(taskPageObj)}`,
             action_id: "actionId-0",
           },
           {
@@ -181,6 +186,13 @@ const sampleModal = {
  * @returns A set of Slack blocks containing data from the task, to be used in confirming new tasks
  */
 export const createBlockNewTask = function (task: Task) {
+/**
+ *  export const createBlockNewTask = function (taskPageObj: TaskPage) {
+ * const task = taskPageObj.task;
+ */
+
+
+
   // console.log("Another console.log, Task", JSON.stringify(task));
   const blockText = createTaskInfoBlock(task);
 
@@ -216,7 +228,7 @@ export const createBlockNewTask = function (task: Task) {
               text: "Approve",
             },
             style: "primary",
-            value: JSON.stringify(task),
+            value: JSON.stringify(task), // value: JSON.stringify(taskPageObj),
             action_id: "actionId-0",
           },
           {
@@ -237,7 +249,7 @@ export const createBlockNewTask = function (task: Task) {
               text: "Edit",
               emoji: true,
             },
-            value: JSON.stringify(task),
+            value: JSON.stringify(task), // value: JSON.stringify(taskPageObj),
             action_id: "actionId-2",
           },
         ],

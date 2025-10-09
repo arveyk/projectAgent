@@ -51,7 +51,7 @@ export function createUpdateBlock(taskPage: TaskPage) {
               text: "Yes",
               emoji: true,
             },
-            value: JSON.stringify(task),
+            value: JSON.stringify(task), // value: JSON.stringify(taskPageObj),
             action_id: "actionId-1",
             style: "primary",
           },

@@ -153,7 +153,7 @@ function sendEdit(
 
 function sendSubmit(payload: BlockAction, response_url: string) {
   if (payload["actions"][0].type === "button") {
-    const taskDetailsObj = JSON.parse(payload["actions"][0].value || "{}");
+    const taskDetailsObj: Task = JSON.parse(payload["actions"][0].value || "{}");
 
     const actionKeysArr = Object.keys(
       payload.state ? payload.state.values : {},
@@ -166,37 +166,44 @@ function sendSubmit(payload: BlockAction, response_url: string) {
 
       switch (actionIdKey[0]) {
         case "task_title_id":
-          taskDetailsObj.taskTitle = userInputs[key][`${actionIdKey}`].value;
+          taskDetailsObj.taskTitle = userInputs[key][`${actionIdKey}`].value || "";
           break;
         case "assignee_id":
-          taskDetailsObj.assignee = userInputs[key][`${actionIdKey}`].value;
+          taskDetailsObj.assignee = userInputs[key][`${actionIdKey}`].value || "";
           break;
         case "due_date_id":
-          taskDetailsObj.dueDate = userInputs[key][`${actionIdKey}`].value;
+          taskDetailsObj.dueDate = new Date(userInputs[key][`${actionIdKey}`].value || "");
           break;
         case "start_date_id":
-          taskDetailsObj.startDate = userInputs[key][`${actionIdKey}`].value;
+          taskDetailsObj.startDate = new Date(userInputs[key][`${actionIdKey}`].value || "");
           break;
         case "email_id":
-          taskDetailsObj.email = userInputs[key][`${actionIdKey}`].value;
+          taskDetailsObj.email = userInputs[key][`${actionIdKey}`].value || "";
           break;
         case "phone_number_id":
-          taskDetailsObj.phoneNumber = userInputs[key][`${actionIdKey}`].value;
+          taskDetailsObj.phoneNumber = userInputs[key][`${actionIdKey}`].value || "";
           break;
         case "preferred_channel_id":
           taskDetailsObj.preferredChannel =
-            userInputs[key][`${actionIdKey}`].value;
+            userInputs[key][`${actionIdKey}`].value || "";
           break;
         case "description_id":
-          taskDetailsObj.description = userInputs[key][`${actionIdKey}`].value;
+          taskDetailsObj.description = userInputs[key][`${actionIdKey}`].value || "";
           break;
         case "project_id":
-          taskDetailsObj.project = userInputs[key][`${actionIdKey}`].value;
+          taskDetailsObj.project = userInputs[key][`${actionIdKey}`].value || "";
           break;
       }
     });
 
     const block = createFinalBlock(taskDetailsObj);
+    /**
+     * const block = createFinalBlock(
+     *   task: taskPageObj.task,
+     *   url:  taskPageObj,url
+     *   userId: taskPageObj.userId
+     * );
+     */
 
     axios({
       method: "post",
@@ -219,7 +226,9 @@ function sendSubmit(payload: BlockAction, response_url: string) {
 
 function sendApprove(payload: BlockAction, response_url: string) {
   if (payload["actions"][0].type === "button") {
+    
     const taskPage = convertTaskPageFromButtonPayload(payload);
+
     console.log(`(sendApprove) taskPage: ${JSON.stringify(taskPage)}`);
 
     (async () => {

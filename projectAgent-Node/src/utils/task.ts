@@ -66,11 +66,15 @@ export function convertTaskPageFromButtonPayload(
 ): TaskPage {
   if (payload["actions"][0].type === "button") {
     // TODO convert button payload to TaskPage object
+
+    const interactionsValue = JSON.parse(payload["actions"][0]["value"] || "{}");
     const taskDetailsObj: TaskPage = JSON.parse(
       payload["actions"][0]["value"] || "{}",
     );
 
-    const taskPage: TaskPage = {
+    let taskPage : TaskPage;
+    if (interactionsValue.url) {
+      taskPage = {
       task: {
         taskTitle: taskDetailsObj.task.taskTitle,
         assignee: taskDetailsObj.task.assignee,
@@ -85,7 +89,22 @@ export function convertTaskPageFromButtonPayload(
       url: taskDetailsObj.url,
       pageId: taskDetailsObj.pageId,
     };
-
+    } else{ }
+     taskPage = {
+      task: {
+        taskTitle: interactionsValue.taskTitle,
+        assignee: interactionsValue.task.assignee,
+        dueDate: interactionsValue.task.dueDate,
+        startDate: interactionsValue.task.startDate,
+        email: interactionsValue.task.email,
+        phoneNumber: interactionsValue.task.phoneNumber,
+        preferredChannel: interactionsValue.task.preferredChannel,
+        description: interactionsValue.task.description,
+        project: interactionsValue.task.project,
+      },
+      url: "",
+      pageId: "",
+    };
     return taskPage;
   } else {
     throw new Error("Somehow, the button payload is not a button payload");

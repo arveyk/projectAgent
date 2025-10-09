@@ -18,6 +18,7 @@ expressApp.use((request, response, next) => {
 
 expressApp.listen(APP_PORT, () => {
   console.log(`Server's ears on port: ${APP_PORT}`);
+  console.log("Project Agent Active");
 });
 
 export { expressApp as app };

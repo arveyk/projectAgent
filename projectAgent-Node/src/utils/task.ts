@@ -65,7 +65,6 @@ export function convertTaskPageFromButtonPayload(
   payload: BlockAction,
 ): TaskPage {
   if (payload["actions"][0].type === "button") {
-    // TODO convert button payload to TaskPage object
 
     const interactionsValue = JSON.parse(payload["actions"][0]["value"] || "{}");
     const taskDetailsObj: TaskPage = JSON.parse(

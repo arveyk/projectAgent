@@ -127,7 +127,7 @@ const createConfirmationBlock = function confirmBlock(task: Task) {
               text: "Approve",
             },
             style: "primary",
-            value: `${JSON.stringify(task)}`, // value: `${JSON.stringify(taskPageObj)}`,
+            value: `${JSON.stringify(task)}`, //value: `${JSON.stringify(taskPageObj)}`,
             action_id: "actionId-0",
           },
           {

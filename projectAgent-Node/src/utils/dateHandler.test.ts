@@ -1,5 +1,14 @@
 import { DateTime } from "luxon";
-import { formatSlackDate, validateDate } from "./dateHandler";
+import { formatSlackDate, validateDate, validateDueDate } from "./dateHandler";
+import { Task } from "./task";
+
+const taskObj: Task = {
+  "taskTitle":"Pick flowers for centerpiece",
+  "assignee":"Josh",
+  dueDate: new Date("2025-10-15T07:00:00.000Z"),
+  "startDate": new Date("2025-10-09T16:37:50.048Z"),
+  "description":"Pick flowers for the centerpiece"
+}
 
 describe("Tests formatSlackDate with a timestamp in ISO format with timezone offset", () => {
   it("Returns a properly formatted Slack date string", () => {
@@ -45,3 +54,42 @@ describe("Tests validateDate with a timestamp in a year different than this year
     expect(dateString).toMatch("Invalid Date Value");
   });
 });
+
+describe("Test validateDueDate with a date in the future", () => {
+  it("Returns true", () => {
+    const testDate = new Date();
+    testDate.setDate(testDate.getDate() + 1);
+    const isValid = validateDueDate(testDate);
+
+    expect(isValid).toBeTruthy();
+  });
+});
+
+describe("Test validateDueDate with a date in the past", () =>
+  it("Returns false", () => {
+    const testDate = new Date();
+    testDate.setDate(testDate.getDate() - 1);
+    const isValid = validateDueDate(testDate);
+
+    expect(isValid).toBeFalsy();
+  }));
+
+describe("Test validateDueDate with the current date", () =>
+  it("Returns true", () => {
+    const testDate = new Date();
+    const isValid = validateDueDate(testDate);
+
+    expect(isValid).toBeTruthy();
+  }));
+
+  describe("tests validateDueDate with actual data from production", () => {
+    it("returns true", () => {
+      console.log("this is the production data");
+    const testDate = taskObj.dueDate;
+    console.log(testDate);
+
+    const isValid = validateDueDate(testDate);
+
+    expect(isValid).toBeTruthy();
+  });
+  })

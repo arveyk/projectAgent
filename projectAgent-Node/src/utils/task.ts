@@ -1,5 +1,6 @@
 import { PageObjectResponse } from "@notionhq/client";
 import { BlockAction } from "@slack/bolt";
+import { task } from "./controllers/someTypes";
 
 export type Task = {
   taskTitle: string;
@@ -71,18 +72,18 @@ export function convertTaskPageFromButtonPayload(
 
     const taskPage: TaskPage = {
       task: {
-        taskTitle: title,
-        assignee: assignee,
-        dueDate: dueDate,
-        startDate: startDate,
-        email: email,
-        phoneNumber: phoneNumber,
-        preferredChannel: preferredChannel,
-        description: description,
-        project: project,
+        taskTitle: taskDetailsObj.task.taskTitle,
+        assignee: taskDetailsObj.task.assignee,
+        dueDate: taskDetailsObj.task.dueDate,
+        startDate: taskDetailsObj.task.startDate,
+        email: taskDetailsObj.task.email,
+        phoneNumber: taskDetailsObj.task.phoneNumber,
+        preferredChannel: taskDetailsObj.task.preferredChannel,
+        description: taskDetailsObj.task.description,
+        project: taskDetailsObj.task.project,
       },
-      url: url,
-      pageId: pageId,
+      url: taskDetailsObj.url,
+      pageId: taskDetailsObj.pageId,
     };
 
     return taskPage;

@@ -1,5 +1,5 @@
 import { Client, CreatePageResponse } from "@notionhq/client";
-import { validateDueDate } from "./validation";
+import { validateDueDate } from "./dateHandler";
 import { NOTION_API_KEY, NOTION_DATABASE_ID } from "../env";
 import { setTaskProperties } from "./setTaskProperties";
 import { Task } from "./task";

@@ -1,6 +1,5 @@
 import { PageObjectResponse } from "@notionhq/client";
 import { BlockAction } from "@slack/bolt";
-import { task } from "./controllers/someTypes";
 
 export type Task = {
   taskTitle: string;

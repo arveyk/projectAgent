@@ -72,39 +72,40 @@ export function convertTaskPageFromButtonPayload(
       payload["actions"][0]["value"] || "{}",
     );
 
-    let taskPage : TaskPage;
+    let taskPage: TaskPage;
     if (interactionsValue.url) {
       taskPage = {
-      task: {
-        taskTitle: taskDetailsObj.task.taskTitle,
-        assignee: taskDetailsObj.task.assignee,
-        dueDate: taskDetailsObj.task.dueDate,
-        startDate: taskDetailsObj.task.startDate,
-        email: taskDetailsObj.task.email,
-        phoneNumber: taskDetailsObj.task.phoneNumber,
-        preferredChannel: taskDetailsObj.task.preferredChannel,
-        description: taskDetailsObj.task.description,
-        project: taskDetailsObj.task.project,
-      },
-      url: taskDetailsObj.url,
-      pageId: taskDetailsObj.pageId,
-    };
-    } else{ }
-     taskPage = {
-      task: {
-        taskTitle: interactionsValue.taskTitle,
-        assignee: interactionsValue.task.assignee,
-        dueDate: interactionsValue.task.dueDate,
-        startDate: interactionsValue.task.startDate,
-        email: interactionsValue.task.email,
-        phoneNumber: interactionsValue.task.phoneNumber,
-        preferredChannel: interactionsValue.task.preferredChannel,
-        description: interactionsValue.task.description,
-        project: interactionsValue.task.project,
-      },
-      url: "",
-      pageId: "",
-    };
+        task: {
+          taskTitle: taskDetailsObj.task.taskTitle,
+          assignee: taskDetailsObj.task.assignee,
+          dueDate: taskDetailsObj.task.dueDate,
+          startDate: taskDetailsObj.task.startDate,
+          email: taskDetailsObj.task.email,
+          phoneNumber: taskDetailsObj.task.phoneNumber,
+          preferredChannel: taskDetailsObj.task.preferredChannel,
+          description: taskDetailsObj.task.description,
+          project: taskDetailsObj.task.project,
+        },
+        url: taskDetailsObj.url,
+        pageId: taskDetailsObj.pageId,
+      };
+    } else {
+      taskPage = {
+        task: {
+          taskTitle: interactionsValue.taskTitle,
+          assignee: interactionsValue.assignee,
+          dueDate: interactionsValue.dueDate,
+          startDate: interactionsValue.startDate,
+          email: interactionsValue.email,
+          phoneNumber: interactionsValue.phoneNumber,
+          preferredChannel: interactionsValue.preferredChannel,
+          description: interactionsValue.description,
+          project: interactionsValue.project,
+        },
+        url: "",
+        pageId: "",
+      };
+    }
     return taskPage;
   } else {
     throw new Error("Somehow, the button payload is not a button payload");
@@ -149,21 +150,21 @@ export function convertTaskPageFromDbResponse(
       : undefined;
   const preferredChannel =
     "rich_text" in properties["Preferred Channel"] &&
-    properties["Preferred Channel"]["rich_text"][0] !== undefined
+      properties["Preferred Channel"]["rich_text"][0] !== undefined
       ? "plain_text" in properties["Preferred Channel"]["rich_text"][0]
         ? properties["Preferred Channel"].rich_text[0].plain_text
         : undefined
       : undefined;
   const description =
     "rich_text" in properties["Description"] &&
-    properties["Description"]["rich_text"][0] !== undefined
+      properties["Description"]["rich_text"][0] !== undefined
       ? "plain_text" in properties["Description"]["rich_text"][0]
         ? properties["Description"].rich_text[0].plain_text
         : ""
       : "";
   const project =
     "rich_text" in properties["Project"] &&
-    properties["Project"]["rich_text"][0] !== undefined
+      properties["Project"]["rich_text"][0] !== undefined
       ? "plain_text" in properties["Project"]["rich_text"][0]
         ? properties["Project"].rich_text[0].plain_text
         : undefined

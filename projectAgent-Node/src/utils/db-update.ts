@@ -16,6 +16,7 @@ export const updateDbPage = async function (
   taskPageInfo: TaskPage,
 ): Promise<{ success: boolean; page?: UpdatePageResponse; errorMsg?: string }> {
   const task = taskPageInfo.task;
+  console.log(`(updateDbPage) task: ${JSON.stringify(task)}`);
   try {
     const dueDate = task.dueDate;
     if (validateDueDate(dueDate)) {

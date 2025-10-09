@@ -1,5 +1,5 @@
 import { Client, UpdatePageResponse } from "@notionhq/client";
-import { validateDueDate } from "./validation";
+import { validateDueDate } from "./dateHandler";
 
 import { NOTION_API_KEY } from "../env";
 import { TaskPage } from "./task";

@@ -1,4 +1,4 @@
-import { validateDueDate } from "./validation";
+import { validateDueDate } from "./dateHandler";
 
 describe("Test validateDueDate with a date in the future", () => {
   it("Returns true", () => {

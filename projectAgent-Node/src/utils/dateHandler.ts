@@ -1,3 +1,5 @@
+import { DateTime } from "luxon";
+
 export function validateDate(dateString: string): Date | "Invalid Date Value" {
   const year = new Date().getFullYear().toString();
   let dateArray;
@@ -34,7 +36,7 @@ export function formatSlackDate(date: Date): string {
  * @returns true if the due date is not in the past, else returns false.
  */
 export const validateDueDate = function (dueDate: Date): boolean {
-  const today = new Date();
+  const today = DateTime.now().setZone("utc").toJSDate();
   console.log(`(validateDueDate) Today: ${today} Due Date: ${dueDate}`);
 
   return dueDate >= today;

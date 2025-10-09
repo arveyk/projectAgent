@@ -15,11 +15,10 @@ export const createTaskInfoBlock = function (task: Task) {
   return `*Task Title:*\t\t\t${task.taskTitle} \n*Assignee:* \t\t\t${task.assignee}\n*Due Date:*\t\t\t${formatSlackDate(new Date(task.dueDate))}\n*Start Date:*\t\t\t${task.startDate !== new Date(NaN) && task.startDate !== undefined ? formatSlackDate(task.startDate) : task.startDate}\n*Phone Number:*\t${task.phoneNumber}\n*Email:*\t\t\t${task.email}\n*Preferred Channel:*\t\t\t${task.preferredChannel}\n*Description:* \t\t${task.description}\n*Project:* \t\t${task.project}`;
 };
 
-export function createEditBlock(task: Task) {
-/**
- * export function createEditBlock(taskPageObj: TaskPage) {
- * const task = taskPageObj.task;
- */
+// export function createEditBlock(task: Task) {
+
+export function createEditBlock(taskPageObj: TaskPage) {
+  const task = taskPageObj.task;
 
   // TODO display date in user's local timezone
   let dueDate, startDate;
@@ -205,7 +204,8 @@ export function createEditBlock(task: Task) {
               text: "Submit",
             },
             style: "primary",
-            value: `${JSON.stringify(task)}`, // value: `${JSON.stringify(taskPageObj)}`,
+            /*value: `${JSON.stringify(task)}`, */
+             value: `${JSON.stringify(taskPageObj)}`,
             action_id: "actionId-0",
           },
           {

@@ -19,6 +19,7 @@ export const updateDbPage = async function (
   console.log(`(updateDbPage) task: ${JSON.stringify(task)}`);
   try {
     const dueDate: Date = new Date(task.dueDate);
+    const startDate: Date | undefined = new Date(task.startDate || "");
     if (validateDueDate(dueDate)) {
       console.log(`task (updateDbPage): ${JSON.stringify(taskPageInfo)}`);
       console.log(`DueDate: Type ${typeof dueDate}: DueDate ${dueDate})`);
@@ -33,7 +34,7 @@ export const updateDbPage = async function (
           },
           "Start Date": {
             date: {
-              start: task.startDate ? task.startDate.toISOString() : "",
+              start: startDate ? startDate.toISOString() : new Date().toISOString(),
             },
           },
           Email: {

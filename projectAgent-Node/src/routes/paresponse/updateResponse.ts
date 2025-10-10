@@ -181,7 +181,7 @@ function sendSubmit(payload: BlockAction, response_url: string) {
           taskDetailsObj.startDate = new Date(userInputs[key][`${actionIdKey}`].value || "");
           break;
         case "email_id":
-          taskDetailsObj.email = userInputs[key][`${actionIdKey}`].value || "";
+          taskDetailsObj.email = userInputs[key][`${actionIdKey}`].value?.toLowerCase() || "";
           break;
         case "phone_number_id":
           taskDetailsObj.phoneNumber = userInputs[key][`${actionIdKey}`].value || "";

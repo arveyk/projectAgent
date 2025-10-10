@@ -3,10 +3,7 @@ import { DateTime } from "luxon";
 import { Task, TaskPage } from "../utils/task";
 
 export const createTaskInfoBlock = function (task: Task) {
-  /**
-   * Temporarry fix for Date format issue
-   */
-  // task.dueDate = new Date(task.dueDate);
+  console.log(`(createtaskInfoBlock) task: ${JSON.stringify(task)}`);
   task.startDate =
     task.startDate && task.startDate.toString() !== "Invalid Date"
       ? new Date(task.startDate)

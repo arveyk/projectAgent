@@ -1,7 +1,7 @@
 import { createTaskInfoBlock } from "./editblock";
 import { task } from "../test-data/tasks/example-tasks";
 import { ta } from "zod/dist/types/v4/locales";
-import { Task } from "../utils/task";
+import { Task, TaskPage } from "../utils/task";
 import { DateTime } from "luxon";
 
 const taskKitchen: Task = {
@@ -17,12 +17,20 @@ const taskKitchen: Task = {
 describe("tests createTaskInfoBlock", () => {
   it("Creates  task block", () => {
     console.log(JSON.stringify(task));
-    const taskBlock = createTaskInfoBlock(task);
+    const taskBlock = createTaskInfoBlock({
+      task: task,
+      url: "",
+      pageId: ""
+    });
     console.log(JSON.stringify(taskBlock));
   });
   it("Creates a task block from the troublesome payload", () => {
     console.log(`taskKitchen: ${JSON.stringify(taskKitchen)}`);
-    const taskBlock = createTaskInfoBlock(taskKitchen);
+    const taskBlock = createTaskInfoBlock({
+      task: taskKitchen,
+      url: "",
+      pageId: ""
+  });
     console.log(`block: ${JSON.stringify(taskBlock)}`);
   });
 });

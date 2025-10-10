@@ -87,7 +87,11 @@ const slashCmdHandler = async function (
           "Task to be passed to createBloclNewTask",
           JSON.stringify(task),
         );
-        const taskBlock = createBlockNewTask(task);
+        const taskBlock = createBlockNewTask({
+          task: task,
+          url: "",
+          pageId:  ""
+        });
         taskBlock.blocks[0].text
           ? (taskBlock.blocks[0].text.text += JSON.stringify(
               searchUserInSlack_Notion,

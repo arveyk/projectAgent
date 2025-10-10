@@ -225,7 +225,9 @@ function sendSubmit(payload: BlockAction, response_url: string) {
 function sendApprove(payload: BlockAction, response_url: string) {
   if (payload["actions"][0].type === "button") {
 
-    const taskPage = convertTaskPageFromButtonPayload(payload);
+    const taskPage0 = convertTaskPageFromButtonPayload(payload);
+    console.log(`converted taskPage by convertTaskPageFromButtonPayload: ${JSON.stringify(taskPage0)}`);
+    const taskPage: TaskPage = JSON.parse(payload["actions"][0].value || "{}");
 
     console.log(`(sendApprove) taskPage: ${JSON.stringify(taskPage)}`);
 

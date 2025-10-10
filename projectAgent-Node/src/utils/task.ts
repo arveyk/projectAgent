@@ -66,28 +66,28 @@ export function convertTaskPageFromButtonPayload(
   if (payload["actions"][0].type === "button") {
 
     const interactionsValue = JSON.parse(payload["actions"][0]["value"] || "{}");
-    const taskDetailsObj: TaskPage = JSON.parse(
+    const taskPageObj: TaskPage = JSON.parse(
       payload["actions"][0]["value"] || "{}",
     );
-    console.log("INteractions Value", JSON.stringify(interactionsValue));
-    console.log("Task Details Obj", JSON.stringify(taskDetailsObj));
+    console.log("Interactions Value", JSON.stringify(interactionsValue));
+    console.log("Task Details Obj", JSON.stringify(taskPageObj));
     let taskPage: TaskPage;
 
-    if (interactionsValue.url) {
+    if (taskPageObj.url) {
       taskPage = {
         task: {
-          taskTitle: taskDetailsObj.task.taskTitle,
-          assignee: taskDetailsObj.task.assignee,
-          dueDate: taskDetailsObj.task.dueDate,
-          startDate: taskDetailsObj.task.startDate,
-          email: taskDetailsObj.task.email,
-          phoneNumber: taskDetailsObj.task.phoneNumber,
-          preferredChannel: taskDetailsObj.task.preferredChannel,
-          description: taskDetailsObj.task.description,
-          project: taskDetailsObj.task.project,
+          taskTitle: taskPageObj.task.taskTitle,
+          assignee: taskPageObj.task.assignee,
+          dueDate: taskPageObj.task.dueDate,
+          startDate: taskPageObj.task.startDate,
+          email: taskPageObj.task.email,
+          phoneNumber: taskPageObj.task.phoneNumber,
+          preferredChannel: taskPageObj.task.preferredChannel,
+          description: taskPageObj.task.description,
+          project: taskPageObj.task.project,
         },
-        url: taskDetailsObj.url,
-        pageId: taskDetailsObj.pageId,
+        url: taskPageObj.url,
+        pageId: taskPageObj.pageId,
       };
     } else {
       taskPage = {

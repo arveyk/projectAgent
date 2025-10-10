@@ -18,7 +18,7 @@ export const updateDbPage = async function (
   const task = taskPageInfo.task;
   console.log(`(updateDbPage) task: ${JSON.stringify(task)}`);
   try {
-    const dueDate: Date = task.dueDate;
+    const dueDate: Date = new Date(task.dueDate);
     if (validateDueDate(dueDate)) {
       console.log(`task (updateDbPage): ${JSON.stringify(taskPageInfo)}`);
       console.log(`DueDate: Type ${typeof dueDate}: DueDate ${dueDate})`);

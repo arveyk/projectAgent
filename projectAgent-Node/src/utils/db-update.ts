@@ -38,7 +38,7 @@ export const updateDbPage = async function (
             },
           },
           Email: {
-            email: task.email ? task.email : "",
+            email: task.email ? task.email.toLowerCase() : "",
           },
           "Phone Number": {
             phone_number: task.phoneNumber ? task.phoneNumber : "",

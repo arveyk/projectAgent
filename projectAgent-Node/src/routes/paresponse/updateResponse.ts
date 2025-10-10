@@ -155,7 +155,8 @@ function sendEdit(
 
 function sendSubmit(payload: BlockAction, response_url: string) {
   if (payload["actions"][0].type === "button") {
-    const taskDetailsObj: Task = JSON.parse(payload["actions"][0].value || "{}");
+    const taskPageObj: TaskPage = JSON.parse(payload["actions"][0].value || "{}");
+    const taskDetailsObj: Task = taskPageObj.task;
 
     const actionKeysArr = Object.keys(
       payload.state ? payload.state.values : {},
@@ -200,11 +201,7 @@ function sendSubmit(payload: BlockAction, response_url: string) {
 
     // const block = createFinalBlock(taskDetailsObj);
 
-    const block = createFinalBlock({
-      task: taskDetailsObj,
-      url: "",
-      pageId: "",
-    });
+    const block = createFinalBlock(taskPageObj);
 
     axios({
       method: "post",

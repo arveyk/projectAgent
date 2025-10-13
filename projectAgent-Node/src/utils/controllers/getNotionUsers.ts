@@ -5,7 +5,7 @@ import { Client } from "@notionhq/client";
 
 const notion = new Client({
   auth: NOTION_API_KEY,
-  notionVersion: "2025-09-03"
+  notionVersion: "2025-09-03",
 });
 
 if (!NOTION_API_KEY) throw new Error("No Notion API Key given");

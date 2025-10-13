@@ -1,7 +1,5 @@
 import { isFullPage } from "@notionhq/client";
-import {
-  QueryDataSourceResponse,
-} from "@notionhq/client/build/src/api-endpoints";
+import { QueryDataSourceResponse } from "@notionhq/client/build/src/api-endpoints";
 
 export type dbPage = {
   pageId: string;

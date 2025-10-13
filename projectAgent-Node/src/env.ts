@@ -22,7 +22,7 @@ if (!process.env.NOTION_API_KEY) {
 // if (!process.env.NOTION_PROJECTS_DATA_SOURCE_ID){
 //   throw new Error("Missing Notion projects data source ID");
 // }
-if (!process.env.NOTION_TASKS_DATA_SOURCE_ID){
+if (!process.env.NOTION_TASKS_DATA_SOURCE_ID) {
   throw new Error("Missing Notion tasks data source ID");
 }
 if (!process.env.ANTHROPIC_API_KEY) {
@@ -44,8 +44,10 @@ export const SLACK_SIGNING_SECRET: string = process.env.SLACK_SIGNING_SECRET;
 
 export const NOTION_API_KEY: string = process.env.NOTION_API_KEY;
 // TODO when we do the db migration, enforce that this is only a string
-export const NOTION_PROJECTS_DATA_SOURCE_ID: string | undefined = process.env.NOTION_PROJECTS_DATA_SOURCE_ID;
-export const NOTION_TASKS_DATA_SOURCE_ID: string = process.env.NOTION_TASKS_DATA_SOURCE_ID;
+export const NOTION_PROJECTS_DATA_SOURCE_ID: string | undefined =
+  process.env.NOTION_PROJECTS_DATA_SOURCE_ID;
+export const NOTION_TASKS_DATA_SOURCE_ID: string =
+  process.env.NOTION_TASKS_DATA_SOURCE_ID;
 
 export const ANTHROPIC_API_KEY: string = process.env.ANTHROPIC_API_KEY;
 export const PROJ_AGENT_APP_ID: string = process.env.PROJ_AGENT_APP_ID;

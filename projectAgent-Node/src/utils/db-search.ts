@@ -4,9 +4,16 @@ import { z } from "zod";
 import { simplifyDBResults } from "./simplifyDBResults";
 import { Task } from "./task";
 
-import { NOTION_API_KEY, NOTION_TASKS_DATA_SOURCE_ID, ANTHROPIC_API_KEY } from "../env";
+import {
+  NOTION_API_KEY,
+  NOTION_TASKS_DATA_SOURCE_ID,
+  ANTHROPIC_API_KEY,
+} from "../env";
 
-const notion = new Client({ auth: NOTION_API_KEY, notionVersion: "2025-09-03" });
+const notion = new Client({
+  auth: NOTION_API_KEY,
+  notionVersion: "2025-09-03",
+});
 
 const model = new ChatAnthropic({
   model: "claude-3-5-sonnet-20240620",

@@ -12,7 +12,7 @@ export type PageAddResult = {
 
 const notion = new Client({
   auth: NOTION_API_KEY,
-  notionVersion: "2025-09-03"
+  notionVersion: "2025-09-03",
 });
 
 /**

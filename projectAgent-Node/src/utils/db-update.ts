@@ -4,7 +4,10 @@ import { validateDueDate } from "./dateHandler";
 import { NOTION_API_KEY } from "../env";
 import { TaskPage } from "./task";
 
-const notion = new Client({ auth: NOTION_API_KEY, notionVersion: "2025-09-03" });
+const notion = new Client({
+  auth: NOTION_API_KEY,
+  notionVersion: "2025-09-03",
+});
 
 /**
  * Update Notion database page

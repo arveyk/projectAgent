@@ -4,9 +4,9 @@ import { z } from "zod";
 import { simplifyDBResults } from "./simplifyDBResults";
 import { Task } from "./task";
 
-import { NOTION_API_KEY, NOTION_DATABASE_ID, ANTHROPIC_API_KEY } from "../env";
+import { NOTION_API_KEY, NOTION_TASKS_DATA_SOURCE_ID, ANTHROPIC_API_KEY } from "../env";
 
-const notion = new Client({ auth: NOTION_API_KEY });
+const notion = new Client({ auth: NOTION_API_KEY, notionVersion: "2025-09-03" });
 
 const model = new ChatAnthropic({
   model: "claude-3-5-sonnet-20240620",
@@ -41,8 +41,8 @@ export const searchDB = async function (task: Task): Promise<dbSearchResult> {
   console.log(`assignee (searchDB): ${task.assignee}`);
 
   // Retrieve tasks with a matching assignee
-  const response = await notion.databases.query({
-    database_id: NOTION_DATABASE_ID,
+  const response = await notion.dataSources.query({
+    data_source_id: NOTION_TASKS_DATA_SOURCE_ID,
     filter: {
       property: "Assignee",
       rich_text: {

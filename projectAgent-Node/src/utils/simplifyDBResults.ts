@@ -1,10 +1,6 @@
 import { isFullPage } from "@notionhq/client";
 import {
-  DatabaseObjectResponse,
-  PageObjectResponse,
-  PartialDatabaseObjectResponse,
-  PartialPageObjectResponse,
-  QueryDatabaseResponse,
+  QueryDataSourceResponse,
 } from "@notionhq/client/build/src/api-endpoints";
 
 export type dbPage = {
@@ -19,7 +15,7 @@ export type dbPage = {
  * @returns A simplified version of the Notion database results.
  */
 export const simplifyDBResults = function (
-  dbResults: QueryDatabaseResponse,
+  dbResults: QueryDataSourceResponse,
 ): dbPage[] {
   const resultList = dbResults["results"];
 

@@ -37,21 +37,6 @@ export const updateDbPage = async function (
               start: startDate ? startDate.toISOString() : new Date().toISOString(),
             },
           },
-          Email: {
-            email: task.email ? task.email : "",
-          },
-          "Phone Number": {
-            phone_number: task.phoneNumber ? task.phoneNumber : "",
-          },
-          "Preferred Channel": {
-            rich_text: [
-              {
-                text: {
-                  content: task.preferredChannel ? task.preferredChannel : "",
-                },
-              },
-            ],
-          },
           Description: {
             rich_text: [
               {

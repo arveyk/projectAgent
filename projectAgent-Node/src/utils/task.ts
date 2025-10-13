@@ -1,30 +1,11 @@
 import { PageObjectResponse } from "@notionhq/client";
 import { BlockAction } from "@slack/bolt";
 
-/**
- * export type Task = {
- *  taskName: string;
- *  status: string;
- *  assignedTo: string;
- *  due: Date;
- *  priority: string;
- *  tags: string;
- *  project: string;
- *  parentTask?: string;
- *  subTasks?: string;
- *  completedOn?: Date;
- *  delay?: string;
- *  assignedBy: string;
- * }
- */
 export type Task = {
   taskTitle: string;
   assignee: string;
   dueDate: Date;
   startDate?: Date;
-  phoneNumber?: string;
-  email?: string;
-  preferredChannel?: string;
   description: string;
   project?: string;
 };
@@ -61,15 +42,6 @@ export function convertTask(taskInput: Record<string, any>): Task {
     assignee: taskInput["assignee"],
     dueDate: dueDate,
     startDate: startDate,
-    phoneNumber:
-      taskInput["phoneNumber"] !== "<UNKNOWN>"
-        ? taskInput["phoNenumber"]
-        : undefined,
-    email: taskInput["email"] !== "<UNKNOWN>" ? taskInput["email"] : undefined,
-    preferredChannel:
-      taskInput["preferredChannel"] !== "<UNKNOWN>"
-        ? taskInput["preferredChannel"]
-        : undefined,
     description: taskInput["description"],
     project:
       taskInput["project"] !== "<UNKNOWN>" ? taskInput["project"] : undefined,
@@ -96,9 +68,6 @@ export function convertTaskPageFromButtonPayload(
           assignee: taskPageObj.task.assignee,
           dueDate: taskPageObj.task.dueDate,
           startDate: taskPageObj.task.startDate,
-          email: taskPageObj.task.email,
-          phoneNumber: taskPageObj.task.phoneNumber,
-          preferredChannel: taskPageObj.task.preferredChannel,
           description: taskPageObj.task.description,
           project: taskPageObj.task.project,
         },
@@ -112,9 +81,6 @@ export function convertTaskPageFromButtonPayload(
           assignee: interactionsValue.assignee,
           dueDate: interactionsValue.dueDate,
           startDate: interactionsValue.startDate,
-          email: interactionsValue.email,
-          phoneNumber: interactionsValue.phoneNumber,
-          preferredChannel: interactionsValue.preferredChannel,
           description: interactionsValue.description,
           project: interactionsValue.project,
         },
@@ -156,21 +122,6 @@ export function convertTaskPageFromDbResponse(
         ? new Date(properties["Start Date"].date.start)
         : undefined
       : undefined;
-  const email =
-    "email" in properties["Email"]
-      ? properties["Email"].email || undefined
-      : undefined;
-  const phoneNumber =
-    "phone_number" in properties["Phone Number"]
-      ? properties["Phone Number"].phone_number || undefined
-      : undefined;
-  const preferredChannel =
-    "rich_text" in properties["Preferred Channel"] &&
-      properties["Preferred Channel"]["rich_text"][0] !== undefined
-      ? "plain_text" in properties["Preferred Channel"]["rich_text"][0]
-        ? properties["Preferred Channel"].rich_text[0].plain_text
-        : undefined
-      : undefined;
   const description =
     "rich_text" in properties["Description"] &&
       properties["Description"]["rich_text"][0] !== undefined
@@ -194,9 +145,6 @@ export function convertTaskPageFromDbResponse(
       assignee: assignee,
       dueDate: dueDate,
       startDate: startDate,
-      email: email,
-      phoneNumber: phoneNumber,
-      preferredChannel: preferredChannel,
       description: description,
       project: project,
     },

@@ -14,7 +14,7 @@ export const createTaskInfoBlock = function (taskPageObj: TaskPage) {
       : DateTime.now().toJSDate();
   console.log(`(createtaskInfoBlock) task: ${JSON.stringify(taskPageObj)}`);
   console.log(`CreateTaskInfoBlock log message => task: ${JSON.stringify(task)}`);
-  return `*Task Title:*\t\t\t${task.taskTitle} \n*Assignee:* \t\t\t${task.assignee}\n*Due Date:*\t\t\t${formatSlackDate(new Date(task.dueDate))}\n*Start Date:*\t\t\t${task.startDate !== new Date(NaN) && task.startDate !== undefined ? formatSlackDate(task.startDate) : task.startDate}\n*Phone Number:*\t${task.phoneNumber || " "}\n*Email:*\t\t\t${task.email || " "}\n*Preferred Channel:*\t\t\t${task.preferredChannel || " "}\n*Description:* \t\t${task.description}\n*Project:* \t\t${task.project || " "}`;
+  return `*Task Title:*\t\t\t${task.taskTitle} \n*Assignee:* \t\t\t${task.assignee}\n*Due Date:*\t\t\t${formatSlackDate(new Date(task.dueDate))}\n*Start Date:*\t\t\t${task.startDate !== new Date(NaN) && task.startDate !== undefined ? formatSlackDate(task.startDate) : task.startDate}\n*Description:* \t\t${task.description}\n*Project:* \t\t${task.project || " "}`;
 };
 
 // export function createEditBlock(task: Task) {
@@ -108,54 +108,6 @@ export function createEditBlock(taskPageObj: TaskPage) {
         type: "input",
         element: {
           type: "plain_text_input",
-          action_id: "email_id",
-          placeholder: {
-            type: "plain_text",
-            text: `${task.email || "xxx"}`,
-          },
-        },
-        label: {
-          type: "plain_text",
-          text: "Email",
-          emoji: true,
-        },
-      },
-      {
-        type: "input",
-        element: {
-          type: "plain_text_input",
-          action_id: "phone_number_id",
-          placeholder: {
-            type: "plain_text",
-            text: `${task.phoneNumber || "xxx"}`,
-          },
-        },
-        label: {
-          type: "plain_text",
-          text: "Phone Number",
-          emoji: true,
-        },
-      },
-      {
-        type: "input",
-        element: {
-          type: "plain_text_input",
-          action_id: "preferred_channel_id",
-          placeholder: {
-            type: "plain_text",
-            text: `${task.preferredChannel || "xxx"}`,
-          },
-        },
-        label: {
-          type: "plain_text",
-          text: "Preferred Channel",
-          emoji: true,
-        },
-      },
-      {
-        type: "input",
-        element: {
-          type: "plain_text_input",
           multiline: true,
           action_id: "description_id",
           placeholder: {
@@ -234,10 +186,7 @@ export function createEditBlock(taskPageObj: TaskPage) {
 export function createFinalBlock(taskPageObj: TaskPage) {
   const task = taskPageObj.task;
 
-  task.email ? "Ok FinalBlock" : (task.email = " ");
-  task.preferredChannel ? "Ok FinalBlock" : (task.preferredChannel = "Slack");
   task.project ? "Ok FinalBlock" : (task.project = " ");
-  task.phoneNumber ? "Ok FinalBlock" : (task.phoneNumber = " ");
   task.description ? "Ok FinalBlock" : (task.description = " ");
   return {
     blocks: [

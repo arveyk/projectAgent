@@ -180,16 +180,6 @@ function sendSubmit(payload: BlockAction, response_url: string) {
         case "start_date_id":
           taskDetailsObj.startDate = new Date(userInputs[key][`${actionIdKey}`].value || "");
           break;
-        case "email_id":
-          taskDetailsObj.email = userInputs[key][`${actionIdKey}`].value?.toLowerCase() || "";
-          break;
-        case "phone_number_id":
-          taskDetailsObj.phoneNumber = userInputs[key][`${actionIdKey}`].value || "";
-          break;
-        case "preferred_channel_id":
-          taskDetailsObj.preferredChannel =
-            userInputs[key][`${actionIdKey}`].value || "";
-          break;
         case "description_id":
           taskDetailsObj.description = userInputs[key][`${actionIdKey}`].value || "";
           break;

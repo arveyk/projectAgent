@@ -76,13 +76,6 @@ export const setTaskProperties = function (taskObj: Task, assignedBy: string) {
   const startDate = taskObj["startDate"]
     ? taskObj["startDate"]
     : new Date().toISOString();
-  // taskObj["startDate"] !== ""
-  //? new Date(taskObj["startdate"]).toISOString()
-  //    new validateDate(taskObj["startDate"]).toISOString()
-  //  : new Date().toISOString();
-  const email = taskObj["email"] || " ";
-  const phoneNumber = taskObj["phoneNumber"] || " ";
-  const preferredChannel = taskObj["preferredChannel"] || "Slack";
   const description = taskObj["description"];
   const dateAssigned = new Date().toISOString();
   const project = taskObj["project"] || " ";
@@ -103,15 +96,6 @@ export const setTaskProperties = function (taskObj: Task, assignedBy: string) {
       date: {
         start: startDate.toString(),
       },
-    },
-    "Phone Number": {
-      phone_number: phoneNumber,
-    },
-    Email: {
-      email: email,
-    },
-    "Preferred Channel": {
-      rich_text: setPreferredChannelArray(preferredChannel),
     },
     Description: {
       rich_text: setDescriptionArray(description),

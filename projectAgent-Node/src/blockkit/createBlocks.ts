@@ -12,9 +12,6 @@ const createConfirmationBlock = function confirmBlock(taskPageObj: TaskPage) {
  * const task = taskPageObj.task;
  */
   const task = taskPageObj.task;
-  if (task.preferredChannel === undefined) {
-    task.preferredChannel = "Slack";
-  }
   return {
     text: "Which Field would you like to edit?",
     replace_original: true,

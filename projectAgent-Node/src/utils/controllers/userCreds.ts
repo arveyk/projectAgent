@@ -1,32 +1,7 @@
 import { Task } from "../task";
 import { getNotionUsers } from "./getNotionUsers";
 import { getSlackUsers } from "./getUsers";
-import { searchUser } from "./searchUserAi";
 import { User } from "./someTypes";
-import {
-  taskHarvey,
-  task_feed_cats,
-  task_unknown_fields,
-  taskGood,
-  taskInferDates,
-  taskSubstr,
-  taskSubstr2,
-} from "../../test-data/tasks/example-tasks";
-
-/**
- * useDetailsFromSearch - function to update task details from user search result
- * @param userParseResult - user details result from search
- * @param task - task object used for searching and comparing
- * @Returns: void (updates task object directly)
- */
-function useDetailsFromSearch(userParseResult: User, task: Task) {
-  userParseResult.email
-    ? (task.email = userParseResult.email)
-    : (task.email = task.email || " ");
-  userParseResult.phoneNumber
-    ? (task.phoneNumber = userParseResult.phoneNumber)
-    : (task.phoneNumber = task.phoneNumber || " ");
-}
 
 /**
  * getUserInChannel - function to check for a user with matching credentials
@@ -124,7 +99,6 @@ export const getMatchingUser = async function (
       const retrivedUsersCount = Number(retrieveUsers.length);
       if (retrivedUsersCount === 1) {
         userParseResult = retrieveUsers[0];
-        useDetailsFromSearch(userParseResult, task);
 
         console.log("Found with Sub-stringing", retrieveUsers[0]);
         task.assignee = retrieveUsers[0].name
@@ -137,7 +111,6 @@ export const getMatchingUser = async function (
       if (notionMatch.count === 1) {
         userParseResult = notionUsers[notionMatch.position];
 
-        useDetailsFromSearch(userParseResult, task);
         task.assignee = userParseResult.name || task.assignee;
         console.log("Found", notionMatch.position);
       }
@@ -146,7 +119,6 @@ export const getMatchingUser = async function (
       // only one source for exact match
       console.log("Exact Match, use searcRes[0]");
       userParseResult = retrieveUsers[0];
-      useDetailsFromSearch(userParseResult, task);
       break;
     case 2:
       // notion and slack exact match
@@ -154,7 +126,6 @@ export const getMatchingUser = async function (
         retrieveUsers[0].source === "notion"
           ? (userParseResult = retrieveUsers[0])
           : (userParseResult = retrieveUsers[1]);
-        useDetailsFromSearch(userParseResult, task);
       }
       break;
     default:

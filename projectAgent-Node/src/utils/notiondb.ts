@@ -1,6 +1,6 @@
 import { Client, CreatePageResponse } from "@notionhq/client";
 import { validateDueDate } from "./dateHandler";
-import { NOTION_API_KEY, NOTION_DATABASE_ID } from "../env";
+import { NOTION_API_KEY, NOTION_TASKS_DATA_SOURCE_ID } from "../env";
 import { setTaskProperties } from "./setTaskProperties";
 import { Task } from "./task";
 
@@ -12,6 +12,7 @@ export type PageAddResult = {
 
 const notion = new Client({
   auth: NOTION_API_KEY,
+  notionVersion: "2025-09-03",
 });
 
 /**
@@ -35,7 +36,8 @@ async function addTaskNotionPage(
     try {
       const newPage = await notion.pages.create({
         parent: {
-          database_id: NOTION_DATABASE_ID,
+          type: "data_source_id",
+          data_source_id: NOTION_TASKS_DATA_SOURCE_ID,
         },
         properties: taskProperties,
       });

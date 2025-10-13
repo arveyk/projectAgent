@@ -5,7 +5,6 @@ dotenv.config();
 console.log(`SLACK_BOT_TOKEN: ${process.env.SLACK_BOT_TOKEN}`);
 console.log(`SLACK_SIGNING_SECRET: ${process.env.SLACK_SIGNING_SECRET}`);
 console.log(`NOTION_API_KEY: ${process.env.NOTION_API_KEY}`);
-console.log(`NOTION_DATABASE_ID: ${process.env.NOTION_DATABASE_ID}`);
 console.log(`ANTHROPIC_API_KEY: ${process.env.ANTHROPIC_API_KEY}`);
 console.log(`PROJ_AGENT_APP_ID: ${process.env.PROJ_AGENT_APP_ID}`);
 console.log(`SLACK_USER_OAUTH_TOKEN: ${process.env.SLACK_USER_OAUTH_TOKEN}`);
@@ -20,8 +19,11 @@ if (!process.env.SLACK_SIGNING_SECRET) {
 if (!process.env.NOTION_API_KEY) {
   throw new Error("Missing Notion API key");
 }
-if (!process.env.NOTION_DATABASE_ID) {
-  throw new Error("Missing Notion database ID");
+// if (!process.env.NOTION_PROJECTS_DATA_SOURCE_ID){
+//   throw new Error("Missing Notion projects data source ID");
+// }
+if (!process.env.NOTION_TASKS_DATA_SOURCE_ID) {
+  throw new Error("Missing Notion tasks data source ID");
 }
 if (!process.env.ANTHROPIC_API_KEY) {
   throw new Error("Missing Anthropic API key");
@@ -39,8 +41,14 @@ if (!process.env.ALL_SLN_WEBHOOK_URL) {
 export const PORT: string = process.env.PORT || "8080";
 export const SLACK_BOT_TOKEN: string = process.env.SLACK_BOT_TOKEN;
 export const SLACK_SIGNING_SECRET: string = process.env.SLACK_SIGNING_SECRET;
+
 export const NOTION_API_KEY: string = process.env.NOTION_API_KEY;
-export const NOTION_DATABASE_ID: string = process.env.NOTION_DATABASE_ID;
+// TODO when we do the db migration, enforce that this is only a string
+export const NOTION_PROJECTS_DATA_SOURCE_ID: string | undefined =
+  process.env.NOTION_PROJECTS_DATA_SOURCE_ID;
+export const NOTION_TASKS_DATA_SOURCE_ID: string =
+  process.env.NOTION_TASKS_DATA_SOURCE_ID;
+
 export const ANTHROPIC_API_KEY: string = process.env.ANTHROPIC_API_KEY;
 export const PROJ_AGENT_APP_ID: string = process.env.PROJ_AGENT_APP_ID;
 export const SLACK_USER_OAUTH_TOKEN: string =

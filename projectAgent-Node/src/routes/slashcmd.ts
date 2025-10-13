@@ -94,7 +94,7 @@ const slashCmdHandler = async function (
         } as TaskPage);
         taskBlock.blocks[0].text
           ? (taskBlock.blocks[0].text.text += JSON.stringify(
-              searchUserInSlack_Notion,
+              searchUserInSlack_Notion || " User not in Channel",
             ))
           : console.log("First Text undefined");
         axios({

@@ -10,7 +10,6 @@ export type PersonDetails = {
   multipleFound: boolean;
   name: string;
   email: string;
-  phone: string;
 };
 
 export type PersonsList = {
@@ -23,7 +22,6 @@ export type User = {
   userId?: string;
   name: string | null;
   email?: string;
-  phoneNumber?: string;
 };
 
 export const users: User[] = [

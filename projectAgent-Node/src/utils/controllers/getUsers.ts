@@ -44,7 +44,6 @@ export const getSlackUsers = async function (): Promise<User[]> {
           userId: element.id,
           name: element.real_name || null,
           email: element.profile ? element.profile.email : undefined,
-          phoneNumber: element.profile ? element.profile.phone : undefined,
         });
       }
     });
@@ -86,7 +85,6 @@ export async function getSlackUserById(userID: string) {
       userId: userID,
       name: userInfo.profile.real_name,
       email: userInfo.profile ? userInfo.profile.email : null,
-      phoneNumber: userInfo.profile ? userInfo.profile.phone : null,
       // Uncomment below if you want to include the profile image URL
     },
   ];

@@ -6,11 +6,17 @@ import {
   task_in_db_reworded,
   task_not_in_db,
 } from "../test-data/tasks/example-tasks";
+import { TaskPage } from "../utils/task";
+
+const taskPage: TaskPage = {
+  task: task,
+  pageId: ""
+}
 
 describe("Test createBlockNewTask with a valid task object", () => {
   it("returns blocks containing the task data", async () => {
     expect(task).toBeDefined();
-    const blocks = createBlockNewTask(task);
+    const blocks = createBlockNewTask(taskPage);
     console.log(JSON.stringify(blocks));
 
     expect(JSON.stringify(blocks.blocks)).toMatch(

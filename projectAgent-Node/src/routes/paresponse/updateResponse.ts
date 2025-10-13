@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Request, Response, NextFunction } from "express";
-import { createEditBlock, createFinalBlock } from "../../blockkit/createBlocks";
+import { createFinalBlock } from "../../blockkit/createBlocks";
 import addTaskNotionPage, { PageAddResult } from "../../utils/notiondb";
 import { updateDbPage } from "../../utils/db-update";
 import { sendLoadingMsg } from "../../blockkit/loadingMsg";
@@ -123,33 +123,7 @@ function sendEdit(
     const interactionsTextPayload = payload["actions"][0].value;
     const taskDetailsObj = JSON.parse(interactionsTextPayload || "{}");
     console.log(`taskDetailsObj: ${JSON.stringify(taskDetailsObj)}`);
-    const blockObj = createEditBlock(taskDetailsObj);
-
-    if (err) {
-      blockObj.blocks[0].text
-        ? (blockObj.blocks[0].text.text = "*Due Date cannot be a past Date*")
-        : null;
-    }
-
-    const editResp = axios({
-      method: "post",
-      url: response_url,
-      data: {
-        text: "Edit Block",
-        blocks: blockObj.blocks,
-      },
-      headers: {
-        Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
-        "Content-Type": "application/json; charset=UTF-8",
-      },
-      family: 4,
-    })
-      .then((Response) => {
-        console.log("Update msg", Response);
-      })
-      .catch((err) => {
-        console.log("AXIOS ERROR in sendEdit", err);
-      });
+    // TODO create the task and redirect user to task page so they can edit task there
   }
 }
 

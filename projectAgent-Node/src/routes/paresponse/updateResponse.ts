@@ -129,7 +129,9 @@ function sendEdit(
 
 function sendSubmit(payload: BlockAction, response_url: string) {
   if (payload["actions"][0].type === "button") {
-    const taskPageObj: TaskPage = JSON.parse(payload["actions"][0].value || "{}");
+    const taskPageObj: TaskPage = JSON.parse(
+      payload["actions"][0].value || "{}",
+    );
     const taskDetailsObj: Task = taskPageObj.task;
 
     const actionKeysArr = Object.keys(
@@ -143,22 +145,30 @@ function sendSubmit(payload: BlockAction, response_url: string) {
 
       switch (actionIdKey[0]) {
         case "task_title_id":
-          taskDetailsObj.taskTitle = userInputs[key][`${actionIdKey}`].value || "";
+          taskDetailsObj.taskTitle =
+            userInputs[key][`${actionIdKey}`].value || "";
           break;
         case "assignee_id":
-          taskDetailsObj.assignee = userInputs[key][`${actionIdKey}`].value || "";
+          taskDetailsObj.assignee =
+            userInputs[key][`${actionIdKey}`].value || "";
           break;
         case "due_date_id":
-          taskDetailsObj.dueDate = new Date(userInputs[key][`${actionIdKey}`].value || "");
+          taskDetailsObj.dueDate = new Date(
+            userInputs[key][`${actionIdKey}`].value || "",
+          );
           break;
         case "start_date_id":
-          taskDetailsObj.startDate = new Date(userInputs[key][`${actionIdKey}`].value || "");
+          taskDetailsObj.startDate = new Date(
+            userInputs[key][`${actionIdKey}`].value || "",
+          );
           break;
         case "description_id":
-          taskDetailsObj.description = userInputs[key][`${actionIdKey}`].value || "";
+          taskDetailsObj.description =
+            userInputs[key][`${actionIdKey}`].value || "";
           break;
         case "project_id":
-          taskDetailsObj.project = userInputs[key][`${actionIdKey}`].value || "";
+          taskDetailsObj.project =
+            userInputs[key][`${actionIdKey}`].value || "";
           break;
       }
     });
@@ -188,19 +198,20 @@ function sendSubmit(payload: BlockAction, response_url: string) {
 
 function sendApprove(payload: BlockAction, response_url: string) {
   if (payload["actions"][0].type === "button") {
-
     const taskPage0 = convertTaskPageFromButtonPayload(payload);
-    console.log(`converted taskPage by convertTaskPageFromButtonPayload: ${JSON.stringify(taskPage0)}`);
+    console.log(
+      `converted taskPage by convertTaskPageFromButtonPayload: ${JSON.stringify(taskPage0)}`,
+    );
     const taskPage: TaskPage = JSON.parse(payload["actions"][0].value || "{}");
 
     console.log(`(sendApprove) taskPage: ${JSON.stringify(taskPage)}`);
 
     (async () => {
       let rowActionResult: {
-        success: boolean;
-        page?: CreatePageResponse | CreatePageResponse;
-        erroMsg?: string;
-      },
+          success: boolean;
+          page?: CreatePageResponse | CreatePageResponse;
+          erroMsg?: string;
+        },
         actionMessage: string,
         emoji: string;
 

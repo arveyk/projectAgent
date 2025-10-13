@@ -1,19 +1,21 @@
 import { validateDate, formatSlackDate } from "../utils/dateHandler";
 import { DateTime } from "luxon";
 import { Task, TaskPage } from "../utils/task";
-  
+
 export const createTaskInfoBlock = function (taskPageObj: TaskPage) {
   /**
    * Temporarry fix for Date format issue
    */
   // task.dueDate = new Date(task.dueDate);
-  const task = taskPageObj.task
+  const task = taskPageObj.task;
   task.startDate =
     task.startDate && task.startDate.toString() !== "Invalid Date"
       ? new Date(task.startDate)
       : DateTime.now().toJSDate();
   console.log(`(createtaskInfoBlock) task: ${JSON.stringify(taskPageObj)}`);
-  console.log(`CreateTaskInfoBlock log message => task: ${JSON.stringify(task)}`);
+  console.log(
+    `CreateTaskInfoBlock log message => task: ${JSON.stringify(task)}`,
+  );
   return `*Task Title:*\t\t\t${task.taskTitle} \n*Assignee:* \t\t\t${task.assignee}\n*Due Date:*\t\t\t${formatSlackDate(new Date(task.dueDate))}\n*Start Date:*\t\t\t${task.startDate !== new Date(NaN) && task.startDate !== undefined ? formatSlackDate(task.startDate) : task.startDate}\n*Description:* \t\t${task.description}\n*Project:* \t\t${task.project || " "}`;
 };
 
@@ -56,7 +58,7 @@ export function createFinalBlock(taskPageObj: TaskPage) {
               text: "Approve",
             },
             style: "primary",
-            value: `${JSON.stringify(taskPageObj)}`,  // value: `${JSON.stringify(taskPageObj)}`,
+            value: `${JSON.stringify(taskPageObj)}`, // value: `${JSON.stringify(taskPageObj)}`,
             action_id: "actionId-0",
           },
           {

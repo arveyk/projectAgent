@@ -3,12 +3,12 @@ import { formatSlackDate, validateDate, validateDueDate } from "./dateHandler";
 import { Task } from "./task";
 
 const taskObj: Task = {
-  "taskTitle":"Pick flowers for centerpiece",
-  "assignee":"Josh",
+  taskTitle: "Pick flowers for centerpiece",
+  assignee: "Josh",
   dueDate: new Date("2025-10-15T07:00:00.000Z"),
-  "startDate": new Date("2025-10-09T16:37:50.048Z"),
-  "description":"Pick flowers for the centerpiece"
-}
+  startDate: new Date("2025-10-09T16:37:50.048Z"),
+  description: "Pick flowers for the centerpiece",
+};
 
 describe("Tests formatSlackDate with a timestamp in ISO format with timezone offset", () => {
   it("Returns a properly formatted Slack date string", () => {
@@ -82,9 +82,9 @@ describe("Test validateDueDate with the current date", () =>
     expect(isValid).toBeTruthy();
   }));
 
-  describe("tests validateDueDate with actual data from production", () => {
-    it("returns true", () => {
-      console.log("this is the production data");
+describe("tests validateDueDate with actual data from production", () => {
+  it("returns true", () => {
+    console.log("this is the production data");
     const testDate = taskObj.dueDate;
     console.log(testDate);
 
@@ -92,4 +92,4 @@ describe("Test validateDueDate with the current date", () =>
 
     expect(isValid).toBeTruthy();
   });
-  })
+});

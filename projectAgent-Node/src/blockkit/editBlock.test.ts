@@ -20,7 +20,7 @@ describe("tests createTaskInfoBlock", () => {
     const taskBlock = createTaskInfoBlock({
       task: task,
       url: "",
-      pageId: ""
+      pageId: "",
     });
     console.log(JSON.stringify(taskBlock));
   });
@@ -29,8 +29,8 @@ describe("tests createTaskInfoBlock", () => {
     const taskBlock = createTaskInfoBlock({
       task: taskKitchen,
       url: "",
-      pageId: ""
-  });
+      pageId: "",
+    });
     console.log(`block: ${JSON.stringify(taskBlock)}`);
   });
 });

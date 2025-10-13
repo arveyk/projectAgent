@@ -90,7 +90,7 @@ const slashCmdHandler = async function (
         const taskBlock = createBlockNewTask({
           task: task,
           url: "",
-          pageId:  ""
+          pageId: "",
         } as TaskPage);
         taskBlock.blocks[0].text
           ? (taskBlock.blocks[0].text.text += JSON.stringify(

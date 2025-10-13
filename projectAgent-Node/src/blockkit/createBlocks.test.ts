@@ -10,8 +10,8 @@ import { TaskPage } from "../utils/task";
 
 const taskPage: TaskPage = {
   task: task,
-  pageId: ""
-}
+  pageId: "",
+};
 
 describe("Test createBlockNewTask with a valid task object", () => {
   it("returns blocks containing the task data", async () => {

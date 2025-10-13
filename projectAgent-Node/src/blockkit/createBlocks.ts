@@ -38,11 +38,10 @@ const sampleModal = {
  * @returns A set of Slack blocks containing data from the task, to be used in confirming new tasks
  */
 export const createBlockNewTask = function (taskPageObj: TaskPage) {
-/**
- *  export const createBlockNewTask = function (taskPageObj: TaskPage) {
- * const task = taskPageObj.task;
- */
-
+  /**
+   *  export const createBlockNewTask = function (taskPageObj: TaskPage) {
+   * const task = taskPageObj.task;
+   */
 
   const task = taskPageObj.task;
   // console.log("Another console.log, Task", JSON.stringify(task));

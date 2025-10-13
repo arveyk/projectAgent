@@ -1,6 +1,22 @@
 import { PageObjectResponse } from "@notionhq/client";
 import { BlockAction } from "@slack/bolt";
 
+/**
+ * export type Task = {
+ *  taskName: string;
+ *  status: string;
+ *  assignedTo: string;
+ *  due: Date;
+ *  priority: string;
+ *  tags: string;
+ *  project: string;
+ *  parentTask?: string;
+ *  subTasks?: string;
+ *  completedOn?: Date;
+ *  delay?: string;
+ *  assignedBy: string;
+ * }
+ */
 export type Task = {
   taskTitle: string;
   assignee: string;

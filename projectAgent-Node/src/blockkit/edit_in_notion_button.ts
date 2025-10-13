@@ -7,14 +7,14 @@ type ProjectElementType = {
 	},
 	"value": string
 };
-export function redirectToNotion(url: string) {
+export function redirectToNotionBlock(url: string) {
 	return {
 		"blocks": [
 			{
 				"type": "section",
 				"text": {
 					"type": "mrkdwn",
-					"text": "To edit in Notion, please click on the button below."
+					"text": "To edit in Notion, please click here"
 				},
 				"accessory": {
 					"type": "button",

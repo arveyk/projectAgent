@@ -46,7 +46,8 @@ export function createUpdateBlock(taskPage: TaskPage) {
             "emoji": true
           },
           "value": "click_me_123",
-          "url": `${taskPage.url}`,
+          // "url": `${taskPage.url}`,
+          "url": "https://www.google.com",
           "style": "primary",
           "action_id": "button-action"
         }

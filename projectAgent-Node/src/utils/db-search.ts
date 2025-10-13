@@ -51,7 +51,7 @@ export const searchDB = async function (task: Task): Promise<dbSearchResult> {
   const response = await notion.dataSources.query({
     data_source_id: NOTION_TASKS_DATA_SOURCE_ID,
     filter: {
-      property: "Assignee",
+      property: "Assigned to",
       rich_text: {
         equals: `${task.assignee}`,
       },

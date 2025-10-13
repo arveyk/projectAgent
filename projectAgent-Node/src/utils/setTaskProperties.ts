@@ -1,5 +1,3 @@
-import de from "zod/dist/types/v4/locales/de.js";
-import { validateDate } from "./dateHandler.js";
 import { Task } from "./task.js";
 
 const setTitleArray = function (taskTitle: string) {
@@ -81,13 +79,13 @@ export const setTaskProperties = function (taskObj: Task, assignedBy: string) {
   const project = taskObj["project"] || " ";
 
   return {
-    "Task Title": {
+    "Task name": {
       title: setTitleArray(taskTitle),
     },
-    Assignee: {
+    "Assigned to": {
       rich_text: setAssigneeArray(assignee),
     },
-    "Due Date": {
+    "Due": {
       date: {
         start: dueDate.toString(),
       },

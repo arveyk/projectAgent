@@ -30,7 +30,7 @@ export const updateDbPage = async function (
       const response = await notion.pages.update({
         page_id: taskPageInfo.pageId,
         properties: {
-          "Due Date": {
+          "Due": {
             date: {
               start: dueDate ? dueDate.toISOString() : new Date().toISOString(),
             },

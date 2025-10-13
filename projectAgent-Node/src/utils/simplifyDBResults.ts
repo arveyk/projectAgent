@@ -23,16 +23,16 @@ export const simplifyDBResults = function (
       throw new Error("Database response is not a full page");
     }
     const properties = result["properties"];
-    if (properties["Task Title"]["type"] !== "title") {
+    if (properties["Task name"]["type"] !== "title") {
       throw new Error("Task Title is the wrong type");
     }
-    if (properties["Assignee"]["type"] !== "rich_text") {
+    if (properties["Assigned to"]["type"] !== "rich_text") {
       throw new Error("Assignee is the wrong type");
     }
     simplifiedResults.push({
       pageId: result["id"],
-      taskTitle: properties["Task Title"]["title"][0]["plain_text"],
-      assignee: properties["Assignee"]["rich_text"][0]["plain_text"],
+      taskTitle: properties["Task name"]["title"][0]["plain_text"],
+      assignee: properties["Assigned to"]["rich_text"][0]["plain_text"],
     });
   }
   return simplifiedResults;

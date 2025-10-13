@@ -3,7 +3,7 @@
     "@google-cloud/functions-framework": "^4.0.0",
     "@langchain/anthropic": "^0.3.24",
     "@langchain/openai": "^0.5.18",
-    "@notionhq/client": "^5.0.0",
+    "@notionhq/client": "^5.1.0",
     "@slack/bolt": "^4.4.0",
     "@slack/socket-mode": "^2.0.4",
     "@slack/types": "^2.16.0",

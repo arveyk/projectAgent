@@ -81,7 +81,7 @@ export default function interactionHandler(
               type: "section",
               text: {
                 type: "mrkdwn",
-                text: `:white_check_mark: *Done: Task created/updated ${action}*`,
+                text: `:white_check_mark: *Done: Task ${action}*`,
               },
             },
           ],
@@ -102,7 +102,44 @@ export default function interactionHandler(
       sendSubmit(payload, response_url);
     } else if (action_text === "Update in Notion") {
       // validate Date
-      sendEdit(payload, response_url, undefined);
+      // sendEdit(payload, response_url, undefined);
+      const taskPageObj: TaskPage = JSON.parse(
+        payload["actions"][0].value || "{}",
+      );
+      console.log("Edit in Notion, Response Url", response_url);
+      let action = "updated";
+      if (!taskPageObj.url) {
+        action = "Created";
+      }
+
+      const replaceBlockRes = axios({
+        method: "post",
+        url: response_url,
+        data: {
+          replace_original: "true",
+          text: "Sequence complete",
+          blocks: [
+            {
+              type: "section",
+              text: {
+                type: "mrkdwn",
+                text: `:white_check_mark: *Done: Task ${action}*`,
+              },
+            },
+          ],
+        },
+        headers: {
+          Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
+          "Content-Type": "application/json; charset=UTF-8",
+        },
+        family: 4,
+      })
+        .then((Response) => {
+          console.log("Update msg", Response);
+        })
+        .catch((err) => {
+          console.log("AXIOS ERROR in Edit in notion if-else - InteractionHandler", err);
+        });
     } else if (action_text === "No") {
       sendReject(payload, action_text, response_url, "Updated");
     } else {

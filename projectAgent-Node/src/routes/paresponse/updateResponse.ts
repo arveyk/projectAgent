@@ -62,13 +62,14 @@ export default function interactionHandler(
       // validate Date
       // sendEdit(payload, response_url, undefined);
       const taskPageObj: TaskPage = JSON.parse(
-      payload["actions"][0].value || "{}",
-    );
+        payload["actions"][0].value || "{}",
+      );
+      console.log("Edit in Notion, Response Url", response_url);
       let action = "updated";
-      if (!taskPageObj.url){
+      if (!taskPageObj.url) {
         action = "Created";
       }
-      
+
       const replaceBlockRes = axios({
         method: "post",
         url: response_url,

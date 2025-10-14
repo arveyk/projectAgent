@@ -61,6 +61,42 @@ export default function interactionHandler(
     } else if (action_text === "Edit in Notion") {
       // validate Date
       // sendEdit(payload, response_url, undefined);
+      const taskPageObj: TaskPage = JSON.parse(
+      payload["actions"][0].value || "{}",
+    );
+      let action = "updated";
+      if (!taskPageObj.url){
+        action = "Created";
+      }
+      
+      const replaceBlockRes = axios({
+        method: "post",
+        url: response_url,
+        data: {
+          replace_original: "true",
+          text: "Sequence complete",
+          blocks: [
+            {
+              type: "section",
+              text: {
+                type: "mrkdwn",
+                text: `:x: *Done: Task created/updated ${action}*`,
+              },
+            },
+          ],
+        },
+        headers: {
+          Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
+          "Content-Type": "application/json; charset=UTF-8",
+        },
+        family: 4,
+      })
+        .then((Response) => {
+          console.log("Update msg", Response);
+        })
+        .catch((err) => {
+          console.log("AXIOS ERROR in Edit in notion if-else - InteractionHandler", err);
+        });
     } else if (action_text === "Submit") {
       sendSubmit(payload, response_url);
     } else if (action_text === "Update in Notion") {
@@ -208,10 +244,10 @@ function sendApprove(payload: BlockAction, response_url: string) {
 
     (async () => {
       let rowActionResult: {
-          success: boolean;
-          page?: CreatePageResponse | CreatePageResponse;
-          erroMsg?: string;
-        },
+        success: boolean;
+        page?: CreatePageResponse | CreatePageResponse;
+        erroMsg?: string;
+      },
         actionMessage: string,
         emoji: string;
 

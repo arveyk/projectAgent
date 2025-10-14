@@ -69,36 +69,54 @@ export default function interactionHandler(
       if (!taskPageObj.url) {
         action = "Created";
       }
+      (async () => {
+        try {
+          // await sendLoadingMsg("Adding Task", response_url);
+          console.log(`(sendApprove) taskDetailsObj.task: ${taskPageObj.task}`);
+          const taskAddResult = await addTaskNotionPage(
+            taskPageObj.task,
+            payload.user.username,
+          );
+          const emoji = "white_check_mark";
+          console.log(`Page added successfully? ${taskAddResult.success}`);
 
-      const replaceBlockRes = axios({
-        method: "post",
-        url: response_url,
-        data: {
-          replace_original: "true",
-          text: "Sequence complete",
-          blocks: [
-            {
-              type: "section",
-              text: {
-                type: "mrkdwn",
-                text: `:white_check_mark: *Done: Task ${action}*`,
-              },
+
+          const replaceBlockRes = axios({
+            method: "post",
+            url: response_url,
+            data: {
+              replace_original: "true",
+              text: "Sequence complete",
+              blocks: [
+                {
+                  type: "section",
+                  text: {
+                    type: "mrkdwn",
+                    text: `:white_check_mark: *Done: Task ${action}, view and edit <here|${JSON.stringify(taskAddResult.page)}>*`,
+                  },
+                },
+              ],
             },
-          ],
-        },
-        headers: {
-          Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
-          "Content-Type": "application/json; charset=UTF-8",
-        },
-        family: 4,
-      })
-        .then((Response) => {
-          console.log("Update msg", Response);
-        })
-        .catch((err) => {
-          console.log("AXIOS ERROR in Edit in notion if-else - InteractionHandler", err);
-        });
+            headers: {
+              Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
+              "Content-Type": "application/json; charset=UTF-8",
+            },
+            family: 4,
+          })
+            .then((Response) => {
+              console.log("Update msg", Response);
+            })
+            .catch((err) => {
+              console.log("AXIOS ERROR in Edit in notion if-else - InteractionHandler", err);
+            });
+
+        } catch (error) {
+          console.error("Error adding task", error);
+        }
+      })();
+
     } else if (action_text === "Submit") {
+
       sendSubmit(payload, response_url);
     } else if (action_text === "Update in Notion") {
       // validate Date

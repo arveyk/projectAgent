@@ -6,6 +6,7 @@ export type Task = {
   assignee: string;
   dueDate: Date;
   startDate?: Date;
+  email?: string;
   description: string;
   project?: string;
 };
@@ -40,6 +41,7 @@ export function convertTask(taskInput: Record<string, any>): Task {
   return {
     taskTitle: taskInput["taskTitle"],
     assignee: taskInput["assignee"],
+    email: taskInput["email"] !== "<UNKNOWN>" ? taskInput["email"] : undefined,
     dueDate: dueDate,
     startDate: startDate,
     description: taskInput["description"],
@@ -111,6 +113,10 @@ export function convertTaskPageFromDbResponse(
     "rich_text" in properties.Assignee
       ? properties["Assignee"].rich_text[0].plain_text
       : "No Assignee";
+  const email =
+    "rich_text" in properties.email
+      ? properties["email"].rich_text[0].plain_text
+      : "No email";
   const dueDate =
     "date" in properties["Due Date"]
       ? properties["Due Date"].date

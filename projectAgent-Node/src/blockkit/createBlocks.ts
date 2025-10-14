@@ -87,7 +87,7 @@ export const createBlockNewTask = function (taskPageObj: TaskPage) {
             text: {
               type: "plain_text",
               emoji: true,
-              text: "Discard",
+              text: "Cancel",
             },
             style: "danger",
             value: "discard_123",

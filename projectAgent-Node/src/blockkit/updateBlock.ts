@@ -42,7 +42,7 @@ export function createUpdateBlock(taskPage: TaskPage) {
           "type": "button",
           "text": {
             "type": "plain_text",
-            "text": "Edit In Notion",
+            "text": "Update in Notion",
             "emoji": true
           },
           "value": "click_me_123",

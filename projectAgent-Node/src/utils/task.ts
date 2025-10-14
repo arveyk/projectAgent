@@ -6,7 +6,6 @@ export type Task = {
   assignee: string;
   dueDate: Date;
   startDate?: Date;
-  email?: string;
   description: string;
   project?: string;
 };

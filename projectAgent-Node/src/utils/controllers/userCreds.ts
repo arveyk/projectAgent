@@ -28,7 +28,7 @@ export const getMatchingUser = async function (
       : "No Name";
 
     if (
-      task.assignee.replace("@", "").replace(".", " ").toLowerCase() ===
+      task.assignees.replace("@", "").replace(".", " ").toLowerCase() ===
       userName
     ) {
       console.log("Found Matching user", user);
@@ -39,7 +39,7 @@ export const getMatchingUser = async function (
   notionUsers.forEach((person) => {
     person.name = person.name ? person.name : "No Name";
     // if (task.assignee.replace("@", "").replace(".", " ").toLowerCase() === person.name.replace("@", "").toLowerCase()) {
-    if (compareNames(task.assignee, person.name)) {
+    if (compareNames(task.assignees, person.name)) {
       retrieveUsers.push(person);
       notionMatch.count += 1;
       notionMatch.position = index;
@@ -70,7 +70,7 @@ export const getMatchingUser = async function (
           user.name
             .toLowerCase()
             .replace("@", "")
-            .includes(task.assignee.toLowerCase().replace("@", ""))
+            .includes(task.assignees.toLowerCase().replace("@", ""))
         ) {
           console.log("Found Matching user", user);
           retrieveUsers.push(user);
@@ -79,15 +79,15 @@ export const getMatchingUser = async function (
       index = 0;
       notionUsers.forEach((user) => {
         user.name = user.name ? user.name : "Nameless";
-        if (compareNames(user.name, task.assignee)) {
-          console.log(user.name, task.assignee);
+        if (compareNames(user.name, task.assignees)) {
+          console.log(user.name, task.assignees);
         }
 
         if (
           user.name
             .toLowerCase()
             .replace("@", "")
-            .includes(task.assignee.toLowerCase().replace("@", ""))
+            .includes(task.assignees.toLowerCase().replace("@", ""))
         ) {
           console.log("Found Matching user", user);
           retrieveUsers.push(user);
@@ -101,9 +101,9 @@ export const getMatchingUser = async function (
         userParseResult = retrieveUsers[0];
 
         console.log("Found with Sub-stringing", retrieveUsers[0]);
-        task.assignee = retrieveUsers[0].name
+        task.assignees = retrieveUsers[0].name
           ? retrieveUsers[0].name
-          : task.assignee;
+          : task.assignees;
       } else {
         console.log("Zero or Multiple found even with Sub-stringing");
       }
@@ -111,7 +111,7 @@ export const getMatchingUser = async function (
       if (notionMatch.count === 1) {
         userParseResult = notionUsers[notionMatch.position];
 
-        task.assignee = userParseResult.name || task.assignee;
+        task.assignees = userParseResult.name || task.assignees;
         console.log("Found", notionMatch.position);
       }
       break;

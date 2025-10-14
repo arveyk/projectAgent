@@ -4,6 +4,8 @@ import {
   payloadNotAdd,
   payloadTooShort,
 } from "../test-data/payloads/slashcmd/payloads";
+import { GetPageResponse } from "@notionhq/client";
+import { getTaskProperties } from "../utils/db-search";
 
 describe("Tests isValidCmd with a valid command", () => {
   it("Returns true", () => {

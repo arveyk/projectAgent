@@ -4,7 +4,7 @@ import { Task } from "./task";
 
 const task: Task = {
   taskTitle: "Schedule meeting with customer",
-  assignee: [{
+  assignees: [{
     name: "Jacob",
     email: "j@cob.com"
 }],

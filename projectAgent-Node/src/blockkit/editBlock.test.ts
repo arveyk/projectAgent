@@ -6,7 +6,7 @@ import { DateTime } from "luxon";
 
 const taskKitchen: Task = {
   taskTitle: "Fix plumbing issue in second floor kitchen",
-  assignee: "Jeremy",
+  assignees: "Jeremy",
   dueDate: DateTime.fromMillis(1759852422989)
     .setZone("Africa/Nairobi")
     .toJSDate(),

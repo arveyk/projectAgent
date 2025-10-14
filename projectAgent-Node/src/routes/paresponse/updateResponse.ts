@@ -149,7 +149,7 @@ function sendSubmit(payload: BlockAction, response_url: string) {
             userInputs[key][`${actionIdKey}`].value || "";
           break;
         case "assignee_id":
-          taskDetailsObj.assignee =
+          taskDetailsObj.assignees =
             userInputs[key][`${actionIdKey}`].value || "";
           break;
         case "due_date_id":

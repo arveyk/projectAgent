@@ -16,7 +16,7 @@ export const createTaskInfoBlock = function (taskPageObj: TaskPage) {
   console.log(
     `CreateTaskInfoBlock log message => task: ${JSON.stringify(task)}`,
   );
-  return `*Task Title:*\t\t\t${task.taskTitle} \n*Assignee:* \t\t\t${task.assignee}\n*Due Date:*\t\t\t${formatSlackDate(new Date(task.dueDate))}\n*Start Date:*\t\t\t${task.startDate !== new Date(NaN) && task.startDate !== undefined ? formatSlackDate(task.startDate) : task.startDate}\n*Description:* \t\t${task.description}\n*Project:* \t\t${task.project || " "}`;
+  return `*Task Title:*\t\t\t${task.taskTitle} \n*Assignee:* \t\t\t${task.assignees}\n*Due Date:*\t\t\t${formatSlackDate(new Date(task.dueDate))}\n*Start Date:*\t\t\t${task.startDate !== new Date(NaN) && task.startDate !== undefined ? formatSlackDate(task.startDate) : task.startDate}\n*Description:* \t\t${task.description}\n*Project:* \t\t${task.project || " "}`;
 };
 
 // export function createFinalBlock(task: Task) {

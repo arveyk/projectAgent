@@ -22,7 +22,7 @@ describe("Tests parseTaskSlashCmd with a good payload", () => {
     const parsedTask = await parseTaskSlashCmd(payloadGood, timestamp);
     console.log(JSON.stringify(parsedTask));
 
-    expect(parsedTask.assignee).toMatch(taskGood.assignee);
+    expect(parsedTask.assignees).toMatch(taskGood.assignees);
     expect(parsedTask.taskTitle).toMatch(taskGood.taskTitle);
     expect(parsedTask.description).toMatch(taskGood.description);
   });
@@ -37,7 +37,7 @@ describe("Tests parseTaskSlashCmd with a good payload from Harvey", () => {
     const parsedTask = await parseTaskSlashCmd(payloadHarvey, timestamp);
     console.log(JSON.stringify(parsedTask));
 
-    expect(parsedTask.assignee).toMatch(taskHarvey.assignee);
+    expect(parsedTask.assignees).toMatch(taskHarvey.assignees);
     expect(parsedTask.taskTitle).toMatch(taskHarvey.taskTitle);
     expect(parsedTask.description).toContain("photos");
   });
@@ -52,7 +52,7 @@ describe("Tests parseTaskSlashCmd inferring dates", () => {
     const parsedTask = await parseTaskSlashCmd(payloadInferDates, timestamp);
     console.log(JSON.stringify(parsedTask));
 
-    expect(parsedTask.assignee).toMatch(taskInferDates.assignee);
+    expect(parsedTask.assignees).toMatch(taskInferDates.assignees);
     expect(parsedTask.taskTitle).toMatch(taskInferDates.taskTitle);
     expect(parsedTask.description).toContain("information");
   });

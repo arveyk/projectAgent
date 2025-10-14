@@ -1,4 +1,4 @@
-import { returnTasks, searchDB } from "./db-search";
+import { getTaskProperties, returnTasks, searchDB } from "./db-search";
 import {
   task_in_db,
   task_in_db_reworded,
@@ -8,10 +8,11 @@ import {
 import { dbSearchResult } from "./db-search";
 import { Task } from "./task";
 import { JsonPatchError } from "@langchain/core/dist/utils/fast-json-patch";
+import { GetPageResponse } from "@notionhq/client";
 
 const task: Task = {
   taskTitle: "Test Task 1",
-  assignee: [
+  assignees: [
     {
       name: "Ceci Kurdelak",
       email: "crkurdelak@gmail.com"
@@ -40,6 +41,17 @@ describe("Test searchDB in the new test database", () => {
     // TODO check the id to make sure it's correct
   });
 });
+
+describe("Get page response from db", () => {
+  it("", async () => {
+    const isInDatabase = {"exists":true,"taskId":"263eef29-a653-80d0-a0b6-c62e827e0fb5"}
+    const pageObject: GetPageResponse = await getTaskProperties(
+              isInDatabase.taskId || "",
+            );
+    console.log(JSON.stringify(pageObject));
+  })
+})
+
 
 // describe("Test searchDB with a task that is already in the database word for word", () => {
 //   it("returns true and the task ID from the database", async () => {

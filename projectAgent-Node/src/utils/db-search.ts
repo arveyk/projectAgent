@@ -46,7 +46,7 @@ const structuredLlm = model.withStructuredOutput(databaseSearchResult);
  */
 export const searchDB = async function (task: Task): Promise<dbSearchResult> {
   console.log(`task (searchDB): ${JSON.stringify(task)}`);
-  console.log(`assignee (searchDB): ${JSON.stringify(task.assignee)}`);
+  console.log(`assignee (searchDB): ${JSON.stringify(task.assignees)}`);
 
   // Retrieve tasks with a matching assignee
   const response = await notion.dataSources.query({
@@ -63,10 +63,10 @@ export const searchDB = async function (task: Task): Promise<dbSearchResult> {
   // Filter by assignee
   const filteredResponse: dbPage[] = simplifiedResponse.filter((page) => {
     const assigneeMatch: boolean = page.assignee.find((assignee) => {
-      console.log(`${assignee.name}, ${JSON.stringify(task.assignee[0])}`);
-      return assignee.name === task.assignee[0].name
+      console.log(`${assignee.name}, ${JSON.stringify(task.assignees[0])}`);
+      return assignee.name === task.assignees[0].name
     }) ? true : false
-    console.log(`page assignees: ${JSON.stringify(page.assignee)} task assignees: ${JSON.stringify(task.assignee)} match? ${assigneeMatch}`);
+    console.log(`page assignees: ${JSON.stringify(page.assignee)} task assignees: ${JSON.stringify(task.assignees)} match? ${assigneeMatch}`);
     return assigneeMatch;
   })
   console.log(`response: ${JSON.stringify(filteredResponse)}`);

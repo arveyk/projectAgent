@@ -23,7 +23,7 @@ import { Task, TaskPage } from "../utils/task";
 const task: TaskPage = {
   task: {
     taskTitle: "End of year Plans",
-    assignee: "Benjamin Noah",
+    assignees: "Benjamin Noah",
     dueDate: new Date("7-11-2027"),
     startDate: new Date("1-11-2027"),
     description:
@@ -35,7 +35,7 @@ const task: TaskPage = {
 const task_b: TaskPage = {
   task: {
     taskTitle: "Add Timothy",
-    assignee: " ",
+    assignees: " ",
     dueDate: new Date(),
     startDate: new Date("2025-08-07"),
     description: "Add Timothy to an unspecified system or list",

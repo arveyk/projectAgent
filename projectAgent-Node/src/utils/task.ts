@@ -1,4 +1,4 @@
-import { PageObjectResponse } from "@notionhq/client";
+import { GroupObjectResponse, isFullUser, PageObjectResponse, PartialUserObjectResponse, UserObjectResponse } from "@notionhq/client";
 import { BlockAction } from "@slack/bolt";
 
 export type Person = {
@@ -8,7 +8,7 @@ export type Person = {
 
 export type Task = {
   taskTitle: string;
-  assignee: Person[];
+  assignees: Person[];
   dueDate: Date;
   startDate?: Date;
   description: string;
@@ -44,7 +44,7 @@ export function convertTask(taskInput: Record<string, any>): Task {
 
   return {
     taskTitle: taskInput["taskTitle"],
-    assignee: taskInput["assignee"],
+    assignees: taskInput["assignees"],
     dueDate: dueDate,
     startDate: startDate,
     description: taskInput["description"],
@@ -71,7 +71,7 @@ export function convertTaskPageFromButtonPayload(
       taskPage = {
         task: {
           taskTitle: taskPageObj.task.taskTitle,
-          assignee: taskPageObj.task.assignee,
+          assignees: taskPageObj.task.assignees,
           dueDate: taskPageObj.task.dueDate,
           startDate: taskPageObj.task.startDate,
           description: taskPageObj.task.description,
@@ -84,7 +84,7 @@ export function convertTaskPageFromButtonPayload(
       taskPage = {
         task: {
           taskTitle: interactionsValue.taskTitle,
-          assignee: interactionsValue.assignee,
+          assignees: interactionsValue.assignee,
           dueDate: interactionsValue.dueDate,
           startDate: interactionsValue.startDate,
           description: interactionsValue.description,
@@ -109,17 +109,17 @@ export function convertTaskPageFromDbResponse(
   const properties = pageResponse["properties"];
 
   const title =
-    "title" in properties["Task Title"]
-      ? properties["Task Title"].title[0].plain_text
+    "title" in properties["Task name"]
+      ? properties["Task name"].title[0].plain_text
       : "No Title Provided";
-  const assignee =
-    "rich_text" in properties.Assignee
-      ? properties["Assignee"].rich_text[0].plain_text
-      : "No Assignee";
+  const assignees =
+    "people" in properties["Assigned to"]
+      ? properties["Assigned to"].people.map((response) => getAssignees(response))
+      : [{ name: "", email: "" }];
   const dueDate =
-    "date" in properties["Due Date"]
-      ? properties["Due Date"].date
-        ? new Date(properties["Due Date"].date.start)
+    "date" in properties["Due"]
+      ? properties["Due"].date
+        ? new Date(properties["Due"].date.start)
         : new Date()
       : new Date();
   const startDate =
@@ -130,14 +130,14 @@ export function convertTaskPageFromDbResponse(
       : undefined;
   const description =
     "rich_text" in properties["Description"] &&
-    properties["Description"]["rich_text"][0] !== undefined
+      properties["Description"]["rich_text"][0] !== undefined
       ? "plain_text" in properties["Description"]["rich_text"][0]
         ? properties["Description"].rich_text[0].plain_text
         : ""
       : "";
   const project =
     "rich_text" in properties["Project"] &&
-    properties["Project"]["rich_text"][0] !== undefined
+      properties["Project"]["rich_text"][0] !== undefined
       ? "plain_text" in properties["Project"]["rich_text"][0]
         ? properties["Project"].rich_text[0].plain_text
         : undefined
@@ -148,7 +148,7 @@ export function convertTaskPageFromDbResponse(
   const existingTaskPage: TaskPage = {
     task: {
       taskTitle: title,
-      assignee: assignee,
+      assignees: assignees,
       dueDate: dueDate,
       startDate: startDate,
       description: description,
@@ -160,3 +160,32 @@ export function convertTaskPageFromDbResponse(
 
   return existingTaskPage;
 }
+
+/**
+ * Extracts a list of assignees from a database response
+ * @param response 
+ * @returns 
+ */
+export function getAssignees(response: (PartialUserObjectResponse | UserObjectResponse | GroupObjectResponse)) {
+    if (response["object"] === "user") {
+      if (isFullUser(response)) {
+        if (response["type"] === "person") {
+          const personObject: Person = {
+            name: response["name"] !== null ? response["name"] : "Unnamed person",
+            email: response["person"]["email"]
+          };
+          return personObject;
+        }
+        else {
+          throw new Error("Assignee is not a person");
+        }
+      }
+      else {
+        throw new Error("Assignee is not a full user");
+      }
+    }
+    else {
+      throw new Error("Person is the wrong type");
+    }
+}
+

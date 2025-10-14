@@ -69,7 +69,7 @@ const setAssignedByArray = function (assignedBy: string) {
 export const setTaskProperties = function (taskObj: Task, assignedBy: string) {
   // export const setTaskProperties = function (taskObj: Task, assignedBy: {name: string, email: string}[]) {
   const taskTitle = taskObj["taskTitle"];
-  const assignee = taskObj["assignee"];
+  const assignee = taskObj["assignees"];
   const dueDate = taskObj["dueDate"];
   const startDate = taskObj["startDate"]
     ? taskObj["startDate"]

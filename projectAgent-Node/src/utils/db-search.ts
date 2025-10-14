@@ -1,7 +1,7 @@
-import { Client } from "@notionhq/client";
+import { Client, QueryDataSourceResponse } from "@notionhq/client";
 import { ChatAnthropic } from "@langchain/anthropic";
 import { z } from "zod";
-import { simplifyDBResults } from "./simplifyDBResults";
+import { dbPage, simplifyDBResults } from "./simplifyDBResults";
 import { Task } from "./task";
 
 import {
@@ -9,6 +9,7 @@ import {
   NOTION_TASKS_DATA_SOURCE_ID,
   ANTHROPIC_API_KEY,
 } from "../env";
+import { ta } from "zod/dist/types/v4/locales";
 
 const notion = new Client({
   auth: NOTION_API_KEY,
@@ -45,25 +46,34 @@ const structuredLlm = model.withStructuredOutput(databaseSearchResult);
  */
 export const searchDB = async function (task: Task): Promise<dbSearchResult> {
   console.log(`task (searchDB): ${JSON.stringify(task)}`);
-  console.log(`assignee (searchDB): ${task.assignee}`);
+  console.log(`assignee (searchDB): ${JSON.stringify(task.assignee)}`);
 
   // Retrieve tasks with a matching assignee
   const response = await notion.dataSources.query({
     data_source_id: NOTION_TASKS_DATA_SOURCE_ID,
     filter: {
       property: "Assigned to",
-      rich_text: {
-        equals: `${task.assignee}`,
-      },
+      people: {
+        "is_not_empty": true
+      }
     },
   });
 
   const simplifiedResponse = simplifyDBResults(response);
-  console.log(`response: ${JSON.stringify(simplifiedResponse)}`);
+  // Filter by assignee
+  const filteredResponse: dbPage[] = simplifiedResponse.filter((page) => {
+    const assigneeMatch: boolean = page.assignee.find((assignee) => {
+      console.log(`${assignee.name}, ${JSON.stringify(task.assignee[0])}`);
+      return assignee.name === task.assignee[0].name
+    }) ? true : false
+    console.log(`page assignees: ${JSON.stringify(page.assignee)} task assignees: ${JSON.stringify(task.assignee)} match? ${assigneeMatch}`);
+    return assigneeMatch;
+  })
+  console.log(`response: ${JSON.stringify(filteredResponse)}`);
 
   const prompt = `
       Please check if a task with the title ${JSON.stringify(task.taskTitle)} exists in the database response 
-      ${JSON.stringify(simplifiedResponse)}. If you find a task in the database response with a title that means the 
+      ${JSON.stringify(filteredResponse)}. If you find a task in the database response with a title that means the 
       same thing as ${JSON.stringify(task.taskTitle)} but is worded slightly differently, this counts as a match.
     `;
 
@@ -80,3 +90,13 @@ export const searchDB = async function (task: Task): Promise<dbSearchResult> {
 export const getTaskProperties = async function (pageID: string) {
   return await notion.pages.retrieve({ page_id: pageID });
 };
+
+
+export async function returnTasks(): Promise<QueryDataSourceResponse> {
+  // Retrieve all tasks
+  const response = await notion.dataSources.query({
+    data_source_id: NOTION_TASKS_DATA_SOURCE_ID,
+  });
+
+  return response
+}

@@ -4,7 +4,10 @@ import { Task } from "./task";
 
 const task: Task = {
   taskTitle: "Schedule meeting with customer",
-  assignee: "Jacob",
+  assignee: [{
+    name: "Jacob",
+    email: "j@cob.com"
+}],
   dueDate: new Date("2025-11-11"),
   startDate: new Date("2025-11-01"),
   description:

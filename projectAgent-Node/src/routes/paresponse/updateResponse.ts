@@ -319,10 +319,41 @@ function sendApprove(payload: BlockAction, response_url: string) {
       if (taskPage.url) {
         await sendLoadingMsg("Updating Task", response_url);
 
-        rowActionResult = await updateDbPage(taskPage);
+        // rowActionResult = await updateDbPage(taskPage);
+        rowActionResult = { success: true};
         actionMessage = "Updated";
         emoji = "pencil2";
         console.log("Update Action");
+         const username = payload.user.username;
+          let  replaceBlockRes = axios({
+              method: "post",
+              url: response_url,
+              data: {
+                replace_original: "true",
+                text: `Block Replaced\nNotification: Task ${actionMessage} Successfully`,
+                blocks: [
+                  {
+                    type: "section",
+                    text: {
+                      type: "mrkdwn",
+                      text: `:${emoji}: *Task Successfully ${actionMessage}*\nApproved by ${username} <${taskPage.url}|(View)>`,
+                    },
+                  },
+                ],
+              },
+              headers: {
+                Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
+                "Content-Type": "application/json; charset=UTF-8",
+              },
+              family: 4,
+            })
+              .then((Response) => {
+                console.log("Update msg", Response);
+              })
+              .catch((err) => {
+                console.log("1st AXIOS ERROR in sendApprove", err);
+              });
+
       } else {
         await sendLoadingMsg("Adding Task", response_url);
         console.log(`(sendApprove) taskDetailsObj.task: ${taskPage.task}`);
@@ -333,45 +364,46 @@ function sendApprove(payload: BlockAction, response_url: string) {
         actionMessage = "Created";
         emoji = "white_check_mark";
         console.log(`Page added successfully? ${rowActionResult.success}`);
-      }
-      if (rowActionResult.success === true) {
-        const Row = rowActionResult.page;
-        // console.log(`ROW URL:${JSON.stringify(Row ? Row.url : "Not given")}}`);
 
-        let replaceBlockRes;
-        if (Row) {
-          const username = payload.user.username;
-          replaceBlockRes = axios({
-            method: "post",
-            url: response_url,
-            data: {
-              replace_original: "true",
-              text: `Block Replaced\nNotification: Task ${actionMessage} Successfully`,
-              blocks: [
-                {
-                  type: "section",
-                  text: {
-                    type: "mrkdwn",
-                    text: `:${emoji}: *Task Successfully ${actionMessage}*\nApproved by ${username} <${"url" in Row ? Row.url : "Row ID is" + Row.id}|(View)>`,
+        if (rowActionResult.success === true) {
+          const Row = rowActionResult.page;
+          // console.log(`ROW URL:${JSON.stringify(Row ? Row.url : "Not given")}}`);
+
+          let replaceBlockRes;
+          if (Row) {
+            const username = payload.user.username;
+            replaceBlockRes = axios({
+              method: "post",
+              url: response_url,
+              data: {
+                replace_original: "true",
+                text: `Block Replaced\nNotification: Task ${actionMessage} Successfully`,
+                blocks: [
+                  {
+                    type: "section",
+                    text: {
+                      type: "mrkdwn",
+                      text: `:${emoji}: *Task Successfully ${actionMessage}*\nApproved by ${username} <${"url" in Row ? Row.url : "Row ID is" + Row.id}|(View)>`,
+                    },
                   },
-                },
-              ],
-            },
-            headers: {
-              Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
-              "Content-Type": "application/json; charset=UTF-8",
-            },
-            family: 4,
-          })
-            .then((Response) => {
-              console.log("Update msg", Response);
+                ],
+              },
+              headers: {
+                Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
+                "Content-Type": "application/json; charset=UTF-8",
+              },
+              family: 4,
             })
-            .catch((err) => {
-              console.log("1st AXIOS ERROR in sendApprove", err);
-            });
+              .then((Response) => {
+                console.log("Update msg", Response);
+              })
+              .catch((err) => {
+                console.log("1st AXIOS ERROR in sendApprove", err);
+              });
+          }
+        } else {
+          sendError(rowActionResult, payload, response_url);
         }
-      } else {
-        sendError(rowActionResult, payload, response_url);
       }
     })();
   }

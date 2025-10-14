@@ -16,7 +16,7 @@ export function createUpdateBlock(taskPage: TaskPage) {
   // task.startDate = startDate;
   // task.dueDate = dueDate;
   return {
-    "blocks": [
+    blocks: [
       {
         "type": "header",
         "text": {
@@ -38,7 +38,7 @@ export function createUpdateBlock(taskPage: TaskPage) {
           "type": "mrkdwn",
           "text": "*_This button redirects you to Notion_*."
         },
-        "accessory": {
+        accessory: {
           "type": "button",
           "text": {
             "type": "plain_text",

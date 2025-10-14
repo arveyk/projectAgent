@@ -95,7 +95,7 @@ function sendReject(
           type: "section",
           text: {
             type: "mrkdwn",
-            text: `:x: *Action Rejected: Task not ${action}*`,
+            text: `:x: *Action Cancelled: Task not ${action}*`,
           },
         },
       ],

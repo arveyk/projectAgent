@@ -47,7 +47,7 @@ export function createUpdateBlock(taskPage: TaskPage) {
           },
           "value": `${JSON.stringify(taskPage)}`,
           // "url": `${taskPage.url}`,
-          "url": "https://www.google.com",
+          "url": `${taskPage.url}`,
           "style": "primary",
           "action_id": "button-action"
         }

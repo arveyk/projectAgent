@@ -336,7 +336,7 @@ function sendApprove(payload: BlockAction, response_url: string) {
                     type: "section",
                     text: {
                       type: "mrkdwn",
-                      text: `:${emoji}: *Task Successfully ${actionMessage}*\nApproved by ${username} <${taskPage.url}|(View)>`,
+                      text: `:${emoji}: *Done, Task ${actionMessage} <${taskPage.url}|(View)>`,
                     },
                   },
                 ],

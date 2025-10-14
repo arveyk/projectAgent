@@ -81,7 +81,7 @@ export default function interactionHandler(
               type: "section",
               text: {
                 type: "mrkdwn",
-                text: `:white_tick: *Done: Task created/updated ${action}*`,
+                text: `:white_check_mark: *Done: Task created/updated ${action}*`,
               },
             },
           ],

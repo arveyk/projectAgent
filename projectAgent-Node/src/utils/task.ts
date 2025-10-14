@@ -1,9 +1,14 @@
 import { PageObjectResponse } from "@notionhq/client";
 import { BlockAction } from "@slack/bolt";
 
+export type Person = {
+  name: string,
+  email?: string
+}
+
 export type Task = {
   taskTitle: string;
-  assignee: string;
+  assignee: Person[];
   dueDate: Date;
   startDate?: Date;
   description: string;

@@ -114,6 +114,7 @@ export const createBlockNewTask = function (taskPageObj: TaskPage) {
           type: "mrkdwn",
           text: "*_This button redirects you to Notion_*."
         },
+	/**
         accessory: {
           type: "button",
           text: {
@@ -121,12 +122,12 @@ export const createBlockNewTask = function (taskPageObj: TaskPage) {
             text: "Update in Notion",
             emoji: true
           },
-          value: "click_me_123",
+          value: `${JSON.stringify(taskPageObj)}`,
           // "url": `${taskPage.url}`,
           url: "https://www.google.com",
           style: "primary",
           action_id: "button-action"
-        }
+        } */
       },
     ],
   };

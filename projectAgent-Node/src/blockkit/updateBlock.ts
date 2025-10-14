@@ -45,7 +45,7 @@ export function createUpdateBlock(taskPage: TaskPage) {
             "text": "Update in Notion",
             "emoji": true
           },
-          "value": "click_me_123",
+          "value": `${JSON.stringify(taskPage)}`,
           // "url": `${taskPage.url}`,
           "url": "https://www.google.com",
           "style": "primary",

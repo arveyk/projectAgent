@@ -111,10 +111,10 @@ export function convertTaskPageFromDbResponse(
     "rich_text" in properties.Assignee
       ? properties["Assignee"].rich_text[0].plain_text
       : "No Assignee";
-  const email =
+  /*const email =
     "rich_text" in properties.Email
       ? properties["Email"].rich_text[0].plain_text
-      : "No email";
+      : "No email";*/
   const dueDate =
     "date" in properties["Due Date"]
       ? properties["Due Date"].date

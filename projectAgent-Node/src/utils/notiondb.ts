@@ -21,7 +21,7 @@ const notion = new Client({
  * @param {*} assignedBy The username of the person who assigned the task
  * @returns If successful, returns true and the url of the new page. Else, returns false and the error message.
  */
-async function addTaskNotionPage(
+export async function addTaskNotionPage(
   taskObj: Task,
   assignedBy: string,
 ): Promise<PageAddResult> {

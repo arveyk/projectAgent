@@ -289,6 +289,15 @@ export const pageObjectResponse: PageObjectResponse = {
                 "time_zone": null
             }
         },
+        "Start": {
+            "id": "notion%3A%2F%2Ftasks%2Fdue_date_property",
+            "type": "date",
+            "date": {
+                "start": "2025-09-01",
+                "end": null,
+                "time_zone": null
+            }
+        },
         "Priority": {
             "id": "notion%3A%2F%2Ftasks%2Fpriority_property",
             "type": "select",
@@ -312,7 +321,30 @@ export const pageObjectResponse: PageObjectResponse = {
                     "id": "262eef29-a653-80e7-82d5-ef29c4cba142"
                 }
             ],
-        }
+        },
+        "Description": {
+          "id": "%40Ydr",
+          "type": "rich_text",
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Feed the cats every day. Give them their pills and ensure they have enough clean water.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "Feed the cats every day. Give them their pills and ensure they have enough clean water.",
+              "href": null
+            }
+          ]
+        },
     },
     "url": "https://www.notion.so/Test-Task-1-263eef29a65380d0a0b6c62e827e0fb5",
     "public_url": null,

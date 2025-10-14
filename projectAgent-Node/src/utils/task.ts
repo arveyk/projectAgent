@@ -123,9 +123,9 @@ export function convertTaskPageFromDbResponse(
         : new Date()
       : new Date();
   const startDate =
-    "date" in properties["Start Date"]
-      ? properties["Start Date"].date
-        ? new Date(properties["Start Date"].date.start)
+    "date" in properties["Start"]
+      ? properties["Start"].date
+        ? new Date(properties["Start"].date.start)
         : undefined
       : undefined;
   const description =

@@ -66,7 +66,7 @@ const slashCmdHandler = async function (
           );
           // existingTask.startDate = new Date(existingTask.startDate)
           const updateBlock = createUpdateBlock(existingTask);
-          console.log(JSON.stringify(updateBlock));
+          console.log("Update Block", JSON.stringify(updateBlock));
 
           axios({
             method: "post",

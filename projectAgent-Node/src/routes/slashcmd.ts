@@ -122,7 +122,7 @@ const slashCmdHandler = async function (
       });
     }
   } catch (err: Error | any) {
-    console.log(err);
+    console.log("slachCmdHandler Error", err);
     return err;
   }
 };

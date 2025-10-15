@@ -27,6 +27,7 @@ export function redirectToNotionBlock(url: string) {
               text: "Edit in Notion"
             },
             style: "primary",
+            url: `${url}`,
             value: "edit_123",
             action_id: "actionId-0"
           },

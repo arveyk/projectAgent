@@ -135,8 +135,8 @@ export default function interactionHandler(
       //   payload["actions"][0].value || "{}",
       // );
       console.log("Edit in Notion, Response Url", response_url);
-      let action = "updated/created";
-      if (payload["actions"][0].value === "actionId-0") {
+      let action = "Updated";
+      if (payload["actions"][0].value === "edit_123") {
          action = "Created";
       }
 

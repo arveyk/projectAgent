@@ -78,6 +78,8 @@ const slashCmdHandler = async function (
             family: 4,
           }).then((resp) => {
             console.log("OK from slack", resp["status"]);
+          }).catch((err) => {
+            console.log("(slashCmdHandler): Axios Error while posting updateBlock");
           });
         } else {
           throw new Error("Error getting page properties");

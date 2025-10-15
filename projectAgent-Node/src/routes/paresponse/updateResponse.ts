@@ -7,6 +7,7 @@ import { sendLoadingMsg } from "../../blockkit/loadingMsg";
 import { SLACK_BOT_TOKEN } from "../../env";
 import { BlockAction, ButtonAction } from "@slack/bolt";
 import { CreatePageResponse, UpdatePageResponse } from "@notionhq/client";
+import { redirectToNotionBlock } from "../../blockkit/edit_in_notion_button";
 import {
   convertTaskPageFromButtonPayload,
   Task,
@@ -58,10 +59,10 @@ export default function interactionHandler(
 
     if (action_text === "Confirm") {
       sendApprove(payload, response_url);
-    } else if (action_text === "Edit in Notion") {
+    } else if (action_text === "Add Task") {
       // validate Date
       // sendEdit(payload, response_url, undefined);
-      /*
+      
       const taskPageObj: TaskPage = JSON.parse(
         payload["actions"][0].value || "{}",
       );
@@ -86,13 +87,14 @@ export default function interactionHandler(
             taskPageObj.pageId = newTaskPage.id;
             taskPageObj.url = "url" in newTaskPage ? newTaskPage.url : "";
 
+            const editInNotionBlocks = redirectToNotionBlock(taskPageObj.url);
             const replaceBlockRes = axios({
               method: "post",
               url: response_url,
               data: {
                 replace_original: "true",
                 text: "Sequence complete",
-                blocks: [
+                blocks: /**[
                   {
                     type: "section",
                     text: {
@@ -100,7 +102,8 @@ export default function interactionHandler(
                       text: `:white_check_mark: *Done: Task ${action}, view and edit <here|${JSON.stringify(taskPageObj.url)}>*`,
                     },
                   },
-                ],
+                ], */
+                editInNotionBlocks.blocks
               },
               headers: {
                 Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
@@ -119,15 +122,14 @@ export default function interactionHandler(
           console.error("Error adding task", error);
         }
       })();
-      */
-      sendApprove(payload, response_url);
+      // sendApprove(payload, response_url);
     } else if (action_text === "Submit") {
 
       sendSubmit(payload, response_url);
     } else if (action_text === "Update in Notion") {
       // validate Date
       // sendEdit(payload, response_url, undefined);
-      /*
+      
       const taskPageObj: TaskPage = JSON.parse(
         payload["actions"][0].value || "{}",
       );
@@ -165,10 +167,12 @@ export default function interactionHandler(
         .catch((err) => {
           console.log("AXIOS ERROR in Edit in notion if-else - InteractionHandler", err);
         });
-        */
-      sendApprove(payload, response_url);
-    } else if (action_text === "No") {
+        
+      // sendApprove(payload, response_url);
+    } else if (action_text === "Delete") {
       sendReject(payload, action_text, response_url, "Updated");
+      // TODO Delete task by calling a deletePage function
+      // TODO return message indicating success or failure
     } else {
       sendReject(payload, action_text, response_url, "Added");
     }
@@ -307,6 +311,7 @@ function sendApprove(payload: BlockAction, response_url: string) {
 
     console.log(`(sendApprove) taskPage: ${JSON.stringify(taskPage)}`);
 
+
     (async () => {
       let rowActionResult: {
         success: boolean;
@@ -317,6 +322,8 @@ function sendApprove(payload: BlockAction, response_url: string) {
         emoji: string;
 
       if (taskPage.url) {
+        const editInNotionBlocks = redirectToNotionBlock(taskPage.url);
+
         await sendLoadingMsg("Updating Task", response_url);
 
         // rowActionResult = await updateDbPage(taskPage);

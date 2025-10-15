@@ -33,26 +33,6 @@ export function createUpdateBlock(taskPage: TaskPage) {
         }
       },
       {
-        "type": "section",
-        "text": {
-          "type": "mrkdwn",
-          "text": "*_This button redirects you to Notion_*."
-        },
-        accessory: {
-          "type": "button",
-          "text": {
-            "type": "plain_text",
-            "text": "Update in Notion",
-            "emoji": true
-          },
-          "value": `${JSON.stringify(taskPage)}`,
-          // "url": `${taskPage.url}`,
-          "url": `${taskPage.url}`,
-          "style": "primary",
-          "action_id": "button-action"
-        }
-      },
-      {
         "type": "actions",
         "elements": [
           {
@@ -63,6 +43,18 @@ export function createUpdateBlock(taskPage: TaskPage) {
               "emoji": true
             },
             "value": "click_me_123",
+            "action_id": "actionId-0"
+          },
+          {
+            "type": "button",
+            "text": {
+              "type": "plain_text",
+              "text": "Update in Notion",
+              "emoji": true
+            },
+            "value": "click_me_123",
+            url: `${taskUrl}`,
+            style: "primary",
             "action_id": "actionId-0"
           }
         ]

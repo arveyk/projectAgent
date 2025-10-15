@@ -55,7 +55,7 @@ export function createFinalBlock(taskPageObj: TaskPage) {
             text: {
               type: "plain_text",
               emoji: true,
-              text: "Approve",
+              text: "Ok",
             },
             style: "primary",
             value: `${JSON.stringify(taskPageObj)}`, // value: `${JSON.stringify(taskPageObj)}`,
@@ -66,7 +66,7 @@ export function createFinalBlock(taskPageObj: TaskPage) {
             text: {
               type: "plain_text",
               emoji: true,
-              text: "Discard",
+              text: "Cancel",
             },
             style: "danger",
             value: "discard_123",
@@ -76,7 +76,7 @@ export function createFinalBlock(taskPageObj: TaskPage) {
             type: "button",
             text: {
               type: "plain_text",
-              text: "Edit",
+              text: "Edit in Notion",
               emoji: true,
             },
             value: JSON.stringify(taskPageObj), //  value: JSON.stringify(taskPageObj),
@@ -124,7 +124,7 @@ export function createDoneBlock(taskPageObj: TaskPage) {
               type: "plain_text",
               emoji: true,
               // text: "Approve",
-	      text: "Ok"
+              text: "Ok"
             },
             style: "primary",
             value: `${JSON.stringify(taskPageObj)}`, // value: `${JSON.stringify(taskPageObj)}`,

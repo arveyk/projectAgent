@@ -97,7 +97,7 @@ export const createBlockNewTask = function (taskPageObj: TaskPage) {
             type: "button",
             text: {
               type: "plain_text",
-              text: "Edit in Notion",
+              text: "Add Task",
               emoji: true,
             },
             value: JSON.stringify(taskPageObj), // value: JSON.stringify(taskPageObj),

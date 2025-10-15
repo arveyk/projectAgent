@@ -13,21 +13,48 @@ export function redirectToNotionBlock(url: string) {
         type: "section",
         text: {
           type: "mrkdwn",
-          text: "To edit in Notion, please click here",
-        },
-        accessory: {
-          type: "button",
-          text: {
-            type: "plain_text",
-            text: "Edit in Notion",
-            emoji: true,
-          },
-          value: "click_me_123",
-          url: `${url}`,
-          action_id: "button-action",
+          text: ":white_check_mark: Task ${Added}", // view and edit <here|${url}>*
         },
       },
-    ],
+      {
+        type: "actions",
+        elements: [
+          {
+            type: "button",
+            text: {
+              type: "plain_text",
+              emoji: true,
+              text: "Edit in Notion"
+            },
+            style: "primary",
+            url: `${url}`,
+            value: "edit_123",
+            action_id: "actionId-0"
+          },
+          {
+            type: "button",
+            text: {
+              type: "plain_text",
+              emoji: true,
+              text: "Delete"
+            },
+            style: "danger",
+            value: `${url}`,
+            action_id: "actionId-1"
+          },
+          {
+            type: "button",
+            text: {
+              type: "plain_text",
+              emoji: true,
+              text: "Done"
+            },
+            value: "done_123",
+            action_id: "actionId-2"
+          },
+        ],
+      }
+    ]
   };
 }
 
@@ -44,16 +71,16 @@ export const projectsSelectBlock = {
         },
         options: [
           /**
-					 * add options that have this structure dynamically
-					{
-						"text": {
-							"type": "plain_text",
-							"text": "*plain_text option 1*",
-							"emoji": true
-						},
-						"value": "value-1"
-					},
-					*/
+           * add options that have this structure dynamically
+          {
+            "text": {
+              "type": "plain_text",
+              "text": "*plain_text option 1*",
+              "emoji": true
+            },
+            "value": "value-1"
+          },
+          */
         ] as ProjectElementType[],
         action_id: "static_select-action",
       },
@@ -104,13 +131,13 @@ export function createProjectsSelectBlock(projectsList: string[]) {
     projectsSelectBlock.blocks[0].element
       ? projectsSelectBlock.blocks[0].element.options.push(projectElement)
       : (projectsSelectBlock.blocks[0] = {
-          type: "input",
-          element: element,
-          label: {
-            type: "plain_text",
-            text: "Projects",
-            emoji: true,
-          },
-        });
+        type: "input",
+        element: element,
+        label: {
+          type: "plain_text",
+          text: "Projects",
+          emoji: true,
+        },
+      });
   });
 }

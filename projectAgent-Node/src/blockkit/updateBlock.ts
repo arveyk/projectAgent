@@ -16,7 +16,7 @@ export function createUpdateBlock(taskPage: TaskPage) {
   // task.startDate = startDate;
   // task.dueDate = dueDate;
   return {
-    "blocks": [
+    blocks: [
       {
         "type": "header",
         "text": {
@@ -29,27 +29,7 @@ export function createUpdateBlock(taskPage: TaskPage) {
         "type": "section",
         "text": {
           "type": "mrkdwn",
-          "text": `*Task title*:\t\t\t\t\t\t\t ${task.taskTitle} \n *Assignee*  \t\t\t\t\t\t\t${task.assignees}\n* Due Date*  \t\t\t\t\t\t  ${dueDate}\n*Start Date*  \t\t\t\t\t\t  ${startDate}\n *Task Details:*\t\t\t\t\t ${task.description}\n*Project:*\t\t\t\t\t\t\t${task.project}`,
-        }
-      },
-      {
-        "type": "section",
-        "text": {
-          "type": "mrkdwn",
-          "text": "*_This button redirects you to Notion_*."
-        },
-        "accessory": {
-          "type": "button",
-          "text": {
-            "type": "plain_text",
-            "text": "Edit In Notion",
-            "emoji": true
-          },
-          "value": "click_me_123",
-          // "url": `${taskPage.url}`,
-          "url": "https://www.google.com",
-          "style": "primary",
-          "action_id": "button-action"
+          "text": `*Task title*:\t\t\t\t\t\t\t ${task.taskTitle} \n *Assignee*  \t\t\t\t\t\t\t${task.assignee}\n *Email*  \t\t\t\t\t\t\t${"Email Field to be added"}\n* Due Date*  \t\t\t\t\t\t  ${dueDate}\n*Start Date*  \t\t\t\t\t\t  ${startDate}\n *Task Details:*\t\t\t\t\t ${task.description}\n*Project:*\t\t\t\t\t\t\t${task.project}`,
         }
       },
       {
@@ -64,6 +44,18 @@ export function createUpdateBlock(taskPage: TaskPage) {
             },
             "value": "click_me_123",
             "action_id": "actionId-0"
+          },
+          {
+            "type": "button",
+            "text": {
+              "type": "plain_text",
+              "text": "Update in Notion",
+              "emoji": true
+            },
+            "value": `${JSON.stringify(taskPage)}`,
+            url: `${taskUrl}`,
+            style: "primary",
+            "action_id": "actionId-1"
           }
         ]
       }

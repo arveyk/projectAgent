@@ -7,6 +7,7 @@ import { sendLoadingMsg } from "../../blockkit/loadingMsg";
 import { SLACK_BOT_TOKEN } from "../../env";
 import { BlockAction, ButtonAction } from "@slack/bolt";
 import { CreatePageResponse, UpdatePageResponse } from "@notionhq/client";
+import { redirectToNotionBlock } from "../../blockkit/edit_in_notion_button";
 import {
   convertTaskPageFromButtonPayload,
   Task,
@@ -52,18 +53,125 @@ export default function interactionHandler(
     action_text = payload["actions"][0]["text"]["text"];
     console.log("action_text in else block", action_text);
 
-    if (action_text === "Approve") {
+    if (action_text === "Confirm") {
       sendApprove(payload, response_url);
-    } else if (action_text === "Edit") {
+    } else if (action_text === "Add Task") {
       // validate Date
-      sendEdit(payload, response_url, undefined);
+      // sendEdit(payload, response_url, undefined);
+      
+      const taskPageObj: TaskPage = JSON.parse(
+        payload["actions"][0].value || "{}",
+      );
+      console.log("Edit in Notion, Response Url", response_url);
+      let action = "updated";
+      if (!taskPageObj.url) {
+        action = "Created";
+      }
+      (async () => {
+        try {
+          // await sendLoadingMsg("Adding Task", response_url);
+          console.log(`(sendApprove) taskDetailsObj.task: ${taskPageObj.task}`);
+          const taskAddResult = await addTaskNotionPage(
+            taskPageObj.task,
+            payload.user.username,
+          );
+          const emoji = "white_check_mark";
+          console.log(`Page added successfully? ${taskAddResult.success}`);
+
+          const newTaskPage = taskAddResult.page;
+          if (taskAddResult.success === true && newTaskPage) {
+            taskPageObj.pageId = newTaskPage.id;
+            taskPageObj.url = "url" in newTaskPage ? newTaskPage.url : "";
+
+            const editInNotionBlocks = redirectToNotionBlock(taskPageObj.url);
+            console.log("editInNotionBlocks", JSON.stringify(editInNotionBlocks));
+            const replaceBlockRes = axios({
+              method: "post",
+              url: response_url,
+              data: {
+                replace_original: "true",
+                text: "Sequence complete",
+                blocks: editInNotionBlocks.blocks /**[
+                  {
+                    type: "section",
+                    text: {
+                      type: "mrkdwn",
+                      text: `:white_check_mark: *Done: Task ${action}, view and edit <here|${JSON.stringify(taskPageObj.url)}>*`,
+                    },
+                  },
+                ], */
+                
+              },
+              headers: {
+                Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
+                "Content-Type": "application/json; charset=UTF-8",
+              },
+              family: 4,
+            })
+              .then((Response) => {
+                console.log("Update msg", Response);
+              })
+              .catch((err) => {
+                console.log("AXIOS ERROR in Edit in notion if-else - InteractionHandler", err);
+              });
+          }
+        } catch (error) {
+          console.error("Error adding task", error);
+        }
+      })();
+      // sendApprove(payload, response_url);
     } else if (action_text === "Submit") {
+
       sendSubmit(payload, response_url);
-    } else if (action_text === "Yes") {
+    } else if (action_text === "Update in Notion" || action_text === "Edit in Notion") {
       // validate Date
-      sendEdit(payload, response_url, undefined);
-    } else if (action_text === "No") {
+      // sendEdit(payload, response_url, undefined);
+      
+      // const taskPageObj: TaskPage = JSON.parse(
+      //   payload["actions"][0].value || "{}",
+      // );
+      console.log("Edit in Notion, Response Url", response_url);
+      let action = "Updated";
+      if (payload["actions"][0].value === "edit_123") {
+         action = "Created";
+      }
+
+      const replaceBlockRes = axios({
+        method: "post",
+        url: response_url,
+        data: {
+          replace_original: "true",
+          text: "Sequence complete",
+          blocks: [
+            {
+              type: "section",
+              text: {
+                type: "mrkdwn",
+                text: `:white_check_mark: *Done: Task ${action}*`,
+              },
+            },
+          ],
+        },
+        headers: {
+          Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
+          "Content-Type": "application/json; charset=UTF-8",
+        },
+        family: 4,
+      })
+        .then((Response) => {
+          console.log("Update msg", Response);
+        })
+        .catch((err) => {
+          console.log("AXIOS ERROR in Edit in notion if-else - InteractionHandler", err);
+        });
+        
+      // sendApprove(payload, response_url);
+    } else if (action_text === "Delete") {
       sendReject(payload, action_text, response_url, "Updated");
+      // const pageUrl = payload.actions[0].value
+      // TODO Delete task by calling deletePage() function
+      // deletionResult 
+      // TODO return message indicating success or failure
     } else {
       sendReject(payload, action_text, response_url, "Added");
     }
@@ -91,7 +199,7 @@ function sendReject(
           type: "section",
           text: {
             type: "mrkdwn",
-            text: `:x: *Action Rejected: Task not ${action}*`,
+            text: `:x: *Action Cancelled: Task not ${action}*`,
           },
         },
       ],
@@ -202,22 +310,56 @@ function sendApprove(payload: BlockAction, response_url: string) {
 
     console.log(`(sendApprove) taskPage: ${JSON.stringify(taskPage)}`);
 
+
     (async () => {
       let rowActionResult: {
-          success: boolean;
-          page?: CreatePageResponse | CreatePageResponse;
-          erroMsg?: string;
-        },
+        success: boolean;
+        page?: CreatePageResponse | CreatePageResponse;
+        erroMsg?: string;
+      },
         actionMessage: string,
         emoji: string;
 
       if (taskPage.url) {
+        const editInNotionBlocks = redirectToNotionBlock(taskPage.url);
+
         await sendLoadingMsg("Updating Task", response_url);
 
-        rowActionResult = await updateDbPage(taskPage);
+        // rowActionResult = await updateDbPage(taskPage);
+        rowActionResult = { success: true};
         actionMessage = "Updated";
         emoji = "pencil2";
         console.log("Update Action");
+         const username = payload.user.username;
+          let  replaceBlockRes = axios({
+              method: "post",
+              url: response_url,
+              data: {
+                replace_original: "true",
+                text: `Block Replaced\nNotification: Task ${actionMessage} Successfully`,
+                blocks: [
+                  {
+                    type: "section",
+                    text: {
+                      type: "mrkdwn",
+                      text: `:${emoji}: Done <${taskPage.url}|(View)>`,
+                    },
+                  },
+                ],
+              },
+              headers: {
+                Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
+                "Content-Type": "application/json; charset=UTF-8",
+              },
+              family: 4,
+            })
+              .then((Response) => {
+                console.log("Update msg", Response);
+              })
+              .catch((err) => {
+                console.log("1st AXIOS ERROR in sendApprove", err);
+              });
+
       } else {
         await sendLoadingMsg("Adding Task", response_url);
         console.log(`(sendApprove) taskDetailsObj.task: ${taskPage.task}`);
@@ -228,45 +370,46 @@ function sendApprove(payload: BlockAction, response_url: string) {
         actionMessage = "Created";
         emoji = "white_check_mark";
         console.log(`Page added successfully? ${rowActionResult.success}`);
-      }
-      if (rowActionResult.success === true) {
-        const Row = rowActionResult.page;
-        // console.log(`ROW URL:${JSON.stringify(Row ? Row.url : "Not given")}}`);
 
-        let replaceBlockRes;
-        if (Row) {
-          const username = payload.user.username;
-          replaceBlockRes = axios({
-            method: "post",
-            url: response_url,
-            data: {
-              replace_original: "true",
-              text: `Block Replaced\nNotification: Task ${actionMessage} Successfully`,
-              blocks: [
-                {
-                  type: "section",
-                  text: {
-                    type: "mrkdwn",
-                    text: `:${emoji}: *Task Successfully ${actionMessage}*\nApproved by ${username} <${"url" in Row ? Row.url : "Row ID is" + Row.id}|(View)>`,
+        if (rowActionResult.success === true) {
+          const Row = rowActionResult.page;
+          // console.log(`ROW URL:${JSON.stringify(Row ? Row.url : "Not given")}}`);
+
+          let replaceBlockRes;
+          if (Row) {
+            const username = payload.user.username;
+            replaceBlockRes = axios({
+              method: "post",
+              url: response_url,
+              data: {
+                replace_original: "true",
+                text: `Block Replaced\nNotification: Task ${actionMessage} Successfully`,
+                blocks: [
+                  {
+                    type: "section",
+                    text: {
+                      type: "mrkdwn",
+                      text: `:${emoji}: *Task Successfully ${actionMessage}*\nApproved by ${username} <${"url" in Row ? Row.url : "Row ID is" + Row.id}|(View)>`,
+                    },
                   },
-                },
-              ],
-            },
-            headers: {
-              Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
-              "Content-Type": "application/json; charset=UTF-8",
-            },
-            family: 4,
-          })
-            .then((Response) => {
-              console.log("Update msg", Response);
+                ],
+              },
+              headers: {
+                Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
+                "Content-Type": "application/json; charset=UTF-8",
+              },
+              family: 4,
             })
-            .catch((err) => {
-              console.log("1st AXIOS ERROR in sendApprove", err);
-            });
+              .then((Response) => {
+                console.log("Update msg", Response);
+              })
+              .catch((err) => {
+                console.log("1st AXIOS ERROR in sendApprove", err);
+              });
+          }
+        } else {
+          sendError(rowActionResult, payload, response_url);
         }
-      } else {
-        sendError(rowActionResult, payload, response_url);
       }
     })();
   }

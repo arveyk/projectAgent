@@ -55,17 +55,17 @@ export const createBlockNewTask = function (taskPageObj: TaskPage) {
         type: "section",
         text: {
           type: "mrkdwn",
-          text: "*You Are About to Create a New Task*",
-        },
+          text: "*You Are About to Create a New Task*"
+        }
       },
       {
-        type: "divider",
+        type: "divider"
       },
       {
         type: "section",
         text: {
           type: "mrkdwn",
-          text: blockText,
+          text: blockText
         },
       },
       {
@@ -76,39 +76,39 @@ export const createBlockNewTask = function (taskPageObj: TaskPage) {
             text: {
               type: "plain_text",
               emoji: true,
-              text: "Approve",
+              text: "Confirm"
             },
             style: "primary",
             value: JSON.stringify(taskPageObj), // value: JSON.stringify(taskPageObj),
-            action_id: "actionId-0",
+            action_id: "actionId-0"
           },
           {
             type: "button",
             text: {
               type: "plain_text",
               emoji: true,
-              text: "Discard",
+              text: "Cancel"
             },
             style: "danger",
             value: "discard_123",
-            action_id: "actionId-1",
+            action_id: "actionId-1"
           },
           {
             type: "button",
             text: {
               type: "plain_text",
-              text: "Edit in Notion",
-              emoji: true,
+              text: "Add Task",
+              emoji: true
             },
             value: JSON.stringify(taskPageObj), // value: JSON.stringify(taskPageObj),
-            action_id: "actionId-2",
-          },
-        ],
+            action_id: "actionId-2"
+          }
+        ]
       },
       {
-        type: "divider",
-      },
-    ],
+        type: "divider"
+      }
+     ]
   };
 };
 
@@ -139,7 +139,7 @@ const RequestApprovalBlock = {
           text: {
             type: "plain_text",
             emoji: true,
-            text: "Approve",
+            text: "Confirm",
           },
           style: "primary",
           value: "approve_123",
@@ -167,6 +167,26 @@ const RequestApprovalBlock = {
           action_id: "actionId-2",
         },
       ],
+    },
+    {
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: "*_This button redirects you to Notion_*."
+      },
+      accessory: {
+        type: "button",
+        text: {
+          type: "plain_text",
+          text: "Update in Notion",
+          emoji: true
+        },
+        value: "click_me_123",
+        // "url": `${taskPage.url}`,
+        url: "https://www.google.com",
+        style: "primary",
+        action_id: "button-action"
+      }
     },
     {
       type: "divider",

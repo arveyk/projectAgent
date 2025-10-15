@@ -66,6 +66,7 @@ const slashCmdHandler = async function (
           );
           // existingTask.startDate = new Date(existingTask.startDate)
           const updateBlock = createUpdateBlock(existingTask);
+          console.log("Update Block", JSON.stringify(updateBlock));
 
           axios({
             method: "post",
@@ -77,6 +78,8 @@ const slashCmdHandler = async function (
             family: 4,
           }).then((resp) => {
             console.log("OK from slack", resp["status"]);
+          }).catch((err) => {
+            console.log("(slashCmdHandler): Axios Error while posting updateBlock");
           });
         } else {
           throw new Error("Error getting page properties");
@@ -122,7 +125,7 @@ const slashCmdHandler = async function (
       });
     }
   } catch (err: Error | any) {
-    console.log(err);
+    console.log("slachCmdHandler Error", err);
     return err;
   }
 };

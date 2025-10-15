@@ -55,7 +55,7 @@ export function createFinalBlock(taskPageObj: TaskPage) {
             text: {
               type: "plain_text",
               emoji: true,
-              text: "Approve",
+              text: "Ok",
             },
             style: "primary",
             value: `${JSON.stringify(taskPageObj)}`, // value: `${JSON.stringify(taskPageObj)}`,
@@ -66,7 +66,7 @@ export function createFinalBlock(taskPageObj: TaskPage) {
             text: {
               type: "plain_text",
               emoji: true,
-              text: "Discard",
+              text: "Cancel",
             },
             style: "danger",
             value: "discard_123",
@@ -76,10 +76,79 @@ export function createFinalBlock(taskPageObj: TaskPage) {
             type: "button",
             text: {
               type: "plain_text",
-              text: "Edit",
+              text: "Edit in Notion",
               emoji: true,
             },
             value: JSON.stringify(taskPageObj), //  value: JSON.stringify(taskPageObj),
+            action_id: "actionId-2",
+          },
+        ],
+      },
+    ],
+  };
+}
+
+export function createDoneBlock(taskPageObj: TaskPage) {
+  const task = taskPageObj.task;
+
+  task.project ? "Ok FinalBlock" : (task.project = " ");
+  task.description ? "Ok FinalBlock" : (task.description = " ");
+  return {
+    blocks: [
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: "*Task Created/Update in Notion*",
+        },
+      },
+      {
+        type: "divider",
+      },
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: createTaskInfoBlock(taskPageObj),
+        },
+      },
+      {
+        type: "divider",
+      },
+      {
+        type: "actions",
+        elements: [
+          {
+            type: "button",
+            text: {
+              type: "plain_text",
+              emoji: true,
+              // text: "Approve",
+              text: "Ok"
+            },
+            style: "primary",
+            value: `${JSON.stringify(taskPageObj)}`, // value: `${JSON.stringify(taskPageObj)}`,
+            action_id: "actionId-0",
+          },
+          {
+            type: "button",
+            text: {
+              type: "plain_text",
+              emoji: true,
+              text: "Delete Task",
+            },
+            style: "danger",
+            value: JSON.stringify(taskPageObj), //  value: JSON.stringify(taskPageObj),
+            action_id: "actionId-1",
+          },
+          {
+            type: "button",
+            text: {
+              type: "plain_text",
+              text: "Done",
+              emoji: true,
+            },
+            value: "Done_123",
             action_id: "actionId-2",
           },
         ],

@@ -55,7 +55,7 @@ export const task_unknown_fields = {
 
 export const taskGood: Task = {
   taskTitle: "Finish the mural",
-  assignees: "Jeff",
+  assignees: [{"name":"Jeff"},{"name": "Agnes"}],
   dueDate: new Date("2025-09-01"),
   startDate: new Date("2025-08-06"),
   description:

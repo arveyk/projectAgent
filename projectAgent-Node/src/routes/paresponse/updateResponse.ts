@@ -252,10 +252,11 @@ function sendSubmit(payload: BlockAction, response_url: string) {
           taskDetailsObj.taskTitle =
             userInputs[key][`${actionIdKey}`].value || "";
           break;
-        case "assignee_id":
+        /**case "assignee_id":
           taskDetailsObj.assignees =
             userInputs[key][`${actionIdKey}`].value || "";
           break;
+          */
         case "due_date_id":
           taskDetailsObj.dueDate = new Date(
             userInputs[key][`${actionIdKey}`].value || "",

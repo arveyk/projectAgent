@@ -48,7 +48,6 @@ export function redirectToNotionBlock(url: string) {
               emoji: true,
               text: "Done"
             },
-            style: "danger",
             value: "done_123",
             action_id: "actionId-2"
           },

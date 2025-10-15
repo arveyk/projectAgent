@@ -127,7 +127,7 @@ export default function interactionHandler(
     } else if (action_text === "Submit") {
 
       sendSubmit(payload, response_url);
-    } else if (action_text === "Update in Notion") {
+    } else if (action_text === "Update in Notion" || action_text === "Edit in Notion") {
       // validate Date
       // sendEdit(payload, response_url, undefined);
       

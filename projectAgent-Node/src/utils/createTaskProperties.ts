@@ -85,16 +85,11 @@ export const createTaskProperties = function (taskObj: Task, assignedBy: Person[
   };
 };
 
-function createNotionPerson(assignee: Person): { object: string; id: string; name: string; type: string; person: { email: string | undefined; }; } {
+function createNotionPerson(assignee: Person): { object: "user"; id: string; } {
   return {
     object: "user",
     // TODO this needs to be an actual id of a person in the workspace
     id: "",
-    name: assignee.name,
-    type: "person",
-    person: {
-      email: assignee.email
-    }
   };
 }
 

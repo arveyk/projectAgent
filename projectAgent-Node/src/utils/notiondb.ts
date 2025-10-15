@@ -1,7 +1,7 @@
 import { Client, CreatePageResponse } from "@notionhq/client";
 import { validateDueDate } from "./dateHandler";
 import { NOTION_API_KEY, NOTION_TASKS_DATA_SOURCE_ID } from "../env";
-import { setTaskProperties } from "./setTaskProperties";
+import { createTaskProperties } from "./createTaskProperties";
 import { Task } from "./task";
 
 export type PageAddResult = {
@@ -33,7 +33,7 @@ export async function addTaskNotionPage(
     console.log("yay! the due date is not in the past!");
 
     // TODO get Notion user of person assigning the task
-    const taskProperties = setTaskProperties(taskObj, assignedBy);
+    const taskProperties = createTaskProperties(taskObj, assignedBy);
     try {
       const newPage = await notion.pages.create({
         parent: {

@@ -1,7 +1,7 @@
 import { object } from "zod";
 import { Person, Task } from "./task.js";
 
-const setTitleArray = function (taskTitle: string) {
+const createTitleArray = function (taskTitle: string) {
   return [
     {
       text: {
@@ -10,13 +10,13 @@ const setTitleArray = function (taskTitle: string) {
     },
   ];
 };
-const setAssigneeArray = function (assignees: Person[]) {
+const createAssigneeArray = function (assignees: Person[]) {
   return assignees.map((assignee) => {
-    return setPerson(assignee)
+    return createNotionPerson(assignee)
   })
 };
 
-const setDescriptionArray = function (description: string) {
+const createDescriptionArray = function (description: string) {
   return [
     {
       text: {
@@ -25,7 +25,7 @@ const setDescriptionArray = function (description: string) {
     },
   ];
 };
-const setProjectArray = function (project: string) {
+const createProjectArray = function (project: string) {
   return [
     {
       text: {
@@ -34,12 +34,12 @@ const setProjectArray = function (project: string) {
     },
   ];
 };
-const setAssignedByArray = function (assignedBy: Person[]) {
+const createAssignedByArray = function (assignedBy: Person[]) {
   return assignedBy.map((assigner) => {
-    return setPerson(assigner)
+    return createNotionPerson(assigner)
   })
 };
-export const setTaskProperties = function (taskObj: Task, assignedBy: Person[]) {
+export const createTaskProperties = function (taskObj: Task, assignedBy: Person[]) {
   // export const setTaskProperties = function (taskObj: Task, assignedBy: {name: string, email: string}[]) {
   const taskTitle = taskObj["taskTitle"];
   const assignees = taskObj["assignees"];
@@ -53,10 +53,10 @@ export const setTaskProperties = function (taskObj: Task, assignedBy: Person[]) 
 
   return {
     "Task name": {
-      title: setTitleArray(taskTitle),
+      title: createTitleArray(taskTitle),
     },
     "Assigned to": {
-      people: setAssigneeArray(assignees),
+      people: createAssigneeArray(assignees),
     },
     "Due": {
       date: {
@@ -69,7 +69,7 @@ export const setTaskProperties = function (taskObj: Task, assignedBy: Person[]) 
       },
     },
     Description: {
-      rich_text: setDescriptionArray(description),
+      rich_text: createDescriptionArray(description),
     },
     "Date Assigned": {
       date: {
@@ -77,17 +77,18 @@ export const setTaskProperties = function (taskObj: Task, assignedBy: Person[]) 
       },
     },
     Project: {
-      rich_text: setProjectArray(project),
+      rich_text: createProjectArray(project),
     },
     "Assigned By": {
-      people: setAssignedByArray(assignedBy),
+      people: createAssignedByArray(assignedBy),
     },
   };
 };
 
-function setPerson(assignee: Person): { object: string; id: string; name: string; type: string; person: { email: string | undefined; }; } {
+function createNotionPerson(assignee: Person): { object: string; id: string; name: string; type: string; person: { email: string | undefined; }; } {
   return {
     object: "user",
+    // TODO this needs to be an actual id of a person in the workspace
     id: "",
     name: assignee.name,
     type: "person",

@@ -8,6 +8,15 @@ export const createTaskInfoBlock = function (taskPageObj: TaskPage) {
    */
   // task.dueDate = new Date(task.dueDate);
   const task = taskPageObj.task;
+  const assigneesArr = task.assignees;
+  let assigneeNames = "";
+
+  if (assigneesArr && Array.isArray(assigneesArr)) {
+    assigneesArr.forEach((assignee) => {
+	    assigneeNames += `${assignee.name}, `;
+    });
+    assigneeNames = assigneeNames.slice(0, -2); // Remove trailing comma and space
+    }
   task.startDate =
     task.startDate && task.startDate.toString() !== "Invalid Date"
       ? new Date(task.startDate)
@@ -16,7 +25,7 @@ export const createTaskInfoBlock = function (taskPageObj: TaskPage) {
   console.log(
     `CreateTaskInfoBlock log message => task: ${JSON.stringify(task)}`,
   );
-  return `*Task Title:*\t\t\t${task.taskTitle} \n*Assignee:* \t\t\t${task.assignees}\n*Due Date:*\t\t\t${formatSlackDate(new Date(task.dueDate))}\n*Start Date:*\t\t\t${task.startDate !== new Date(NaN) && task.startDate !== undefined ? formatSlackDate(task.startDate) : task.startDate}\n*Description:* \t\t${task.description}\n*Project:* \t\t${task.project || " "}`;
+  return `*Task Title:*\t\t\t${task.taskTitle} \n*Assignee:* \t\t\t${assigneeNames}\n*Due Date:*\t\t\t${formatSlackDate(new Date(task.dueDate))}\n*Start Date:*\t\t\t${task.startDate !== new Date(NaN) && task.startDate !== undefined ? formatSlackDate(task.startDate) : task.startDate}\n*Description:* \t\t${task.description}\n*Project:* \t\t${task.project || " "}`;
 };
 
 // export function createFinalBlock(task: Task) {

@@ -55,7 +55,7 @@ export function createUpdateBlock(taskPage: TaskPage) {
             "value": "click_me_123",
             url: `${taskUrl}`,
             style: "primary",
-            "action_id": "actionId-0"
+            "action_id": "actionId-1"
           }
         ]
       }

@@ -32,6 +32,7 @@ export async function addTaskNotionPage(
   if (validateDueDate(duedate)) {
     console.log("yay! the due date is not in the past!");
 
+    // TODO get Notion user of person assigning the task
     const taskProperties = setTaskProperties(taskObj, assignedBy);
     try {
       const newPage = await notion.pages.create({

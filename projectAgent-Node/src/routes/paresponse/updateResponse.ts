@@ -12,10 +12,6 @@ import {
   Task,
   TaskPage,
 } from "../../utils/task";
-import { task } from "../../utils/controllers/someTypes";
-import { taskGood } from "../../test-data/tasks/example-tasks";
-
-const key: string = "value";
 
 /**
  * interactionHandler - Response to user interactions with blocks when a button

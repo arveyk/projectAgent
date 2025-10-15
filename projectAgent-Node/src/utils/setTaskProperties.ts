@@ -1,4 +1,5 @@
-import { Task } from "./task.js";
+import { object } from "zod";
+import { Person, Task } from "./task.js";
 
 const setTitleArray = function (taskTitle: string) {
   return [
@@ -9,34 +10,12 @@ const setTitleArray = function (taskTitle: string) {
     },
   ];
 };
-const setAssigneeArray = function (assignee: string) {
-  return [
-    {
-      text: {
-        content: assignee,
-      },
-    },
-    /*
-    annotations: {
-      bold: false,
-      italic: false,
-      strikethrough: false,
-      code: false,
-      color: "default",
-    },
-    href: null,
-    */
-  ];
+const setAssigneeArray = function (assignees: Person[]) {
+  return assignees.map((assignee) => {
+    return setPerson(assignee)
+  })
 };
-const setPreferredChannelArray = function (preferredChannel: string) {
-  return [
-    {
-      text: {
-        content: preferredChannel,
-      },
-    },
-  ];
-};
+
 const setDescriptionArray = function (description: string) {
   return [
     {
@@ -55,21 +34,15 @@ const setProjectArray = function (project: string) {
     },
   ];
 };
-const setAssignedByArray = function (assignedBy: string) {
-  // const setAssignedByArray = function (assignedBy: {name: string, email: string}[]) {
-  return [
-    {
-      text: {
-        content: assignedBy,
-      },
-      href: null,
-    },
-  ];
+const setAssignedByArray = function (assignedBy: Person[]) {
+  return assignedBy.map((assigner) => {
+    return setPerson(assigner)
+  })
 };
-export const setTaskProperties = function (taskObj: Task, assignedBy: string) {
+export const setTaskProperties = function (taskObj: Task, assignedBy: Person[]) {
   // export const setTaskProperties = function (taskObj: Task, assignedBy: {name: string, email: string}[]) {
   const taskTitle = taskObj["taskTitle"];
-  const assignee = taskObj["assignees"];
+  const assignees = taskObj["assignees"];
   const dueDate = taskObj["dueDate"];
   const startDate = taskObj["startDate"]
     ? taskObj["startDate"]
@@ -83,7 +56,7 @@ export const setTaskProperties = function (taskObj: Task, assignedBy: string) {
       title: setTitleArray(taskTitle),
     },
     "Assigned to": {
-      rich_text: setAssigneeArray(assignee),
+      people: setAssigneeArray(assignees),
     },
     "Due": {
       date: {
@@ -107,7 +80,20 @@ export const setTaskProperties = function (taskObj: Task, assignedBy: string) {
       rich_text: setProjectArray(project),
     },
     "Assigned By": {
-      rich_text: setAssignedByArray(assignedBy),
+      people: setAssignedByArray(assignedBy),
     },
   };
 };
+
+function setPerson(assignee: Person): { object: string; id: string; name: string; type: string; person: { email: string | undefined; }; } {
+  return {
+    object: "user",
+    id: "",
+    name: assignee.name,
+    type: "person",
+    person: {
+      email: assignee.email
+    }
+  };
+}
+

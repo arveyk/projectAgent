@@ -171,7 +171,9 @@ export default function interactionHandler(
       // sendApprove(payload, response_url);
     } else if (action_text === "Delete") {
       sendReject(payload, action_text, response_url, "Updated");
-      // TODO Delete task by calling a deletePage function
+      // const pageUrl = payload.actions[0].value
+      // TODO Delete task by calling deletePage() function
+      // deletionResult 
       // TODO return message indicating success or failure
     } else {
       sendReject(payload, action_text, response_url, "Added");

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { SLACK_BOT_TOKEN, SLACK_USER_OAUTH_TOKEN } from "../../env";
 import { UsersListResponse } from "@slack/web-api";
-import { User } from "./someTypes";
+import { SlackUser } from "./someTypes";
 
 /**
  * Fetches a list of users from Slack and returns an array of user objects.
@@ -11,7 +11,7 @@ import { User } from "./someTypes";
  */
 // eslint-disable-next-line no-unused-vars
 
-export const getSlackUsers = async function (): Promise<User[]> {
+export const getSlackUsers = async function (): Promise<SlackUser[]> {
   const listUsersURL = "https://slack.com/api/users.list";
   const slackResp: UsersListResponse = await axios
     .get(listUsersURL, {
@@ -31,7 +31,7 @@ export const getSlackUsers = async function (): Promise<User[]> {
     });
 
   const membersArray = slackResp.members;
-  const usersArr: User[] = [];
+  const usersArr: SlackUser[] = [];
 
   if (membersArray) {
     membersArray.forEach((element) => {

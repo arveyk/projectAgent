@@ -1,6 +1,6 @@
-import { User } from "./someTypes.js";
+import { NotionUser } from "./someTypes.js";
 import { ListUsersResponse } from "@notionhq/client/build/src/api-endpoints.js";
-import { NOTION_API_KEY } from "../../env";
+import { NOTION_API_KEY } from "../../env.js";
 import { Client } from "@notionhq/client";
 
 const notion = new Client({
@@ -11,8 +11,8 @@ const notion = new Client({
 if (!NOTION_API_KEY) throw new Error("No Notion API Key given");
 
 // Function to get Notion users
-export const getNotionUsers = async function () {
-  const humanUsers: User[] = [];
+export async function getNotionUsers() {
+  const humanUsers: NotionUser[] = [];
 
   const notionResp = await notion.users.list({});
   // console.log("Logging  in getNotionUser", notionResp);
@@ -21,6 +21,7 @@ export const getNotionUsers = async function () {
     if (user.type === "person") {
       humanUsers.push({
         source: "notion",
+        userId: user.id,
         name: user.name,
         email: user.person.email,
       });
@@ -29,4 +30,3 @@ export const getNotionUsers = async function () {
   console.log(JSON.stringify(humanUsers));
   return humanUsers;
 };
-// getNotionUsers();

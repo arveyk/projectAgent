@@ -1,7 +1,7 @@
 import { ChatAnthropic } from "@langchain/anthropic";
 import { z } from "zod";
 import { ANTHROPIC_API_KEY } from "../../env";
-import { User } from "./someTypes";
+import { NotionUser } from "./someTypes";
 import { Task } from "../task";
 
 ANTHROPIC_API_KEY === undefined || ANTHROPIC_API_KEY === null
@@ -24,7 +24,7 @@ const userSearch = z.object({
 
 export const searchUser = async function (
   taskDetails: Task,
-  listOfPersons: User[],
+  listOfPersons: NotionUser[],
 ) {
   const structuredLlmSearchUser = model.withStructuredOutput(userSearch);
   const prompt = `Using this info ${JSON.stringify(taskDetails)} please look for a match in the following: ${JSON.stringify(listOfPersons)}. Note that the name may have an @symbol at the beginning, ignore that and compare using the rest of the characters. For multiple matches please favour those from Notion if any exists from Notion. Respond appropriately if there is no match`;

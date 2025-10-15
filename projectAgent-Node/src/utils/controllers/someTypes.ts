@@ -17,37 +17,16 @@ export type PersonsList = {
   email: string;
 }[];
 
-export type User = {
+export type NotionUser = {
+  source: string;
+  userId: string;
+  name: string | null;
+  email?: string;
+};
+
+export type SlackUser = {
   source: string;
   userId?: string;
   name: string | null;
   email?: string;
 };
-
-export const users: User[] = [
-  {
-    source: "notion",
-    name: "@Danil D",
-    email: "daniel@solul.com",
-  },
-  {
-    source: "slack",
-    name: "Bill Jones",
-    email: "billjones@gmail.com",
-  },
-  {
-    source: "slack",
-    name: "@Ceci Kurdelak",
-    email: "@ceci.kurdk@solal.com",
-  },
-  {
-    source: "Top Secret",
-    name: "@Nick Furry",
-    email: "nick@shield.com",
-  },
-  {
-    source: "notion",
-    name: "@Nick Furry",
-    email: "nickfurry@shield.com",
-  },
-];

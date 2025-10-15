@@ -88,13 +88,14 @@ export default function interactionHandler(
             taskPageObj.url = "url" in newTaskPage ? newTaskPage.url : "";
 
             const editInNotionBlocks = redirectToNotionBlock(taskPageObj.url);
+            console.log("editInNotionBlocks", JSON.stringify(editInNotionBlocks));
             const replaceBlockRes = axios({
               method: "post",
               url: response_url,
               data: {
                 replace_original: "true",
                 text: "Sequence complete",
-                blocks: /**[
+                blocks: editInNotionBlocks.blocks /**[
                   {
                     type: "section",
                     text: {
@@ -103,7 +104,7 @@ export default function interactionHandler(
                     },
                   },
                 ], */
-                editInNotionBlocks.blocks
+                
               },
               headers: {
                 Authorization: `Bearer ${SLACK_BOT_TOKEN}`,

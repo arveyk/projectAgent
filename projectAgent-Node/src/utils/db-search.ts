@@ -64,7 +64,11 @@ export const searchDB = async function (task: Task): Promise<dbSearchResult> {
   const filteredResponse: dbPage[] = simplifiedResponse.filter((page) => {
     const assigneeMatch: boolean = page.assignee.find((assignee) => {
       console.log(`${assignee.name}, ${JSON.stringify(task.assignees[0])}`);
-      return assignee.name === task.assignees[0].name
+      return assignee.name === task.assignees[0].name 
+      || 
+      assignee.name.toLowerCase().includes(task.assignees[0].name.toLowerCase())
+      ||
+      task.assignees[0].name.toLowerCase().includes(assignee.name.toLowerCase());
     }) ? true : false
     console.log(`page assignees: ${JSON.stringify(page.assignee)} task assignees: ${JSON.stringify(task.assignees)} match? ${assigneeMatch}`);
     return assigneeMatch;

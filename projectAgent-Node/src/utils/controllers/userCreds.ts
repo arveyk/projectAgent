@@ -12,7 +12,7 @@ export async function findMatchingAssignees(task: Task) {
     const match = notionUsers.filter((nUsr) => compareNames(assignee.name, nUsr.name));
     matchedNotionUsers = [...matchedNotionUsers, ...match]
   }
-
+  return matchedNotionUsers;
 }
 
 /**

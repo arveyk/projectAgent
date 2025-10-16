@@ -13,13 +13,13 @@ export function redirectToNotionBlock(url: string) {
         type: "section",
         text: {
           type: "mrkdwn",
-          text: ":white_check_mark: Task ${Added}", // view and edit <here|${url}>*
+          text: `:white_check_mark: Task <${url}|Edit in Notion>`
         },
       },
       {
         type: "actions",
         elements: [
-          {
+          /*{
             type: "button",
             text: {
               type: "plain_text",
@@ -30,7 +30,7 @@ export function redirectToNotionBlock(url: string) {
             url: `${url}`,
             value: "edit_123",
             action_id: "actionId-0"
-          },
+          },*/
           {
             type: "button",
             text: {
@@ -42,7 +42,7 @@ export function redirectToNotionBlock(url: string) {
             value: `${url}`,
             action_id: "actionId-1"
           },
-          {
+          /*{
             type: "button",
             text: {
               type: "plain_text",
@@ -51,7 +51,7 @@ export function redirectToNotionBlock(url: string) {
             },
             value: "done_123",
             action_id: "actionId-2"
-          },
+          },*/
         ],
       }
     ]

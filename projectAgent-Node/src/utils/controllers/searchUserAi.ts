@@ -1,7 +1,7 @@
 import { ChatAnthropic } from "@langchain/anthropic";
 import { z } from "zod";
 import { ANTHROPIC_API_KEY } from "../../env";
-import { NotionUser } from "./someTypes";
+import { NotionUser } from "./userTypes";
 import { Task } from "../task";
 
 ANTHROPIC_API_KEY === undefined || ANTHROPIC_API_KEY === null

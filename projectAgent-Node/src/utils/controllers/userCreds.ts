@@ -1,144 +1,38 @@
 import { Task } from "../task";
 import { getNotionUsers } from "./getUsersNotion";
-import { getSlackUsers } from "./getUsersSlack";
-import { NotionUser, SlackUser } from "./someTypes";
+import { NotionUser, SlackUser } from "./userTypes";
+
+export async function findMatchingAssignees(task: Task) {
+  const notionUsers = await getNotionUsers();
+  // TODO find matching names
+  // TODO find matching emails
+  // TODO remove duplicates
+}
 
 /**
- * getUserInChannel - function to check for a user with matching credentials
- *  existing in Slack channel
- *
- * @param: task - object constaining task fields including assignee
- * @Returns: resulting matching user
+ * Finds a Notion user matching the Slack user who assigned the given task.
+ * @param slackUsername
  */
-export const getMatchingUser = async function (
-  task: Task,
-): Promise<SlackUser | undefined> {
-  //Change function name to getUserInChannel
-  const notionUsers = await getNotionUsers();
-  const slackUsers = await getSlackUsers();
-  const notionMatch = {
-    count: 0,
-    position: 0,
-  };
-
-  let matchingNotionUsers: NotionUser[] = [];
-  slackUsers.forEach((user) => {
-    const SlackUsername = user.name
-      ? user.name.replace("@", "").toLowerCase()
-      : "No Name";
-
-    if (
-      task.assignees.replace("@", "").replace(".", " ").toLowerCase() ===
-      SlackUsername
-    ) {
-      console.log("Found Matching user", user);
-      matchingNotionUsers.push(user);
-    }
-  });
-  let index = 0;
-  notionUsers.forEach((person) => {
-    person.name = person.name ? person.name : "No Name";
-    // if (task.assignee.replace("@", "").replace(".", " ").toLowerCase() === person.name.replace("@", "").toLowerCase()) {
-    if (compareNames(task.assignees, person.name)) {
-      matchingNotionUsers.push(person);
-      notionMatch.count += 1;
-      notionMatch.position = index;
-    }
-    index += 1;
-  });
-  /*let userParseResult = {
-    found: false,
-    multipleFound: false,
-    name: "",
-    email: "",
-    phone: ""
-  };*/
-  let userParseResult;
-
-  // matchResultCheck(notionMatch, notionUsers, retrieveUsers, slackUsers, task, userParseResult);
-  switch (matchingNotionUsers.length) {
-    case 0:
-      console.log(
-        "No Match, use ai? search substring?",
-        JSON.stringify(matchingNotionUsers),
-      );
-      /* search using substring */
-      slackUsers.forEach((user) => {
-        user.name = user.name ? user.name : "Nameless";
-
-        if (
-          user.name
-            .toLowerCase()
-            .replace("@", "")
-            .includes(task.assignees.toLowerCase().replace("@", ""))
-        ) {
-          console.log("Found Matching user", user);
-          matchingNotionUsers.push(user);
-        }
-      });
-      index = 0;
-      notionUsers.forEach((user) => {
-        user.name = user.name ? user.name : "Nameless";
-        if (compareNames(user.name, task.assignees)) {
-          console.log(user.name, task.assignees);
-        }
-
-        if (
-          user.name
-            .toLowerCase()
-            .replace("@", "")
-            .includes(task.assignees.toLowerCase().replace("@", ""))
-        ) {
-          console.log("Found Matching user", user);
-          matchingNotionUsers.push(user);
-          notionMatch.count += 1;
-          notionMatch.position = index;
-        }
-        index += 1;
-      });
-      const retrivedUsersCount = Number(matchingNotionUsers.length);
-      if (retrivedUsersCount === 1) {
-        userParseResult = matchingNotionUsers[0];
-
-        console.log("Found with Sub-stringing", matchingNotionUsers[0]);
-        task.assignees = matchingNotionUsers[0].name
-          ? matchingNotionUsers[0].name
-          : task.assignees;
-      } else {
-        console.log("Zero or Multiple found even with Sub-stringing");
-      }
-      // Check for notion User
-      if (notionMatch.count === 1) {
-        userParseResult = notionUsers[notionMatch.position];
-
-        task.assignees = userParseResult.name || task.assignees;
-        console.log("Found", notionMatch.position);
-      }
-      break;
-    case 1:
-      // only one source for exact match
-      console.log("Exact Match, use searcRes[0]");
-      userParseResult = matchingNotionUsers[0];
-      break;
-    case 2:
-      // notion and slack exact match
-      if (matchingNotionUsers[0].source !== matchingNotionUsers[1].source) {
-        matchingNotionUsers[0].source === "notion"
-          ? (userParseResult = matchingNotionUsers[0])
-          : (userParseResult = matchingNotionUsers[1]);
-      }
-      break;
-    default:
-      console.log("Multiple found");
-      console.log(notionMatch);
-      if (notionMatch.count === 1) {
-        userParseResult = notionUsers[notionMatch.position];
-      }
+export async function findMatchingAssigner(slackUsername: string) {
+  const allNotionUsers: NotionUser[] = await getNotionUsers();
+  const nameMatches = allNotionUsers.filter((user) => {
+    return compareNames(slackUsername, user.name);
+  })
+  if (nameMatches.length < 1) {
+    console.log(
+      "No match, now searching by substring:",
+    );
+    /* search using substring */
+    const partialNameMatches = allNotionUsers.filter((user) => {
+      return isPartialNameMatch(slackUsername, user.name);
+    })
+    return partialNameMatches;
   }
-  console.log("2nd Last", matchingNotionUsers);
-  console.log("UserParseResult", userParseResult);
-  return userParseResult;
-};
+  else {
+    return nameMatches;
+  }
+
+}
 
 /**
  * Compares the name of a Slack user with the name of a Notion user.
@@ -146,7 +40,8 @@ export const getMatchingUser = async function (
  * @param notionUserName 
  * @returns True if the names match, else returns false.
  */
-function compareNames(slackUserName: string, notionUserName: string): boolean {
+export function compareNames(slackUserName: string, notionUserName: string): boolean {
+  console.log(`Slack name: ${slackUserName}, Notion name: ${notionUserName}`);
   if (
     slackUserName.toLowerCase().replace("@", "") ===
     notionUserName.toLowerCase().replace(".", " ").replace("@", "")
@@ -158,3 +53,35 @@ function compareNames(slackUserName: string, notionUserName: string): boolean {
     return false;
   }
 }
+
+export function compareEmails(slackEmail: string, notionEmail: string): boolean {
+  if (slackEmail === notionEmail) {
+    console.log("Found Matching user, CompareEmails Function", slackEmail);
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+
+export function isPartialNameMatch(slackUserName: string, notionUserName: string): boolean {
+  console.log(`Slack name: ${slackUserName}, Notion name: ${notionUserName}`);
+  if (notionUserName.toLowerCase()
+      .replace("@", "")
+      .includes(slackUserName.toLowerCase().replace("@", ""))
+  ) {
+    console.log("Found Matching user", notionUserName);
+    return true;
+  }
+  else if (slackUserName.toLowerCase()
+    .replace("@", "")
+    .includes(notionUserName.toLowerCase().replace("@", ""))
+  ) {
+    console.log("Found Matching user", notionUserName);
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+

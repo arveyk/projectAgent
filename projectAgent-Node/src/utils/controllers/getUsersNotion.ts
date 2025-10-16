@@ -1,6 +1,6 @@
-import { NotionUser } from "./someTypes.js";
+import { NotionUser } from "./userTypes.js";
 import { ListUsersResponse } from "@notionhq/client/build/src/api-endpoints.js";
-import { NOTION_API_KEY } from "../../env.js";
+import { NOTION_API_KEY } from "../../env";
 import { Client } from "@notionhq/client";
 
 const notion = new Client({
@@ -20,9 +20,8 @@ export async function getNotionUsers() {
   notionResp.results.forEach((user) => {
     if (user.type === "person") {
       humanUsers.push({
-        source: "notion",
         userId: user.id,
-        name: user.name,
+        name: user.name ? user.name : "",
         email: user.person.email,
       });
     }

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { SLACK_BOT_TOKEN, SLACK_USER_OAUTH_TOKEN } from "../../env";
 import { UsersListResponse } from "@slack/web-api";
-import { SlackUser } from "./someTypes";
+import { SlackUser } from "./userTypes";
 
 /**
  * Fetches a list of users from Slack and returns an array of user objects.

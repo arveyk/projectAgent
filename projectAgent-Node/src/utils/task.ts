@@ -26,8 +26,8 @@ export function convertTask(taskInput: Record<string, any>): Task {
   if (!taskInput["taskTitle"]) {
     throw new Error("Task title is missing");
   }
-  if (!taskInput["assignee"]) {
-    throw new Error("Assignee is missing");
+  if (!taskInput["assignees"]) {
+    throw new Error("Assignees missing");
   }
   if (!taskInput["dueDate"]) {
     throw new Error("Due date is missing");

@@ -88,9 +88,9 @@ export const createTaskProperties = function (taskObj: Task, assignedBy: Person[
 };
 
 async function createNotionPerson(person: Person): Promise<{ object: "user"; id: string; }> {
-  // TODO handle finding assignee
   const notionResults = await findMatchingNotionUser(person.name);
   let id;
+  // TODO eventually, handle multiple matches in a better way
   if (notionResults.length >= 1) {
     id = notionResults[0].userId;
   }

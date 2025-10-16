@@ -3,7 +3,7 @@ import { Task } from "../../utils/task";
 
 export const task: Task = {
   taskTitle: "Schedule meeting with customer",
-  assignees: "Jacob",
+  assignees: [{"name":"Jacob"}],
   dueDate: new Date("2025-05-11"),
   startDate: new Date("2025-01-11"),
   description:
@@ -12,7 +12,7 @@ export const task: Task = {
 
 export const task_in_db: Task = {
   taskTitle: "Build prototype",
-  assignees: "Callie",
+  assignees: [{"name": "Callie"}],
   dueDate: new Date("2025-08-06"),
   startDate: new Date("2025-07-30"),
   description: "Build the prototype",
@@ -20,7 +20,7 @@ export const task_in_db: Task = {
 
 export const task_in_db_reworded: Task = {
   taskTitle: "Create event supply list",
-  assignees: "Ellanie",
+  assignees: [{"name": "Ellanie"}],
   dueDate: new Date("2025-08-04"),
   startDate: new Date("2025-07-31"),
   description:
@@ -29,7 +29,7 @@ export const task_in_db_reworded: Task = {
 
 export const task_not_in_db: Task = {
   taskTitle: "Take over the Tri-State Area",
-  assignees: "Heinz",
+  assignees: [{name:"Heinz"}],
   dueDate: new Date("2025-05-11"),
   startDate: new Date("2026-01-11"),
   description: "Take over the Tri-State Area",
@@ -37,7 +37,7 @@ export const task_not_in_db: Task = {
 
 export const task_feed_cats: Task = {
   taskTitle: "Feed the cats",
-  assignees: "Josh",
+  assignees: [{name:"Josh"}],
   dueDate: new Date("2023-08-07"),
   startDate: new Date("2023-08-01"),
   description:
@@ -46,7 +46,7 @@ export const task_feed_cats: Task = {
 
 export const task_unknown_fields = {
   taskTitle: "Schedule meeting with customer",
-  assignee: "Jacob",
+  assignee: [{name:"Jacob"}],
   dueDate: "2025-05-11",
   startDate: "<UNKNOWN>",
   taskdetail:
@@ -64,7 +64,7 @@ export const taskGood: Task = {
 
 export const taskInferDates: Task = {
   taskTitle: "Gather information and write report on similar products",
-  assignees: "Ellen",
+  assignees: [{name:"Ellen"}],
   dueDate: new Date("2025-08-06"),
   startDate: new Date("2025-08-05"),
   description:
@@ -73,7 +73,7 @@ export const taskInferDates: Task = {
 
 export const taskHarvey: Task = {
   taskTitle: "Send photos for LinkedIn shout out",
-  assignees: "Harvey",
+  assignees: [{name:"Harvey"}],
   dueDate: new Date("2025-08-06"),
   startDate: new Date("2025-08-05"),
   description:
@@ -82,14 +82,14 @@ export const taskHarvey: Task = {
 
 export const taskSubstr: Task = {
   taskTitle: "Crown the winner",
-  assignees: "Dan",
+  assignees: [{name:"Dan"}],
   dueDate: new Date("2025-10-7"),
   startDate: new Date("2025-10-02"),
   description: "Crown the winner of the marathon with the golden diadem, and a sash of silver"
 }
 export const taskSubstr2: Task = {
   taskTitle: "Organize the files",
-  assignees: "Lyn",
+  assignees: [{name:"Lyn"}],
   dueDate: new Date("2025-10-7"),
   startDate: new Date("2025-10-13"),
   description: "Contact out list of attendees for teh DCD conference next week Monday"
@@ -97,7 +97,7 @@ export const taskSubstr2: Task = {
 
 export const taskKitchen: Task = { 
   taskTitle: "Fix plumbing issue in second floor kitchen", 
-  assignees: "Jeremy", 
+  assignees: [{name:"Jeremy"}], 
   dueDate: DateTime.fromMillis(1759852422989).setZone("Africa/Nairobi").toJSDate(), 
   description: "Fix the plumbing issue in the second floor kitchen. Call when the task is completed." 
 }

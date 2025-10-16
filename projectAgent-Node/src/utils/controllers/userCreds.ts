@@ -1,26 +1,27 @@
 import { Task } from "../task";
 import { getNotionUsers } from "./getUsersNotion";
-import { NotionUser, SlackUser } from "./userTypes";
+import { NotionUser, UserSearchResult } from "./userTypes";
 
 export async function findMatchingAssignees(task: Task) {
-  const notionUsers = await getNotionUsers();
-  // TODO find matching names
-  // TODO find matching emails
-  // TODO remove duplicates
-  let matchedNotionUsers: NotionUser[] = [];
-  for (const assignee of task.assignees) {
-    const match = notionUsers.filter((nUsr) => compareNames(assignee.name, nUsr.name));
-    matchedNotionUsers = [...matchedNotionUsers, ...match]
-  }
-  return matchedNotionUsers;
+  const assignees = task.assignees;
+  const matches = Promise.all(assignees.map(async (assignee) => {
+    const match: UserSearchResult = {
+      person: assignee,
+      foundUsers: await findMatchingNotionUser(assignee.name, assignee.email)
+    }
+    return match;
+  }))
+
+  return matches;
 }
 
 /**
  * Finds a Notion user matching the Slack user who assigned the given task.
  * @param slackUsername
  */
-export async function findMatchingNotionUser(slackUsername: string, email?: string) {
+export async function findMatchingNotionUser(slackUsername: string, email?: string): Promise<NotionUser[]> {
   const allNotionUsers: NotionUser[] = await getNotionUsers();
+
   let emailMatches: NotionUser[] = [];
   if (email !== undefined) {
     emailMatches = allNotionUsers.filter((user) => {
@@ -44,10 +45,10 @@ export async function findMatchingNotionUser(slackUsername: string, email?: stri
     const partialNameMatches = allNotionUsers.filter((user) => {
       return isPartialNameMatch(slackUsername, user.name);
     })
-    return partialNameMatches;
+    return deduplicateUsers(partialNameMatches, emailMatches);
   }
   else {
-    return nameMatches;
+    return deduplicateUsers(nameMatches, emailMatches);
   }
 }
 
@@ -71,6 +72,12 @@ export function compareNames(slackUserName: string, notionUserName: string): boo
   }
 }
 
+/**
+ * Compares the email of a Slack user with the email of a Notion user.
+ * @param slackEmail 
+ * @param notionEmail 
+ * @returns True if the emails match, else returns false.
+ */
 export function compareEmails(slackEmail: string, notionEmail: string): boolean {
   if (slackEmail === notionEmail) {
     console.log("Found Matching user, CompareEmails Function", slackEmail);
@@ -81,6 +88,12 @@ export function compareEmails(slackEmail: string, notionEmail: string): boolean 
   }
 }
 
+/**
+ * Determines if the name of a Slack user and the name of a Notion user are partial matches.
+ * @param slackUserName 
+ * @param notionUserName 
+ * @returns True if the names are partial matches, else returns false.
+ */
 export function isPartialNameMatch(slackUserName: string, notionUserName: string): boolean {
   console.log(`Slack name: ${slackUserName}, Notion name: ${notionUserName}`);
   if (notionUserName.toLowerCase()
@@ -106,7 +119,7 @@ export function isPartialNameMatch(slackUserName: string, notionUserName: string
  * Concatenates name matches and email matches into a single array, and removes all duplicates.
  * @param nameMatches 
  * @param emailMatches 
- * @returns 
+ * @returns A single list containing all the unique users from both lists.
  */
 export function deduplicateUsers(nameMatches: NotionUser[], emailMatches: NotionUser[]): NotionUser[] {
   const uniqueIds: string[] = [];

@@ -5,7 +5,7 @@ import { createUpdateBlock } from "../blockkit/updateBlock";
 import { parseTaskSlashCmd } from "../utils/aiagent";
 import { searchDB, getTaskProperties } from "../utils/db-search";
 import { sendLoadingMsg } from "../blockkit/loadingMsg";
-import { getMatchingUser } from "../utils/controllers/userCreds";
+import { findMatchingAssignees } from "../utils/controllers/userCreds";
 // import { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 import { SlashCommand } from "@slack/bolt";
 import { convertTaskPageFromDbResponse, TaskPage } from "../utils/task";
@@ -85,7 +85,7 @@ const slashCmdHandler = async function (
           throw new Error("Error getting page properties");
         }
       } else {
-        let searchUserInSlack_Notion = await getMatchingUser(task);
+        let searchUserInSlack_Notion = await findMatchingAssignees(task);
         console.log(
           "Task to be passed to createBlockNewTask",
           JSON.stringify(task),

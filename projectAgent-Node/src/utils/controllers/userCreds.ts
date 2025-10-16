@@ -7,6 +7,12 @@ export async function findMatchingAssignees(task: Task) {
   // TODO find matching names
   // TODO find matching emails
   // TODO remove duplicates
+  let matchedNotionUsers: NotionUser[] = [];
+  for (const assignee of task.assignees) {
+    const match = notionUsers.filter((nUsr) => compareNames(assignee.name, nUsr.name));
+    matchedNotionUsers = [...matchedNotionUsers, ...match]
+  }
+
 }
 
 /**
@@ -31,7 +37,6 @@ export async function findMatchingAssigner(slackUsername: string) {
   else {
     return nameMatches;
   }
-
 }
 
 /**
@@ -84,4 +89,3 @@ export function isPartialNameMatch(slackUserName: string, notionUserName: string
     return false;
   }
 }
-

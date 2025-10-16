@@ -29,7 +29,7 @@ export function createUpdateBlock(taskPage: TaskPage) {
         "type": "section",
         "text": {
           "type": "mrkdwn",
-          "text": `*Task title*:\t\t\t\t\t\t\t ${task.taskTitle} \n *Assignee*  \t\t\t\t\t\t\t${task.assignees}\n *Email*  \t\t\t\t\t\t\t${"Email Field to be added"}\n* Due Date*  \t\t\t\t\t\t  ${dueDate}\n*Start Date*  \t\t\t\t\t\t  ${startDate}\n *Task Details:*\t\t\t\t\t ${task.description}\n*Project:*\t\t\t\t\t\t\t${task.project}`,
+          "text": `*Task title*:\t\t\t\t\t\t\t ${task.taskTitle} \n *Assignee*  \t\t\t\t\t\t\t${JSON.stringify(task.assignees)}\n *Email*  \t\t\t\t\t\t\t${"Email Field to be added"}\n* Due Date*  \t\t\t\t\t\t  ${dueDate}\n*Start Date*  \t\t\t\t\t\t  ${startDate}\n *Task Details:*\t\t\t\t\t ${task.description}\n*Project:*\t\t\t\t\t\t\t${task.project}`,
         }
       },
       {
@@ -49,7 +49,7 @@ export function createUpdateBlock(taskPage: TaskPage) {
             "type": "button",
             "text": {
               "type": "plain_text",
-              "text": "Update in Notion",
+              "text": "Edit in Notion",
               "emoji": true
             },
             "value": `${JSON.stringify(taskPage)}`,
@@ -107,4 +107,3 @@ const oldBlock = {
     },
   ],
 };
-

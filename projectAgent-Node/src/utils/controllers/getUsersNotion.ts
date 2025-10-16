@@ -10,7 +10,11 @@ const notion = new Client({
 
 if (!NOTION_API_KEY) throw new Error("No Notion API Key given");
 
-// Function to get Notion users
+/**
+ * Function to get Notion users
+ * @param: none
+ * @return: Array of NotionUser objects
+ */
 export async function getNotionUsers() {
   const humanUsers: NotionUser[] = [];
 

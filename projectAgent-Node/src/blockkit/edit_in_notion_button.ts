@@ -42,7 +42,7 @@ export function redirectToNotionBlock(url: string) {
             value: `${url}`,
             action_id: "actionId-1"
           },
-          /*{
+          {
             type: "button",
             text: {
               type: "plain_text",
@@ -51,7 +51,7 @@ export function redirectToNotionBlock(url: string) {
             },
             value: "done_123",
             action_id: "actionId-2"
-          },*/
+          },
         ],
       }
     ]

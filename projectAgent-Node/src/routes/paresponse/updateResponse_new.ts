@@ -13,7 +13,7 @@ import {
   Task,
   TaskPage,
 } from "../../utils/task";
-
+import { deletePage } from "../../utils/db-deletepage"
 /**
  * interactionHandler - Response to user interactions with blocks when a button
  * 		     is pressed
@@ -54,11 +54,11 @@ export default function interactionHandler(
     console.log("action_text in else block", action_text);
 
     if (action_text === "Confirm") {
-      sendApprove(payload, response_url);
+      createOrUpdateTask(payload, response_url);
     } else if (action_text === "Add Task") {
       // validate Date
       // sendEdit(payload, response_url, undefined);
-      
+
       const taskPageObj: TaskPage = JSON.parse(
         payload["actions"][0].value || "{}",
       );
@@ -91,16 +91,7 @@ export default function interactionHandler(
               data: {
                 replace_original: "true",
                 text: "Sequence complete",
-                blocks: editInNotionBlocks.blocks /**[
-                  {
-                    type: "section",
-                    text: {
-                      type: "mrkdwn",
-                      text: `:white_check_mark: *Done: Task ${action}, view and edit <here|${JSON.stringify(taskPageObj.url)}>*`,
-                    },
-                  },
-                ], */
-                
+                blocks: editInNotionBlocks.blocks
               },
               headers: {
                 Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
@@ -120,19 +111,19 @@ export default function interactionHandler(
         }
       })();
       // sendApprove(payload, response_url);
-    } else if (action_text === "Submit") {
+    } else if (action_text === "Add Task") {
       sendSubmit(payload, response_url);
-    } else if (action_text === "Update in Notion" || action_text === "Edit in Notion") {
+    } else if (action_text === "Edit in Notion" || action_text === "Done") {
       // validate Date
       // sendEdit(payload, response_url, undefined);
-      
+
       // const taskPageObj: TaskPage = JSON.parse(
       //   payload["actions"][0].value || "{}",
       // );
       console.log("Edit in Notion, Response Url", response_url);
       let action = "Updated";
-      if (payload["actions"][0].value === "edit_123") {
-         action = "Created";
+      if (payload["actions"][0].value === "done_123") {
+        action = "Created";
       }
 
       const replaceBlockRes = axios({
@@ -163,16 +154,19 @@ export default function interactionHandler(
         .catch((err) => {
           console.log("AXIOS ERROR in Edit in notion if-else - InteractionHandler", err);
         });
-        
+
       // sendApprove(payload, response_url);
     } else if (action_text === "Delete") {
-      sendReject(payload, action_text, response_url, "Updated");
-      // const pageUrl = payload.actions[0].value
-      // TODO Delete task by calling deletePage() function
-      // deletionResult 
-      // TODO return message indicating success or failure
+
+      (async () => {
+        const pageUrl = payload.actions[0].value
+        // TODO Delete task by calling deletePage() function
+        const deletionResult = await deletePage(pageUrl)
+        // TODO return message indicating success or failure
+        sendReject(payload, action_text, response_url, ":put_litter_in_its_place: Task Deleted");
+      })();
     } else {
-      sendReject(payload, action_text, response_url, "Added");
+      sendReject(payload, action_text, response_url, ":x: Task not Added/Updated: No Matching Action");
     }
   }
   next();
@@ -198,7 +192,7 @@ function sendReject(
           type: "section",
           text: {
             type: "mrkdwn",
-            text: `:x: *Action Cancelled: Task not ${action}*`,
+            text: `${action}`,
           },
         },
       ],
@@ -234,56 +228,13 @@ function sendEdit(
  * when user submits block with edited task details for creating/updating a task
  * @param payload 
  * @param response_url 
- */ 
+ */
 function sendSubmit(payload: BlockAction, response_url: string) {
   if (payload["actions"][0].type === "button") {
     const taskPageObj: TaskPage = JSON.parse(
       payload["actions"][0].value || "{}",
     );
     const taskDetailsObj: Task = taskPageObj.task;
-
-    const actionKeysArr = Object.keys(
-      payload.state ? payload.state.values : {},
-    );
-    const userInputs = payload.state ? payload.state.values : {};
-
-    actionKeysArr.map((key) => {
-      const actionIdKey = Object.keys(userInputs[key]);
-      console.log("ActionIDKey: ", actionIdKey);
-
-      switch (actionIdKey[0]) {
-        case "task_title_id":
-          taskDetailsObj.taskTitle =
-            userInputs[key][`${actionIdKey}`].value || "";
-          break;
-        /**case "assignee_id":
-          taskDetailsObj.assignees =
-            userInputs[key][`${actionIdKey}`].value || "";
-          break;
-          */
-        case "due_date_id":
-          taskDetailsObj.dueDate = new Date(
-            userInputs[key][`${actionIdKey}`].value || "",
-          );
-          break;
-        case "start_date_id":
-          taskDetailsObj.startDate = new Date(
-            userInputs[key][`${actionIdKey}`].value || "",
-          );
-          break;
-        case "description_id":
-          taskDetailsObj.description =
-            userInputs[key][`${actionIdKey}`].value || "";
-          break;
-        case "project_id":
-          taskDetailsObj.project =
-            userInputs[key][`${actionIdKey}`].value || "";
-          break;
-      }
-    });
-
-    // const block = createFinalBlock(taskDetailsObj);
-
     const block = createFinalBlock(taskPageObj);
 
     axios({
@@ -305,7 +256,12 @@ function sendSubmit(payload: BlockAction, response_url: string) {
   }
 }
 
-function sendApprove(payload: BlockAction, response_url: string) {
+/**
+ * creates task once user confirms
+ * @param payload 
+ * @param response_url 
+ */
+function createOrUpdateTask(payload: BlockAction, response_url: string) {
   if (payload["actions"][0].type === "button") {
     const taskPage0 = convertTaskPageFromButtonPayload(payload);
     console.log(
@@ -314,7 +270,6 @@ function sendApprove(payload: BlockAction, response_url: string) {
     const taskPage: TaskPage = JSON.parse(payload["actions"][0].value || "{}");
 
     console.log(`(sendApprove) taskPage: ${JSON.stringify(taskPage)}`);
-
 
     (async () => {
       let rowActionResult: {
@@ -328,43 +283,43 @@ function sendApprove(payload: BlockAction, response_url: string) {
       if (taskPage.url) {
         const editInNotionBlocks = redirectToNotionBlock(taskPage.url);
 
-        await sendLoadingMsg("Updating Task", response_url);
-
+        // await sendLoadingMsg("Updating Task", response_url);
         // rowActionResult = await updateDbPage(taskPage);
-        rowActionResult = { success: true};
+        rowActionResult = { success: true };
         actionMessage = "Updated";
         emoji = "pencil2";
         console.log("Update Action");
-         const username = payload.user.username;
-         
-          let  replaceBlockRes = axios({
-              method: "post",
-              url: response_url,
-              data: {
-                replace_original: "true",
-                text: `Block Replaced\nNotification: Task ${actionMessage} Successfully`,
-                blocks: [
-                  {
-                    type: "section",
-                    text: {
-                      type: "mrkdwn",
-                      text: `:${emoji}: Done <${taskPage.url}|(View)>`,
-                    },
-                  },
-                ],
+        const username = payload.user.username;
+
+        axios({
+          method: "post",
+          url: response_url,
+          data: {
+            replace_original: "true",
+            text: `Block Replaced\nNotification: Task ${actionMessage} Successfully`,
+            blocks: [
+              {
+                type: "section",
+                text: {
+                  type: "mrkdwn",
+                  text: `:${emoji}: Done <${taskPage.url}|(Edit in Notion)>`,
+                },
               },
-              headers: {
-                Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
-                "Content-Type": "application/json; charset=UTF-8",
-              },
-              family: 4,
-            })
-              .then((Response) => {
-                console.log("Update msg", Response);
-              })
-              .catch((err) => {
-                console.log("1st AXIOS ERROR in sendApprove", err);
-              });
+            ],
+          },
+          headers: {
+            Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
+            "Content-Type": "application/json; charset=UTF-8",
+          },
+          family: 4,
+        })
+          .then((Response) => {
+            console.log("Update msg", Response);
+            return Response;
+          })
+          .catch((err) => {
+            console.log("1st AXIOS ERROR in sendApprove", err);
+          });
 
       } else {
         await sendLoadingMsg("Adding Task", response_url);
@@ -384,6 +339,8 @@ function sendApprove(payload: BlockAction, response_url: string) {
           let replaceBlockRes;
           if (Row) {
             const username = payload.user.username;
+
+
             replaceBlockRes = axios({
               method: "post",
               url: response_url,
@@ -435,48 +392,29 @@ function sendError(
       errMessage = "Update";
       errEmoji = "x";
     }
-    /*axios({
-        method: "post",
-        url: response_url,
-        data: {
-          replace_original: "true",
-          text: "Block Replaced",
-          blocks: [
-            {
-              type: "section",
-              text: {
-                type: "mrkdwn",
-                text: `:${errEmoji}: *Unable to ${errMessage} Entry*, `,
-              },
+    axios.post(
+      response_url,
+      {
+        replace_original: "true",
+        text: "Block Replaced",
+        blocks: [
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: `:${errEmoji}: *Unable to ${errMessage} Entry*, `,
             },
-          ],
-        },
-      },
-      */
-    axios
-      .post(
-        response_url,
-        {
-          replace_original: "true",
-          text: "Block Replaced",
-          blocks: [
-            {
-              type: "section",
-              text: {
-                type: "mrkdwn",
-                text: `:${errEmoji}: *Unable to ${errMessage} Entry*, `,
-              },
-            },
-          ],
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
-            "Content-Type": "application/json; charset=UTF-8",
           },
-          family: 4,
+        ],
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
+          "Content-Type": "application/json; charset=UTF-8",
         },
-      )
+        family: 4,
+      },
+    )
       .then((Response) => {
         console.log(
           "Error while Attempting to create row, Please check inputs",

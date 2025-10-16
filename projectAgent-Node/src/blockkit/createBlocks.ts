@@ -76,7 +76,7 @@ export const createBlockNewTask = function (taskPageObj: TaskPage) {
             text: {
               type: "plain_text",
               emoji: true,
-              text: "Approve",
+              text: "Add Task",
             },
             style: "primary",
             value: JSON.stringify(taskPageObj), // value: JSON.stringify(taskPageObj),
@@ -87,7 +87,7 @@ export const createBlockNewTask = function (taskPageObj: TaskPage) {
             text: {
               type: "plain_text",
               emoji: true,
-              text: "Discard",
+              text: "Cancel",
             },
             style: "danger",
             value: "discard_123",
@@ -97,7 +97,7 @@ export const createBlockNewTask = function (taskPageObj: TaskPage) {
             type: "button",
             text: {
               type: "plain_text",
-              text: "Edit",
+              text: "Confirm",
               emoji: true,
             },
             value: JSON.stringify(taskPageObj), // value: JSON.stringify(taskPageObj),

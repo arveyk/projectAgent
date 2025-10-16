@@ -1,6 +1,6 @@
 import { object } from "zod";
 import { Person, Task } from "./task.js";
-import { findMatchingAssigner } from "./controllers/userCreds.js";
+import { findMatchingNotionUser } from "./controllers/userCreds.js";
 import no from "zod/dist/types/v4/locales/no.js";
 
 const createTitleArray = function (taskTitle: string) {
@@ -89,7 +89,7 @@ export const createTaskProperties = function (taskObj: Task, assignedBy: Person[
 
 async function createNotionPerson(person: Person): Promise<{ object: "user"; id: string; }> {
   // TODO handle finding assignee
-  const notionResults = await findMatchingAssigner(person.name);
+  const notionResults = await findMatchingNotionUser(person.name);
   let id;
   if (notionResults.length >= 1) {
     id = notionResults[0].userId;

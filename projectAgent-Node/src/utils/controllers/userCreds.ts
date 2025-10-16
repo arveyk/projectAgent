@@ -19,8 +19,20 @@ export async function findMatchingAssignees(task: Task) {
  * Finds a Notion user matching the Slack user who assigned the given task.
  * @param slackUsername
  */
-export async function findMatchingAssigner(slackUsername: string) {
+export async function findMatchingNotionUser(slackUsername: string, email?: string) {
   const allNotionUsers: NotionUser[] = await getNotionUsers();
+  let emailMatches: NotionUser[] = [];
+  if (email !== undefined) {
+    emailMatches = allNotionUsers.filter((user) => {
+      if (user.email !== undefined) {
+        return compareEmails(email, user.email);
+      }
+      else {
+        return false;
+      }
+    })
+  }
+
   const nameMatches = allNotionUsers.filter((user) => {
     return compareNames(slackUsername, user.name);
   })
@@ -72,8 +84,8 @@ export function compareEmails(slackEmail: string, notionEmail: string): boolean 
 export function isPartialNameMatch(slackUserName: string, notionUserName: string): boolean {
   console.log(`Slack name: ${slackUserName}, Notion name: ${notionUserName}`);
   if (notionUserName.toLowerCase()
-      .replace("@", "")
-      .includes(slackUserName.toLowerCase().replace("@", ""))
+    .replace("@", "")
+    .includes(slackUserName.toLowerCase().replace("@", ""))
   ) {
     console.log("Found Matching user", notionUserName);
     return true;
@@ -88,4 +100,25 @@ export function isPartialNameMatch(slackUserName: string, notionUserName: string
   else {
     return false;
   }
+}
+
+/**
+ * Concatenates name matches and email matches into a single array, and removes all duplicates.
+ * @param nameMatches 
+ * @param emailMatches 
+ * @returns 
+ */
+export function deduplicateUsers(nameMatches: NotionUser[], emailMatches: NotionUser[]): NotionUser[] {
+  const uniqueIds: string[] = [];
+  const uniqueUsers: NotionUser[] = nameMatches.concat(emailMatches).filter((user) => {
+    if(!uniqueIds.includes(user.userId)){
+      uniqueIds.push(user.userId)
+      return true;
+    }
+    else {
+      return false;
+    }
+  });
+
+  return uniqueUsers;
 }

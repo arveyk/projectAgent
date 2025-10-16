@@ -1,4 +1,5 @@
-import { compareNames, compareEmails, isPartialNameMatch, findMatchingAssignees, findMatchingAssigner } from "./userCreds";
+import { compareNames, compareEmails, isPartialNameMatch, findMatchingAssignees, findMatchingNotionUser, deduplicateUsers } from "./userCreds";
+import { NotionUser } from "./userTypes";
 
 describe("Tests compareNames", () => {
     it("returns true with exact match", () => {
@@ -23,23 +24,52 @@ describe("tests isPartialNameMatch", () => {
 
 describe("Tests findMatchingAssigner", () => {
     it("Returns at least one result when given an exact name", async () => {
-        const matches = await findMatchingAssigner("Daniel Dirksen");
+        const matches = await findMatchingNotionUser("Daniel Dirksen");
         console.log(`Matches: ${JSON.stringify(matches)}`);
 
         expect(matches.length).toBeGreaterThan(0);
     })
 
     it("Returns at least one result when given a partial name", async () => {
-        const matches = await findMatchingAssigner("Dirksen");
+        const matches = await findMatchingNotionUser("Dirksen");
         console.log(`Matches: ${JSON.stringify(matches)}`);
 
         expect(matches.length).toBeGreaterThan(0);
     })
 
     it("Returns no results", async () => {
-        const matches = await findMatchingAssigner("meow");
+        const matches = await findMatchingNotionUser("meow");
         console.log(`Matches: ${JSON.stringify(matches)}`);
 
         expect(matches.length).toBe(0);
+    })
+})
+
+describe("Tests deduplicateUsers", () => {
+    it("removes all duplicate users", () => {
+        const nameMatches: NotionUser[] = [
+            {
+                userId: "12345",
+                name: "Bob"
+            },
+            {
+                userId: "23456",
+                name: "Alice"
+            }
+        ];
+        const emailMatches: NotionUser[] = [
+            {
+                userId: "23456",
+                name: "Alice"
+            },
+            {
+                userId: "54321",
+                name: "Corry"
+            }
+        ];
+
+        const matches = deduplicateUsers(nameMatches, emailMatches);
+        console.log(JSON.stringify(matches));
+        expect(matches.length).toBe(3);
     })
 })

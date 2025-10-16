@@ -336,7 +336,7 @@ function sendApprove(payload: BlockAction, response_url: string) {
         emoji = "pencil2";
         console.log("Update Action");
          const username = payload.user.username;
-         
+
           let  replaceBlockRes = axios({
               method: "post",
               url: response_url,
@@ -371,7 +371,7 @@ function sendApprove(payload: BlockAction, response_url: string) {
         console.log(`(sendApprove) taskDetailsObj.task: ${taskPage.task}`);
         rowActionResult = await addTaskNotionPage(
           taskPage.task,
-          payload.user.username,
+          [{name: payload.user.username}],
         );
         actionMessage = "Created";
         emoji = "white_check_mark";

@@ -326,7 +326,7 @@ function createOrUpdateTask(payload: BlockAction, response_url: string) {
         console.log(`(sendApprove) taskDetailsObj.task: ${taskPage.task}`);
         rowActionResult = await addTaskNotionPage(
           taskPage.task,
-          payload.user.username,
+          [{name: payload.user.username}],
         );
         actionMessage = "Created";
         emoji = "white_check_mark";

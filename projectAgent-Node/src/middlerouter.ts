@@ -3,7 +3,7 @@ import express from "express";
 import slashCmdHandler from "./routes/slashcmd";
 import newTaskHandler from "./routes/tasks/newtask";
 import patchTaskHandler from "./routes/tasks/update";
-import interactionHandler from "./routes/paresponse/updateResponse";
+import interactionHandler from "./routes/paresponse/updateResponse_new";
 import { threadMsg } from "./routes/threadReply";
 
 const router = express.Router();

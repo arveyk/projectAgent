@@ -13,10 +13,10 @@ export const createTaskInfoBlock = function (taskPageObj: TaskPage) {
 
   if (assigneesArr && Array.isArray(assigneesArr)) {
     assigneesArr.forEach((assignee) => {
-	    assigneeNames += `${assignee.name}, `;
+      assigneeNames += `${assignee.name}, `;
     });
     assigneeNames = assigneeNames.slice(0, -2); // Remove trailing comma and space
-    }
+  }
   task.startDate =
     task.startDate && task.startDate.toString() !== "Invalid Date"
       ? new Date(task.startDate)

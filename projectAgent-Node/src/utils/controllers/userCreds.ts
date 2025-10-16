@@ -8,9 +8,11 @@ export async function findMatchingAssignees(task: Task) {
   // TODO find matching emails
   // TODO remove duplicates
   let matchedNotionUsers: NotionUser[] = [];
-  for (const assignee of task.assignees) {
-    const match = notionUsers.filter((nUsr) => compareNames(assignee.name, nUsr.name));
-    matchedNotionUsers = [...matchedNotionUsers, ...match]
+  if (notionUsers.length > 0) {
+    for (const assignee of task.assignees) {
+      const match = notionUsers.filter((nUsr) => compareNames(assignee.name, nUsr.name));
+      matchedNotionUsers = [...matchedNotionUsers, ...match]
+    }
   }
   return matchedNotionUsers;
 }

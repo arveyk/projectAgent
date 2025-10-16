@@ -1,5 +1,7 @@
 import { object } from "zod";
 import { Person, Task } from "./task.js";
+import { findMatchingAssigner } from "./controllers/userCreds.js";
+import no from "zod/dist/types/v4/locales/no.js";
 
 const createTitleArray = function (taskTitle: string) {
   return [
@@ -85,11 +87,19 @@ export const createTaskProperties = function (taskObj: Task, assignedBy: Person[
   };
 };
 
-function createNotionPerson(assignee: Person): { object: "user"; id: string; } {
+async function createNotionPerson(person: Person): Promise<{ object: "user"; id: string; }> {
+  // TODO handle finding assignee
+  const notionResults = await findMatchingAssigner(person.name);
+  let id;
+  if (notionResults.length >= 1) {
+    id = notionResults[0].userId;
+  }
+  else {
+    throw new Error(`User ${person.name} not found in Notion`)
+  }
   return {
     object: "user",
-    // TODO this needs to be an actual id of a person in the workspace
-    id: "",
+    id: id,
   };
 }
 

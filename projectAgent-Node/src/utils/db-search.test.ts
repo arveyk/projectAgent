@@ -15,13 +15,13 @@ const task: Task = {
   assignees: [
     {
       name: "Ceci Kurdelak",
-      email: "crkurdelak@gmail.com"
+      email: "crkurdelak@gmail.com",
     },
     // {
     //   name: "Harvey Kisiangani",
     //   email: "harveykisiangani@gmail.com"
     // }
-],
+  ],
   dueDate: new Date("2025-09-20"),
   startDate: new Date("2025-11-01"),
   description:
@@ -44,14 +44,16 @@ describe("Test searchDB in the new test database", () => {
 
 describe("Get page response from db", () => {
   it("", async () => {
-    const isInDatabase = {"exists":true,"taskId":"263eef29-a653-80d0-a0b6-c62e827e0fb5"}
+    const isInDatabase = {
+      exists: true,
+      taskId: "263eef29-a653-80d0-a0b6-c62e827e0fb5",
+    };
     const pageObject: GetPageResponse = await getTaskProperties(
-              isInDatabase.taskId || "",
-            );
+      isInDatabase.taskId || "",
+    );
     console.log(JSON.stringify(pageObject));
-  })
-})
-
+  });
+});
 
 // describe("Test searchDB with a task that is already in the database word for word", () => {
 //   it("returns true and the task ID from the database", async () => {

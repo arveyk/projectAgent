@@ -13,11 +13,12 @@ const createTitleArray = function (taskTitle: string) {
 
 const createAssigneeArray = async function (assignees: NotionUser[]) {
   if (assignees.length > 0) {
-    return Promise.all(assignees.map((assignee) => {
-      return createNotionPerson(assignee)
-    }))
-  }
-  else {
+    return Promise.all(
+      assignees.map((assignee) => {
+        return createNotionPerson(assignee);
+      }),
+    );
+  } else {
     return [{ object: "user", id: "" }];
   }
 };
@@ -41,16 +42,21 @@ const createProjectArray = function (project: string) {
   ];
 };
 
-const createAssignedByArray = async function (assignedBy: NotionUser[]): Promise<{
-  object: "user";
-  id: string;
-}[]> {
+const createAssignedByArray = async function (
+  assignedBy: NotionUser[],
+): Promise<
+  {
+    object: "user";
+    id: string;
+  }[]
+> {
   if (assignedBy.length > 0) {
-    return Promise.all(assignedBy.map((assigner) => {
-      return createNotionPerson(assigner)
-    }))
-  }
-  else {
+    return Promise.all(
+      assignedBy.map((assigner) => {
+        return createNotionPerson(assigner);
+      }),
+    );
+  } else {
     return [{ object: "user", id: "" }];
   }
 };
@@ -75,7 +81,7 @@ export const createTaskProperties = async function (taskObj: NotionTask) {
     "Assigned to": {
       people: await createAssigneeArray(assignees),
     },
-    "Due": {
+    Due: {
       date: {
         start: dueDate.toString(),
       },
@@ -102,10 +108,11 @@ export const createTaskProperties = async function (taskObj: NotionTask) {
   };
 };
 
-async function createNotionPerson(person: NotionUser): Promise<{ object: "user"; id: string; }> {
+async function createNotionPerson(
+  person: NotionUser,
+): Promise<{ object: "user"; id: string }> {
   return {
     object: "user",
     id: person.userId,
   };
 }
-

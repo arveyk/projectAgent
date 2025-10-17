@@ -133,7 +133,7 @@ export function createDoneBlock(taskPageObj: TaskPage) {
               type: "plain_text",
               emoji: true,
               // text: "Approve",
-              text: "Ok"
+              text: "Ok",
             },
             style: "primary",
             value: `${JSON.stringify(taskPageObj)}`, // value: `${JSON.stringify(taskPageObj)}`,

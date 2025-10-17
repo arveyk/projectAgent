@@ -13,7 +13,7 @@ export function redirectToNotionBlock(url: string) {
         type: "section",
         text: {
           type: "mrkdwn",
-          text: `:white_check_mark: Task *<${url}|Edit in Notion>*`
+          text: `:white_check_mark: Task *<${url}|Edit in Notion>*`,
         },
       },
       {
@@ -36,25 +36,25 @@ export function redirectToNotionBlock(url: string) {
             text: {
               type: "plain_text",
               emoji: true,
-              text: "Delete"
+              text: "Delete",
             },
             style: "danger",
             value: `${url}`,
-            action_id: "actionId-1"
+            action_id: "actionId-1",
           },
           {
             type: "button",
             text: {
               type: "plain_text",
               emoji: true,
-              text: "Done"
+              text: "Done",
             },
             value: "done_123",
-            action_id: "actionId-2"
+            action_id: "actionId-2",
           },
         ],
-      }
-    ]
+      },
+    ],
   };
 }
 
@@ -131,13 +131,13 @@ export function createProjectsSelectBlock(projectsList: string[]) {
     projectsSelectBlock.blocks[0].element
       ? projectsSelectBlock.blocks[0].element.options.push(projectElement)
       : (projectsSelectBlock.blocks[0] = {
-        type: "input",
-        element: element,
-        label: {
-          type: "plain_text",
-          text: "Projects",
-          emoji: true,
-        },
-      });
+          type: "input",
+          element: element,
+          label: {
+            type: "plain_text",
+            text: "Projects",
+            emoji: true,
+          },
+        });
   });
 }

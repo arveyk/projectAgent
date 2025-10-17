@@ -16,7 +16,10 @@ const model = new ChatAnthropic({
 
 const task = z.object({
   taskTitle: z.string().describe("Short descriptive title of the task"),
-  assignees: z.string().array().describe("Name of person or people assigned with the task"),
+  assignees: z
+    .string()
+    .array()
+    .describe("Name of person or people assigned with the task"),
   dueDate: z
     .string()
     .datetime({ offset: true })
@@ -52,7 +55,6 @@ export const parseTask = async function (
   reqBody: SlashCommand,
   timestamp: number,
 ): Promise<Task> {
-
   let textToParse;
 
   //slash cmd text can be immediately accessed, for other events it is indirect, through events field
@@ -73,10 +75,12 @@ export const parseTask = async function (
 
   // Convert the LLM output to a Task object for future ease of use
   // The assignees field comes out as an array of assingee name
-  taskParseResult.assignees = taskParseResult.assignees.map((assigneeName: string) => {
-    return { name: assigneeName};
-  });
-  
+  taskParseResult.assignees = taskParseResult.assignees.map(
+    (assigneeName: string) => {
+      return { name: assigneeName };
+    },
+  );
+
   const task = convertTask(taskParseResult);
 
   return task;

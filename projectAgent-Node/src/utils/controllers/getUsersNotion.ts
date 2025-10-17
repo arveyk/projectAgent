@@ -32,4 +32,4 @@ export async function getNotionUsers() {
   });
   console.log(JSON.stringify(humanUsers));
   return humanUsers;
-};
+}

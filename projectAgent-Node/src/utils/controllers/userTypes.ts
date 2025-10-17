@@ -20,6 +20,6 @@ export type SlackUser = {
 };
 
 export type UserSearchResult = {
-  person: PersonNoId,
-  foundUsers: NotionUser[]
+  person: PersonNoId;
+  foundUsers: NotionUser[];
 };

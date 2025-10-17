@@ -18,47 +18,47 @@ export function createUpdateBlock(taskPage: TaskPage) {
   return {
     blocks: [
       {
-        "type": "header",
-        "text": {
-          "type": "plain_text",
-          "text": "Task already exists, would you like to update it?",
-          "emoji": true
-        }
+        type: "header",
+        text: {
+          type: "plain_text",
+          text: "Task already exists, would you like to update it?",
+          emoji: true,
+        },
       },
       {
-        "type": "section",
-        "text": {
-          "type": "mrkdwn",
-          "text": `*Task title*:\t\t\t\t\t\t\t ${task.taskTitle} \n *Assignee*  \t\t\t\t\t\t\t${JSON.stringify(task.assignees)}\n *Email*  \t\t\t\t\t\t\t${"Email Field to be added"}\n* Due Date*  \t\t\t\t\t\t  ${dueDate}\n*Start Date*  \t\t\t\t\t\t  ${startDate}\n *Task Details:*\t\t\t\t\t ${task.description}\n*Project:*\t\t\t\t\t\t\t${task.project}`,
-        }
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: `*Task title*:\t\t\t\t\t\t\t ${task.taskTitle} \n *Assignee*  \t\t\t\t\t\t\t${JSON.stringify(task.assignees)}\n *Email*  \t\t\t\t\t\t\t${"Email Field to be added"}\n* Due Date*  \t\t\t\t\t\t  ${dueDate}\n*Start Date*  \t\t\t\t\t\t  ${startDate}\n *Task Details:*\t\t\t\t\t ${task.description}\n*Project:*\t\t\t\t\t\t\t${task.project}`,
+        },
       },
       {
-        "type": "actions",
-        "elements": [
+        type: "actions",
+        elements: [
           {
-            "type": "button",
-            "text": {
-              "type": "plain_text",
-              "text": "Cancel",
-              "emoji": true
+            type: "button",
+            text: {
+              type: "plain_text",
+              text: "Cancel",
+              emoji: true,
             },
-            "value": "click_me_123",
-            "action_id": "actionId-0"
+            value: "click_me_123",
+            action_id: "actionId-0",
           },
           {
-            "type": "button",
-            "text": {
-              "type": "plain_text",
-              "text": "Edit in Notion",
-              "emoji": true
+            type: "button",
+            text: {
+              type: "plain_text",
+              text: "Edit in Notion",
+              emoji: true,
             },
-            "value": `${JSON.stringify(taskPage)}`,
+            value: `${JSON.stringify(taskPage)}`,
             url: `${taskUrl}`,
             style: "primary",
-            "action_id": "actionId-1"
-          }
-        ]
-      }
-    ]
+            action_id: "actionId-1",
+          },
+        ],
+      },
+    ],
   };
 }

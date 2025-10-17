@@ -8,7 +8,11 @@ import { sendLoadingMsg } from "../blockkit/loadingMsg";
 import { findMatchingAssignees } from "../utils/controllers/userCreds";
 // import { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 import { SlashCommand } from "@slack/bolt";
-import { convertTaskPageFromDbResponse, NotionTask, TaskPage } from "../utils/task";
+import {
+  convertTaskPageFromDbResponse,
+  NotionTask,
+  TaskPage,
+} from "../utils/task";
 import { GetPageResponse } from "@notionhq/client";
 import { ta } from "zod/dist/types/v4/locales";
 
@@ -33,7 +37,6 @@ const slashCmdHandler = async function (
     // const command = request.body["command"];
     const validate = isValidCmd(reqBody);
     if (validate.isValid) {
-      
       const response_url = reqBody["response_url"];
 
       // Search database
@@ -47,10 +50,7 @@ const slashCmdHandler = async function (
       console.log(`timestamp: ${timestamp}`);
 
       // Sample payloads can be found in ../test-data/payloads/slashcmd/payloads.ts
-      const task = await parseTask(
-        reqBody,
-        timestamp,
-      );
+      const task = await parseTask(reqBody, timestamp);
 
       // Find Notion users
       const assigneeSearchResults = await findMatchingAssignees(task);
@@ -61,14 +61,24 @@ const slashCmdHandler = async function (
       const notionTask: NotionTask = {
         taskTitle: task.taskTitle,
         // As a placeholder, just pick the first result
-        assignees: task.assignees.map((assignee) => assigneeSearchResults.filter((result) => result.person === assignee).map((result) => result.foundUsers[0])[0]),
+        assignees: task.assignees.map(
+          (assignee) =>
+            assigneeSearchResults
+              .filter((result) => result.person === assignee)
+              .map((result) => result.foundUsers[0])[0],
+        ),
         // As a placeholder, make this the same as assignees
-        assignedBy: task.assignees.map((assignee) => assigneeSearchResults.filter((result) => result.person === assignee).map((result) => result.foundUsers[0])[0]),
+        assignedBy: task.assignees.map(
+          (assignee) =>
+            assigneeSearchResults
+              .filter((result) => result.person === assignee)
+              .map((result) => result.foundUsers[0])[0],
+        ),
         dueDate: task.dueDate,
         startDate: task.startDate,
         description: task.description,
-        project: task.project
-      }
+        project: task.project,
+      };
 
       if (!isInDatabase) {
         throw new Error("Error searching database");
@@ -98,11 +108,15 @@ const slashCmdHandler = async function (
               blocks: updateBlock.blocks,
             },
             family: 4,
-          }).then((resp) => {
-            console.log("OK from slack", resp["status"]);
-          }).catch((err) => {
-            console.log("(slashCmdHandler): Axios Error while posting updateBlock");
-          });
+          })
+            .then((resp) => {
+              console.log("OK from slack", resp["status"]);
+            })
+            .catch((err) => {
+              console.log(
+                "(slashCmdHandler): Axios Error while posting updateBlock",
+              );
+            });
         } else {
           throw new Error("Error getting page properties");
         }

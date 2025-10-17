@@ -19,7 +19,7 @@ if (!process.env.SLACK_SIGNING_SECRET) {
 if (!process.env.NOTION_API_KEY) {
   throw new Error("Missing Notion API key");
 }
-if (!process.env.NOTION_PROJECTS_DATA_SOURCE_ID){
+if (!process.env.NOTION_PROJECTS_DATA_SOURCE_ID) {
   throw new Error("Missing Notion projects data source ID");
 }
 if (!process.env.NOTION_TASKS_DATA_SOURCE_ID) {

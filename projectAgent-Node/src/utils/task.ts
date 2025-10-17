@@ -1,11 +1,17 @@
-import { GroupObjectResponse, isFullUser, PageObjectResponse, PartialUserObjectResponse, UserObjectResponse } from "@notionhq/client";
+import {
+  GroupObjectResponse,
+  isFullUser,
+  PageObjectResponse,
+  PartialUserObjectResponse,
+  UserObjectResponse,
+} from "@notionhq/client";
 import { BlockAction } from "@slack/bolt";
 import { NotionUser } from "./controllers/userTypes";
 
 export type PersonNoId = {
-  name: string,
-  email?: string
-}
+  name: string;
+  email?: string;
+};
 
 export type Task = {
   taskTitle: string;
@@ -128,13 +134,17 @@ export function convertTaskPageFromDbResponse(
       : "No Title Provided";
   const assignees =
     "people" in properties["Assigned to"]
-      ? properties["Assigned to"].people.map((response) => extractAssignees(response))
+      ? properties["Assigned to"].people.map((response) =>
+          extractAssignees(response),
+        )
       : [];
 
   const assignedBy =
-  "people" in properties["Assigned by"]
-    ? properties["Assigned by"].people.map((response) => extractAssignees(response))
-    : [];
+    "people" in properties["Assigned by"]
+      ? properties["Assigned by"].people.map((response) =>
+          extractAssignees(response),
+        )
+      : [];
 
   const dueDate =
     "date" in properties["Due"]
@@ -150,14 +160,14 @@ export function convertTaskPageFromDbResponse(
       : undefined;
   const description =
     "rich_text" in properties["Description"] &&
-      properties["Description"]["rich_text"][0] !== undefined
+    properties["Description"]["rich_text"][0] !== undefined
       ? "plain_text" in properties["Description"]["rich_text"][0]
         ? properties["Description"].rich_text[0].plain_text
         : ""
       : "";
   const project =
     "rich_text" in properties["Project"] &&
-      properties["Project"]["rich_text"][0] !== undefined
+    properties["Project"]["rich_text"][0] !== undefined
       ? "plain_text" in properties["Project"]["rich_text"][0]
         ? properties["Project"].rich_text[0].plain_text
         : undefined
@@ -184,30 +194,31 @@ export function convertTaskPageFromDbResponse(
 
 /**
  * Extracts a list of assignees from a database response
- * @param response 
- * @returns 
+ * @param response
+ * @returns
  */
-export function extractAssignees(response: (PartialUserObjectResponse | UserObjectResponse | GroupObjectResponse)): NotionUser {
-    if (response["object"] === "user") {
-      if (isFullUser(response)) {
-        if (response["type"] === "person") {
-          const user: NotionUser = {
-            name: response["name"] !== null ? response["name"] : "Unnamed person",
-            email: response["person"]["email"],
-            userId: response["id"],
-          };
-          return user;
-        }
-        else {
-          throw new Error("Assignee is not a person");
-        }
+export function extractAssignees(
+  response:
+    | PartialUserObjectResponse
+    | UserObjectResponse
+    | GroupObjectResponse,
+): NotionUser {
+  if (response["object"] === "user") {
+    if (isFullUser(response)) {
+      if (response["type"] === "person") {
+        const user: NotionUser = {
+          name: response["name"] !== null ? response["name"] : "Unnamed person",
+          email: response["person"]["email"],
+          userId: response["id"],
+        };
+        return user;
+      } else {
+        throw new Error("Assignee is not a person");
       }
-      else {
-        throw new Error("Assignee is not a full user");
-      }
+    } else {
+      throw new Error("Assignee is not a full user");
     }
-    else {
-      throw new Error("Person is the wrong type");
-    }
+  } else {
+    throw new Error("Person is the wrong type");
+  }
 }
-

@@ -45,7 +45,9 @@ const structuredLlm = model.withStructuredOutput(databaseSearchResult);
  * @param {*} task The task object
  * @returns true if the task is found, else returns false
  */
-export const searchDB = async function (message: string): Promise<dbSearchResult> {
+export const searchDB = async function (
+  message: string,
+): Promise<dbSearchResult> {
   console.log(`message (searchDB): ${JSON.stringify(message)}`);
 
   // TODO for temporary solution, return only the 20 most recent tasks
@@ -76,12 +78,11 @@ export const getTaskProperties = async function (pageID: string) {
   return await notion.pages.retrieve({ page_id: pageID });
 };
 
-
 export async function returnTasks(): Promise<QueryDataSourceResponse> {
   // Retrieve all tasks
   const response = await notion.dataSources.query({
     data_source_id: NOTION_TASKS_DATA_SOURCE_ID,
   });
 
-  return response
+  return response;
 }

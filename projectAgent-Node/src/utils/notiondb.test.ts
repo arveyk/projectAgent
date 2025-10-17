@@ -4,10 +4,12 @@ import { Task } from "./task";
 
 const task: Task = {
   taskTitle: "Schedule meeting with customer",
-  assignees: [{
-    name: "Jacob",
-    email: "j@cob.com"
-}],
+  assignees: [
+    {
+      name: "Jacob",
+      email: "j@cob.com",
+    },
+  ],
   dueDate: new Date("2025-11-11"),
   startDate: new Date("2025-11-01"),
   description:
@@ -15,10 +17,10 @@ const task: Task = {
 };
 
 describe("Tests addTaskNotionPage", () => {
-    it("Successfully adds a new page", async () => {
-        const result: PageAddResult = await addTaskNotionPage(task, "crkurdelak");
-        console.log(JSON.stringify(result));
+  it("Successfully adds a new page", async () => {
+    const result: PageAddResult = await addTaskNotionPage(task, "crkurdelak");
+    console.log(JSON.stringify(result));
 
-        expect(result.success).toBeTruthy();
-    })
-})
+    expect(result.success).toBeTruthy();
+  });
+});

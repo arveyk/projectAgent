@@ -1,6 +1,6 @@
 import { isFullPage, isFullUser } from "@notionhq/client";
 import { QueryDataSourceResponse, PersonUserObjectResponse, UserObjectResponseCommon, PartialUserObjectResponse, UserObjectResponse } from "@notionhq/client/build/src/api-endpoints";
-import { getAssignees, Person } from "./task";
+import { extractAssignees, Person } from "./task";
 
 export type dbPage = {
   pageId: string;
@@ -33,7 +33,7 @@ export const simplifyDBResults = function (
     simplifiedResults.push({
       pageId: result["id"],
       taskTitle: properties["Task name"]["title"][0]["plain_text"],
-      assignee: properties["Assigned to"]["people"].map((response) => getAssignees(response))
+      assignee: properties["Assigned to"]["people"].map((response) => extractAssignees(response))
     });
   }
   return simplifiedResults;

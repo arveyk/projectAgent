@@ -1,5 +1,6 @@
 import { GroupObjectResponse, isFullUser, PageObjectResponse, PartialUserObjectResponse, UserObjectResponse } from "@notionhq/client";
 import { BlockAction } from "@slack/bolt";
+import { NotionUser } from "./controllers/userTypes";
 
 export type Person = {
   name: string,
@@ -15,8 +16,19 @@ export type Task = {
   project?: string;
 };
 
+// TODO function to create a NotionTask from a Task, a list of NotionUser assignees, and a list of NotionUser assigned-by's
+export type NotionTask = {
+  taskTitle: string;
+  assignees: NotionUser[];
+  assignedBy: NotionUser[];
+  dueDate: Date;
+  startDate?: Date;
+  description: string;
+  project?: string;
+};
+
 export type TaskPage = {
-  task: Task;
+  task: NotionTask;
   pageId: string;
   url?: string;
 };
@@ -72,6 +84,7 @@ export function convertTaskPageFromButtonPayload(
         task: {
           taskTitle: taskPageObj.task.taskTitle,
           assignees: taskPageObj.task.assignees,
+          assignedBy: taskPageObj.task.assignedBy,
           dueDate: taskPageObj.task.dueDate,
           startDate: taskPageObj.task.startDate,
           description: taskPageObj.task.description,
@@ -85,6 +98,7 @@ export function convertTaskPageFromButtonPayload(
         task: {
           taskTitle: interactionsValue.taskTitle,
           assignees: interactionsValue.assignee,
+          assignedBy: interactionsValue.assignedBy,
           dueDate: interactionsValue.dueDate,
           startDate: interactionsValue.startDate,
           description: interactionsValue.description,
@@ -114,8 +128,14 @@ export function convertTaskPageFromDbResponse(
       : "No Title Provided";
   const assignees =
     "people" in properties["Assigned to"]
-      ? properties["Assigned to"].people.map((response) => getAssignees(response))
-      : [{ name: "", email: "" }];
+      ? properties["Assigned to"].people.map((response) => extractAssignees(response))
+      : [];
+
+  const assignedBy =
+  "people" in properties["Assigned by"]
+    ? properties["Assigned by"].people.map((response) => extractAssignees(response))
+    : [];
+
   const dueDate =
     "date" in properties["Due"]
       ? properties["Due"].date
@@ -149,6 +169,7 @@ export function convertTaskPageFromDbResponse(
     task: {
       taskTitle: title,
       assignees: assignees,
+      assignedBy: assignedBy,
       dueDate: dueDate,
       startDate: startDate,
       description: description,
@@ -166,15 +187,16 @@ export function convertTaskPageFromDbResponse(
  * @param response 
  * @returns 
  */
-export function getAssignees(response: (PartialUserObjectResponse | UserObjectResponse | GroupObjectResponse)) {
+export function extractAssignees(response: (PartialUserObjectResponse | UserObjectResponse | GroupObjectResponse)): NotionUser {
     if (response["object"] === "user") {
       if (isFullUser(response)) {
         if (response["type"] === "person") {
-          const personObject: Person = {
+          const user: NotionUser = {
             name: response["name"] !== null ? response["name"] : "Unnamed person",
-            email: response["person"]["email"]
+            email: response["person"]["email"],
+            userId: response["id"],
           };
-          return personObject;
+          return user;
         }
         else {
           throw new Error("Assignee is not a person");

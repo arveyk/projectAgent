@@ -1,9 +1,8 @@
-import { no } from "zod/dist/types/v4/locales";
 import { Task } from "../task";
 import { getNotionUsers } from "./getUsersNotion";
 import { NotionUser, UserSearchResult } from "./userTypes";
 
-export async function findMatchingAssignees(task: Task) {
+export async function findMatchingAssignees(task: Task): Promise<UserSearchResult[]> {
   const assignees = task.assignees;
   const matches = Promise.all(assignees.map(async (assignee) => {
     const match: UserSearchResult = {

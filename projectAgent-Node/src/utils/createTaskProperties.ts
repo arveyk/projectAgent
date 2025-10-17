@@ -1,7 +1,5 @@
-import { object } from "zod";
-import { Person, Task } from "./task.js";
-import { findMatchingNotionUser } from "./controllers/userCreds.js";
-import no from "zod/dist/types/v4/locales/no.js";
+import { NotionTask } from "./task.js";
+import { NotionUser } from "./controllers/userTypes.js";
 
 const createTitleArray = function (taskTitle: string) {
   return [
@@ -12,7 +10,8 @@ const createTitleArray = function (taskTitle: string) {
     },
   ];
 };
-const createAssigneeArray = function (assignees: Person[]) {
+
+const createAssigneeArray = function (assignees: NotionUser[]) {
   return assignees.map((assignee) => {
     return createNotionPerson(assignee)
   })
@@ -36,15 +35,18 @@ const createProjectArray = function (project: string) {
     },
   ];
 };
-const createAssignedByArray = function (assignedBy: Person[]) {
+
+const createAssignedByArray = function (assignedBy: NotionUser[]) {
   return assignedBy.map((assigner) => {
     return createNotionPerson(assigner)
   })
 };
-export const createTaskProperties = function (taskObj: Task, assignedBy: Person[]) {
+
+export const createTaskProperties = function (taskObj: NotionTask) {
   // export const setTaskProperties = function (taskObj: Task, assignedBy: {name: string, email: string}[]) {
   const taskTitle = taskObj["taskTitle"];
   const assignees = taskObj["assignees"];
+  const assignedBy = taskObj["assignedBy"];
   const dueDate = taskObj["dueDate"];
   const startDate = taskObj["startDate"]
     ? taskObj["startDate"]
@@ -87,19 +89,10 @@ export const createTaskProperties = function (taskObj: Task, assignedBy: Person[
   };
 };
 
-async function createNotionPerson(person: Person): Promise<{ object: "user"; id: string; }> {
-  const notionResults = await findMatchingNotionUser(person.name);
-  let id;
-  // TODO eventually, handle multiple matches in a better way
-  if (notionResults.length >= 1) {
-    id = notionResults[0].userId;
-  }
-  else {
-    throw new Error(`User ${person.name} not found in Notion`)
-  }
+async function createNotionPerson(person: NotionUser): Promise<{ object: "user"; id: string; }> {
   return {
     object: "user",
-    id: id,
+    id: person.userId,
   };
 }
 

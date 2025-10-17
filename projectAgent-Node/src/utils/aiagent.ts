@@ -77,5 +77,7 @@ export const parseTaskSlashCmd = async function (
   taskParseResult.assignees = taskParseResult.assignees.map((assigneeName: string) => {
     return { name: assigneeName};
   });
-  return convertTask(taskParseResult);
+  
+  const task = convertTask(taskParseResult);
+  return task;
 };

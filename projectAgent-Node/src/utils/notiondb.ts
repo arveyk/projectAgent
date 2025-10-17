@@ -2,7 +2,7 @@ import { Client, CreatePageResponse } from "@notionhq/client";
 import { validateDueDate } from "./dateHandler";
 import { NOTION_API_KEY, NOTION_TASKS_DATA_SOURCE_ID } from "../env";
 import { createTaskProperties } from "./createTaskProperties";
-import { Task, Person } from "./task";
+import { Task, Person, NotionTask } from "./task";
 
 export type PageAddResult = {
   success: boolean;
@@ -22,8 +22,7 @@ const notion = new Client({
  * @returns If successful, returns true and the url of the new page. Else, returns false and the error message.
  */
 export async function addTaskNotionPage(
-  taskObj: Task,
-  assignedBy: Person[],
+  taskObj: NotionTask,
 ): Promise<PageAddResult> {
   // Make sure due date is not in the past
 
@@ -32,8 +31,7 @@ export async function addTaskNotionPage(
   if (validateDueDate(duedate)) {
     console.log("yay! the due date is not in the past!");
 
-    // TODO get Notion user of person assigning the task
-    const taskProperties = createTaskProperties(taskObj, assignedBy);
+    const taskProperties = createTaskProperties(taskObj);
     try {
       const newPage = await notion.pages.create({
         parent: {

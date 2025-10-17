@@ -49,6 +49,7 @@ export const searchDB = async function (task: Task): Promise<dbSearchResult> {
   console.log(`task (searchDB): ${JSON.stringify(task)}`);
   console.log(`assignee (searchDB): ${JSON.stringify(task.assignees)}`);
 
+  // TODO handle tasks with no assignee, potentially don't filter tasks by assignee in this function
   // Retrieve tasks with a matching assignee
   const response = await notion.dataSources.query({
     data_source_id: NOTION_TASKS_DATA_SOURCE_ID,

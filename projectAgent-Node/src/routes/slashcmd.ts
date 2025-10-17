@@ -43,7 +43,9 @@ const slashCmdHandler = async function (
         request.body as SlashCommand,
         timestamp,
       );
-
+  
+      // TODO decide whether we will call findMatchingAssignees before or after we call searchDB
+      // In any case, we will need to pass a NotionTask into createBlockNewTask instead of a Task
       await sendLoadingMsg("Searching Database", response_url);
       const isInDatabase = await searchDB(task);
       console.log("IS in database?", JSON.stringify(isInDatabase));
@@ -85,6 +87,7 @@ const slashCmdHandler = async function (
           throw new Error("Error getting page properties");
         }
       } else {
+        // TODO maybe move this call somewhere else?
         let searchUserInSlack_Notion = await findMatchingAssignees(task);
         console.log(
           "Task to be passed to createBlockNewTask",

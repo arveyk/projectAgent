@@ -12,9 +12,14 @@ const createTitleArray = function (taskTitle: string) {
 };
 
 const createAssigneeArray = async function (assignees: NotionUser[]) {
-  return Promise.all(assignees.map((assignee) => {
-    return createNotionPerson(assignee)
-  }))
+  if (assignees.length > 0) {
+    return Promise.all(assignees.map((assignee) => {
+      return createNotionPerson(assignee)
+    }))
+  }
+  else {
+    return [{ object: "user", id: "" }];
+  }
 };
 
 const createDescriptionArray = function (description: string) {
@@ -36,10 +41,18 @@ const createProjectArray = function (project: string) {
   ];
 };
 
-const createAssignedByArray = async function (assignedBy: NotionUser[]) {
-  return Promise.all(assignedBy.map((assigner) => {
-    return createNotionPerson(assigner)
-  }))
+const createAssignedByArray = async function (assignedBy: NotionUser[]): Promise<{
+  object: "user";
+  id: string;
+}[]> {
+  if (assignedBy.length > 0) {
+    return Promise.all(assignedBy.map((assigner) => {
+      return createNotionPerson(assigner)
+    }))
+  }
+  else {
+    return [{ object: "user", id: "" }];
+  }
 };
 
 export const createTaskProperties = async function (taskObj: NotionTask) {

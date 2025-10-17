@@ -2,7 +2,6 @@ import axios from "axios";
 import { Request, Response, NextFunction } from "express";
 import { createFinalBlock } from "../../blockkit/createBlocks";
 import addTaskNotionPage, { PageAddResult } from "../../utils/notiondb";
-import { updateDbPage } from "../../utils/db-update";
 import { sendLoadingMsg } from "../../blockkit/loadingMsg";
 import { SLACK_BOT_TOKEN } from "../../env";
 import { BlockAction, ButtonAction } from "@slack/bolt";
@@ -73,7 +72,6 @@ export default function interactionHandler(
           console.log(`(sendApprove) taskDetailsObj.task: ${taskPageObj.task}`);
           const taskAddResult = await addTaskNotionPage(
             taskPageObj.task,
-            payload.user.username,
           );
           const emoji = "white_check_mark";
           console.log(`Page added successfully? ${taskAddResult.success}`);
@@ -326,7 +324,6 @@ function createOrUpdateTask(payload: BlockAction, response_url: string) {
         console.log(`(sendApprove) taskDetailsObj.task: ${taskPage.task}`);
         rowActionResult = await addTaskNotionPage(
           taskPage.task,
-          [{name: payload.user.username}],
         );
         actionMessage = "Created";
         emoji = "white_check_mark";

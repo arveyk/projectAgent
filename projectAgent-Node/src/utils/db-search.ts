@@ -71,9 +71,11 @@ export const searchDB = async function (task: Task): Promise<dbSearchResult> {
         console.log(`${assignee.name}, ${JSON.stringify(task.assignees[0])}`);
         const found: boolean = assignee.name === task.assignees[0].name
           ||
-          assignee.name.toLowerCase().includes(task.assignees[0].name.toLowerCase())
+          assignee.name.toLowerCase().includes(task.assignees[0].name ?
+            task.assignees[0].name.toLowerCase() : "No assignee Name")
           ||
-          task.assignees[0].name.toLowerCase().includes(assignee.name.toLowerCase());
+          task.assignees[0].name.toLowerCase().includes(assignee.name ? 
+            assignee.name.toLowerCase() : "No assignee Name");
 
         return found;
       }

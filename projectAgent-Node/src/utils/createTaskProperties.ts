@@ -11,10 +11,10 @@ const createTitleArray = function (taskTitle: string) {
   ];
 };
 
-const createAssigneeArray = function (assignees: NotionUser[]) {
-  return assignees.map((assignee) => {
+const createAssigneeArray = async function (assignees: NotionUser[]) {
+  return Promise.all(assignees.map((assignee) => {
     return createNotionPerson(assignee)
-  })
+  }))
 };
 
 const createDescriptionArray = function (description: string) {
@@ -36,13 +36,13 @@ const createProjectArray = function (project: string) {
   ];
 };
 
-const createAssignedByArray = function (assignedBy: NotionUser[]) {
-  return assignedBy.map((assigner) => {
+const createAssignedByArray = async function (assignedBy: NotionUser[]) {
+  return Promise.all(assignedBy.map((assigner) => {
     return createNotionPerson(assigner)
-  })
+  }))
 };
 
-export const createTaskProperties = function (taskObj: NotionTask) {
+export const createTaskProperties = async function (taskObj: NotionTask) {
   // export const setTaskProperties = function (taskObj: Task, assignedBy: {name: string, email: string}[]) {
   const taskTitle = taskObj["taskTitle"];
   const assignees = taskObj["assignees"];
@@ -60,7 +60,7 @@ export const createTaskProperties = function (taskObj: NotionTask) {
       title: createTitleArray(taskTitle),
     },
     "Assigned to": {
-      people: createAssigneeArray(assignees),
+      people: await createAssigneeArray(assignees),
     },
     "Due": {
       date: {
@@ -84,7 +84,7 @@ export const createTaskProperties = function (taskObj: NotionTask) {
       rich_text: createProjectArray(project),
     },
     "Assigned By": {
-      people: createAssignedByArray(assignedBy),
+      people: await createAssignedByArray(assignedBy),
     },
   };
 };

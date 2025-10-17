@@ -49,6 +49,7 @@ export const searchDB = async function (task: Task): Promise<dbSearchResult> {
   console.log(`task (searchDB): ${JSON.stringify(task)}`);
   console.log(`assignee (searchDB): ${JSON.stringify(task.assignees)}`);
 
+  // TODO for temporary solution, return only the 20 most recent tasks
   const response = await notion.dataSources.query({
     data_source_id: NOTION_TASKS_DATA_SOURCE_ID,
   });

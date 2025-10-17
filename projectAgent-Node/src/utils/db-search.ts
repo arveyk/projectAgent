@@ -68,7 +68,7 @@ export const searchDB = async function (task: Task): Promise<dbSearchResult> {
         return false;
       }
       else {
-        console.log(`${assignee.name}, ${JSON.stringify(task.assignees[0])}`);
+        console.log(` simplifyDBResult ... ->assingne.name${assignee.name}, task${JSON.stringify(task.assignees[0])}`);
         const found: boolean = assignee.name === task.assignees[0].name
           ||
           assignee.name.toLowerCase().includes(task.assignees[0].name ?

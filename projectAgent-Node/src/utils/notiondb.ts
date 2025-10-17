@@ -2,7 +2,7 @@ import { Client, CreatePageResponse } from "@notionhq/client";
 import { validateDueDate } from "./dateHandler";
 import { NOTION_API_KEY, NOTION_TASKS_DATA_SOURCE_ID } from "../env";
 import { createTaskProperties } from "./createTaskProperties";
-import { Task, Person, NotionTask } from "./task";
+import { Task, PersonNoId, NotionTask } from "./task";
 
 export type PageAddResult = {
   success: boolean;

@@ -2,14 +2,14 @@ import { GroupObjectResponse, isFullUser, PageObjectResponse, PartialUserObjectR
 import { BlockAction } from "@slack/bolt";
 import { NotionUser } from "./controllers/userTypes";
 
-export type Person = {
+export type PersonNoId = {
   name: string,
   email?: string
 }
 
 export type Task = {
   taskTitle: string;
-  assignees: Person[];
+  assignees: PersonNoId[];
   dueDate: Date;
   startDate?: Date;
   description: string;

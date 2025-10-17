@@ -1,4 +1,4 @@
-import { parseTaskSlashCmd } from "./aiagent";
+import { parseTask } from "./aiagent";
 
 import {
   payloadGood,
@@ -19,7 +19,7 @@ describe("Tests parseTaskSlashCmd with a good payload", () => {
     expect(typeof payloadGood).toBe("object");
     const timestamp = 1755039682 * 1000;
 
-    const parsedTask = await parseTaskSlashCmd(payloadGood, timestamp);
+    const parsedTask = await parseTask(payloadGood, timestamp);
     console.log(JSON.stringify(parsedTask));
 
     expect(parsedTask.assignees).toMatch(taskGood.assignees);
@@ -34,7 +34,7 @@ describe("Tests parseTaskSlashCmd with a good payload from Harvey", () => {
     expect(typeof payloadHarvey).toBe("object");
     const timestamp = 1755039682 * 1000;
 
-    const parsedTask = await parseTaskSlashCmd(payloadHarvey, timestamp);
+    const parsedTask = await parseTask(payloadHarvey, timestamp);
     console.log(JSON.stringify(parsedTask));
 
     expect(parsedTask.assignees).toMatch(taskHarvey.assignees);
@@ -49,7 +49,7 @@ describe("Tests parseTaskSlashCmd inferring dates", () => {
     expect(typeof payloadInferDates).toBe("object");
     const timestamp = 1755039682 * 1000;
 
-    const parsedTask = await parseTaskSlashCmd(payloadInferDates, timestamp);
+    const parsedTask = await parseTask(payloadInferDates, timestamp);
     console.log(JSON.stringify(parsedTask));
 
     expect(parsedTask.assignees).toMatch(taskInferDates.assignees);
@@ -64,7 +64,7 @@ describe("tests parseTaskSlashCmd with the payload that's been causing trouble",
     expect(typeof payloadNew).toBe("object");
     const timestamp = Date.now();
 
-    const parsedTask = await parseTaskSlashCmd(payloadNew, timestamp);
+    const parsedTask = await parseTask(payloadNew, timestamp);
     console.log(JSON.stringify(parsedTask));
     console.log(JSON.stringify(taskKitchen));
   });

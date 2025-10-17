@@ -48,11 +48,10 @@ const structuredLlmSlashCmd: Runnable<
  * @param {*} reqBody The body of the request
  * @returns A TaskParseResult containing the formatted task.
  */
-export const parseTaskSlashCmd = async function (
+export const parseTask = async function (
   reqBody: SlashCommand,
   timestamp: number,
 ): Promise<Task> {
-  //Done type annotation for reqBody
 
   let textToParse;
 
@@ -79,5 +78,6 @@ export const parseTaskSlashCmd = async function (
   });
   
   const task = convertTask(taskParseResult);
+
   return task;
 };

@@ -1,11 +1,11 @@
 import { isFullPage, isFullUser } from "@notionhq/client";
 import { QueryDataSourceResponse, PersonUserObjectResponse, UserObjectResponseCommon, PartialUserObjectResponse, UserObjectResponse } from "@notionhq/client/build/src/api-endpoints";
-import { extractAssignees, Person } from "./task";
+import { extractAssignees, PersonNoId } from "./task";
 
 export type dbPage = {
   pageId: string;
   taskTitle: string;
-  assignee: Person[];
+  assignee: PersonNoId[];
 };
 
 /**

@@ -1,4 +1,4 @@
-import { Person } from "../task";
+import { PersonNoId } from "../task";
 
 export const task = {
   assignee: "Nick Furry",
@@ -20,6 +20,6 @@ export type SlackUser = {
 };
 
 export type UserSearchResult = {
-  person: Person,
+  person: PersonNoId,
   foundUsers: NotionUser[]
 };

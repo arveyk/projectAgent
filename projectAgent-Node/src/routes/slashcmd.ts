@@ -2,7 +2,7 @@ import axios from "axios";
 import { Request, Response, NextFunction } from "express";
 import { createBlockNewTask } from "../blockkit/createBlocks";
 import { createUpdateBlock } from "../blockkit/updateBlock";
-import { parseTaskSlashCmd } from "../utils/aiagent";
+import { parseTask } from "../utils/aiagent";
 import { searchDB, getTaskProperties } from "../utils/db-search";
 import { sendLoadingMsg } from "../blockkit/loadingMsg";
 import { findMatchingAssignees } from "../utils/controllers/userCreds";
@@ -39,13 +39,14 @@ const slashCmdHandler = async function (
       console.log(`timestamp: ${timestamp}`);
 
       // Sample payloads can be found in ../test-data/payloads/slashcmd/payloads.ts
-      const task = await parseTaskSlashCmd(
+      const task = await parseTask(
         request.body as SlashCommand,
         timestamp,
       );
+      // findMatchingAssignees(task)
+      // TODO show the user the list of potential assignees found in Notion and have them choose one
   
-      // TODO decide whether we will call findMatchingAssignees before or after we call searchDB
-      // In any case, we will need to pass a NotionTask into createBlockNewTask instead of a Task
+      // TODO search database before parsing task
       await sendLoadingMsg("Searching Database", response_url);
       const isInDatabase = await searchDB(task);
       console.log("IS in database?", JSON.stringify(isInDatabase));

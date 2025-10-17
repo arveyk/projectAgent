@@ -10,6 +10,7 @@ import {
   ANTHROPIC_API_KEY,
 } from "../env";
 import { ta } from "zod/dist/types/v4/locales";
+import e from "express";
 
 const notion = new Client({
   auth: NOTION_API_KEY,
@@ -66,14 +67,16 @@ export const searchDB = async function (task: Task): Promise<dbSearchResult> {
       if (assignee === undefined || task.assignees[0] === undefined) {
         return false;
       }
-      console.log(`${assignee.name}, ${JSON.stringify(task.assignees[0])}`);
-      const found: boolean = assignee.name === task.assignees[0].name 
-      || 
-      assignee.name.toLowerCase().includes(task.assignees[0].name.toLowerCase())
-      ||
-      task.assignees[0].name.toLowerCase().includes(assignee.name.toLowerCase());
+      else {
+        console.log(`${assignee.name}, ${JSON.stringify(task.assignees[0])}`);
+        const found: boolean = assignee.name === task.assignees[0].name
+          ||
+          assignee.name.toLowerCase().includes(task.assignees[0].name.toLowerCase())
+          ||
+          task.assignees[0].name.toLowerCase().includes(assignee.name.toLowerCase());
 
-      return found;
+        return found;
+      }
     }) ? true : false
     console.log(`page assignees: ${JSON.stringify(page.assignee)} task assignees: ${JSON.stringify(task.assignees)} match? ${assigneeMatch}`);
     return assigneeMatch;

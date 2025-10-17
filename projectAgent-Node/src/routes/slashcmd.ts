@@ -8,8 +8,9 @@ import { sendLoadingMsg } from "../blockkit/loadingMsg";
 import { findMatchingAssignees } from "../utils/controllers/userCreds";
 // import { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 import { SlashCommand } from "@slack/bolt";
-import { convertTaskPageFromDbResponse, TaskPage } from "../utils/task";
+import { convertTaskPageFromDbResponse, NotionTask, TaskPage } from "../utils/task";
 import { GetPageResponse } from "@notionhq/client";
+import { ta } from "zod/dist/types/v4/locales";
 
 // webhook for taskmanagement channel only
 const webhookURL = process.env.TASK_MANAGEMENT_WEBHOOK_URL;
@@ -55,6 +56,19 @@ const slashCmdHandler = async function (
       const assigneeSearchResults = await findMatchingAssignees(task);
       // TODO show the user the list of potential assignees found in Notion and have them choose one
 
+      // This is just a placeholder for until we implement the dropdowns
+      const notionTask: NotionTask = {
+        taskTitle: task.taskTitle,
+        // As a placeholder, just pick the first result
+        assignees: task.assignees.map((assignee) => assigneeSearchResults.filter((result) => result.person === assignee).map((result) => result.foundUsers[0])[0]),
+        // As a placeholder, make this the same as assignees
+        assignedBy: task.assignees.map((assignee) => assigneeSearchResults.filter((result) => result.person === assignee).map((result) => result.foundUsers[0])[0]),
+        dueDate: task.dueDate,
+        startDate: task.startDate,
+        description: task.description,
+        project: task.project
+      }
+
       if (!isInDatabase) {
         throw new Error("Error searching database");
       }
@@ -94,10 +108,10 @@ const slashCmdHandler = async function (
       } else {
         console.log(
           "Task to be passed to createBlockNewTask",
-          JSON.stringify(task),
+          JSON.stringify(notionTask),
         );
         const taskBlock = createBlockNewTask({
-          task: task,
+          task: notionTask,
           url: "",
           pageId: "",
         } as TaskPage);

@@ -54,6 +54,7 @@ const slashCmdHandler = async function (
 
       // Find Notion users
       const assigneeSearchResults = await findMatchingAssignees(task);
+      // TODO get assigned by
       // TODO show the user the list of potential assignees found in Notion and have them choose one
 
       // This is just a placeholder for until we implement the dropdowns

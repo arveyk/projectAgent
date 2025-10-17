@@ -63,7 +63,7 @@ export const searchDB = async function (task: Task): Promise<dbSearchResult> {
   // Filter by assignee
   const filteredResponse: dbPage[] = simplifiedResponse.filter((page) => {
     const assigneeMatch: boolean = page.assignee.find((assignee) => {
-      if (assignee === undefined) {
+      if (assignee === undefined || task.assignees[0] === undefined) {
         return false;
       }
       console.log(`${assignee.name}, ${JSON.stringify(task.assignees[0])}`);

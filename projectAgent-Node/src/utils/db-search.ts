@@ -45,9 +45,8 @@ const structuredLlm = model.withStructuredOutput(databaseSearchResult);
  * @param {*} task The task object
  * @returns true if the task is found, else returns false
  */
-export const searchDB = async function (task: Task): Promise<dbSearchResult> {
-  console.log(`task (searchDB): ${JSON.stringify(task)}`);
-  console.log(`assignee (searchDB): ${JSON.stringify(task.assignees)}`);
+export const searchDB = async function (message: string): Promise<dbSearchResult> {
+  console.log(`message (searchDB): ${JSON.stringify(message)}`);
 
   // TODO for temporary solution, return only the 20 most recent tasks
   const response = await notion.dataSources.query({
@@ -57,10 +56,10 @@ export const searchDB = async function (task: Task): Promise<dbSearchResult> {
   const simplifiedResponse = simplifyDBResults(response);
   // TODO create shortlist based on number of words in common, give that to the LLM. Pick a library to use for this
 
+  // TODO refine prompt
   const prompt = `
-      Please check if a task with the title ${JSON.stringify(task.taskTitle)} exists in the database response 
-      ${JSON.stringify(simplifiedResponse)}. If you find a task in the database response with a title that means the 
-      same thing as ${JSON.stringify(task.taskTitle)} but is worded slightly differently, this counts as a match.
+      Please check if a task matching the message ${message} exists in the database response 
+      ${JSON.stringify(simplifiedResponse)}.
     `;
 
   const llmResult = await structuredLlm.invoke(prompt);

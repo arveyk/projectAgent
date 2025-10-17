@@ -25,13 +25,20 @@ const slashCmdHandler = async function (
   response.status(200).send();
 
   try {
+    const reqBody = request.body as SlashCommand;
     console.log(`slashCmdHandler here. Any tasks for me?
-	  Request Body: ${JSON.stringify(request.body)}`);
+	  Request Body: ${JSON.stringify(reqBody)}`);
     console.log(`headers: ${JSON.stringify(request.headers)}`);
     // const command = request.body["command"];
-    const validate = isValidCmd(request.body);
+    const validate = isValidCmd(reqBody);
     if (validate.isValid) {
-      const response_url = request.body["response_url"];
+      
+      const response_url = reqBody["response_url"];
+
+      // Search database
+      await sendLoadingMsg("Searching Database", response_url);
+      const isInDatabase = await searchDB(reqBody.text);
+      console.log("IS in database?", JSON.stringify(isInDatabase));
 
       await sendLoadingMsg("Parsing Task", response_url);
 
@@ -40,16 +47,13 @@ const slashCmdHandler = async function (
 
       // Sample payloads can be found in ../test-data/payloads/slashcmd/payloads.ts
       const task = await parseTask(
-        request.body as SlashCommand,
+        reqBody,
         timestamp,
       );
-      // findMatchingAssignees(task)
+
+      // Find Notion users
+      const assigneeSearchResults = await findMatchingAssignees(task);
       // TODO show the user the list of potential assignees found in Notion and have them choose one
-  
-      // TODO search database before parsing task
-      await sendLoadingMsg("Searching Database", response_url);
-      const isInDatabase = await searchDB(task);
-      console.log("IS in database?", JSON.stringify(isInDatabase));
 
       if (!isInDatabase) {
         throw new Error("Error searching database");
@@ -73,7 +77,7 @@ const slashCmdHandler = async function (
 
           axios({
             method: "post",
-            url: request.body["response_url"],
+            url: reqBody["response_url"],
             data: {
               text: "Already in DB",
               blocks: updateBlock.blocks,
@@ -88,8 +92,6 @@ const slashCmdHandler = async function (
           throw new Error("Error getting page properties");
         }
       } else {
-        // TODO maybe move this call somewhere else?
-        let searchUserInSlack_Notion = await findMatchingAssignees(task);
         console.log(
           "Task to be passed to createBlockNewTask",
           JSON.stringify(task),
@@ -101,12 +103,12 @@ const slashCmdHandler = async function (
         } as TaskPage);
         taskBlock.blocks[0].text
           ? (taskBlock.blocks[0].text.text += JSON.stringify(
-              searchUserInSlack_Notion || " User not in Channel",
+              assigneeSearchResults || " User not in Channel",
             ))
           : console.log("First Text undefined");
         axios({
           method: "post",
-          url: request.body["response_url"],
+          url: reqBody["response_url"],
           data: taskBlock,
           family: 4,
         }).then((resp) => {
@@ -116,7 +118,7 @@ const slashCmdHandler = async function (
     } else {
       axios({
         method: "post",
-        url: request.body["response_url"],
+        url: reqBody["response_url"],
         data: {
           text: "Format: add ['Task Details']",
         },

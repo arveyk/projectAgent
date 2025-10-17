@@ -33,8 +33,8 @@ const sampleModal = {
 };
 
 /**
- *
- * @param {*} task A task object
+ * Creates a set of Slack blocks to be used in confirming a new task.
+ * @param {*} taskPageObj
  * @returns A set of Slack blocks containing data from the task, to be used in confirming new tasks
  */
 export const createBlockNewTask = function (taskPageObj: TaskPage) {

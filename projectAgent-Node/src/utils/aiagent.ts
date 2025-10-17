@@ -16,7 +16,7 @@ const model = new ChatAnthropic({
 
 const task = z.object({
   taskTitle: z.string().describe("Short descriptive title of the task"),
-  assignees: z.string().array().describe("Name of person assigned with the task"),
+  assignees: z.string().array().describe("Name of person or people assigned with the task"),
   dueDate: z
     .string()
     .datetime({ offset: true })

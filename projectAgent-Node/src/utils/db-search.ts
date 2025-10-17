@@ -62,6 +62,7 @@ export const searchDB = async function (task: Task): Promise<dbSearchResult> {
 
   const simplifiedResponse = simplifyDBResults(response);
   // Filter by assignee
+  console.log(`Response before ismplifying: ${JSON.stringify(response)}`)
   const filteredResponse: dbPage[] = simplifiedResponse.filter((page) => {
     const assigneeMatch: boolean = page.assignee.find((assignee) => {
       if (assignee === undefined || task.assignees[0] === undefined) {

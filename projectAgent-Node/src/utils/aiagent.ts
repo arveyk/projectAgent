@@ -73,5 +73,9 @@ export const parseTaskSlashCmd = async function (
   console.log(`task parse result: ${JSON.stringify(taskParseResult)}`);
 
   // Convert the LLM output to a Task object for future ease of use
+  // The assignees field comes out as an array of assingee name
+  taskParseResult.assignees = taskParseResult.assignees.map((assigneeName: string) => {
+    return { name: assigneeName};
+  });
   return convertTask(taskParseResult);
 };

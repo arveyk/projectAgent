@@ -13,6 +13,7 @@ import {
   TaskPage,
 } from "../../utils/task";
 import { deletePage } from "../../utils/db-deletepage";
+import { updateDbPage } from "../../utils/db-update";
 /**
  * interactionHandler - Response to user interactions with blocks when a button
  * 		     is pressed
@@ -297,9 +298,8 @@ function createOrUpdateTask(payload: BlockAction, response_url: string) {
       if (taskPage.url) {
         const editInNotionBlocks = redirectToNotionBlock(taskPage.url);
 
-        // await sendLoadingMsg("Updating Task", response_url);
-        // rowActionResult = await updateDbPage(taskPage);
-        rowActionResult = { success: true };
+        await sendLoadingMsg("Updating Task", response_url);
+        rowActionResult = await updateDbPage(taskPage);
         actionMessage = "Updated";
         emoji = "pencil2";
         console.log("Update Action");

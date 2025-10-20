@@ -80,7 +80,22 @@ export const projectsSelectBlock = {
             },
             "value": "value-1"
           },
-          */
+          */{
+            "text": {
+              "type": "plain_text",
+              "text": "*plain_text option 99*",
+              "emoji": true
+            },
+            "value": "value-1"
+          },
+          {
+            "text": {
+              "type": "plain_text",
+              "text": "*plain_text option 1*",
+              "emoji": true
+            },
+            "value": "value-101"
+          }
         ] as ProjectElementType[],
         action_id: "static_select-action",
       },

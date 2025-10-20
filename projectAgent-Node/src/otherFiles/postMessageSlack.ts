@@ -1,18 +1,21 @@
 import { SLACK_BOT_TOKEN } from "../env";
 import axios from "axios";
-import { createConfirmationBlock } from "../blockkit/createBlocks";
+// import { createConfirmationBlock } from "../blockkit/createBlocks";
 import { createBlockNewTask } from "../blockkit/createBlocks";
-import { createEditBlock } from "../blockkit/editblock";
+// import { createEditBlock } from "../blockkit/editblock";
 import { createFinalBlock } from "../blockkit/editblock";
 import { createUpdateBlock } from "../blockkit/updateBlock";
-import { readFile } from "./parseToJson";
+// import { readFile } from "./parseToJson";
 import {  RequestApprovalBlock } from "../blockkit/createBlocks";
+import { projectsSelectBlock } from "../blockkit/edit_in_notion_button";
 
 
-(async () => {
+/**
+ * (async () => {
   const personsArray = await readFile("./users.json");
   console.log(personsArray);
 })();
+*/
 
 
 try {
@@ -87,7 +90,8 @@ try {
       {
         channel: channel_id,
         text: "Some Text",
-        blocks: RequestApprovalBlock.blocks,
+        // blocks: RequestApprovalBlock.blocks,
+        blocks: projectsSelectBlock.blocks,
       },
       {
         headers: {

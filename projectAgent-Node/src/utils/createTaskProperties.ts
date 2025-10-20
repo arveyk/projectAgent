@@ -86,7 +86,7 @@ export const createTaskProperties = async function (taskObj: NotionTask) {
         start: dueDate.toString(),
       },
     },
-    "Start Date": {
+    "Start": {
       date: {
         start: startDate.toString(),
       },
@@ -94,11 +94,13 @@ export const createTaskProperties = async function (taskObj: NotionTask) {
     Description: {
       rich_text: createDescriptionArray(description),
     },
+    /*
+     * Not in the projects Database
     "Date Assigned": {
       date: {
         start: dateAssigned,
       },
-    },
+    },*/
     Project: {
       rich_text: createProjectArray(project),
     },

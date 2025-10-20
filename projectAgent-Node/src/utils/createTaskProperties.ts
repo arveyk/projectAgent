@@ -104,7 +104,7 @@ export const createTaskProperties = async function (taskObj: NotionTask) {
     Project: {
       rich_text: createProjectArray(project),
     },
-    "Assigned By": {
+    "Assigned by": {
       people: await createAssignedByArray(assignedBy),
     },
   };

@@ -71,7 +71,7 @@ export const createBlockNewTask = function (taskPageObj: TaskPage) {
       {
         type: "actions",
         elements: [
-          {
+          /*{
             type: "button",
             text: {
               type: "plain_text",
@@ -81,7 +81,7 @@ export const createBlockNewTask = function (taskPageObj: TaskPage) {
             style: "primary",
             value: JSON.stringify(taskPageObj), // value: JSON.stringify(taskPageObj),
             action_id: "actionId-0",
-          },
+          }, */
           {
             type: "button",
             text: {
@@ -107,6 +107,15 @@ export const createBlockNewTask = function (taskPageObj: TaskPage) {
       },
       {
         type: "divider",
+      },
+      {
+        "type": "context",
+        "elements": [
+          {
+            "type": "mrkdwn",
+            "text": "*A Link will be provided for you to edit the task in Notion*"
+          }
+        ]
       },
     ],
   };

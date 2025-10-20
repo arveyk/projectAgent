@@ -55,7 +55,7 @@ export const createBlockNewTask = function (taskPageObj: TaskPage) {
         type: "section",
         text: {
           type: "mrkdwn",
-          text: "*Migrate-db Branch You Are About to Create a New Task*",
+          text: "*You Are About to Create a New Task*",
         },
       },
       {

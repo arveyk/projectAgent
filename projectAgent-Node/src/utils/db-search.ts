@@ -52,7 +52,7 @@ export const searchDB = async function (
   console.log(`message (searchDB): ${JSON.stringify(message)}`);
 
   // TODO for temporary solution, return only the 20 most recent tasks
-  logTime("Querying database");
+  //logTime("Querying database");
   const response = await notion.dataSources.query({
     data_source_id: NOTION_TASKS_DATA_SOURCE_ID,
     filter: {
@@ -62,11 +62,11 @@ export const searchDB = async function (
       }
     }
   });
-  logTime("Done querying database");
+  //logTime("Done querying database");
 
-  logTime("Simplifying response");
+  //logTime("Simplifying response");
   const simplifiedResponse = simplifyDBResults(response);
-  logTime("Done simplifying response");
+  //logTime("Done simplifying response");
   // TODO create shortlist based on number of words in common, give that to the LLM. Pick a library to use for this
 
   // TODO refine prompt
@@ -75,13 +75,13 @@ export const searchDB = async function (
       ${JSON.stringify(simplifiedResponse)}.
     `;
 
-  logTime("LLM start");
+  //logTime("LLM start");
   const llmResult = await structuredLlm.invoke(prompt);
   const result: dbSearchResult = {
     exists: llmResult.exists,
     taskId: llmResult.task_id !== "<UNKNOWN>" ? llmResult.task_id : undefined,
   };
-  logTime("LLM finished");
+  //logTime("LLM finished");
   console.log(`result: ${JSON.stringify(result)}`);
 
   return result;

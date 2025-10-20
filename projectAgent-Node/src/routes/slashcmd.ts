@@ -45,18 +45,18 @@ const slashCmdHandler = async function (
       // Search database
       await sendLoadingMsg("Searching Database", response_url);
 
-      logTime("Searching database");
+      //logTime("Searching database");
       const isInDatabase = await searchDB(reqBody.text);
-      logTime("Done searching database");
+      //logTime("Done searching database");
 
       console.log("IS in database?", JSON.stringify(isInDatabase));
 
       await sendLoadingMsg("Parsing Task", response_url);
       const timestamp: number = Date.now();
 
-      //logTime("Parsing task");
+      logTime("Parsing task");
       const task = await parseTask(reqBody, timestamp);
-      //logTime("Done parsing task");
+      logTime("Done parsing task");
 
       
       // Find Notion users

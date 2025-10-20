@@ -6,6 +6,7 @@ import { parseTask } from "../utils/aiagent";
 import { searchDB, getTaskProperties } from "../utils/db-search";
 import { sendLoadingMsg } from "../blockkit/loadingMsg";
 import { findMatchingAssignees } from "../utils/controllers/userCreds";
+import { logTime } from "../utils/logTime";
 // import { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 import { SlashCommand } from "@slack/bolt";
 import {
@@ -26,6 +27,8 @@ const slashCmdHandler = async function (
   response: Response,
   next: NextFunction,
 ): Promise<void> {
+  logTime("Slash command activated");
+  
   // Send OK
   response.status(200).send();
 
@@ -35,29 +38,39 @@ const slashCmdHandler = async function (
 	  Request Body: ${JSON.stringify(reqBody)}`);
     console.log(`headers: ${JSON.stringify(request.headers)}`);
     // const command = request.body["command"];
+
+    logTime("Validating command");
     const validate = isValidCmd(reqBody);
     if (validate.isValid) {
       const response_url = reqBody["response_url"];
 
       // Search database
       await sendLoadingMsg("Searching Database", response_url);
+
+      logTime("Searching database");
       const isInDatabase = await searchDB(reqBody.text);
+      logTime("Done searching database");
+
       console.log("IS in database?", JSON.stringify(isInDatabase));
 
       await sendLoadingMsg("Parsing Task", response_url);
-
       const timestamp: number = Date.now();
-      console.log(`timestamp: ${timestamp}`);
 
-      // Sample payloads can be found in ../test-data/payloads/slashcmd/payloads.ts
+      logTime("Parsing task");
       const task = await parseTask(reqBody, timestamp);
+      logTime("Done parsing task");
 
+      
       // Find Notion users
+      logTime("Searching Notion for assignees");
       const assigneeSearchResults = await findMatchingAssignees(task);
+      logTime("Done searching Notion for assignees");
+
       // TODO get assigned by
       // TODO show the user the list of potential assignees found in Notion and have them choose one
 
       // This is just a placeholder for until we implement the dropdowns
+      logTime("Putting together NotionTask object");
       const notionTask: NotionTask = {
         taskTitle: task.taskTitle,
         // As a placeholder, just pick the first result
@@ -79,6 +92,7 @@ const slashCmdHandler = async function (
         description: task.description,
         project: task.project,
       };
+      logTime("Done putting together NotionTask object");
 
       if (!isInDatabase) {
         throw new Error("Error searching database");
@@ -87,19 +101,26 @@ const slashCmdHandler = async function (
       if (isInDatabase.exists) {
         console.log("Already in Database");
 
+        logTime("Task already in database, getting details");
         const pageObject: GetPageResponse = await getTaskProperties(
           isInDatabase.taskId || "",
         );
+
         if ("properties" in pageObject) {
           const existingTask: TaskPage =
             convertTaskPageFromDbResponse(pageObject);
+          logTime("Done getting task details");
           console.log(
             `(slashCmdHandler) existingTask: ${JSON.stringify(existingTask)}`,
           );
           // existingTask.startDate = new Date(existingTask.startDate)
+
+          logTime("Creating update block");
           const updateBlock = createUpdateBlock(existingTask);
+          logTime("Done creating update block");
           console.log("Update Block", JSON.stringify(updateBlock));
 
+          logTime("Sending update block");
           axios({
             method: "post",
             url: reqBody["response_url"],
@@ -117,6 +138,7 @@ const slashCmdHandler = async function (
                 "(slashCmdHandler): Axios Error while posting updateBlock",
               );
             });
+          logTime("Done sending update block");
         } else {
           throw new Error("Error getting page properties");
         }
@@ -125,6 +147,8 @@ const slashCmdHandler = async function (
           "Task to be passed to createBlockNewTask",
           JSON.stringify(notionTask),
         );
+
+        logTime("Task not in database, creating add block");
         const taskBlock = createBlockNewTask({
           task: notionTask,
           url: "",
@@ -135,6 +159,9 @@ const slashCmdHandler = async function (
               assigneeSearchResults || " User not in Channel",
             ))
           : console.log("First Text undefined");
+        logTime("Done creating add block");
+
+        logTime("Sending add block");
         axios({
           method: "post",
           url: reqBody["response_url"],
@@ -143,6 +170,7 @@ const slashCmdHandler = async function (
         }).then((resp) => {
           console.log("OK from slack", resp["status"]);
         });
+        logTime("Done sending add block");
       }
     } else {
       axios({

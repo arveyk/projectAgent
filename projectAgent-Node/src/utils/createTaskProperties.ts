@@ -100,9 +100,11 @@ export const createTaskProperties = async function (taskObj: NotionTask) {
         start: dateAssigned,
       },
     },*/
-    Project: {
-      relation: createProjectArray(project),
-    },
+    
+    // Commented out until we implement getting Project id
+    // Project: {
+    //   relation: createProjectArray(project),
+    // },
     "Assigned by": {
       people: await createAssignedByArray(assignedBy),
     },

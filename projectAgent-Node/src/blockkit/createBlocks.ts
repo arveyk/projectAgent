@@ -101,12 +101,10 @@ export const createBlockNewTask = function (taskPageObj: TaskPage) {
               emoji: true,
             },
             value: JSON.stringify(taskPageObj), // value: JSON.stringify(taskPageObj),
+            style: "primary",
             action_id: "actionId-2",
           },
         ],
-      },
-      {
-        type: "divider",
       },
       {
         "type": "context",

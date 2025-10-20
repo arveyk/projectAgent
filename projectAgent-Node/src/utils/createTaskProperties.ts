@@ -1,5 +1,6 @@
 import { NotionTask } from "./task.js";
 import { NotionUser } from "./controllers/userTypes.js";
+import { object } from "zod";
 
 const createTitleArray = function (taskTitle: string) {
   return [
@@ -15,8 +16,10 @@ const createAssigneeArray = async function (assignees: NotionUser[]) {
   if (assignees.length > 0 && assignees[0] !== undefined) {
     return Promise.all(
       assignees.map((assignee) => {
-        return createNotionPerson(assignee);
-      }),
+        if (assignee.userId !== null) {
+          return createNotionPerson(assignee);
+        }
+      }).filter((assignee) => assignee !== undefined)
     );
   } else {
     return [];
@@ -53,8 +56,10 @@ const createAssignedByArray = async function (
   if (assignedBy.length > 0 && assignedBy[0] !== undefined) {
     return Promise.all(
       assignedBy.map((assigner) => {
-        return createNotionPerson(assigner);
-      }),
+        if (assigner.userId !== null) {
+          return createNotionPerson(assigner);
+        }
+      }).filter((assigner) => assigner !== undefined)
     );
   } else {
     return [];

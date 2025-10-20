@@ -12,7 +12,7 @@ const createTitleArray = function (taskTitle: string) {
 };
 
 const createAssigneeArray = async function (assignees: NotionUser[]) {
-  if (assignees.length > 0) {
+  if (assignees.length > 0 && assignees[0] !== undefined) {
     return Promise.all(
       assignees.map((assignee) => {
         return createNotionPerson(assignee);
@@ -50,7 +50,7 @@ const createAssignedByArray = async function (
     id: string;
   }[]
 > {
-  if (assignedBy.length > 0) {
+  if (assignedBy.length > 0 && assignedBy[0] !== undefined) {
     return Promise.all(
       assignedBy.map((assigner) => {
         return createNotionPerson(assigner);

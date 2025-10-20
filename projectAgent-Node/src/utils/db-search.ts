@@ -42,7 +42,7 @@ const structuredLlm = model.withStructuredOutput(databaseSearchResult);
 
 /**
  * Searches Notion database for a task based on its title and assignee fields
- * @param {*} task The task object
+ * @param {*} message The message that triggered Project Agent
  * @returns true if the task is found, else returns false
  */
 export const searchDB = async function (
@@ -53,6 +53,12 @@ export const searchDB = async function (
   // TODO for temporary solution, return only the 20 most recent tasks
   const response = await notion.dataSources.query({
     data_source_id: NOTION_TASKS_DATA_SOURCE_ID,
+    filter: {
+      timestamp: "created_time",
+      created_time: {
+        after: "2025-10-15T07:04:00"
+      }
+    }
   });
 
   const simplifiedResponse = simplifyDBResults(response);

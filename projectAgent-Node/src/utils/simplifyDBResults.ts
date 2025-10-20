@@ -11,6 +11,7 @@ import { extractAssignees, PersonNoId } from "./task";
 export type dbPage = {
   pageId: string;
   taskTitle: string;
+  description?: string;
   assignee: PersonNoId[];
 };
 

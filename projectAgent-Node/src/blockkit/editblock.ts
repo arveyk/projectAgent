@@ -12,9 +12,11 @@ export const createTaskInfoBlock = function (taskPageObj: TaskPage) {
   let assigneeNames = "";
 
   console.log(`(createTaskInfoBlock), assigneesArray: ${assigneesArr}, task${JSON.stringify(task)}`);
-  if (assigneesArr && Array.isArray(assigneesArr)) {
+  if (assigneesArr && Array.isArray(assigneesArr))
     assigneesArr.forEach((assignee) => {
-      assigneeNames += `${assignee.name}, `;
+      if (assignee) {
+	      assigneeNames += `${assignee.name}, `;
+      }
     });
     assigneeNames = assigneeNames.slice(0, -2); // Remove trailing comma and space
   }

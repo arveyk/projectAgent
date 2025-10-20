@@ -33,12 +33,11 @@ const createDescriptionArray = function (description: string) {
   ];
 };
 const createProjectArray = function (project: string) {
+  console.log(project);
   return [
     {
-      text: {
-        content: project,
-      },
-    },
+      id: ""
+    }
   ];
 };
 
@@ -102,7 +101,7 @@ export const createTaskProperties = async function (taskObj: NotionTask) {
       },
     },*/
     Project: {
-      rich_text: createProjectArray(project),
+      relation: createProjectArray(project),
     },
     "Assigned by": {
       people: await createAssignedByArray(assignedBy),

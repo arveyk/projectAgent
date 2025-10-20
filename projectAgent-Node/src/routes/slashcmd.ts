@@ -27,7 +27,6 @@ const slashCmdHandler = async function (
   response: Response,
   next: NextFunction,
 ): Promise<void> {
-  logTime("Slash command activated");
   
   // Send OK
   response.status(200).send();
@@ -39,7 +38,6 @@ const slashCmdHandler = async function (
     console.log(`headers: ${JSON.stringify(request.headers)}`);
     // const command = request.body["command"];
 
-    logTime("Validating command");
     const validate = isValidCmd(reqBody);
     if (validate.isValid) {
       const response_url = reqBody["response_url"];
@@ -56,21 +54,18 @@ const slashCmdHandler = async function (
       await sendLoadingMsg("Parsing Task", response_url);
       const timestamp: number = Date.now();
 
-      logTime("Parsing task");
+      //logTime("Parsing task");
       const task = await parseTask(reqBody, timestamp);
-      logTime("Done parsing task");
+      //logTime("Done parsing task");
 
       
       // Find Notion users
-      logTime("Searching Notion for assignees");
       const assigneeSearchResults = await findMatchingAssignees(task);
-      logTime("Done searching Notion for assignees");
 
       // TODO get assigned by
       // TODO show the user the list of potential assignees found in Notion and have them choose one
 
       // This is just a placeholder for until we implement the dropdowns
-      logTime("Putting together NotionTask object");
       const notionTask: NotionTask = {
         taskTitle: task.taskTitle,
         // As a placeholder, just pick the first result
@@ -92,7 +87,6 @@ const slashCmdHandler = async function (
         description: task.description,
         project: task.project,
       };
-      logTime("Done putting together NotionTask object");
 
       if (!isInDatabase) {
         throw new Error("Error searching database");
@@ -101,7 +95,6 @@ const slashCmdHandler = async function (
       if (isInDatabase.exists) {
         console.log("Already in Database");
 
-        logTime("Task already in database, getting details");
         const pageObject: GetPageResponse = await getTaskProperties(
           isInDatabase.taskId || "",
         );
@@ -109,18 +102,14 @@ const slashCmdHandler = async function (
         if ("properties" in pageObject) {
           const existingTask: TaskPage =
             convertTaskPageFromDbResponse(pageObject);
-          logTime("Done getting task details");
           console.log(
             `(slashCmdHandler) existingTask: ${JSON.stringify(existingTask)}`,
           );
           // existingTask.startDate = new Date(existingTask.startDate)
 
-          logTime("Creating update block");
           const updateBlock = createUpdateBlock(existingTask);
-          logTime("Done creating update block");
           console.log("Update Block", JSON.stringify(updateBlock));
 
-          logTime("Sending update block");
           axios({
             method: "post",
             url: reqBody["response_url"],
@@ -138,7 +127,6 @@ const slashCmdHandler = async function (
                 "(slashCmdHandler): Axios Error while posting updateBlock",
               );
             });
-          logTime("Done sending update block");
         } else {
           throw new Error("Error getting page properties");
         }
@@ -148,7 +136,6 @@ const slashCmdHandler = async function (
           JSON.stringify(notionTask),
         );
 
-        logTime("Task not in database, creating add block");
         const taskBlock = createBlockNewTask({
           task: notionTask,
           url: "",
@@ -159,9 +146,7 @@ const slashCmdHandler = async function (
               assigneeSearchResults || " User not in Channel",
             ))
           : console.log("First Text undefined");
-        logTime("Done creating add block");
 
-        logTime("Sending add block");
         axios({
           method: "post",
           url: reqBody["response_url"],
@@ -170,7 +155,7 @@ const slashCmdHandler = async function (
         }).then((resp) => {
           console.log("OK from slack", resp["status"]);
         });
-        logTime("Done sending add block");
+
       }
     } else {
       axios({

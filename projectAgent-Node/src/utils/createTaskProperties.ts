@@ -19,7 +19,7 @@ const createAssigneeArray = async function (assignees: NotionUser[]) {
       }),
     );
   } else {
-    return [{ object: "user", id: "" }];
+    return [];
   }
 };
 
@@ -57,7 +57,7 @@ const createAssignedByArray = async function (
       }),
     );
   } else {
-    return [{ object: "user", id: "" }];
+    return [];
   }
 };
 

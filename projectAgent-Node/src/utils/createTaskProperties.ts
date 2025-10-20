@@ -35,9 +35,10 @@ const createDescriptionArray = function (description: string) {
 const createProjectArray = function (project: string) {
   console.log(project);
   return [
-    {
-      id: ""
-    }
+    // Commented out until we implement getting Project id
+    // {
+    //   id: ""
+    // }
   ];
 };
 
@@ -101,10 +102,10 @@ export const createTaskProperties = async function (taskObj: NotionTask) {
       },
     },*/
     
-    // Commented out until we implement getting Project id
-    // Project: {
-    //   relation: createProjectArray(project),
-    // },
+    // TODO implement getting Project id
+    Project: {
+      relation: createProjectArray(project),
+    },
     "Assigned by": {
       people: await createAssignedByArray(assignedBy),
     },

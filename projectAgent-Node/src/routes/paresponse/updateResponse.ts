@@ -165,16 +165,20 @@ export default function interactionHandler(
       // sendApprove(payload, response_url);
     } else if (action_text === "Delete") {
       (async () => {
-        const pageUrl = payload.actions[0].value;
+        const pageUrl: string = payload.actions[0].value;
         // TODO Delete task by calling deletePage() function
-        const deletionResult = await deletePage(pageUrl);
-        // TODO return message indicating success or failure
-        sendReject(
-          payload,
-          action_text,
-          response_url,
-          ":put_litter_in_its_place: Task Deleted",
-        );
+        if (pageUrl) {
+          const deletionResult = await deletePage(pageUrl);
+          // TODO return message indicating success or failure
+          sendReject(
+            payload,
+            action_text,
+            response_url,
+            ":put_litter_in_its_place: Task Deleted",
+          );
+        } else {
+          console.log("Cannot Delete a task from Notion Without a URL");
+        }
       })();
     } else if (action_text === "Cancel") {
       sendReject(
@@ -296,10 +300,10 @@ function createOrUpdateTask(payload: BlockAction, response_url: string) {
 
     (async () => {
       let rowActionResult: {
-          success: boolean;
-          page?: CreatePageResponse | CreatePageResponse;
-          erroMsg?: string;
-        },
+        success: boolean;
+        page?: CreatePageResponse | CreatePageResponse;
+        erroMsg?: string;
+      },
         actionMessage: string,
         emoji: string;
 

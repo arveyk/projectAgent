@@ -18,7 +18,7 @@ export const createTaskInfoBlock = function (taskPageObj: TaskPage) {
         assigneeNames += `${assignee.name} --- ${assignee.email}\n`;
       }
     });
-    assigneeNames = assigneeNames.slice(0, -2); // Remove trailing comma and space
+    assigneeNames = assigneeNames.slice(0, -1); // Remove trailing comma and space
   }
   task.startDate =
     task.startDate && task.startDate.toString() !== "Invalid Date"

@@ -7,9 +7,20 @@ const notion = new Client({
 });
 
 export async function deletePage(pageUrl: string) {
-  const pageToArchive = pageUrl.split("-").slice(-1).join();
-  const id = pageToArchive.match(/[0-9a-fA-F]{32}/);
-
+  let pageToArchive = pageUrl.split("-").slice(-1).join();
+  
+  let intermediate: string[] = [];
+  let step2Id = "";
+  if (pageToArchive.includes("&p")) {
+    intermediate = pageToArchive.split("&p");
+    console.log("Intermediate step", intermediate);
+    // pageToArchive = pageToArchive.at(-2);
+    step2Id = intermediate.slice(-2)[0];
+  }
+  const id = intermediate.length > 0 
+	  ? step2Id.match(/[0-9a-fA-F]{32}/)
+	  : pageToArchive.match(/[0-9a-fA-F]{32}/);
+  console.log(id);
   if (id) {
     const archivedPage = await notion.pages.update({
       page_id: id[0],

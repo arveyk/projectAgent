@@ -7,8 +7,8 @@ import { createFinalBlock } from "../blockkit/editblock";
 import { createUpdateBlock } from "../blockkit/updateBlock";
 // import { readFile } from "./parseToJson";
 import {  RequestApprovalBlock } from "../blockkit/createBlocks";
-import { projectsSelectBlock } from "../blockkit/edit_in_notion_button";
-
+import { projectsSelectBlock } from "../blockkit/edit_in_notion";
+import { redirectToNotionBlock } from "../blockkit/edit_in_notion";
 
 /**
  * (async () => {
@@ -84,6 +84,7 @@ try {
 
   const channel_id = eventPayload.event.channel;
   console.log(channel_id);
+  const redirectionBlock = redirectToNotionBlock("https://www.google.com")
   await axios
     .post(
       eventResURL,
@@ -91,7 +92,8 @@ try {
         channel: channel_id,
         text: "Some Text",
         // blocks: RequestApprovalBlock.blocks,
-        blocks: projectsSelectBlock.blocks,
+        // blocks: projectsSelectBlock.blocks,
+        blocks: redirectionBlock.blocks
       },
       {
         headers: {

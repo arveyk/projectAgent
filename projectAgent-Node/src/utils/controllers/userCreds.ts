@@ -68,7 +68,7 @@ export function compareNames(
   console.log(`Slack name: ${slackUserName}, Notion name: ${notionUserName}`);
   if (slackUserName !== undefined && notionUserName !== undefined) {
     if (
-      slackUserName.toLowerCase().replace("@", "") ===
+      slackUserName.toLowerCase().replace(".", " ").replace("@", "") ===
       notionUserName.toLowerCase().replace(".", " ").replace("@", "")
     ) {
       console.log("Found Matching user, CompareNames Function", slackUserName);

@@ -55,7 +55,8 @@ export default function interactionHandler(
 
     if (action_text === "Confirm" || action_text === "Confirm Edits") {
       createOrUpdateTask(payload, response_url);
-    } else if (action_text === "Add Task") {
+    }
+    else if (action_text === "Add Task") {
       // validate Date
       // sendEdit(payload, response_url, undefined);
 
@@ -114,9 +115,9 @@ export default function interactionHandler(
         }
       })();
       // sendApprove(payload, response_url);
-    } else if (action_text === "Add Task") {
-      sendSubmit(payload, response_url);
-    } else if (action_text === "Edit in Notion" || action_text === "Done") {
+    } /* else if (action_text === "Add Task") {
+      addTaskandTellUser(payload, response_url);
+    } */else if (action_text === "Edit in Notion" || action_text === "Done") {
       // validate Date
       // sendEdit(payload, response_url, undefined);
 
@@ -175,6 +176,13 @@ export default function interactionHandler(
           ":put_litter_in_its_place: Task Deleted",
         );
       })();
+    } else if (action_text === "Cancel") {
+      sendReject(
+        payload,
+        action_text,
+        response_url,
+        ":x: Task Action cancelled",
+      );
     } else {
       sendReject(
         payload,
@@ -244,13 +252,13 @@ function sendEdit(
  * @param payload
  * @param response_url
  */
-function sendSubmit(payload: BlockAction, response_url: string) {
+function addTaskandTellUser(payload: BlockAction, response_url: string) {
   if (payload["actions"][0].type === "button") {
     const taskPageObj: TaskPage = JSON.parse(
       payload["actions"][0].value || "{}",
     );
     const taskDetailsObj: Task = taskPageObj.task;
-    const block = createFinalBlock(taskPageObj);
+    const block = redirectToNotionBlock(taskPageObj.url || "");
 
     axios({
       method: "post",

@@ -67,6 +67,7 @@ export const searchDB = async function (
   //logTime("Simplifying response");
   const simplifiedResponse = simplifyDBResults(response);
   //logTime("Done simplifying response");
+  console.log(`Database response: ${simplifiedResponse}`);
   // TODO create shortlist based on number of words in common, give that to the LLM. Pick a library to use for this
 
   // TODO refine prompt

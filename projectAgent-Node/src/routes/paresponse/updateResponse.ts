@@ -52,9 +52,9 @@ export default function interactionHandler(
     action_text = payload["actions"][0]["text"]["text"];
     console.log("action_text in else block", action_text);
 
-    if (action_text === "Confirm") {
+    if (action_text === "Add Task") {
       createOrUpdateTask(payload, response_url);
-    } else if (action_text === "Add Task") {
+    } else if (action_text === "Confirm") {
       // validate Date
       // sendEdit(payload, response_url, undefined);
 

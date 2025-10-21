@@ -166,9 +166,9 @@ export default function interactionHandler(
     } else if (action_text === "Delete") {
       (async () => {
         const pageUrl = payload.actions[0].value;
-        // TODO Delete task by calling deletePage() function
         const deletionResult = await deletePage(pageUrl);
-        // TODO return message indicating success or failure
+	console.log(deletionResult);
+       // TODO return message indicating success or failure
         sendReject(
           payload,
           action_text,

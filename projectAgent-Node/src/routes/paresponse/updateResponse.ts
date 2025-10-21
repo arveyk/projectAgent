@@ -53,10 +53,10 @@ export default function interactionHandler(
     action_text = payload["actions"][0]["text"]["text"];
     console.log("action_text in else block", action_text);
 
-    if (action_text === "Confirm" || action_text === "Confirm Edits") {
+    if (action_text === "Confirm Edits") {
       createOrUpdateTask(payload, response_url);
     }
-    else if (action_text === "Add Task") {
+    else if (action_text === "Confirm" || action_text === "Add Task") {
       // validate Date
       // sendEdit(payload, response_url, undefined);
 
@@ -292,7 +292,7 @@ function createOrUpdateTask(payload: BlockAction, response_url: string) {
     );
     const taskPage: TaskPage = JSON.parse(payload["actions"][0].value || "{}");
 
-    console.log(`(sendApprove) taskPage: ${JSON.stringify(taskPage)}`);
+    console.log(`(createOrUpdateTask) taskPage: ${JSON.stringify(taskPage)}`);
 
     (async () => {
       let rowActionResult: {
@@ -344,7 +344,7 @@ function createOrUpdateTask(payload: BlockAction, response_url: string) {
           });
       } else {
         await sendLoadingMsg("Adding Task", response_url);
-        console.log(`(sendApprove) taskDetailsObj.task: ${taskPage.task}`);
+        console.log(`(createOrUpdateTask) taskDetailsObj.task: ${taskPage.task}`);
         rowActionResult = await addTaskNotionPage(taskPage.task);
         actionMessage = "Created";
         emoji = "white_check_mark";

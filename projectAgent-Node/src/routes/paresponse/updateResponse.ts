@@ -381,6 +381,7 @@ function createOrUpdateTask(payload: BlockAction, response_url: string) {
           }
         } else {
           sendError(rowActionResult, payload, response_url);
+          console.log(rowActionResult.erroMsg);
         }
       }
     })();

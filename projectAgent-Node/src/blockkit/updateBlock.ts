@@ -1,5 +1,5 @@
 import { Task, TaskPage } from "../utils/task";
-
+import { createTaskInfoBlock } from "./editblock";
 /**
  *
  * @param task: A task object
@@ -13,6 +13,7 @@ export function createUpdateBlock(taskPage: TaskPage) {
     : new Date().toISOString().split("T")[0];
   const dueDate = task.dueDate.toISOString().split("T")[0];
 
+  const sectionText = createTaskInfoBlock(taskPage);
   // task.startDate = startDate;
   // task.dueDate = dueDate;
   return {
@@ -29,23 +30,12 @@ export function createUpdateBlock(taskPage: TaskPage) {
         type: "section",
         text: {
           type: "mrkdwn",
-          text: `*Task title*:\t\t\t\t\t\t\t ${task.taskTitle} \n *Assignee*  \t\t\t\t\t\t\t${JSON.stringify(task.assignees)}\n *Email*  \t\t\t\t\t\t\t${"Email Field to be added"}\n* Due Date*  \t\t\t\t\t\t  ${dueDate}\n*Start Date*  \t\t\t\t\t\t  ${startDate}\n *Task Details:*\t\t\t\t\t ${task.description}\n*Project:*\t\t\t\t\t\t\t${task.project}`,
+          text: sectionText
         },
       },
       {
         type: "actions",
         elements: [
-          {
-            type: "button",
-            text: {
-              type: "plain_text",
-              text: "Cancel",
-              emoji: true,
-            },
-            value: "click_me_123",
-            style: "danger",
-            action_id: "actionId-0",
-          },
           {
             type: "button",
             text: {
@@ -61,14 +51,36 @@ export function createUpdateBlock(taskPage: TaskPage) {
             type: "button",
             text: {
               type: "plain_text",
-              text: "Confirm Edits",
+              text: "Cancel",
               emoji: true,
             },
-            value: `${JSON.stringify(taskPage)}`,
-            url: `${taskUrl}`,
-            style: "primary",
-            action_id: "actionId-2",
-	  },
+            value: "click_me_123",
+            style: "danger",
+            action_id: "actionId-0",
+          },
+          /*
+                    {
+                      type: "button",
+                      text: {
+                        type: "plain_text",
+                        text: "Confirm Edits",
+                        emoji: true,
+                      },
+                      value: `${JSON.stringify(taskPage)}`,
+                      url: `${taskUrl}`,
+                      style: "primary",
+                      action_id: "actionId-2",
+                    },
+                    */
+          {
+            "type": "context",
+            "elements": [
+              {
+                "type": "mrkdwn",
+                "text": "*You can edit the task in Notion after confirming*"
+              }
+            ]
+          }
         ],
       },
     ],

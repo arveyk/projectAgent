@@ -36,21 +36,21 @@ export function redirectToNotionBlock(url: string) {
             text: {
               type: "plain_text",
               emoji: true,
-              text: "Delete",
+              text: "Done",
             },
-            style: "danger",
-            value: `${url}`,
-            action_id: "actionId-1",
+            value: "done_123",
+            action_id: "actionId-2",
           },
           {
             type: "button",
             text: {
               type: "plain_text",
               emoji: true,
-              text: "Done",
+              text: "Delete",
             },
-            value: "done_123",
-            action_id: "actionId-2",
+            style: "danger",
+            value: `${url}`,
+            action_id: "actionId-1",
           },
         ],
       },
@@ -155,14 +155,14 @@ export function createProjectsSelectBlock(projectsList: string[]) {
     createSelectionBlock.blocks[0].element
       ? createSelectionBlock.blocks[0].element.options.push(projectElement)
       : (createSelectionBlock.blocks[0] = {
-          type: "input",
-          element: element,
-          label: {
-            type: "plain_text",
-            text: "Projects",
-            emoji: true,
-          },
-        });
+        type: "input",
+        element: element,
+        label: {
+          type: "plain_text",
+          text: "Projects",
+          emoji: true,
+        },
+      });
   });
 }
 
@@ -182,13 +182,13 @@ export function createAssignedToSelectBlock(projectsList: string[]) {
     createSelectionBlock.blocks[0].element
       ? createSelectionBlock.blocks[0].element.options.push(personElement)
       : (createSelectionBlock.blocks[0] = {
-          type: "input",
-          element: element,
-          label: {
-            type: "plain_text",
-            text: "Users In Notion",
-            emoji: true,
-          },
-        });
+        type: "input",
+        element: element,
+        label: {
+          type: "plain_text",
+          text: "Users In Notion",
+          emoji: true,
+        },
+      });
   });
 }

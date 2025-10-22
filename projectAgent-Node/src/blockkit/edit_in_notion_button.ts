@@ -39,7 +39,7 @@ export function redirectToNotionBlock(url: string) {
               text: "Done",
             },
             value: "done_123",
-            action_id: "actionId-2",
+            action_id: "actionId-001",
           },
           {
             type: "button",
@@ -50,7 +50,7 @@ export function redirectToNotionBlock(url: string) {
             },
             style: "danger",
             value: `${url}`,
-            action_id: "actionId-1",
+            action_id: "actionId-002",
           },
         ],
       },

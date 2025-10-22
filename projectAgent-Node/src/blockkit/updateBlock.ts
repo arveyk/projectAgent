@@ -45,7 +45,7 @@ export function createUpdateBlock(taskPage: TaskPage) {
             },
             value: `${JSON.stringify(taskPage)}`,
             url: `${taskUrl}`,
-            action_id: "actionId-1",
+            action_id: "updateId-01",
           },
           {
             type: "button",
@@ -56,7 +56,7 @@ export function createUpdateBlock(taskPage: TaskPage) {
             },
             value: "click_me_123",
             style: "danger",
-            action_id: "actionId-0",
+            action_id: "cancelUpdateId-02",
           },
           /*
                     {
@@ -69,7 +69,7 @@ export function createUpdateBlock(taskPage: TaskPage) {
                       value: `${JSON.stringify(taskPage)}`,
                       url: `${taskUrl}`,
                       style: "primary",
-                      action_id: "actionId-2",
+                      action_id: "updateId-02",
                     },
                     */
           {

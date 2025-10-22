@@ -53,10 +53,12 @@ export default function interactionHandler(
     action_text = payload["actions"][0]["text"]["text"];
     console.log("action_text in else block", action_text);
 
-    if (action_text === "Confirm Edits") {
+    /*if (action_text === "Confirm Edits") {
       createOrUpdateTask(payload, response_url);
     }
-    else if (action_text === "Confirm" || action_text === "Add Task") {
+    else 
+      */
+    if (action_text === "Confirm" || action_text === "Add Task") {
       // validate Date
       // sendEdit(payload, response_url, undefined);
 
@@ -109,13 +111,16 @@ export default function interactionHandler(
                   err,
                 );
               });
+          } else {
+            sendError(taskAddResult, payload, response_url);
+            console.log(taskAddResult.errorMsg);
           }
         } catch (error) {
           console.error("Error adding task", error);
         }
       })();
       // sendApprove(payload, response_url);
-    } /* else if (action_text === "Add Task") {
+    } /* else if (action_text === "Add Task") { 
       addTaskandTellUser(payload, response_url);
     } */else if (action_text === "Edit in Notion" || action_text === "Done") {
       // validate Date
@@ -167,8 +172,8 @@ export default function interactionHandler(
       (async () => {
         const pageUrl = payload.actions[0].value;
         const deletionResult = await deletePage(pageUrl);
-	console.log(deletionResult);
-       // TODO return message indicating success or failure
+        console.log(deletionResult);
+        // TODO return message indicating success or failure
         sendReject(
           payload,
           action_text,
@@ -181,7 +186,7 @@ export default function interactionHandler(
         payload,
         action_text,
         response_url,
-        ":x: Task Action cancelled",
+        ":x: Action cancelled",
       );
     } else {
       sendReject(
@@ -283,7 +288,7 @@ function addTaskandTellUser(payload: BlockAction, response_url: string) {
  * creates task once user confirms
  * @param payload
  * @param response_url
- */
+ *
 function createOrUpdateTask(payload: BlockAction, response_url: string) {
   if (payload["actions"][0].type === "button") {
     const taskPage0 = convertTaskPageFromButtonPayload(payload);
@@ -395,7 +400,7 @@ function createOrUpdateTask(payload: BlockAction, response_url: string) {
     })();
   }
 }
-
+*/
 function sendError(
   createRowResult: PageAddResult,
   payload: BlockAction,

@@ -33,7 +33,7 @@ describe("Test searchDB in the new test database", () => {
     // const response = await returnTasks();
     // console.log(JSON.stringify(response));
 
-    const searchResult = await searchDB(task);
+    const searchResult = await searchDB("Schedule a meeting with the customer. Check the sender's Calendly for available times.");
     console.log(`search result: ${JSON.stringify(searchResult)}`);
     expect(searchResult.exists).toBeDefined();
     expect(searchResult.taskId).toBeDefined();

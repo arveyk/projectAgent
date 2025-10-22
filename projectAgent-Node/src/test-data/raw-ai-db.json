@@ -1,0 +1,80 @@
+{
+    "lc": 1,
+    "type": "constructor",
+    "id": [
+        "langchain_core",
+        "messages",
+        "AIMessage"
+    ],
+    "kwargs": {
+        "content": [
+            {
+                "type": "tool_use",
+                "id": "toolu_01BUdqrUu8vrn5yXzN2w66Dm",
+                "name": "extract",
+                "input": {
+                    "exists": false
+                }
+            }
+        ],
+        "additional_kwargs": {
+            "model": "claude-3-5-sonnet-20240620",
+            "id": "msg_01Mn8SNqFDCbdWy7qfePCAwU",
+            "type": "message",
+            "role": "assistant",
+            "stop_reason": "tool_use",
+            "stop_sequence": null,
+            "usage": {
+                "input_tokens": 1569,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 0,
+                "cache_creation": {
+                    "ephemeral_5m_input_tokens": 0,
+                    "ephemeral_1h_input_tokens": 0
+                },
+                "output_tokens": 33,
+                "service_tier": "standard"
+            }
+        },
+        "tool_calls": [
+            {
+                "name": "extract",
+                "args": {
+                    "exists": false
+                },
+                "id": "toolu_01BUdqrUu8vrn5yXzN2w66Dm",
+                "type": "tool_call"
+            }
+        ],
+        "usage_metadata": {
+            "input_tokens": 1569,
+            "output_tokens": 33,
+            "total_tokens": 1602,
+            "input_token_details": {
+                "cache_creation": 0,
+                "cache_read": 0
+            }
+        },
+        "response_metadata": {
+            "model": "claude-3-5-sonnet-20240620",
+            "id": "msg_01Mn8SNqFDCbdWy7qfePCAwU",
+            "stop_reason": "tool_use",
+            "stop_sequence": null,
+            "usage": {
+                "input_tokens": 1569,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 0,
+                "cache_creation": {
+                    "ephemeral_5m_input_tokens": 0,
+                    "ephemeral_1h_input_tokens": 0
+                },
+                "output_tokens": 33,
+                "service_tier": "standard"
+            },
+            "type": "message",
+            "role": "assistant"
+        },
+        "id": "msg_01Mn8SNqFDCbdWy7qfePCAwU",
+        "invalid_tool_calls": []
+    }
+}

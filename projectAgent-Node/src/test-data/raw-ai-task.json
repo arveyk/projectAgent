@@ -1,0 +1,92 @@
+{
+    "lc": 1,
+    "type": "constructor",
+    "id": [
+        "langchain_core",
+        "messages",
+        "AIMessage"
+    ],
+    "kwargs": {
+        "content": [
+            {
+                "type": "tool_use",
+                "id": "toolu_01Ls3DX9MAwzoAXaaFyVJA5V",
+                "name": "extract",
+                "input": {
+                    "taskTitle": "Gather information and write report on similar products",
+                    "assignees": [
+                        "Ellen"
+                    ],
+                    "startDate": "2025-08-13T00:00:00.000-07:00",
+                    "dueDate": "2025-08-14T00:00:00.000-07:00",
+                    "description": "Gather information about similar preexisting products and write up a report. The task starts tomorrow and should be completed by Thursday."
+                }
+            }
+        ],
+        "additional_kwargs": {
+            "model": "claude-3-5-sonnet-20240620",
+            "id": "msg_01G1JrmmKvMWiyKQGK6jHTTh",
+            "type": "message",
+            "role": "assistant",
+            "stop_reason": "tool_use",
+            "stop_sequence": null,
+            "usage": {
+                "input_tokens": 827,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 0,
+                "cache_creation": {
+                    "ephemeral_5m_input_tokens": 0,
+                    "ephemeral_1h_input_tokens": 0
+                },
+                "output_tokens": 174,
+                "service_tier": "standard"
+            }
+        },
+        "tool_calls": [
+            {
+                "name": "extract",
+                "args": {
+                    "taskTitle": "Gather information and write report on similar products",
+                    "assignees": [
+                        "Ellen"
+                    ],
+                    "startDate": "2025-08-13T00:00:00.000-07:00",
+                    "dueDate": "2025-08-14T00:00:00.000-07:00",
+                    "description": "Gather information about similar preexisting products and write up a report. The task starts tomorrow and should be completed by Thursday."
+                },
+                "id": "toolu_01Ls3DX9MAwzoAXaaFyVJA5V",
+                "type": "tool_call"
+            }
+        ],
+        "usage_metadata": {
+            "input_tokens": 827,
+            "output_tokens": 174,
+            "total_tokens": 1001,
+            "input_token_details": {
+                "cache_creation": 0,
+                "cache_read": 0
+            }
+        },
+        "response_metadata": {
+            "model": "claude-3-5-sonnet-20240620",
+            "id": "msg_01G1JrmmKvMWiyKQGK6jHTTh",
+            "stop_reason": "tool_use",
+            "stop_sequence": null,
+            "usage": {
+                "input_tokens": 827,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 0,
+                "cache_creation": {
+                    "ephemeral_5m_input_tokens": 0,
+                    "ephemeral_1h_input_tokens": 0
+                },
+                "output_tokens": 174,
+                "service_tier": "standard"
+            },
+            "type": "message",
+            "role": "assistant"
+        },
+        "id": "msg_01G1JrmmKvMWiyKQGK6jHTTh",
+        "invalid_tool_calls": []
+    }
+}

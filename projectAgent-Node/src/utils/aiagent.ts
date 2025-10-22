@@ -45,7 +45,7 @@ const structuredLlmSlashCmd: Runnable<
   BaseLanguageModelInput,
   Record<string, any>,
   RunnableConfig<Record<string, any>>
-> = model.withStructuredOutput(task);
+> = model.withStructuredOutput(task, { includeRaw: true });
 
 /**
  * Uses Anthropic to parse a task assignment from a Slack slash command
@@ -73,21 +73,23 @@ export const parseTask = async function (
   console.log(`prompt: ${prompt}`);
   logTime("LLM start");
   const taskParseResult = await structuredLlmSlashCmd.invoke(prompt);
+  console.log(`Raw LLM response: ${JSON.stringify(taskParseResult.raw)}`);
+  const structuredResult = taskParseResult.parsed;
   logTime("LLM finished");
 
   // Convert the LLM output to a Task object for future ease of use
   // The assignees field comes out as an array of assingee name
   logTime("Converting to a Task object");
-  taskParseResult.assignees = taskParseResult.assignees.map(
+  structuredResult.assignees = structuredResult.assignees.map(
     (assigneeName: string) => {
       return { name: assigneeName };
     },
   );
 
-  const task = convertTask(taskParseResult);
+  const task = convertTask(structuredResult);
   logTime("Done converting to a Task object");
 
-  console.log(`task parse result: ${JSON.stringify(taskParseResult)}`);
+  console.log(`task parse result: ${JSON.stringify(structuredResult)}`);
   console.log(`task parse result after conversion: ${JSON.stringify(task)}`);
   return task;
 };

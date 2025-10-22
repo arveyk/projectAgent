@@ -39,7 +39,7 @@ export type dbSearchResult = {
   taskId?: string;
 };
 
-const structuredLlm = model.withStructuredOutput(databaseSearchResult);
+const structuredLlm = model.withStructuredOutput(databaseSearchResult, { includeRaw: true });
 
 /**
  * Searches Notion database for a task based on its title and assignee fields
@@ -78,9 +78,11 @@ export const searchDB = async function (
 
   //logTime("LLM start");
   const llmResult = await structuredLlm.invoke(prompt);
+  console.log(`Raw LLM response: ${JSON.stringify(llmResult.raw)}`);
+  const parsed = llmResult.parsed;
   const result: dbSearchResult = {
-    exists: llmResult.exists,
-    taskId: llmResult.task_id !== "<UNKNOWN>" ? llmResult.task_id : undefined,
+    exists: parsed.exists,
+    taskId: parsed.task_id !== "<UNKNOWN>" ? parsed.task_id : undefined,
   };
   //logTime("LLM finished");
   console.log(`result: ${JSON.stringify(result)}`);

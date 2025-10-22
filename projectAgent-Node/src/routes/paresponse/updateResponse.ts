@@ -122,7 +122,7 @@ export default function interactionHandler(
       // sendApprove(payload, response_url);
     } /* else if (action_text === "Add Task") { 
       addTaskandTellUser(payload, response_url);
-    } */else if (action_text === "Edit in Notion" || action_text === "Done") {
+    } */else if (action_text === "Edit in Notion" || action_text === "Done" || action_text === "Confirm Edits") {
       // validate Date
       // sendEdit(payload, response_url, undefined);
 

@@ -58,7 +58,7 @@ export function redirectToNotionBlock(url: string) {
   };
 }
 
-export const projectsSelectBlock = {
+export const createSelectionBlock = {
   blocks: [
     {
       type: "input",
@@ -130,6 +130,15 @@ const projectElement = {
   },
   value: "value-0",
 };
+
+const personElement = {
+  text: {
+    type: "plain_text",
+    text: "*user option 01*",
+    emoji: true,
+  },
+  value: "value-01",
+};
 export function createProjectsSelectBlock(projectsList: string[]) {
   projectsList.forEach((project) => {
     projectElement.text.text = project;
@@ -143,14 +152,41 @@ export function createProjectsSelectBlock(projectsList: string[]) {
       options: [projectElement],
       action_id: "static_select-action",
     };
-    projectsSelectBlock.blocks[0].element
-      ? projectsSelectBlock.blocks[0].element.options.push(projectElement)
-      : (projectsSelectBlock.blocks[0] = {
+    createSelectionBlock.blocks[0].element
+      ? createSelectionBlock.blocks[0].element.options.push(projectElement)
+      : (createSelectionBlock.blocks[0] = {
           type: "input",
           element: element,
           label: {
             type: "plain_text",
             text: "Projects",
+            emoji: true,
+          },
+        });
+  });
+}
+
+export function createAssignedToSelectBlock(projectsList: string[]) {
+  projectsList.forEach((person) => {
+    personElement.text.text = person;
+    const element = {
+      type: "static_select",
+      placeholder: {
+        type: "plain_text",
+        text: "Select an item",
+        emoji: true,
+      },
+      options: [personElement],
+      action_id: "static_select-action",
+    };
+    createSelectionBlock.blocks[0].element
+      ? createSelectionBlock.blocks[0].element.options.push(personElement)
+      : (createSelectionBlock.blocks[0] = {
+          type: "input",
+          element: element,
+          label: {
+            type: "plain_text",
+            text: "Users In Notion",
             emoji: true,
           },
         });

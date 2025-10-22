@@ -52,7 +52,7 @@ export const searchDB = async function (
   console.log(`message (searchDB): ${JSON.stringify(message)}`);
 
   // TODO for temporary solution, return only the 20 most recent tasks
-  //logTime("Querying database");
+  logTime("Querying database");
   const response = await notion.dataSources.query({
     data_source_id: NOTION_TASKS_DATA_SOURCE_ID,
     filter: {
@@ -62,7 +62,7 @@ export const searchDB = async function (
       }
     }
   });
-  //logTime("Done querying database");
+  logTime("Done querying database");
 
   //logTime("Simplifying response");
   const simplifiedResponse = simplifyDBResults(response);
@@ -76,7 +76,7 @@ export const searchDB = async function (
       ${JSON.stringify(simplifiedResponse)}.
     `;
 
-  //logTime("LLM start");
+  logTime("LLM start");
   const llmResult = await structuredLlm.invoke(prompt);
   console.log(`Raw LLM response: ${JSON.stringify(llmResult.raw)}`);
   const parsed = llmResult.parsed;
@@ -84,7 +84,7 @@ export const searchDB = async function (
     exists: parsed.exists,
     taskId: parsed.task_id !== "<UNKNOWN>" ? parsed.task_id : undefined,
   };
-  //logTime("LLM finished");
+  logTime("LLM finished");
   console.log(`result: ${JSON.stringify(result)}`);
 
   return result;

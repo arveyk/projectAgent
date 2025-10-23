@@ -1,4 +1,3 @@
-
 export function redirectToNotionBlock(url: string) {
   return {
     blocks: [

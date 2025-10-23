@@ -15,11 +15,13 @@ const createTitleArray = function (taskTitle: string) {
 const createAssigneeArray = async function (assignees: NotionUser[]) {
   if (assignees.length > 0 && assignees[0] !== undefined) {
     return Promise.all(
-      assignees.map((assignee) => {
-        if (assignee !== null) {
-          return createNotionPerson(assignee);
-        }
-      }).filter((assignee) => assignee !== undefined)
+      assignees
+        .map((assignee) => {
+          if (assignee !== null) {
+            return createNotionPerson(assignee);
+          }
+        })
+        .filter((assignee) => assignee !== undefined),
     );
   } else {
     return [];
@@ -55,11 +57,13 @@ const createAssignedByArray = async function (
 > {
   if (assignedBy.length > 0 && assignedBy[0] !== undefined) {
     return Promise.all(
-      assignedBy.map((assigner) => {
-        if (assigner !== null) {
-          return createNotionPerson(assigner);
-        }
-      }).filter((assigner) => assigner !== undefined)
+      assignedBy
+        .map((assigner) => {
+          if (assigner !== null) {
+            return createNotionPerson(assigner);
+          }
+        })
+        .filter((assigner) => assigner !== undefined),
     );
   } else {
     return [];
@@ -91,7 +95,7 @@ export const createTaskProperties = async function (taskObj: NotionTask) {
         start: dueDate.toString(),
       },
     },
-    "Start": {
+    Start: {
       date: {
         start: startDate.toString(),
       },
@@ -106,7 +110,7 @@ export const createTaskProperties = async function (taskObj: NotionTask) {
         start: dateAssigned,
       },
     },*/
-    
+
     // TODO implement getting Project id
     Project: {
       relation: createProjectArray(project),

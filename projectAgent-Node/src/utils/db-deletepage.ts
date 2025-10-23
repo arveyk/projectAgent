@@ -8,7 +8,7 @@ const notion = new Client({
 
 export async function deletePage(pageUrl: string) {
   let pageToArchive = pageUrl.split("-").slice(-1).join();
-  
+
   // for url similar to this https://www.notion.so/2387b3ca534480859025c97f0548887a?v=2387b3ca534480e4aed7000cf8ac8aa0&p=24d7b3ca534481bfad5ff27afc2fbd84&pm=s
   let intermediate: string[] = [];
 
@@ -19,9 +19,10 @@ export async function deletePage(pageUrl: string) {
     // pageToArchive = pageToArchive.at(-2);
     step2Id = intermediate.slice(-2)[0];
   }
-  const id = intermediate.length > 0 
-	  ? step2Id.match(/[0-9a-fA-F]{32}/)
-	  : pageToArchive.match(/[0-9a-fA-F]{32}/);
+  const id =
+    intermediate.length > 0
+      ? step2Id.match(/[0-9a-fA-F]{32}/)
+      : pageToArchive.match(/[0-9a-fA-F]{32}/);
   console.log(id);
   if (id) {
     const archivedPage = await notion.pages.update({

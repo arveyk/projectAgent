@@ -27,7 +27,6 @@ const slashCmdHandler = async function (
   response: Response,
   next: NextFunction,
 ): Promise<void> {
-  
   // Send OK
   response.status(200).send();
 
@@ -58,7 +57,6 @@ const slashCmdHandler = async function (
       const task = await parseTask(reqBody, timestamp);
       logTime("Done parsing task");
 
-      
       // Find Notion users
       const assigneeSearchResults = await findMatchingAssignees(task);
 
@@ -155,7 +153,6 @@ const slashCmdHandler = async function (
         }).then((resp) => {
           console.log("OK from slack", resp["status"]);
         });
-
       }
     } else {
       axios({

@@ -107,13 +107,13 @@ export const createBlockNewTask = function (taskPageObj: TaskPage) {
         ],
       },
       {
-        "type": "context",
-        "elements": [
+        type: "context",
+        elements: [
           {
-            "type": "mrkdwn",
-            "text": "*You can edit the task in Notion after adding it*"
-          }
-        ]
+            type: "mrkdwn",
+            text: "*You can edit the task in Notion after adding it*",
+          },
+        ],
       },
     ],
   };

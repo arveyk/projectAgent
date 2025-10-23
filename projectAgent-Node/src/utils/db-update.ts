@@ -35,7 +35,7 @@ export const updateDbPage = async function (
               start: dueDate ? dueDate.toISOString() : new Date().toISOString(),
             },
           },
-          "Start": {
+          Start: {
             date: {
               start: startDate
                 ? startDate.toISOString()

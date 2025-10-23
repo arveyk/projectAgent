@@ -40,7 +40,9 @@ export type dbSearchResult = {
   taskId?: string;
 };
 
-const structuredLlm = model.withStructuredOutput(databaseSearchResult, { includeRaw: true });
+const structuredLlm = model.withStructuredOutput(databaseSearchResult, {
+  includeRaw: true,
+});
 
 /**
  * Searches Notion database for a task based on its title and assignee fields
@@ -105,17 +107,28 @@ export async function returnTasks(): Promise<QueryDataSourceResponse> {
  * @returns Up to 20 of the database pages that most closely match the given message.
  */
 export function filterSimilar(pages: dbPage[], message: string): dbPage[] {
-  const similarPages = pages.map((page) => {
-    const similarity = stringSimilarity(page.taskTitle.concat(page.description ? page.description : ""), message);
-    console.log(`message: ${message}, page: ${page.taskTitle.concat(" ").concat(page.description ? page.description : "")}, similarity score: ${similarity}`);
-    const sensitivity = 0.4;
-    if (similarity >= sensitivity) {
-      return { page: page, similarity: similarity };
-    }
-  }).filter((pageSimilarity) => pageSimilarity !== undefined
-  ).sort((pageSimilarity1, pageSimilarity2) => pageSimilarity1.similarity - pageSimilarity2.similarity
-  ).reverse().slice(0, 21
-  ).map((pageSimilarity) => pageSimilarity.page);
+  const similarPages = pages
+    .map((page) => {
+      const similarity = stringSimilarity(
+        page.taskTitle.concat(page.description ? page.description : ""),
+        message,
+      );
+      console.log(
+        `message: ${message}, page: ${page.taskTitle.concat(" ").concat(page.description ? page.description : "")}, similarity score: ${similarity}`,
+      );
+      const sensitivity = 0.4;
+      if (similarity >= sensitivity) {
+        return { page: page, similarity: similarity };
+      }
+    })
+    .filter((pageSimilarity) => pageSimilarity !== undefined)
+    .sort(
+      (pageSimilarity1, pageSimilarity2) =>
+        pageSimilarity1.similarity - pageSimilarity2.similarity,
+    )
+    .reverse()
+    .slice(0, 21)
+    .map((pageSimilarity) => pageSimilarity.page);
 
   console.log(`Similar pages: ${JSON.stringify(similarPages)}`);
   return similarPages;

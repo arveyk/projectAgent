@@ -8,42 +8,43 @@ type SelectElementType = {
 };
 
 type SingleSelectionBlockType = {
-  blocks: ({
-    type: string;
-    element: {
-      type: string;
-      placeholder: {
+  blocks: (
+    | {
         type: string;
-        text: string;
-        emoji: boolean;
-      };
-      options: SelectElementType[];
-      action_id: string;
-    };
-    label: {
-      type: string;
-      text: string;
-      emoji: boolean;
-    };
-    elements?: undefined;
-  } | {
-    type: string;
-    elements: {
-      type: string;
-      text: {
+        element: {
+          type: string;
+          placeholder: {
+            type: string;
+            text: string;
+            emoji: boolean;
+          };
+          options: SelectElementType[];
+          action_id: string;
+        };
+        label: {
+          type: string;
+          text: string;
+          emoji: boolean;
+        };
+        elements?: undefined;
+      }
+    | {
         type: string;
-        text: string;
-        emoji: boolean;
-      };
-      value: string;
-      action_id: string;
-    }[];
-    element?: undefined;
-    label?: undefined;
-  })[];
-}
-
-
+        elements: {
+          type: string;
+          text: {
+            type: string;
+            text: string;
+            emoji: boolean;
+          };
+          value: string;
+          action_id: string;
+        }[];
+        element?: undefined;
+        label?: undefined;
+      }
+  )[];
+};
 
 const projectandUserSelectionBlock = {
   blocks: [
@@ -102,7 +103,7 @@ const projectandUserSelectionBlock = {
         },
       ],
     },
-  ]
+  ],
 };
 const projectElement = {
   text: {
@@ -123,27 +124,29 @@ const personElement = {
 };
 
 /**
- * 
- * @param projectsList 
+ *
+ * @param projectsList
  * @returns array of select options
  */
 export function createOptions(projectsList: string[]) {
   let index = 0;
   const optionsArray = projectsList.map((person) => {
     return {
-      "text": {
-        "type": "plain_text",
-        "text": `*${person}*`,
-        "emoji": true
+      text: {
+        type: "plain_text",
+        text: `*${person}*`,
+        emoji: true,
       },
-      "value": `value-${index++}`
-    }
-
+      value: `value-${index++}`,
+    };
   });
   return optionsArray;
 }
 
-export function createSelectionBlock(projectsArray: string[], usersArray: string[]) {
+export function createSelectionBlock(
+  projectsArray: string[],
+  usersArray: string[],
+) {
   console.log("Creating selection Blocks");
   let projectsOptions;
   let usersOptions;
@@ -160,10 +163,11 @@ export function createSelectionBlock(projectsArray: string[], usersArray: string
   }
   if (projectsOptions && usersOptions) {
     // create a block with both selection blocks
-    projectandUserSelectionBlock.blocks[0].element ?
-      projectandUserSelectionBlock.blocks[0].element.options = projectsOptions
-      // ? projectsOptions : [] 
-      : projectandUserSelectionBlock.blocks[0]
+    projectandUserSelectionBlock.blocks[0].element
+      ? (projectandUserSelectionBlock.blocks[0].element.options =
+          projectsOptions)
+      : // ? projectsOptions : []
+        projectandUserSelectionBlock.blocks[0];
     // unshift to add to the beginning of the array
 
     return {
@@ -219,26 +223,26 @@ export function createSelectionBlock(projectsArray: string[], usersArray: string
             },
           ],
         },
-      ]
+      ],
     };
 
     // create block with only Projects options
   } else if (usersOptions) {
     // create block with only Users options
-    projectandUserSelectionBlock.blocks[0].label 
-      ? projectandUserSelectionBlock.blocks[0].label.text = "Assignees"
-      : projectandUserSelectionBlock.blocks[0];
-    return projectandUserSelectionBlock.blocks[0].element 
-      ? projectandUserSelectionBlock.blocks[0].element.options = usersOptions
-      : projectandUserSelectionBlock.blocks[0]; 
-
-  } else if (projectsOptions) {
-    // create block with only Projects options
-    projectandUserSelectionBlock.blocks[0].label 
-      ? projectandUserSelectionBlock.blocks[0].label.text = "Projects"
+    projectandUserSelectionBlock.blocks[0].label
+      ? (projectandUserSelectionBlock.blocks[0].label.text = "Assignees")
       : projectandUserSelectionBlock.blocks[0];
     return projectandUserSelectionBlock.blocks[0].element
-      ? projectandUserSelectionBlock.blocks[0].element.options = projectsOptions
+      ? (projectandUserSelectionBlock.blocks[0].element.options = usersOptions)
+      : projectandUserSelectionBlock.blocks[0];
+  } else if (projectsOptions) {
+    // create block with only Projects options
+    projectandUserSelectionBlock.blocks[0].label
+      ? (projectandUserSelectionBlock.blocks[0].label.text = "Projects")
+      : projectandUserSelectionBlock.blocks[0];
+    return projectandUserSelectionBlock.blocks[0].element
+      ? (projectandUserSelectionBlock.blocks[0].element.options =
+          projectsOptions)
       : projectandUserSelectionBlock.blocks[0];
   }
 }

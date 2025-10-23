@@ -115,9 +115,11 @@ export default function interactionHandler(
           console.error("Error adding task", error);
         }
       })();
-
-    } else if (action_text === "Edit in Notion" || action_text === "Done" || action_text === "Confirm Edits") {
-      
+    } else if (
+      action_text === "Edit in Notion" ||
+      action_text === "Done" ||
+      action_text === "Confirm Edits"
+    ) {
       console.log("Edit in Notion, Response Url", response_url);
       let action = "*Done*";
 
@@ -176,15 +178,10 @@ export default function interactionHandler(
       })();
     } else if (action_text === "Cancel") {
       let cancelMessage = ":x: Task not Added";
-      if (action_id === "cancelUpdateId-02"){
+      if (action_id === "cancelUpdateId-02") {
         cancelMessage = ":x: Task not Updated";
       }
-      sendReject(
-        payload,
-        action_text,
-        response_url,
-        cancelMessage,
-      );
+      sendReject(payload, action_text, response_url, cancelMessage);
     } else {
       sendReject(
         payload,

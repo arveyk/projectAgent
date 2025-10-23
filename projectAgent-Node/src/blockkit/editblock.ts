@@ -11,7 +11,9 @@ export const createTaskInfoBlock = function (taskPageObj: TaskPage) {
   const assigneesArr = task.assignees;
   let assigneeNames = "";
 
-  console.log(`(createTaskInfoBlock), assigneesArray: ${assigneesArr}, task${JSON.stringify(task)}`);
+  console.log(
+    `(createTaskInfoBlock), assigneesArray: ${assigneesArr}, task${JSON.stringify(task)}`,
+  );
   if (assigneesArr && Array.isArray(assigneesArr)) {
     assigneesArr.forEach((assignee) => {
       if (assignee) {

@@ -5,7 +5,8 @@ import {
   task_not_in_db,
   task_feed_cats,
 } from "../test-data/tasks/example-tasks";
-import { dbSearchResult } from "./db-search";
+import { dbPageList } from "../test-data/payloads/dbPage-list";
+import { dbSearchResult, filterSimilar } from "./db-search";
 import { Task } from "./task";
 import { JsonPatchError } from "@langchain/core/dist/utils/fast-json-patch";
 import { GetPageResponse } from "@notionhq/client";
@@ -27,6 +28,12 @@ const task: Task = {
   description:
     "Schedule a meeting with the customer. Check the sender's Calendly for available times.",
 };
+
+describe("Tests filterSimilar", () => {
+  it("Returns only the pages most similar to the message", () => {
+    const similarPages = filterSimilar(dbPageList, "add Tuxedo Mask, feed all the cats every day and give them water");
+  })
+})
 
 describe("Test searchDB in the new test database", () => {
   it("", async () => {

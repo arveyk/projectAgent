@@ -3,6 +3,7 @@ import { ChatAnthropic } from "@langchain/anthropic";
 import { z } from "zod";
 import { dbPage, simplifyDBResults } from "./simplifyDBResults";
 import { Task } from "./task";
+import { stringSimilarity } from "string-similarity-js";
 
 import {
   NOTION_API_KEY,
@@ -101,4 +102,21 @@ export async function returnTasks(): Promise<QueryDataSourceResponse> {
   });
 
   return response;
+}
+
+/**
+ * Filters a list of simplified database pages, leaving only those most similar to the message.
+ * @param pages A list of simplified database pages.
+ * @param message The message that triggered Project Agent.
+ * @returns The database pages most similar to the message.
+ */
+export function filterSimilar(pages: dbPage[], message: string): dbPage[] {
+  const similarPages = pages.filter((page) => {
+    const similarity = stringSimilarity(page.taskTitle.concat(page.description ? page.description : ""), message);
+    console.log(`message: ${message}, page: ${page.taskTitle.concat(page.description ? page.description : "")}, similarity score: ${similarity}`);
+    return similarity >= 0.35;
+  })
+
+  console.log(`Similar pages: ${JSON.stringify(similarPages)}`);
+  return similarPages;
 }

@@ -13,7 +13,7 @@ export function redirectToNotionBlock(url: string) {
         type: "section",
         text: {
           type: "mrkdwn",
-          text: `:white_check_mark: Task *<${url}|Edit in Notion>*`,
+          text: `:white_check_mark: *<${url}|Edit in Notion>*`,
         },
       },
       {
@@ -39,6 +39,7 @@ export function redirectToNotionBlock(url: string) {
               text: "Done",
             },
             value: "done_123",
+            style: "primary",
             action_id: "actionId-001",
           },
           {

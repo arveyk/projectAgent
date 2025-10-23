@@ -253,7 +253,7 @@ function sendEdit(
  * when user submits block with edited task details for creating/updating a task
  * @param payload
  * @param response_url
- */
+ *
 function addTaskandTellUser(payload: BlockAction, response_url: string) {
   if (payload["actions"][0].type === "button") {
     const taskPageObj: TaskPage = JSON.parse(
@@ -279,7 +279,7 @@ function addTaskandTellUser(payload: BlockAction, response_url: string) {
         console.log("AXIOS ERROR in sendSubmit", err);
       });
   }
-}
+} */
 function sendError(
   createRowResult: PageAddResult,
   payload: BlockAction,

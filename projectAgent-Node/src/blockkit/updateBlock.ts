@@ -72,17 +72,18 @@ export function createUpdateBlock(taskPage: TaskPage) {
                       action_id: "updateId-02",
                     },
                     */
-          {
-            "type": "context",
-            "elements": [
-              {
-                "type": "mrkdwn",
-                "text": "*You can edit the task in Notion after confirming*"
-              }
-            ]
-          }
+
         ],
       },
+      {
+        "type": "context",
+        "elements": [
+          {
+            "type": "mrkdwn",
+            "text": "*You can edit the task in Notion after confirming*"
+          }
+        ]
+      }
     ],
   };
 }

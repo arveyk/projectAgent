@@ -7,7 +7,7 @@ import { createFinalBlock } from "../blockkit/editblock";
 import { createUpdateBlock } from "../blockkit/updateBlock";
 // import { readFile } from "./parseToJson";
 import {  RequestApprovalBlock } from "../blockkit/createBlocks";
-import { projectsSelectBlock } from "../blockkit/edit_in_notion_button";
+import { createSelectionBlock } from "../blockkit/edit_in_notion_button";
 
 
 /**
@@ -91,7 +91,7 @@ try {
         channel: channel_id,
         text: "Some Text",
         // blocks: RequestApprovalBlock.blocks,
-        blocks: projectsSelectBlock.blocks,
+        blocks: createSelectionBlock.blocks,
       },
       {
         headers: {

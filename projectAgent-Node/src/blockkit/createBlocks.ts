@@ -86,23 +86,23 @@ export const createBlockNewTask = function (taskPageObj: TaskPage) {
             type: "button",
             text: {
               type: "plain_text",
-              emoji: true,
-              text: "Cancel",
-            },
-            style: "danger",
-            value: "discard_123",
-            action_id: "actionId-1",
-          },
-          {
-            type: "button",
-            text: {
-              type: "plain_text",
               text: "Confirm",
               emoji: true,
             },
             value: JSON.stringify(taskPageObj), // value: JSON.stringify(taskPageObj),
             style: "primary",
             action_id: "actionId-2",
+          },
+          {
+            type: "button",
+            text: {
+              type: "plain_text",
+              emoji: true,
+              text: "Cancel",
+            },
+            style: "danger",
+            value: "discard_123",
+            action_id: "actionId-1",
           },
         ],
       },
@@ -111,7 +111,7 @@ export const createBlockNewTask = function (taskPageObj: TaskPage) {
         "elements": [
           {
             "type": "mrkdwn",
-            "text": "*A Link will be provided for you to edit the task in Notion*"
+            "text": "*You can edit the task in Notion after adding it*"
           }
         ]
       },

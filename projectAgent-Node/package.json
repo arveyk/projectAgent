@@ -30,10 +30,11 @@
   "scripts": {
     "test": "cd ./src && npx jest",
     "test-helpers": "npx jest utils/aiagent.test.js utils/db-search.test.js blockkit/createBlocks.test.js utils/convertEmptyFields.test.js utils/simplifyDBResults.test.js",
-    "start": "npx tsx src/index.ts",
+    "start": "node dist/index.js",
     "dev": "nodemon src/index.js",
     "format": "npx prettier . --write",
-    "lint": "npx eslint"
+    "lint": "npx eslint",
+    "build": "node build.js"
   },
   "keywords": [],
   "author": "",
@@ -49,6 +50,7 @@
     "@types/luxon": "^3.7.1",
     "babel-jest": "^30.0.4",
     "babel-plugin-transform-import-meta": "^2.3.3",
+    "esbuild": "0.25.11",
     "eslint": "^9.32.0",
     "globals": "^16.3.0",
     "jest": "^30.0.4",

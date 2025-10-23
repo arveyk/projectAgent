@@ -112,9 +112,11 @@ export async function returnTasks(): Promise<QueryDataSourceResponse> {
  */
 export function filterSimilar(pages: dbPage[], message: string): dbPage[] {
   const similarPages = pages.filter((page) => {
+    // TODO return only the 20 most similar tasks
     const similarity = stringSimilarity(page.taskTitle.concat(page.description ? page.description : ""), message);
-    console.log(`message: ${message}, page: ${page.taskTitle.concat(page.description ? page.description : "")}, similarity score: ${similarity}`);
-    return similarity >= 0.35;
+    console.log(`message: ${message}, page: ${page.taskTitle.concat(" ").concat(page.description ? page.description : "")}, similarity score: ${similarity}`);
+    const sensitivity = 0.4;
+    return similarity >= sensitivity;
   })
 
   console.log(`Similar pages: ${JSON.stringify(similarPages)}`);

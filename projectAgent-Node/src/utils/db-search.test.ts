@@ -130,7 +130,6 @@ describe("Test searchDB in the new test database", () => {
     expect(searchResult.exists).toBeDefined();
     expect(searchResult.taskId).toBeDefined();
     expect(searchResult.exists).toEqual(true);
-    // TODO check the id to make sure it's correct
   });
 });
 
@@ -154,7 +153,6 @@ describe("Get page response from db", () => {
 //     expect(searchResult.exists).toBeDefined();
 //     expect(searchResult.taskId).toBeDefined();
 //     expect(searchResult.exists).toEqual(true);
-//     // TODO check the id to make sure it's correct
 //   });
 // });
 
@@ -165,7 +163,6 @@ describe("Get page response from db", () => {
 //     expect(searchResult.exists).toBeDefined();
 //     expect(searchResult.taskId).toBeDefined();
 //     expect(searchResult.exists).toEqual(true);
-//     // TODO check the id to make sure it's correct
 //   });
 // });
 

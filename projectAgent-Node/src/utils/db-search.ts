@@ -52,16 +52,9 @@ export const searchDB = async function (
 ): Promise<dbSearchResult> {
   console.log(`message (searchDB): ${JSON.stringify(message)}`);
 
-  // TODO for temporary solution, return only the 20 most recent tasks
   logTime("Querying database");
   const response = await notion.dataSources.query({
     data_source_id: NOTION_TASKS_DATA_SOURCE_ID,
-    filter: {
-      timestamp: "created_time",
-      created_time: {
-        after: "2025-10-15T07:04:00"
-      }
-    }
   });
   logTime("Done querying database");
 
@@ -69,12 +62,13 @@ export const searchDB = async function (
   const simplifiedResponse = simplifyDBResults(response);
   //logTime("Done simplifying response");
   console.log(`Database response: ${JSON.stringify(simplifiedResponse)}`);
-  // TODO create shortlist based on number of words in common, give that to the LLM. Pick a library to use for this
 
-  // TODO refine prompt
+  // Limit pages to the 20 most similar to the message
+  const similarPages = filterSimilar(simplifiedResponse, message);
+
   const prompt = `
       Please check if a task matching the message ${message} exists in the database response 
-      ${JSON.stringify(simplifiedResponse)}.
+      ${JSON.stringify(similarPages)}.
     `;
 
   logTime("LLM start");
@@ -105,19 +99,23 @@ export async function returnTasks(): Promise<QueryDataSourceResponse> {
 }
 
 /**
- * Filters a list of simplified database pages, leaving only those most similar to the message.
+ * Returns up to 20 of the database pages that most closely match the given message.
  * @param pages A list of simplified database pages.
  * @param message The message that triggered Project Agent.
- * @returns The database pages most similar to the message.
+ * @returns Up to 20 of the database pages that most closely match the given message.
  */
 export function filterSimilar(pages: dbPage[], message: string): dbPage[] {
-  const similarPages = pages.filter((page) => {
-    // TODO return only the 20 most similar tasks
+  const similarPages = pages.map((page) => {
     const similarity = stringSimilarity(page.taskTitle.concat(page.description ? page.description : ""), message);
     console.log(`message: ${message}, page: ${page.taskTitle.concat(" ").concat(page.description ? page.description : "")}, similarity score: ${similarity}`);
     const sensitivity = 0.4;
-    return similarity >= sensitivity;
-  })
+    if (similarity >= sensitivity) {
+      return { page: page, similarity: similarity };
+    }
+  }).filter((pageSimilarity) => pageSimilarity !== undefined
+  ).sort((pageSimilarity1, pageSimilarity2) => pageSimilarity1.similarity - pageSimilarity2.similarity
+  ).reverse().slice(0, 21
+  ).map((pageSimilarity) => pageSimilarity.page);
 
   console.log(`Similar pages: ${JSON.stringify(similarPages)}`);
   return similarPages;

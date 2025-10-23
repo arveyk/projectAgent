@@ -41,7 +41,7 @@ export const simplifyDBResults = function (
     simplifiedResults.push({
       pageId: result["id"],
       taskTitle: properties["Task name"]["title"][0]["plain_text"],
-      description: properties["Description"]["type"] === "rich_text" ? 
+      description: properties["Description"]["type"] === "rich_text" &&  properties["Description"]["rich_text"].length > 0 ? 
         properties["Description"]["rich_text"][0]["plain_text"] : undefined,
       assignee: properties["Assigned to"]["people"].map((response) =>
         extractAssignees(response),

@@ -23,7 +23,9 @@ import { Task, TaskPage } from "../utils/task";
 const task: TaskPage = {
   task: {
     taskTitle: "End of year Plans",
-    assignees: "Benjamin Noah",
+    assignees: [{ name: "Benjamin Noah", email: '', userId: "U08UDKY38QK" }],
+    assignedBy: [{ name: "Benjamin Noah", email: '', userId: "U08UDKY38QK" }],
+
     dueDate: new Date("7-11-2027"),
     startDate: new Date("1-11-2027"),
     description:
@@ -35,7 +37,9 @@ const task: TaskPage = {
 const task_b: TaskPage = {
   task: {
     taskTitle: "Add Timothy",
-    assignees: " ",
+    assignees: [{ "name": "asas", "email": "", userId: "U08UDKY38QK" }],
+    assignedBy: [{ "name": "asas", "email": "", userId: "U08UDKY38QK" }],
+
     dueDate: new Date(),
     startDate: new Date("2025-08-07"),
     description: "Add Timothy to an unspecified system or list",

@@ -148,6 +148,11 @@ const slashCmdHandler = async function (
           }
         }
         console.log("SlashCmdHandler taskBlockWithSelect", taskBlockWithSelect);
+        const selections2 = {
+          text: "Creating a new Task?",
+          replace_original: true,
+          blocks: createMultiSelectionsBlock(["Phil", "James", "You", "Me", "Abyyy"], ["Major project"]);
+        }
 
         const taskBlock = createBlockNewTask({
           task: notionTask,
@@ -163,7 +168,7 @@ const slashCmdHandler = async function (
         axios({
           method: "post",
           url: reqBody["response_url"],
-          data: taskBlockWithSelect ? taskBlockWithSelect : taskBlock,
+          data: taskBlockWithSelect ? taskBlockWithSelect : selections2,
           family: 4,
         }).then((resp) => {
           console.log("OK from slack", resp["status"]);

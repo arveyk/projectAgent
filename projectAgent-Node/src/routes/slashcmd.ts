@@ -139,6 +139,7 @@ const slashCmdHandler = async function (
 
         let taskBlockWithSelect;
         if (task.assignees.length !== 1 || task.assignees[0] === null) {
+          console.log("Assignees not present, creating selection");
           const selections = createMultiSelectionsBlock(["Phil", "James", "You", "Me", "Abyyy"], [task.project || "No Project"]);
           taskBlockWithSelect = {
             text: "Creating a new Task?",

@@ -157,12 +157,12 @@ export function createMultiSelectionsBlock(projectsArray: string[], usersArray: 
 
   let usersSelectBlock;
 
-  if (projectsArray.length > 1) {
+  if (projectsArray.length !== 1) {
     console.log("Creating projects select block");
     // projectsBlock = createProjectsSelectBlock(projectandUserSelectionBlock, projectsArray);
     projectsOptions = createOptions(projectsArray);
   }
-  if (usersArray.length > 1) {
+  if (usersArray.length !== 1) {
     console.log("Creating users selection block");
     // usersBlock = createAssignedToSelectBlock(projectandUserSelectionBlock, usersArray);
     usersOptions = createOptions(usersArray);

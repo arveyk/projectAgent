@@ -54,7 +54,7 @@ const blocks_02 = createBlockNewTask(task_b);
 const blocks_04 = createFinalBlock(task);
 //let taskDetailsObj = JSON.parse(blocks["actions"][0]["value"]);
 
-if (blocks_02.blocks[3].elements) {
+/*if (blocks_02.blocks[3].elements) {
   const blocks_11 = createFinalBlock(
     JSON.parse(blocks_02.blocks[3].elements[0].value),
   );

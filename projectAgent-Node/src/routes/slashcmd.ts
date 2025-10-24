@@ -147,7 +147,13 @@ const slashCmdHandler = async function (
             blocks: selections.blocks
           }
         }
-        console.log("SlashCmdHandler taskBlockWithSelect", taskBlockWithSelect);
+        const selections2 = {
+          text: "Creating a new Task?",
+          replace_original: true,
+          blocks: createMultiSelectionsBlock(["Phil", "James", "You", "Me", "Abyyy"], ["Major project"])
+        }
+        console.log("SlashCmdHandler taskBlockWithSelect", selections2);
+
 
         const taskBlock = createBlockNewTask({
           task: notionTask,

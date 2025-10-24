@@ -138,20 +138,21 @@ const slashCmdHandler = async function (
         // Select block
 
         let taskBlockWithSelect;
+        let selections2
         if (task.assignees.length !== 1 || task.assignees[0] === null) {
           console.log("Assignees not present, creating selection");
+          const selectionBlock = createSelectionBlock(["Phil", "James", "You", "Me", "Abyyy"], "Major project");
           const selections = createMultiSelectionsBlock(["Phil", "James", "You", "Me", "Abyyy"], [task.project || "No Project"]);
           taskBlockWithSelect = {
             text: "Creating a new Task?",
             replace_original: true,
             blocks: selections.blocks
           }
-        }
-        const selectionBlock = createSelectionBlock(["Phil", "James", "You", "Me", "Abyyy"], "Major project");
-        const selections2 = {
-          text: "Creating a new Task?",
-          replace_original: true,
-          blocks: selectionBlock.blocks
+          selections2 = {
+            text: "Creating a new Task?",
+            replace_original: true,
+            blocks: selectionBlock.blocks
+          }
         }
         console.log("SlashCmdHandler taskBlockWithSelect", selections2);
 

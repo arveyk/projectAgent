@@ -6,6 +6,7 @@ import { parseTask } from "../utils/aiagent";
 import { searchDB, getTaskProperties } from "../utils/db-search";
 import { sendLoadingMsg } from "../blockkit/loadingMsg";
 import { findMatchingAssignees } from "../utils/controllers/userCreds";
+import { createMultiSelectionsBlock } from "../blockkit/create_select";
 import { logTime } from "../utils/logTime";
 // import { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 import { SlashCommand } from "@slack/bolt";
@@ -134,6 +135,12 @@ const slashCmdHandler = async function (
           JSON.stringify(notionTask),
         );
 
+	// Select block
+	
+	let taskBlockWithSelect;
+	if (task.assignees.length !== 1) {
+	  taskBlockWithSelect = createMultiSelectionsBlock(["Phil", "James", "You", "Me", "Abyyy"], [task.project || "No Project"]);
+	}
         const taskBlock = createBlockNewTask({
           task: notionTask,
           url: "",
@@ -148,7 +155,7 @@ const slashCmdHandler = async function (
         axios({
           method: "post",
           url: reqBody["response_url"],
-          data: taskBlock,
+          data: taskBlockWithSelect ? taskBlockWithSelect : taskBlock,
           family: 4,
         }).then((resp) => {
           console.log("OK from slack", resp["status"]);

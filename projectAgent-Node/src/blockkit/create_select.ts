@@ -150,7 +150,7 @@ export function createSelectionBlock(projectsOrUsersArray: string[], selectHeadi
   };
 }
 
-export function conciseCreateSelectionBlock(projectsArray: string[], usersArray: string[]) {
+export function createMultiSelectionsBlock(projectsArray: string[], usersArray: string[]) {
   console.log("Creating selection Blocks");
   let projectsOptions;
   let usersOptions;

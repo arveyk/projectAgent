@@ -3,6 +3,7 @@ import { validateDueDate } from "./dateHandler";
 import { NOTION_API_KEY, NOTION_TASKS_DATA_SOURCE_ID } from "../env";
 import { createTaskProperties } from "./createTaskProperties";
 import { Task, PersonNoId, NotionTask } from "./task";
+import { createTaskBody } from "./createTaskBody";
 
 export type PageAddResult = {
   success: boolean;
@@ -32,6 +33,7 @@ export async function addTaskNotionPage(
     console.log("yay! the due date is not in the past!");
 
     const taskProperties = await createTaskProperties(taskObj);
+    const taskBody = createTaskBody(taskObj);
     try {
       const newPage = await notion.pages.create({
         parent: {
@@ -39,6 +41,7 @@ export async function addTaskNotionPage(
           data_source_id: NOTION_TASKS_DATA_SOURCE_ID,
         },
         properties: taskProperties,
+        children: taskBody
       });
       console.log(newPage);
       return {

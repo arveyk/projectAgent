@@ -168,7 +168,7 @@ const slashCmdHandler = async function (
         axios({
           method: "post",
           url: reqBody["response_url"],
-          data: taskBlockWithSelect ? taskBlockWithSelect : selections2,
+          data: taskBlockWithSelect ? taskBlockWithSelect : taskBlock,
           family: 4,
         }).then((resp) => {
           console.log("OK from slack", resp["status"]);

@@ -135,12 +135,17 @@ const slashCmdHandler = async function (
           JSON.stringify(notionTask),
         );
 
-	// Select block
-	
-	let taskBlockWithSelect;
-	if (task.assignees.length !== 1) {
-	  taskBlockWithSelect = createMultiSelectionsBlock(["Phil", "James", "You", "Me", "Abyyy"], [task.project || "No Project"]);
-	}
+        // Select block
+
+        let taskBlockWithSelect;
+        if (task.assignees.length !== 1) {
+          const selections = createMultiSelectionsBlock(["Phil", "James", "You", "Me", "Abyyy"], [task.project || "No Project"]);
+          taskBlockWithSelect = {
+            text: "Creating a new Task?",
+            replace_original: true,
+            blocks: selections.blocks
+          }
+        }
         const taskBlock = createBlockNewTask({
           task: notionTask,
           url: "",
@@ -148,8 +153,8 @@ const slashCmdHandler = async function (
         } as TaskPage);
         taskBlock.blocks[0].text
           ? (taskBlock.blocks[0].text.text += JSON.stringify(
-              assigneeSearchResults || " User not in Channel",
-            ))
+            assigneeSearchResults || " User not in Channel",
+          ))
           : console.log("First Text undefined");
 
         axios({

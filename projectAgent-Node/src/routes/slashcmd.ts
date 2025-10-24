@@ -146,6 +146,8 @@ const slashCmdHandler = async function (
             blocks: selections.blocks
           }
         }
+        console.log("SlashCmdHandler taskBlockWithSelect", taskBlockWithSelect);
+
         const taskBlock = createBlockNewTask({
           task: notionTask,
           url: "",

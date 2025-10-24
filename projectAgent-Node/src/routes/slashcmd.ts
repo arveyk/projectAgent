@@ -147,10 +147,11 @@ const slashCmdHandler = async function (
             blocks: selections.blocks
           }
         }
+        const selectionBlock = createSelectionBlock(["Phil", "James", "You", "Me", "Abyyy"], "Major project");
         const selections2 = {
           text: "Creating a new Task?",
           replace_original: true,
-          blocks: createSelectionBlock(["Phil", "James", "You", "Me", "Abyyy"], "Major project")
+          blocks: selectionBlock.blocks
         }
         console.log("SlashCmdHandler taskBlockWithSelect", selections2);
 

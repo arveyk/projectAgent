@@ -6,5 +6,5 @@ build({
     minify: true,
     treeShaking: true,
     platform: 'node',
-    outfile: "dist/index.js",
+    outfile: "dist/index.cjs",
 });

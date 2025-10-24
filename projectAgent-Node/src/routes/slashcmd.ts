@@ -6,7 +6,7 @@ import { parseTask } from "../utils/aiagent";
 import { searchDB, getTaskProperties } from "../utils/db-search";
 import { sendLoadingMsg } from "../blockkit/loadingMsg";
 import { findMatchingAssignees } from "../utils/controllers/userCreds";
-import { createMultiSelectionsBlock } from "../blockkit/create_select";
+import { createMultiSelectionsBlock, createSelectionBlock } from "../blockkit/create_select";
 import { logTime } from "../utils/logTime";
 // import { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 import { SlashCommand } from "@slack/bolt";
@@ -150,7 +150,7 @@ const slashCmdHandler = async function (
         const selections2 = {
           text: "Creating a new Task?",
           replace_original: true,
-          blocks: createMultiSelectionsBlock(["Phil", "James", "You", "Me", "Abyyy"], ["Major project"])
+          blocks: createSelectionBlock(["Phil", "James", "You", "Me", "Abyyy"], "Major project")
         }
         console.log("SlashCmdHandler taskBlockWithSelect", selections2);
 

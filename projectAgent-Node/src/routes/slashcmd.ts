@@ -151,7 +151,7 @@ const slashCmdHandler = async function (
         const selections2 = {
           text: "Creating a new Task?",
           replace_original: true,
-          blocks: createMultiSelectionsBlock(["Phil", "James", "You", "Me", "Abyyy"], ["Major project"]);
+          blocks: createMultiSelectionsBlock(["Phil", "James", "You", "Me", "Abyyy"], ["Major project"])
         }
 
         const taskBlock = createBlockNewTask({

@@ -127,7 +127,7 @@ export function createSelectionBlock(projectsOrUsersArray: string[], selectHeadi
         },
         label: {
           type: "plain_text",
-          text: "Projects",
+          text: `${selectHeading}`,
           emoji: true,
         },
       },

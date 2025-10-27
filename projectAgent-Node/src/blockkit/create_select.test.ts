@@ -1,6 +1,7 @@
 import { createMultiSelectionsBlock, createSelectionBlock } from "./create_select";
 // import { describe, it } from "@jest/global";
 import { testPostToSlack } from "../otherFiles/postMessageSlack"; 
+import { taskNoAssignee } from "../test-data/tasks/example-tasks";
 
 describe("RUn without issue", () => {
   const eventResURL = "https://slack.com/api/chat.postMessage";
@@ -33,7 +34,9 @@ describe("RUn without issue", () => {
   */
   
   it("shoould not err", async () => {
-    await testPostToSlack(eventResURL, createMultiSelectionsBlock(["Phil", "James", "You", "Me", "Abyyy"], ["No Project"]))
+    await testPostToSlack(eventResURL, createMultiSelectionsBlock({
+      task: taskNoAssignee,
+      pageId: ""}, ["Phil", "James", "You", "Me", "Abyyy"], ["No Project"]))
   });
   
 })

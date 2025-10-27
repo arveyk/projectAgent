@@ -1,3 +1,7 @@
+import { formatSlackDate } from "../utils/dateHandler";
+import { Task, TaskPage } from "../utils/task";
+import { DateTime } from "luxon";
+
 type SelectElementType = {
   text: {
     type: string;
@@ -7,6 +11,36 @@ type SelectElementType = {
   value: string;
 };
 
+const createTaskInfoWithSelections = function (taskPageObj: TaskPage) {
+  /**
+   * Temporarry fix for Date format issue
+   */
+  // task.dueDate = new Date(task.dueDate);
+  const task = taskPageObj.task;
+  const assigneesArr = task.assignees;
+  let assigneeNames = "";
+
+  console.log(
+    `(createTaskInfoBlock), assigneesArray: ${assigneesArr}, task${JSON.stringify(task)}`,
+  );
+  if (assigneesArr && Array.isArray(assigneesArr)) {
+    assigneesArr.forEach((assignee) => {
+      if (assignee) {
+        assigneeNames += `${assignee.name} --- ${assignee.email}\n`;
+      }
+    });
+    assigneeNames = assigneeNames.slice(0, -1); // Remove trailing comma and space
+  }
+  task.startDate =
+    task.startDate && task.startDate.toString() !== "Invalid Date"
+      ? new Date(task.startDate)
+      : DateTime.now().toJSDate();
+  console.log(`(createtaskInfoBlock) task: ${JSON.stringify(taskPageObj)}`);
+  console.log(
+    `CreateTaskInfoBlock log message => task: ${JSON.stringify(task)}`,
+  );
+  return `*Task Title:*\t\t\t${task.taskTitle} \n*Due Date:*\t\t\t${formatSlackDate(new Date(task.dueDate))}\n*Start Date:*\t\t\t${task.startDate !== new Date(NaN) && task.startDate !== undefined ? formatSlackDate(task.startDate) : task.startDate}\n*Description:* \t\t${task.description}}`;
+};
 
 const projectandUserSelectionBlock = {
   blocks: [
@@ -150,12 +184,15 @@ export function createSelectionBlock(projectsOrUsersArray: string[], selectHeadi
   };
 }
 
-export function createMultiSelectionsBlock(projectsArray: string[], usersArray: string[]) {
+export function createMultiSelectionsBlock(newTask: TaskPage, projectsArray: string[], usersArray: string[]) {
+
+  let selectTitle = "Projects";
   console.log("Creating selection Blocks");
   let projectsOptions;
   let usersOptions;
 
   let usersSelectBlock;
+  const blockText = createTaskInfoWithSelections(newTask)
 
   if (projectsArray.length !== 1) {
     console.log("Creating projects select block");
@@ -184,12 +221,30 @@ export function createMultiSelectionsBlock(projectsArray: string[], usersArray: 
         emoji: true,
       },
     };
+    if (projectsArray.length === 1 && projectsArray[0] === null) {
+      selectTitle = "Notion Users";
+    }
   }
-
-
 
   return {
     blocks: [
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: "*You Are About to Create a New Task*",
+        },
+      },
+      {
+        type: "divider",
+      },
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: blockText,
+        },
+      },
       /*{
         type: "input",
         element: {
@@ -229,7 +284,7 @@ export function createMultiSelectionsBlock(projectsArray: string[], usersArray: 
         },
         label: {
           type: "plain_text",
-          text: `${"Assig or Pro"}`,
+          text: `${selectTitle}`,
           emoji: true,
         },
       },

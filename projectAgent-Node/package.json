@@ -34,7 +34,8 @@
     "dev": "nodemon src/index.cjs",
     "format": "npx prettier . --write",
     "lint": "npx eslint",
-    "build": "node build.js"
+    "build": "node build.js",
+    "docker": "docker build -t minimal-cloud-run . && docker run --rm -p 8080:8080 --env-file .env minimal-cloud-run"
   },
   "keywords": [],
   "author": "",

@@ -7,7 +7,7 @@ import { createFinalBlock } from "../blockkit/editblock";
 import { createUpdateBlock } from "../blockkit/updateBlock";
 // import { readFile } from "./parseToJson";
 import { RequestApprovalBlock } from "../blockkit/createBlocks";
-import { conciseCreateSelectionBlock } from "../blockkit/create_select";
+import { createMultiSelectionsBlock } from "../blockkit/create_select";
 
 
 /**
@@ -97,7 +97,7 @@ const test4 = [
 const eventResURL = "https://slack.com/api/chat.postMessage";
 const channel_id = eventPayload.event.channel;
 console.log(channel_id);
-const selectBlocks = conciseCreateSelectionBlock(test00[0], test00[1]);
+const selectBlocks = createMultiSelectionsBlock(test00[0], test00[1]);
 
 export async function testPostToSlack(eventResUrl: string, slackBlocks?: any) {
   try {

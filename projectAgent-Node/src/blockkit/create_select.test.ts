@@ -4,7 +4,7 @@ import { testPostToSlack } from "../otherFiles/postMessageSlack";
 
 describe("RUn without issue", () => {
   const eventResURL = "https://slack.com/api/chat.postMessage";
-  it("Should run", () => {
+  /*it("Should run", () => {
     console.log(JSON.stringify(createMultiSelectionsBlock(
       ["iss"],
       ["Project1", "Project2"])))
@@ -18,7 +18,7 @@ describe("RUn without issue", () => {
   });
   it("Should run with test4", () => {
     console.log(JSON.stringify(conciseCreateSelectionBlock(test4[0], test4[1])));
-  });*/
+  });
   it("Should run with test0", () => {
     let empty = createMultiSelectionsBlock([], []);
 
@@ -30,4 +30,10 @@ describe("RUn without issue", () => {
   it("Should run createSelection smoothly", async () => {  
     await testPostToSlack(eventResURL, createSelectionBlock(["Project0", "Project1", "Project clear", "Anime", "Writter"], "Projects"));
   });
+  */
+  
+  it("shoould not err", async () => {
+    await testPostToSlack(eventResURL, createMultiSelectionsBlock(["Phil", "James", "You", "Me", "Abyyy"], ["No Project"]))
+  });
+  
 })

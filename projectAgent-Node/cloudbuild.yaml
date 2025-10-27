@@ -38,7 +38,7 @@ options:
   substitutionOption: ALLOW_LOOSE
   logging: CLOUD_LOGGING_ONLY
 substitutions:
-  _SERVICE_NAME: minimal-cloud-run
+  _SERVICE_NAME: approve-edit-disapprove
   _DEPLOY_REGION: us-west1
   _AR_HOSTNAME: us-west1-docker.pkg.dev
   _AR_REPOSITORY: cloud-run-source-deploy

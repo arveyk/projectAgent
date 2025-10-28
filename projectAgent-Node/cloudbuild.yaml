@@ -8,7 +8,7 @@ steps:
         $_AR_HOSTNAME/$_AR_PROJECT_ID/$_AR_REPOSITORY/projectagent/$_SERVICE_NAME:$COMMIT_SHA
       - .
       - '-f'
-      - Dockerfile
+      - /workspace/projectAgent/projectAgent-Node/Dockerfile
     id: Build
   - name: gcr.io/cloud-builders/docker
     args:

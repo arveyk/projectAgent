@@ -106,6 +106,6 @@ export const taskNoAssignee: NotionTask = {
   taskTitle: "Fix plumbing issue in second floor kitchen", 
   assignees: [],
   assignedBy: [],
-  dueDate: DateTime.fromMillis(1759852422989).setZone("Africa/Nairobi").toJSDate(), 
+  dueDate: new Date("2025-11-12"), 
   description: "Fix the plumbing issue in the second floor kitchen. Call when the task is completed." 
 }

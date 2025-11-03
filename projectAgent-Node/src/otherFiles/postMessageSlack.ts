@@ -98,9 +98,8 @@ const test4 = [
 const eventResURL = "https://slack.com/api/chat.postMessage";
 const channel_id = eventPayload.event.channel;
 console.log(channel_id);
-const selectBlocks = createMultiSelectionsBlock({
-  task: taskNoAssignee,
-  pageId: ""}, test00[0], test00[1]);
+const selectBlocks = createMultiSelectionsBlock(
+  taskNoAssignee, test00[0], test00[1]);
 
 export async function testPostToSlack(eventResUrl: string, slackBlocks?: any) {
   try {

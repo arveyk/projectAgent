@@ -144,12 +144,14 @@ const slashCmdHandler = async function (
 
           // TODO Replace with search results of matching Notion users;
           const selectionBlock = createSelectionBlock(notionTask, "Major project", [
-            { userId: "philing good", name: "Phil", email: "philippians2@gmail.com" },
-            { userId: "bond!jamesBond-007", name: "James", email: "james1:5" },
-            { userId: "youaremine", name: "You", email: "youandi@yahoo.com" },
-            { userId: "Me", name: "metoo", email: "meornottome@outlook.com" },
-            { userId: "abbycd>?sa7039", name: "Abyyy", email: "" }
+            { name: "Phil", email: "philippians2@gmail.com" },
+            { name: "James", email: "james1:5bond@agent" },
+            { name: "You", email: "youandi@yahoo.com" },
+            { name: "metoo", email: "meornottome@outlook.com" },
+            { name: "Abyyy", email: "" }
           ]);
+
+          const selectBlock3 = createSelectionBlock(notionTask, "Project(s)", assigneeSearchResults)
           const selections = createMultiSelectionsBlock(notionTask
             , ["Phil", "James", "You", "Me", "Abyyy"], ["No Project"]);
           taskBlockWithSelect = {

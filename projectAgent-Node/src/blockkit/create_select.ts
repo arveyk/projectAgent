@@ -41,7 +41,7 @@ const createTaskInfoWithSelections = function (notionTaskObj: NotionTask, notion
   console.log(
     `CreateTaskInfoBlock log message => task: ${JSON.stringify(task)}`,
   );
-  return `*Task Title:*\t\t\t${task.taskTitle} \n*Due Date:*\t\t\t${formatSlackDate(new Date(task.dueDate))}\n*Start Date:*\t\t\t${task.startDate !== new Date(NaN) && task.startDate !== undefined ? formatSlackDate(task.startDate) : task.startDate}\n*Description:* \t\t${task.description}}`;
+  return `*Task Title:*\t\t\t${task.taskTitle} \n*Due Date:*\t\t\t${formatSlackDate(new Date(task.dueDate))}\n*Start Date:*\t\t\t${task.startDate !== new Date(NaN) && task.startDate !== undefined ? formatSlackDate(task.startDate) : task.startDate}\n*Description:* \t\t${task.description}`;
 };
 
 /*const projectandUserSelectionBlock = {
@@ -134,7 +134,7 @@ export function createOptions(whichToCreate: string, listOfItems: string[] | Not
 
   if (whichToCreate === "NotionUsers") {
     const userArray = listOfItems as NotionUser[];;
-    userArray.map((person) => {
+    return userArray.map((person) => {
       return {
         text: {
           type: "plain_text",
@@ -144,8 +144,6 @@ export function createOptions(whichToCreate: string, listOfItems: string[] | Not
         value: `${index++}`,
       };
     });
-    return userArray;
-
   } else {
     const optionsArray = listOfItems.map((project) => {
       return {
@@ -170,7 +168,7 @@ export function createSelectionBlock(notionTask: NotionTask, selectBlockTitle: s
 
   console.log(`Creating ${selectBlockTitle} select block`);
   // projectsBlock = createProjectsSelectBlock(projectandUserSelectionBlock, projectsArray);
-  const optionsToChooseFrom = createOptions(selectBlockTitle, projectsOrUsersArray)
+  const optionsToChooseFrom = createOptions("NotionUsers", projectsOrUsersArray)
 
   return {
     blocks: [
@@ -222,6 +220,8 @@ export function createSelectionBlock(notionTask: NotionTask, selectBlockTitle: s
 
 export function createMultiSelectionsBlock(newTask: NotionTask, projectsArr: string[], usersArr: string[]) {
 
+  // Should we have options for projects or jsut have tasks empty?
+  
   const projectsArray = [newTask.project || "undefined"];
   // TODO: change this to array of notion users that match assigneee search
   const usersArray = newTask.assignees;
@@ -243,7 +243,7 @@ export function createMultiSelectionsBlock(newTask: NotionTask, projectsArr: str
   if (projectsArray.length !== 1) {
     console.log("Creating Projects selection block");
     // usersBlock = createAssignedToSelectBlock(projectandUserSelectionBlock, usersArray);
-    projectsOptions = createOptions("Projects", projectsArray);
+    projectsOptions = createOptions("Project(s)", projectsArray);
     projectsSelectBlock = {
       type: "input",
       element: {
@@ -258,12 +258,12 @@ export function createMultiSelectionsBlock(newTask: NotionTask, projectsArr: str
       },
       label: {
         type: "plain_text",
-        text: "Projects",
+        text: "Project(s)",
         emoji: true,
       },
     };
     if (usersArray.length === 1 && projectsArray[0] === null) {
-      selectLabel = "Notion Users";
+      selectLabel = "NotionUsers";
     }
   }
 
@@ -321,7 +321,7 @@ export function createMultiSelectionsBlock(newTask: NotionTask, projectsArr: str
             emoji: true,
           },
           // options: projectsOptions,
-          options: selectLabel === "Projects" ? projectsOptions : usersOptions,
+          options: selectLabel === "Project(s)" ? projectsOptions : usersOptions,
         },
         label: {
           type: "plain_text",

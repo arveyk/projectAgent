@@ -27,16 +27,20 @@ describe("RUn without issue", () => {
   })
   it("Should run with test00", async () => {  
     await testPostToSlack(eventResURL, createMultiSelectionsBlock(["JIUsbds", "Iodshs"], ["Project0", "Project1", "Project clear", "Anime", "Writter"]));
-  });
+  });*/
   it("Should run createSelection smoothly", async () => {  
-    await testPostToSlack(eventResURL, createSelectionBlock(["Project0", "Project1", "Project clear", "Anime", "Writter"], "Projects"));
+    await testPostToSlack(eventResURL, createSelectionBlock(taskNoAssignee, "Project(s)", [
+            { userId: "philing good", name: "Phil", email: "philippians2@gmail.com" },
+            { userId: "bond!jamesBond-007", name: "James", email: "james1:5" },
+            { userId: "youaremine", name: "You", email: "youandi@yahoo.com" },
+            { userId: "Me", name: "metoo", email: "meornottome@outlook.com" },
+            { userId: "abbycd>?sa7039", name: "Abyyy", email: "" }
+          ] ));
+  });
+/*
+  it("shoould not err", async () => {
+    await testPostToSlack(eventResURL, createMultiSelectionsBlock(taskNoAssignee,
+      ["Phil", "James", "You", "Me", "Abyyy"], ["No Project"]))
   });
   */
-  
-  it("shoould not err", async () => {
-    await testPostToSlack(eventResURL, createMultiSelectionsBlock({
-      task: taskNoAssignee,
-      pageId: ""}, ["Phil", "James", "You", "Me", "Abyyy"], ["No Project"]))
-  });
-  
 })

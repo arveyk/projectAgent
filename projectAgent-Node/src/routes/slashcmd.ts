@@ -64,7 +64,7 @@ const slashCmdHandler = async function (
       // TODO get assigned by
       // TODO show the user the list of potential assignees found in Notion and have them choose one
 
-      // This is just a placeholder for until we implement the dropdowns
+      // implementing the dropdowns
       const notionTask: NotionTask = {
         taskTitle: task.taskTitle,
         // As a placeholder, just pick the first result
@@ -141,9 +141,17 @@ const slashCmdHandler = async function (
         let selections2
         if (task.assignees.length !== 1 || task.assignees[0] === null) {
           console.log("Assignees not present, creating selection");
-          const selectionBlock = createSelectionBlock(["Phil", "James", "You", "Me", "Abyyy"], "Major project");
-          const selections = createMultiSelectionsBlock({task: notionTask,
-            pageId: ""}, ["Phil", "James", "You", "Me", "Abyyy"], ["No Project"]);
+
+          // TODO Replace with search results of matching Notion users;
+          const selectionBlock = createSelectionBlock(notionTask, "Major project", [
+            { userId: "philing good", name: "Phil", email: "philippians2@gmail.com" },
+            { userId: "bond!jamesBond-007", name: "James", email: "james1:5" },
+            { userId: "youaremine", name: "You", email: "youandi@yahoo.com" },
+            { userId: "Me", name: "metoo", email: "meornottome@outlook.com" },
+            { userId: "abbycd>?sa7039", name: "Abyyy", email: "" }
+          ]);
+          const selections = createMultiSelectionsBlock(notionTask
+            , ["Phil", "James", "You", "Me", "Abyyy"], ["No Project"]);
           taskBlockWithSelect = {
             text: "Creating a new Task?",
             replace_original: true,

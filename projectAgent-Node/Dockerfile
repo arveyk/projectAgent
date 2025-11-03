@@ -3,7 +3,7 @@ FROM node:20-slim AS builder
 WORKDIR /projectAgent/projectAgent-Node
 
 COPY package*.json ./
-RUN npm ci --include=dev
+RUN npm ci --include=dev --legacy-peer-deps
 
 COPY . .
 RUN npm run build

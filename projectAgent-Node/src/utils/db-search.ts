@@ -9,6 +9,7 @@ import {
   NOTION_API_KEY,
   NOTION_TASKS_DATA_SOURCE_ID,
   ANTHROPIC_API_KEY,
+  ANTHROPIC_MODEL_VER
 } from "../env";
 import { ta } from "zod/dist/types/v4/locales";
 import e from "express";
@@ -20,7 +21,7 @@ const notion = new Client({
 });
 
 const model = new ChatAnthropic({
-  model: "claude-sonnet-4-5-20250929",
+  model: ANTHROPIC_MODEL_VER,
   temperature: 0,
   apiKey: ANTHROPIC_API_KEY,
 });

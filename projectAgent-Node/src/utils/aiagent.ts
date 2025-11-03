@@ -1,6 +1,6 @@
 import { ChatAnthropic } from "@langchain/anthropic";
 import { z } from "zod";
-import { ANTHROPIC_API_KEY } from "../env";
+import { ANTHROPIC_API_KEY, ANTHROPIC_MODEL_VER } from "../env";
 import { getEventTimeData } from "./getTime";
 import { RunnableConfig, Runnable } from "@langchain/core/runnables";
 import { BaseLanguageModelInput } from "@langchain/core/language_models/base";
@@ -10,7 +10,7 @@ import { SlashCommand } from "@slack/bolt";
 import { logTime } from "./logTime";
 
 const model = new ChatAnthropic({
-  model: "claude-sonnet-4-5-20250929",
+  model: ANTHROPIC_MODEL_VER,
   temperature: 0,
   apiKey: ANTHROPIC_API_KEY,
 });

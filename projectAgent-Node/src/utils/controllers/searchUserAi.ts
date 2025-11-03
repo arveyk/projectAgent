@@ -1,6 +1,6 @@
 import { ChatAnthropic } from "@langchain/anthropic";
 import { z } from "zod";
-import { ANTHROPIC_API_KEY } from "../../env";
+import { ANTHROPIC_API_KEY, ANTHROPIC_MODEL_VER } from "../../env";
 import { NotionUser } from "./userTypes";
 import { Task } from "../task";
 
@@ -9,7 +9,7 @@ ANTHROPIC_API_KEY === undefined || ANTHROPIC_API_KEY === null
   : console.log("We cool!");
 
 const model = new ChatAnthropic({
-  model: "claude-sonnet-4-5-20250929",
+  model: ANTHROPIC_MODEL_VER,
   temperature: 0,
   apiKey: ANTHROPIC_API_KEY,
 });

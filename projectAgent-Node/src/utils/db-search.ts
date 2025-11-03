@@ -41,6 +41,7 @@ export type dbSearchResult = {
   taskId?: string;
 };
 
+// Error here is caused by mismatched zod version
 const structuredLlm = model.withStructuredOutput(databaseSearchResult, {
   includeRaw: true,
 });
@@ -74,7 +75,7 @@ export const searchDB = async function (
       ${JSON.stringify(similarPages)}.
     `;
 
-  logTime("LLM start");
+  logTime("(Database) LLM start");
   const llmResult = await structuredLlm.invoke(prompt);
   console.log(`Raw LLM response: ${JSON.stringify(llmResult.raw)}`);
   const parsed = llmResult.parsed;
@@ -82,7 +83,7 @@ export const searchDB = async function (
     exists: parsed.exists,
     taskId: parsed.task_id !== "<UNKNOWN>" ? parsed.task_id : undefined,
   };
-  logTime("LLM finished");
+  logTime("(Database) LLM finished");
   console.log(`result: ${JSON.stringify(result)}`);
 
   return result;

@@ -46,6 +46,8 @@ const structuredLlmSlashCmd: Runnable<
   Record<string, any>,
   RunnableConfig<Record<string, any>>
 > = model.withStructuredOutput(task, { includeRaw: true });
+// Error here is caused by mismatched zod version
+
 
 /**
  * Uses Anthropic to parse a task assignment from a Slack slash command
@@ -81,7 +83,6 @@ export const parseTask = async function (
 
   // Convert the LLM output to a Task object for future ease of use
   // The assignees field comes out as an array of assingee name
-  logTime("Converting to a Task object");
   structuredResult.assignees = structuredResult.assignees.map(
     (assigneeName: string) => {
       return { name: assigneeName };
@@ -89,7 +90,6 @@ export const parseTask = async function (
   );
 
   const task = convertTask(structuredResult);
-  logTime("Done converting to a Task object");
 
   console.log(`task parse result: ${JSON.stringify(structuredResult)}`);
   console.log(`task parse result after conversion: ${JSON.stringify(task)}`);

@@ -28,6 +28,7 @@ const slashCmdHandler = async function (
   response: Response,
   next: NextFunction,
 ): Promise<void> {
+  logTime("Execution start");
   // Send OK
   response.status(200).send();
 
@@ -54,9 +55,9 @@ const slashCmdHandler = async function (
       await sendLoadingMsg("Parsing Task", response_url);
       const timestamp: number = Date.now();
 
-      logTime("Parsing task");
+      // logTime("Parsing task");
       const task = await parseTask(reqBody, timestamp);
-      logTime("Done parsing task");
+      // logTime("Done parsing task");
 
       // Find Notion users
       const assigneeSearchResults = await findMatchingAssignees(task);
@@ -206,6 +207,9 @@ const slashCmdHandler = async function (
   } catch (err: Error | any) {
     console.log("slachCmdHandler Error", err);
     return err;
+  }
+  finally {
+    logTime("Execution finished");
   }
 };
 

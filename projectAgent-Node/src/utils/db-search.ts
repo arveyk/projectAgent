@@ -73,6 +73,7 @@ export const searchDB = async function (
       ${JSON.stringify(similarPages)}.
     `;
 
+  console.log(`Model name: ${model.modelName}`);
   logTime("(Database) LLM start");
   const llmResult = await structuredLlm.invoke(prompt);
   console.log(`Raw LLM response: ${JSON.stringify(llmResult.raw)}`);

@@ -9,7 +9,7 @@ import { BaseMessage } from "@langchain/core/messages";
 import { SlashCommand } from "@slack/bolt";
 
 const model = new ChatAnthropic({
-  model: "claude-3-5-sonnet-20240620",
+  model: "claude-4-5",
   temperature: 0,
   apiKey: ANTHROPIC_API_KEY,
 });

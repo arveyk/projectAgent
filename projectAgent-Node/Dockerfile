@@ -4,7 +4,7 @@ WORKDIR /projectAgent/projectAgent-Node
 
 RUN ls -a; rm -fr ./node_modules/
 
-COPY /projectAgent/projectAgent-Node/package*.json ./
+COPY projectAgent/projectAgent-Node/package*.json ./
 RUN npm ci --include=dev
 
 COPY . .

@@ -1,6 +1,6 @@
 import { Client, QueryDataSourceResponse } from "@notionhq/client";
 import { ChatAnthropic } from "@langchain/anthropic";
-import { z } from "zod";
+import { z } from "zod/v4";
 import { dbPage, simplifyDBResults } from "./simplifyDBResults";
 import { Task } from "./task";
 import { stringSimilarity } from "string-similarity-js";
@@ -11,8 +11,6 @@ import {
   ANTHROPIC_API_KEY,
   ANTHROPIC_MODEL_VER
 } from "../env";
-import { ta } from "zod/dist/types/v4/locales";
-import e from "express";
 import { logTime } from "./logTime";
 
 const notion = new Client({

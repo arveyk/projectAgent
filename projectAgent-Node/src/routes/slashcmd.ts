@@ -16,7 +16,6 @@ import {
   TaskPage,
 } from "../utils/task";
 import { GetPageResponse } from "@notionhq/client";
-import { ta } from "zod/dist/types/v4/locales";
 
 // webhook for taskmanagement channel only
 const webhookURL = process.env.TASK_MANAGEMENT_WEBHOOK_URL;
@@ -145,14 +144,14 @@ const slashCmdHandler = async function (
 
           // TODO Replace with search results of matching Notion users;
           const selectionBlock = createSelectionBlock(notionTask, "Major project", [
-            { name: "Phil", email: "philippians2@gmail.com" },
-            { name: "James", email: "james1:5bond@agent" },
-            { name: "You", email: "youandi@yahoo.com" },
-            { name: "metoo", email: "meornottome@outlook.com" },
-            { name: "Abyyy", email: "" }
+            { name: "Phil", email: "philippians2@gmail.com", userId: "" },
+            { name: "James", email: "james1:5bond@agent", userId: "" },
+            { name: "You", email: "youandi@yahoo.com", userId: "" },
+            { name: "metoo", email: "meornottome@outlook.com", userId: "" },
+            { name: "Abyyy", email: "", userId: "" }
           ]);
 
-          const selectBlock3 = createSelectionBlock(notionTask, "Project(s)", assigneeSearchResults)
+          //const selectBlock3 = createSelectionBlock(notionTask, "Project(s)", assigneeSearchResults)
           const selections = createMultiSelectionsBlock(notionTask
             , ["Phil", "James", "You", "Me", "Abyyy"], ["No Project"]);
           taskBlockWithSelect = {

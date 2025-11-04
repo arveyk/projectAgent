@@ -1,5 +1,5 @@
 import { ChatAnthropic } from "@langchain/anthropic";
-import { z } from "zod";
+import { z } from "zod/v4";
 import { ANTHROPIC_API_KEY, ANTHROPIC_MODEL_VER } from "../env";
 import { getEventTimeData } from "./getTime";
 import { RunnableConfig, Runnable } from "@langchain/core/runnables";

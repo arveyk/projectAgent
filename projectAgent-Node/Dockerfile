@@ -8,7 +8,7 @@ COPY package*.json ./
 RUN npm ci --include=dev --legacy-peer-deps
 
 COPY . .
-RUN npm list dotenv; npm run build
+RUN npm list dotenv; npm run; npm run build
 
 FROM node:20-slim AS app
 

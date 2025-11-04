@@ -8,8 +8,7 @@ COPY package*.json ./
 RUN npm ci --include=dev
 
 COPY . .
-RUN cd /projectAgent/projectAgent-Node; 
-RUN pwd; ls -a; cat package.json; npm list dotenv; npm run; npm run build;
+RUN pwd; ls -a; cat ./package.json; npm list dotenv; npm run; npm run build;
 
 FROM node:20-slim AS app
 

@@ -5,10 +5,11 @@ WORKDIR /projectAgent/projectAgent-Node
 RUN rm -fr ./node_modules/
 
 COPY package*.json ./
-RUN npm ci --include=dev --legacy-peer-deps
+RUN npm ci --include=dev --legacy-peer-deps; ls -l;
 
 COPY . .
-RUN cd /projectAgent/projectAgent-Node; pwd; ls -a; cat package.json; npm list dotenv; npm run; npm run build
+RUN cd /projectAgent/projectAgent-Node; 
+RUN pwd; ls -a; cat package.json; npm list dotenv; npm run; npm run build;
 
 FROM node:20-slim AS app
 

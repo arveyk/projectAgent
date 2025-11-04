@@ -19,5 +19,5 @@ COPY --from=builder /projectAgent/projectAgent-Node/dist/index.cjs .
 ENV PORT=8080
 EXPOSE 8080
 
-CMD ["npm", "run", "dev"]
-#CMD ["node", "index.cjs"]
+#CMD ["npm", "run", "dev"]
+CMD ["node", "index.cjs"]

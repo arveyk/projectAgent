@@ -9,18 +9,18 @@ steps:
       - '-f'
       - Dockerfile
       - .
-  - name: gcr.io/cloud-builders/docker
-    args:
-      - push
-      - >-
-        gcr.io/europe-west-docker.pkg.dev/focal-dolphin-464823-s3/github.com/arveyk/projectagent:$COMMIT_SHA
+  # - name: gcr.io/cloud-builders/docker
+  #   args:
+  #     - push
+  #     - >-
+  #       europe-west-docker.pkg.dev/focal-dolphin-464823-s3/github.com/arveyk/projectagent:$COMMIT_SHA
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk
     args:
       - run
       - deploy
       - approve-edit-disapprove
       - '--image'
-      - gcr.io/focal-dolphin-464823-s3/IMAGE
+      - europe-west-docker.pkg.dev/focal-dolphin-464823-s3/github.com/arveyk/projectagent:$COMMIT_SHA
       - '--region'
       - europe-west
       - '--platform'

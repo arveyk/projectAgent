@@ -26,8 +26,8 @@ steps:
       - '--platform'
       - managed
       - '--port'
-      - '8000'
-    entrypoint: gcloud
+      - '8080'
+        #entrypoint: gcloud
 images:
   - >-
     europe-west-docker.pkg.dev/focal-dolphin-464823-s3/github.com/arveyk/projectagent:$COMMIT_SHA

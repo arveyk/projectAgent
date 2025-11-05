@@ -11,7 +11,7 @@ steps:
       - .
   - name: 'gcr.io/cloud-builders/gcloud'
     script: |
-      gcloud run deploy cloudrunservice --image europe-west-docker.pkg.dev/focal-dolphin-464823-s3/github.com/arveyk/projectagent:$COMMIT_SHA --platform managed --allow-unauthenticated
+      gcloud run deploy cloudrunservice --image europe-west-docker.pkg.dev/focal-dolphin-464823-s3/github.com/arveyk/projectagent:$COMMIT_SHA --region europe-west --platform managed --allow-unauthenticated
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk
     args:
       - run

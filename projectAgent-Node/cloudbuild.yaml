@@ -1,5 +1,6 @@
 steps:
   - name: gcr.io/cloud-builders/docker
+    dir: /workspace/projectAgent/projectAgent-Node
     args:
       - build
       - '-t'

@@ -16,8 +16,8 @@ WORKDIR /projectAgent/projectAgent-Node
 
 COPY --from=builder /projectAgent/projectAgent-Node/dist/index.cjs .
 
-ENV PORT 8080
-EXPOSE $PORT
+#ENV PORT 8080
+#EXPOSE $PORT
 
 #CMD ["npm", "run", "dev"]
 CMD ["node", "index.cjs"]

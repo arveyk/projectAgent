@@ -25,6 +25,8 @@ steps:
       - europe-west1
       - '--platform'
       - managed
+      - '--port'
+      - 8000
     entrypoint: gcloud
 images:
   - >-

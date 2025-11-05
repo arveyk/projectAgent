@@ -1,0 +1,33 @@
+steps:
+  - name: gcr.io/cloud-builders/docker
+    dir: /workspace/projectAgent-Node
+    args:
+      - build
+      - '-t'
+      - >-
+        europe-west-docker.pkg.dev/focal-dolphin-464823-s3/github.com/arveyk/projectagent:$COMMIT_SHA
+      - '-f'
+      - Dockerfile
+      - .
+  # - name: gcr.io/cloud-builders/docker
+  #   args:
+  #     - push
+  #     - >-
+  #       europe-west-docker.pkg.dev/focal-dolphin-464823-s3/github.com/arveyk/projectagent:$COMMIT_SHA
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    args:
+      - run
+      - deploy
+      - approve-edit-disapprove
+      - '--image'
+      - europe-west-docker.pkg.dev/focal-dolphin-464823-s3/github.com/arveyk/projectagent:$COMMIT_SHA
+      - '--region'
+      - europe-west
+      - '--platform'
+      - managed
+    entrypoint: gcloud
+images:
+  - >-
+    europe-west-docker.pkg.dev/focal-dolphin-464823-s3/github.com/arveyk/projectagent:$COMMIT_SHA
+options:
+  logging: CLOUD_LOGGING_ONLY

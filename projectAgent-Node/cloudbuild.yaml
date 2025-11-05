@@ -6,14 +6,14 @@ steps:
       - build
       - '-t'
       - >-
-        europe-west1-docker.pkg.dev/focal-dolphin-464823-s3/github.com/arveyk/projectagent:$COMMIT_SHA
+        $LOCATION-docker.pkg.dev/$PROJECT_ID/github.com/arveyk/projectagent:$COMMIT_SHA
       - '-f'
       - Dockerfile
       - '.'
   - name: gcr.io/cloud-builders/docker
     args:
       - push
-      - europe-west1-docker.pkg.dev/focal-dolphin-464823-s3/github.com/arveyk/projectagent:$COMMIT_SHA]
+      - $LOCATION-docker.pkg.dev/$PROJECT_ID/github.com/arveyk/projectagent:$COMMIT_SHA
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk
     entrypoint: gcloud
     args:
@@ -21,14 +21,14 @@ steps:
       - deploy
       - approve-edit-disapprove
       - '--image'
-      - 'europe-west1-docker.pkg.dev/focal-dolphin-464823-s3/github.com/arveyk/projectagent:$COMMIT_SHA'
+      - $LOCATION-docker.pkg.dev/$PROJECT_ID/github.com/arveyk/projectagent:$COMMIT_SHA
       - '--region'
-      - 'europe-west1'
+      - $LOCATION
       - '--platform'
       - 'managed'
       - '--allow-unauthenticated'
 images:
   - >-
-    europe-west-docker.pkg.dev/focal-dolphin-464823-s3/github.com/arveyk/projectagent:$COMMIT_SHA
+    $LOCATION-docker.pkg.dev/$PROJECT_ID/github.com/arveyk/projectagent:$COMMIT_SHA
 options:
   logging: CLOUD_LOGGING_ONLY

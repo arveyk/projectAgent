@@ -23,7 +23,7 @@ steps:
       - '--image'
       - $LOCATION-docker.pkg.dev/$PROJECT_ID/github.com/arveyk/projectagent:$COMMIT_SHA
       - '--region'
-      - $LOCATION
+      - europe-west1
       - '--platform'
       - 'managed'
       - '--allow-unauthenticated'

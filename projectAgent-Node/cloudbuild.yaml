@@ -22,7 +22,7 @@ steps:
       - '--image'
       - europe-west-docker.pkg.dev/focal-dolphin-464823-s3/github.com/arveyk/projectagent:$COMMIT_SHA
       - '--region'
-      - europe-west
+      - europe-west1
       - '--platform'
       - managed
     entrypoint: gcloud

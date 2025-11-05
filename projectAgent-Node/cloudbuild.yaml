@@ -10,10 +10,10 @@ steps:
       - '-f'
       - Dockerfile
       - '.'
-  - name: gcr.io/cloud-builders/docker
-    args:
-      - push
-      - $LOCATION-docker.pkg.dev/$PROJECT_ID/github.com/arveyk/projectagent:$COMMIT_SHA
+  # - name: gcr.io/cloud-builders/docker
+  #   args:
+  #     - push
+  #     - $LOCATION-docker.pkg.dev/$PROJECT_ID/github.com/arveyk/projectagent:$COMMIT_SHA
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk
     entrypoint: gcloud
     args:

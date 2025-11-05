@@ -6,8 +6,7 @@ steps:
       - build
       - '-t'
       - >-
-        europe-west-docker.pkg.dev/focal-dolphin-464823-s3/projectagent/projectagent:$COMMIT_SHA
-  # europe-west-docker.pkg.dev/focal-dolphin-464823-s3/github.com/arveyk/projectagent:$COMMIT_SHA
+        europe-west-docker.pkg.dev/focal-dolphin-464823-s3/github.com/arveyk/projectagent:$COMMIT_SHA
       - '-f'
       - Dockerfile
       - '.'
@@ -23,8 +22,7 @@ steps:
       - deploy
       - approve-edit-disapprove
       - '--image'
-        # - 'europe-west-docker.pkg.dev/focal-dolphin-464823-s3/github.com/arveyk/projectagent:$COMMIT_SHA'
-      - 'europe-west-docker.pkg.dev/focal-dolphin-464823-s3/projectagent/projectagent:$COMMIT_SHA'
+      - 'europe-west-docker.pkg.dev/focal-dolphin-464823-s3/github.com/arveyk/projectagent:$COMMIT_SHA'
       - '--region'
       - 'europe-west1'
       - '--platform'
@@ -32,7 +30,6 @@ steps:
       - '--allow-unauthenticated'
 images:
   - >-
-      europe-west-docker.pkg.dev/focal-dolphin-464823-s3/projectagent/projectagent:$COMMIT_SHA
-  # europe-west-docker.pkg.dev/focal-dolphin-464823-s3/github.com/arveyk/projectagent:$COMMIT_SHA
+    europe-west-docker.pkg.dev/focal-dolphin-464823-s3/github.com/arveyk/projectagent:$COMMIT_SHA
 options:
   logging: CLOUD_LOGGING_ONLY

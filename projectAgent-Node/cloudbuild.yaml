@@ -24,7 +24,7 @@ steps:
       - approve-edit-disapprove
       - '--image'
         # - 'europe-west-docker.pkg.dev/focal-dolphin-464823-s3/github.com/arveyk/projectagent:$COMMIT_SHA'
-        - 'europe-west-docker.pkg.dev/focal-dolphin-464823-s3/projectagent/projectagent:$COMMIT_SHA'
+      - 'europe-west-docker.pkg.dev/focal-dolphin-464823-s3/projectagent/projectagent:$COMMIT_SHA'
       - '--region'
       - 'europe-west1'
       - '--platform'

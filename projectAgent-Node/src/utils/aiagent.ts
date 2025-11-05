@@ -11,7 +11,8 @@ import { SlashCommand } from "@slack/bolt";
 const model = new ChatAnthropic({
   model: "claude-sonnet-4-5-20250929",
   temperature: 0,
-  apiKey: ANTHROPIC_API_KEY,
+  // topP: 0.9,
+  // apiKey: ANTHROPIC_API_KEY,
 });
 
 const task = z.object({

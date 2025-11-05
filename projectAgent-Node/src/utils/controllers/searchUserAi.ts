@@ -11,6 +11,7 @@ ANTHROPIC_API_KEY === undefined || ANTHROPIC_API_KEY === null
 const model = new ChatAnthropic({
   model: "claude-sonnet-4-5-20250929",
   temperature: 0,
+  topP: 0.9,
   apiKey: ANTHROPIC_API_KEY,
 });
 

@@ -20,6 +20,7 @@ const notion = new Client({
 const model = new ChatAnthropic({
   model: "claude-sonnet-4-5-20250929",
   temperature: 0,
+  // topP: 0.9,
   apiKey: ANTHROPIC_API_KEY,
 });
 

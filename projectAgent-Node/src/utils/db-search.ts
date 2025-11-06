@@ -40,7 +40,7 @@ export type dbSearchResult = {
   taskId?: string;
 };
 
-// Error here is caused by mismatched zod version
+// If an error arises here, make sure Zod versions are not mismatched
 const structuredLlm = model.withStructuredOutput(databaseSearchResult, {
   includeRaw: true,
 });
@@ -61,11 +61,18 @@ export const searchDB = async function (
     data_source_id: NOTION_TASKS_DATA_SOURCE_ID,
   });
   logTime("Done querying database");
-  console.log(`Long version db response: ${JSON.stringify(response)}`);
 
-  //logTime("Simplifying response");
   const simplifiedResponse = simplifyDBResults(response);
-  //logTime("Done simplifying response");
+
+  // TODO retrieve block children and extract task details from page body
+  const respWithPageContent = await Promise.all(simplifiedResponse.map(async (page) => {
+    const children = await notion.blocks.children.list({
+      block_id: page.pageId,
+    });
+    return children;
+  }))
+  console.log(`Children: ${JSON.stringify(respWithPageContent)}`);
+
   console.log(`Database response: ${JSON.stringify(simplifiedResponse)}`);
 
   // Limit pages to the 20 most similar to the message

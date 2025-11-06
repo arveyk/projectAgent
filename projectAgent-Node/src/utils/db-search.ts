@@ -12,6 +12,7 @@ import {
   ANTHROPIC_MODEL_VER
 } from "../env";
 import { logTime } from "./logTime";
+import { json } from "body-parser";
 
 const notion = new Client({
   auth: NOTION_API_KEY,
@@ -60,6 +61,7 @@ export const searchDB = async function (
     data_source_id: NOTION_TASKS_DATA_SOURCE_ID,
   });
   logTime("Done querying database");
+  console.log(`Long version db response: ${JSON.stringify(response)}`);
 
   //logTime("Simplifying response");
   const simplifiedResponse = simplifyDBResults(response);

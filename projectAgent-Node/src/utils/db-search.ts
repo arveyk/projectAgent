@@ -12,7 +12,6 @@ import {
   ANTHROPIC_MODEL_VER
 } from "../env";
 import { logTime } from "./logTime";
-import { json } from "body-parser";
 
 const notion = new Client({
   auth: NOTION_API_KEY,
@@ -40,7 +39,7 @@ export type dbSearchResult = {
   taskId?: string;
 };
 
-// If an error arises here, make sure Zod versions are not mismatched
+// Error here is caused by mismatched zod version
 const structuredLlm = model.withStructuredOutput(databaseSearchResult, {
   includeRaw: true,
 });
@@ -62,17 +61,9 @@ export const searchDB = async function (
   });
   logTime("Done querying database");
 
+  //logTime("Simplifying response");
   const simplifiedResponse = simplifyDBResults(response);
-
-  // TODO retrieve block children and extract task details from page body
-  const respWithPageContent = await Promise.all(simplifiedResponse.map(async (page) => {
-    const children = await notion.blocks.children.list({
-      block_id: page.pageId,
-    });
-    return children;
-  }))
-  console.log(`Children: ${JSON.stringify(respWithPageContent)}`);
-
+  //logTime("Done simplifying response");
   console.log(`Database response: ${JSON.stringify(simplifiedResponse)}`);
 
   // Limit pages to the 20 most similar to the message

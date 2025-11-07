@@ -18,6 +18,7 @@ const notion = new Client({
   notionVersion: "2025-09-03",
 });
 
+logTime("(Database) model initialization start");
 const model = new ChatAnthropic({
   model: ANTHROPIC_MODEL_VER,
   temperature: 0,
@@ -33,6 +34,7 @@ const databaseSearchResult = z.object({
     .optional()
     .describe("The ID of the task entry from the database"),
 });
+logTime("(Database) model initialization finished");
 
 export type dbSearchResult = {
   exists: boolean;

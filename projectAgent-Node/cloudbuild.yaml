@@ -6,12 +6,12 @@ steps:
       - build
       - '-t'
       - >-
-        us-west1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/projectagent/approve-edit-disapprove:$COMMIT_SHA
+        europe-west1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/projectagent/approve-edit-disapprove:$COMMIT_SHA
       - '-f'
       - Dockerfile
       - '.'
   - name: gcr.io/cloud-builders/docker
-    args: ['push', 'us-west1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/projectagent/approve-edit-disapprove:$COMMIT_SHA']
+    args: ['push', 'europe-west1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/projectagent/approve-edit-disapprove:$COMMIT_SHA']
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk
     entrypoint: gcloud
     args:
@@ -19,14 +19,14 @@ steps:
       - deploy
       - approve-edit-disapprove
       - '--image'
-      - us-west1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/projectagent/approve-edit-disapprove:$COMMIT_SHA
+      - europe-west1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/projectagent/approve-edit-disapprove:$COMMIT_SHA
       - '--region'
-      - us-west1
+      - europe-west1
       - '--platform'
       - 'managed'
       - '--allow-unauthenticated'
 images:
   - >-
-    us-west1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/projectagent/approve-edit-disapprove:$COMMIT_SHA
+    europe-west1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/projectagent/approve-edit-disapprove:$COMMIT_SHA
 options:
   logging: CLOUD_LOGGING_ONLY

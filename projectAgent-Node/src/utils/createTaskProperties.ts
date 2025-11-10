@@ -28,15 +28,6 @@ const createAssigneeArray = async function (assignees: NotionUser[]) {
   }
 };
 
-const createDescriptionArray = function (description: string) {
-  return [
-    {
-      text: {
-        content: description,
-      },
-    },
-  ];
-};
 const createProjectArray = function (project: string) {
   console.log(project);
   return [
@@ -99,9 +90,6 @@ export const createTaskProperties = async function (taskObj: NotionTask) {
       date: {
         start: startDate.toString(),
       },
-    },
-    Description: {
-      rich_text: createDescriptionArray(description),
     },
     /*
      * Not in the projects Database

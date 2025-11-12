@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@codegenie/serverless-express": "^4.17.0",
     "@google-cloud/functions-framework": "^4.0.0",
     "@langchain/anthropic": "^1.0.0-alpha.2",
     "@langchain/classic": "^1.0.0",
@@ -47,6 +48,7 @@
     "@babel/preset-env": "^7.28.0",
     "@eslint/js": "^9.32.0",
     "@google-cloud/functions": "^4.2.0",
+    "@types/aws-lambda": "^8.10.158",
     "@types/dotenv": "^6.1.1",
     "@types/jest": "^30.0.0",
     "@types/luxon": "^3.7.1",

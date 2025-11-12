@@ -8,15 +8,16 @@ const notion = new Client({
 });
 
 export const handler = async (event) => {
-  // TODO implement
+  // TODO just log payload from HTTP event
   const response = {
     statusCode: 200,
     body: JSON.stringify('Hello from Lambda!'),
   };
-  console.log(`Querying DB, timestamp: ${Date.now()}`);
-  const dbResponse = await notion.dataSources.query({
-    data_source_id: process.env.NOTION_TASKS_DATA_SOURCE_ID,
-  });
-  console.log(`Done querying DB, timestamp: ${Date.now()}`);
+  console.log(JSON.stringify(event));
+  // console.log(`Querying DB, timestamp: ${Date.now()}`);
+  // const dbResponse = await notion.dataSources.query({
+  //   data_source_id: process.env.NOTION_TASKS_DATA_SOURCE_ID,
+  // });
+  // console.log(`Done querying DB, timestamp: ${Date.now()}`);
   return response;
 };

@@ -1,10 +1,10 @@
 import { build } from "esbuild";
 
 build({
-    entryPoints: ["src/index.ts"],
+    entryPoints: ["src/lambda.ts"],
     bundle: true,
     minify: true,
     treeShaking: true,
     platform: 'node',
-    outfile: "dist/index.cjs",
+    outfile: "dist/lambda.cjs",
 });

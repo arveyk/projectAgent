@@ -16,6 +16,7 @@ import {
   TaskPage,
 } from "../utils/task";
 import { GetPageResponse } from "@notionhq/client";
+import { getCurrentInvoke } from "@codegenie/serverless-express";
 
 // webhook for taskmanagement channel only
 const webhookURL = process.env.TASK_MANAGEMENT_WEBHOOK_URL;
@@ -30,6 +31,9 @@ const slashCmdHandler = async function (
   logTime("Execution start");
   // Send OK
   response.status(200).send();
+
+  const {event, context} = getCurrentInvoke();
+  console.log(`Event: ${event}\nContext: ${context}`)
 
   try {
     const reqBody = request.body as SlashCommand;

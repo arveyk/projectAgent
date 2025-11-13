@@ -27,7 +27,7 @@
   },
   "name": "projectagent-node",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "lambda.js",
   "type": "module",
   "scripts": {
     "test": "cd ./src && npx jest",

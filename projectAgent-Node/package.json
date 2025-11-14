@@ -27,8 +27,8 @@
   },
   "name": "projectagent-node",
   "version": "1.0.0",
-  "main": "lambda.js",
-  "type": "module",
+  "main": "dist/index.cjs",
+  "type": "commonjs",
   "scripts": {
     "test": "cd ./src && npx jest",
     "test-helpers": "npx jest utils/aiagent.test.js utils/db-search.test.js blockkit/createBlocks.test.js utils/convertEmptyFields.test.js utils/simplifyDBResults.test.js",
@@ -36,7 +36,7 @@
     "dev": "nodemon src/index.cjs",
     "format": "npx prettier . --write",
     "lint": "npx eslint",
-    "build": "node build.js",
+    "build": "node build.cjs",
     "docker": "docker build -t minimal-cloud-run . && docker run --rm -p 8080:8080 --env-file .env minimal-cloud-run"
   },
   "keywords": [],

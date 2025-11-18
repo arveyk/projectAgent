@@ -30,10 +30,12 @@ const slashCmdHandler = async function (
   response: Response,
   next: NextFunction,
 ): Promise<void> {
+  console.log("We are now in the slashcmd handler");
   logTime("Execution start");
   // Send OK
   response.status(200).send();
 
+  console.log("Getting event and context:");
   const { event, context } = getCurrentInvoke();
   console.log(`Event: ${event}\nContext: ${context}`);
 

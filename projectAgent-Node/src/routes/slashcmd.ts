@@ -6,7 +6,10 @@ import { parseTask } from "../utils/aiagent";
 import { searchDB, getTaskProperties } from "../utils/db-search";
 import { sendLoadingMsg } from "../blockkit/loadingMsg";
 import { findMatchingAssignees } from "../utils/controllers/userCreds";
-import { createMultiSelectionsBlock, createSelectionBlock } from "../blockkit/create_select";
+import {
+  createMultiSelectionsBlock,
+  createSelectionBlock,
+} from "../blockkit/create_select";
 import { logTime } from "../utils/logTime";
 // import { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 import { SlashCommand } from "@slack/bolt";
@@ -33,8 +36,8 @@ const slashCmdHandler = async function (
   // Send OK
   response.status(200).send();
 
-  const {event, context} = getCurrentInvoke();
-  console.log(`Event: ${event}\nContext: ${context}`)
+  const { event, context } = getCurrentInvoke();
+  console.log(`Event: ${event}\nContext: ${context}`);
 
   try {
     const reqBody = request.body as SlashCommand;
@@ -143,35 +146,41 @@ const slashCmdHandler = async function (
         // Select block
 
         let taskBlockWithSelect;
-        let selections2
+        let selections2;
         if (task.assignees.length !== 1 || task.assignees[0] === null) {
           console.log("Assignees not present, creating selection");
 
           // TODO Replace with search results of matching Notion users;
-          const selectionBlock = createSelectionBlock(notionTask, "Major project", [
-            { name: "Phil", email: "philippians2@gmail.com", userId: "" },
-            { name: "James", email: "james1:5bond@agent", userId: "" },
-            { name: "You", email: "youandi@yahoo.com", userId: "" },
-            { name: "metoo", email: "meornottome@outlook.com", userId: "" },
-            { name: "Abyyy", email: "", userId: "" }
-          ]);
+          const selectionBlock = createSelectionBlock(
+            notionTask,
+            "Major project",
+            [
+              { name: "Phil", email: "philippians2@gmail.com", userId: "" },
+              { name: "James", email: "james1:5bond@agent", userId: "" },
+              { name: "You", email: "youandi@yahoo.com", userId: "" },
+              { name: "metoo", email: "meornottome@outlook.com", userId: "" },
+              { name: "Abyyy", email: "", userId: "" },
+            ],
+          );
 
           //const selectBlock3 = createSelectionBlock(notionTask, "Project(s)", assigneeSearchResults)
-          const selections = createMultiSelectionsBlock(notionTask
-            , ["Phil", "James", "You", "Me", "Abyyy"], ["No Project"]);
+          const selections = createMultiSelectionsBlock(
+            notionTask,
+            ["Phil", "James", "You", "Me", "Abyyy"],
+            ["No Project"],
+          );
           taskBlockWithSelect = {
             text: "Creating a new Task?",
             replace_original: true,
-            blocks: selections.blocks
-          }
+            blocks: selections.blocks,
+          };
           selections2 = {
             text: "Creating a new Task?",
             replace_original: true,
-            blocks: selectionBlock.blocks
-          }
+            blocks: selectionBlock.blocks,
+          };
         }
         console.log("SlashCmdHandler taskBlockWithSelect", selections2);
-
 
         const taskBlock = createBlockNewTask({
           task: notionTask,
@@ -180,8 +189,8 @@ const slashCmdHandler = async function (
         } as TaskPage);
         taskBlock.blocks[0].text
           ? (taskBlock.blocks[0].text.text += JSON.stringify(
-            assigneeSearchResults || " User not in Channel",
-          ))
+              assigneeSearchResults || " User not in Channel",
+            ))
           : console.log("First Text undefined");
 
         axios({
@@ -211,8 +220,7 @@ const slashCmdHandler = async function (
   } catch (err: Error | any) {
     console.log("slachCmdHandler Error", err);
     return err;
-  }
-  finally {
+  } finally {
     logTime("Execution finished");
   }
 };

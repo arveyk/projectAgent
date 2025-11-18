@@ -9,7 +9,7 @@ import {
   NOTION_API_KEY,
   NOTION_TASKS_DATA_SOURCE_ID,
   ANTHROPIC_API_KEY,
-  ANTHROPIC_MODEL_VER
+  ANTHROPIC_MODEL_VER,
 } from "../env";
 import { logTime } from "./logTime";
 

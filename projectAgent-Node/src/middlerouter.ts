@@ -50,7 +50,7 @@ router.get("/", (request, response) => {
   try {
     response
       .status(200)
-    .send("<h1>Welcome to Timely, save and retrieve tasks conveniently</h1>");
+      .send("<h1>Welcome to Timely, save and retrieve tasks conveniently</h1>");
   } catch (error) {
     console.error(`(middlerouter) Error in home route ${error}`);
   }

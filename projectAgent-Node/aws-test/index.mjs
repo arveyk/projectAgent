@@ -11,7 +11,7 @@ export const handler = async (event) => {
   // TODO just log payload from HTTP event
   const response = {
     statusCode: 200,
-    body: JSON.stringify('Hello from Lambda!'),
+    body: JSON.stringify("Hello from Lambda!"),
   };
   console.log(`event: ${JSON.stringify(event)}`);
   // console.log(`Querying DB, timestamp: ${Date.now()}`);

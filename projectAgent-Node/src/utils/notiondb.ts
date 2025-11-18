@@ -41,7 +41,7 @@ export async function addTaskNotionPage(
           data_source_id: NOTION_TASKS_DATA_SOURCE_ID,
         },
         properties: taskProperties,
-        children: taskBody
+        children: taskBody,
       });
       console.log(newPage);
       return {

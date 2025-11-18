@@ -16,6 +16,7 @@ import {
   TaskPage,
 } from "../utils/task";
 import { GetPageResponse } from "@notionhq/client";
+import { APIGatewayProxyEventV2 } from "aws-lambda";
 import { getCurrentInvoke } from "@codegenie/serverless-express";
 
 // webhook for taskmanagement channel only

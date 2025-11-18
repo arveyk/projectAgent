@@ -8,6 +8,7 @@ const APP_PORT = parseInt(PORT);
 const expressApp = express();
 
 expressApp.use(router);
+console.log("We are using the router");
 
 expressApp.use((request, response, next) => {
   console.log(`${Date.now()}`);

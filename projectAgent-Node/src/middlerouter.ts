@@ -5,13 +5,17 @@ import newTaskHandler from "./routes/tasks/newtask";
 import patchTaskHandler from "./routes/tasks/update";
 import interactionHandler from "./routes/paresponse/updateResponse";
 import { threadMsg } from "./routes/threadReply";
+import { configDotenv } from "dotenv";
 
 const router = express.Router();
+console.log("We have a router!");
 
 router.use(express.urlencoded({ extended: false }));
 router.use(express.json());
 
+console.log("About to define POST route for slashcmd:");
 router.post("/slashcmd", slashCmdHandler);
+console.log("POST route defined!");
 
 //router.post('/slack/interact', interactionsHandler);
 router.post("/slack/interact", threadMsg);

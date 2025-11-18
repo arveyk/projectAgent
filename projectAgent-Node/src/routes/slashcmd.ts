@@ -24,8 +24,6 @@ import { getCurrentInvoke } from "@codegenie/serverless-express";
 
 // webhook for taskmanagement channel only
 const webhookURL = process.env.TASK_MANAGEMENT_WEBHOOK_URL;
-const webhookURL0 = "https:slack.com/api/chat.postEphimeral";
-console.log(webhookURL0);
 
 const slashCmdHandler = async function (
   request: Request,

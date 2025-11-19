@@ -1,21 +1,21 @@
 {
     "version": "2.0",
     "routeKey": "$default",
-    "rawPath": "/",
+    "rawPath": "/slashcmd",
     "rawQueryString": "",
     "headers": {
-        "content-length": "464",
+        "content-length": "469",
         "x-amzn-tls-version": "TLSv1.3",
         "x-forwarded-proto": "https",
         "x-forwarded-port": "443",
-        "x-forwarded-for": "54.82.95.218",
+        "x-forwarded-for": "3.236.252.159",
         "accept": "application/json,*/*",
         "x-amzn-tls-cipher-suite": "TLS_AES_128_GCM_SHA256",
-        "x-amzn-trace-id": "Root=1-6914cb06-7e1174123deda75b3f0aa96d",
+        "x-amzn-trace-id": "Root=1-691d0f02-289dfd2e084e29f83c41ed22",
         "host": "ffibu7pr5dl76qgxqwf6p4yk7y0hvnoy.lambda-url.us-west-2.on.aws",
         "content-type": "application/x-www-form-urlencoded",
-        "x-slack-request-timestamp": "1762970374",
-        "x-slack-signature": "v0=d4d99753c717b584f37be896707e38eda81042994f430bc464dbe57098477f2e",
+        "x-slack-request-timestamp": "1763512065",
+        "x-slack-signature": "v0=5afcce2cdd17bd9a978de858b6f6257176364b996274d1866fdcd53d791c4243",
         "accept-encoding": "gzip,deflate",
         "user-agent": "Slackbot 1.0 (+https://api.slack.com/robots)"
     },
@@ -28,15 +28,15 @@
             "method": "POST",
             "path": "/slashcmd",
             "protocol": "HTTP/1.1",
-            "sourceIp": "54.82.95.218",
+            "sourceIp": "3.236.252.159",
             "userAgent": "Slackbot 1.0 (+https://api.slack.com/robots)"
         },
-        "requestId": "cc78eef3-9da7-4fd8-9e6a-50d966c224d3",
+        "requestId": "2bc58c13-5971-41ee-a51b-725aeec244e7",
         "routeKey": "$default",
         "stage": "$default",
-        "time": "12/Nov/2025:17:59:34 +0000",
-        "timeEpoch": 1762970374483
+        "time": "19/Nov/2025:00:27:46 +0000",
+        "timeEpoch": 1763512066035
     },
-    "body": "dG9rZW49Y2hOcFF3NEZrbnpPRlZZZ3BkVnF0d3BlJnRlYW1faWQ9VDA4VkFESEgxN1MmdGVhbV9kb21haW49c29sdXRpb25hbHByby0xYzYxNDEzJmNoYW5uZWxfaWQ9QzA4VkFESjdTRUwmY2hhbm5lbF9uYW1lPWFsbC1zb2x1dGlvbmFsLXByb2plY3QtYWdlbnQmdXNlcl9pZD1VMDhWQURITkcwRyZ1c2VyX25hbWU9Y3JrdXJkZWxhayZjb21tYW5kPSUyRnRpbWVseS1sYW1iZGEmdGV4dD1hZGQraGVsbG8mYXBpX2FwcF9pZD1BMDlSV0hFR1RDUCZpc19lbnRlcnByaXNlX2luc3RhbGw9ZmFsc2UmcmVzcG9uc2VfdXJsPWh0dHBzJTNBJTJGJTJGaG9va3Muc2xhY2suY29tJTJGY29tbWFuZHMlMkZUMDhWQURISDE3UyUyRjk5MDE1MTc1NjcxMjIlMkZqcU16SkRhS1JBTDRzTnVoa3RabmQwckMmdHJpZ2dlcl9pZD05OTA1MDgxMDQ5NDEyLjg5OTY0NTk1NzkyNjQuMzAzYjYzOTA3YTE0OTY1Y2M4NWE0Y2IxNmEzMzI5MmQ=",
+    "body": "dG9rZW49Y2hOcFF3NEZrbnpPRlZZZ3BkVnF0d3BlJnRlYW1faWQ9VDA4VkFESEgxN1MmdGVhbV9kb21haW49c29sdXRpb25hbHByby0xYzYxNDEzJmNoYW5uZWxfaWQ9QzA4VkFESjdTRUwmY2hhbm5lbF9uYW1lPWFsbC1zb2x1dGlvbmFsLXByb2plY3QtYWdlbnQmdXNlcl9pZD1VMDhWQURITkcwRyZ1c2VyX25hbWU9Y3JrdXJkZWxhayZjb21tYW5kPSUyRnRpbWVseS1sYW1iZGEmdGV4dD1hZGQrSGVsbG8rJTNBMyZhcGlfYXBwX2lkPUEwOVJXSEVHVENQJmlzX2VudGVycHJpc2VfaW5zdGFsbD1mYWxzZSZyZXNwb25zZV91cmw9aHR0cHMlM0ElMkYlMkZob29rcy5zbGFjay5jb20lMkZjb21tYW5kcyUyRlQwOFZBREhIMTdTJTJGOTk1OTM5MzE4NDQwMSUyRlAxOHhacFUyZDJQV3BFS2ppQ1BuUlNGViZ0cmlnZ2VyX2lkPTk5NTAwNTgzOTE3NDguODk5NjQ1OTU3OTI2NC4xN2NkNzgzZTAzYTJjODE4ZDEwNGUzNWFiNzU2Mzk5NQ==",
     "isBase64Encoded": true
 }

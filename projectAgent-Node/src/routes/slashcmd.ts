@@ -35,6 +35,10 @@ const slashCmdHandler = async function (
   // Send OK
   response.status(200).send();
 
+  console.log(`request: ${JSON.stringify(request)}`);
+  console.log(`response: ${JSON.stringify(response)}`);
+  console.log(`next function: ${JSON.stringify(next)}`);
+
   console.log("Getting event and context:");
   const { event, context } = getCurrentInvoke();
   console.log(`Event: ${JSON.stringify(event)}\nContext: ${JSON.stringify(context)}`);

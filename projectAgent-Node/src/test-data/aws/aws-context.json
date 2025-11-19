@@ -1,0 +1,10 @@
+{
+    "callbackWaitsForEmptyEventLoop": true,
+    "functionVersion": "$LATEST",
+    "functionName": "TimelyBot",
+    "memoryLimitInMB": "128",
+    "logGroupName": "/aws/lambda/TimelyBot",
+    "logStreamName": "2025/11/19/[$LATEST]fec83df1395043adbe0ef1a67c9b2b35",
+    "invokedFunctionArn": "arn:aws:lambda:us-west-2:297095269574:function:TimelyBot",
+    "awsRequestId": "2bc58c13-5971-41ee-a51b-725aeec244e7"
+}

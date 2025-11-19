@@ -26,7 +26,7 @@
         "domainPrefix": "ffibu7pr5dl76qgxqwf6p4yk7y0hvnoy",
         "http": {
             "method": "POST",
-            "path": "/",
+            "path": "/slashcmd",
             "protocol": "HTTP/1.1",
             "sourceIp": "54.82.95.218",
             "userAgent": "Slackbot 1.0 (+https://api.slack.com/robots)"

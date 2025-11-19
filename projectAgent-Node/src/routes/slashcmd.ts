@@ -37,7 +37,7 @@ const slashCmdHandler = async function (
 
   console.log("Getting event and context:");
   const { event, context } = getCurrentInvoke();
-  console.log(`Event: ${event}\nContext: ${context}`);
+  console.log(`Event: ${JSON.stringify(event)}\nContext: ${JSON.stringify(context)}`);
 
   try {
     const reqBody = request.body as SlashCommand;

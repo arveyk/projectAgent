@@ -6,6 +6,7 @@ import axios from "axios";
 import { SLACK_BOT_TOKEN } from "../env";
 import { Request, Response } from "express";
 
+// TODO port to AWS SDK
 function threadMsgHandler(request: Request, response: Response) {
   const payloadStr = request.body.payload;
   const payload = JSON.parse(payloadStr);

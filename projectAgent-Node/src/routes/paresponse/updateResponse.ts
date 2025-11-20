@@ -30,6 +30,7 @@ export default function interactionHandler(
   response: Response,
   next: NextFunction,
 ) {
+  // TODO port to AWS SDK
   const payload = JSON.parse(request.body.payload);
   console.log(`Body: ${JSON.stringify(request.body)}`);
   console.log(`Body.payload${JSON.stringify(request.body.payload)}`);

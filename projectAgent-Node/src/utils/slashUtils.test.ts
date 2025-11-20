@@ -1,4 +1,4 @@
-import { isValidCmd, extractBody } from "./slashUtils";
+import { isValidCmd, extractReqBody } from "./slashUtils";
 import {
   payloadGood,
   payloadNotAdd,
@@ -8,7 +8,7 @@ import { event } from "../test-data/aws/aws-event";
 
 describe("Tests extractBody", () => {
     it("", () => {
-        const decoded = extractBody(event);
+        const decoded = extractReqBody(event);
     })
 })
 

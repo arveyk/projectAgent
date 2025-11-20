@@ -21,7 +21,7 @@ import {
 import { GetPageResponse } from "@notionhq/client";
 import { APIGatewayProxyEventV2, APIGatewayProxyHandlerV2, APIGatewayProxyResultV2, Context } from "aws-lambda";
 import { getCurrentInvoke } from "@codegenie/serverless-express";
-import { isValidCmd, extractBody } from "../utils/slashUtils";
+import { isValidCmd, extractReqBody } from "../utils/slashUtils";
 
 // webhook for taskmanagement channel only
 const webhookURL = process.env.TASK_MANAGEMENT_WEBHOOK_URL;
@@ -29,21 +29,20 @@ const webhookURL = process.env.TASK_MANAGEMENT_WEBHOOK_URL;
 const slashCmdHandler: APIGatewayProxyHandlerV2 = async function (
   event: APIGatewayProxyEventV2,
   context: Context
-): Promise<APIGatewayProxyResultV2<never>> {
+) {
   console.log("We are now in the slashcmd handler");
   logTime("Execution start");
-  // Send OK
-  response.status(200).send();
+  // TODO start streaming OK response
 
   //console.log(`request: ${JSON.stringify(request)}`);
 
   console.log(`Event: ${JSON.stringify(event)}\nContext: ${JSON.stringify(context)}`);
 
   try {
-    const reqBody = request.body as SlashCommand;
+    const reqBody = extractReqBody(event) as SlashCommand;
     console.log(`slashCmdHandler here. Any tasks for me?
 	  Request Body: ${JSON.stringify(reqBody)}`);
-    console.log(`headers: ${JSON.stringify(request.headers)}`);
+    console.log(`headers: ${JSON.stringify(event.headers)}`);
     // const command = request.body["command"];
 
     const validate = isValidCmd(reqBody);

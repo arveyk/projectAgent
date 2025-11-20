@@ -30,7 +30,7 @@ export function isValidCmd(reqBody: Request["body"]): {
  * Extracts parameters from the encoded event body.
  * @param event 
  */
-export function extractBody(event: APIGatewayProxyEventV2) {
+export function extractReqBody(event: APIGatewayProxyEventV2) {
   const bufferObj = Buffer.from(event.body ? event.body : "", "base64");
   const decodedBody: string = bufferObj.toString("utf8");
   const parsedBody = querystring.parse(decodedBody);

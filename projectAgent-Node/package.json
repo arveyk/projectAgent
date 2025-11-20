@@ -29,7 +29,7 @@
   "name": "projectagent-node",
   "version": "1.0.0",
   "main": "dist/index.cjs",
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
     "test": "cd ./src && npx jest",
     "test-helpers": "npx jest utils/aiagent.test.js utils/db-search.test.js blockkit/createBlocks.test.js utils/convertEmptyFields.test.js utils/simplifyDBResults.test.js",

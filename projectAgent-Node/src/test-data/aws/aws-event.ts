@@ -1,4 +1,6 @@
-{
+import { APIGatewayProxyEventV2 } from "aws-lambda";
+
+export const event: APIGatewayProxyEventV2 = {
     "version": "2.0",
     "routeKey": "$default",
     "rawPath": "/slashcmd",

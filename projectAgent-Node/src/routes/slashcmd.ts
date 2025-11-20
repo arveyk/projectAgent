@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Request, Response, NextFunction } from "express";
+import { Response, NextFunction } from "express";
 import { createBlockNewTask } from "../blockkit/createBlocks";
 import { createUpdateBlock } from "../blockkit/updateBlock";
 import { parseTask } from "../utils/aiagent";
@@ -19,17 +19,17 @@ import {
   TaskPage,
 } from "../utils/task";
 import { GetPageResponse } from "@notionhq/client";
-import { APIGatewayProxyEventV2 } from "aws-lambda";
+import { APIGatewayProxyEventV2, APIGatewayProxyHandlerV2, APIGatewayProxyResultV2, Context } from "aws-lambda";
 import { getCurrentInvoke } from "@codegenie/serverless-express";
+import { isValidCmd, extractBody } from "../utils/slashUtils";
 
 // webhook for taskmanagement channel only
 const webhookURL = process.env.TASK_MANAGEMENT_WEBHOOK_URL;
 
-const slashCmdHandler = async function (
-  request: Request,
-  response: Response,
-  next: NextFunction,
-): Promise<void> {
+const slashCmdHandler: APIGatewayProxyHandlerV2 = async function (
+  event: APIGatewayProxyEventV2,
+  context: Context
+): Promise<APIGatewayProxyResultV2<never>> {
   console.log("We are now in the slashcmd handler");
   logTime("Execution start");
   // Send OK
@@ -37,8 +37,6 @@ const slashCmdHandler = async function (
 
   //console.log(`request: ${JSON.stringify(request)}`);
 
-  console.log("Getting event and context:");
-  const { event, context } = getCurrentInvoke();
   console.log(`Event: ${JSON.stringify(event)}\nContext: ${JSON.stringify(context)}`);
 
   try {
@@ -226,28 +224,5 @@ const slashCmdHandler = async function (
     logTime("Execution finished");
   }
 };
-
-/**
- * Parses a slash command and determines if it is a valid command.
- * @param {*} reqBody Request from Slack containing a slash command
- * @returns true if the slash command is valid, else returns false.
- */
-export function isValidCmd(reqBody: Request["body"]): {
-  isValid: boolean;
-  action?: string;
-} {
-  const commandParams = reqBody["text"].trim().split(" ");
-  let firstArg = commandParams[0];
-  let otherArgs = commandParams.slice(1, -1).join(" ");
-  const isValidCmd = {
-    isValid: false,
-    action: "",
-  };
-
-  isValidCmd.isValid =
-    (firstArg.toLowerCase() === "add" || "update") && otherArgs.length >= 5;
-  firstArg === "add" ? (isValidCmd.action = "add") : "update";
-  return isValidCmd;
-}
 
 export default slashCmdHandler;

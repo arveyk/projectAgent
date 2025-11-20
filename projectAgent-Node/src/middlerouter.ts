@@ -4,7 +4,7 @@ import slashCmdHandler from "./routes/slashcmd";
 import newTaskHandler from "./routes/tasks/newtask";
 import patchTaskHandler from "./routes/tasks/update";
 import interactionHandler from "./routes/paresponse/updateResponse";
-import { threadMsg } from "./routes/threadReply";
+import { threadMsgHandler } from "./routes/threadReply";
 import { configDotenv } from "dotenv";
 
 const router = express.Router();
@@ -18,7 +18,7 @@ router.post("/slashcmd", slashCmdHandler);
 console.log("POST route defined!");
 
 //router.post('/slack/interact', interactionsHandler);
-router.post("/slack/interact", threadMsg);
+router.post("/slack/interact", threadMsgHandler);
 router.get("/tasks", (request, response) => {
   try {
     response.send(

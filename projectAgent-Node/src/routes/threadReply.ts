@@ -6,7 +6,7 @@ import axios from "axios";
 import { SLACK_BOT_TOKEN } from "../env";
 import { Request, Response } from "express";
 
-function threadMsg(request: Request, response: Response) {
+function threadMsgHandler(request: Request, response: Response) {
   const payloadStr = request.body.payload;
   const payload = JSON.parse(payloadStr);
   console.log(payload);
@@ -27,4 +27,4 @@ function threadMsg(request: Request, response: Response) {
   response.status(200).send("Threaded message");
 }
 
-export { threadMsg };
+export { threadMsgHandler };

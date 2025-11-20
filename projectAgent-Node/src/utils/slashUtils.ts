@@ -38,3 +38,14 @@ export function extractReqBody(event: APIGatewayProxyEventV2) {
 
   return parsedBody
 }
+
+/**
+ * Extracts a payload from a request body
+ * @param reqBody 
+ * @returns 
+ */
+export function extractPayload(reqBody: querystring.ParsedUrlQuery) {
+  const payloadStr = reqBody.payload ? Array.isArray(reqBody.payload) ? reqBody.payload.join() : reqBody.payload : "";
+  const payload = JSON.parse(payloadStr);
+  return payload;
+}

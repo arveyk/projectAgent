@@ -1,19 +1,14 @@
 import axios from "axios";
 import { Request, Response, NextFunction } from "express";
-import { createFinalBlock } from "../../blockkit/createBlocks";
 import addTaskNotionPage, { PageAddResult } from "../../utils/notiondb";
-import { sendLoadingMsg } from "../../blockkit/loadingMsg";
 import { SLACK_BOT_TOKEN } from "../../env";
-import { BlockAction, ButtonAction } from "@slack/bolt";
-import { CreatePageResponse, UpdatePageResponse } from "@notionhq/client";
+import { BlockAction } from "@slack/bolt";
 import { redirectToNotionBlock } from "../../blockkit/edit_in_notion_button";
-import {
-  convertTaskPageFromButtonPayload,
-  Task,
-  TaskPage,
-} from "../../utils/task";
+import { TaskPage } from "../../utils/task";
 import { deletePage } from "../../utils/db-deletepage";
-import { updateDbPage } from "../../utils/db-update";
+import { APIGatewayProxyEventV2, APIGatewayProxyHandlerV2, APIGatewayProxyResultV2, Context } from "aws-lambda";
+import { extractReqBody, extractPayload } from "../../utils/slashUtils"; 
+
 /**
  * interactionHandler - Response to user interactions with blocks when a button
  * 		     is pressed
@@ -25,15 +20,14 @@ import { updateDbPage } from "../../utils/db-update";
  * @return - No return value
  */
 
-export default function interactionHandler(
-  request: Request,
-  response: Response,
-  next: NextFunction,
+const interactionHandler: APIGatewayProxyHandlerV2 = function(
+  event: APIGatewayProxyEventV2,
+  context: Context,
 ) {
-  // TODO port to AWS SDK
-  const payload = JSON.parse(request.body.payload);
-  console.log(`Body: ${JSON.stringify(request.body)}`);
-  console.log(`Body.payload${JSON.stringify(request.body.payload)}`);
+  const reqBody = extractReqBody(event);
+  const payload = extractPayload(reqBody);
+  console.log(`Body: ${JSON.stringify(reqBody)}`);
+  console.log(`Body.payload${JSON.stringify(payload)}`);
   console.log("TRIGGER_ID", payload["trigger_id"]);
   console.log(`RESPONSE URL ${payload["response_url"]}`);
   console.log(`ACTIONS: ${JSON.stringify(payload["actions"])}`);
@@ -192,7 +186,6 @@ export default function interactionHandler(
       );
     }
   }
-  next();
 }
 
 function sendReject(
@@ -336,3 +329,5 @@ function sendError(
     }
   }
 }
+
+export {interactionHandler};

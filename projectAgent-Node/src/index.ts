@@ -1,27 +1,27 @@
 import slashCmdHandler from "./routes/slashcmd";
 import {interactionHandler} from "./routes/paresponse/updateResponse";
-import { APIGatewayProxyHandlerV2, APIGatewayProxyEventV2, Context } from "aws-lambda";
+import { APIGatewayProxyHandlerV2, StreamifyHandler, APIGatewayProxyEventV2, Context } from "aws-lambda";
 import { isPromise } from "util/types";
 
-async function fallbackHandler(event: APIGatewayProxyEventV2, context: Context) {
+const fallbackHandler = awslambda.streamifyResponse(async function(event: APIGatewayProxyEventV2, context: Context) {
   return "Error: Invalid route";
-}
+})
 
-const handler: APIGatewayProxyHandlerV2 = function(event, context, callback) {
+const handler: StreamifyHandler = awslambda.streamifyResponse(function(event: APIGatewayProxyEventV2, responseStream: awslambda.ResponseStream, context: Context) {
   console.log(JSON.stringify(event));
   console.log(JSON.stringify(context));
   // TODO rename all slashcmd to slashCommand
-  const handlers: Record<string, APIGatewayProxyHandlerV2 | undefined> = {
+  const handlers: Record<string, StreamifyHandler | undefined> = {
     "/slashcmd": slashCmdHandler,
     "/interact": interactionHandler,
   }
 
   const urlPath: string = event["rawPath"];
-  const handler: APIGatewayProxyHandlerV2 = handlers[urlPath] || fallbackHandler;
-  const newHandler = handler(event, context, callback);
+  const handler: StreamifyHandler = handlers[urlPath] || fallbackHandler;
+  const newHandler = awslambda.streamifyResponse(handler(event, responseStream, context));
   if (isPromise(newHandler)){
     return newHandler;
   }
-}
+})
 
 export { handler }

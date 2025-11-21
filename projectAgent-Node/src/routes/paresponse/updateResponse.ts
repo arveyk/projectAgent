@@ -6,7 +6,7 @@ import { BlockAction } from "@slack/bolt";
 import { redirectToNotionBlock } from "../../blockkit/edit_in_notion_button";
 import { TaskPage } from "../../utils/task";
 import { deletePage } from "../../utils/db-deletepage";
-import { APIGatewayProxyEventV2, APIGatewayProxyHandlerV2, APIGatewayProxyResultV2, Context } from "aws-lambda";
+import { APIGatewayProxyEventV2, APIGatewayProxyHandlerV2, APIGatewayProxyResultV2, Context, StreamifyHandler } from "aws-lambda";
 import { extractReqBody, extractPayload } from "../../utils/slashUtils"; 
 
 /**
@@ -20,8 +20,9 @@ import { extractReqBody, extractPayload } from "../../utils/slashUtils";
  * @return - No return value
  */
 
-const interactionHandler: APIGatewayProxyHandlerV2 = function(
+const interactionHandler: StreamifyHandler = function(
   event: APIGatewayProxyEventV2,
+  responseStream: awslambda.HttpResponseStream,
   context: Context,
 ) {
   const reqBody = extractReqBody(event);

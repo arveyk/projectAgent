@@ -19,20 +19,29 @@ import {
   TaskPage,
 } from "../utils/task";
 import { GetPageResponse } from "@notionhq/client";
-import { APIGatewayProxyEventV2, APIGatewayProxyHandlerV2, APIGatewayProxyResultV2, Context } from "aws-lambda";
-import { getCurrentInvoke } from "@codegenie/serverless-express";
+import { APIGatewayProxyEventV2, APIGatewayProxyHandlerV2, APIGatewayProxyResultV2, Context, StreamifyHandler } from "aws-lambda";
 import { isValidCmd, extractReqBody } from "../utils/slashUtils";
 
 // webhook for taskmanagement channel only
 const webhookURL = process.env.TASK_MANAGEMENT_WEBHOOK_URL;
 
-const slashCmdHandler: APIGatewayProxyHandlerV2 = async function (
+const slashCmdHandler: StreamifyHandler = async function (
   event: APIGatewayProxyEventV2,
+  responseStream: awslambda.HttpResponseStream,
   context: Context
 ) {
   console.log("We are now in the slashcmd handler");
   logTime("Execution start");
   // TODO start streaming OK response
+  const httpResponseMetadata = {
+    statusCode: 200,
+    headers: {
+      "Content-Type": "text/plain"
+    }
+  };
+
+  responseStream = awslambda.HttpResponseStream.from(responseStream, httpResponseMetadata);
+  responseStream.write("Slash command activated\n");
 
   //console.log(`request: ${JSON.stringify(request)}`);
 
@@ -188,8 +197,8 @@ const slashCmdHandler: APIGatewayProxyHandlerV2 = async function (
         } as TaskPage);
         taskBlock.blocks[0].text
           ? (taskBlock.blocks[0].text.text += JSON.stringify(
-              assigneeSearchResults || " User not in Channel",
-            ))
+            assigneeSearchResults || " User not in Channel",
+          ))
           : console.log("First Text undefined");
 
         axios({
@@ -220,6 +229,8 @@ const slashCmdHandler: APIGatewayProxyHandlerV2 = async function (
     console.log("slachCmdHandler Error", err);
     return err;
   } finally {
+    responseStream.write("Execution finished\n");
+    responseStream.end();
     logTime("Execution finished");
   }
 };

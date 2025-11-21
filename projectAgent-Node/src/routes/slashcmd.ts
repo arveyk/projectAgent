@@ -210,6 +210,9 @@ const slashCmdHandler: StreamifyHandler = async function (
         }).then((resp) => {
           console.log("OK from slack", resp["status"]);
         });
+        responseStream = awslambda.HttpResponseStream.from(responseStream, httpResponseMetadata);
+        responseStream.write("Task sent to Notion\n");
+        responseStream.end();
       }
     } else {
       axios({

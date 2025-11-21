@@ -86,6 +86,13 @@ const slashCmdHandler = async function (
         description: task.description,
         project: task.project,
       };
+      
+      /**
+       * remove null in assignees and AsssignedBy Arrays
+       */
+
+      notionTask.assignees = notionTask.assignees.filter((assignee) => assignee)
+      notionTask.assignedBy = notionTask.assignedBy.filter((assignedBy) => assignedBy)
 
       if (!isInDatabase) {
         throw new Error("Error searching database");

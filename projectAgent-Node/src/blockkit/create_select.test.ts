@@ -1,6 +1,6 @@
 import { createMultiSelectionsBlock, createSelectionBlock } from "./create_select";
 // import { describe, it } from "@jest/global";
-import { testPostToSlack } from "../otherFiles/postMessageSlack"; 
+import { testPostToSlack } from "../otherFiles/postMessageSlack";
 import { taskNoAssignee } from "../test-data/tasks/example-tasks";
 
 describe("RUn without issue", () => {
@@ -28,19 +28,22 @@ describe("RUn without issue", () => {
   it("Should run with test00", async () => {  
     await testPostToSlack(eventResURL, createMultiSelectionsBlock(["JIUsbds", "Iodshs"], ["Project0", "Project1", "Project clear", "Anime", "Writter"]));
   });*/
-  it("Should run createSelection smoothly", async () => {  
+  it("Should run createSelection smoothly", async () => {
     await testPostToSlack(eventResURL, createSelectionBlock(taskNoAssignee, "Project(s)", [
-            { userId: "philing good", name: "Phil", email: "philippians2@gmail.com" },
-            { userId: "bond!jamesBond-007", name: "James", email: "james1:5" },
-            { userId: "youaremine", name: "You", email: "youandi@yahoo.com" },
-            { userId: "Me", name: "metoo", email: "meornottome@outlook.com" },
-            { userId: "abbycd>?sa7039", name: "Abyyy", email: "" }
-          ] ));
+      { userId: "philing good", name: "Phil", email: "philippians2@gmail.com" },
+      { userId: "bond!jamesBond-007", name: "James", email: "james1:5" },
+      { userId: "youaremine", name: "You", email: "youandi@yahoo.com" },
+      { userId: "Me", name: "metoo", email: "meornottome@outlook.com" },
+      { userId: "abbycd>?sa7039", name: "Abyyy", email: "" }
+    ]));
   });
-/*
+
   it("shoould not err", async () => {
     await testPostToSlack(eventResURL, createMultiSelectionsBlock(taskNoAssignee,
-      ["Phil", "James", "You", "Me", "Abyyy"], ["No Project"]))
+      ["No Project", "Random projects"], [
+      { name: "Phil", email: "philsemail.com", userId: "323nus7f3l0fj5-b2" },
+      { name: "James", email: "jamesemail@google.com", userId: "emviorub29384" },
+      { name: "Abyyy", email: "abbysemail@yahoo.com", userId: "aslcuq78gf2837fg3" }
+    ]));
   });
-  */
 })

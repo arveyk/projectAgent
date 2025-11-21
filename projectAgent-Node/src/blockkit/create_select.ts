@@ -161,6 +161,27 @@ export function createOptions(whichToCreate: string, listOfItems: string[] | Not
 
 }
 
+function createMkrdwnText(projectArrOrUsersArr: string[] | NotionUser[]) {
+  const first = projectArrOrUsersArr[0];
+  const projectArr = projectArrOrUsersArr as NotionUser[];
+  if (typeof first !== "string") {
+    return {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": `*Project(s)* \t\t\t\t ${projectArr[0]}*,  `
+      }
+    }
+  }
+  return {
+    "type": "section",
+    "text": {
+      "type": "mrkdwn",
+      "text": `Assingee* \t\t\t\t ${projectArr[0].name}---${projectArr[0].email}*,  `
+
+    }
+  }
+}
 export function createSelectionBlock(notionTask: NotionTask, selectBlockTitle: string, projectsOrUsersArray: NotionUser[]) {
 
   const taskInfo = createTaskInfoWithSelections(notionTask, projectsOrUsersArray);
@@ -218,11 +239,11 @@ export function createSelectionBlock(notionTask: NotionTask, selectBlockTitle: s
   };
 }
 
-export function createMultiSelectionsBlock(newTask: NotionTask, projectsArr: string[], usersArr: string[]) {
+export function createMultiSelectionsBlock(newTask: NotionTask, projectsArr: string[], usersArr: NotionUser[]) {
 
   // Should we have options for projects or jsut have tasks empty?
-  
-  const projectsArray = [newTask.project || "undefined"];
+
+  const projectsArray = [...projectsArr];
   // TODO: change this to array of notion users that match assigneee search
   const usersArray = newTask.assignees;
 
@@ -232,15 +253,17 @@ export function createMultiSelectionsBlock(newTask: NotionTask, projectsArr: str
   let usersOptions;
 
   let projectsSelectBlock;
-  const blockText = createTaskInfoWithSelections(newTask, usersArray)
+  const blockText = createTaskInfoWithSelections(newTask, usersArr)
 
-  if (newTask.assignees.length !== 1) {
+  if (newTask.assignees.length > 1 || newTask.assignees.length === 0) {
     console.log("Creating Assignee select block");
     // projectsBlock = createProjectsSelectBlock(projectandUserSelectionBlock, projectsArray);
-    usersOptions = createOptions("NotionUsers", projectsArray);
+    usersOptions = createOptions("NotionUsers", usersArr);
+  } else {
+    usersOptions = ""
   }
 
-  if (projectsArray.length !== 1) {
+  if (projectsArray.length === 0 || projectsArray.length > 1) {
     console.log("Creating Projects selection block");
     // usersBlock = createAssignedToSelectBlock(projectandUserSelectionBlock, usersArray);
     projectsOptions = createOptions("Project(s)", projectsArray);
@@ -253,7 +276,7 @@ export function createMultiSelectionsBlock(newTask: NotionTask, projectsArr: str
           text: "Select Project(s)",
           emoji: true,
         },
-        options: usersOptions,
+        options: projectsOptions,
         action_id: "multi_select-action",
       },
       label: {
@@ -308,7 +331,7 @@ export function createMultiSelectionsBlock(newTask: NotionTask, projectsArr: str
         "type": "section",
         "text": {
           "type": "mrkdwn",
-          "text": `${projectsArray.length > 0 ? projectsArray[0] : `No projects Found`}`
+          "text": `${projectsArray.length > 0 && projectsArray[0] !== undefined ? projectsArray[0] : `No projects Found`}`
         }
       },
       {

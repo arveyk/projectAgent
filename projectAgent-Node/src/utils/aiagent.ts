@@ -83,6 +83,7 @@ export const parseTask = async function (
 
   // Convert the LLM output to a Task object for future ease of use
   // The assignees field comes out as an array of assingee name
+  // TODO fix this assignee array being null
   structuredResult.assignees = structuredResult.assignees.map(
     (assigneeName: string) => {
       return { name: assigneeName };

@@ -42,6 +42,7 @@ const slashCmdHandler: StreamifyHandler = async function (
 
   responseStream = awslambda.HttpResponseStream.from(responseStream, httpResponseMetadata);
   responseStream.write("Slash command activated\n");
+  responseStream.end();
 
   //console.log(`request: ${JSON.stringify(request)}`);
 
@@ -229,8 +230,6 @@ const slashCmdHandler: StreamifyHandler = async function (
     console.log("slachCmdHandler Error", err);
     return err;
   } finally {
-    responseStream.write("Execution finished\n");
-    responseStream.end();
     logTime("Execution finished");
   }
 };

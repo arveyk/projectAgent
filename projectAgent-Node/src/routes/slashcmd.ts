@@ -153,7 +153,9 @@ const slashCmdHandler = async function (
 
           //const selectBlock3 = createSelectionBlock(notionTask, "Project(s)", assigneeSearchResults)
           const selections = createMultiSelectionsBlock(notionTask
-            , ["Phil", "James", "You", "Me", "Abyyy"], ["No Project"]);
+            , ["No Project"], [{name: "Phil", email: "philsemail.com", userId: "323nus7fb2"}, 
+              {name: "James", email: "jamesemail@google.com", userId: "emviorub29384"},
+              {name: "Abyyy", email: "abbysemail@yahoo.com", userId: "aslcuq78gf2837fg3"}]);
           taskBlockWithSelect = {
             text: "Creating a new Task?",
             replace_original: true,

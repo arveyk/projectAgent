@@ -32,7 +32,6 @@ const slashCmdHandler: StreamifyHandler = async function (
 ) {
   console.log("We are now in the slashcmd handler");
   logTime("Execution start");
-  // TODO start streaming OK response
   const httpResponseMetadata = {
     statusCode: 200,
     headers: {

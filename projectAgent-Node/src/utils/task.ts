@@ -7,6 +7,7 @@ import {
 } from "@notionhq/client";
 import { BlockAction } from "@slack/bolt";
 import { NotionUser } from "./controllers/userTypes";
+import { TaskParseResult } from "./aiagent";
 
 export type PersonNoId = {
   name: string;
@@ -39,35 +40,24 @@ export type TaskPage = {
   url?: string;
 };
 
-export function convertTask(taskInput: Record<string, any>): Task {
+export function convertTask(taskInput: TaskParseResult): Task {
   console.log(JSON.stringify(taskInput));
-  if (!taskInput["taskTitle"]) {
-    throw new Error("Task title is missing");
-  }
-  if (!taskInput["assignees"]) {
-    throw new Error("Assignees missing");
-  }
-  if (!taskInput["dueDate"]) {
-    throw new Error("Due date is missing");
-  }
-  if (!taskInput["description"]) {
-    throw new Error("Description is missing");
-  }
 
   const dueDate = new Date(taskInput["dueDate"]);
   const startDate =
-    taskInput["startdate"] !== "<UNKNOWN>"
+    taskInput.startDate
       ? new Date(taskInput["startDate"])
       : undefined;
+  const assignees = taskInput.assignees.map((assignee) => { return {name: assignee} });
 
   return {
     taskTitle: taskInput["taskTitle"],
-    assignees: taskInput["assignees"],
+    assignees: assignees,
     dueDate: dueDate,
     startDate: startDate,
     description: taskInput["description"],
     project:
-      taskInput["project"] !== "<UNKNOWN>" ? taskInput["project"] : undefined,
+      taskInput["project"],
   };
 }
 

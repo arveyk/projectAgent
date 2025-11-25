@@ -9,6 +9,8 @@ import { SlashCommand } from "@slack/bolt";
 import { logTime } from "./logTime";
 import { error } from "console";
 
+export const EXAMPLE_OUTPUT: TaskParseResult = {taskTitle: "Write article draft", assignees: ["Bob"], dueDate: "2025-08-20T00:00-07:00", description: "Write a draft of the article"};
+
 logTime("(Parse) model initialization start");
 const model = new ChatAnthropic({
   model: ANTHROPIC_MODEL_VER,
@@ -16,7 +18,7 @@ const model = new ChatAnthropic({
   apiKey: ANTHROPIC_API_KEY,
 });
 
-const task = z.object({
+export const taskSchema = z.object({
   taskTitle: z.string().describe("Short descriptive title of the task"),
   assignees: z
     .string()
@@ -25,12 +27,12 @@ const task = z.object({
   dueDate: z
     .iso
     .datetime({ offset: true })
-    .describe("Task due date in ISO standard format with timezone included"),
+    .describe("Task due date in ISO standard format with timezone offset included"),
   startDate: z
     .iso
     .datetime({ offset: true })
     .optional()
-    .describe("Task start date in ISO standard format with timezone included"),
+    .describe("Task start date in ISO standard format with timezone offset included"),
   phonenumber: z.string().optional().describe("Assingnee phone number"),
   email: z.string().optional().describe("Assignee's email address"),
   preferredChannel: z
@@ -40,13 +42,14 @@ const task = z.object({
   description: z.string().describe("details of the task"),
   project: z.string().optional().describe("The project the task belongs to"),
 });
+export type TaskParseResult = z.infer<typeof taskSchema>;
 
 // For use with slash commands
 const structuredLlmSlashCmd: Runnable<
   BaseLanguageModelInput,
-  Record<string, any>,
-  RunnableConfig<Record<string, any>>
-> = model.withStructuredOutput(task, { includeRaw: false });
+  Record<string, unknown>,
+  RunnableConfig<Record<string, unknown>>
+> = model.withStructuredOutput(taskSchema, { includeRaw: true });
 // Error here is caused by mismatched zod version
 logTime("(Parse) model initialization finished");
 
@@ -72,36 +75,35 @@ export const parseTask = async function (
 
   const timeData = await getEventTimeData(reqBody, timestamp);
 
-  const prompt = `Today's date and time in ISO format is ${timeData.toISO()}, and our timezone is ${timeData.zoneName}. Please extract information from this message, making sure to list any dates in ISO format with timezone offset. "By the end of the day" means by 17:00 in our timezone. If the message says to finish a task "by" some date but does not specify a time, that means by 0:00 of that date in our timezone. """Example: Input: Bob, starting tomorrow, please write a draft of the article and have it finished by August 20, 2025. Output: {tasktitle: "Write article draft", assignees: ["Bob"], duedate: "2025-08-20T00:00-7:00", description: "Write a draft of the article"}""" Here is the message: ${textToParse}`;
+  const prompt = `Today's date and time in ISO format is ${timeData.toISO()}, and our timezone is ${timeData.zoneName}. Please extract information from this message, making sure to list any dates in ISO format with timezone offset. "By the end of the day" means by 17:00 in our timezone. If the message says to finish a task "by" some date but does not specify a time, that means by 0:00 of that date in our timezone. """Example: Input: Bob, starting tomorrow, please write a draft of the article and have it finished by August 20, 2025. Output: ${EXAMPLE_OUTPUT}""" Here is the message: ${textToParse}`;
   console.log(`prompt: ${prompt}`);
 
   logTime("(Parse) LLM start");
   const taskParseResult = await structuredLlmSlashCmd.invoke(prompt);
   logTime("(Parse) LLM finished");
 
-  // console.log(`Raw LLM response: ${JSON.stringify(taskParseResult.raw)}`);
-  // if(! taskParseResult.parsed) {
-  //   throw new Error("Structured output for the task is null");
-  // }
+  if(! taskParseResult) {
+    throw new Error(`Task parse result is ${typeof taskParseResult}`);
+  }
+  if(! taskParseResult.raw) {
+    throw new Error(`Raw LLM result is ${typeof taskParseResult.raw}`);
+  }
+  console.log(`Raw LLM response: ${JSON.stringify(taskParseResult.raw)}`);
 
   // TODO fix this sometimes being null
-  const structuredResult = taskParseResult//.parsed;
-  console.log(`Structured LLM response: ${JSON.stringify(structuredResult)}`);
-  if (! structuredResult) {
-    throw new Error("Structured output for the task is null");
+  const structuredResult = taskSchema.safeParse(taskParseResult.parsed)
+  if (!structuredResult.success) {
+    console.error("Task parsing was unsuccessful");
+    throw structuredResult.error;
   }
 
+  const structuredResultData = structuredResult.data;
+
+  console.log(`Structured LLM response: ${JSON.stringify(structuredResultData)}`);
+
   // Convert the LLM output to a Task object for future ease of use
-  // The assignees field comes out as an array of assingee name
-  structuredResult.assignees = structuredResult.assignees.map(
-    (assigneeName: string) => {
-      return { name: assigneeName };
-    },
-  );
+  const task = convertTask(structuredResultData);
 
-  const task = convertTask(structuredResult);
-
-  console.log(`task parse result: ${JSON.stringify(structuredResult)}`);
   console.log(`task parse result after conversion: ${JSON.stringify(task)}`);
   return task;
 };

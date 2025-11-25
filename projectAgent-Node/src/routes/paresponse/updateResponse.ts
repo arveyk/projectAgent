@@ -28,13 +28,15 @@ const interactionHandler: StreamifyHandler = function(
   const httpResponseMetadata = {
     statusCode: 200,
     headers: {
-      "Content-Type": "text/plain"
+      "Content-Type": "application/json"
     }
   };
 
   responseStream = awslambda.HttpResponseStream.from(responseStream, httpResponseMetadata);
-  responseStream.write("Slash command activated\n");
+  // TODO write the data here
+  responseStream.write("Button clicked\n");
   responseStream.end();
+
   const reqBody = extractReqBody(event);
   const payload = extractPayload(reqBody);
   console.log(`Body: ${JSON.stringify(reqBody)}`);

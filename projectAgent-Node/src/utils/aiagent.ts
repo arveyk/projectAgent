@@ -7,6 +7,7 @@ import { BaseLanguageModelInput } from "@langchain/core/dist/language_models/bas
 import { convertTask, Task } from "./task";
 import { SlashCommand } from "@slack/bolt";
 import { logTime } from "./logTime";
+import { error } from "console";
 
 logTime("(Parse) model initialization start");
 const model = new ChatAnthropic({
@@ -22,11 +23,11 @@ const task = z.object({
     .array()
     .describe("Name of person or people assigned with the task"),
   dueDate: z
-    .string()
+    .iso
     .datetime({ offset: true })
     .describe("Task due date in ISO standard format with timezone included"),
   startDate: z
-    .string()
+    .iso
     .datetime({ offset: true })
     .optional()
     .describe("Task start date in ISO standard format with timezone included"),
@@ -45,7 +46,7 @@ const structuredLlmSlashCmd: Runnable<
   BaseLanguageModelInput,
   Record<string, any>,
   RunnableConfig<Record<string, any>>
-> = model.withStructuredOutput(task, { includeRaw: true });
+> = model.withStructuredOutput(task, { includeRaw: false });
 // Error here is caused by mismatched zod version
 logTime("(Parse) model initialization finished");
 
@@ -78,10 +79,17 @@ export const parseTask = async function (
   const taskParseResult = await structuredLlmSlashCmd.invoke(prompt);
   logTime("(Parse) LLM finished");
 
-  console.log(`Raw LLM response: ${JSON.stringify(taskParseResult.raw)}`);
+  // console.log(`Raw LLM response: ${JSON.stringify(taskParseResult.raw)}`);
+  // if(! taskParseResult.parsed) {
+  //   throw new Error("Structured output for the task is null");
+  // }
+
   // TODO fix this sometimes being null
-  const structuredResult = taskParseResult.parsed;
+  const structuredResult = taskParseResult//.parsed;
   console.log(`Structured LLM response: ${JSON.stringify(structuredResult)}`);
+  if (! structuredResult) {
+    throw new Error("Structured output for the task is null");
+  }
 
   // Convert the LLM output to a Task object for future ease of use
   // The assignees field comes out as an array of assingee name

@@ -65,9 +65,11 @@ const slashCmdHandler = async function (
       // TODO show the user the list of potential assignees found in Notion and have them choose one
 
       // implementing the dropdowns
+      console.log("(slashCmdHandler) - assigneeSearchResult and Task", JSON.stringify(assigneeSearchResults), task);
       const notionTask: NotionTask = {
         taskTitle: task.taskTitle,
         // As a placeholder, just pick the first result
+
         assignees: task.assignees.map(
           (assignee) =>
             assigneeSearchResults

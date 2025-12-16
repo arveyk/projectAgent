@@ -80,7 +80,7 @@ export const parseTask = async function (
 
   console.log(`Raw LLM response: ${JSON.stringify(taskParseResult.raw)}`);
   const structuredResult = taskParseResult.parsed;
-
+  console.log(`Whole LLM response: ${JSON.stringify(taskParseResult)}`)
   // Convert the LLM output to a Task object for future ease of use
   // The assignees field comes out as an array of assingee name
   structuredResult.assignees = structuredResult.assignees.map(

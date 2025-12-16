@@ -213,7 +213,7 @@ const slashCmdHandler = async function (
       });
     }
   } catch (err: Error | any) {
-    console.log("slachCmdHandler Error", err);
+    console.log("slashCmdHandler Error", String(err));
     return err;
   }
   finally {

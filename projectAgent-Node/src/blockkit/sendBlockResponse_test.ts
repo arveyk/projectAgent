@@ -3,7 +3,7 @@ import { ALL_SLN_WEBHOOK_URL } from "../env";
 
 import { createBlockNewTask } from "./createBlocks";
 // import { createConfirmationBlock } from "./createBlocks";
-
+import { createColumnLayoutBlockNewTask } from "./columnLayoutBlock";
 import { createFinalBlock } from "./editblock";
 import { createUpdateBlock } from "./updateBlock";
 import { Task, TaskPage } from "../utils/task";
@@ -23,8 +23,8 @@ import { Task, TaskPage } from "../utils/task";
 const task: TaskPage = {
   task: {
     taskTitle: "End of year Plans",
-    assignees: [{ name: "Benjamin Noah", email: "", userId: "U08UDKY38QK" }],
-    assignedBy: [{ name: "Benjamin Noah", email: "", userId: "U08UDKY38QK" }],
+    assignees: [{ name: "Benjamin Noah", email: "smoothbenja@gmail.com", userId: "U08UDKY38QK" }],
+    assignedBy: [{ name: "Benjamin Noah", email: "slybenja@gmail.com", userId: "U08UDKY38QK" }],
 
     dueDate: new Date("7-11-2027"),
     startDate: new Date("1-11-2027"),
@@ -39,7 +39,6 @@ const task_b: TaskPage = {
     taskTitle: "Add Timothy",
     assignees: [{ name: "asas", email: "", userId: "U08UDKY38QK" }],
     assignedBy: [{ name: "asas", email: "", userId: "U08UDKY38QK" }],
-
     dueDate: new Date(),
     startDate: new Date("2025-08-07"),
     description: "Add Timothy to an unspecified system or list",
@@ -52,6 +51,7 @@ const blocks_02 = createBlockNewTask(task_b);
 //const blocks_05 = createUpdateBlock(task);
 //const blocks_03 = createConfirmationBlock(task);
 const blocks_04 = createFinalBlock(task);
+const columnLayoutBlock = createColumnLayoutBlockNewTask(task);
 //let taskDetailsObj = JSON.parse(blocks["actions"][0]["value"]);
 
 /*if (blocks_02.blocks[3].elements) {
@@ -80,7 +80,8 @@ axios({
   data: {
     text: "Message testing block",
     //blocks: blocks_05.blocks,
-    blocks: [
+    blocks: columnLayoutBlock.blocks,
+    /*blocks: [
       {
         type: "section",
         text: {
@@ -88,7 +89,7 @@ axios({
           text: ":x: *Unable to Update Entry*",
         },
       },
-    ],
+    ],*/
   },
   headers: {
     "Content-Type": "application/json",

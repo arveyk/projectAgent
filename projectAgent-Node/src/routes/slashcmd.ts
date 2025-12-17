@@ -81,6 +81,9 @@ const slashCmdHandler: StreamifyHandler = async function (
       // TODO show the user the list of potential assignees found in Notion and have them choose one
 
       // implementing the dropdowns
+      const unknownUsersCount: number = 0;
+      const unknownAssignedByUserCount: number = 0;
+
       const notionTask: NotionTask = {
         taskTitle: task.taskTitle,
         // As a placeholder, just pick the first result
@@ -155,7 +158,7 @@ const slashCmdHandler: StreamifyHandler = async function (
 
         let taskBlockWithSelect;
         let selections2;
-        if (task.assignees.length !== 1 || task.assignees[0] === null) {
+        if (task.assignees.length < 1 || task.assignees[0] === null) {
           console.log("Assignees not present, creating selection");
 
           // TODO Replace with search results of matching Notion users;
@@ -204,7 +207,7 @@ const slashCmdHandler: StreamifyHandler = async function (
         axios({
           method: "post",
           url: reqBody["response_url"],
-          data: selections2 ? selections2 : taskBlock,
+          data: selections2,//  ? selections2 : taskBlock,
           family: 4,
         }).then((resp) => {
           console.log("OK from slack", resp["status"]);

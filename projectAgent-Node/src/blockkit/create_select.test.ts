@@ -34,7 +34,7 @@ describe("RUn without issue", () => {
   it("Should run createSelection smoothly", async () => {
     await testPostToSlack(
       eventResURL,
-      createSelectionBlock(taskNoAssignee, "Project(s)", [
+      createSelectionBlock(taskNoAssignee, "Project", [
         {
           userId: "philing good",
           name: "Phil",
@@ -42,7 +42,7 @@ describe("RUn without issue", () => {
         },
         { userId: "bond!jamesBond-007", name: "James", email: "james1:5" },
         { userId: "youaremine", name: "You", email: "youandi@yahoo.com" },
-        { userId: "Me", name: "metoo", email: "meornottome@outlook.com" },
+        { userId: "Me", name: "tome", email: "to-me-or-not-to-me@outlook.com" },
         { userId: "abbycd>?sa7039", name: "Abyyy", email: "" },
       ]),
     );

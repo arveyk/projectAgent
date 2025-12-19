@@ -32,16 +32,7 @@ export const createColumnLayoutTaskInfoBlock = function (taskPageObj: TaskPage) 
         },
         {
           "type": "mrkdwn",
-          "text": `*Assignees:*\n${assigneeNames}`
-        }
-      ]
-    },
-    {
-      "type": "section",
-      "fields": [
-        {
-          "type": "mrkdwn",
-          "text": `*Assignees:*\n${assigneeNames}`
+          "text": `*Project:*\n${task.project || " "}`
         }
       ]
     },
@@ -63,7 +54,7 @@ export const createColumnLayoutTaskInfoBlock = function (taskPageObj: TaskPage) 
       "fields": [
         {
           "type": "mrkdwn",
-          "text": `*Description:*\n${task.description}`
+          "text": `*Assignees:*\n${assigneeNames}`
         }
       ]
     },
@@ -72,7 +63,7 @@ export const createColumnLayoutTaskInfoBlock = function (taskPageObj: TaskPage) 
       "fields": [
         {
           "type": "mrkdwn",
-          "text": `*Project:*\n${task.project || " "}`
+          "text": `*Description:*\n${task.description}`
         }
       ]
     }
@@ -140,6 +131,6 @@ export const createColumnLayoutBlockNewTask = function (taskPageObj: TaskPage) {
       },
     ],
   };
-  console.log("Entire Block being sent", JSON.stringify(blockNewTask));
+  // console.log("Entire Block being sent", JSON.stringify(blockNewTask));
   return blockNewTask;
 };

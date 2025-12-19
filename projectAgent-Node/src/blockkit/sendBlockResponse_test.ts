@@ -4,22 +4,14 @@ import { ALL_SLN_WEBHOOK_URL } from "../env";
 import { createBlockNewTask } from "./createBlocks";
 // import { createConfirmationBlock } from "./createBlocks";
 import { createColumnLayoutBlockNewTask } from "./columnLayoutBlock";
+import { createSelectionBlock } from "./create_select_columnlayout";
 import { createFinalBlock } from "./editblock";
 import { createUpdateBlock } from "./updateBlock";
 import { Task, TaskPage } from "../utils/task";
+import { exampleUserSearchResponse2 } from "../test-data/example-usersearch-response";
+import { handleAmbiguousFields } from "../utils/controllers/handleAmbiguousFields";
 
-/*type Task = {
-  tasktitle: string;
-  assignee: string;
-  duedate: string;
-  startdate: string;
-  email: string;
-  phonenumber: string;
-  preferredchannel: string;
-  description: string;
-  project: string;
-};
-*/
+
 const task: TaskPage = {
   task: {
     taskTitle: "End of year Plans",
@@ -29,7 +21,7 @@ const task: TaskPage = {
     dueDate: new Date("7-11-2027"),
     startDate: new Date("1-11-2027"),
     description:
-      "Benjamin, create a routing plan for end of year. As a Company I would like for us to visit one another ang get to know each other",
+      "Benjamin, create a routing plan for end of year. As a Company I would like for us to visit one another and get to know each other",
     project: "Project Agent",
   },
   pageId: "",
@@ -37,8 +29,8 @@ const task: TaskPage = {
 const task_b: TaskPage = {
   task: {
     taskTitle: "Add Timothy",
-    assignees: [{ name: "asas", email: "", userId: "U08UDKY38QK" }],
-    assignedBy: [{ name: "asas", email: "", userId: "U08UDKY38QK" }],
+    assignees: [{ name: "Small Bro", email: "", userId: "U08UDKY38QK" }],
+    assignedBy: [{ name: "Bro CEO", email: "", userId: "U08UDKY38QK" }],
     dueDate: new Date(),
     startDate: new Date("2025-08-07"),
     description: "Add Timothy to an unspecified system or list",
@@ -52,6 +44,37 @@ const blocks_02 = createBlockNewTask(task_b);
 //const blocks_03 = createConfirmationBlock(task);
 const blocks_04 = createFinalBlock(task);
 const columnLayoutBlock = createColumnLayoutBlockNewTask(task);
+
+// selection block new layout
+const columnLayoutWithSelections = createSelectionBlock(
+  task_b.task,
+  "Notion Users",
+  {
+    identifiedUsers: [
+      {
+        "userId": "152d872b-594c-8145-9c2c-000204787b69",
+        "name": "Ceci Kurdelak",
+        "email": "ceci.kurdelak@solutional.com"
+      }
+    ],
+    ambiguousUsers: [
+      {
+        "userId": "136d872b-594c-817b-adaa-00026796be69",
+        "name": "James Dirksen",
+        "email": "james.dirksen@solutional.com"
+      },
+      {
+        "userId": "13dd872b-594c-810f-8bb4-000282e27820",
+        "name": "Daniel Dirksen",
+        "email": "daniel.dirksen@solutional.com"
+      }
+    ]
+  }
+);
+
+const blockSelectOrNoSelect = handleAmbiguousFields(
+  [exampleUserSearchResponse2[1]]
+);
 //let taskDetailsObj = JSON.parse(blocks["actions"][0]["value"]);
 
 /*if (blocks_02.blocks[3].elements) {
@@ -80,7 +103,9 @@ axios({
   data: {
     text: "Message testing block",
     //blocks: blocks_05.blocks,
-    blocks: columnLayoutBlock.blocks,
+    // blocks: columnLayoutBlock.blocks,
+    // blocks: columnLayoutWithSelections.blocks
+    blocks: blockSelectOrNoSelect.blocks
     /*blocks: [
       {
         type: "section",

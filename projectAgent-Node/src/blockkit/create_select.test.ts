@@ -2,6 +2,7 @@ import {
   createMultiSelectionsBlock,
   createSelectionBlock,
 } from "./create_select";
+import { createSelectionBlock as createSBColumnLayout } from "./create_select_columnlayout";
 // import { describe, it } from "@jest/global";
 import { testPostToSlack } from "../otherFiles/postMessageSlack";
 import { taskNoAssignee } from "../test-data/tasks/example-tasks";
@@ -30,7 +31,7 @@ describe("RUn without issue", () => {
   })
   it("Should run with test00", async () => {  
     await testPostToSlack(eventResURL, createMultiSelectionsBlock(["JIUsbds", "Iodshs"], ["Project0", "Project1", "Project clear", "Anime", "Writter"]));
-  });*/
+  });
   it("Should run createSelection smoothly", async () => {
     await testPostToSlack(
       eventResURL,
@@ -46,11 +47,29 @@ describe("RUn without issue", () => {
         { userId: "abbycd>?sa7039", name: "Abyyy", email: "" },
       ]),
     );
-  });
-  /*
-  it("shoould not err", async () => {
-    await testPostToSlack(eventResURL, createMultiSelectionsBlock(taskNoAssignee,
-      ["Phil", "James", "You", "Me", "Abyyy"], ["No Project"]))
-  });
-  */
+  }),*/
+    it("just runs Creating block", async () => {
+      await testPostToSlack(eventResURL, createSBColumnLayout(taskNoAssignee, "users",
+      {
+          identifiedUsers: [
+            {
+              "userId": "152d872b-594c-8145-9c2c-000204787b69",
+              "name": "Ceci Kurdelak",
+              "email": "ceci.kurdelak@solutional.com"
+            }]
+          ,
+          ambiguousUsers: [
+            {
+              "userId": "136d872b-594c-817b-adaa-00026796be69",
+              "name": "James Dirksen",
+              "email": "james.dirksen@solutional.com"
+            },
+            {
+              "userId": "13dd872b-594c-810f-8bb4-000282e27820",
+              "name": "Daniel Dirksen",
+              "email": "daniel.dirksen@solutional.com"
+            }
+          ]
+        }))
+    });
 });

@@ -73,7 +73,7 @@ export const taskInferDates: Task = {
 
 export const taskHarvey: Task = {
   taskTitle: "Send photos for LinkedIn shout out",
-  assignees: [], //[{name:"Harvey"}],
+  assignees: [{name:"Harvey"}],
   dueDate: new Date("2025-08-06"),
   startDate: new Date("2025-08-05"),
   description:

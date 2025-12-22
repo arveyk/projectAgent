@@ -51,21 +51,17 @@ export const createColumnLayoutTaskInfoBlock = function (taskPageObj: TaskPage) 
     },
     {
       "type": "section",
-      "fields": [
-        {
-          "type": "mrkdwn",
-          "text": `*Assignees:*\n${assigneeNames}`
-        }
-      ]
+      "text": {
+        "type": "mrkdwn",
+        "text": `*Assignees:*\n${assigneeNames}`
+      }
     },
     {
       "type": "section",
-      "fields": [
-        {
-          "type": "mrkdwn",
-          "text": `*Description:*\n${task.description}`
-        }
-      ]
+      "text": {
+        "type": "mrkdwn",
+        "text": `*Description:*\n${task.description}`
+      }
     }
   ]
 

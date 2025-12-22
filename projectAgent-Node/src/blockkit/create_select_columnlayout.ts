@@ -3,7 +3,7 @@ import { Task, TaskPage } from "../utils/task";
 import { DateTime } from "luxon";
 import { NotionUser } from "../utils/controllers/userTypes";
 import { NotionTask } from "../utils/task";
-
+import { createColumnLayoutBlockNewTask } from "./columnLayoutBlock";
 type SelectElementType = {
   text: {
     type: string;
@@ -65,21 +65,17 @@ const createTaskInfo = function (
     },
     {
       "type": "section",
-      "fields": [
-        {
-          "type": "mrkdwn",
-          "text": `*Assignees:*\n${assigneeNames}`
-        }
-      ]
+      "text": {
+        "type": "mrkdwn",
+        "text": `*Assignees:*\n${assigneeNames}`
+      }
     },
     {
       "type": "section",
-      "fields": [
-        {
-          "type": "mrkdwn",
-          "text": `*Description:*\n${task.description}`
-        }
-      ]
+      "text": {
+        "type": "mrkdwn",
+        "text": `*Description:*\n${task.description}`
+      }
     }
   ]
 
@@ -137,6 +133,10 @@ export function createSelectionBlock(
     notionTask,
     searchedUsers.identifiedUsers,
   );
+  const taskInfo2 = createColumnLayoutBlockNewTask({
+    task: notionTask,
+    pageId: ""
+  })
   const usersArray = notionTask.assignees;
 
   console.log(`Creating ${selectBlockTitle} select block`);
@@ -150,6 +150,7 @@ export function createSelectionBlock(
 
   return {
     blocks: [
+      // Spread Those details real nicely
       ...taskInfo, // selection below
       {
         type: "input",

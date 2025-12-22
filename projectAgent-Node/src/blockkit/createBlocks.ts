@@ -1,6 +1,7 @@
 export { createFinalBlock } from "./editblock";
-import { createTaskInfoBlock } from "./editblock";
+import { createColumnLayoutTaskInfoBlock } from "./columnLayoutBlock";
 import { Task, TaskPage } from "../utils/task";
+import { BlockType } from "@slack/web-api/dist/types/response/ChatPostMessageResponse";
 
 const sampleModal = {
   trigger_id: "trigger_id",
@@ -45,7 +46,7 @@ export const createBlockNewTask = function (taskPageObj: TaskPage) {
 
   const task = taskPageObj.task;
   // console.log("Another console.log, Task", JSON.stringify(task));
-  const blockText = createTaskInfoBlock(taskPageObj);
+  const taskInfoColumnLayout = createColumnLayoutTaskInfoBlock(taskPageObj);
 
   return {
     text: "Creating a new Task?",
@@ -58,16 +59,8 @@ export const createBlockNewTask = function (taskPageObj: TaskPage) {
           text: "*You Are About to Create a New Task*",
         },
       },
-      {
-        type: "divider",
-      },
-      {
-        type: "section",
-        text: {
-          type: "mrkdwn",
-          text: blockText,
-        },
-      },
+      // Spread those details !!
+      ...taskInfoColumnLayout,
       {
         type: "actions",
         elements: [

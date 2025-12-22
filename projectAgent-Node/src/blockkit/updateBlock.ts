@@ -1,5 +1,5 @@
 import { Task, TaskPage } from "../utils/task";
-import { createTaskInfoBlock } from "./editblock";
+import { createColumnLayoutTaskInfoBlock } from "./columnLayoutBlock";
 /**
  *
  * @param task: A task object
@@ -13,7 +13,7 @@ export function createUpdateBlock(taskPage: TaskPage) {
     : new Date().toISOString().split("T")[0];
   const dueDate = task.dueDate.toISOString().split("T")[0];
 
-  const sectionText = createTaskInfoBlock(taskPage);
+  const sectionInfo = createColumnLayoutTaskInfoBlock(taskPage);
   // task.startDate = startDate;
   // task.dueDate = dueDate;
   return {
@@ -26,13 +26,7 @@ export function createUpdateBlock(taskPage: TaskPage) {
           emoji: true,
         },
       },
-      {
-        type: "section",
-        text: {
-          type: "mrkdwn",
-          text: sectionText,
-        },
-      },
+      ...sectionInfo,
       {
         type: "actions",
         elements: [

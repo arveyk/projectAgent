@@ -21,6 +21,7 @@ import {
 import { GetPageResponse } from "@notionhq/client";
 import { APIGatewayProxyEventV2, APIGatewayProxyHandlerV2, APIGatewayProxyResultV2, Context, StreamifyHandler } from "aws-lambda";
 import { isValidCmd, extractReqBody } from "../utils/slashUtils";
+import { handleAmbiguousFields } from "../utils/controllers/handleAmbiguousFields";
 
 // webhook for taskmanagement channel only
 const webhookURL = process.env.TASK_MANAGEMENT_WEBHOOK_URL;
@@ -168,7 +169,7 @@ const slashCmdHandler: StreamifyHandler = async function (
         // Select block
 
         let taskBlockWithSelect;
-        let selections2;
+        const selections2 = handleAmbiguousFields(assigneeSearchResults).blocks;
         if (task.assignees.length < 1 || task.assignees[0] === null) {
           console.log("Assignees not present, creating selection");
 
@@ -196,11 +197,12 @@ const slashCmdHandler: StreamifyHandler = async function (
             replace_original: true,
             blocks: selections.blocks,
           };
+          /*
           selections2 = {
             text: "Creating a new Task?",
             replace_original: true,
             blocks: selectionBlock.blocks,
-          };
+          };*/
         }
         console.log("SlashCmdHandler taskBlockWithSelect", selections2);
 
@@ -209,10 +211,11 @@ const slashCmdHandler: StreamifyHandler = async function (
           url: "",
           pageId: "",
         } as TaskPage);
-        taskBlock.blocks[0].text
-          ? (taskBlock.blocks[0].text.text += JSON.stringify(
-            assigneeSearchResults || " User not in Channel",
-          ))
+        "text" in taskBlock.blocks[0]
+          ? taskBlock.blocks[0].text 
+            ? (taskBlock.blocks[0].text.text += JSON.stringify(
+              assigneeSearchResults || " User not in Channel",
+            )) : console.log("block[0] does not have text field")
           : console.log("First Text undefined");
 
         axios({

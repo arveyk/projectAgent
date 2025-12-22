@@ -7,22 +7,8 @@ import { createColumnLayoutBlockNewTask } from "../../blockkit/columnLayoutBlock
 import { NotionTask } from "../task";
 import { Task, TaskPage } from "../../utils/task"
 
-const task: Task = {
-  "taskTitle": "Give estimate of project agent completion date",
-  "assignees": [
-    {
-      "name": "James Dirksen",
-      //"email": "james.dirksen@solutional.com"
-    }
-  ],
-  "dueDate": new Date("2025-12-19T14:00:00.000Z"),
-  "startDate": undefined,
-  "description": " Give us an estimate of project agent completion date",
-  "project": "agent"
-};
 
-
-export function handleAmbiguousFields(userSearchResult: UserSearchResult[]) {
+export function handleAmbiguousFields(task: Task, userSearchResult: UserSearchResult[]) {
   console.log("(handleAmbiguousFields)");
   const identifiedUsers: NotionUser[] = [];
   const ambiguousUsers: NotionUser[] = [];
@@ -35,9 +21,6 @@ export function handleAmbiguousFields(userSearchResult: UserSearchResult[]) {
     console.log(user.person.name);
 
     console.log(`Is the assignee unclear? ${user.foundUsers.length !== 1}`);
-    /*for (const assignee of task.assignees) {
-      console.log(`is this user ${user.person} the same as ${assignee} ${user === user.person}`);
-    }*/
     if (user.foundUsers.length <= 1) {
       identifiedUsers.push(...user.foundUsers);
     } else {

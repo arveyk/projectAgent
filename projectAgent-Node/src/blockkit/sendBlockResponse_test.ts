@@ -73,6 +73,7 @@ const columnLayoutWithSelections = createSelectionBlock(
 );
 
 const blockSelectOrNoSelect = handleAmbiguousFields(
+  task.task,
   [exampleUserSearchResponse2[1]]
 );
 //let taskDetailsObj = JSON.parse(blocks["actions"][0]["value"]);

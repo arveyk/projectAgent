@@ -169,8 +169,8 @@ const slashCmdHandler: StreamifyHandler = async function (
         // Select block
 
         let taskBlockWithSelect;
-        const selections2 = handleAmbiguousFields(assigneeSearchResults).blocks;
-        if (task.assignees.length < 1 || task.assignees[0] === null) {
+        const selections2 = handleAmbiguousFields(task, assigneeSearchResults).blocks;
+        /*if (task.assignees.length < 1 || task.assignees[0] === null) {
           console.log("Assignees not present, creating selection");
 
           // TODO Replace with search results of matching Notion users;
@@ -185,7 +185,7 @@ const slashCmdHandler: StreamifyHandler = async function (
               { name: "Abyyy", email: "", userId: "" },
             ],
           );
-
+         *
           //const selectBlock3 = createSelectionBlock(notionTask, "Project(s)", assigneeSearchResults)
           const selections = createMultiSelectionsBlock(
             notionTask,
@@ -202,8 +202,9 @@ const slashCmdHandler: StreamifyHandler = async function (
             text: "Creating a new Task?",
             replace_original: true,
             blocks: selectionBlock.blocks,
-          };*/
+          };
         }
+        */
         console.log("SlashCmdHandler taskBlockWithSelect", selections2);
 
         const taskBlock = createBlockNewTask({
@@ -215,7 +216,9 @@ const slashCmdHandler: StreamifyHandler = async function (
           ? taskBlock.blocks[0].text 
             ? (taskBlock.blocks[0].text.text += JSON.stringify(
               assigneeSearchResults || " User not in Channel",
-            )) : console.log("block[0] does not have text field")
+            )) : (taskBlock.text += JSON.stringify(
+              assigneeSearchResults || " User not in Channel",
+            ))
           : console.log("First Text undefined");
 
         axios({

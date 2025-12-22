@@ -19,7 +19,8 @@ import {
   TaskPage,
 } from "../utils/task";
 import { GetPageResponse } from "@notionhq/client";
-import { APIGatewayProxyEventV2, APIGatewayProxyHandlerV2, APIGatewayProxyResultV2, Context, StreamifyHandler } from "aws-lambda";
+import { APIGatewayProxyEventV2, APIGatewayProxyHandlerV2, APIGatewayProxyResultV2,
+  Context, StreamifyHandler } from "aws-lambda";
 import { isValidCmd, extractReqBody } from "../utils/slashUtils";
 import { handleAmbiguousFields } from "../utils/controllers/handleAmbiguousFields";
 
@@ -207,6 +208,8 @@ const slashCmdHandler: StreamifyHandler = async function (
         */
         console.log("SlashCmdHandler taskBlockWithSelect", selections2);
 
+        // This might be a duplication of the selections2, Remove if this is
+        // the case
         const taskBlock = createBlockNewTask({
           task: notionTask,
           url: "",

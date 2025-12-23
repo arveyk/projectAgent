@@ -4,7 +4,7 @@ import { ALL_SLN_WEBHOOK_URL } from "../env";
 import { createBlockNewTask } from "./createBlocks";
 // import { createConfirmationBlock } from "./createBlocks";
 import { createNewTaskBlockWithoutSelections } from "./columnLayoutBlock";
-import { createNewTaskBlockWithSelections } from "./createNewTaskBlock";
+import { createNewTaskBlockWithSelections } from "./createBlockPartsForNewTask";
 import { createFinalBlock } from "./editblock";
 import { createUpdateBlock } from "./updateBlock";
 import { Task, TaskPage } from "../utils/task";

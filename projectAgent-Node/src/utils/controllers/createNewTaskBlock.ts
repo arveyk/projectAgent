@@ -2,7 +2,7 @@ import { NotionUser } from "./userTypes";
 import {
   UserSearchResult
 } from "./userTypes";
-import { createNewTaskBlockWithSelections } from "../../blockkit/createNewTaskBlock";
+import { createNewTaskBlockWithSelections } from "../../blockkit/createBlockPartsForNewTask";
 import { createNewTaskBlockWithoutSelections } from "../../blockkit/columnLayoutBlock";
 import { NotionTask } from "../task";
 import { Task } from "../task"

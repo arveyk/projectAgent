@@ -169,7 +169,7 @@ const slashCmdHandler: StreamifyHandler = async function (
         // Select block
 
         let taskBlockWithSelect;
-        const selections2 = handleAmbiguousFields(task, assigneeSearchResults).blocks;
+        const selections2 = handleAmbiguousFields(task, assigneeSearchResults);
         /*if (task.assignees.length < 1 || task.assignees[0] === null) {
           console.log("Assignees not present, creating selection");
 

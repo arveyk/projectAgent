@@ -1,4 +1,4 @@
-import { handleAmbiguousFields } from "./handleAmbiguousFields";
+import { createNewTaskBlock } from "./handleAmbiguousFields";
 import { 
   exampleUserSearchResponse,
   exampleUserSearchResponse2
@@ -18,8 +18,8 @@ const task: Task = {
   "project": "agent"
 };
 
-describe("Runs the handleAmbiguousFields function", () => {
+describe("Runs the createNewTaskBlock function", () => {
   it("should print out if the user search attempt has multiple finds", () => {
-    const blockObj = handleAmbiguousFields(task, exampleUserSearchResponse2);
+    const blockObj = createNewTaskBlock(task, exampleUserSearchResponse2);
   })
 }) 

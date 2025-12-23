@@ -1,11 +1,11 @@
 import { NotionUser } from "./userTypes";
 import {
   UserSearchResult
-} from "../../utils/controllers/userTypes";
+} from "./userTypes";
 import { createNewTaskBlockWithSelections } from "../../blockkit/createNewTaskBlock";
 import { createNewTaskBlockWithoutSelections } from "../../blockkit/columnLayoutBlock";
 import { NotionTask } from "../task";
-import { Task } from "../../utils/task"
+import { Task } from "../task"
 
 
 export function createNewTaskBlock(task: Task, userSearchResult: UserSearchResult[]) {

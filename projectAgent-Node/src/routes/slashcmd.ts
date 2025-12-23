@@ -15,7 +15,7 @@ import {
 import { GetPageResponse } from "@notionhq/client";
 import { APIGatewayProxyEventV2, Context, StreamifyHandler } from "aws-lambda";
 import { isValidCmd, extractReqBody } from "../utils/slashUtils";
-import { createNewTaskBlock } from "../utils/controllers/handleAmbiguousFields";
+import { createNewTaskBlock } from "../utils/controllers/createNewTaskBlock";
 
 const slashCmdHandler: StreamifyHandler = async function (
   event: APIGatewayProxyEventV2,

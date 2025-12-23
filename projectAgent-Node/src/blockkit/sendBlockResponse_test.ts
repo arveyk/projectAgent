@@ -9,7 +9,7 @@ import { createFinalBlock } from "./editblock";
 import { createUpdateBlock } from "./updateBlock";
 import { Task, TaskPage } from "../utils/task";
 import { exampleUserSearchResponse2 } from "../test-data/example-usersearch-response";
-import { createNewTaskBlock } from "../utils/controllers/handleAmbiguousFields";
+import { createNewTaskBlock } from "../utils/controllers/createNewTaskBlock";
 
 
 const task: TaskPage = {

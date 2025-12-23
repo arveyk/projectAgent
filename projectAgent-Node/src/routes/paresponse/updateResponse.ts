@@ -5,7 +5,7 @@ import { BlockAction } from "@slack/bolt";
 import { redirectToNotionBlock } from "../../blockkit/edit_in_notion_button";
 import { TaskPage } from "../../utils/task";
 import { deletePage } from "../../utils/db-deletepage";
-import { APIGatewayProxyEventV2, APIGatewayProxyHandlerV2, APIGatewayProxyResultV2, Context, StreamifyHandler } from "aws-lambda";
+import { APIGatewayProxyEventV2, Context, StreamifyHandler } from "aws-lambda";
 import { extractReqBody, extractPayload } from "../../utils/slashUtils"; 
 
 /**
@@ -19,7 +19,7 @@ import { extractReqBody, extractPayload } from "../../utils/slashUtils";
  * @return - No return value
  */
 
-const interactionHandler: StreamifyHandler = function(
+const interactionHandler: StreamifyHandler = async function(
   event: APIGatewayProxyEventV2,
   responseStream: awslambda.HttpResponseStream,
   context: Context,
@@ -61,17 +61,10 @@ const interactionHandler: StreamifyHandler = function(
     console.log("action_text in else block", action_text);
 
     if (action_text === "Confirm" || action_text === "Add Task") {
-      // validate Date
-      // sendEdit(payload, response_url, undefined);
-
       const taskPageObj: TaskPage = JSON.parse(
         payload["actions"][0].value || "{}",
       );
       console.log("Edit in Notion, Response Url", response_url);
-      // let action = "updated";
-      // if (!taskPageObj.url) {
-      //   action = "Created";
-      // }
       (async () => {
         try {
           // await sendLoadingMsg("Adding Task", response_url);
@@ -91,7 +84,7 @@ const interactionHandler: StreamifyHandler = function(
               "editInNotionBlocks",
               JSON.stringify(editInNotionBlocks),
             );
-            const replaceBlockRes = axios({
+            await axios({
               method: "post",
               url: response_url,
               data: {
@@ -137,7 +130,7 @@ const interactionHandler: StreamifyHandler = function(
         action = "*Done: Task Updated*";
       }
 
-      const replaceBlockRes = axios({
+      await axios({
         method: "post",
         url: response_url,
         data: {
@@ -200,7 +193,7 @@ const interactionHandler: StreamifyHandler = function(
   }
 }
 
-function sendReject(
+async function sendReject(
   payload: BlockAction,
   action_text: string,
   response_url: string,
@@ -209,7 +202,7 @@ function sendReject(
   console.log(
     `Text in button ${"value" in payload.actions[0] ? payload.actions[0]["value"] : "No value"}, Action_Text${action_text}`,
   );
-  const replaceBlockRes = axios({
+  await axios({
     method: "post",
     url: response_url,
     data: {
@@ -252,37 +245,6 @@ function sendEdit(
   }
 }
 
-/**
- * when user submits block with edited task details for creating/updating a task
- * @param payload
- * @param response_url
- *
-function addTaskandTellUser(payload: BlockAction, response_url: string) {
-  if (payload["actions"][0].type === "button") {
-    const taskPageObj: TaskPage = JSON.parse(
-      payload["actions"][0].value || "{}",
-    );
-    const taskDetailsObj: Task = taskPageObj.task;
-    const block = redirectToNotionBlock(taskPageObj.url || "");
-
-    axios({
-      method: "post",
-      url: response_url,
-      data: block,
-      headers: {
-        Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
-        "Content-Type": "application/json; charset=UTF-8",
-      },
-      family: 4,
-    })
-      .then((Response) => {
-        console.log("Final Block Submission", Response);
-      })
-      .catch((err) => {
-        console.log("AXIOS ERROR in sendSubmit", err);
-      });
-  }
-} */
 function sendError(
   createRowResult: PageAddResult,
   payload: BlockAction,

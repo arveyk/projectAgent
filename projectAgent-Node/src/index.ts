@@ -1,6 +1,6 @@
 import slashCmdHandler from "./routes/slashcmd";
 import {interactionHandler} from "./routes/paresponse/updateResponse";
-import { APIGatewayProxyHandlerV2, StreamifyHandler, APIGatewayProxyEventV2, Context } from "aws-lambda";
+import { StreamifyHandler, APIGatewayProxyEventV2, Context } from "aws-lambda";
 import { isPromise } from "util/types";
 
 // *const fallbackHandler = awslambda.streamifyResponse(async function(event: APIGatewayProxyEventV2, context: Context) {

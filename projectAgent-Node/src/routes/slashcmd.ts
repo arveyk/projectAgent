@@ -67,7 +67,7 @@ const slashCmdHandler: StreamifyHandler = async function (
        *
        */
 
-      // await sendLoadingMsg("Searching Database", response_url);
+      await sendLoadingMsg("Searching Database", response_url);
 
       logTime("Searching database");
       const isInDatabase = await searchDB(reqBody.text);
@@ -79,7 +79,7 @@ const slashCmdHandler: StreamifyHandler = async function (
        * TODO Remember to uncomment after testing
        *
        */
-      // await sendLoadingMsg("Parsing Task", response_url);
+      await sendLoadingMsg("Parsing Task", response_url);
       const timestamp: number = Date.now();
 
       logTime("Parsing task");

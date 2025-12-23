@@ -89,9 +89,10 @@ export const parseTask = async function (
     throw new Error(`Raw LLM result is ${typeof taskParseResult.raw}`);
   }
   console.log(`Raw LLM response: ${JSON.stringify(taskParseResult.raw)}`);
+  console.log(`LLM Response, ${JSON.stringify(taskParseResult)}`)
 
   // TODO fix this sometimes being null
-  const structuredResult = taskSchema.safeParse(taskParseResult.parsed)
+  const structuredResult = taskSchema.safeParse(taskParseResult.parsed);
   if (!structuredResult.success) {
     console.error("Task parsing was unsuccessful");
     throw structuredResult.error;

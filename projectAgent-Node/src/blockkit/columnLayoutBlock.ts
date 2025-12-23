@@ -1,6 +1,6 @@
-import { validateDate, formatSlackDate } from "../utils/dateHandler";
+import { formatSlackDate } from "../utils/dateHandler";
 import { DateTime } from "luxon";
-import { Task, TaskPage } from "../utils/task";
+import { TaskPage } from "../utils/task";
 
 export const createColumnLayoutTaskInfoBlock = function (taskPageObj: TaskPage) {
   const task = taskPageObj.task;
@@ -69,7 +69,6 @@ export const createColumnLayoutTaskInfoBlock = function (taskPageObj: TaskPage) 
 };
 
 export const createNewTaskBlockWithoutSelections = function (taskPageObj: TaskPage) {
-  const task = taskPageObj.task;
   // console.log("Another console.log, Task", JSON.stringify(task));
   const ColumnLayoutTaskInfo = createColumnLayoutTaskInfoBlock(taskPageObj);
   const blockNewTask = {

@@ -13,13 +13,9 @@ import {
   TaskPage,
 } from "../utils/task";
 import { GetPageResponse } from "@notionhq/client";
-import { APIGatewayProxyEventV2, APIGatewayProxyHandlerV2, APIGatewayProxyResultV2,
-  Context, StreamifyHandler } from "aws-lambda";
+import { APIGatewayProxyEventV2, Context, StreamifyHandler } from "aws-lambda";
 import { isValidCmd, extractReqBody } from "../utils/slashUtils";
 import { createNewTaskBlock } from "../utils/controllers/handleAmbiguousFields";
-
-// webhook for taskmanagement channel only
-const webhookURL = process.env.TASK_MANAGEMENT_WEBHOOK_URL;
 
 const slashCmdHandler: StreamifyHandler = async function (
   event: APIGatewayProxyEventV2,
@@ -85,11 +81,6 @@ const slashCmdHandler: StreamifyHandler = async function (
       const assigneeSearchResults = await findMatchingAssignees(task);
 
       // TODO get assigned by
-      // TODO show the user the list of potential assignees found in Notion and have them choose one
-
-      // implementing the dropdowns
-      const unknownUsersCount: number = 0;
-      const unknownAssignedByUserCount: number = 0;
 
       const notionTask: NotionTask = {
         taskTitle: task.taskTitle,
@@ -162,8 +153,6 @@ const slashCmdHandler: StreamifyHandler = async function (
         );
 
         // Select block
-
-        let taskBlockWithSelect;
         const slackBlocks = createNewTaskBlock(task, assigneeSearchResults);
 
         console.log("SlashCmdHandler taskBlockWithSelect", slackBlocks);

@@ -5,7 +5,7 @@ import {
 import { createNewTaskBlockWithSelections } from "../../blockkit/createNewTaskBlock";
 import { createNewTaskBlockWithoutSelections } from "../../blockkit/columnLayoutBlock";
 import { NotionTask } from "../task";
-import { Task, TaskPage } from "../../utils/task"
+import { Task } from "../../utils/task"
 
 
 export function createNewTaskBlock(task: Task, userSearchResult: UserSearchResult[]) {

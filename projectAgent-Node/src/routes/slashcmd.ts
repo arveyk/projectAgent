@@ -18,25 +18,17 @@ import {
   TaskPage,
 } from "../utils/task";
 import { GetPageResponse } from "@notionhq/client";
-import {
-  APIGatewayProxyEventV2,
-  APIGatewayProxyHandlerV2,
-  APIGatewayProxyResultV2,
-  Context,
-  //StreamifyHandler
-} from "aws-lambda";
+import { APIGatewayProxyEventV2, APIGatewayProxyHandlerV2, APIGatewayProxyResultV2,
+  Context, StreamifyHandler } from "aws-lambda";
 import { isValidCmd, extractReqBody } from "../utils/slashUtils";
 import { handleAmbiguousFields } from "../utils/controllers/handleAmbiguousFields";
-import { SLACK_BOT_TOKEN } from "../env";
-import { sendQuickResponseToSlack } from "../utils/sendQuickResponse";
 
 // webhook for taskmanagement channel only
-// const webhookURL = process.env.TASK_MANAGEMENT_WEBHOOK_URL;
+const webhookURL = process.env.TASK_MANAGEMENT_WEBHOOK_URL;
 
-//const slashCmdHandler: StreamifyHandler = async function (
-const slashCmdHandler = async function (
+const slashCmdHandler: StreamifyHandler = async function (
   event: APIGatewayProxyEventV2,
-  // responseStream: awslambda.HttpResponseStream,
+  responseStream: awslambda.HttpResponseStream,
   context: Context
 ) {
   console.log("We are now in the slashcmd handler");
@@ -48,11 +40,9 @@ const slashCmdHandler = async function (
     }
   };
 
-  /*
   responseStream = awslambda.HttpResponseStream.from(responseStream, httpResponseMetadata);
   responseStream.write("Slash command activated\n");
   responseStream.end();
-  */
 
   //console.log(`request: ${JSON.stringify(request)}`);
 
@@ -65,9 +55,6 @@ const slashCmdHandler = async function (
     console.log(`headers: ${JSON.stringify(event.headers)}`);
     // const command = request.body["command"];
 
-    // Send quick response
-
-    // sendQuickResponseToSlack(reqBody["response_url"], SLACK_BOT_TOKEN);
     const validate = isValidCmd(reqBody);
     if (validate.isValid) {
       const response_url = reqBody["response_url"];
@@ -228,7 +215,7 @@ const slashCmdHandler = async function (
           pageId: "",
         } as TaskPage);
         "text" in taskBlock.blocks[0]
-          ? taskBlock.blocks[0].text
+          ? taskBlock.blocks[0].text 
             ? (taskBlock.blocks[0].text.text += JSON.stringify(
               assigneeSearchResults || " User not in Channel",
             )) : (taskBlock.text += JSON.stringify(
@@ -243,8 +230,6 @@ const slashCmdHandler = async function (
           family: 4,
         }).then((resp) => {
           console.log("OK from slack", resp["status"]);
-        }).catch((error) => {
-          console.error(`(slashCommandHandler) Axios Error`, error);
         });
       }
     } else {
@@ -260,12 +245,8 @@ const slashCmdHandler = async function (
           "OK from slack Wrong command format Though",
           resp["status"],
         );
-      }).catch((error) => {
-        console.error(`Error sending Format suggestion`);
       });
-
     }
-    return httpResponseMetadata
   } catch (err: Error | any) {
     console.log("slachCmdHandler Error", err);
     return err;

@@ -5,16 +5,9 @@ import { BlockAction } from "@slack/bolt";
 import { redirectToNotionBlock } from "../../blockkit/edit_in_notion_button";
 import { TaskPage } from "../../utils/task";
 import { deletePage } from "../../utils/db-deletepage";
-import {
-  APIGatewayProxyEventV2,
-  APIGatewayProxyHandlerV2,
-  APIGatewayProxyResultV2,
-  Context,
-  //StreamifyHandler
-} from "aws-lambda";
-
+import { APIGatewayProxyEventV2, APIGatewayProxyHandlerV2, APIGatewayProxyResultV2, Context, StreamifyHandler } from "aws-lambda";
 import { extractReqBody, extractPayload } from "../../utils/slashUtils"; 
-import { sendQuickResponseToSlack } from "../../utils/sendQuickResponse" 
+
 /**
  * interactionHandler - Response to user interactions with blocks when a button
  * 		     is pressed
@@ -26,14 +19,9 @@ import { sendQuickResponseToSlack } from "../../utils/sendQuickResponse"
  * @return - No return value
  */
 
-/*
- * const interactionHandler: StreamifyHandler = function(
+const interactionHandler: StreamifyHandler = function(
   event: APIGatewayProxyEventV2,
   responseStream: awslambda.HttpResponseStream,
-  context: Context,
-*/
-const interactionHandler = async function(
-  event: APIGatewayProxyEventV2,
   context: Context,
 ) {
   const httpResponseMetadata = {
@@ -43,12 +31,11 @@ const interactionHandler = async function(
     }
   };
 
-  //responseStream = awslambda.HttpResponseStream.from(responseStream, httpResponseMetadata);
+  responseStream = awslambda.HttpResponseStream.from(responseStream, httpResponseMetadata);
   // TODO write the data here
-  //responseStream.write("Button clicked\n");
-  //responseStream.end();
-  
-  console.log("Button Clicked in this context", context);
+  responseStream.write("Button clicked\n");
+  responseStream.end();
+
   const reqBody = extractReqBody(event);
   const payload = extractPayload(reqBody);
   console.log(`Body: ${JSON.stringify(reqBody)}`);
@@ -63,8 +50,6 @@ const interactionHandler = async function(
   console.log(
     `TRIGGER_ID VARIABLE ${trigger_id}: RESPONSE_URL ${response_url} MESSAGE ${JSON.stringify(message)}`,
   );
-  
-  sendQuickResponseToSlack(response_url, SLACK_BOT_TOKEN);
 
   const action_id = payload["actions"][0]["action_id"];
   let action_text = "";
@@ -213,7 +198,6 @@ const interactionHandler = async function(
       );
     }
   }
-  return httpResponseMetadata;
 }
 
 function sendReject(

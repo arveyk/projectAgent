@@ -1,5 +1,4 @@
 import axios from "axios";
-import { Request, Response, NextFunction } from "express";
 import addTaskNotionPage, { PageAddResult } from "../../utils/notiondb";
 import { SLACK_BOT_TOKEN } from "../../env";
 import { BlockAction } from "@slack/bolt";

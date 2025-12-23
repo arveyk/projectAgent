@@ -2,6 +2,7 @@ import { APIGatewayProxyEventV2 } from "aws-lambda";
 import { Request } from "express";
 import querystring from "querystring";
 
+// TODO refactor to work with Lambda instead of Express
 /**
  * Parses a slash command and determines if it is a valid command.
  * @param {*} reqBody Request from Slack containing a slash command

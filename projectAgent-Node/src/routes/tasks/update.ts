@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 
+// TODO refactor to work with Lambda instead of Express
 const patchTaskHandler = function (
   request: Request,
   response: Response,

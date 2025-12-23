@@ -1,4 +1,6 @@
 import { Request, Response, NextFunction } from "express";
+
+// TODO refactor to work with Lambda instead of Express
 const newTaskHandler = function (
   request: Request,
   response: Response,

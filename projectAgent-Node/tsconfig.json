@@ -13,8 +13,9 @@
     "resolveJsonModule": true,
     "sourceMap": true,
     "types": ["node", "jest"],
-    "typeRoots": ["./src/types", "./node_modules/@types"]
+    "typeRoots": ["./src/types", "./node_modules/@types"],
+    "noUnusedLocals": true
   },
-  "include": ["./src/**/*"],
+  "include": ["./src/**/*", "src/bin/createNewTaskBlockTest.ts"],
   "exclude": ["node_modules", "dist", "**/*.test.ts"]
 }

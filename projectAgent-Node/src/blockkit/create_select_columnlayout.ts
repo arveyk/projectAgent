@@ -1,17 +1,7 @@
 import { formatSlackDate } from "../utils/dateHandler";
-import { Task, TaskPage } from "../utils/task";
 import { DateTime } from "luxon";
 import { NotionUser } from "../utils/controllers/userTypes";
 import { NotionTask } from "../utils/task";
-import { createColumnLayoutBlockNewTask } from "./columnLayoutBlock";
-type SelectElementType = {
-  text: {
-    type: string;
-    text: string;
-    emoji: boolean;
-  };
-  value: string;
-};
 
 const createTaskInfo = function (
   notionTaskObj: NotionTask,
@@ -133,11 +123,6 @@ export function createSelectionBlock(
     notionTask,
     searchedUsers.identifiedUsers,
   );
-  const taskInfo2 = createColumnLayoutBlockNewTask({
-    task: notionTask,
-    pageId: ""
-  })
-  const usersArray = notionTask.assignees;
 
   console.log(`Creating ${selectBlockTitle} select block`);
   // projectsBlock = createProjectsSelectBlock(projectandUserSelectionBlock, projectsArray);

@@ -1,8 +1,4 @@
-import {
-  createMultiSelectionsBlock,
-  createSelectionBlock,
-} from "./create_select";
-import { createSelectionBlock as createSBColumnLayout } from "./create_select_columnlayout";
+import { createSelectionBlock as createSBColumnLayout } from "../blockkit/create_select_columnlayout";
 // import { describe, it } from "@jest/global";
 import { testPostToSlack } from "../otherFiles/postMessageSlack";
 import { taskNoAssignee } from "../test-data/tasks/example-tasks";

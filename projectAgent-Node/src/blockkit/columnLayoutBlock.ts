@@ -68,7 +68,7 @@ export const createColumnLayoutTaskInfoBlock = function (taskPageObj: TaskPage) 
   return columnLayoutBlock;
 };
 
-export const createColumnLayoutBlockNewTask = function (taskPageObj: TaskPage) {
+export const createNewTaskBlockWithoutSelections = function (taskPageObj: TaskPage) {
   const task = taskPageObj.task;
   // console.log("Another console.log, Task", JSON.stringify(task));
   const ColumnLayoutTaskInfo = createColumnLayoutTaskInfoBlock(taskPageObj);

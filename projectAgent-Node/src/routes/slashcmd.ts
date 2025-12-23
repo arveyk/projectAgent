@@ -1,14 +1,9 @@
 import axios from "axios";
-import { createBlockNewTask } from "../blockkit/createBlocks";
 import { createUpdateBlock } from "../blockkit/updateBlock";
 import { parseTask } from "../utils/aiagent";
 import { searchDB, getTaskProperties } from "../utils/db-search";
 import { sendLoadingMsg } from "../blockkit/loadingMsg";
 import { findMatchingAssignees } from "../utils/controllers/userCreds";
-import {
-  createMultiSelectionsBlock,
-  createSelectionBlock,
-} from "../blockkit/create_select";
 import { logTime } from "../utils/logTime";
 // import { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 import { SlashCommand } from "@slack/bolt";
@@ -21,7 +16,7 @@ import { GetPageResponse } from "@notionhq/client";
 import { APIGatewayProxyEventV2, APIGatewayProxyHandlerV2, APIGatewayProxyResultV2,
   Context, StreamifyHandler } from "aws-lambda";
 import { isValidCmd, extractReqBody } from "../utils/slashUtils";
-import { handleAmbiguousFields } from "../utils/controllers/handleAmbiguousFields";
+import { createNewTaskBlock } from "../utils/controllers/handleAmbiguousFields";
 
 // webhook for taskmanagement channel only
 const webhookURL = process.env.TASK_MANAGEMENT_WEBHOOK_URL;
@@ -169,64 +164,14 @@ const slashCmdHandler: StreamifyHandler = async function (
         // Select block
 
         let taskBlockWithSelect;
-        const selections2 = handleAmbiguousFields(task, assigneeSearchResults);
-        /*if (task.assignees.length < 1 || task.assignees[0] === null) {
-          console.log("Assignees not present, creating selection");
+        const slackBlocks = createNewTaskBlock(task, assigneeSearchResults);
 
-          // TODO Replace with search results of matching Notion users;
-          const selectionBlock = createSelectionBlock(
-            notionTask,
-            "Major project",
-            [
-              { name: "Phil", email: "philippians2@gmail.com", userId: "" },
-              { name: "James", email: "james1:5bond@agent", userId: "" },
-              { name: "You", email: "youandi@yahoo.com", userId: "" },
-              { name: "metoo", email: "meornottome@outlook.com", userId: "" },
-              { name: "Abyyy", email: "", userId: "" },
-            ],
-          );
-         *
-          //const selectBlock3 = createSelectionBlock(notionTask, "Project(s)", assigneeSearchResults)
-          const selections = createMultiSelectionsBlock(
-            notionTask,
-            ["Phil", "James", "You", "Me", "Abyyy"],
-            ["No Project"],
-          );
-          taskBlockWithSelect = {
-            text: "Creating a new Task?",
-            replace_original: true,
-            blocks: selections.blocks,
-          };
-          /*
-          selections2 = {
-            text: "Creating a new Task?",
-            replace_original: true,
-            blocks: selectionBlock.blocks,
-          };
-        }
-        */
-        console.log("SlashCmdHandler taskBlockWithSelect", selections2);
-
-        // This might be a duplication of the selections2, Remove if this is
-        // the case
-        const taskBlock = createBlockNewTask({
-          task: notionTask,
-          url: "",
-          pageId: "",
-        } as TaskPage);
-        "text" in taskBlock.blocks[0]
-          ? taskBlock.blocks[0].text 
-            ? (taskBlock.blocks[0].text.text += JSON.stringify(
-              assigneeSearchResults || " User not in Channel",
-            )) : (taskBlock.text += JSON.stringify(
-              assigneeSearchResults || " User not in Channel",
-            ))
-          : console.log("First Text undefined");
+        console.log("SlashCmdHandler taskBlockWithSelect", slackBlocks);
 
         axios({
           method: "post",
           url: reqBody["response_url"],
-          data: selections2,//  ? selections2 : taskBlock,
+          data: slackBlocks,//  ? selections2 : taskBlock,
           family: 4,
         }).then((resp) => {
           console.log("OK from slack", resp["status"]);

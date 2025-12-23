@@ -2,21 +2,17 @@ import { NotionUser } from "./userTypes";
 import {
   UserSearchResult
 } from "../../utils/controllers/userTypes";
-import { createSelectionBlock } from "../../blockkit/create_select_columnlayout";
-import { createColumnLayoutBlockNewTask } from "../../blockkit/columnLayoutBlock";
+import { createNewTaskBlockWithSelections } from "../../blockkit/createNewTaskBlock";
+import { createNewTaskBlockWithoutSelections } from "../../blockkit/columnLayoutBlock";
 import { NotionTask } from "../task";
 import { Task, TaskPage } from "../../utils/task"
 
 
-export function handleAmbiguousFields(task: Task, userSearchResult: UserSearchResult[]) {
-  console.log("(handleAmbiguousFields)");
+export function createNewTaskBlock(task: Task, userSearchResult: UserSearchResult[]) {
+  console.log("(createNewTaskBlock)");
   const identifiedUsers: NotionUser[] = [];
   const ambiguousUsers: NotionUser[] = [];
 
-  /*
-   * we might not need the tasks arg after all
-   * naaa we do
-   */
   for (const user of userSearchResult) {
     console.log(user.person.name);
 
@@ -45,14 +41,14 @@ export function handleAmbiguousFields(task: Task, userSearchResult: UserSearchRe
     project: task.project,
   };
   if (ambiguousUsers.length > 0) {
-    return createSelectionBlock(notionTask, "Assignee",
+    return createNewTaskBlockWithSelections(notionTask, "Assignee",
       {
         identifiedUsers,
         ambiguousUsers
       }
     );
   } else {
-    return createColumnLayoutBlockNewTask({
+    return createNewTaskBlockWithoutSelections({
       task: notionTask,
       pageId: "",
       url: ""

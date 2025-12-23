@@ -1,32 +1,17 @@
 import { formatSlackDate } from "../utils/dateHandler";
-import { Task, TaskPage } from "../utils/task";
 import { DateTime } from "luxon";
 import { NotionUser } from "../utils/controllers/userTypes";
 import { NotionTask } from "../utils/task";
 
-type SelectElementType = {
-  text: {
-    type: string;
-    text: string;
-    emoji: boolean;
-  };
-  value: string;
-};
-
-const createTaskInfoWithSelections = function (
+const createTaskInfo = function (
   notionTaskObj: NotionTask,
-  notionUsers: NotionUser[],
+  assignees: NotionUser[]
 ) {
-  /**
-   * Temporarry fix for Date format issue
-   */
-  // task.dueDate = new Date(task.dueDate);
   const task = notionTaskObj;
-  const assigneesArr = notionUsers;
+  const assigneesArr = assignees;
   let assigneeNames = "";
-
   console.log(
-    `(createTaskInfoBlock), assigneesArray: ${assigneesArr}, task${JSON.stringify(task)}`,
+    `(createColumnLayoutTaskInfoBlock), assigneesArray: ${assigneesArr}, task${JSON.stringify(task)}`,
   );
   if (assigneesArr && Array.isArray(assigneesArr)) {
     assigneesArr.forEach((assignee) => {
@@ -40,91 +25,52 @@ const createTaskInfoWithSelections = function (
     task.startDate && task.startDate.toString() !== "Invalid Date"
       ? new Date(task.startDate)
       : DateTime.now().toJSDate();
-  console.log(`(createtaskInfoBlock) task: ${JSON.stringify(notionTaskObj)}`);
-  console.log(
-    `CreateTaskInfoBlock log message => task: ${JSON.stringify(task)}`,
-  );
-  return `*Task Title:*\t\t\t${task.taskTitle} \n*Due Date:*\t\t\t${formatSlackDate(new Date(task.dueDate))}\n*Start Date:*\t\t\t${task.startDate !== new Date(NaN) && task.startDate !== undefined ? formatSlackDate(task.startDate) : task.startDate}\n*Description:* \t\t${task.description}`;
-};
-
-/*const projectandUserSelectionBlock = {
-  blocks: [
+  console.log(`(createColumnLayoutTaskInfoBlock) task: ${JSON.stringify(task)}`);
+  const columnLayoutBlock = [
     {
-      type: "input",
-      element: {
-        type: "static_select",
-        placeholder: {
-          type: "plain_text",
-          text: "Select an item",
-          emoji: true,
-        },
-        options: [
-          /**
-           * add options that have this structure dynamically
-          {
-            "text": {
-              "type": "plain_text",
-              "text": "*plain_text option 1*",
-              "emoji": true
-            },
-            "value": "value-1"
-          },
-          
-          {
-            "text": {
-              "type": "plain_text",
-              "text": "*plain_text option 1*",
-              "emoji": true
-            },
-            "value": "value-101"
-          }
-        ] as SelectElementType[], 8
-         
-        ] as SelectElementType[],
-        action_id: "static_select-action",
-      },
-      label: {
-        type: "plain_text",
-        text: "Projects",
-        emoji: true,
-      },
-    },
-    {
-      type: "actions",
-      elements: [
+      "type": "section",
+      "fields": [
         {
-          type: "button",
-          text: {
-            type: "plain_text",
-            text: "Click Me",
-            emoji: true,
-          },
-          value: "click_me_123",
-          action_id: "actionId-0",
+          "type": "mrkdwn",
+          "text": `*Task Title:*\n${task.taskTitle}`
         },
-      ],
+        {
+          "type": "mrkdwn",
+          "text": `*Project:*\n${task.project || " "}`
+        }
+      ]
     },
-  ],
-};
+    {
+      "type": "section",
+      "fields": [
+        {
+          "type": "mrkdwn",
+          "text": `*Due Date:*\n${formatSlackDate(new Date(task.dueDate))}`
+        },
+        {
+          "type": "mrkdwn",
+          "text": `*Start Date:*\n${task.startDate !== new Date(NaN) && task.startDate !== undefined ? formatSlackDate(new Date(task.startDate)) : task.startDate}`
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": `*Assignees:*\n${assigneeNames}`
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": `*Description:*\n${task.description}`
+      }
+    }
+  ]
 
-const projectElement = {
-  text: {
-    type: "plain_text",
-    text: "*plain_text option 0*",
-    emoji: true,
-  },
-  value: "value-0",
-};
-
-const personElement = {
-  text: {
-    type: "plain_text",
-    text: "*user option 01*",
-    emoji: true,
-  },
-  value: "value-01",
-};
-*/
+  return columnLayoutBlock;
+}
 
 /**
  *
@@ -165,33 +111,32 @@ export function createOptions(
   }
 }
 
-export function createSelectionBlock(
+export function createNewTaskBlockWithSelections(
   notionTask: NotionTask,
   selectBlockTitle: string,
-  projectsOrUsersArray: NotionUser[],
+  searchedUsers: {
+    identifiedUsers: NotionUser[],
+    ambiguousUsers: NotionUser[]
+  }
 ) {
-  const taskInfo = createTaskInfoWithSelections(
+  const taskInfo = createTaskInfo(
     notionTask,
-    projectsOrUsersArray,
+    searchedUsers.identifiedUsers,
   );
-  const usersArray = notionTask.assignees;
 
   console.log(`Creating ${selectBlockTitle} select block`);
   // projectsBlock = createProjectsSelectBlock(projectandUserSelectionBlock, projectsArray);
+
+  // Create options for ambiguous users
   const optionsToChooseFrom = createOptions(
     "NotionUsers",
-    projectsOrUsersArray,
+    searchedUsers.ambiguousUsers,
   );
 
   return {
     blocks: [
-      {
-        type: "section",
-        text: {
-          type: "mrkdwn",
-          text: taskInfo,
-        },
-      },
+      // Spread Those details real nicely
+      ...taskInfo, // selection below
       {
         type: "input",
         element: {
@@ -211,23 +156,30 @@ export function createSelectionBlock(
         },
       },
       {
-        type: "actions",
-        elements: [
-          {
-            type: "button",
-            text: {
-              type: "plain_text",
-              text: "Click to Select Me",
-              emoji: true,
-            },
-            value:
-              "task: {\
-                      assignee: [],\
-                      due: null, description: ''}",
-            action_id: "actionId-0",
-          },
-        ],
+        "type": "button",
+        "text": {
+          "type": "plain_text",
+          "text": "Confirm",
+          "emoji": true,
+        },
+        "value": JSON.stringify({
+          task: notionTask,
+          pageId: "",
+        }), // value: JSON.stringify(taskPageObj),
+        "style": "primary",
+        "action_id": "actionId-2",
       },
+      {
+        "type": "button",
+        "text": {
+          "type": "plain_text",
+          "emoji": true,
+          "text": "Cancel",
+        },
+        "style": "danger",
+        "value": "discard_123",
+        "action_id": "actionId-1",
+      }
     ],
   };
 }
@@ -249,7 +201,7 @@ export function createMultiSelectionsBlock(
   let usersOptions;
 
   let projectsSelectBlock;
-  const blockText = createTaskInfoWithSelections(newTask, usersArray);
+  const blockText = createTaskInfo(newTask, usersArray);
 
   if (newTask.assignees.length !== 1) {
     console.log("Creating Assignee select block");
@@ -303,33 +255,15 @@ export function createMultiSelectionsBlock(
           text: blockText,
         },
       },
-      /*{
-        type: "input",
-        element: {
-          type: "multi_static_select",
-          placeholder: {
-            type: "plain_text",
-            text: "Select a Project",
-            emoji: true,
-          },
-          options: projectsOptions, //as SelectElementType[],
-          action_id: "multi_select-action",
-        },
-        label: {
-          type: "plain_text",
-          text: "Projects",
-          emoji: true,
-        },
-      },*/
       projectsSelectBlock
         ? projectsSelectBlock
         : {
-            type: "section",
-            text: {
-              type: "mrkdwn",
-              text: `${projectsArray.length > 0 ? projectsArray[0] : `No projects Found`}`,
-            },
+          type: "section",
+          text: {
+            type: "mrkdwn",
+            text: `${projectsArray.length > 0 ? projectsArray[0] : `No projects Found`}`,
           },
+        },
       {
         type: "input",
         element: {

@@ -2,7 +2,7 @@ import { formatSlackDate } from "../utils/dateHandler";
 import { DateTime } from "luxon";
 import { TaskPage } from "../utils/task";
 
-export const createColumnLayoutTaskInfoBlock = function (taskPageObj: TaskPage) {
+export const createColumnLayoutTaskInfo = function (taskPageObj: TaskPage) {
   const task = taskPageObj.task;
   const assigneesArr = task.assignees;
   let assigneeNames = "";
@@ -66,15 +66,22 @@ export const createColumnLayoutTaskInfoBlock = function (taskPageObj: TaskPage) 
   ]
 
   return columnLayoutBlock;
-};
+}
 
 export const createNewTaskBlockWithoutSelections = function (taskPageObj: TaskPage) {
   // console.log("Another console.log, Task", JSON.stringify(task));
-  const ColumnLayoutTaskInfo = createColumnLayoutTaskInfoBlock(taskPageObj);
+  const ColumnLayoutTaskInfo = createColumnLayoutTaskInfo(taskPageObj);
   const blockNewTask = {
     text: "Creating a new Task?",
     replace_original: true,
     blocks: [
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: "*You Are About to Create a New Task*",
+        },
+      },
       // Sprrrread those Details!!!
       ...ColumnLayoutTaskInfo,
       {
@@ -98,7 +105,10 @@ export const createNewTaskBlockWithoutSelections = function (taskPageObj: TaskPa
               "text": "Confirm",
               "emoji": true,
             },
-            "value": JSON.stringify(taskPageObj), // value: JSON.stringify(taskPageObj),
+            "value": JSON.stringify({
+              taskPageObject: taskPageObj,
+              userOptions: []
+            }), // value: JSON.stringify(taskPageObj)
             "style": "primary",
             "action_id": "actionId-2",
           },

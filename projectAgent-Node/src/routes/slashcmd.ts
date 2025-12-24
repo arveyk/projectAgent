@@ -9,7 +9,7 @@ import { logTime } from "../utils/logTime";
 import { SlashCommand } from "@slack/bolt";
 import {
   convertTaskPageFromDbResponse,
-  NotionTask,
+  // NotionTask,
   TaskPage,
 } from "../utils/task";
 import { GetPageResponse } from "@notionhq/client";
@@ -80,29 +80,11 @@ const slashCmdHandler: StreamifyHandler = async function (
       // Find Notion users
       const assigneeSearchResults = await findMatchingAssignees(task);
 
-      // TODO get assigned by
-
-      const notionTask: NotionTask = {
-        taskTitle: task.taskTitle,
-        // As a placeholder, just pick the first result
-        assignees: task.assignees.map(
-          (assignee) =>
-            assigneeSearchResults
-              .filter((result) => result.person === assignee)
-              .map((result) => result.foundUsers[0])[0],
-        ),
-        // As a placeholder, make this the same as assignees
-        assignedBy: task.assignees.map(
-          (assignee) =>
-            assigneeSearchResults
-              .filter((result) => result.person === assignee)
-              .map((result) => result.foundUsers[0])[0],
-        ),
-        dueDate: task.dueDate,
-        startDate: task.startDate,
-        description: task.description,
-        project: task.project,
-      };
+      /**
+       *
+       * TODO get assigned by
+       *
+       */
 
       if (!isInDatabase) {
         throw new Error("Error searching database");
@@ -121,8 +103,6 @@ const slashCmdHandler: StreamifyHandler = async function (
           console.log(
             `(slashCmdHandler) existingTask: ${JSON.stringify(existingTask)}`,
           );
-          // existingTask.startDate = new Date(existingTask.startDate)
-
           const updateBlock = createUpdateBlock(existingTask);
           console.log("Update Block", JSON.stringify(updateBlock));
 
@@ -148,11 +128,10 @@ const slashCmdHandler: StreamifyHandler = async function (
         }
       } else {
         console.log(
-          "Task to be passed to createBlockNewTask",
-          JSON.stringify(notionTask),
+          "Task to be passed to createNewTaskBlock",
+          JSON.stringify(task),
         );
-
-        // Select block
+        // Select or Non-Select block
         const slackBlocks = createNewTaskBlock(task, assigneeSearchResults);
 
         console.log("SlashCmdHandler taskBlockWithSelect", slackBlocks);
@@ -160,7 +139,7 @@ const slashCmdHandler: StreamifyHandler = async function (
         axios({
           method: "post",
           url: reqBody["response_url"],
-          data: slackBlocks,//  ? selections2 : taskBlock,
+          data: slackBlocks,
           family: 4,
         }).then((resp) => {
           console.log("OK from slack", resp["status"]);

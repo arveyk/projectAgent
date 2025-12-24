@@ -1,22 +1,20 @@
-import { Task, TaskPage } from "../utils/task";
-import { createColumnLayoutTaskInfoBlock } from "./columnLayoutBlock";
+import {
+  // Task,
+  TaskPage } from "../utils/task";
+import { createColumnLayoutTaskInfo } from "./columnLayoutBlock";
 /**
  *
  * @param task: A task object
  * @returns: A set of Slack blocks for updating a task
  */
 export function createUpdateBlock(taskPage: TaskPage) {
-  const task = taskPage.task;
   const taskUrl = taskPage.url;
-  const startDate = task.startDate
-    ? task.startDate.toISOString().split("T")[0]
-    : new Date().toISOString().split("T")[0];
-  const dueDate = task.dueDate.toISOString().split("T")[0];
-
-  const sectionInfo = createColumnLayoutTaskInfoBlock(taskPage);
+  const sectionInfo = createColumnLayoutTaskInfo(taskPage);
   // task.startDate = startDate;
   // task.dueDate = dueDate;
   return {
+    text: "Updating a Task?",
+    replace_original: true,
     blocks: [
       {
         type: "header",
@@ -52,20 +50,6 @@ export function createUpdateBlock(taskPage: TaskPage) {
             style: "danger",
             action_id: "cancelUpdateId-02",
           },
-          /*
-                    {
-                      type: "button",
-                      text: {
-                        type: "plain_text",
-                        text: "Confirm Edits",
-                        emoji: true,
-                      },
-                      value: `${JSON.stringify(taskPage)}`,
-                      url: `${taskUrl}`,
-                      style: "primary",
-                      action_id: "updateId-02",
-                    },
-                    */
         ],
       },
       {

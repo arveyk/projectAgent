@@ -7,6 +7,7 @@ import { TaskPage } from "../../utils/task";
 import { deletePage } from "../../utils/db-deletepage";
 import { APIGatewayProxyEventV2, Context, StreamifyHandler } from "aws-lambda";
 import { extractReqBody, extractPayload } from "../../utils/slashUtils"; 
+import { NotionUser } from "../../utils/controllers/userTypes";
 
 /**
  * interactionHandler - Response to user interactions with blocks when a button
@@ -51,7 +52,7 @@ const interactionHandler: StreamifyHandler = async function(
     `TRIGGER_ID VARIABLE ${trigger_id}: RESPONSE_URL ${response_url} MESSAGE ${JSON.stringify(message)}`,
   );
 
-  const action_id = payload["actions"][0]["action_id"];
+  const action_id: string = payload["actions"][0]["action_id"];
   let action_text = "";
 
   if (typeof payload["actions"][0]["selected_option"] !== "undefined") {
@@ -61,9 +62,25 @@ const interactionHandler: StreamifyHandler = async function(
     console.log("action_text in else block", action_text);
 
     if (action_text === "Confirm" || action_text === "Add Task") {
-      const taskPageObj: TaskPage = JSON.parse(
+      const taskPageAndOptionsObject: {
+        taskPageObject: TaskPage,
+        userOptions: NotionUser
+      } = JSON.parse(
         payload["actions"][0].value || "{}",
       );
+      //const taskPageObj: TaskPage = JSON.parse(
+      //  payload["actions"][0].value || "{}",
+      //);
+      const taskPageObj: TaskPage = taskPageAndOptionsObject.taskPageObject;
+      if (action_id === "SelectionActionId-2") {
+        console.log("Utilize users input");
+        const userSelections: Number[] = [];
+        console.log(`${userSelections}`);
+      }
+      /**
+       * 
+       * TODO Add Selections made by user somewhere here
+       */
       console.log("Edit in Notion, Response Url", response_url);
       (async () => {
         try {

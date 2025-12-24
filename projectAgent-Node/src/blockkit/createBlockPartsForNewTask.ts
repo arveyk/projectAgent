@@ -134,7 +134,16 @@ export function createNewTaskBlockWithSelections(
   );
 
   return {
+    text: "Creating a new Task?",
+    replace_original: true,
     blocks: [
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: "*You Are About to Create a New Task*",
+        },
+      },
       // Spread Those details real nicely
       ...taskInfo, // selection below
       {
@@ -156,31 +165,50 @@ export function createNewTaskBlockWithSelections(
         },
       },
       {
-        "type": "button",
-        "text": {
-          "type": "plain_text",
-          "text": "Confirm",
-          "emoji": true,
-        },
-        "value": JSON.stringify({
-          task: notionTask,
-          pageId: "",
-        }), // value: JSON.stringify(taskPageObj),
-        "style": "primary",
-        "action_id": "actionId-2",
+        "type": "actions",
+        "elements": [
+          {
+            "type": "button",
+            "text": {
+              "type": "plain_text",
+              "text": "Confirm",
+              "emoji": true,
+            },
+            "value": JSON.stringify(
+              {
+                taskPageObject: {
+                  task: notionTask,
+                  pageId: "",
+                  url: ""
+                }, userOptions: searchedUsers.ambiguousUsers
+              },
+            ), // value: JSON.stringify(taskPageObj),
+            "style": "primary",
+            "action_id": "SelectionActionId-2",
+          },
+          {
+            "type": "button",
+            "text": {
+              "type": "plain_text",
+              "emoji": true,
+              "text": "Cancel",
+            },
+            "style": "danger",
+            "value": "discard_123",
+            "action_id": "actionId-1",
+          }
+        ],
       },
       {
-        "type": "button",
-        "text": {
-          "type": "plain_text",
-          "emoji": true,
-          "text": "Cancel",
-        },
-        "style": "danger",
-        "value": "discard_123",
-        "action_id": "actionId-1",
-      }
-    ],
+        "type": "context",
+        "elements": [
+          {
+            "type": "mrkdwn",
+            "text": "*You can edit the task in Notion after adding it*",
+          },
+        ],
+      },
+    ]
   };
 }
 

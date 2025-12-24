@@ -1,6 +1,6 @@
 export { createFinalBlock } from "./editblock";
-import { createColumnLayoutTaskInfoBlock } from "./columnLayoutBlock";
-import { BlockType } from "@slack/web-api/dist/types/response/ChatPostMessageResponse";
+import { createColumnLayoutTaskInfo } from "./columnLayoutBlock";
+// import { BlockType } from "@slack/web-api/dist/types/response/ChatPostMessageResponse";
 import { TaskPage
  } from "../utils/task";
 
@@ -46,9 +46,8 @@ export const createBlockNewTask = function (taskPageObj: TaskPage) {
    * const task = taskPageObj.task;
    */
 
-  const task = taskPageObj.task;
   // console.log("Another console.log, Task", JSON.stringify(task));
-  const taskInfoColumnLayout = createColumnLayoutTaskInfoBlock(taskPageObj);
+  const taskInfoColumnLayout = createColumnLayoutTaskInfo(taskPageObj);
 
   return {
     text: "Creating a new Task?",
@@ -120,67 +119,4 @@ export const createBlockNewTask = function (taskPageObj: TaskPage) {
  * @returns A set of Slack blocks containing data from the task, to be used in confirming new tasks
  */
 
-
-const RequestApprovalBlock = {
-  blocks: [
-    {
-      type: "section",
-      text: {
-        type: "mrkdwn",
-        text: "*You Are About to Create a New Task*",
-      },
-    },
-    {
-      type: "divider",
-    },
-    {
-      type: "section",
-      text: {
-        type: "mrkdwn",
-        text: "*Task Title:*\t\t\t${_Task Title_} \n*Assignee:* \t\t\t${Assignee}\n*Due Date:*\t\t\t${_Due Date_}\n*Phone Number:*\t$[_545-039-5264_]\n*Description:* \t\t${Task_Description}\n*Project:* \t\t${Project}",
-      },
-    },
-    {
-      type: "actions",
-      elements: [
-        {
-          type: "button",
-          text: {
-            type: "plain_text",
-            emoji: true,
-            text: "Approve",
-          },
-          style: "primary",
-          value: "approve_123",
-          action_id: "actionId-0",
-        },
-        {
-          type: "button",
-          text: {
-            type: "plain_text",
-            emoji: true,
-            text: "Discard",
-          },
-          style: "danger",
-          value: "discard_123",
-          action_id: "actionId-1",
-        },
-        {
-          type: "button",
-          text: {
-            type: "plain_text",
-            text: "Edit",
-            emoji: true,
-          },
-          value: "edit_123",
-          action_id: "actionId-2",
-        },
-      ],
-    },
-    {
-      type: "divider",
-    },
-  ],
-};
-
-export { RequestApprovalBlock, sampleModal };
+export { sampleModal };

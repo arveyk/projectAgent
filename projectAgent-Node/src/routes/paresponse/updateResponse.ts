@@ -8,6 +8,7 @@ import { deletePage } from "../../utils/db-deletepage";
 import { APIGatewayProxyEventV2, Context, StreamifyHandler } from "aws-lambda";
 import { extractReqBody, extractPayload } from "../../utils/slashUtils"; 
 import { NotionUser } from "../../utils/controllers/userTypes";
+import { integrateUserSelections } from "../../utils/controllers/useSelectedOption";
 
 /**
  * interactionHandler - Response to user interactions with blocks when a button
@@ -64,7 +65,7 @@ const interactionHandler: StreamifyHandler = async function(
     if (action_text === "Confirm" || action_text === "Add Task") {
       const taskPageAndOptionsObject: {
         taskPageObject: TaskPage,
-        userOptions: NotionUser
+        userOptions: NotionUser[]
       } = JSON.parse(
         payload["actions"][0].value || "{}",
       );
@@ -72,10 +73,13 @@ const interactionHandler: StreamifyHandler = async function(
       //  payload["actions"][0].value || "{}",
       //);
       const taskPageObj: TaskPage = taskPageAndOptionsObject.taskPageObject;
+
       if (action_id === "SelectionActionId-2") {
         console.log("Utilize users input");
-        const userSelections: Number[] = [];
+        const userSelections: NotionUser[] = taskPageAndOptionsObject.userOptions;
         console.log(`${userSelections}`);
+        const allAssignees = integrateUserSelections(taskPageObj.task.assignees, payload, userSelections);
+        taskPageObj.task.assignees = allAssignees;
       }
       /**
        * 

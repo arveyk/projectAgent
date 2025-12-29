@@ -65,7 +65,7 @@ export function compareNames(
   slackUserName: string,
   notionUserName: string,
 ): boolean {
-  console.log(`Slack name: ${slackUserName}, Notion name: ${notionUserName}`);
+  //console.log(`Slack name: ${slackUserName}, Notion name: ${notionUserName}`);
   if (slackUserName !== undefined && notionUserName !== undefined) {
     if (
       slackUserName.toLowerCase().replace(".", " ").replace("@", "") ===
@@ -113,7 +113,7 @@ export function isPartialNameMatch(
   slackUserName: string,
   notionUserName: string,
 ): boolean {
-  console.log(`Slack name: ${slackUserName}, Notion name: ${notionUserName}`);
+  //console.log(`Slack name: ${slackUserName}, Notion name: ${notionUserName}`);
   if (slackUserName !== undefined && notionUserName !== undefined) {
     if (
       notionUserName

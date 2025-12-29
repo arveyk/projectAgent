@@ -14,16 +14,13 @@ export function isValidCmd(reqBody: Request["body"]): {
   action?: string;
 } {
   const commandParams = reqBody["text"].trim().split(" ");
-  let firstArg = commandParams[0];
-  let otherArgs = commandParams.slice(1, -1).join(" ");
   const isValidCmd = {
     isValid: false,
     action: "",
   };
 
-  isValidCmd.isValid =
-    (firstArg.toLowerCase() === "add" || "update") && otherArgs.length >= 5;
-  firstArg === "add" ? (isValidCmd.action = "add") : "update";
+  isValidCmd.isValid = commandParams.length >= 5;
+  isValidCmd.action = "add";
   return isValidCmd;
 }
 

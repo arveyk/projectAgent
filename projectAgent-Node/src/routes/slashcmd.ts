@@ -46,8 +46,8 @@ const slashCmdHandler: StreamifyHandler = async function (
     console.log(`headers: ${JSON.stringify(event.headers)}`);
     // const command = request.body["command"];
 
-    const validate = isValidCmd(reqBody);
-    if (validate.isValid) {
+    const commandValidationResult = isValidCmd(reqBody);
+    if (commandValidationResult.isValid) {
       const response_url = reqBody["response_url"];
 
       // Search database
@@ -150,7 +150,7 @@ const slashCmdHandler: StreamifyHandler = async function (
         method: "post",
         url: reqBody["response_url"],
         data: {
-          text: "Format: add ['Task Details']",
+          text: "Format: ['Task Details']",
         },
         family: 4,
       }).then((resp) => {

@@ -26,6 +26,7 @@ export const taskSchema = z.object({
   dueDate: z
     .iso
     .datetime({ offset: true })
+    .optional()
     .describe("Task due date in ISO standard format with timezone offset included"),
   startDate: z
     .iso
@@ -48,7 +49,7 @@ const structuredLlmSlashCmd: Runnable<
   BaseLanguageModelInput,
   Record<string, unknown>,
   RunnableConfig<Record<string, unknown>>
-> = model.withStructuredOutput(taskSchema, { includeRaw: true });
+> = model.withStructuredOutput(taskSchema, { includeRaw: true, method: 'json_mode' });
 // Error here is caused by mismatched zod version
 logTime("(Parse) model initialization finished");
 

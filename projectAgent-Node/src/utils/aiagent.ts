@@ -7,9 +7,8 @@ import { BaseLanguageModelInput } from "@langchain/core/dist/language_models/bas
 import { convertTask, Task } from "./task";
 import { SlashCommand } from "@slack/bolt";
 import { logTime } from "./logTime";
-import { error } from "console";
 
-export const EXAMPLE_OUTPUT: TaskParseResult = {taskTitle: "Write article draft", assignees: ["Bob"], dueDate: "2025-08-20T00:00-07:00", description: "Write a draft of the article"};
+export const EXAMPLE_OUTPUT_FOR_PROMPT: TaskParseResult = {taskTitle: "Write article draft", assignees: ["Bob"], dueDate: "2025-08-20T00:00-07:00", description: "Write a draft of the article"};
 
 logTime("(Parse) model initialization start");
 const model = new ChatAnthropic({
@@ -75,7 +74,7 @@ export const parseTask = async function (
 
   const timeData = await getEventTimeData(reqBody, timestamp);
 
-  const prompt = `Today's date and time in ISO format is ${timeData.toISO()}, and our timezone is ${timeData.zoneName}. Please extract information from this message, making sure to list any dates in ISO format with timezone offset. "By the end of the day" means by 17:00 in our timezone. If the message says to finish a task "by" some date but does not specify a time, that means by 0:00 of that date in our timezone. """Example: Input: Bob, starting tomorrow, please write a draft of the article and have it finished by August 20, 2025. Output: ${EXAMPLE_OUTPUT}""" Here is the message: ${textToParse}`;
+  const prompt = `Today's date and time in ISO format is ${timeData.toISO()}, and our timezone is ${timeData.zoneName}. Please extract information from this message, making sure to list any dates in ISO format with timezone offset. "By the end of the day" means by 17:00 in our timezone. If the message says to finish a task "by" some date but does not specify a time, that means by 0:00 of that date in our timezone. """Example: Input: Bob, starting tomorrow, please write a draft of the article and have it finished by August 20, 2025. Output: ${EXAMPLE_OUTPUT_FOR_PROMPT}""" Here is the message: ${textToParse}`;
   console.log(`prompt: ${prompt}`);
 
   logTime("(Parse) LLM start");
@@ -91,6 +90,8 @@ export const parseTask = async function (
   console.log(`Raw LLM response: ${JSON.stringify(taskParseResult.raw)}`);
 
   // TODO fix this sometimes being null
+  console.log(JSON.stringify(taskParseResult.parsed));
+
   const structuredResult = taskSchema.safeParse(taskParseResult.parsed)
   if (!structuredResult.success) {
     console.error("Task parsing was unsuccessful");

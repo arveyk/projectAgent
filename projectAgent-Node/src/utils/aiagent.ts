@@ -8,7 +8,7 @@ import { convertTask, Task } from "./task";
 import { SlashCommand } from "@slack/bolt";
 import { logTime } from "./logTime";
 
-export const EXAMPLE_OUTPUT_FOR_PROMPT: TaskParseResult = {taskTitle: "Write article draft", assignees: ["Bob"], dueDate: "2025-08-20T00:00-07:00", description: "Write a draft of the article"};
+export const EXAMPLE_OUTPUT_FOR_PROMPT: TaskParseResult = { taskTitle: "Write article draft", assignees: ["Bob"], dueDate: "2025-08-20T00:00-07:00", description: "Write a draft of the article" };
 
 logTime("(Parse) model initialization start");
 const model = new ChatAnthropic({
@@ -19,29 +19,45 @@ const model = new ChatAnthropic({
 
 // TODO make everything except title and description optional and nullable
 export const taskSchema = z.object({
-  taskTitle: z.string().describe("Short descriptive title of the task"),
+  taskTitle: z
+    .string()
+    .describe("Short descriptive title of the task"),
+  description: z
+    .string()
+    .describe("details of the task"),
   assignees: z
     .string()
     .array()
+    .optional()
+    .nullable()
     .describe("Name of person or people assigned with the task"),
   dueDate: z
     .iso
     .datetime({ offset: true })
     .optional()
+    .nullable()
     .describe("Task due date in ISO standard format with timezone offset included"),
   startDate: z
     .iso
     .datetime({ offset: true })
     .optional()
+    .nullable()
     .describe("Task start date in ISO standard format with timezone offset included"),
-  phonenumber: z.string().optional().describe("Assingnee phone number"),
-  email: z.string().optional().describe("Assignee's email address"),
-  preferredChannel: z
+  phonenumber: z
     .string()
     .optional()
-    .describe("Assignee\'s preferred channel of communication"),
-  description: z.string().describe("details of the task"),
-  project: z.string().optional().describe("The project the task belongs to"),
+    .nullable()
+    .describe("Assingnee phone number"),
+  email: z
+    .string()
+    .optional()
+    .nullable()
+    .describe("Assignee's email address"),
+  project: z
+    .string()
+    .optional()
+    .nullable()
+    .describe("The project the task belongs to"),
 });
 export type TaskParseResult = z.infer<typeof taskSchema>;
 
@@ -83,10 +99,10 @@ export const parseTask = async function (
   const taskParseResult = await structuredLlmSlashCmd.invoke(prompt);
   logTime("(Parse) LLM finished");
 
-  if(! taskParseResult) {
+  if (!taskParseResult) {
     throw new Error(`Task parse result is ${typeof taskParseResult}`);
   }
-  if(! taskParseResult.raw) {
+  if (!taskParseResult.raw) {
     throw new Error(`Raw LLM result is ${typeof taskParseResult.raw}`);
   }
   console.log(`Raw LLM response: ${JSON.stringify(taskParseResult.raw)}`);

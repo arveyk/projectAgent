@@ -41,7 +41,9 @@ export const createColumnLayoutTaskInfo = function (taskPageObj: TaskPage) {
       "fields": [
         {
           "type": "mrkdwn",
-          "text": `*Due Date:*\n${formatSlackDate(new Date(task.dueDate))}`
+          "text": `*Due Date:*\n${task.dueDate
+              ? formatSlackDate(new Date(task.dueDate))
+              : ""}`
         },
         {
           "type": "mrkdwn",

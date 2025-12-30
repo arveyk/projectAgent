@@ -7,10 +7,10 @@ import {
 import { event } from "../test-data/aws/aws-event";
 
 describe("Tests extractBody", () => {
-    it("", () => {
-        const decoded = extractReqBody(event);
-    })
-})
+  it("", () => {
+    const decoded = extractReqBody(event);
+  });
+});
 
 describe("Tests isValidCmd with a valid command", () => {
   it("Returns true", () => {

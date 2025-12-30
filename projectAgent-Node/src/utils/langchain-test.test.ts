@@ -1,14 +1,18 @@
-import { payloadNoDates, payloadExample } from "../test-data/payloads/slashcmd/payloads";
+import {
+  payloadNoDates,
+  payloadExample,
+} from "../test-data/payloads/slashcmd/payloads";
 import { parseTask, EXAMPLE_OUTPUT, taskSchema } from "./aiagent";
-import { structuredOutputDemo } from "./langchain-test"
+import { structuredOutputDemo } from "./langchain-test";
 
 describe("Tests structured output example", () => {
-    it("", async () => {
-        const message = "the title is Hello, it involves Bob, Jenny, and Acorn, and the date is Nov 1 2025";
-        const structured = await structuredOutputDemo(message);
-        console.log(structured);
-    })
-})
+  it("", async () => {
+    const message =
+      "the title is Hello, it involves Bob, Jenny, and Acorn, and the date is Nov 1 2025";
+    const structured = await structuredOutputDemo(message);
+    console.log(structured);
+  });
+});
 
 describe("Tests parseTaskSlashCmd without a due date", () => {
   it("Parses the task correctly", async () => {

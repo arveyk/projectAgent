@@ -26,7 +26,7 @@ export function isValidCmd(reqBody: Request["body"]): {
 
 /**
  * Extracts parameters from the encoded event body.
- * @param event 
+ * @param event
  */
 export function extractReqBody(event: APIGatewayProxyEventV2) {
   const bufferObj = Buffer.from(event.body ? event.body : "", "base64");
@@ -34,16 +34,20 @@ export function extractReqBody(event: APIGatewayProxyEventV2) {
   const parsedBody = querystring.parse(decodedBody);
   console.log(JSON.stringify(parsedBody));
 
-  return parsedBody
+  return parsedBody;
 }
 
 /**
  * Extracts a payload from a request body
- * @param reqBody 
- * @returns 
+ * @param reqBody
+ * @returns
  */
 export function extractPayload(reqBody: querystring.ParsedUrlQuery) {
-  const payloadStr = reqBody.payload ? Array.isArray(reqBody.payload) ? reqBody.payload.join() : reqBody.payload : "";
+  const payloadStr = reqBody.payload
+    ? Array.isArray(reqBody.payload)
+      ? reqBody.payload.join()
+      : reqBody.payload
+    : "";
   const payload = JSON.parse(payloadStr);
   return payload;
 }

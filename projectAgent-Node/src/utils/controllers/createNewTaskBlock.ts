@@ -1,14 +1,14 @@
 import { NotionUser } from "./userTypes";
-import {
-  UserSearchResult
-} from "./userTypes";
+import { UserSearchResult } from "./userTypes";
 import { createNewTaskBlockWithSelections } from "../../blockkit/createBlockPartsForNewTask";
 import { createNewTaskBlockWithoutSelections } from "../../blockkit/columnLayoutBlock";
 import { NotionTask } from "../task";
-import { Task } from "../task"
+import { Task } from "../task";
 
-
-export function createNewTaskBlock(task: Task, userSearchResult: UserSearchResult[]) {
+export function createNewTaskBlock(
+  task: Task,
+  userSearchResult: UserSearchResult[],
+) {
   console.log("(createNewTaskBlock)");
   const identifiedUsers: NotionUser[] = [];
   const ambiguousUsers: NotionUser[] = [];
@@ -41,17 +41,15 @@ export function createNewTaskBlock(task: Task, userSearchResult: UserSearchResul
     project: task.project,
   };
   if (ambiguousUsers.length > 0) {
-    return createNewTaskBlockWithSelections(notionTask, "Assignee",
-      {
-        identifiedUsers,
-        ambiguousUsers
-      }
-    );
+    return createNewTaskBlockWithSelections(notionTask, "Assignee", {
+      identifiedUsers,
+      ambiguousUsers,
+    });
   } else {
     return createNewTaskBlockWithoutSelections({
       task: notionTask,
       pageId: "",
-      url: ""
-    })
-  };
+      url: "",
+    });
+  }
 }

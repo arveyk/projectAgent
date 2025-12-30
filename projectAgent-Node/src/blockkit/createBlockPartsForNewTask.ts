@@ -5,7 +5,7 @@ import { NotionTask } from "../utils/task";
 
 const createTaskInfo = function (
   notionTaskObj: NotionTask,
-  assignees: NotionUser[]
+  assignees: NotionUser[],
 ) {
   const task = notionTaskObj;
   const assigneesArr = assignees;
@@ -25,54 +25,56 @@ const createTaskInfo = function (
     task.startDate && task.startDate.toString() !== "Invalid Date"
       ? new Date(task.startDate)
       : DateTime.now().toJSDate();
-  console.log(`(createColumnLayoutTaskInfoBlock) task: ${JSON.stringify(task)}`);
+  console.log(
+    `(createColumnLayoutTaskInfoBlock) task: ${JSON.stringify(task)}`,
+  );
   const columnLayoutBlock = [
     {
-      "type": "section",
-      "fields": [
+      type: "section",
+      fields: [
         {
-          "type": "mrkdwn",
-          "text": `*Task Title:*\n${task.taskTitle}`
+          type: "mrkdwn",
+          text: `*Task Title:*\n${task.taskTitle}`,
         },
         {
-          "type": "mrkdwn",
-          "text": `*Project:*\n${task.project || " "}`
-        }
-      ]
+          type: "mrkdwn",
+          text: `*Project:*\n${task.project || " "}`,
+        },
+      ],
     },
     {
-      "type": "section",
-      "fields": [
+      type: "section",
+      fields: [
         {
-          "type": "mrkdwn",
-          "text": `*Due Date:*\n${task.dueDate
-              ? formatSlackDate(new Date(task.dueDate))
-              : ""}`
+          type: "mrkdwn",
+          text: `*Due Date:*\n${
+            task.dueDate ? formatSlackDate(new Date(task.dueDate)) : ""
+          }`,
         },
         {
-          "type": "mrkdwn",
-          "text": `*Start Date:*\n${task.startDate !== new Date(NaN) && task.startDate !== undefined ? formatSlackDate(new Date(task.startDate)) : task.startDate}`
-        }
-      ]
+          type: "mrkdwn",
+          text: `*Start Date:*\n${task.startDate !== new Date(NaN) && task.startDate !== undefined ? formatSlackDate(new Date(task.startDate)) : task.startDate}`,
+        },
+      ],
     },
     {
-      "type": "section",
-      "text": {
-        "type": "mrkdwn",
-        "text": `*Assignees:*\n${assigneeNames}`
-      }
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: `*Assignees:*\n${assigneeNames}`,
+      },
     },
     {
-      "type": "section",
-      "text": {
-        "type": "mrkdwn",
-        "text": `*Description:*\n${task.description}`
-      }
-    }
-  ]
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: `*Description:*\n${task.description}`,
+      },
+    },
+  ];
 
   return columnLayoutBlock;
-}
+};
 
 /**
  *
@@ -117,14 +119,11 @@ export function createNewTaskBlockWithSelections(
   notionTask: NotionTask,
   selectBlockTitle: string,
   searchedUsers: {
-    identifiedUsers: NotionUser[],
-    ambiguousUsers: NotionUser[]
-  }
+    identifiedUsers: NotionUser[];
+    ambiguousUsers: NotionUser[];
+  },
 ) {
-  const taskInfo = createTaskInfo(
-    notionTask,
-    searchedUsers.identifiedUsers,
-  );
+  const taskInfo = createTaskInfo(notionTask, searchedUsers.identifiedUsers);
 
   console.log(`Creating ${selectBlockTitle} select block`);
   // projectsBlock = createProjectsSelectBlock(projectandUserSelectionBlock, projectsArray);
@@ -167,50 +166,49 @@ export function createNewTaskBlockWithSelections(
         },
       },
       {
-        "type": "actions",
-        "elements": [
+        type: "actions",
+        elements: [
           {
-            "type": "button",
-            "text": {
-              "type": "plain_text",
-              "text": "Confirm",
-              "emoji": true,
+            type: "button",
+            text: {
+              type: "plain_text",
+              text: "Confirm",
+              emoji: true,
             },
-            "value": JSON.stringify(
-              {
-                taskPageObject: {
-                  task: notionTask,
-                  pageId: "",
-                  url: ""
-                }, userOptions: searchedUsers.ambiguousUsers
+            value: JSON.stringify({
+              taskPageObject: {
+                task: notionTask,
+                pageId: "",
+                url: "",
               },
-            ), // value: JSON.stringify(taskPageObj),
-            "style": "primary",
-            "action_id": "SelectionActionId-2",
+              userOptions: searchedUsers.ambiguousUsers,
+            }), // value: JSON.stringify(taskPageObj),
+            style: "primary",
+            action_id: "SelectionActionId-2",
           },
           {
-            "type": "button",
-            "text": {
-              "type": "plain_text",
-              "emoji": true,
-              "text": "Cancel",
+            type: "button",
+            text: {
+              type: "plain_text",
+              emoji: true,
+              text: "Cancel",
             },
-            "style": "danger",
-            "value": "discard_123",
-            "action_id": "actionId-1",
-          }
+            style: "danger",
+            value: "discard_123",
+            action_id: "actionId-1",
+          },
         ],
       },
       {
-        "type": "context",
-        "elements": [
+        type: "context",
+        elements: [
           {
-            "type": "mrkdwn",
-            "text": "*You can edit the task in Notion after adding it*",
+            type: "mrkdwn",
+            text: "*You can edit the task in Notion after adding it*",
           },
         ],
       },
-    ]
+    ],
   };
 }
 
@@ -288,12 +286,12 @@ export function createMultiSelectionsBlock(
       projectsSelectBlock
         ? projectsSelectBlock
         : {
-          type: "section",
-          text: {
-            type: "mrkdwn",
-            text: `${projectsArray.length > 0 ? projectsArray[0] : `No projects Found`}`,
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: `${projectsArray.length > 0 ? projectsArray[0] : `No projects Found`}`,
+            },
           },
-        },
       {
         type: "input",
         element: {

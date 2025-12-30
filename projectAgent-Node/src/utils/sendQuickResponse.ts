@@ -1,11 +1,14 @@
 import axios from "axios";
 
-export function sendQuickResponseToSlack(response_url: string, SLACK_BOT_TOKEN: string) {
+export function sendQuickResponseToSlack(
+  response_url: string,
+  SLACK_BOT_TOKEN: string,
+) {
   axios({
     method: "post",
     url: response_url,
     data: {
-      status: 200
+      status: 200,
     },
     headers: {
       Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
@@ -17,9 +20,6 @@ export function sendQuickResponseToSlack(response_url: string, SLACK_BOT_TOKEN: 
       console.log("Update msg", Response);
     })
     .catch((err) => {
-      console.log(
-        "AXIOS ERROR sending quick response",
-        err,
-      );
+      console.log("AXIOS ERROR sending quick response", err);
     });
 }

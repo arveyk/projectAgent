@@ -1,9 +1,7 @@
 export { createFinalBlock } from "./editblock";
 import { createColumnLayoutTaskInfo } from "./columnLayoutBlock";
 // import { BlockType } from "@slack/web-api/dist/types/response/ChatPostMessageResponse";
-import { TaskPage
- } from "../utils/task";
-
+import { TaskPage } from "../utils/task";
 
 const sampleModal = {
   trigger_id: "trigger_id",

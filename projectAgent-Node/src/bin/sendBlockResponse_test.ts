@@ -8,17 +8,29 @@ import { createNewTaskBlockWithSelections } from "../blockkit/createBlockPartsFo
 // import { createFinalBlock } from "./editblock";
 // import { createUpdateBlock } from "./updateBlock";
 import {
-//  Task,
-  TaskPage } from "../utils/task";
+  //  Task,
+  TaskPage,
+} from "../utils/task";
 import { exampleUserSearchResponse2 } from "../test-data/example-usersearch-response";
 import { createNewTaskBlock } from "../utils/controllers/createNewTaskBlock";
-
 
 const task: TaskPage = {
   task: {
     taskTitle: "End of year Plans",
-    assignees: [{ name: "Benjamin Noah", email: "smoothbenja@gmail.com", userId: "U08UDKY38QK" }],
-    assignedBy: [{ name: "Benjamin Noah", email: "slybenja@gmail.com", userId: "U08UDKY38QK" }],
+    assignees: [
+      {
+        name: "Benjamin Noah",
+        email: "smoothbenja@gmail.com",
+        userId: "U08UDKY38QK",
+      },
+    ],
+    assignedBy: [
+      {
+        name: "Benjamin Noah",
+        email: "slybenja@gmail.com",
+        userId: "U08UDKY38QK",
+      },
+    ],
 
     dueDate: new Date("7-11-2027"),
     startDate: new Date("1-11-2027"),
@@ -54,30 +66,29 @@ const columnLayoutWithSelections = createNewTaskBlockWithSelections(
   {
     identifiedUsers: [
       {
-        "userId": "152d872b-594c-8145-9c2c-000204787b69",
-        "name": "Ceci Kurdelak",
-        "email": "ceci.kurdelak@solutional.com"
-      }
+        userId: "152d872b-594c-8145-9c2c-000204787b69",
+        name: "Ceci Kurdelak",
+        email: "ceci.kurdelak@solutional.com",
+      },
     ],
     ambiguousUsers: [
       {
-        "userId": "136d872b-594c-817b-adaa-00026796be69",
-        "name": "James Dirksen",
-        "email": "james.dirksen@solutional.com"
+        userId: "136d872b-594c-817b-adaa-00026796be69",
+        name: "James Dirksen",
+        email: "james.dirksen@solutional.com",
       },
       {
-        "userId": "13dd872b-594c-810f-8bb4-000282e27820",
-        "name": "Daniel Dirksen",
-        "email": "daniel.dirksen@solutional.com"
-      }
-    ]
-  }
+        userId: "13dd872b-594c-810f-8bb4-000282e27820",
+        name: "Daniel Dirksen",
+        email: "daniel.dirksen@solutional.com",
+      },
+    ],
+  },
 );
 
-const blockSelectOrNoSelect = createNewTaskBlock(
-  task.task,
-  [exampleUserSearchResponse2[1]]
-);
+const blockSelectOrNoSelect = createNewTaskBlock(task.task, [
+  exampleUserSearchResponse2[1],
+]);
 //let taskDetailsObj = JSON.parse(blocks["actions"][0]["value"]);
 
 /*if (blocks_02.blocks[3].elements) {
@@ -108,7 +119,7 @@ axios({
     //blocks: blocks_05.blocks,
     // blocks: columnLayoutBlock.blocks,
     // blocks: columnLayoutWithSelections.blocks
-    blocks: blockSelectOrNoSelect.blocks
+    blocks: blockSelectOrNoSelect.blocks,
     /*blocks: [
       {
         type: "section",

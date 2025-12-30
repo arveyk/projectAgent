@@ -21,56 +21,60 @@ export const createColumnLayoutTaskInfo = function (taskPageObj: TaskPage) {
     task.startDate && task.startDate.toString() !== "Invalid Date"
       ? new Date(task.startDate)
       : DateTime.now().toJSDate();
-  console.log(`(createColumnLayoutTaskInfoBlock) task: ${JSON.stringify(taskPageObj)}`);
+  console.log(
+    `(createColumnLayoutTaskInfoBlock) task: ${JSON.stringify(taskPageObj)}`,
+  );
   const columnLayoutBlock = [
     {
-      "type": "section",
-      "fields": [
+      type: "section",
+      fields: [
         {
-          "type": "mrkdwn",
-          "text": `*Task Title:*\n${task.taskTitle}`
+          type: "mrkdwn",
+          text: `*Task Title:*\n${task.taskTitle}`,
         },
         {
-          "type": "mrkdwn",
-          "text": `*Project:*\n${task.project || " "}`
-        }
-      ]
+          type: "mrkdwn",
+          text: `*Project:*\n${task.project || " "}`,
+        },
+      ],
     },
     {
-      "type": "section",
-      "fields": [
+      type: "section",
+      fields: [
         {
-          "type": "mrkdwn",
-          "text": `*Due Date:*\n${task.dueDate
-              ? formatSlackDate(new Date(task.dueDate))
-              : ""}`
+          type: "mrkdwn",
+          text: `*Due Date:*\n${
+            task.dueDate ? formatSlackDate(new Date(task.dueDate)) : ""
+          }`,
         },
         {
-          "type": "mrkdwn",
-          "text": `*Start Date:*\n${task.startDate !== new Date(NaN) && task.startDate !== undefined ? formatSlackDate(new Date(task.startDate)) : task.startDate}`
-        }
-      ]
+          type: "mrkdwn",
+          text: `*Start Date:*\n${task.startDate !== new Date(NaN) && task.startDate !== undefined ? formatSlackDate(new Date(task.startDate)) : task.startDate}`,
+        },
+      ],
     },
     {
-      "type": "section",
-      "text": {
-        "type": "mrkdwn",
-        "text": `*Assignees:*\n${assigneeNames}`
-      }
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: `*Assignees:*\n${assigneeNames}`,
+      },
     },
     {
-      "type": "section",
-      "text": {
-        "type": "mrkdwn",
-        "text": `*Description:*\n${task.description}`
-      }
-    }
-  ]
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: `*Description:*\n${task.description}`,
+      },
+    },
+  ];
 
   return columnLayoutBlock;
-}
+};
 
-export const createNewTaskBlockWithoutSelections = function (taskPageObj: TaskPage) {
+export const createNewTaskBlockWithoutSelections = function (
+  taskPageObj: TaskPage,
+) {
   // console.log("Another console.log, Task", JSON.stringify(task));
   const ColumnLayoutTaskInfo = createColumnLayoutTaskInfo(taskPageObj);
   const blockNewTask = {
@@ -87,8 +91,8 @@ export const createNewTaskBlockWithoutSelections = function (taskPageObj: TaskPa
       // Sprrrread those Details!!!
       ...ColumnLayoutTaskInfo,
       {
-        "type": "actions",
-        "elements": [
+        type: "actions",
+        elements: [
           /*{
             type: "button",
             text: {
@@ -101,38 +105,38 @@ export const createNewTaskBlockWithoutSelections = function (taskPageObj: TaskPa
             action_id: "actionId-0",
           }, */
           {
-            "type": "button",
-            "text": {
-              "type": "plain_text",
-              "text": "Confirm",
-              "emoji": true,
+            type: "button",
+            text: {
+              type: "plain_text",
+              text: "Confirm",
+              emoji: true,
             },
-            "value": JSON.stringify({
+            value: JSON.stringify({
               taskPageObject: taskPageObj,
-              userOptions: []
+              userOptions: [],
             }), // value: JSON.stringify(taskPageObj)
-            "style": "primary",
-            "action_id": "actionId-2",
+            style: "primary",
+            action_id: "actionId-2",
           },
           {
-            "type": "button",
-            "text": {
-              "type": "plain_text",
-              "emoji": true,
-              "text": "Cancel",
+            type: "button",
+            text: {
+              type: "plain_text",
+              emoji: true,
+              text: "Cancel",
             },
-            "style": "danger",
-            "value": "discard_123",
-            "action_id": "actionId-1",
+            style: "danger",
+            value: "discard_123",
+            action_id: "actionId-1",
           },
         ],
       },
       {
-        "type": "context",
-        "elements": [
+        type: "context",
+        elements: [
           {
-            "type": "mrkdwn",
-            "text": "*You can edit the task in Notion after adding it*",
+            type: "mrkdwn",
+            text: "*You can edit the task in Notion after adding it*",
           },
         ],
       },

@@ -20,24 +20,29 @@ import { createNewTaskBlock } from "../utils/controllers/createNewTaskBlock";
 const slashCmdHandler: StreamifyHandler = async function (
   event: APIGatewayProxyEventV2,
   responseStream: awslambda.HttpResponseStream,
-  context: Context
+  context: Context,
 ) {
   console.log("We are now in the slashcmd handler");
   logTime("Execution start");
   const httpResponseMetadata = {
     statusCode: 200,
     headers: {
-      "Content-Type": "text/plain"
-    }
+      "Content-Type": "text/plain",
+    },
   };
 
-  responseStream = awslambda.HttpResponseStream.from(responseStream, httpResponseMetadata);
+  responseStream = awslambda.HttpResponseStream.from(
+    responseStream,
+    httpResponseMetadata,
+  );
   responseStream.write("Slash command activated\n");
   responseStream.end();
 
   //console.log(`request: ${JSON.stringify(request)}`);
 
-  console.log(`Event: ${JSON.stringify(event)}\nContext: ${JSON.stringify(context)}`);
+  console.log(
+    `Event: ${JSON.stringify(event)}\nContext: ${JSON.stringify(context)}`,
+  );
 
   try {
     const reqBody = extractReqBody(event) as SlashCommand;
@@ -53,7 +58,7 @@ const slashCmdHandler: StreamifyHandler = async function (
       // Search database
 
       /**
-       * 
+       *
        * TODO Remember to uncomment after testing
        *
        */
@@ -66,7 +71,7 @@ const slashCmdHandler: StreamifyHandler = async function (
 
       console.log("IS in database?", JSON.stringify(isInDatabase));
       /**
-       * 
+       *
        * TODO Remember to uncomment after testing
        *
        */

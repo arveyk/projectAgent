@@ -43,18 +43,17 @@ export type TaskPage = {
 export function convertTask(taskInput: TaskParseResult): Task {
   console.log(JSON.stringify(taskInput));
 
-  const dueDate =
-    taskInput.dueDate
-      ? new Date(taskInput["dueDate"])
-      : undefined;
-  const startDate =
-    taskInput.startDate
-      ? new Date(taskInput["startDate"])
-      : undefined;
-  const assignees =
-    taskInput.assignees
-      ? taskInput.assignees.map((assignee) => { return { name: assignee } })
-      : [];
+  const dueDate = taskInput.dueDate
+    ? new Date(taskInput["dueDate"])
+    : undefined;
+  const startDate = taskInput.startDate
+    ? new Date(taskInput["startDate"])
+    : undefined;
+  const assignees = taskInput.assignees
+    ? taskInput.assignees.map((assignee) => {
+        return { name: assignee };
+      })
+    : [];
 
   return {
     taskTitle: taskInput["taskTitle"],
@@ -62,10 +61,7 @@ export function convertTask(taskInput: TaskParseResult): Task {
     dueDate: dueDate,
     startDate: startDate,
     description: taskInput["description"],
-    project:
-      taskInput["project"]
-        ? taskInput["project"]
-        : undefined,
+    project: taskInput["project"] ? taskInput["project"] : undefined,
   };
 }
 
@@ -133,15 +129,15 @@ export function convertTaskPageFromDbResponse(
   const assignees =
     "people" in properties["Assigned to"]
       ? properties["Assigned to"].people.map((response) =>
-        extractAssignees(response),
-      )
+          extractAssignees(response),
+        )
       : [];
 
   const assignedBy =
     "people" in properties["Assigned by"]
       ? properties["Assigned by"].people.map((response) =>
-        extractAssignees(response),
-      )
+          extractAssignees(response),
+        )
       : [];
 
   const dueDate =
@@ -158,14 +154,14 @@ export function convertTaskPageFromDbResponse(
       : undefined;
   const description =
     "rich_text" in properties["Description"] &&
-      properties["Description"]["rich_text"][0] !== undefined
+    properties["Description"]["rich_text"][0] !== undefined
       ? "plain_text" in properties["Description"]["rich_text"][0]
         ? properties["Description"].rich_text[0].plain_text
         : ""
       : "";
   const project =
     "rich_text" in properties["Project"] &&
-      properties["Project"]["rich_text"][0] !== undefined
+    properties["Project"]["rich_text"][0] !== undefined
       ? "plain_text" in properties["Project"]["rich_text"][0]
         ? properties["Project"].rich_text[0].plain_text
         : undefined

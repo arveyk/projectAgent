@@ -1,6 +1,7 @@
 import {
   // Task,
-  TaskPage } from "../utils/task";
+  TaskPage,
+} from "../utils/task";
 import { createColumnLayoutTaskInfo } from "./columnLayoutBlock";
 /**
  *

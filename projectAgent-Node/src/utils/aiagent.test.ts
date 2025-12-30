@@ -5,7 +5,7 @@ import {
   payloadHarvey,
   payloadInferDates,
   payloadNew,
-  payloadNoDates
+  payloadNoDates,
 } from "../test-data/payloads/slashcmd/payloads";
 import {
   taskGood,

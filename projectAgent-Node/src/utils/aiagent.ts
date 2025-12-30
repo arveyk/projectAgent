@@ -8,7 +8,12 @@ import { convertTask, Task } from "./task";
 import { SlashCommand } from "@slack/bolt";
 import { logTime } from "./logTime";
 
-export const EXAMPLE_OUTPUT_FOR_PROMPT: TaskParseResult = { taskTitle: "Write article draft", assignees: ["Bob"], dueDate: "2025-08-20T00:00-07:00", description: "Write a draft of the article" };
+export const EXAMPLE_OUTPUT_FOR_PROMPT: TaskParseResult = {
+  taskTitle: "Write article draft",
+  assignees: ["Bob"],
+  dueDate: "2025-08-20T00:00-07:00",
+  description: "Write a draft of the article",
+};
 
 logTime("(Parse) model initialization start");
 const model = new ChatAnthropic({
@@ -19,40 +24,34 @@ const model = new ChatAnthropic({
 
 // TODO make everything except title and description optional and nullable
 export const taskSchema = z.object({
-  taskTitle: z
-    .string()
-    .describe("Short descriptive title of the task"),
-  description: z
-    .string()
-    .describe("details of the task"),
+  taskTitle: z.string().describe("Short descriptive title of the task"),
+  description: z.string().describe("details of the task"),
   assignees: z
     .string()
     .array()
     .optional()
     .nullable()
     .describe("Name of person or people assigned with the task"),
-  dueDate: z
-    .iso
+  dueDate: z.iso
     .datetime({ offset: true })
     .optional()
     .nullable()
-    .describe("Task due date in ISO standard format with timezone offset included"),
-  startDate: z
-    .iso
+    .describe(
+      "Task due date in ISO standard format with timezone offset included",
+    ),
+  startDate: z.iso
     .datetime({ offset: true })
     .optional()
     .nullable()
-    .describe("Task start date in ISO standard format with timezone offset included"),
+    .describe(
+      "Task start date in ISO standard format with timezone offset included",
+    ),
   phonenumber: z
     .string()
     .optional()
     .nullable()
     .describe("Assingnee phone number"),
-  email: z
-    .string()
-    .optional()
-    .nullable()
-    .describe("Assignee's email address"),
+  email: z.string().optional().nullable().describe("Assignee's email address"),
   project: z
     .string()
     .optional()
@@ -66,7 +65,10 @@ const structuredLlmSlashCmd: Runnable<
   BaseLanguageModelInput,
   Record<string, unknown>,
   RunnableConfig<Record<string, unknown>>
-> = model.withStructuredOutput(taskSchema, { includeRaw: true, method: 'json_mode' });
+> = model.withStructuredOutput(taskSchema, {
+  includeRaw: true,
+  method: "json_mode",
+});
 // Error here is caused by mismatched zod version
 logTime("(Parse) model initialization finished");
 
@@ -110,7 +112,7 @@ export const parseTask = async function (
   // TODO fix this sometimes being null
   console.log(JSON.stringify(taskParseResult.parsed));
 
-  const structuredResult = taskSchema.safeParse(taskParseResult.parsed)
+  const structuredResult = taskSchema.safeParse(taskParseResult.parsed);
   if (!structuredResult.success) {
     console.error("Task parsing was unsuccessful");
     throw structuredResult.error;
@@ -118,7 +120,9 @@ export const parseTask = async function (
 
   const structuredResultData = structuredResult.data;
 
-  console.log(`Structured LLM response: ${JSON.stringify(structuredResultData)}`);
+  console.log(
+    `Structured LLM response: ${JSON.stringify(structuredResultData)}`,
+  );
 
   // Convert the LLM output to a Task object for future ease of use
   const task = convertTask(structuredResultData);

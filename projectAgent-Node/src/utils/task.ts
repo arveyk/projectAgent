@@ -148,8 +148,8 @@ export function convertTaskPageFromDbResponse(
     "date" in properties["Due"]
       ? properties["Due"].date
         ? new Date(properties["Due"].date.start)
-        : new Date()
-      : new Date();
+        : undefined
+      : undefined;
   const startDate =
     "date" in properties["Start"]
       ? properties["Start"].date

@@ -291,7 +291,7 @@ function sendError(
               type: "section",
               text: {
                 type: "mrkdwn",
-                text: `:${errEmoji}: *Unable to ${errMessage} Entry*: ${createRowResult.errorMsg}, `,
+                text: `:${errEmoji}: *Unable to ${errMessage} Entry*: ${createRowResult.errorMsg}`,
               },
             },
           ],

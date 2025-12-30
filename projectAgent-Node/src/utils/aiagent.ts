@@ -17,6 +17,7 @@ const model = new ChatAnthropic({
   apiKey: ANTHROPIC_API_KEY,
 });
 
+// TODO make everything except title and description optional and nullable
 export const taskSchema = z.object({
   taskTitle: z.string().describe("Short descriptive title of the task"),
   assignees: z

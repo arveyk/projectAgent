@@ -1,4 +1,9 @@
-export function redirectToNotionBlock(url: string) {
+/**
+ * Creates a Slack block that redirects the user to the new Notion page.
+ * @param url The url of the new Notion page.
+ * @returns A Slack block that redirects the user to the new Notion page.
+ */
+export function createRedirectToNewPageBlock(url: string) {
   return {
     blocks: [
       {
@@ -11,18 +16,6 @@ export function redirectToNotionBlock(url: string) {
       {
         type: "actions",
         elements: [
-          /*{
-            type: "button",
-            text: {
-              type: "plain_text",
-              emoji: true,
-              text: "Edit in Notion"
-            },
-            style: "primary",
-            url: `${url}`,
-            value: "edit_123",
-            action_id: "actionId-0"
-          },*/
           {
             type: "button",
             text: {

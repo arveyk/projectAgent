@@ -1,7 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { fileURLToPath } from "url";
-import { deleteLoadingMsg } from "../../blockkit/deleteLoadingMsg";
+import { deleteLoadingMessage } from "../../blockkit/loadingMessage";
 
 const targetDir = "../storage";
 const fileName = "events.json";
@@ -27,6 +26,6 @@ fs.readFile(fullPath, "utf8", (err, data) => {
   const eventText = eventPayload.event.text;
   const channelID = eventPayload.event.channel;
 
-  deleteLoadingMsg(eventTs, channelID);
+  deleteLoadingMessage(eventTs, channelID);
   // pop payload data
 });

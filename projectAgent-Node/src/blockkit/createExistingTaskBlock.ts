@@ -2,11 +2,11 @@ import { TaskPage } from "../utils/task";
 import { createTaskInfo } from "./createBlockPartsForNewTask";
 
 /**
- *
- * @param task: A task object
- * @returns: A set of Slack blocks for updating a task
+ * Creates a set of Slack blocks to be used in previewing and updating an existing task.
+ * @param task: The task to be previewed.
+ * @returns: A set of Slack blocks to be used in previewing and updating an existing task.
  */
-export function createUpdateBlock(taskPage: TaskPage) {
+export function createExistingTaskBlock(taskPage: TaskPage) {
   const taskUrl = taskPage.url;
   const sectionInfo = createTaskInfo(taskPage.task, taskPage.task.assignees);
   return {

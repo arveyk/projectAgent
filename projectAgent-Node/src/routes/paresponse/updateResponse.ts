@@ -2,7 +2,7 @@ import axios from "axios";
 import addTaskNotionPage, { PageAddResult } from "../../utils/notiondb";
 import { SLACK_BOT_TOKEN } from "../../env";
 import { BlockAction } from "@slack/bolt";
-import { redirectToNotionBlock } from "../../blockkit/edit_in_notion_button";
+import { createRedirectToNewPageBlock } from "../../blockkit/createRedirectToNewPageBlock";
 import { TaskPage } from "../../utils/task";
 import { deletePage } from "../../utils/db-deletepage";
 import { APIGatewayProxyEventV2, Context, StreamifyHandler } from "aws-lambda";
@@ -106,7 +106,7 @@ const interactionHandler: StreamifyHandler = async function (
             taskPageObj.pageId = newTaskPage.id;
             taskPageObj.url = "url" in newTaskPage ? newTaskPage.url : "";
 
-            const editInNotionBlocks = redirectToNotionBlock(taskPageObj.url);
+            const editInNotionBlocks = createRedirectToNewPageBlock(taskPageObj.url);
             console.log(
               "editInNotionBlocks",
               JSON.stringify(editInNotionBlocks),

@@ -1,8 +1,8 @@
 import axios from "axios";
-import { createUpdateBlock } from "../blockkit/updateBlock";
+import { createExistingTaskBlock } from "../blockkit/createExistingTaskBlock";
 import { parseTask } from "../utils/aiagent";
 import { searchDB, getTaskProperties } from "../utils/db-search";
-import { sendLoadingMsg } from "../blockkit/loadingMsg";
+import { sendLoadingMessage } from "../blockkit/loadingMessage";
 import { findMatchingAssignees } from "../utils/controllers/userCreds";
 import { logTime } from "../utils/logTime";
 // import { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints";
@@ -63,7 +63,7 @@ const slashCmdHandler: StreamifyHandler = async function (
        *
        */
 
-      await sendLoadingMsg("Searching Database", response_url);
+      await sendLoadingMessage("Searching Database", response_url);
 
       logTime("Searching database");
       const isInDatabase = await searchDB(reqBody.text);
@@ -75,7 +75,7 @@ const slashCmdHandler: StreamifyHandler = async function (
        * TODO Remember to uncomment after testing
        *
        */
-      await sendLoadingMsg("Parsing Task", response_url);
+      await sendLoadingMessage("Parsing Task", response_url);
       const timestamp: number = Date.now();
 
       logTime("Parsing task");
@@ -108,7 +108,7 @@ const slashCmdHandler: StreamifyHandler = async function (
           console.log(
             `(slashCmdHandler) existingTask: ${JSON.stringify(existingTask)}`,
           );
-          const updateBlock = createUpdateBlock(existingTask);
+          const updateBlock = createExistingTaskBlock(existingTask);
           console.log("Update Block", JSON.stringify(updateBlock));
 
           axios({

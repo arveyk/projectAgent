@@ -1,8 +1,6 @@
-import {
-  // Task,
-  TaskPage,
-} from "../utils/task";
-import { createColumnLayoutTaskInfo } from "./columnLayoutBlock";
+import { TaskPage } from "../utils/task";
+import { createTaskInfo } from "./createBlockPartsForNewTask";
+
 /**
  *
  * @param task: A task object
@@ -10,9 +8,7 @@ import { createColumnLayoutTaskInfo } from "./columnLayoutBlock";
  */
 export function createUpdateBlock(taskPage: TaskPage) {
   const taskUrl = taskPage.url;
-  const sectionInfo = createColumnLayoutTaskInfo(taskPage);
-  // task.startDate = startDate;
-  // task.dueDate = dueDate;
+  const sectionInfo = createTaskInfo(taskPage.task, taskPage.task.assignees);
   return {
     text: "Updating a Task?",
     replace_original: true,

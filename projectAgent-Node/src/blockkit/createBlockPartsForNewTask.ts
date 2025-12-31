@@ -1,9 +1,14 @@
 import { formatSlackDate } from "../utils/dateHandler";
-import { DateTime } from "luxon";
 import { NotionUser } from "../utils/controllers/userTypes";
 import { NotionTask } from "../utils/task";
 
-const createTaskInfo = function (
+/**
+ * Creates the Slack blocks for previewing the details of a new task.
+ * @param notionTaskObj The new task.
+ * @param assignees A list of people the task is assigned to.
+ * @returns The Slack blocks for previewing the details of a new task.
+ */
+export function createTaskInfo(
   notionTaskObj: NotionTask,
   assignees: NotionUser[],
 ) {
@@ -11,22 +16,19 @@ const createTaskInfo = function (
   const assigneesArr = assignees;
   let assigneeNames = "";
   console.log(
-    `(createColumnLayoutTaskInfoBlock), assigneesArray: ${assigneesArr}, task${JSON.stringify(task)}`,
+    `(createTaskInfo), assigneesArray: ${assigneesArr}, task${JSON.stringify(task)}`,
   );
   if (assigneesArr && Array.isArray(assigneesArr)) {
     assigneesArr.forEach((assignee) => {
       if (assignee) {
-        assigneeNames += `${assignee.name} --- ${assignee.email}\n`;
+        assigneeNames += `${assignee.name} (${assignee.email})\n`;
       }
     });
-    assigneeNames = assigneeNames.slice(0, -1); // Remove trailing comma and space
+    // Remove trailing comma and space
+    assigneeNames = assigneeNames.slice(0, -1); 
   }
-  task.startDate =
-    task.startDate && task.startDate.toString() !== "Invalid Date"
-      ? new Date(task.startDate)
-      : DateTime.now().toJSDate();
   console.log(
-    `(createColumnLayoutTaskInfoBlock) task: ${JSON.stringify(task)}`,
+    `(createTaskInfo) task: ${JSON.stringify(task)}`,
   );
   const columnLayoutBlock = [
     {
@@ -77,9 +79,9 @@ const createTaskInfo = function (
 };
 
 /**
- *
- * @param listOfItems
- * @returns array of select options
+ * Creates the options for a Slack dropdown menu.
+ * @param listOfItems The items that will be put into the dropdowm menu.
+ * @returns The options for a Slack dropdown menu.
  */
 export function createOptions(
   whichToCreate: string,
@@ -93,7 +95,7 @@ export function createOptions(
       return {
         text: {
           type: "plain_text",
-          text: `*${person.name} --- ${person.email}*`,
+          text: `${person.name} (${person.email})`,
           emoji: true,
         },
         value: `${index++}`,
@@ -107,7 +109,6 @@ export function createOptions(
           text: `*${project}*`,
           emoji: true,
         },
-        // value: `value-${index++}`,
         value: `${index++}`,
       };
     });
@@ -115,23 +116,29 @@ export function createOptions(
   }
 }
 
+/**
+ * Creates Slack blocks to be used in previewing and confirming a new task and prompting the user to select assignees.
+ * @param notionTask The task to be previewed.
+ * @param selectBlockTitle Either "Assignee" or "Assigned by"
+ * @param foundUsers A list of 0 or more Notion users who match the assignee of the task.
+ * @returns A set of Slack blocks to be used in previewing and confirming a new task and prompting the user to select assignees.
+ */
 export function createNewTaskBlockWithSelections(
   notionTask: NotionTask,
   selectBlockTitle: string,
-  searchedUsers: {
+  foundUsers: {
     identifiedUsers: NotionUser[];
     ambiguousUsers: NotionUser[];
   },
 ) {
-  const taskInfo = createTaskInfo(notionTask, searchedUsers.identifiedUsers);
+  const taskInfo = createTaskInfo(notionTask, foundUsers.identifiedUsers);
 
   console.log(`Creating ${selectBlockTitle} select block`);
-  // projectsBlock = createProjectsSelectBlock(projectandUserSelectionBlock, projectsArray);
 
   // Create options for ambiguous users
   const optionsToChooseFrom = createOptions(
     "NotionUsers",
-    searchedUsers.ambiguousUsers,
+    foundUsers.ambiguousUsers,
   );
 
   return {
@@ -145,8 +152,7 @@ export function createNewTaskBlockWithSelections(
           text: "*You Are About to Create a New Task*",
         },
       },
-      // Spread Those details real nicely
-      ...taskInfo, // selection below
+      ...taskInfo,
       {
         type: "input",
         element: {
@@ -156,7 +162,7 @@ export function createNewTaskBlockWithSelections(
             text: `Select ${selectBlockTitle}(s)`,
             emoji: true,
           },
-          options: optionsToChooseFrom, //as SelectElementType[],
+          options: optionsToChooseFrom,
           action_id: "multi_select-action",
         },
         label: {
@@ -181,8 +187,8 @@ export function createNewTaskBlockWithSelections(
                 pageId: "",
                 url: "",
               },
-              userOptions: searchedUsers.ambiguousUsers,
-            }), // value: JSON.stringify(taskPageObj),
+              userOptions: foundUsers.ambiguousUsers,
+            }),
             style: "primary",
             action_id: "SelectionActionId-2",
           },
@@ -212,59 +218,18 @@ export function createNewTaskBlockWithSelections(
   };
 }
 
-export function createMultiSelectionsBlock(
-  newTask: NotionTask,
-  projectsArr: string[],
-  usersArr: string[],
+/**
+ * Creates Slack blocks to be used in previewing and confirming a new task.
+ * @param notionTask The task to be previewed.
+ * @returns A set of Slack blocks to be used in previewing and confirming a new task.
+ */
+export const createNewTaskBlockWithoutSelections = function (
+  notionTask: NotionTask,
 ) {
-  // Should we have options for projects or jsut have tasks empty?
-
-  const projectsArray = [newTask.project || "undefined"];
-  // TODO: change this to array of notion users that match assigneee search
-  const usersArray = newTask.assignees;
-
-  let selectLabel = "Assignee(s)";
-  console.log("Creating selection Blocks");
-  let projectsOptions;
-  let usersOptions;
-
-  let projectsSelectBlock;
-  const blockText = createTaskInfo(newTask, usersArray);
-
-  if (newTask.assignees.length !== 1) {
-    console.log("Creating Assignee select block");
-    // projectsBlock = createProjectsSelectBlock(projectandUserSelectionBlock, projectsArray);
-    usersOptions = createOptions("NotionUsers", projectsArray);
-  }
-
-  if (projectsArray.length !== 1) {
-    console.log("Creating Projects selection block");
-    // usersBlock = createAssignedToSelectBlock(projectandUserSelectionBlock, usersArray);
-    projectsOptions = createOptions("Project(s)", projectsArray);
-    projectsSelectBlock = {
-      type: "input",
-      element: {
-        type: "multi_static_select",
-        placeholder: {
-          type: "plain_text",
-          text: "Select Project(s)",
-          emoji: true,
-        },
-        options: usersOptions,
-        action_id: "multi_select-action",
-      },
-      label: {
-        type: "plain_text",
-        text: "Project(s)",
-        emoji: true,
-      },
-    };
-    if (usersArray.length === 1 && projectsArray[0] === null) {
-      selectLabel = "NotionUsers";
-    }
-  }
-
-  return {
+  const ColumnLayoutTaskInfo = createTaskInfo(notionTask, notionTask.assignees);
+  const blockNewTask = {
+    text: "Creating a new Task?",
+    replace_original: true,
     blocks: [
       {
         type: "section",
@@ -273,44 +238,7 @@ export function createMultiSelectionsBlock(
           text: "*You Are About to Create a New Task*",
         },
       },
-      {
-        type: "divider",
-      },
-      {
-        type: "section",
-        text: {
-          type: "mrkdwn",
-          text: blockText,
-        },
-      },
-      projectsSelectBlock
-        ? projectsSelectBlock
-        : {
-            type: "section",
-            text: {
-              type: "mrkdwn",
-              text: `${projectsArray.length > 0 ? projectsArray[0] : `No projects Found`}`,
-            },
-          },
-      {
-        type: "input",
-        element: {
-          type: "multi_static_select",
-          placeholder: {
-            type: "plain_text",
-            text: `Select ${selectLabel}`,
-            emoji: true,
-          },
-          // options: projectsOptions,
-          options:
-            selectLabel === "Project(s)" ? projectsOptions : usersOptions,
-        },
-        label: {
-          type: "plain_text",
-          text: `${selectLabel}`,
-          emoji: true,
-        },
-      },
+      ...ColumnLayoutTaskInfo,
       {
         type: "actions",
         elements: [
@@ -318,14 +246,39 @@ export function createMultiSelectionsBlock(
             type: "button",
             text: {
               type: "plain_text",
-              text: "Click Me",
+              text: "Confirm",
               emoji: true,
             },
-            value: "click_me_123",
-            action_id: "actionId-0",
+            value: JSON.stringify({
+              taskPageObject: notionTask,
+              userOptions: [],
+            }),
+            style: "primary",
+            action_id: "actionId-2",
+          },
+          {
+            type: "button",
+            text: {
+              type: "plain_text",
+              emoji: true,
+              text: "Cancel",
+            },
+            style: "danger",
+            value: "discard_123",
+            action_id: "actionId-1",
+          },
+        ],
+      },
+      {
+        type: "context",
+        elements: [
+          {
+            type: "mrkdwn",
+            text: "*You can edit the task in Notion after adding it*",
           },
         ],
       },
     ],
   };
-}
+  return blockNewTask;
+};

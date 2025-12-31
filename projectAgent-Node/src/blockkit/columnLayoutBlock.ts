@@ -1,28 +1,34 @@
 import { formatSlackDate } from "../utils/dateHandler";
 import { DateTime } from "luxon";
-import { TaskPage } from "../utils/task";
+import { NotionTask } from "../utils/task";
 
-export const createColumnLayoutTaskInfo = function (taskPageObj: TaskPage) {
-  const task = taskPageObj.task;
-  const assigneesArr = task.assignees;
+/**
+ * Creates the Slack blocks for previewing the details of a new task.
+ * @param notionTaskObj The new task.
+ * @param assignees A list of people the task is assigned to.
+ * @returns The Slack blocks for previewing the details of a new task.
+ */
+export const createColumnLayoutTaskInfo = function (notionTask: NotionTask) {
+  const assigneesArr = notionTask.assignees;
   let assigneeNames = "";
   console.log(
-    `(createColumnLayoutTaskInfoBlock), assigneesArray: ${assigneesArr}, task${JSON.stringify(task)}`,
+    `(createColumnLayoutTaskInfo), assigneesArray: ${assigneesArr}, task${JSON.stringify(notionTask)}`,
   );
   if (assigneesArr && Array.isArray(assigneesArr)) {
     assigneesArr.forEach((assignee) => {
       if (assignee) {
-        assigneeNames += `${assignee.name} --- ${assignee.email}\n`;
+        assigneeNames += `${assignee.name} (${assignee.email})\n`;
       }
     });
-    assigneeNames = assigneeNames.slice(0, -1); // Remove trailing comma and space
+    // Remove trailing comma and space
+    assigneeNames = assigneeNames.slice(0, -1);
   }
-  task.startDate =
-    task.startDate && task.startDate.toString() !== "Invalid Date"
-      ? new Date(task.startDate)
+  notionTask.startDate =
+    notionTask.startDate && notionTask.startDate.toString() !== "Invalid Date"
+      ? new Date(notionTask.startDate)
       : DateTime.now().toJSDate();
   console.log(
-    `(createColumnLayoutTaskInfoBlock) task: ${JSON.stringify(taskPageObj)}`,
+    `(createColumnLayoutTaskInfo) task: ${JSON.stringify(notionTask)}`,
   );
   const columnLayoutBlock = [
     {
@@ -30,11 +36,11 @@ export const createColumnLayoutTaskInfo = function (taskPageObj: TaskPage) {
       fields: [
         {
           type: "mrkdwn",
-          text: `*Task Title:*\n${task.taskTitle}`,
+          text: `*Task Title:*\n${notionTask.taskTitle}`,
         },
         {
           type: "mrkdwn",
-          text: `*Project:*\n${task.project || " "}`,
+          text: `*Project:*\n${notionTask.project || " "}`,
         },
       ],
     },
@@ -44,12 +50,12 @@ export const createColumnLayoutTaskInfo = function (taskPageObj: TaskPage) {
         {
           type: "mrkdwn",
           text: `*Due Date:*\n${
-            task.dueDate ? formatSlackDate(new Date(task.dueDate)) : ""
+            notionTask.dueDate ? formatSlackDate(new Date(notionTask.dueDate)) : ""
           }`,
         },
         {
           type: "mrkdwn",
-          text: `*Start Date:*\n${task.startDate !== new Date(NaN) && task.startDate !== undefined ? formatSlackDate(new Date(task.startDate)) : task.startDate}`,
+          text: `*Start Date:*\n${notionTask.startDate !== new Date(NaN) && notionTask.startDate !== undefined ? formatSlackDate(new Date(notionTask.startDate)) : notionTask.startDate}`,
         },
       ],
     },
@@ -64,84 +70,10 @@ export const createColumnLayoutTaskInfo = function (taskPageObj: TaskPage) {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: `*Description:*\n${task.description}`,
+        text: `*Description:*\n${notionTask.description}`,
       },
     },
   ];
 
   return columnLayoutBlock;
-};
-
-export const createNewTaskBlockWithoutSelections = function (
-  taskPageObj: TaskPage,
-) {
-  // console.log("Another console.log, Task", JSON.stringify(task));
-  const ColumnLayoutTaskInfo = createColumnLayoutTaskInfo(taskPageObj);
-  const blockNewTask = {
-    text: "Creating a new Task?",
-    replace_original: true,
-    blocks: [
-      {
-        type: "section",
-        text: {
-          type: "mrkdwn",
-          text: "*You Are About to Create a New Task*",
-        },
-      },
-      // Sprrrread those Details!!!
-      ...ColumnLayoutTaskInfo,
-      {
-        type: "actions",
-        elements: [
-          /*{
-            type: "button",
-            text: {
-              type: "plain_text",
-              emoji: true,
-              text: "Add Task",
-            },
-            style: "primary",
-            value: JSON.stringify(taskPageObj), // value: JSON.stringify(taskPageObj),
-            action_id: "actionId-0",
-          }, */
-          {
-            type: "button",
-            text: {
-              type: "plain_text",
-              text: "Confirm",
-              emoji: true,
-            },
-            value: JSON.stringify({
-              taskPageObject: taskPageObj,
-              userOptions: [],
-            }), // value: JSON.stringify(taskPageObj)
-            style: "primary",
-            action_id: "actionId-2",
-          },
-          {
-            type: "button",
-            text: {
-              type: "plain_text",
-              emoji: true,
-              text: "Cancel",
-            },
-            style: "danger",
-            value: "discard_123",
-            action_id: "actionId-1",
-          },
-        ],
-      },
-      {
-        type: "context",
-        elements: [
-          {
-            type: "mrkdwn",
-            text: "*You can edit the task in Notion after adding it*",
-          },
-        ],
-      },
-    ],
-  };
-  // console.log("Entire Block being sent", JSON.stringify(blockNewTask));
-  return blockNewTask;
 };

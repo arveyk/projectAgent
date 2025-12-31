@@ -1,10 +1,16 @@
-import { NotionUser } from "./userTypes";
-import { UserSearchResult } from "./userTypes";
-import { createNewTaskBlockWithSelections } from "../../blockkit/createBlockPartsForNewTask";
-import { createNewTaskBlockWithoutSelections } from "../../blockkit/columnLayoutBlock";
-import { NotionTask } from "../task";
-import { Task } from "../task";
+import { NotionUser } from "../utils/controllers/userTypes";
+import { UserSearchResult } from "../utils/controllers/userTypes";
+import { createNewTaskBlockWithSelections } from "./createBlockPartsForNewTask";
+import { createNewTaskBlockWithoutSelections } from "./createBlockPartsForNewTask";
+import { NotionTask } from "../utils/task";
+import { Task } from "../utils/task";
 
+/**
+ * Creates a set of Slack blocks to be used in previewing and confirming a new task.
+ * @param task The task to be previewed.
+ * @param userSearchResult A list of 0 or more Notion users who match the assignee of the task.
+ * @returns A set of Slack blocks to be used in previewing and confirming a new task.
+ */
 export function createNewTaskBlock(
   task: Task,
   userSearchResult: UserSearchResult[],
@@ -24,13 +30,9 @@ export function createNewTaskBlock(
     }
   }
 
-  // console.log(`Ambiguity cleared${JSON.stringify(identifiedUsers, null, 4)} vs ${JSON.stringify(ambiguousUsers, null, 4)}?`)
-
-  /**
-   * Now create selection block
-   * if there are ambiguous users, create a selections block
-   * else create a normal block
-   */
+  //  Now create selection block
+  //  if there are ambiguous users, create a selections block
+  //  else create a normal block
   const notionTask: NotionTask = {
     taskTitle: task.taskTitle,
     assignees: identifiedUsers,
@@ -46,10 +48,6 @@ export function createNewTaskBlock(
       ambiguousUsers,
     });
   } else {
-    return createNewTaskBlockWithoutSelections({
-      task: notionTask,
-      pageId: "",
-      url: "",
-    });
+    return createNewTaskBlockWithoutSelections(notionTask);
   }
 }

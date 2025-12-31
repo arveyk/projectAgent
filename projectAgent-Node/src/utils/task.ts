@@ -8,6 +8,7 @@ import {
 import { BlockAction } from "@slack/bolt";
 import { NotionUser } from "./controllers/userTypes";
 import { TaskParseResult } from "./aiagent";
+import { DateTime } from "luxon";
 
 export type PersonNoId = {
   name: string;
@@ -48,7 +49,7 @@ export function convertTask(taskInput: TaskParseResult): Task {
     : undefined;
   const startDate = taskInput.startDate
     ? new Date(taskInput["startDate"])
-    : undefined;
+    : DateTime.now().toJSDate();
   const assignees = taskInput.assignees
     ? taskInput.assignees.map((assignee) => {
         return { name: assignee };

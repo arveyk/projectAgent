@@ -14,10 +14,5 @@ export const handler = async (event) => {
     body: JSON.stringify("Hello from Lambda!"),
   };
   console.log(`event: ${JSON.stringify(event)}`);
-  // console.log(`Querying DB, timestamp: ${Date.now()}`);
-  // const dbResponse = await notion.dataSources.query({
-  //   data_source_id: process.env.NOTION_TASKS_DATA_SOURCE_ID,
-  // });
-  // console.log(`Done querying DB, timestamp: ${Date.now()}`);
   return response;
 };

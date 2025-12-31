@@ -1,14 +1,6 @@
 import { SLACK_BOT_TOKEN } from "../env";
 import axios from "axios";
-// import { createConfirmationBlock } from "../blockkit/createBlocks";
-import { createBlockNewTask } from "../blockkit/createBlocks";
-// import { createEditBlock } from "../blockkit/editblock";
-import { createFinalBlock } from "../blockkit/editblock";
-import { createUpdateBlock } from "../blockkit/updateBlock";
-// import { readFile } from "./parseToJson";
-import { RequestApprovalBlock } from "../blockkit/createBlocks";
-import { createMultiSelectionsBlock } from "../blockkit/create_select";
-import { Task } from "../utils/task";
+import { createMultiSelectionsBlock } from "../blockkit/createBlockPartsForNewTask";
 import { taskNoAssignee } from "../test-data/tasks/example-tasks";
 
 /**

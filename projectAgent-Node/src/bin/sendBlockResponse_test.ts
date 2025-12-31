@@ -1,18 +1,11 @@
 import axios from "axios";
 import { ALL_SLN_WEBHOOK_URL } from "../env";
-
-// import { createBlockNewTask } from "./createBlocks";
-// import { createConfirmationBlock } from "./createBlocks";
-// import { createNewTaskBlockWithoutSelections } from "./columnLayoutBlock";
 import { createNewTaskBlockWithSelections } from "../blockkit/createBlockPartsForNewTask";
-// import { createFinalBlock } from "./editblock";
-// import { createUpdateBlock } from "./updateBlock";
 import {
-  //  Task,
   TaskPage,
 } from "../utils/task";
 import { exampleUserSearchResponse2 } from "../test-data/example-usersearch-response";
-import { createNewTaskBlock } from "../utils/controllers/createNewTaskBlock";
+import { createNewTaskBlock } from "../blockkit/createNewTaskBlock";
 
 const task: TaskPage = {
   task: {
@@ -53,12 +46,6 @@ const task_b: TaskPage = {
   pageId: "",
 };
 
-// const blocks_02 = createBlockNewTask(task_b);
-// const blocks_05 = createUpdateBlock(task);
-// const blocks_03 = createConfirmationBlock(task);
-// const blocks_04 = createFinalBlock(task);
-// const columnLayoutBlock = createNewTaskBlockWithoutSelections(task);
-
 // selection block new layout
 const columnLayoutWithSelections = createNewTaskBlockWithSelections(
   task_b.task,
@@ -89,46 +76,13 @@ const columnLayoutWithSelections = createNewTaskBlockWithSelections(
 const blockSelectOrNoSelect = createNewTaskBlock(task.task, [
   exampleUserSearchResponse2[1],
 ]);
-//let taskDetailsObj = JSON.parse(blocks["actions"][0]["value"]);
-
-/*if (blocks_02.blocks[3].elements) {
-  const blocks_11 = createFinalBlock(
-    JSON.parse(blocks_02.blocks[3].elements[0].value),
-  );
-}
-/*const blocks_12 = createEditBlock(
-  JSON.parse(blocks_02.blocks[3].elements[0].value),
-);
-const blocks_13 = createFinalBlock(
-  JSON.parse(blocks_12.blocks[12].elements[0].value),
-);
-
-const blocks_14 = createEditBlock(
-  JSON.parse(blocks_05.blocks[2].elements[1].value),
-);
-const blocks_15 = createFinalBlock(
-  JSON.parse(blocks_14.blocks[12].elements[0].value),
-);
-*/
 
 axios({
   method: "post",
   url: ALL_SLN_WEBHOOK_URL,
   data: {
     text: "Message testing block",
-    //blocks: blocks_05.blocks,
-    // blocks: columnLayoutBlock.blocks,
-    // blocks: columnLayoutWithSelections.blocks
     blocks: blockSelectOrNoSelect.blocks,
-    /*blocks: [
-      {
-        type: "section",
-        text: {
-          type: "mrkdwn",
-          text: ":x: *Unable to Update Entry*",
-        },
-      },
-    ],*/
   },
   headers: {
     "Content-Type": "application/json",
@@ -141,14 +95,3 @@ axios({
   .catch((error) => {
     console.log(error);
   });
-/*
-axios({
-  method: "post",
-  url: ALL_SLN_WEBHOOK_URL,
-  data: {
-    text: "Message testing block",
-    blocks: blocks_02.blocks,
-  },
-}).then((response) => {
-  console.log(response);
-});*/

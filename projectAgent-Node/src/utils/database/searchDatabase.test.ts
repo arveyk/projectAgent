@@ -1,13 +1,6 @@
-import { getTaskProperties, returnTasks, searchDB } from "./db-search";
-import {
-  task_in_db,
-  task_in_db_reworded,
-  task_not_in_db,
-  task_feed_cats,
-} from "../test-data/tasks/example-tasks";
-import { dbPageList } from "../test-data/payloads/dbPage-list";
-import { dbSearchResult, filterSimilar } from "./db-search";
-import { Task } from "./task";
+import { getTaskProperties, filterSimilar, searchDatabase } from "./searchDatabase";
+import { dbPageList } from "../../test-data/payloads/dbPage-list";
+import { Task } from "../task";
 import { GetPageResponse } from "@notionhq/client";
 
 const task: Task = {
@@ -142,7 +135,7 @@ describe("Test searchDB in the new test database", () => {
     // const response = await returnTasks();
     // console.log(JSON.stringify(response));
 
-    const searchResult = await searchDB(
+    const searchResult = await searchDatabase(
       "add Harvey, please fix the fire hydrant pump and ladder mechanism within the next 5 working days. Call the office when you're done",
     );
     console.log(`search result: ${JSON.stringify(searchResult)}`);

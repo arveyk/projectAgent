@@ -1,7 +1,7 @@
-import { PersonNoId } from "../task";
+import { PersonNoId } from "../taskFormatting/task";
 
 export const task = {
-  assignee: "Nick Furry",
+  assignee: "Nick Fury",
   email: "nick@shield.com",
   tasktitle: "Avengers Initiative",
   due: "20-04-2025",

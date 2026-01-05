@@ -1,5 +1,5 @@
 import axios from "axios";
-import { SLACK_BOT_TOKEN } from "../env";
+import { SLACK_BOT_TOKEN } from "../../env";
 import { DateTime } from "luxon";
 import { SlashCommand } from "@slack/bolt";
 

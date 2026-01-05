@@ -1,12 +1,12 @@
 import { ChatAnthropic } from "@langchain/anthropic";
 import { z } from "zod/v4";
 import { ANTHROPIC_API_KEY, ANTHROPIC_MODEL_VER } from "../env";
-import { getEventTimeData } from "./getTime";
+import { getEventTimeData } from "./timeHandling/getTime";
 import { RunnableConfig, Runnable } from "@langchain/core/dist/runnables";
 import { BaseLanguageModelInput } from "@langchain/core/dist/language_models/base";
-import { convertTask, Task } from "./task";
+import { convertTask, Task } from "./taskFormatting/task";
 import { SlashCommand } from "@slack/bolt";
-import { logTime } from "./logTime";
+import { logTimestampForBenchmarking } from "./logTimestampForBenchmarking";
 
 export const EXAMPLE_OUTPUT_FOR_PROMPT: TaskParseResult = {
   taskTitle: "Write article draft",
@@ -15,14 +15,13 @@ export const EXAMPLE_OUTPUT_FOR_PROMPT: TaskParseResult = {
   description: "Write a draft of the article",
 };
 
-logTime("(Parse) model initialization start");
+logTimestampForBenchmarking("(Parse) model initialization start");
 const model = new ChatAnthropic({
   model: ANTHROPIC_MODEL_VER,
   temperature: 0,
   apiKey: ANTHROPIC_API_KEY,
 });
 
-// TODO make everything except title and description optional and nullable
 export const taskSchema = z.object({
   taskTitle: z.string().describe("Short descriptive title of the task"),
   description: z.string().describe("details of the task"),
@@ -70,7 +69,7 @@ const structuredLlmSlashCmd: Runnable<
   method: "json_mode",
 });
 // Error here is caused by mismatched zod version
-logTime("(Parse) model initialization finished");
+logTimestampForBenchmarking("(Parse) model initialization finished");
 
 /**
  * Uses Anthropic to parse a task assignment from a Slack slash command
@@ -97,9 +96,9 @@ export const parseTask = async function (
   const prompt = `Today's date and time in ISO format is ${timeData.toISO()}, and our timezone is ${timeData.zoneName}. Please extract information from this message, making sure to list any dates in ISO format with timezone offset. "By the end of the day" means by 17:00 in our timezone. If the message says to finish a task "by" some date but does not specify a time, that means by 0:00 of that date in our timezone. """Example: Input: Bob, starting tomorrow, please write a draft of the article and have it finished by August 20, 2025. Output: ${EXAMPLE_OUTPUT_FOR_PROMPT}""" Here is the message: ${textToParse}`;
   console.log(`prompt: ${prompt}`);
 
-  logTime("(Parse) LLM start");
+  logTimestampForBenchmarking("(Parse) LLM start");
   const taskParseResult = await structuredLlmSlashCmd.invoke(prompt);
-  logTime("(Parse) LLM finished");
+  logTimestampForBenchmarking("(Parse) LLM finished");
 
   if (!taskParseResult) {
     throw new Error(`Task parse result is ${typeof taskParseResult}`);
@@ -109,7 +108,6 @@ export const parseTask = async function (
   }
   console.log(`Raw LLM response: ${JSON.stringify(taskParseResult.raw)}`);
 
-  // TODO fix this sometimes being null
   console.log(JSON.stringify(taskParseResult.parsed));
 
   const structuredResult = taskSchema.safeParse(taskParseResult.parsed);

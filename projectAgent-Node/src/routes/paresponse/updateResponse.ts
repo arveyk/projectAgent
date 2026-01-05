@@ -1,12 +1,12 @@
 import axios from "axios";
-import addTaskNotionPage, { PageAddResult } from "../../utils/notiondb";
+import addTaskNotionPage, { PageAddResult } from "../../utils/database/addNewTaskToDatabase";
 import { SLACK_BOT_TOKEN } from "../../env";
 import { BlockAction } from "@slack/bolt";
 import { createRedirectToNewPageBlock } from "../../blockkit/createRedirectToNewPageBlock";
-import { TaskPage } from "../../utils/task";
-import { deletePage } from "../../utils/db-deletepage";
+import { TaskPage } from "../../utils/taskFormatting/task";
+import { deletePage } from "../../utils/database/deleteDatabasePage";
 import { APIGatewayProxyEventV2, Context, StreamifyHandler } from "aws-lambda";
-import { extractReqBody, extractPayload } from "../../utils/slashUtils";
+import { extractRequestBody, extractPayload } from "../../utils/slashCommandProcessing";
 import { NotionUser } from "../../utils/controllers/userTypes";
 import { integrateUserSelections } from "../../utils/controllers/useSelectedOption";
 
@@ -17,10 +17,7 @@ import { integrateUserSelections } from "../../utils/controllers/useSelectedOpti
  * @request - request from slack
  * @response - response that the function sends
  * @next - function to pass control to other functions that router uses
- *
- * @return - No return value
  */
-
 const interactionHandler: StreamifyHandler = async function (
   event: APIGatewayProxyEventV2,
   responseStream: awslambda.HttpResponseStream,
@@ -37,11 +34,10 @@ const interactionHandler: StreamifyHandler = async function (
     responseStream,
     httpResponseMetadata,
   );
-  // TODO write the data here
   responseStream.write("Button clicked\n");
   responseStream.end();
 
-  const reqBody = extractReqBody(event);
+  const reqBody = extractRequestBody(event);
   const payload = extractPayload(reqBody);
   console.log(`Body: ${JSON.stringify(reqBody)}`);
   console.log(`Body.payload${JSON.stringify(payload)}`);
@@ -70,9 +66,7 @@ const interactionHandler: StreamifyHandler = async function (
         taskPageObject: TaskPage;
         userOptions: NotionUser[];
       } = JSON.parse(payload["actions"][0].value || "{}");
-      //const taskPageObj: TaskPage = JSON.parse(
-      //  payload["actions"][0].value || "{}",
-      //);
+
       const taskPageObj: TaskPage = taskPageAndOptionsObject.taskPageObject;
 
       if (action_id === "SelectionActionId-2") {
@@ -87,18 +81,13 @@ const interactionHandler: StreamifyHandler = async function (
         );
         taskPageObj.task.assignees = allAssignees;
       }
-      /**
-       *
-       * TODO Add Selections made by user somewhere here
-       */
+
       console.log("Edit in Notion, Response Url", response_url);
       (async () => {
         try {
-          // await sendLoadingMsg("Adding Task", response_url);
           console.log(`(sendApprove) taskDetailsObj.task: ${taskPageObj.task}`);
           const taskAddResult = await addTaskNotionPage(taskPageObj.task);
 
-          // const emoji = "white_check_mark";
           console.log(`Page added successfully? ${taskAddResult.success}`);
 
           const newTaskPage = taskAddResult.page;
@@ -189,7 +178,6 @@ const interactionHandler: StreamifyHandler = async function (
           );
         });
 
-      // sendApprove(payload, response_url);
     } else if (action_text === "Delete") {
       (async () => {
         const pageUrl = payload.actions[0].value;
@@ -268,7 +256,6 @@ function sendEdit(
     const interactionsTextPayload = payload["actions"][0].value;
     const taskDetailsObj = JSON.parse(interactionsTextPayload || "{}");
     console.log(`taskDetailsObj: ${JSON.stringify(taskDetailsObj)}`);
-    // TODO create the task and redirect user to task page so they can edit task there
   }
 }
 

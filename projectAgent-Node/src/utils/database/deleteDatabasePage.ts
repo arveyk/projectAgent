@@ -1,4 +1,4 @@
-import { NOTION_API_KEY } from "../env";
+import { NOTION_API_KEY } from "../../env";
 import { Client } from "@notionhq/client";
 
 const notion = new Client({
@@ -16,7 +16,6 @@ export async function deletePage(pageUrl: string) {
   if (pageToArchive.includes("&p")) {
     intermediate = pageToArchive.split("&p");
     console.log("Intermediate step", intermediate);
-    // pageToArchive = pageToArchive.at(-2);
     step2Id = intermediate.slice(-2)[0];
   }
   const id =

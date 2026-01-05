@@ -1,6 +1,6 @@
 import { DateTime } from "luxon";
 import { formatSlackDate, validateDate, validateDueDate } from "./dateHandler";
-import { Task } from "./task";
+import { Task } from "../task";
 
 const taskObj: Task = {
   taskTitle: "Pick flowers for centerpiece",

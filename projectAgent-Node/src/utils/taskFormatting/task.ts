@@ -6,8 +6,8 @@ import {
   UserObjectResponse,
 } from "@notionhq/client";
 import { BlockAction } from "@slack/bolt";
-import { NotionUser } from "./controllers/userTypes";
-import { TaskParseResult } from "./aiagent";
+import { NotionUser } from "../controllers/userTypes";
+import { TaskParseResult } from "../aiAgent";
 import { DateTime } from "luxon";
 
 export type PersonNoId = {
@@ -24,7 +24,6 @@ export type Task = {
   project?: string;
 };
 
-// TODO function to create a NotionTask from a Task, a list of NotionUser assignees, and a list of NotionUser assigned-by's
 export type NotionTask = {
   taskTitle: string;
   assignees: NotionUser[];

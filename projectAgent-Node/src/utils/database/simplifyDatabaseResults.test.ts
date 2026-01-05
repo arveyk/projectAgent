@@ -1,9 +1,9 @@
-import { dbPage, simplifyDBResults } from "./simplifyDBResults";
+import { dbPage, simplifyDBResults } from "./simplifyDatabaseResults";
 import {
   exampleDbResult_1,
   exampleDbResult_2,
   exampleNewDb,
-} from "../test-data/db-results/exampleDbResults";
+} from "../../test-data/db-results/exampleDbResults";
 
 describe("Tests simplifyDBResults with a list of 1 result", () => {
   it("Returns the task correctly", () => {

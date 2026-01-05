@@ -1,4 +1,4 @@
-import { searchDB } from "./db-search";
+import { searchDB } from "../utils/database/searchDb";
 
 const message1 = "add Ceci, please fix the date formatting error";
 const message2 =

@@ -1,4 +1,4 @@
-import { dbPage } from "../../utils/simplifyDBResults"
+import { dbPage } from "../../utils/database/simplifyDatabaseResults"
 
 export const dbPageList: dbPage[] = [
     {

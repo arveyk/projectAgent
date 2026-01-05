@@ -1,20 +1,18 @@
 import axios from "axios";
 import { createExistingTaskBlock } from "../blockkit/createExistingTaskBlock";
-import { parseTask } from "../utils/aiagent";
-import { searchDB, getTaskProperties } from "../utils/db-search";
+import { parseTask } from "../utils/aiAgent";
+import { searchDatabase, getTaskProperties } from "../utils/database/searchDatabase";
 import { sendLoadingMessage } from "../blockkit/loadingMessage";
-import { findMatchingAssignees } from "../utils/controllers/userCreds";
-import { logTime } from "../utils/logTime";
-// import { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints";
+import { findMatchingAssignees } from "../utils/controllers/findMatchingNotionUsers";
+import { logTimestampForBenchmarking } from "../utils/logTimestampForBenchmarking";
 import { SlashCommand } from "@slack/bolt";
 import {
   convertTaskPageFromDbResponse,
-  // NotionTask,
   TaskPage,
-} from "../utils/task";
+} from "../utils/taskFormatting/task";
 import { GetPageResponse } from "@notionhq/client";
 import { APIGatewayProxyEventV2, Context, StreamifyHandler } from "aws-lambda";
-import { isValidCmd, extractReqBody } from "../utils/slashUtils";
+import { isValidCommand, extractRequestBody } from "../utils/slashCommandProcessing";
 import { createNewTaskBlock } from "../blockkit/createNewTaskBlock";
 
 const slashCmdHandler: StreamifyHandler = async function (
@@ -23,7 +21,7 @@ const slashCmdHandler: StreamifyHandler = async function (
   context: Context,
 ) {
   console.log("We are now in the slashcmd handler");
-  logTime("Execution start");
+  logTimestampForBenchmarking("Execution start");
   const httpResponseMetadata = {
     statusCode: 200,
     headers: {
@@ -38,59 +36,40 @@ const slashCmdHandler: StreamifyHandler = async function (
   responseStream.write("Slash command activated\n");
   responseStream.end();
 
-  //console.log(`request: ${JSON.stringify(request)}`);
-
   console.log(
     `Event: ${JSON.stringify(event)}\nContext: ${JSON.stringify(context)}`,
   );
 
   try {
-    const reqBody = extractReqBody(event) as SlashCommand;
+    const reqBody = extractRequestBody(event) as SlashCommand;
     console.log(`slashCmdHandler here. Any tasks for me?
 	  Request Body: ${JSON.stringify(reqBody)}`);
     console.log(`headers: ${JSON.stringify(event.headers)}`);
-    // const command = request.body["command"];
 
-    const commandValidationResult = isValidCmd(reqBody);
+    const commandValidationResult = isValidCommand(reqBody);
     if (commandValidationResult.isValid) {
       const response_url = reqBody["response_url"];
 
       // Search database
-
-      /**
-       *
-       * TODO Remember to uncomment after testing
-       *
-       */
-
       await sendLoadingMessage("Searching Database", response_url);
-
-      logTime("Searching database");
-      const isInDatabase = await searchDB(reqBody.text);
-      logTime("Done searching database");
+      logTimestampForBenchmarking("Searching database");
+      const isInDatabase = await searchDatabase(reqBody.text);
+      logTimestampForBenchmarking("Done searching database");
 
       console.log("IS in database?", JSON.stringify(isInDatabase));
-      /**
-       *
-       * TODO Remember to uncomment after testing
-       *
-       */
+
       await sendLoadingMessage("Parsing Task", response_url);
       const timestamp: number = Date.now();
 
-      logTime("Parsing task");
+      logTimestampForBenchmarking("Parsing task");
       const task = await parseTask(reqBody, timestamp);
-      logTime("Done parsing task");
+      logTimestampForBenchmarking("Done parsing task");
 
       // Find Notion users
       const assigneeSearchResults = await findMatchingAssignees(task);
 
-      /**
-       *
-       * TODO get assigned by
-       *
-       */
-
+      // TODO get assigned by
+ 
       if (!isInDatabase) {
         throw new Error("Error searching database");
       }
@@ -136,7 +115,6 @@ const slashCmdHandler: StreamifyHandler = async function (
           "Task to be passed to createNewTaskBlock",
           JSON.stringify(task),
         );
-        // Select or Non-Select block
         const slackBlocks = createNewTaskBlock(task, assigneeSearchResults);
 
         console.log("SlashCmdHandler taskBlockWithSelect", slackBlocks);
@@ -169,7 +147,7 @@ const slashCmdHandler: StreamifyHandler = async function (
     console.log("slachCmdHandler Error", err);
     return err;
   } finally {
-    logTime("Execution finished");
+    logTimestampForBenchmarking("Execution finished");
   }
 };
 

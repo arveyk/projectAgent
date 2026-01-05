@@ -1,6 +1,5 @@
 import fs from "fs";
 import path from "path";
-import { fileURLToPath } from "url";
 
 const eventPayload = {
   token: "JWNJnukcVaHbRoRl6CwWYan6",
@@ -63,8 +62,6 @@ const eventPayload = {
     "4-eyJldCI6Im1lc3NhZ2UiLCJ0aWQiOiJUMDhWQURISDE3UyIsImFpZCI6IkEwOTM1RURRUkhCIiwiY2lkIjoiQzA4VkFESjdTRUwifQ",
 };
 
-const eventTs = eventPayload.event.ts;
-const eventText = eventPayload.event.text;
 const targetDir = "../../storage";
 
 const fileName = "events.json";

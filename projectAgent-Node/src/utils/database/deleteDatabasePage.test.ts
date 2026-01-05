@@ -1,4 +1,4 @@
-import { deletePage } from "./db-deletepage";
+import { deletePage } from "./deleteDatabasePage";
 import { describe, it } from "@jest/globals";
 
 const testpageUrl =
@@ -6,6 +6,6 @@ const testpageUrl =
 describe("Test deleting a notion page", () => {
   it("should not error", async () => {
     const response = await deletePage(testpageUrl);
-    console.log(await response);
+    console.log(response);
   });
 });

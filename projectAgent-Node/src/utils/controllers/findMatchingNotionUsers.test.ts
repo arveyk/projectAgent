@@ -5,7 +5,7 @@ import {
   findMatchingAssignees,
   findMatchingNotionUser,
   deduplicateUsers,
-} from "./userCreds";
+} from "./findMatchingNotionUsers"
 import { NotionUser } from "./userTypes";
 
 describe("Tests compareNames", () => {

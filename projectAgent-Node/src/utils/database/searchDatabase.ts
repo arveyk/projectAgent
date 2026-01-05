@@ -1,8 +1,7 @@
 import { Client, QueryDataSourceResponse } from "@notionhq/client";
 import { ChatAnthropic } from "@langchain/anthropic";
 import { z } from "zod/v4";
-import { dbPage, simplifyDBResults } from "./simplifyDBResults";
-import { Task } from "./task";
+import { dbPage, simplifyDatabaseResults } from "./simplifyDatabaseResults";
 import { stringSimilarity } from "string-similarity-js";
 
 import {
@@ -10,15 +9,15 @@ import {
   NOTION_TASKS_DATA_SOURCE_ID,
   ANTHROPIC_API_KEY,
   ANTHROPIC_MODEL_VER,
-} from "../env";
-import { logTime } from "./logTime";
+} from "../../env";
+import { logTimestampForBenchmarking } from "../logTimestampForBenchmarking";
 
 const notion = new Client({
   auth: NOTION_API_KEY,
   notionVersion: "2025-09-03",
 });
 
-logTime("(Database) model initialization start");
+logTimestampForBenchmarking("(Database) model initialization start");
 const model = new ChatAnthropic({
   model: ANTHROPIC_MODEL_VER,
   temperature: 0,
@@ -34,7 +33,7 @@ const databaseSearchResult = z.object({
     .optional()
     .describe("The ID of the task entry from the database"),
 });
-logTime("(Database) model initialization finished");
+logTimestampForBenchmarking("(Database) model initialization finished");
 
 export type dbSearchResult = {
   exists: boolean;
@@ -51,20 +50,20 @@ const structuredLlm = model.withStructuredOutput(databaseSearchResult, {
  * @param {*} message The message that triggered Project Agent
  * @returns true if the task is found, else returns false
  */
-export const searchDB = async function (
+export const searchDatabase = async function (
   message: string,
 ): Promise<dbSearchResult> {
   console.log(`Model name: ${model.modelName}`);
   console.log(`message (searchDB): ${JSON.stringify(message)}`);
 
-  logTime("Querying database");
+  logTimestampForBenchmarking("Querying database");
   const response = await notion.dataSources.query({
     data_source_id: NOTION_TASKS_DATA_SOURCE_ID,
   });
-  logTime("Done querying database");
+  logTimestampForBenchmarking("Done querying database");
 
   //logTime("Simplifying response");
-  const simplifiedResponse = simplifyDBResults(response);
+  const simplifiedResponse = simplifyDatabaseResults(response);
   //logTime("Done simplifying response");
   console.log(`Database response: ${JSON.stringify(simplifiedResponse)}`);
 
@@ -76,7 +75,7 @@ export const searchDB = async function (
       ${JSON.stringify(similarPages)}.
     `;
 
-  logTime("(Database) LLM start");
+  logTimestampForBenchmarking("(Database) LLM start");
   const llmResult = await structuredLlm.invoke(prompt);
   console.log(`Raw LLM response: ${JSON.stringify(llmResult.raw)}`);
   const parsed = llmResult.parsed;
@@ -84,7 +83,7 @@ export const searchDB = async function (
     exists: parsed.exists,
     taskId: parsed.task_id !== "<UNKNOWN>" ? parsed.task_id : undefined,
   };
-  logTime("(Database) LLM finished");
+  logTimestampForBenchmarking("(Database) LLM finished");
   console.log(`result: ${JSON.stringify(result)}`);
 
   return result;

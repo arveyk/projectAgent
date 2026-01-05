@@ -1,9 +1,9 @@
 import { Client, CreatePageResponse } from "@notionhq/client";
-import { validateDueDate } from "./dateHandler";
-import { NOTION_API_KEY, NOTION_TASKS_DATA_SOURCE_ID } from "../env";
-import { createTaskProperties } from "./createTaskProperties";
-import { Task, PersonNoId, NotionTask } from "./task";
-import { createTaskBody } from "./createTaskBody";
+import { validateDueDate } from "../timeHandling/dateHandler";
+import { NOTION_API_KEY, NOTION_TASKS_DATA_SOURCE_ID } from "../../env";
+import { createTaskProperties } from "../taskFormatting/createTaskProperties";
+import { NotionTask } from "../taskFormatting/task";
+import { createTaskBody } from "../taskFormatting/createTaskBody";
 
 export type PageAddResult = {
   success: boolean;
@@ -18,8 +18,7 @@ const notion = new Client({
 
 /**
  * Adds a new task to Notion
- * @param {*} taskObj Object containing task data
- * @param {*} assignedBy The username of the person who assigned the task
+ * @param {*} taskObj Object containing task data.
  * @returns If successful, returns true and the url of the new page. Else, returns false and the error message.
  */
 export async function addTaskNotionPage(

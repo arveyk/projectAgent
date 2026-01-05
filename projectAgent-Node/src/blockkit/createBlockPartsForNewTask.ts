@@ -1,4 +1,4 @@
-import { formatSlackDate } from "../utils/dateHandler";
+import { formatSlackDate } from "../utils/timeHandling/dateHandler";
 import { NotionUser } from "../utils/controllers/userTypes";
 import { NotionTask } from "../utils/task";
 

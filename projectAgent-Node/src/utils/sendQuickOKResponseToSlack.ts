@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export function sendQuickResponseToSlack(
+export function sendQuickOKResponseToSlack(
   response_url: string,
   SLACK_BOT_TOKEN: string,
 ) {

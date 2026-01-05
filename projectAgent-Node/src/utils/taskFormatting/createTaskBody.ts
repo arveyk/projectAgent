@@ -7,7 +7,6 @@ import { Task } from "./task";
  * @returns Page body blocks containing the task description.
  */
 export function createTaskBody(task: Task): BlockObjectRequest[] {
-  // TODO create blocks for task body, containing task description
   return [
     {
       object: "block",

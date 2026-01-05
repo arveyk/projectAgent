@@ -1,6 +1,6 @@
-import { addTaskNotionPage } from "./notiondb";
-import { PageAddResult } from "./notiondb";
-import { Task } from "./task";
+import { addTaskNotionPage } from "./addNewTaskToDatabase";
+import { PageAddResult } from "./addNewTaskToDatabase";
+import { Task } from "../task";
 
 const task: Task = {
   taskTitle: "Schedule meeting with customer",
@@ -18,7 +18,7 @@ const task: Task = {
 
 describe("Tests addTaskNotionPage", () => {
   it("Successfully adds a new page", async () => {
-    const result: PageAddResult = await addTaskNotionPage(task, "crkurdelak");
+    const result: PageAddResult = await addTaskNotionPage(task);
     console.log(JSON.stringify(result));
 
     expect(result.success).toBeTruthy();

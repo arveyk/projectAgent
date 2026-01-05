@@ -1,6 +1,5 @@
 import { NotionTask } from "./task.js";
-import { NotionUser } from "./controllers/userTypes.js";
-import { object } from "zod";
+import { NotionUser } from "../controllers/userTypes.js";
 
 const createTitleArray = function (taskTitle: string) {
   return [
@@ -70,8 +69,6 @@ export const createTaskProperties = async function (taskObj: NotionTask) {
   const startDate = taskObj["startDate"]
     ? taskObj["startDate"]
     : new Date().toISOString();
-  const description = taskObj["description"];
-  const dateAssigned = new Date().toISOString();
   const project = taskObj["project"] || " ";
 
   return {
@@ -94,13 +91,6 @@ export const createTaskProperties = async function (taskObj: NotionTask) {
         start: startDate.toString(),
       },
     },
-    /*
-     * Not in the projects Database
-    "Date Assigned": {
-      date: {
-        start: dateAssigned,
-      },
-    },*/
 
     // TODO implement getting Project id
     Project: {

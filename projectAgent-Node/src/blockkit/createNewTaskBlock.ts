@@ -2,8 +2,7 @@ import { NotionUser } from "../utils/controllers/userTypes";
 import { UserSearchResult } from "../utils/controllers/userTypes";
 import { createNewTaskBlockWithSelections } from "./createBlockPartsForNewTask";
 import { createNewTaskBlockWithoutSelections } from "./createBlockPartsForNewTask";
-import { NotionTask } from "../utils/task";
-import { Task } from "../utils/task";
+import { NotionTask, Task } from "../utils/taskFormatting/task";
 
 /**
  * Creates a set of Slack blocks to be used in previewing and confirming a new task.

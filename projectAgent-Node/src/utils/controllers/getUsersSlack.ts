@@ -5,12 +5,8 @@ import { SlackUser } from "./userTypes";
 
 /**
  * Fetches a list of users from Slack and returns an array of user objects.
- * Each user object contains the source, userID, name, email, and phone.
- *
- * @returns {Promise<Array>} An array of user objects.
+ * @returns An array of user objects.
  */
-// eslint-disable-next-line no-unused-vars
-
 export const getSlackUsers = async function (): Promise<SlackUser[]> {
   const listUsersURL = "https://slack.com/api/users.list";
   const slackResp: UsersListResponse = await axios
@@ -40,20 +36,22 @@ export const getSlackUsers = async function (): Promise<SlackUser[]> {
           `realname: ${element.real_name}, email: ${element.profile ? element.profile.email : null}, phone:${element.profile ? element.profile.phone : null}`,
         );
         usersArr.push({
-          source: "slack",
           userId: element.id,
-          name: element.real_name || null,
+          name: element.real_name || "name not found",
           email: element.profile ? element.profile.email : undefined,
         });
       }
     });
   }
-  // console.log("Users array:", JSON.stringify(usersArr));
   console.log(`Total users found: ${usersArr.length}`);
   return usersArr;
 };
 
-const sampleUserId = "U092TCSFAA2";
+/**
+ * Returns the Slack user with the given user id.
+ * @param userID The id of the user to find.
+ * @returns The Slack user with the given user id.
+ */
 export async function getSlackUserById(userID: string) {
   console.log("User ID", userID);
   const getUserInfoUrl = "https://slack.com/api/users.profile.get";
@@ -85,9 +83,6 @@ export async function getSlackUserById(userID: string) {
       userId: userID,
       name: userInfo.profile.real_name,
       email: userInfo.profile ? userInfo.profile.email : null,
-      // Uncomment below if you want to include the profile image URL
     },
   ];
 }
-// getSlackUsers();
-// getSlackUserById("U09AE554J85");

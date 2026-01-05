@@ -1,4 +1,4 @@
-import { TaskPage } from "../utils/task";
+import { TaskPage } from "../utils/taskFormatting/task";
 import { createTaskInfo } from "./createBlockPartsForNewTask";
 
 /**

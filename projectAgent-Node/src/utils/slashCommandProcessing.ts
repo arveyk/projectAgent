@@ -2,14 +2,13 @@ import { APIGatewayProxyEventV2 } from "aws-lambda";
 import { Request } from "express";
 import querystring from "querystring";
 
-// TODO refactor to work with Lambda instead of Express
 /**
  * Parses a slash command and determines if it is a valid command.
  * @param {*} reqBody Request from Slack containing a slash command
  * @returns true if the slash command is valid, else returns false.
  */
 
-export function isValidCmd(reqBody: Request["body"]): {
+export function isValidCommand(reqBody: Request["body"]): {
   isValid: boolean;
   action?: string;
 } {
@@ -28,7 +27,7 @@ export function isValidCmd(reqBody: Request["body"]): {
  * Extracts parameters from the encoded event body.
  * @param event
  */
-export function extractReqBody(event: APIGatewayProxyEventV2) {
+export function extractRequestBody(event: APIGatewayProxyEventV2) {
   const bufferObj = Buffer.from(event.body ? event.body : "", "base64");
   const decodedBody: string = bufferObj.toString("utf8");
   const parsedBody = querystring.parse(decodedBody);

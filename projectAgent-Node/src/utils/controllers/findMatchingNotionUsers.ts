@@ -1,4 +1,4 @@
-import { Task } from "../task";
+import { Task } from "../taskFormatting/task";
 import { getNotionUsers } from "./getUsersNotion";
 import { NotionUser, UserSearchResult } from "./userTypes";
 

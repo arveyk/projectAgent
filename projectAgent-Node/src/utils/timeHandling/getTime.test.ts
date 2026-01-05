@@ -2,7 +2,7 @@ import { getUserTimezoneData, getEventTimeData } from "./getTime";
 import {
   payloadGood as payloadCeci,
   payloadHarvey,
-} from "../test-data/payloads/slashcmd/payloads";
+} from "../../test-data/payloads/slashcmd/payloads";
 import dotenv from "dotenv";
 import { DateTime } from "luxon";
 dotenv.config();

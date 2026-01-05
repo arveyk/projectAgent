@@ -1,6 +1,6 @@
 import { formatSlackDate } from "../utils/timeHandling/dateHandler";
 import { NotionUser } from "../utils/controllers/userTypes";
-import { NotionTask } from "../utils/task";
+import { NotionTask } from "../utils/taskFormatting/task";
 
 /**
  * Creates the Slack blocks for previewing the details of a new task.
@@ -248,7 +248,11 @@ export const createNewTaskBlockWithoutSelections = function (
               emoji: true,
             },
             value: JSON.stringify({
-              taskPageObject: notionTask,
+              taskPageObject: {
+                task: notionTask,
+                pageId: "",
+                url: "",
+              },
               userOptions: [],
             }),
             style: "primary",

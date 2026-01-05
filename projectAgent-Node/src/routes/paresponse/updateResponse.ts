@@ -68,7 +68,7 @@ const interactionHandler: StreamifyHandler = async function (
 
     if (action_text === "Confirm" || action_text === "Add Task") {
       const taskPageAndOptionsObject: {
-        taskPageObject: TaskPage; // not parsing this correctly, it's treating it as a Task instead of a TaskPage
+        taskPageObject: TaskPage;
         userOptions: NotionUser[];
       } = JSON.parse(payload["actions"][0].value || "{}");
       console.log(payload["actions"][0].value);

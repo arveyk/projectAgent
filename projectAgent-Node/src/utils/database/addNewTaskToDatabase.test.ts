@@ -1,6 +1,6 @@
 import { addTaskNotionPage } from "./addNewTaskToDatabase";
 import { PageAddResult } from "./addNewTaskToDatabase";
-import { Task } from "../task";
+import { Task } from "../taskFormatting/task";
 
 const task: Task = {
   taskTitle: "Schedule meeting with customer",

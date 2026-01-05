@@ -4,7 +4,7 @@ import {
   searchDatabase,
 } from "./searchDatabase";
 import { dbPageList } from "../../test-data/payloads/dbPage-list";
-import { Task } from "../task";
+import { Task } from "../taskFormatting/task";
 import { GetPageResponse } from "@notionhq/client";
 
 const task: Task = {

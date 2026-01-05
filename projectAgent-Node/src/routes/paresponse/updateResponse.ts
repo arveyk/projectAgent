@@ -61,16 +61,18 @@ const interactionHandler: StreamifyHandler = async function (
   let action_text = "";
 
   if (typeof payload["actions"][0]["selected_option"] !== "undefined") {
-    console.log("Changed, No longer Handling these Blocks");
+    console.log("Changed, No longer handling these Blocks");
   } else {
     action_text = payload["actions"][0]["text"]["text"];
     console.log("action_text in else block", action_text);
 
     if (action_text === "Confirm" || action_text === "Add Task") {
       const taskPageAndOptionsObject: {
-        taskPageObject: TaskPage;
+        taskPageObject: TaskPage; // not parsing this correctly, it's treating it as a Task instead of a TaskPage
         userOptions: NotionUser[];
       } = JSON.parse(payload["actions"][0].value || "{}");
+      console.log(payload["actions"][0].value);
+      console.log(JSON.stringify(taskPageAndOptionsObject));
 
       const taskPageObj: TaskPage = taskPageAndOptionsObject.taskPageObject;
 
@@ -90,7 +92,7 @@ const interactionHandler: StreamifyHandler = async function (
       console.log("Edit in Notion, Response Url", response_url);
       (async () => {
         try {
-          console.log(`(sendApprove) taskDetailsObj.task: ${taskPageObj.task}`);
+          console.log(`(sendApprove) taskPageObj: ${JSON.stringify(taskPageObj)}, taskPageObj.task: ${taskPageObj.task}`);
           const taskAddResult = await addTaskNotionPage(taskPageObj.task);
 
           console.log(`Page added successfully? ${taskAddResult.success}`);

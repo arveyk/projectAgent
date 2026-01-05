@@ -3,7 +3,7 @@ import {
   exampleUserSearchResponse,
   exampleUserSearchResponse2,
 } from "../../test-data/example-usersearch-response";
-import { Task } from "../task";
+import { Task } from "../taskFormatting/task";
 const task: Task = {
   taskTitle: "Give estimate of project agent completion date",
   assignees: [

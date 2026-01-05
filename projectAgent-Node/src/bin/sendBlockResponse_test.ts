@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ALL_SLN_WEBHOOK_URL } from "../env";
 import { createNewTaskBlockWithSelections } from "../blockkit/createBlockPartsForNewTask";
-import { TaskPage } from "../utils/task";
+import { TaskPage } from "../utils/taskFormatting/task";
 import { exampleUserSearchResponse2 } from "../test-data/example-usersearch-response";
 import { createNewTaskBlock } from "../blockkit/createNewTaskBlock";
 

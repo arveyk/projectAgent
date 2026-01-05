@@ -1,7 +1,6 @@
 import { createTaskInfoBlock } from "./editblock";
 import { task } from "../test-data/tasks/example-tasks";
-import { ta } from "zod/dist/types/v4/locales";
-import { Task, TaskPage } from "../utils/task";
+import { Task, TaskPage } from "../utils/taskFormatting/task";
 import { DateTime } from "luxon";
 
 const taskKitchen: Task = {

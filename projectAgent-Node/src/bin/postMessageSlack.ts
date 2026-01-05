@@ -71,27 +71,21 @@ const eventPayload = {
   event_context:
     "4-eyJldCI6Im1lc3NhZ2UiLCJ0aWQiOiJUMDhWQURISDE3UyIsImFpZCI6IkEwOTM1RURRUkhCIiwiY2lkIjoiQzA4VkFESjdTRUwifQ",
 };
-const test00 = [
-  ["JIUsbds", "Iodshs"],
-  []
-];
+const test00 = [["JIUsbds", "Iodshs"], []];
 const test2 = [
   ["Damaris", "Hunter"],
-  ["Project0", "Project1", "Project clear", "Anime", "Writter"]
+  ["Project0", "Project1", "Project clear", "Anime", "Writter"],
 ];
-const test3 = [
-  ["JIUsbds", "Iodshs",],
-  ["OIHOIH"]
-];
-const test4 = [
-  ["Iodshs",],
-  ["OIHOIH", "Nokia", "Credentials"]
-];
+const test3 = [["JIUsbds", "Iodshs"], ["OIHOIH"]];
+const test4 = [["Iodshs"], ["OIHOIH", "Nokia", "Credentials"]];
 const eventResURL = "https://slack.com/api/chat.postMessage";
 const channel_id = eventPayload.event.channel;
 console.log(channel_id);
 const selectBlocks = createMultiSelectionsBlock(
-  taskNoAssignee, test00[0], test00[1]);
+  taskNoAssignee,
+  test00[0],
+  test00[1],
+);
 
 export async function testPostToSlack(eventResUrl: string, slackBlocks?: any) {
   try {

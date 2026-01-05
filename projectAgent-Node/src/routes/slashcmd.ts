@@ -1,7 +1,10 @@
 import axios from "axios";
 import { createExistingTaskBlock } from "../blockkit/createExistingTaskBlock";
 import { parseTask } from "../utils/aiAgent";
-import { searchDatabase, getTaskProperties } from "../utils/database/searchDatabase";
+import {
+  searchDatabase,
+  getTaskProperties,
+} from "../utils/database/searchDatabase";
 import { sendLoadingMessage } from "../blockkit/loadingMessage";
 import { findMatchingAssignees } from "../utils/controllers/findMatchingNotionUsers";
 import { logTimestampForBenchmarking } from "../utils/logTimestampForBenchmarking";
@@ -12,7 +15,10 @@ import {
 } from "../utils/taskFormatting/task";
 import { GetPageResponse } from "@notionhq/client";
 import { APIGatewayProxyEventV2, Context, StreamifyHandler } from "aws-lambda";
-import { isValidCommand, extractRequestBody } from "../utils/slashCommandProcessing";
+import {
+  isValidCommand,
+  extractRequestBody,
+} from "../utils/slashCommandProcessing";
 import { createNewTaskBlock } from "../blockkit/createNewTaskBlock";
 
 const slashCmdHandler: StreamifyHandler = async function (
@@ -69,7 +75,7 @@ const slashCmdHandler: StreamifyHandler = async function (
       const assigneeSearchResults = await findMatchingAssignees(task);
 
       // TODO get assigned by
- 
+
       if (!isInDatabase) {
         throw new Error("Error searching database");
       }

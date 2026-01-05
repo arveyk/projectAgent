@@ -1,12 +1,17 @@
 import axios from "axios";
-import addTaskNotionPage, { PageAddResult } from "../../utils/database/addNewTaskToDatabase";
+import addTaskNotionPage, {
+  PageAddResult,
+} from "../../utils/database/addNewTaskToDatabase";
 import { SLACK_BOT_TOKEN } from "../../env";
 import { BlockAction } from "@slack/bolt";
 import { createRedirectToNewPageBlock } from "../../blockkit/createRedirectToNewPageBlock";
 import { TaskPage } from "../../utils/taskFormatting/task";
 import { deletePage } from "../../utils/database/deleteDatabasePage";
 import { APIGatewayProxyEventV2, Context, StreamifyHandler } from "aws-lambda";
-import { extractRequestBody, extractPayload } from "../../utils/slashCommandProcessing";
+import {
+  extractRequestBody,
+  extractPayload,
+} from "../../utils/slashCommandProcessing";
 import { NotionUser } from "../../utils/controllers/userTypes";
 import { integrateUserSelections } from "../../utils/controllers/useSelectedOption";
 
@@ -95,7 +100,9 @@ const interactionHandler: StreamifyHandler = async function (
             taskPageObj.pageId = newTaskPage.id;
             taskPageObj.url = "url" in newTaskPage ? newTaskPage.url : "";
 
-            const editInNotionBlocks = createRedirectToNewPageBlock(taskPageObj.url);
+            const editInNotionBlocks = createRedirectToNewPageBlock(
+              taskPageObj.url,
+            );
             console.log(
               "editInNotionBlocks",
               JSON.stringify(editInNotionBlocks),
@@ -177,7 +184,6 @@ const interactionHandler: StreamifyHandler = async function (
             err,
           );
         });
-
     } else if (action_text === "Delete") {
       (async () => {
         const pageUrl = payload.actions[0].value;

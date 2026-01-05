@@ -25,11 +25,9 @@ export function createTaskInfo(
       }
     });
     // Remove trailing comma and space
-    assigneeNames = assigneeNames.slice(0, -1); 
+    assigneeNames = assigneeNames.slice(0, -1);
   }
-  console.log(
-    `(createTaskInfo) task: ${JSON.stringify(task)}`,
-  );
+  console.log(`(createTaskInfo) task: ${JSON.stringify(task)}`);
   const columnLayoutBlock = [
     {
       type: "section",
@@ -76,7 +74,7 @@ export function createTaskInfo(
   ];
 
   return columnLayoutBlock;
-};
+}
 
 /**
  * Creates the options for a Slack dropdown menu.

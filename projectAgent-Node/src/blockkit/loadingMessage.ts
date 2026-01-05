@@ -53,8 +53,8 @@ export const sendLoadingMessage = async function (
 
 /**
  * Deletes a loading message.
- * @param timeStamp 
- * @param channel_id 
+ * @param timeStamp
+ * @param channel_id
  */
 export const deleteLoadingMessage = async function (
   timeStamp: string,

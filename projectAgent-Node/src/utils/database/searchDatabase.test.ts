@@ -1,4 +1,8 @@
-import { getTaskProperties, filterSimilar, searchDatabase } from "./searchDatabase";
+import {
+  getTaskProperties,
+  filterSimilar,
+  searchDatabase,
+} from "./searchDatabase";
 import { dbPageList } from "../../test-data/payloads/dbPage-list";
 import { Task } from "../task";
 import { GetPageResponse } from "@notionhq/client";

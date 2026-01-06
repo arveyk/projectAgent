@@ -72,6 +72,7 @@ const createTaskInfo = function (
   return columnLayoutBlock;
 }
 */
+
 /**
  *
  * @param listOfItems

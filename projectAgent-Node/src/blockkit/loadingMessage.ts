@@ -4,9 +4,10 @@ import { SLACK_BOT_TOKEN } from "../env";
 /**
  * Creates a Slack block for a loading message.
  * @param {*} messageText The text of the loading message.
+ * @param {*} slashCommand The text of the slash command that triggered the app.
  * @returns A Slack block for a loading message.
  */
-export const createLoadingMessageBlock = function (messageText: string) {
+export const createLoadingMessageBlock = function (messageText: string, slashCommand: string) {
   return {
     replace_original: true,
     blocks: [
@@ -14,7 +15,7 @@ export const createLoadingMessageBlock = function (messageText: string) {
         type: "section",
         text: {
           type: "mrkdwn",
-          text: `:arrows_counterclockwise: ${messageText}…`,
+          text: `>${slashCommand}\n\n:arrows_counterclockwise: ${messageText}…`,
         },
       },
     ],
@@ -24,13 +25,15 @@ export const createLoadingMessageBlock = function (messageText: string) {
 /**
  * Sends a loading message to the user who triggered a Slack event.
  * @param {*} messageText The text of the loading message.
+ * @param {*} slashCommand The text of the slash command that triggered the app.
  * @param {*} response_url The URL to send the block to.
  */
 export const sendLoadingMessage = async function (
   messageText: string,
+  slashCommand: string,
   response_url: string,
 ) {
-  const blocks = createLoadingMessageBlock(messageText);
+  const blocks = createLoadingMessageBlock(messageText, slashCommand);
   try {
     // TODO make the message go away when the wait is over
     await axios.post(

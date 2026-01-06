@@ -57,14 +57,14 @@ const slashCmdHandler: StreamifyHandler = async function (
       const response_url = reqBody["response_url"];
 
       // Search database
-      await sendLoadingMessage("Searching Database", response_url);
+      await sendLoadingMessage("Searching Database", reqBody.text, response_url);
       logTimestampForBenchmarking("Searching database");
       const isInDatabase = await searchDatabase(reqBody.text);
       logTimestampForBenchmarking("Done searching database");
 
       console.log("IS in database?", JSON.stringify(isInDatabase));
 
-      await sendLoadingMessage("Parsing Task", response_url);
+      await sendLoadingMessage("Parsing Task", reqBody.text, response_url);
       const timestamp: number = Date.now();
 
       logTimestampForBenchmarking("Parsing task");

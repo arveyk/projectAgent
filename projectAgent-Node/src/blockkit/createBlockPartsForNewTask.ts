@@ -1,8 +1,8 @@
-import { formatSlackDate } from "../utils/dateHandler";
-import { DateTime } from "luxon";
 import { NotionUser } from "../utils/controllers/userTypes";
 import { NotionTask } from "../utils/task";
+import { createColumnLayoutTaskInfo } from "./columnLayoutBlock";
 
+/*
 const createTaskInfo = function (
   notionTaskObj: NotionTask,
   assignees: NotionUser[]
@@ -71,7 +71,7 @@ const createTaskInfo = function (
 
   return columnLayoutBlock;
 }
-
+*/
 /**
  *
  * @param listOfItems
@@ -119,9 +119,15 @@ export function createNewTaskBlockWithSelections(
     ambiguousUsers: NotionUser[]
   }
 ) {
+  /*
   const taskInfo = createTaskInfo(
     notionTask,
     searchedUsers.identifiedUsers,
+  );
+  */
+  const taskInfo = createColumnLayoutTaskInfo(
+    notionTask,
+    searchedUsers.identifiedUsers
   );
 
   console.log(`Creating ${selectBlockTitle} select block`);
@@ -229,7 +235,7 @@ export function createMultiSelectionsBlock(
   let usersOptions;
 
   let projectsSelectBlock;
-  const blockText = createTaskInfo(newTask, usersArray);
+  const blockText = createColumnLayoutTaskInfo(newTask, usersArray);
 
   if (newTask.assignees.length !== 1) {
     console.log("Creating Assignee select block");

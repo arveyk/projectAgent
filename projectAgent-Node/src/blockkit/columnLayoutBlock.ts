@@ -1,18 +1,24 @@
 import { formatSlackDate } from "../utils/dateHandler";
 import { DateTime } from "luxon";
-import { TaskPage } from "../utils/task";
+import { NotionTask, TaskPage } from "../utils/task";
+import { NotionUser } from "../utils/controllers/userTypes";
 
-export const createColumnLayoutTaskInfo = function (taskPageObj: TaskPage) {
-  const task = taskPageObj.task;
-  const assigneesArr = task.assignees;
+export const createColumnLayoutTaskInfo = function (
+  notionTask: NotionTask,
+  knownAssignees: NotionUser[]) {
+
+  const task = notionTask;
+  const knownAssigneesArr = knownAssignees; //task.assignees;
   let assigneeNames = "";
+  const numberOfAssignees: number = knownAssigneesArr.length;
+
   console.log(
-    `(createColumnLayoutTaskInfoBlock), assigneesArray: ${assigneesArr}, task${JSON.stringify(task)}`,
+    `(createColumnLayoutTaskInfoBlock), assigneesArray: ${knownAssigneesArr}, task${JSON.stringify(task)}`,
   );
-  if (assigneesArr && Array.isArray(assigneesArr)) {
-    assigneesArr.forEach((assignee) => {
+  if (knownAssigneesArr && Array.isArray(knownAssigneesArr)) {
+    knownAssigneesArr.forEach((assignee) => {
       if (assignee) {
-        assigneeNames += `${assignee.name} --- ${assignee.email}\n`;
+        assigneeNames += `${assignee.name}  ${assignee.email}\n`;
       }
     });
     assigneeNames = assigneeNames.slice(0, -1); // Remove trailing comma and space
@@ -21,7 +27,32 @@ export const createColumnLayoutTaskInfo = function (taskPageObj: TaskPage) {
     task.startDate && task.startDate.toString() !== "Invalid Date"
       ? new Date(task.startDate)
       : DateTime.now().toJSDate();
-  console.log(`(createColumnLayoutTaskInfoBlock) task: ${JSON.stringify(taskPageObj)}`);
+  console.log(`(createColumnLayoutTaskInfoBlock) task: ${JSON.stringify(task)}`);
+
+  const withAssigneesSection = [
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": `*Assignees:*\n${assigneeNames}`
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": `*Description:*\n${task.description}`
+      }
+    }
+  ]
+  const withoutAssigneesSection = {
+    "type": "section",
+    "text": {
+      "type": "mrkdwn",
+      "text": `*Description:*\n${task.description}`
+    }
+  }
+
   const columnLayoutBlock = [
     {
       "type": "section",
@@ -49,20 +80,9 @@ export const createColumnLayoutTaskInfo = function (taskPageObj: TaskPage) {
         }
       ]
     },
-    {
-      "type": "section",
-      "text": {
-        "type": "mrkdwn",
-        "text": `*Assignees:*\n${assigneeNames}`
-      }
-    },
-    {
-      "type": "section",
-      "text": {
-        "type": "mrkdwn",
-        "text": `*Description:*\n${task.description}`
-      }
-    }
+    // spread whatever array comes out of this expression
+    ...(numberOfAssignees > 0 ? withAssigneesSection : [withoutAssigneesSection]),
+
   ]
 
   return columnLayoutBlock;
@@ -70,7 +90,7 @@ export const createColumnLayoutTaskInfo = function (taskPageObj: TaskPage) {
 
 export const createNewTaskBlockWithoutSelections = function (taskPageObj: TaskPage) {
   // console.log("Another console.log, Task", JSON.stringify(task));
-  const ColumnLayoutTaskInfo = createColumnLayoutTaskInfo(taskPageObj);
+  const ColumnLayoutTaskInfo = createColumnLayoutTaskInfo(taskPageObj.task, taskPageObj.task.assignees);
   const blockNewTask = {
     text: "Creating a new Task?",
     replace_original: true,

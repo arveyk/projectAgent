@@ -9,7 +9,7 @@ import { createColumnLayoutTaskInfo } from "./columnLayoutBlock";
  */
 export function createUpdateBlock(taskPage: TaskPage) {
   const taskUrl = taskPage.url;
-  const sectionInfo = createColumnLayoutTaskInfo(taskPage);
+  const sectionInfo = createColumnLayoutTaskInfo(taskPage.task, taskPage.task.assignees);
   // task.startDate = startDate;
   // task.dueDate = dueDate;
   return {

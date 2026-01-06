@@ -47,7 +47,7 @@ export const createBlockNewTask = function (taskPageObj: TaskPage) {
    */
 
   // console.log("Another console.log, Task", JSON.stringify(task));
-  const taskInfoColumnLayout = createColumnLayoutTaskInfo(taskPageObj);
+  const taskInfoColumnLayout = createColumnLayoutTaskInfo(taskPageObj.task, taskPageObj.task.assignees);
 
   return {
     text: "Creating a new Task?",

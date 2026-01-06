@@ -1,6 +1,4 @@
-import { validateDate, formatSlackDate } from "../utils/dateHandler";
-import { DateTime } from "luxon";
-import { Task, TaskPage } from "../utils/task";
+import { TaskPage } from "../utils/task";
 import { createColumnLayoutTaskInfo } from "./columnLayoutBlock";
 
 export function createFinalBlock(taskPageObj: TaskPage) {
@@ -64,7 +62,7 @@ export function createDoneBlock(taskPageObj: TaskPage) {
   task.project ? "Ok FinalBlock" : (task.project = " ");
   task.description ? "Ok FinalBlock" : (task.description = " ");
 
-  const columnLayoutTaskInfo = createColumnLayoutTaskInfo(taskPageObj);
+  const columnLayoutTaskInfo = createColumnLayoutTaskInfo(taskPageObj.task, taskPageObj.task.assignees);
   return {
     blocks: [
       {

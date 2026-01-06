@@ -1,5 +1,5 @@
 import { DateTime } from "luxon";
-import { Task, NotionTask } from "../../utils/task";
+import { Task, NotionTask } from "../../utils/taskFormatting/task";
 
 export const task: Task = {
   taskTitle: "Schedule meeting with customer",

@@ -75,7 +75,6 @@ export function createTaskInfo(
 
   return columnLayoutBlock;
 }
-*/
 
 /**
  * Creates the options for a Slack dropdown menu.

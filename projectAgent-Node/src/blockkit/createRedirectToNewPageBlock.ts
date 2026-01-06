@@ -10,7 +10,7 @@ export function createRedirectToNewPageBlock(url: string) {
         type: "section",
         text: {
           type: "mrkdwn",
-          text: `:white_check_mark: *<${url}|Edit in Notion>*`,
+          text: `:white_check_mark: Done. *<${url}|Edit in Notion>*`,
         },
       },
       {

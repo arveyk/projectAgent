@@ -90,7 +90,7 @@ export function createOptions(
       return {
         text: {
           type: "plain_text",
-          text: `*${person.name} --- ${person.email}*`,
+          text: `${person.name} ${person.email}`,
           emoji: true,
         },
         value: `${index++}`,

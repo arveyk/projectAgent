@@ -10,6 +10,16 @@ export const task: Task = {
     "Schedule a meeting with the customer. Check the sender's Calendly for available times.",
 };
 
+export const notionTask: NotionTask = {
+  taskTitle: "Schedule meeting with customer",
+  assignees: [{"name":"Jacob", "userId": "IUwuhd-98732-gdkxn-e932-jwoiw"}],
+  assignedBy: [{"name":"Jacob", "userId": "IUwuhd-98732-gdkxn-e932-jwoiw"}],
+  dueDate: new Date("2025-05-11"),
+  startDate: new Date("2025-01-11"),
+  description:
+    "Schedule a meeting with the customer. Check the sender's Calendly for available times.",
+};
+
 export const task_in_db: Task = {
   taskTitle: "Build prototype",
   assignees: [{"name": "Callie"}],

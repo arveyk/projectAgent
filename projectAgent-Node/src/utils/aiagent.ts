@@ -6,7 +6,7 @@ import { RunnableConfig, Runnable } from "@langchain/core/dist/runnables";
 import { BaseLanguageModelInput } from "@langchain/core/dist/language_models/base";
 import { 
   convertTask,
-  // Task,
+  Task,
   ExtractedTask } from "./taskFormatting/task";
 import { SlashCommand } from "@slack/bolt";
 import { logTimestampForBenchmarking } from "./logTimestampForBenchmarking";
@@ -57,7 +57,7 @@ export const taskSchema = z.object({
   email: z.string().optional().nullable().describe("Assignee's email address"),
   project: z
     .object({
-      projectName: z.string(),
+      //projectName: z.string(),
       id: z.string()
     })
     .array()
@@ -87,7 +87,7 @@ logTimestampForBenchmarking("(Parse) model initialization finished");
 export const parseTask = async function (
   reqBody: SlashCommand,
   timestamp: number,
-): Promise<ExtractedTask> {
+): Promise<Task> {
   let textToParse;
 
   //slash cmd text can be immediately accessed, for other events it is indirect, through events field
@@ -101,9 +101,10 @@ export const parseTask = async function (
 
   const timeData = await getEventTimeData(reqBody, timestamp);
 
-  const notionProjects = getProjects();
+  const notionProjects = await getProjects();
+  console.log(`notionProjects found ${JSON.stringify(notionProjects)}`);
   const prompt = `Today's date and time in ISO format is ${timeData.toISO()}, and our timezone is ${timeData.zoneName}. Please extract information from this message, making sure to list any dates in ISO format with timezone offset. "By the end of the day" means by 17:00 in our timezone. If the message says to finish a task "by" some date but does not specify a time, that means by 0:00 of that date in our timezone. 
-  Use this list ${JSON.stringify(notionProjects)} to get the project associated with the task mentioned in the message, include all matches. If no match is found include an empty list. """Example: Input: Bob, starting tomorrow, please write a draft of the article and have it finished by August 20, 2025. Output: ${EXAMPLE_OUTPUT_FOR_PROMPT}""" Here is the message: ${textToParse}`;
+  Also use this list ${JSON.stringify(notionProjects)} to get the project associated with the task mentioned in the message. If no match is found do not create an answer, leave the list blank. """Example: Input: Bob, starting tomorrow, please write a draft of the article and have it finished by August 20, 2025. Output: ${EXAMPLE_OUTPUT_FOR_PROMPT}""" Here is the message: ${textToParse}`;
   console.log(`prompt: ${prompt}`);
 
   /**
@@ -142,8 +143,9 @@ export const parseTask = async function (
   );
 
   // Convert the LLM output to a Task object for future ease of use
-  const extractedTask = convertTask(structuredResultData);
+  const task = convertTask(structuredResultData);
+  task.existingProjects = notionProjects;
 
-  console.log(`task parse result after conversion: ${JSON.stringify(extractedTask)}`);
-  return extractedTask;
+  console.log(`task parse result after conversion: ${JSON.stringify(task)}`);
+  return task;
 };

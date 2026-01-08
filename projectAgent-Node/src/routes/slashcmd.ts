@@ -121,7 +121,7 @@ const slashCmdHandler: StreamifyHandler = async function (
           "Task to be passed to createNewTaskBlock",
           JSON.stringify(extractedTask),
         );
-        const slackBlocks = createNewTaskBlock(extractedTask, assigneeSearchResults);
+        const slackBlocks = createNewTaskBlock(extractedTask, extractedTask.existingProjects || [], assigneeSearchResults);
 
         console.log("SlashCmdHandler taskBlockWithSelect", slackBlocks);
 

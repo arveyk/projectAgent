@@ -1,5 +1,5 @@
 // import { createColumnLayoutTaskInfo } from "./columnLayoutBlock";
-import { createTaskInfo } from "./createBlockPartsForNewTask";
+import { createTaskInfoWithoutSelections } from "./createBlockPartsForNewTask";
 import { notionTask } from "../test-data/tasks/example-tasks";
 import { Task, TaskPage } from "../utils/taskFormatting/task";
 import { DateTime } from "luxon";
@@ -17,14 +17,14 @@ const taskKitchen: Task = {
 describe("tests createTaskInfoBlock", () => {
   it("Creates  task block", () => {
     console.log(JSON.stringify(notionTask));
-    const taskBlock = createTaskInfo(
+    const taskBlock = createTaskInfoWithoutSelections(
       notionTask, notionTask.assignees  
     );
     console.log(JSON.stringify(taskBlock));
   });
   it("Creates a task block from the troublesome payload", () => {
     console.log(`taskKitchen: ${JSON.stringify(taskKitchen)}`);
-    const taskBlock = createTaskInfo(
+    const taskBlock = createTaskInfoWithoutSelections(
       notionTask, notionTask.assignees
     );
     console.log(`block: ${JSON.stringify(taskBlock)}`);

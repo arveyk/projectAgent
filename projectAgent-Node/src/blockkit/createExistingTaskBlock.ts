@@ -1,5 +1,5 @@
 import { TaskPage } from "../utils/taskFormatting/task";
-import { createExistingTaskInfo } from "./createBlockPartsForNewTask";
+import { createTaskInfoWithoutSelections } from "./createBlockPartsForNewTask";
 
 /**
  * Creates a set of Slack blocks to be used in previewing and updating an existing task.
@@ -8,7 +8,7 @@ import { createExistingTaskInfo } from "./createBlockPartsForNewTask";
  */
 export function createExistingTaskBlock(taskPage: TaskPage) {
   const taskUrl = taskPage.url;
-  const sectionInfo = createExistingTaskInfo(taskPage.task, taskPage.task.assignees);
+  const sectionInfo = createTaskInfoWithoutSelections(taskPage.task, taskPage.task.assignees);
   return {
     text: "Updating a Task?",
     replace_original: true,

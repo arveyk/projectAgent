@@ -2,12 +2,13 @@ import { NotionUser } from "../utils/controllers/userTypes";
 import { UserSearchResult } from "../utils/controllers/userTypes";
 import { 
   createNewTaskBlockWithSelections,
-  createNewTaskBlockWithoutSelections
+  createTaskBlockWithoutSelections
  } from "./createBlockPartsForNewTask";
 import { 
   NotionTask, 
-  // Task, 
-  ExtractedTask } from "../utils/taskFormatting/task";
+  Task, 
+  // ExtractedTask
+} from "../utils/taskFormatting/task";
 
 /**
  * Creates a set of Slack blocks to be used in previewing and confirming a new task.
@@ -16,7 +17,8 @@ import {
  * @returns A set of Slack blocks to be used in previewing and confirming a new task.
  */
 export function createNewTaskBlock(
-  task: ExtractedTask,
+  task: Task,
+  projects: { projectName: string, id: string }[],
   userSearchResult: UserSearchResult[],
 ) {
   console.log("(createNewTaskBlock)");
@@ -46,20 +48,22 @@ export function createNewTaskBlock(
     description: task.description,
     project: task.project,
   };
-  const extractedTask: ExtractedTask = {
-    taskTitle: task.taskTitle,
-    assignees: identifiedUsers,
-    dueDate: task.dueDate,
-    startDate: task.startDate,
-    description: task.description,
-    project: task.project,
-  };
   if (ambiguousUsers.length > 0) {
-    return createNewTaskBlockWithSelections(extractedTask, "Assignee", {
+    return createNewTaskBlockWithSelections(notionTask, projects,"Assignee", {
       identifiedUsers,
       ambiguousUsers,
     });
   } else {
-    return createNewTaskBlockWithoutSelections(notionTask);
+    let projectsArray: {projectName: string, id: string}[] = [];
+    if (notionTask.project) {
+      projectsArray = projects.filter((queriedProject) => {
+        if (notionTask.project) {
+          for (const proj of notionTask.project) {
+          if (proj.id === queriedProject.id) return queriedProject
+        }
+      }
+      });
+    }
+    return createTaskBlockWithoutSelections(notionTask, projectsArray);
   }
 }

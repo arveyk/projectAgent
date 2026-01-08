@@ -1,9 +1,9 @@
-import { ExtractedTask } from "../taskFormatting/task";
+import { Task } from "../taskFormatting/task";
 import { getNotionUsers } from "./getUsersNotion";
 import { NotionUser, UserSearchResult } from "./userTypes";
 
 export async function findMatchingAssignees(
-  task: ExtractedTask,
+  task: Task,
 ): Promise<UserSearchResult[]> {
   const assignees = task.assignees;
   const matches = Promise.all(

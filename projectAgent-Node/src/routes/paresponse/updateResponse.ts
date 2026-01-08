@@ -70,11 +70,12 @@ const interactionHandler: StreamifyHandler = async function (
       const taskPageAndOptionsObject: {
         taskPageObject: TaskPage;
         userOptions: NotionUser[];
+        projectOptions: { projectName: string, id: string}[]
       } = JSON.parse(payload["actions"][0].value || "{}");
       console.log(payload["actions"][0].value);
       console.log(JSON.stringify(taskPageAndOptionsObject));
 
-      const taskPageObj: TaskPage = taskPageAndOptionsObject.taskPageObject;
+      const taskPageObj: TaskPage  = taskPageAndOptionsObject.taskPageObject as TaskPage;
 
       if (action_id === "SelectionActionId-2") {
         console.log("Utilize users input");

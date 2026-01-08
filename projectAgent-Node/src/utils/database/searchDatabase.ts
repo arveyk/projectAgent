@@ -118,7 +118,7 @@ export function filterSimilar(pages: dbPage[], message: string): dbPage[] {
       console.log(
         `message: ${message}, page: ${page.taskTitle.concat(" ").concat(page.description ? page.description : "")}, similarity score: ${similarity}`,
       );
-      const similarity_threshold = 0.35;
+      const similarity_threshold = 0.08;
       if (similarity >= similarity_threshold) {
         return { page: page, similarity: similarity };
       }

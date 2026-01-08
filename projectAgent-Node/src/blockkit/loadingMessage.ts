@@ -7,8 +7,8 @@ import { SLACK_BOT_TOKEN } from "../env";
  * @param {*} slashCommand The text of the slash command that triggered the app.
  * @returns A Slack block for a loading message.
  */
-export const createLoadingMessageBlock = function (messageText: string, slashCommand: string) {
-  return {
+export const createLoadingMessageBlock = function (messageText: string, slashCommand?: string ) {
+  const blocks = slashCommand ? {
     replace_original: true,
     blocks: [
       {
@@ -19,19 +19,31 @@ export const createLoadingMessageBlock = function (messageText: string, slashCom
         },
       },
     ],
+  } : {
+    replace_original: true,
+    blocks: [
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: `:arrows_counterclockwise: ${messageText}…`,
+        },
+      },
+    ],
   };
+  return blocks;
 };
 
 /**
  * Sends a loading message to the user who triggered a Slack event.
  * @param {*} messageText The text of the loading message.
- * @param {*} slashCommand The text of the slash command that triggered the app.
  * @param {*} response_url The URL to send the block to.
+ * @param {*} slashCommand The text of the slash command that triggered the app.
  */
 export const sendLoadingMessage = async function (
   messageText: string,
-  slashCommand: string,
   response_url: string,
+  slashCommand?: string,
 ) {
   const blocks = createLoadingMessageBlock(messageText, slashCommand);
   try {

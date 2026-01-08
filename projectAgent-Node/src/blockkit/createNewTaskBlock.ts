@@ -1,8 +1,13 @@
 import { NotionUser } from "../utils/controllers/userTypes";
 import { UserSearchResult } from "../utils/controllers/userTypes";
-import { createNewTaskBlockWithSelections } from "./createBlockPartsForNewTask";
-import { createNewTaskBlockWithoutSelections } from "./createBlockPartsForNewTask";
-import { NotionTask, Task } from "../utils/taskFormatting/task";
+import { 
+  createNewTaskBlockWithSelections,
+  createNewTaskBlockWithoutSelections
+ } from "./createBlockPartsForNewTask";
+import { 
+  NotionTask, 
+  // Task, 
+  ExtractedTask } from "../utils/taskFormatting/task";
 
 /**
  * Creates a set of Slack blocks to be used in previewing and confirming a new task.
@@ -11,7 +16,7 @@ import { NotionTask, Task } from "../utils/taskFormatting/task";
  * @returns A set of Slack blocks to be used in previewing and confirming a new task.
  */
 export function createNewTaskBlock(
-  task: Task,
+  task: ExtractedTask,
   userSearchResult: UserSearchResult[],
 ) {
   console.log("(createNewTaskBlock)");
@@ -41,8 +46,16 @@ export function createNewTaskBlock(
     description: task.description,
     project: task.project,
   };
+  const extractedTask: ExtractedTask = {
+    taskTitle: task.taskTitle,
+    assignees: identifiedUsers,
+    dueDate: task.dueDate,
+    startDate: task.startDate,
+    description: task.description,
+    project: task.project,
+  };
   if (ambiguousUsers.length > 0) {
-    return createNewTaskBlockWithSelections(notionTask, "Assignee", {
+    return createNewTaskBlockWithSelections(extractedTask, "Assignee", {
       identifiedUsers,
       ambiguousUsers,
     });

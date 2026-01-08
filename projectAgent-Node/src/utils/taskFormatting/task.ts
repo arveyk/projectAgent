@@ -7,7 +7,7 @@ import {
 } from "@notionhq/client";
 import { BlockAction } from "@slack/bolt";
 import { NotionUser } from "../controllers/userTypes";
-import { TaskParseResult } from "../aiAgent";
+import { TaskParseResult } from "../aiagent";
 import { DateTime } from "luxon";
 
 export type PersonNoId = {
@@ -21,8 +21,20 @@ export type Task = {
   dueDate?: Date;
   startDate?: Date;
   description: string;
-  project?: string;
+  project?: string[];
 };
+
+export type ExtractedTask = {
+  taskTitle: string;
+  assignees: PersonNoId[];
+  dueDate?: Date;
+  startDate?: Date;
+  description: string;
+  project: {
+    projectName: string;
+    id: string;
+  }[]
+}
 
 export type NotionTask = {
   taskTitle: string;
@@ -31,7 +43,9 @@ export type NotionTask = {
   dueDate?: Date;
   startDate?: Date;
   description: string;
-  project?: string;
+  project?: {
+    id: string
+  }[];
 };
 
 export type TaskPage = {
@@ -40,7 +54,8 @@ export type TaskPage = {
   url?: string;
 };
 
-export function convertTask(taskInput: TaskParseResult): Task {
+// export function convertTask(taskInput: TaskParseResult): Task {
+export function convertTask(taskInput: TaskParseResult): ExtractedTask {
   console.log(JSON.stringify(taskInput));
 
   const dueDate = taskInput.dueDate
@@ -61,7 +76,7 @@ export function convertTask(taskInput: TaskParseResult): Task {
     dueDate: dueDate,
     startDate: startDate,
     description: taskInput["description"],
-    project: taskInput["project"] ? taskInput["project"] : undefined,
+    project: taskInput["project"] ? taskInput["project"] : [],
   };
 }
 
@@ -177,7 +192,9 @@ export function convertTaskPageFromDbResponse(
       dueDate: dueDate,
       startDate: startDate,
       description: description,
-      project: project,
+      project: [
+        {id: project || ""}
+      ],
     },
     url: url,
     pageId: pageId,

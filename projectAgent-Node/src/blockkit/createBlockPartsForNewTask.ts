@@ -1,6 +1,6 @@
 import { formatSlackDate } from "../utils/timeHandling/dateHandler";
 import { NotionUser } from "../utils/controllers/userTypes";
-import { NotionTask } from "../utils/taskFormatting/task";
+import { NotionTask, ExtractedTask } from "../utils/taskFormatting/task";
 
 /**
  * Creates the Slack blocks for previewing the details of a new task.
@@ -9,10 +9,16 @@ import { NotionTask } from "../utils/taskFormatting/task";
  * @returns The Slack blocks for previewing the details of a new task.
  */
 export function createTaskInfo(
-  notionTaskObj: NotionTask,
+  // notionTaskObj: NotionTask,
+  projects: {
+    projectName: string, 
+    id: string
+  }[],
+  extractedTask: ExtractedTask,
   assignees: NotionUser[],
 ) {
-  const task = notionTaskObj;
+  // const task = notionTaskObj;
+  const task = extractedTask;
   const assigneesArr = assignees;
   let assigneeNames = "";
   console.log(
@@ -38,7 +44,81 @@ export function createTaskInfo(
         },
         {
           type: "mrkdwn",
-          text: `*Project:*\n${task.project || " "}`,
+          text: `*Project:*\n${projects.length > 0 ? `${projects[0].projectName}: id${projects[0].id}` : "No Associated Project"}`,
+        },
+      ],
+    },
+    {
+      type: "section",
+      fields: [
+        {
+          type: "mrkdwn",
+          text: `*Due Date:*\n${
+            task.dueDate ? formatSlackDate(new Date(task.dueDate)) : ""
+          }`,
+        },
+        {
+          type: "mrkdwn",
+          text: `*Start Date:*\n${task.startDate !== new Date(NaN) && task.startDate !== undefined ? formatSlackDate(new Date(task.startDate)) : task.startDate}`,
+        },
+      ],
+    },
+    {
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: `*Assignees:*\n${assigneeNames}`,
+      },
+    },
+    {
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: `*Description:*\n${task.description}`,
+      },
+    },
+  ];
+
+  return columnLayoutBlock;
+}
+
+/**
+ * Creates the Slack blocks for previewing the details of a new task.
+ * @param extractedTask The new task.
+ * @param assignees A list of people the task is assigned to.
+ * @returns The Slack blocks for previewing the details of a new task.
+ */
+export function createExistingTaskInfo(
+  notionTask: NotionTask,
+  assignees: NotionUser[],
+) {
+  const task = notionTask;
+  const assigneesArr = assignees;
+  let assigneeNames = "";
+  console.log(
+    `(createTaskInfo), assigneesArray: ${assigneesArr}, task${JSON.stringify(task)}`,
+  );
+  if (assigneesArr && Array.isArray(assigneesArr)) {
+    assigneesArr.forEach((assignee) => {
+      if (assignee) {
+        assigneeNames += `${assignee.name} (${assignee.email})\n`;
+      }
+    });
+    // Remove trailing comma and space
+    assigneeNames = assigneeNames.slice(0, -1);
+  }
+  console.log(`(createTaskInfo) task: ${JSON.stringify(task)}`);
+  const columnLayoutBlock = [
+    {
+      type: "section",
+      fields: [
+        {
+          type: "mrkdwn",
+          text: `*Task Title:*\n${task.taskTitle}`,
+        },
+        {
+          type: "mrkdwn",
+          text: `*Project:*\n${task.project? task.project[0].id : "No Associated Project"}`,
         },
       ],
     },
@@ -122,14 +202,15 @@ export function createOptions(
  * @returns A set of Slack blocks to be used in previewing and confirming a new task and prompting the user to select assignees.
  */
 export function createNewTaskBlockWithSelections(
-  notionTask: NotionTask,
+  // notionTask: NotionTask,
+  extractedTask: ExtractedTask,
   selectBlockTitle: string,
   foundUsers: {
     identifiedUsers: NotionUser[];
     ambiguousUsers: NotionUser[];
   },
 ) {
-  const taskInfo = createTaskInfo(notionTask, foundUsers.identifiedUsers);
+  const taskInfo = createTaskInfo(extractedTask.project, extractedTask, foundUsers.identifiedUsers);
 
   console.log(`Creating ${selectBlockTitle} select block`);
 
@@ -181,7 +262,7 @@ export function createNewTaskBlockWithSelections(
             },
             value: JSON.stringify({
               taskPageObject: {
-                task: notionTask,
+                task: extractedTask,
                 pageId: "",
                 url: "",
               },
@@ -222,9 +303,10 @@ export function createNewTaskBlockWithSelections(
  * @returns A set of Slack blocks to be used in previewing and confirming a new task.
  */
 export const createNewTaskBlockWithoutSelections = function (
-  notionTask: NotionTask,
+  // notionTask: NotionTask,
+  extractedTask: ExtractedTask
 ) {
-  const ColumnLayoutTaskInfo = createTaskInfo(notionTask, notionTask.assignees);
+  const ColumnLayoutTaskInfo = createTaskInfo([], extractedTask, extractedTask.assignees);
   const blockNewTask = {
     text: "Creating a new Task?",
     replace_original: true,

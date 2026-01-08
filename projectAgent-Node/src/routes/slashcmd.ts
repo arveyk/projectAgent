@@ -1,6 +1,6 @@
 import axios from "axios";
 import { createExistingTaskBlock } from "../blockkit/createExistingTaskBlock";
-import { parseTask } from "../utils/aiAgent";
+import { parseTask } from "../utils/aiagent";
 import {
   searchDatabase,
   getTaskProperties,
@@ -68,11 +68,11 @@ const slashCmdHandler: StreamifyHandler = async function (
       const timestamp: number = Date.now();
 
       logTimestampForBenchmarking("Parsing task");
-      const task = await parseTask(reqBody, timestamp);
+      const extractedTask = await parseTask(reqBody, timestamp);
       logTimestampForBenchmarking("Done parsing task");
 
       // Find Notion users
-      const assigneeSearchResults = await findMatchingAssignees(task);
+      const assigneeSearchResults = await findMatchingAssignees(extractedTask);
 
       // TODO get assigned by
 
@@ -119,9 +119,9 @@ const slashCmdHandler: StreamifyHandler = async function (
       } else {
         console.log(
           "Task to be passed to createNewTaskBlock",
-          JSON.stringify(task),
+          JSON.stringify(extractedTask),
         );
-        const slackBlocks = createNewTaskBlock(task, assigneeSearchResults);
+        const slackBlocks = createNewTaskBlock(extractedTask, assigneeSearchResults);
 
         console.log("SlashCmdHandler taskBlockWithSelect", slackBlocks);
 

@@ -1,4 +1,4 @@
-import { Client, QueryDataSourceResponse } from "@notionhq/client";
+import { Client, DataSourceObjectResponse, QueryDataSourceResponse } from "@notionhq/client";
 import { ChatAnthropic } from "@langchain/anthropic";
 import { z } from "zod/v4";
 import { dbPage, simplifyDatabaseResults } from "./simplifyDatabaseResults";
@@ -6,6 +6,7 @@ import { stringSimilarity } from "string-similarity-js";
 
 import {
   NOTION_API_KEY,
+  NOTION_PROJECTS_DATA_SOURCE_ID,
   NOTION_TASKS_DATA_SOURCE_ID,
   ANTHROPIC_API_KEY,
   ANTHROPIC_MODEL_VER,
@@ -75,7 +76,6 @@ export const searchDatabase = async function (
       ${JSON.stringify(similarPages)}.
     `;
 
-  logTimestampForBenchmarking("(Database) LLM start");
   const llmResult = await structuredLlm.invoke(prompt);
   console.log(`Raw LLM response: ${JSON.stringify(llmResult.raw)}`);
   const parsed = llmResult.parsed;
@@ -134,4 +134,36 @@ export function filterSimilar(pages: dbPage[], message: string): dbPage[] {
 
   console.log(`Similar pages: ${JSON.stringify(similarPages)}`);
   return similarPages;
+}
+
+export async function getProjects() {
+  logTimestampForBenchmarking("Querying Projects");
+  const projectsQueryResponse = await notion.dataSources.query({
+    data_source_id: NOTION_PROJECTS_DATA_SOURCE_ID
+  });
+
+  const projectsList = projectsQueryResponse.results;
+  let simplifiedProjects = [];
+  
+  logTimestampForBenchmarking("Done querying Projects");
+  // console.log(JSON.stringify(projectsQueryResponse));
+
+  for (const project of projectsList) {
+    console.log("Projects id", project.id);
+
+
+    if (project.object === "page" && "properties" in project) {
+      for (const propName in project.properties) {
+        if (project.properties[propName]["type"] === "title") {
+
+          const projectTitle = project.properties[propName].title[0].plain_text;
+          simplifiedProjects.push({
+            projectName: projectTitle,
+            id: project.id
+          });
+        }
+      }
+    }
+  }
+  return simplifiedProjects
 }

@@ -3,6 +3,7 @@ import { dirname } from "path";
 import { Client } from "@notionhq/client";
 import { NOTION_API_KEY } from "../env"; 
 import { NOTION_TASKS_DATA_SOURCE_ID } from "../env";
+import { simplifyDatabaseResults } from "../utils/database/simplifyDatabaseResults";
 
 /**
  * ts-node script that retrieves notion objects
@@ -15,11 +16,13 @@ async function getTestData() {
     notionVersion: "2025-09-03",
   });
 
-  const tasksResp = await notion.dataSources.query({
+  const rawPages = await notion.dataSources.query({
     data_source_id: NOTION_TASKS_DATA_SOURCE_ID,
   });
-  await saveJson(tasksResp, "log/testData/responses/example-pageList.json");
+  await saveJson(rawPages, "log/testData/responses/example-rawPages.json");
 
+  const simplifiedPages = simplifyDatabaseResults(rawPages);
+  await saveJson(simplifiedPages, "log/testData/responses/example-simplifiedPages.json");
 }
 
 /**

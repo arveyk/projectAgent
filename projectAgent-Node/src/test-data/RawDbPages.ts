@@ -1,6 +1,6 @@
 import { QueryDataSourceResponse } from "@notionhq/client";
 
-export const dbPages: QueryDataSourceResponse = {
+export const RAW_DB_PAGES: QueryDataSourceResponse = {
   "object": "list",
   "results": [
     {

@@ -8,7 +8,7 @@ import { createTaskInfoWithoutSelections } from "./createBlockPartsForNewTask";
  */
 export function createExistingTaskBlock(taskPage: TaskPage) {
   const taskUrl = taskPage.url;
-  const sectionInfo = createTaskInfoWithoutSelections(taskPage.task, taskPage.task.assignees);
+  const sectionInfo = createTaskInfoWithoutSelections(taskPage.task, taskPage.task.project);
   return {
     text: "Updating a Task?",
     replace_original: true,

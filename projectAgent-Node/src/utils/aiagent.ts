@@ -17,6 +17,7 @@ export const EXAMPLE_OUTPUT_FOR_PROMPT: TaskParseResult = {
   assignees: ["Bob"],
   dueDate: "2025-08-20T00:00-07:00",
   description: "Write a draft of the article",
+  project: []
 };
 
 logTimestampForBenchmarking("(Parse) model initialization start");
@@ -57,7 +58,6 @@ export const taskSchema = z.object({
   email: z.string().optional().nullable().describe("Assignee's email address"),
   project: z
     .object({
-      //projectName: z.string(),
       id: z.string()
     })
     .array()
@@ -103,8 +103,8 @@ export const parseTask = async function (
 
   const notionProjects = await getProjects();
   console.log(`notionProjects found ${JSON.stringify(notionProjects)}`);
-  const prompt = `Today's date and time in ISO format is ${timeData.toISO()}, and our timezone is ${timeData.zoneName}. Please extract information from this message, making sure to list any dates in ISO format with timezone offset. "By the end of the day" means by 17:00 in our timezone. If the message says to finish a task "by" some date but does not specify a time, that means by 0:00 of that date in our timezone. 
-  Also use this list ${JSON.stringify(notionProjects)} to get the project associated with the task mentioned in the message. If no match is found do not create an answer, leave the list blank. """Example: Input: Bob, starting tomorrow, please write a draft of the article and have it finished by August 20, 2025. Output: ${EXAMPLE_OUTPUT_FOR_PROMPT}""" Here is the message: ${textToParse}`;
+  const prompt = `Today's date and time in ISO format is ${timeData.toISO()}, and our timezone is ${timeData.zoneName}. Please extract information from a message, making sure to list any dates in ISO format with timezone offset. "By the end of the day" means by 17:00 in our timezone. If the message says to finish a task "by" some date but does not specify a time, that means by 0:00 of that date in our timezone. 
+  Also use this list ${notionProjects} to infer the project associated with the task mentioned in the message. If no match is found do not create an answer, the project list must be empty. """Example: Input: Bob, starting tomorrow, please write a draft of the article and have it finished by August 20, 2025. Output: ${EXAMPLE_OUTPUT_FOR_PROMPT}""" Here is the message: ${textToParse}`;
   console.log(`prompt: ${prompt}`);
 
   /**

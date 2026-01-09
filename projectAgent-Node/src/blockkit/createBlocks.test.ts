@@ -16,7 +16,7 @@ const taskPage: TaskPage = {
 describe("Test createBlockNewTask with a valid task object", () => {
   it("returns blocks containing the task data", async () => {
     expect(notionTask).toBeDefined();
-    const blocks = createTaskBlockWithoutSelections(taskPage.task);
+    const blocks = createTaskBlockWithoutSelections(taskPage.task, []);
     console.log(JSON.stringify(blocks));
 
     expect(JSON.stringify(blocks.blocks)).toMatch(

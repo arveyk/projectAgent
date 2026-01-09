@@ -13,7 +13,10 @@ import {
   extractPayload,
 } from "../../utils/slashCommandProcessing";
 import { NotionUser } from "../../utils/controllers/userTypes";
-import { integrateUserSelections } from "../../utils/controllers/useSelectedOption";
+import {
+  // integrateUserSelections,
+  integrateSelectedValues
+} from "../../utils/controllers/useSelectedOption";
 
 /**
  * interactionHandler - Response to user interactions with blocks when a button
@@ -70,26 +73,31 @@ const interactionHandler: StreamifyHandler = async function (
       const taskPageAndOptionsObject: {
         taskPageObject: TaskPage;
         userOptions: NotionUser[];
-        projectOptions: { projectName: string, id: string}[]
+        projectOptions: { projectName: string, id: string }[]
       } = JSON.parse(payload["actions"][0].value || "{}");
       console.log(payload["actions"][0].value);
       console.log(JSON.stringify(taskPageAndOptionsObject));
 
-      const taskPageObj: TaskPage  = taskPageAndOptionsObject.taskPageObject as TaskPage;
+      const taskPageObj: TaskPage = taskPageAndOptionsObject.taskPageObject as TaskPage;
 
       if (action_id === "SelectionActionId-2") {
         console.log("Utilize users input");
         const userSelections: NotionUser[] =
           taskPageAndOptionsObject.userOptions;
         console.log(`${userSelections}`);
-        const allAssignees = integrateUserSelections(
-          taskPageObj.task.assignees,
-          payload,
-          userSelections,
-        );
-        taskPageObj.task.assignees = allAssignees;
-      }
+        const projectOptions: { projectName: string, id: string }[] = taskPageAndOptionsObject.projectOptions;
 
+        // const allAssignees = integrateUserSelections(
+        //  taskPageObj.task.assignees,
+        //  payload,
+        //  userSelections,
+        // );
+        // taskPageObj.task.assignees = allAssignees;
+        const taskWithIntegratedValues = integrateSelectedValues(taskPageAndOptionsObject.taskPageObject.task, userSelections, projectOptions, payload);
+
+        taskPageObj.task.project = taskWithIntegratedValues.project;
+        taskPageObj.task.assignees = taskWithIntegratedValues.assignees;
+      }
       console.log("Edit in Notion, Response Url", response_url);
       (async () => {
         try {

@@ -1,9 +1,9 @@
-import { createBlockLoadingMsg } from "./loadingMsg";
+import { createLoadingMessageBlock } from "./loadingMessage";
 
 describe("tests createBlockLoadingMsg", () => {
   it("Returns a block with the correct loading message", () => {
     const msg = "Test Message";
-    const block = createBlockLoadingMsg(msg);
+    const block = createLoadingMessageBlock(msg, "Test message for creating a loading message response");
     console.log(JSON.stringify(block));
     expect(block).toMatchObject({
       blocks: [

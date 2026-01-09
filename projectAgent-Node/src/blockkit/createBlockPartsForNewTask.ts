@@ -20,7 +20,8 @@ export function createTaskInfo(
   const task = notionTaskObj;
   // const task = notionTask;
   const assigneesArr = assignees;
-  let assigneeNames = "", projectNames = "";
+  let assigneeNames = "";
+  let projectNames = "";
   console.log(
     `(createTaskInfo), assigneesArray: ${assigneesArr}, task${JSON.stringify(task)}`,
   );
@@ -36,7 +37,12 @@ export function createTaskInfo(
   if (projects && Array.isArray(projects)) {
     projects.forEach((project) => {
       if (project) {
-        projectNames += `${project.projectName} (${project.id})\n`;
+        const notionTaskProject = notionTaskObj.project || []
+        // Only include projects within the Project field of notion task
+        
+        if (notionTaskProject.find((projElement) => projElement.id === project.id)) {
+          projectNames += `${project.projectName}\n`;
+        }
       }
     });
     // Remove trailing comma and space
@@ -54,7 +60,7 @@ export function createTaskInfo(
         },
         {
           type: "mrkdwn",
-          text: `*Project:*\n${projects.length > 0 ? `${projects[0].projectName}: id${projects[0].id}` : "No Associated Project"}`,
+          text: `*Project:*\n${projectNames}`,
         },
       ],
     },
@@ -124,7 +130,8 @@ export function createTaskInfoWithoutSelections(
   if (projectsArray && Array.isArray(projectsArray)) {
     projectsArray.forEach((project) => {
       if (project) {
-        projectNames += `${project.projectName}\n`;
+        // `projectNames += `${project.projectName === "" ? " " : project.projectName}\n`;
+        projectNames += `Project id: ${project.id === "" ? " " : project.id}\n`;
       }
     });
     // Remove trailing comma and space
@@ -210,7 +217,7 @@ export function createOptions(
           text: `*${project.projectName}*`,
           emoji: true,
         },
-        value: `${index++}`,
+        value: `${ "Project_" + index++}`,
       };
     });
     return optionsArray;
@@ -394,6 +401,7 @@ export function createNewTaskBlockWithSelections(
                 url: "",
               },
               userOptions: foundUsers.ambiguousUsers,
+	      projectOptions: []
             }),
             style: "primary",
             action_id: "SelectionActionId-2",

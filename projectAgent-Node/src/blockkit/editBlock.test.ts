@@ -18,14 +18,14 @@ describe("tests createTaskInfoBlock", () => {
   it("Creates  task block", () => {
     console.log(JSON.stringify(notionTask));
     const taskBlock = createTaskInfoWithoutSelections(
-      notionTask, notionTask.assignees  
+      notionTask, [] 
     );
     console.log(JSON.stringify(taskBlock));
   });
   it("Creates a task block from the troublesome payload", () => {
     console.log(`taskKitchen: ${JSON.stringify(taskKitchen)}`);
     const taskBlock = createTaskInfoWithoutSelections(
-      notionTask, notionTask.assignees
+      notionTask, []
     );
     console.log(`block: ${JSON.stringify(taskBlock)}`);
   });

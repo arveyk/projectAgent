@@ -1,6 +1,8 @@
 import { Task } from "../taskFormatting/task";
 import { getNotionUsers } from "./getUsersNotion";
+import { getSlackUserById } from "./getUsersSlack";
 import { NotionUser, UserSearchResult } from "./userTypes";
+import { SlashCommand } from "@slack/bolt";
 
 export async function findMatchingAssignees(
   task: Task,
@@ -162,4 +164,11 @@ export function deduplicateUsers(
     });
 
   return uniqueUsers;
+}
+
+export async function findAssignedBy(requestBody: SlashCommand) {
+  const userInSlack = await getSlackUserById(requestBody.user_id);
+  const matchingNotionUser = await findMatchingNotionUser(requestBody.user_name, userInSlack.email);
+  console.log(`(findAssignedBy), any found ${userInSlack}, searched id: ${requestBody.user_id}`, JSON.stringify(matchingNotionUser), `request Body ${JSON.stringify(requestBody)}`);
+  return matchingNotionUser;
 }

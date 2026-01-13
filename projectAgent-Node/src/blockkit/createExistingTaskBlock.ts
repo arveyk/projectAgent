@@ -1,3 +1,4 @@
+import { getProjects } from "../utils/database/searchDatabase";
 import { TaskPage } from "../utils/taskFormatting/task";
 import { createTaskInfoWithoutSelections } from "./createBlockPartsForNewTask";
 
@@ -6,9 +7,25 @@ import { createTaskInfoWithoutSelections } from "./createBlockPartsForNewTask";
  * @param task: The task to be previewed.
  * @returns: A set of Slack blocks to be used in previewing and updating an existing task.
  */
-export function createExistingTaskBlock(taskPage: TaskPage) {
+export async function createExistingTaskBlock(taskPage: TaskPage) {
   const taskUrl = taskPage.url;
-  const sectionInfo = createTaskInfoWithoutSelections(taskPage.task, taskPage.task.project);
+  const associatedProjects = taskPage.task.project || [];
+  const existingProjects = await getProjects();
+
+  const taskProjects: { projectName: string, id: string }[] = [];
+
+  for (const associatedProj of associatedProjects) {
+    const foundProject = existingProjects.find((project) => {
+      if (project.id === associatedProj.id) {
+        return project;
+      }
+    });
+    if (foundProject) {
+      taskProjects.push(foundProject);
+    }
+  }
+
+  const sectionInfo = createTaskInfoWithoutSelections(taskPage.task, taskProjects);
   return {
     text: "Updating a Task?",
     replace_original: true,

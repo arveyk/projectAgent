@@ -7,7 +7,8 @@ import { BaseLanguageModelInput } from "@langchain/core/dist/language_models/bas
 import { 
   convertTask,
   Task,
-  ExtractedTask } from "./taskFormatting/task";
+  // ExtractedTask
+} from "./taskFormatting/task";
 import { SlashCommand } from "@slack/bolt";
 import { logTimestampForBenchmarking } from "./logTimestampForBenchmarking";
 import { getProjects } from "./database/searchDatabase";
@@ -19,6 +20,25 @@ export const EXAMPLE_OUTPUT_FOR_PROMPT: TaskParseResult = {
   description: "Write a draft of the article",
   project: []
 };
+export const EXAMPLE_OUTPUT_FOR_PROMPT_01: TaskParseResult = {
+  taskTitle: "Finish landing gear",
+  assignees: ["Bradley"],
+  dueDate: "2026-07-5T00:00-07:00",
+  description: "Bradley, finish up the landing gear for the F-22 Assembly and Maintenance project by July 5 2026",
+  project: [
+  { projectName: "F-22 Assembly and Maintenance"} 
+  ]
+};
+
+const EXAMPLE_MSG_01 = "\
+Bradley, finish up the landing gear for the F-22 Assembly and Maintenance project by July 5 2026";
+
+export const EXAMPLE_INPUT_PROJECTS: {projectName: string, id: string}[] = [
+  { projectName: "F-22 Assembly and Maintenance", id: "kl*9J9kjs)_nsdyyusdl" },
+  { projectName: "Project assigned by Donald", id: "lapI-2nd7dUHnis927hd" },
+  { projectName: "Vanadium", id: "dsdPO219083nd-siosau" }
+]
+
 
 logTimestampForBenchmarking("(Parse) model initialization start");
 const model = new ChatAnthropic({
@@ -58,7 +78,7 @@ export const taskSchema = z.object({
   email: z.string().optional().nullable().describe("Assignee's email address"),
   project: z
     .object({
-      id: z.string()
+      projectName: z.string()
     })
     .array()
     .optional()
@@ -103,8 +123,10 @@ export const parseTask = async function (
 
   const notionProjects = await getProjects();
   console.log(`notionProjects found ${JSON.stringify(notionProjects)}`);
-  const prompt = `Today's date and time in ISO format is ${timeData.toISO()}, and our timezone is ${timeData.zoneName}. Please extract information from a message, making sure to list any dates in ISO format with timezone offset. "By the end of the day" means by 17:00 in our timezone. If the message says to finish a task "by" some date but does not specify a time, that means by 0:00 of that date in our timezone. 
-  Also use this list ${notionProjects} to infer the project associated with the task mentioned in the message. If no match is found do not create an answer, the project list must be empty. """Example: Input: Bob, starting tomorrow, please write a draft of the article and have it finished by August 20, 2025. Output: ${EXAMPLE_OUTPUT_FOR_PROMPT}""" Here is the message: ${textToParse}`;
+
+  const ifNoMatchisFound = 'If no matching project or projects are found leave it empty.';
+  const prompt = `Today's date and time in ISO format is ${timeData.toISO()}, and our timezone is ${timeData.zoneName}. Please extract task information from a message, making sure to list any dates in ISO format with timezone offset. "By the end of the day" means by 17:00 in our timezone. If the message says to finish a task "by" some date but does not specify a time, that means by 0:00 of that date in our timezone. 
+  Also, using this list ${JSON.stringify(notionProjects)}, infer the project the task is linked to. The projectName is what will help in finding a match. """Example: Input 1: Bob, starting tomorrow, please write a draft of the article and have it finished by August 20, 2025. Output: ${JSON.stringify(EXAMPLE_OUTPUT_FOR_PROMPT)}, Input 2: ${EXAMPLE_MSG_01}. Output 2: ${JSON.stringify(EXAMPLE_OUTPUT_FOR_PROMPT_01)}""" Here is the message: ${textToParse}`;
   console.log(`prompt: ${prompt}`);
 
   /**
@@ -143,7 +165,7 @@ export const parseTask = async function (
   );
 
   // Convert the LLM output to a Task object for future ease of use
-  const task = convertTask(structuredResultData);
+  const task = convertTask(structuredResultData, notionProjects);
   task.existingProjects = notionProjects;
 
   console.log(`task parse result after conversion: ${JSON.stringify(task)}`);

@@ -22,7 +22,7 @@ export type Task = {
   startDate?: Date;
   description: string;
   project?: { id: string }[];
-  existingProjects?: {projectName: string, id: string }[]
+  existingProjects?: { projectName: string, id: string }[]
 };
 
 export type ExtractedTask = {
@@ -61,8 +61,10 @@ export type ExtractedTaskPage = {
   url?: string;
 }
 
-export function convertTask(taskInput: TaskParseResult): Task {
-// export function convertTask(taskInput: TaskParseResult): ExtractedTask {
+export function convertTask(taskInput: TaskParseResult, notionProjects: {
+  projectName: string; id: string
+}[]): Task {
+  // export function convertTask(taskInput: TaskParseResult): ExtractedTask {
   console.log(JSON.stringify(taskInput));
 
   const dueDate = taskInput.dueDate
@@ -73,9 +75,21 @@ export function convertTask(taskInput: TaskParseResult): Task {
     : DateTime.now().toJSDate();
   const assignees = taskInput.assignees
     ? taskInput.assignees.map((assignee) => {
-        return { name: assignee };
-      })
+      return { name: assignee };
+    })
     : [];
+
+  const taskProjects = taskInput.project || []
+
+  const projects_1: { id: string }[] = [];
+  console.log(`notionProjects${JSON.stringify(notionProjects)}\ntaskProjects: ${taskProjects}`)
+  notionProjects.forEach((notionProj) => {
+    if (notionProj && taskProjects[0]) {
+      if (notionProj.projectName === taskProjects[0].projectName) {
+        projects_1.push({ id: notionProj.id });
+      }
+    }
+  })
 
   return {
     taskTitle: taskInput["taskTitle"],
@@ -83,7 +97,7 @@ export function convertTask(taskInput: TaskParseResult): Task {
     dueDate: dueDate,
     startDate: startDate,
     description: taskInput["description"],
-    project: taskInput["project"] ? taskInput["project"] : [],
+    project: projects_1 || [],
   };
 }
 
@@ -151,15 +165,15 @@ export function convertTaskPageFromDbResponse(
   const assignees =
     "people" in properties["Assigned to"]
       ? properties["Assigned to"].people.map((response) =>
-          extractAssignees(response),
-        )
+        extractAssignees(response),
+      )
       : [];
 
   const assignedBy =
     "people" in properties["Assigned by"]
       ? properties["Assigned by"].people.map((response) =>
-          extractAssignees(response),
-        )
+        extractAssignees(response),
+      )
       : [];
 
   const dueDate =
@@ -176,14 +190,14 @@ export function convertTaskPageFromDbResponse(
       : undefined;
   const description =
     "rich_text" in properties["Description"] &&
-    properties["Description"]["rich_text"][0] !== undefined
+      properties["Description"]["rich_text"][0] !== undefined
       ? "plain_text" in properties["Description"]["rich_text"][0]
         ? properties["Description"].rich_text[0].plain_text
         : ""
       : "";
   const project =
     "rich_text" in properties["Project"] &&
-    properties["Project"]["rich_text"][0] !== undefined
+      properties["Project"]["rich_text"][0] !== undefined
       ? "plain_text" in properties["Project"]["rich_text"][0]
         ? properties["Project"].rich_text[0].plain_text
         : undefined

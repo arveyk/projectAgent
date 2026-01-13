@@ -83,6 +83,10 @@ export function integrateSelectedValues(
   const selectedValues: SelectionOption[] =
     selected[selectedKey]["multi_select-action"]["selected_options"];
 
+  if (selectedValues.length === 0) {
+    return notionTask;
+  }
+
   if (selectedValues[0].value.includes("Project_")) {
     const allProjects = integrateSelectedProjects(projects, selectedValues, projectSelections)
 

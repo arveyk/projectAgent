@@ -1,6 +1,9 @@
 import { formatSlackDate } from "../utils/timeHandling/dateHandler";
 import { NotionUser } from "../utils/controllers/userTypes";
-import { NotionTask, ExtractedTask } from "../utils/taskFormatting/task";
+import { 
+  NotionTask,
+  // ExtractedTask
+} from "../utils/taskFormatting/task";
 
 /**
  * Creates the Slack blocks for previewing the details of a new task.
@@ -249,7 +252,7 @@ export function createNewTaskBlockWithSelections(
   console.log(`Creating ${selectBlockTitle} select block`);
 
   // Create options for ambiguous users
-  const optionsToChooseFrom = createOptions(
+  const userOptionsToChooseFrom = createOptions(
     "NotionUsers",
     foundUsers.ambiguousUsers,
   );
@@ -258,7 +261,7 @@ export function createNewTaskBlockWithSelections(
     projects
   );
 
-  if (projects.length > 1) {
+  if (projects.length > 1 && userOptionsToChooseFrom.length > 1) {
     return {
       text: "Creating a new Task?",
       replace_original: true,
@@ -280,7 +283,7 @@ export function createNewTaskBlockWithSelections(
               text: `Select ${selectBlockTitle}(s)`,
               emoji: true,
             },
-            options: optionsToChooseFrom,
+            options: userOptionsToChooseFrom,
             action_id: "multi_select-action",
           },
           label: {
@@ -289,6 +292,85 @@ export function createNewTaskBlockWithSelections(
             emoji: true,
           },
         },
+        {
+          type: "input",
+          element: {
+            type: "multi_static_select",
+            placeholder: {
+              type: "plain_text",
+              text: `Select ${"Project"}(s)`,
+              emoji: true,
+            },
+            options: projectOptions,
+            action_id: "multi_select-action",
+          },
+          label: {
+            type: "plain_text",
+            text: `${"Projects"}`,
+            emoji: true,
+          },
+        },
+        {
+          type: "actions",
+          elements: [
+            {
+              type: "button",
+              text: {
+                type: "plain_text",
+                text: "Confirm",
+                emoji: true,
+              },
+              value: JSON.stringify({
+                taskPageObject: {
+                  task: notionTask,
+                  pageId: "",
+                  url: "",
+                },
+                userOptions: foundUsers.ambiguousUsers,
+                projectOptions: projects
+              }),
+              style: "primary",
+              action_id: "SelectionActionId-2",
+            },
+            {
+              type: "button",
+              text: {
+                type: "plain_text",
+                emoji: true,
+                text: "Cancel",
+              },
+              style: "danger",
+              value: "discard_123",
+              action_id: "actionId-1",
+            },
+          ],
+        },
+        {
+          type: "context",
+          elements: [
+            {
+              type: "mrkdwn",
+              text: "*You can edit the task in Notion after adding it*",
+            },
+          ],
+        },
+      ],
+    };
+  }
+
+  if (projects.length > 1) {
+    return {
+      text: "Creating a new Task?",
+      replace_original: true,
+      blocks: [
+        {
+          type: "section",
+          text: {
+            type: "mrkdwn",
+            text: "*You Are About to Create a New Task*",
+          },
+        },
+        ...taskInfo,
         {
           type: "input",
           element: {
@@ -375,7 +457,7 @@ export function createNewTaskBlockWithSelections(
             text: `Select ${selectBlockTitle}(s)`,
             emoji: true,
           },
-          options: optionsToChooseFrom,
+          options: userOptionsToChooseFrom,
           action_id: "multi_select-action",
         },
         label: {

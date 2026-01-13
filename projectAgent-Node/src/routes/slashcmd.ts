@@ -11,6 +11,7 @@ import { logTimestampForBenchmarking } from "../utils/logTimestampForBenchmarkin
 import { SlashCommand } from "@slack/bolt";
 import {
   convertTaskPageFromDbResponse,
+  // NotionTask,
   TaskPage,
 } from "../utils/taskFormatting/task";
 import { GetPageResponse } from "@notionhq/client";
@@ -76,6 +77,8 @@ const slashCmdHandler: StreamifyHandler = async function (
 
       // TODO get assigned by
 
+
+
       if (!isInDatabase) {
         throw new Error("Error searching database");
       }
@@ -93,7 +96,7 @@ const slashCmdHandler: StreamifyHandler = async function (
           console.log(
             `(slashCmdHandler) existingTask: ${JSON.stringify(existingTask)}`,
           );
-          const updateBlock = createExistingTaskBlock(existingTask);
+          const updateBlock = await createExistingTaskBlock(existingTask);
           console.log("Update Block", JSON.stringify(updateBlock));
 
           axios({
@@ -121,7 +124,9 @@ const slashCmdHandler: StreamifyHandler = async function (
           "Task to be passed to createNewTaskBlock",
           JSON.stringify(extractedTask),
         );
-        const slackBlocks = createNewTaskBlock(extractedTask, extractedTask.existingProjects || [], assigneeSearchResults);
+
+        
+        const slackBlocks = await createNewTaskBlock(extractedTask, extractedTask.existingProjects || [], assigneeSearchResults, reqBody);
 
         console.log("SlashCmdHandler taskBlockWithSelect", slackBlocks);
 

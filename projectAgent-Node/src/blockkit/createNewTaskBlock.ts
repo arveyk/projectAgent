@@ -1,14 +1,16 @@
 import { NotionUser } from "../utils/controllers/userTypes";
 import { UserSearchResult } from "../utils/controllers/userTypes";
-import { 
+import {
   createNewTaskBlockWithSelections,
   createTaskBlockWithoutSelections
- } from "./createBlockPartsForNewTask";
-import { 
-  NotionTask, 
-  Task, 
+} from "./createBlockPartsForNewTask";
+import {
+  NotionTask,
+  Task,
   // ExtractedTask
 } from "../utils/taskFormatting/task";
+import { findAssignedBy } from "../utils/controllers/findMatchingNotionUsers";
+import { SlashCommand } from "@slack/bolt";
 
 /**
  * Creates a set of Slack blocks to be used in previewing and confirming a new task.
@@ -16,15 +18,16 @@ import {
  * @param userSearchResult A list of 0 or more Notion users who match the assignee of the task.
  * @returns A set of Slack blocks to be used in previewing and confirming a new task.
  */
-export function createNewTaskBlock(
+export async function createNewTaskBlock(
   task: Task,
   projects: { projectName: string, id: string }[],
   userSearchResult: UserSearchResult[],
+  requestBody: SlashCommand
 ) {
   console.log("(createNewTaskBlock)");
   const identifiedUsers: NotionUser[] = [];
   const ambiguousUsers: NotionUser[] = [];
-
+  const taskProjects = task.project || [];
   for (const user of userSearchResult) {
     console.log(user.person.name);
 
@@ -36,33 +39,34 @@ export function createNewTaskBlock(
     }
   }
 
+  const assignedBy = await findAssignedBy(requestBody);
+
   //  Now create selection block
   //  if there are ambiguous users, create a selections block
   //  else create a normal block
   const notionTask: NotionTask = {
     taskTitle: task.taskTitle,
     assignees: identifiedUsers,
-    assignedBy: identifiedUsers,
+    assignedBy: assignedBy,
     dueDate: task.dueDate,
     startDate: task.startDate,
     description: task.description,
     project: task.project,
   };
-  if (ambiguousUsers.length > 0) {
-    return createNewTaskBlockWithSelections(notionTask, projects,"Assignee", {
+
+  if (ambiguousUsers.length > 0 || taskProjects.length > 0) {
+    return createNewTaskBlockWithSelections(notionTask, projects, "Assignee", {
       identifiedUsers,
       ambiguousUsers,
     });
   } else {
-    let projectsArray: {projectName: string, id: string}[] = [];
-    if (notionTask.project) {
-      projectsArray = projects.filter((queriedProject) => {
-        if (notionTask.project) {
-          for (const proj of notionTask.project) {
-          if (proj.id === queriedProject.id) return queriedProject
-        }
-      }
+    let projectsArray: { projectName: string, id: string }[] = [];
+
+    for (const proj of taskProjects) {
+      const found = projects.filter((queriedProject) => {
+        if (proj.id === queriedProject.id) return queriedProject
       });
+      projectsArray.push(...found);
     }
     return createTaskBlockWithoutSelections(notionTask, projectsArray);
   }

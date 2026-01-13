@@ -1,4 +1,4 @@
-import { NotionTask } from "../taskFormatting/task";
+import { NotionTask, ProjectWithName } from "../taskFormatting/task";
 import { NotionUser } from "./userTypes";
 
 type SelectionOption = {
@@ -41,7 +41,7 @@ export function integrateUserSelections(
 export function integrateSelectedProjects(
   projects: { id: string }[],
   selectedValues: SelectionOption[],
-  projectSelections: { projectName: string, id: string }[]
+  projectSelections: ProjectWithName[]
 ) {
   const allProjects: { id: string }[] = [...projects];
 
@@ -67,7 +67,7 @@ export function integrateSelectedProjects(
 export function integrateSelectedValues(
   notionTask: NotionTask,
   userSelections: NotionUser[],
-  projectSelections: { projectName: string, id: string }[],
+  projectSelections: ProjectWithName[],
   payload: any
 ) {
 

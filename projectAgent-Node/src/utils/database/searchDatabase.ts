@@ -1,4 +1,4 @@
-import { Client, DataSourceObjectResponse, QueryDataSourceResponse } from "@notionhq/client";
+import { Client, QueryDataSourceResponse } from "@notionhq/client";
 import { ChatAnthropic } from "@langchain/anthropic";
 import { z } from "zod/v4";
 import { dbPage, simplifyDatabaseResults } from "./simplifyDatabaseResults";

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { SLACK_BOT_TOKEN, SLACK_USER_OAUTH_TOKEN } from "../../env";
+import { SLACK_BOT_TOKEN } from "../../env";
 import { UsersListResponse } from "@slack/web-api";
 import { SlackUser } from "./userTypes";
 import { SlashCommand } from "@slack/bolt";

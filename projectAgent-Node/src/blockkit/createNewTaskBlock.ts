@@ -6,6 +6,7 @@ import {
 } from "./createBlockPartsForNewTask";
 import {
   NotionTask,
+  ProjectWithName,
   Task,
 } from "../utils/taskFormatting/task";
 
@@ -18,13 +19,14 @@ import {
 export async function createNewTaskBlock(
   assignedBy: NotionUser[],
   task: Task,
-  projects: { projectName: string, id: string }[],
   userSearchResult: UserSearchResult[],
 ) {
   console.log("(createNewTaskBlock)");
   const identifiedUsers: NotionUser[] = [];
   const ambiguousUsers: NotionUser[] = [];
   const taskProjects = task.project || [];
+  const projects : ProjectWithName[] = task.existingProjects || [];
+
   for (const user of userSearchResult) {
     console.log(user.person.name);
 
@@ -57,7 +59,7 @@ export async function createNewTaskBlock(
       ambiguousUsers,
     });
   } else {
-    let projectsArray: { projectName: string, id: string }[] = [];
+    let projectsArray: ProjectWithName[] = [];
 
     for (const proj of taskProjects) {
       const found = projects.filter((queriedProject) => {

@@ -5,7 +5,7 @@ import addTaskNotionPage, {
 import { SLACK_BOT_TOKEN } from "../../env";
 import { BlockAction } from "@slack/bolt";
 import { createRedirectToNewPageBlock } from "../../blockkit/createRedirectToNewPageBlock";
-import { TaskPage } from "../../utils/taskFormatting/task";
+import { ProjectWithName, TaskPage } from "../../utils/taskFormatting/task";
 import { deletePage } from "../../utils/database/deleteDatabasePage";
 import { APIGatewayProxyEventV2, Context, StreamifyHandler } from "aws-lambda";
 import {
@@ -73,7 +73,7 @@ const interactionHandler: StreamifyHandler = async function (
       const taskPageAndOptionsObject: {
         taskPageObject: TaskPage;
         userOptions: NotionUser[];
-        projectOptions: { projectName: string, id: string }[]
+        projectOptions: ProjectWithName[]
       } = JSON.parse(payload["actions"][0].value || "{}");
       console.log(payload["actions"][0].value);
       console.log(JSON.stringify(taskPageAndOptionsObject));
@@ -85,7 +85,7 @@ const interactionHandler: StreamifyHandler = async function (
         const userSelections: NotionUser[] =
           taskPageAndOptionsObject.userOptions;
         console.log(`${userSelections}`);
-        const projectOptions: { projectName: string, id: string }[] = taskPageAndOptionsObject.projectOptions;
+        const projectOptions: ProjectWithName[] = taskPageAndOptionsObject.projectOptions;
 
         // const allAssignees = integrateUserSelections(
         //  taskPageObj.task.assignees,

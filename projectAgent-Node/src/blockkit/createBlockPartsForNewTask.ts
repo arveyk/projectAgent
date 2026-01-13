@@ -2,7 +2,7 @@ import { formatSlackDate } from "../utils/timeHandling/dateHandler";
 import { NotionUser } from "../utils/controllers/userTypes";
 import { 
   NotionTask,
-  // ExtractedTask
+  ProjectWithName
 } from "../utils/taskFormatting/task";
 
 /**
@@ -13,10 +13,7 @@ import {
  */
 export function createTaskInfo(
   notionTaskObj: NotionTask,
-  projects: {
-    projectName: string,
-    id: string
-  }[],
+  projects: ProjectWithName[],
   // extractedTask: ExtractedTask,
   assignees: NotionUser[],
 ) {
@@ -109,7 +106,7 @@ export function createTaskInfo(
 export function createTaskInfoWithoutSelections(
   notionTask: NotionTask,
   // assignees: NotionUser[],
-  projects: { projectName: string, id: string }[]
+  projects: ProjectWithName[]
 ) {
   const task = notionTask;
   const assigneesArr = notionTask.assignees;
@@ -195,7 +192,7 @@ export function createTaskInfoWithoutSelections(
  */
 export function createOptions(
   whichToCreate: string,
-  listOfItems: { projectName: string, id: string }[] | NotionUser[],
+  listOfItems:ProjectWithName[] | NotionUser[],
 ) {
   let index = 0;
 
@@ -212,7 +209,7 @@ export function createOptions(
       };
     });
   } else {
-    const projectArray = listOfItems as { projectName: string, id: string}[];
+    const projectArray = listOfItems as ProjectWithName[];
     const optionsArray = projectArray.map((project) => {
       return {
         text: {
@@ -237,10 +234,7 @@ export function createOptions(
 export function createNewTaskBlockWithSelections(
   notionTask: NotionTask,
   // extractedTask: ExtractedTask,
-  projects: {
-    projectName: string,
-    id: string
-  }[],
+  projects: ProjectWithName[],
   selectBlockTitle: string,
   foundUsers: {
     identifiedUsers: NotionUser[];
@@ -521,7 +515,7 @@ export function createNewTaskBlockWithSelections(
  */
 export const createTaskBlockWithoutSelections = function (
   notionTask: NotionTask,
-  projects: { projectName: string, id: string}[]
+  projects: ProjectWithName[]
   // extractedTask: ExtractedTask
 ) {
   const ColumnLayoutTaskInfo = createTaskInfoWithoutSelections(notionTask, projects);

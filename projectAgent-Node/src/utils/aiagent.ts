@@ -1,14 +1,12 @@
 import { ChatAnthropic } from "@langchain/anthropic";
 import { z } from "zod/v4";
 import { ANTHROPIC_API_KEY, ANTHROPIC_MODEL_VER } from "../env";
-import { getEventTimeData } from "./timeHandling/getTime";
 import { RunnableConfig, Runnable } from "@langchain/core/dist/runnables";
 import { BaseLanguageModelInput } from "@langchain/core/dist/language_models/base";
 import { 
   convertTask,
-  Task,
-  ParsedData
-  // ExtractedTask
+  ParsedData,
+  ProjectWithName
 } from "./taskFormatting/task";
 import { SlashCommand } from "@slack/bolt";
 import { logTimestampForBenchmarking } from "./logTimestampForBenchmarking";
@@ -35,7 +33,7 @@ export const EXAMPLE_OUTPUT_FOR_PROMPT_01: TaskParseResult = {
 const EXAMPLE_MSG_01 = "\
 Bradley, finish up the landing gear for the F-22 Assembly and Maintenance project by July 5 2026";
 
-export const EXAMPLE_INPUT_PROJECTS: {projectName: string, id: string}[] = [
+export const EXAMPLE_INPUT_PROJECTS: ProjectWithName[] = [
   { projectName: "F-22 Assembly and Maintenance", id: "kl*9J9kjs)_nsdyyusdl" },
   { projectName: "Project assigned by Donald", id: "lapI-2nd7dUHnis927hd" },
   { projectName: "Vanadium", id: "dsdPO219083nd-siosau" }

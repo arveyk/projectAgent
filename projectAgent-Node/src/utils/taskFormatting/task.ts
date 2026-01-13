@@ -15,6 +15,11 @@ export type PersonNoId = {
   email?: string;
 };
 
+export type ProjectWithName = {
+  projectName: string;
+  id: string;
+}
+
 export type User = {
   userId: string;
   name: string;
@@ -32,20 +37,9 @@ export type Task = {
   startDate?: Date;
   description: string;
   project?: { id: string }[];
-  existingProjects?: { projectName: string, id: string }[]
+  existingProjects?: ProjectWithName[]
 };
 
-export type ExtractedTask = {
-  taskTitle: string;
-  assignees: PersonNoId[];
-  dueDate?: Date;
-  startDate?: Date;
-  description: string;
-  project: {
-    projectName: string;
-    id: string;
-  }[]
-}
 
 export type NotionTask = {
   taskTitle: string;
@@ -65,15 +59,9 @@ export type TaskPage = {
   url?: string;
 };
 
-export type ExtractedTaskPage = {
-  task: ExtractedTask;
-  pageId: string;
-  url?: string;
-}
 
-export function convertTask(taskInput: TaskParseResult, notionProjects: {
-  projectName: string; id: string
-}[]): Task {
+export function convertTask(taskInput: TaskParseResult,
+  notionProjects: ProjectWithName[]): Task {
   // export function convertTask(taskInput: TaskParseResult): ExtractedTask {
   console.log(JSON.stringify(taskInput));
 

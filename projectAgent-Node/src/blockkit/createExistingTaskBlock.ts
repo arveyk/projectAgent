@@ -1,5 +1,5 @@
 import { getProjects } from "../utils/database/searchDatabase";
-import { TaskPage } from "../utils/taskFormatting/task";
+import { ProjectWithName, TaskPage } from "../utils/taskFormatting/task";
 import { createTaskInfoWithoutSelections } from "./createBlockPartsForNewTask";
 
 /**
@@ -12,7 +12,7 @@ export async function createExistingTaskBlock(taskPage: TaskPage) {
   const associatedProjects = taskPage.task.project || [];
   const existingProjects = await getProjects();
 
-  const taskProjects: { projectName: string, id: string }[] = [];
+  const taskProjects: ProjectWithName[] = [];
 
   for (const associatedProj of associatedProjects) {
     const foundProject = existingProjects.find((project) => {

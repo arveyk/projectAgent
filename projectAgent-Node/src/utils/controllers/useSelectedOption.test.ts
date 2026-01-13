@@ -5,7 +5,7 @@ import {
 } from "../../test-data/example-selections-payload";
 "../../test-data/example-selection-payload"
 import { integrateSelectedValues } from "./useSelectedOption";
-import { TaskPage } from "../taskFormatting/task";
+import { TaskPage, ProjectWithName } from "../taskFormatting/task";
 import { NotionUser } from "./userTypes";
 
 
@@ -19,7 +19,7 @@ describe("Run payload Extraction and use values", () => {
     const taskPageAndOptionsObject: {
         taskPageObject: TaskPage;
         userOptions: NotionUser[];
-        projectOptions: { projectName: string, id: string }[]
+        projectOptions: ProjectWithName[]
       } = JSON.parse(payload["actions"][0].value || "{}");
 
     const taskPageObject = taskPageAndOptionsObject.taskPageObject;
@@ -35,7 +35,7 @@ describe("Run payload Extraction and use values", () => {
     const taskPageAndOptionsObject: {
         taskPageObject: TaskPage;
         userOptions: NotionUser[];
-        projectOptions: { projectName: string, id: string }[]
+        projectOptions: ProjectWithName[]
       } = JSON.parse(payload_02["actions"][0].value || "{}");
 
     const taskPageObject = taskPageAndOptionsObject.taskPageObject;

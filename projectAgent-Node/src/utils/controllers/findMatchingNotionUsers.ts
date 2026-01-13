@@ -1,8 +1,7 @@
 import { Task } from "../taskFormatting/task";
 import { getNotionUsers } from "./getUsersNotion";
-import { getSlackUserById } from "./getUsersSlack";
 import { NotionUser, UserSearchResult } from "./userTypes";
-import { SlashCommand } from "@slack/bolt";
+import { User } from "../taskFormatting/task";
 
 export async function findMatchingAssignees(
   task: Task,
@@ -166,9 +165,48 @@ export function deduplicateUsers(
   return uniqueUsers;
 }
 
-export async function findAssignedBy(requestBody: SlashCommand) {
-  const userInSlack = await getSlackUserById(requestBody.user_id);
-  const matchingNotionUser = await findMatchingNotionUser(requestBody.user_name, userInSlack.email);
-  console.log(`(findAssignedBy), any found ${userInSlack}, searched id: ${requestBody.user_id}`, JSON.stringify(matchingNotionUser), `request Body ${JSON.stringify(requestBody)}`);
+export async function findSingleMatchingNotionUser(
+  slackUsername: string,
+  email?: string,
+): Promise<NotionUser[]> {
+  const allNotionUsers: NotionUser[] = await getNotionUsers();
+
+  let emailMatches: NotionUser[] = [];
+  if (email !== undefined) {
+    emailMatches = allNotionUsers.filter((user) => {
+      if (user.email !== undefined) {
+        return compareEmails(email, user.email);
+      } else {
+        return false;
+      }
+    });
+  }
+
+  const nameMatches = allNotionUsers.filter((user) => {
+    return compareNames(slackUsername, user.name);
+  });
+  if (emailMatches.length > 0) {
+    return emailMatches;
+  }
+
+  if (nameMatches.length < 1) {
+    console.log("No match, now searching by substring:");
+    /* search using substring */
+    const partialNameMatches = allNotionUsers.filter((user) => {
+      return isPartialNameMatch(slackUsername, user.name);
+    });
+    return partialNameMatches;
+  } else {
+    return nameMatches;
+  }
+}
+
+export async function findAssignedBy(timelyUser: User) {
+  const userInSlack = timelyUser;
+
+  const matchingNotionUser = await findSingleMatchingNotionUser(userInSlack.name, userInSlack.email);
+  
+  console.log(`(findAssignedBy), any found ${userInSlack}, searched id: ${userInSlack.userId}`, JSON.stringify(matchingNotionUser));
+  
   return matchingNotionUser;
 }

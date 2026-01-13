@@ -7,11 +7,13 @@ import { BaseLanguageModelInput } from "@langchain/core/dist/language_models/bas
 import { 
   convertTask,
   Task,
+  ParsedData
   // ExtractedTask
 } from "./taskFormatting/task";
 import { SlashCommand } from "@slack/bolt";
 import { logTimestampForBenchmarking } from "./logTimestampForBenchmarking";
 import { getProjects } from "./database/searchDatabase";
+import { getTimelyUserData } from "./controllers/getUsersSlack";
 
 export const EXAMPLE_OUTPUT_FOR_PROMPT: TaskParseResult = {
   taskTitle: "Write article draft",
@@ -107,7 +109,7 @@ logTimestampForBenchmarking("(Parse) model initialization finished");
 export const parseTask = async function (
   reqBody: SlashCommand,
   timestamp: number,
-): Promise<Task> {
+): Promise<ParsedData> {
   let textToParse;
 
   //slash cmd text can be immediately accessed, for other events it is indirect, through events field
@@ -119,12 +121,15 @@ export const parseTask = async function (
     textToParse = "No Task available";
   }
 
-  const timeData = await getEventTimeData(reqBody, timestamp);
+
+  const timelyUserData = await getTimelyUserData(reqBody, timestamp);
+
+  // const timeData = await getEventTimeData(reqBody, timestamp);
+  const timeData = timelyUserData.eventTimeData;
 
   const notionProjects = await getProjects();
   console.log(`notionProjects found ${JSON.stringify(notionProjects)}`);
 
-  const ifNoMatchisFound = 'If no matching project or projects are found leave it empty.';
   const prompt = `Today's date and time in ISO format is ${timeData.toISO()}, and our timezone is ${timeData.zoneName}. Please extract task information from a message, making sure to list any dates in ISO format with timezone offset. "By the end of the day" means by 17:00 in our timezone. If the message says to finish a task "by" some date but does not specify a time, that means by 0:00 of that date in our timezone. 
   Also, using this list ${JSON.stringify(notionProjects)}, infer the project the task is linked to. The projectName is what will help in finding a match. """Example: Input 1: Bob, starting tomorrow, please write a draft of the article and have it finished by August 20, 2025. Output: ${JSON.stringify(EXAMPLE_OUTPUT_FOR_PROMPT)}, Input 2: ${EXAMPLE_MSG_01}. Output 2: ${JSON.stringify(EXAMPLE_OUTPUT_FOR_PROMPT_01)}""" Here is the message: ${textToParse}`;
   console.log(`prompt: ${prompt}`);
@@ -169,5 +174,12 @@ export const parseTask = async function (
   task.existingProjects = notionProjects;
 
   console.log(`task parse result after conversion: ${JSON.stringify(task)}`);
-  return task;
+  return {
+    task: task,
+    timelyUser: {
+       userId: timelyUserData.userId,
+       name: timelyUserData.name,
+       email: timelyUserData.email,
+    }
+  }
 };

@@ -15,6 +15,16 @@ export type PersonNoId = {
   email?: string;
 };
 
+export type User = {
+  userId: string;
+  name: string;
+  email: string;
+}
+
+export type ParsedData = {
+  task: Task;
+  timelyUser: User;
+}
 export type Task = {
   taskTitle: string;
   assignees: PersonNoId[];

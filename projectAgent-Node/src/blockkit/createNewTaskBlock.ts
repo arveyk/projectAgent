@@ -7,10 +7,7 @@ import {
 import {
   NotionTask,
   Task,
-  // ExtractedTask
 } from "../utils/taskFormatting/task";
-import { findAssignedBy } from "../utils/controllers/findMatchingNotionUsers";
-import { SlashCommand } from "@slack/bolt";
 
 /**
  * Creates a set of Slack blocks to be used in previewing and confirming a new task.
@@ -19,10 +16,10 @@ import { SlashCommand } from "@slack/bolt";
  * @returns A set of Slack blocks to be used in previewing and confirming a new task.
  */
 export async function createNewTaskBlock(
+  assignedBy: NotionUser[],
   task: Task,
   projects: { projectName: string, id: string }[],
   userSearchResult: UserSearchResult[],
-  requestBody: SlashCommand
 ) {
   console.log("(createNewTaskBlock)");
   const identifiedUsers: NotionUser[] = [];
@@ -39,7 +36,7 @@ export async function createNewTaskBlock(
     }
   }
 
-  const assignedBy = await findAssignedBy(requestBody);
+  // const assignedBy = await findAssignedBy(requestBody);
 
   //  Now create selection block
   //  if there are ambiguous users, create a selections block

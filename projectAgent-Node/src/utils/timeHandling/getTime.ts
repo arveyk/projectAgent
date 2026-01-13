@@ -17,6 +17,8 @@ export type TimezoneInfo = {
  * @param {*} userID The user's ID
  * @returns The user's timezone, timezone label, and offset from UTC
  */
+
+// getUserData
 export async function getUserTimezoneData(
   userID: string,
 ): Promise<TimezoneInfo> {
@@ -62,9 +64,16 @@ export async function getUserTimezoneData(
       tz_label: userData["tz_label"],
       tz_offset: offsetSeconds / (SECONDS_IN_MINUTE * MINUTES_IN_HOUR),
     };
+
+    // userData = {
+    //   timezoneInfo
+    //   
+    // }
     return info;
   }
 }
+
+// export async function getEventTimeData(
 
 export async function getEventTimeData(
   reqBody: SlashCommand,

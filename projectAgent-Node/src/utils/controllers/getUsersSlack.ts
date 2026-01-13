@@ -2,9 +2,26 @@ import axios from "axios";
 import { SLACK_BOT_TOKEN, SLACK_USER_OAUTH_TOKEN } from "../../env";
 import { UsersListResponse } from "@slack/web-api";
 import { SlackUser } from "./userTypes";
+import { SlashCommand } from "@slack/bolt";
+import { DateTime } from "luxon";
 
-type UserInSlack = {
-  source: "slack";
+
+const SECONDS_IN_A_MINUTE = 60;
+const MINUTES_IN_AN_HOUR = 60;
+
+
+type SlackUserData = {
+  userId: string;
+  name: string;
+  email: string;
+  timezoneData: {
+    tz: string;
+    tz_label: string;
+    tz_offset: number;
+  }
+}
+type UserData = {
+  eventTimeData: DateTime;
   userId: string;
   name: string;
   email: string;
@@ -59,10 +76,10 @@ export const getSlackUsers = async function (): Promise<SlackUser[]> {
  * @param userID The id of the user to find.
  * @returns The Slack user with the given user id.
  */
-export async function getSlackUserById(userID: string): Promise<UserInSlack> {
+export async function getSlackUserDataById(userID: string): Promise<SlackUserData> {
   console.log("User ID", userID);
- 
-  const retrieveUserResponse = await axios({
+
+  const retrieveUserInfoResponse = await axios({
     method: "get",
     url: `https://slack.com/api/users.info?user=${userID}`,
     headers: {
@@ -79,18 +96,58 @@ export async function getSlackUserById(userID: string): Promise<UserInSlack> {
       throw new Error("Failed to fetch Slack user TimeZone");
     });
 
-const userData = retrieveUserResponse.data.user
-  
-  console.log("(getSlackUserById): User info:", retrieveUserResponse, "profile", userData.profile);
-  if (!retrieveUserResponse.data) {
-    throw new Error(`Error fetching user by ID: ${retrieveUserResponse}`);
+  if (!retrieveUserInfoResponse.data["ok"]) {
+    throw new Error(`Error fetching user by ID: ${retrieveUserInfoResponse}`);
   }
+  const userData = retrieveUserInfoResponse.data["user"];
+
+  if (typeof userData["tz"] !== "string") {
+    throw new Error("Invalid timezone response");
+  }
+  if (typeof userData["tz_label"] !== "string") {
+    throw new Error("Invalid timezone label");
+  }
+  if (typeof userData["tz_offset"] !== "number") {
+    throw new Error("Invalid timezone offset");
+  }
+  const offsetSeconds: number = userData["tz_offset"];
+  if (isNaN(offsetSeconds)) {
+    throw new Error("Timezone offset is not a number");
+  }
+  console.log("(getSlackUserById): User info:", retrieveUserInfoResponse, "profile", userData.profile);
+
+
 
   console.log("User Data", JSON.stringify(userData))
   return {
-    source: "slack",
     userId: userID,
     name: userData.real_name,
-    email: userData.profile.email // ? retrieveUserResponse.profile.email : null,
+    email: userData.profile.email,
+    timezoneData: {
+      tz: userData["tz"],
+      tz_label: userData["tz_lable"],
+      tz_offset: offsetSeconds / (SECONDS_IN_A_MINUTE * MINUTES_IN_AN_HOUR)
+    }
   }
+}
+
+export async function getTimelyUserData(
+  reqBody: SlashCommand,
+  timestamp: number,
+): Promise<UserData> {
+  const userID = reqBody["user_id"];
+  const userData = await getSlackUserDataById(userID);
+  const userTZData = userData.timezoneData;
+
+  console.log(`user timezone data: ${JSON.stringify(userTZData)}`);
+  console.log(`timestamp: ${timestamp}`);
+
+  const time = DateTime.fromMillis(timestamp).setZone(userTZData.tz);
+
+  return {
+    eventTimeData: time,
+    userId: userData.userId,
+    name: userData.name,
+    email: userData.email,
+  };
 }

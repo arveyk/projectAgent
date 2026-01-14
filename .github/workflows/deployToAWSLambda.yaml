@@ -39,6 +39,6 @@ jobs:
       uses: aws-actions/aws-lambda-deploy@v1.1.0
       with:
         function-name: TimelyBot-dev
-        code-artifacts-dir: ./dist 
+        code-artifacts-dir: ./projectAgent-node/dist 
         handler: index.handler
         runtime: nodejs24.x 

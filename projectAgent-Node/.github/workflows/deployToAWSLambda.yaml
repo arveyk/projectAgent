@@ -20,9 +20,11 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v5
 
-    - run: npm ci
-    - run: npm run build
-    - run: npm run zip
+    - name: Build
+      run: | 
+        npm ci
+        npm run build
+        npm run zip
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v4

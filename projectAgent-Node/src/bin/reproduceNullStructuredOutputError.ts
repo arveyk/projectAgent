@@ -1,4 +1,4 @@
-import { EXAMPLE_OUTPUT_FOR_PROMPT, taskSchema } from "../utils/aiAgent";
+import { EXAMPLE_OUTPUT_FOR_PROMPT, taskSchema } from "../utils/aiagent";
 import { ChatAnthropic } from "@langchain/anthropic";
 import { ANTHROPIC_API_KEY, ANTHROPIC_MODEL_VER } from "../env";
 import { RunnableConfig, Runnable } from "@langchain/core/dist/runnables";

@@ -1,4 +1,4 @@
-import { parseTask } from "./aiAgent";
+import { parseTask } from "./aiagent";
 
 import {
   payloadGood,

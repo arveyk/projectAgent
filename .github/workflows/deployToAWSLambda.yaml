@@ -21,8 +21,8 @@ jobs:
       uses: actions/checkout@v5
 
     - name: Build
+      working-directory: ./projectAgent-Node
       run: | 
-        cd projectAgent-Node
         npm ci
         npm run build
         npm run zip

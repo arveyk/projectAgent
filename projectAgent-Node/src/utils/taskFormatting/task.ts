@@ -37,7 +37,8 @@ export type Task = {
   startDate?: Date;
   description: string;
   project?: { id: string }[];
-  existingProjects?: ProjectWithName[]
+  existingProjects?: ProjectWithName[];
+  similarProjects?: { id: string }[]
 };
 
 
@@ -76,17 +77,35 @@ export function convertTask(taskInput: TaskParseResult,
       return { name: assignee };
     })
     : [];
+  const similarProjects = taskInput.similarProjects
+    ? taskInput.similarProjects.map((project) => {
+      return project;
+    })
+    : [];
 
-  const taskProjects = taskInput.project || []
+  const taskProjects = taskInput.projects || []
 
   const projects_1: { id: string }[] = [];
-  console.log(`notionProjects${JSON.stringify(notionProjects)}\ntaskProjects: ${taskProjects}`)
-  notionProjects.forEach((notionProj) => {
-    if (notionProj && taskProjects[0]) {
-      if (notionProj.projectName === taskProjects[0].projectName) {
-        projects_1.push({ id: notionProj.id });
+  const projectsToSelect: { id: string }[] = [];
+
+  console.log(`notionProjects${JSON.stringify(notionProjects)}\ntaskProjects: ${taskProjects}`);
+
+  notionProjects.forEach((notionProjItem) => {
+    // Second loop
+    taskProjects.forEach((taskProjectItem) => {
+      if (notionProjItem && taskProjectItem) {
+        if (notionProjItem.projectName === taskProjectItem.projectName) {
+          projects_1.push({ id: notionProjItem.id });
+        }
       }
-    }
+    })
+    similarProjects.forEach((unSelectedProject) => {
+      if (notionProjItem && unSelectedProject) {
+        if (notionProjItem.projectName === unSelectedProject.projectName) {
+          projectsToSelect.push({ id: notionProjItem.id});
+        }
+      }
+    })
   })
 
   return {
@@ -95,7 +114,8 @@ export function convertTask(taskInput: TaskParseResult,
     dueDate: dueDate,
     startDate: startDate,
     description: taskInput["description"],
-    project: projects_1 || [],
+    project: projects_1,
+    similarProjects: projectsToSelect
   };
 }
 
@@ -218,7 +238,6 @@ export function convertTaskPageFromDbResponse(
     url: url,
     pageId: pageId,
   };
-
   return existingTaskPage;
 }
 

@@ -2,6 +2,7 @@ import { NotionUser } from "../utils/controllers/userTypes";
 import { UserSearchResult } from "../utils/controllers/userTypes";
 import {
   createNewTaskBlockWithSelections,
+  createNewTaskBlockWithSelectionsForAmbiguousProjects,
   createTaskBlockWithoutSelections
 } from "./createBlockPartsForNewTask";
 import {
@@ -26,6 +27,8 @@ export async function createNewTaskBlock(
   const ambiguousUsers: NotionUser[] = [];
   const taskProjects = task.project || [];
   const projects : ProjectWithName[] = task.existingProjects || [];
+  const similarProjects = task.similarProjects || [];
+
 
   for (const user of userSearchResult) {
     console.log(user.person.name);
@@ -53,8 +56,19 @@ export async function createNewTaskBlock(
     project: task.project,
   };
 
-  if (ambiguousUsers.length > 0 || taskProjects.length > 0) {
-    return createNewTaskBlockWithSelections(notionTask, projects, "Assignee", {
+  if (similarProjects.length > 0) {
+    return createNewTaskBlockWithSelectionsForAmbiguousProjects(notionTask, projects,
+      similarProjects,
+      {
+        identifiedUsers,
+        ambiguousUsers
+      }
+    )
+  }
+  if (ambiguousUsers.length > 0 || taskProjects.length === 0 || similarProjects.length > 1) {
+    return createNewTaskBlockWithSelections(notionTask, projects, 
+      // similarProjects, 
+      {
       identifiedUsers,
       ambiguousUsers,
     });

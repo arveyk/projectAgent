@@ -3,7 +3,7 @@ import { z } from "zod/v4";
 import { ANTHROPIC_API_KEY, ANTHROPIC_MODEL_VER } from "../env";
 import { RunnableConfig, Runnable } from "@langchain/core/dist/runnables";
 import { BaseLanguageModelInput } from "@langchain/core/dist/language_models/base";
-import { 
+import {
   convertTask,
   ParsedData,
   ProjectWithName
@@ -18,25 +18,38 @@ export const EXAMPLE_OUTPUT_FOR_PROMPT: TaskParseResult = {
   assignees: ["Bob"],
   dueDate: "2025-08-20T00:00-07:00",
   description: "Write a draft of the article",
-  project: []
+  projects: []
 };
 export const EXAMPLE_OUTPUT_FOR_PROMPT_01: TaskParseResult = {
   taskTitle: "Finish landing gear",
   assignees: ["Bradley"],
   dueDate: "2026-07-5T00:00-07:00",
   description: "Bradley, finish up the landing gear for the F-22 Assembly and Maintenance project by July 5 2026",
-  project: [
-  { projectName: "F-22 Assembly and Maintenance"} 
+  projects: [
+    { projectName: "F-22 Assembly and Maintenance" }
   ]
 };
 
 const EXAMPLE_MSG_01 = "\
 Bradley, finish up the landing gear for the F-22 Assembly and Maintenance project by July 5 2026";
 
+const EXAMPLE_MSG_02 = "Phinehas, research on a lighter and stronger vanadium carbon composite for the jet propulsion redesign"
+export const EXAMPLE_OUTPUT_FOR_PROMPT_02: TaskParseResult = {
+  taskTitle: "Research on Lighter and Stronger Vanadium Carbon Composite",
+  assignees: ["Phinehas"],
+  dueDate: null,
+  description: "Phinehas, research on a lighter and stronger vanadium carbon composite for the jet propulsion redesign",
+  projects: [
+    { projectName: "Jet Propulsion Redesign" },
+    { projectName: "Vanadium Carbon Composite" }
+  ]
+};
+
 export const EXAMPLE_INPUT_PROJECTS: ProjectWithName[] = [
   { projectName: "F-22 Assembly and Maintenance", id: "kl*9J9kjs)_nsdyyusdl" },
+  { projectName: "Jet Propulsion Redesign", id: "1xc9Dtrhjs)ns4h7jLKd" },
   { projectName: "Project assigned by Donald", id: "lapI-2nd7dUHnis927hd" },
-  { projectName: "Vanadium", id: "dsdPO219083nd-siosau" }
+  { projectName: "Vanadium Carbon Composite", id: "dsdPO219083nd-siosau" }
 ]
 
 
@@ -76,14 +89,22 @@ export const taskSchema = z.object({
     .nullable()
     .describe("Assingnee phone number"),
   email: z.string().optional().nullable().describe("Assignee's email address"),
-  project: z
+  projects: z
     .object({
       projectName: z.string()
     })
     .array()
     .optional()
     .nullable()
-    .describe("The project the task belongs to"),
+    .describe("Projects the task belongs to"),
+  similarProjects: z
+    .object({
+      projectName: z.string()
+    })
+    .array()
+    .optional()
+    .nullable()
+    .describe("Project matches if it is unclear which project is being referred to"),
 });
 export type TaskParseResult = z.infer<typeof taskSchema>;
 
@@ -129,7 +150,10 @@ export const parseTask = async function (
   console.log(`notionProjects found ${JSON.stringify(notionProjects)}`);
 
   const prompt = `Today's date and time in ISO format is ${timeData.toISO()}, and our timezone is ${timeData.zoneName}. Please extract task information from a message, making sure to list any dates in ISO format with timezone offset. "By the end of the day" means by 17:00 in our timezone. If the message says to finish a task "by" some date but does not specify a time, that means by 0:00 of that date in our timezone. 
-  Also, using this list ${JSON.stringify(notionProjects)}, infer the project the task is linked to. The projectName is what will help in finding a match. """Example: Input 1: Bob, starting tomorrow, please write a draft of the article and have it finished by August 20, 2025. Output: ${JSON.stringify(EXAMPLE_OUTPUT_FOR_PROMPT)}, Input 2: ${EXAMPLE_MSG_01}. Output 2: ${JSON.stringify(EXAMPLE_OUTPUT_FOR_PROMPT_01)}""" Here is the message: ${textToParse}`;
+  Also, using this list ${JSON.stringify(notionProjects)}, infer the project or projects the task is linked to. The projectName is what will help in finding a match. \
+  """Example: **Sample Projects**: ${EXAMPLE_INPUT_PROJECTS}.\n\
+  Input 1: Bob, starting tomorrow, please write a draft of the article and have it finished by August 20, 2025. Output: ${JSON.stringify(EXAMPLE_OUTPUT_FOR_PROMPT)},\
+  Input 2: ${EXAMPLE_MSG_01}. Output 2: ${JSON.stringify(EXAMPLE_OUTPUT_FOR_PROMPT_01)}. Input 3 ${EXAMPLE_MSG_02}. Output 3 ${JSON.stringify(EXAMPLE_OUTPUT_FOR_PROMPT_02)}""" Here is the message: ${textToParse}`;
   console.log(`prompt: ${prompt}`);
 
   /**
@@ -175,9 +199,9 @@ export const parseTask = async function (
   return {
     task: task,
     timelyUser: {
-       userId: timelyUserData.userId,
-       name: timelyUserData.name,
-       email: timelyUserData.email,
+      userId: timelyUserData.userId,
+      name: timelyUserData.name,
+      email: timelyUserData.email,
     }
   }
 };

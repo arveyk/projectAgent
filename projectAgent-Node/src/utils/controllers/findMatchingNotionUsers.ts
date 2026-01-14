@@ -165,8 +165,9 @@ export function deduplicateUsers(
   return uniqueUsers;
 }
 
-export async function findSingleMatchingNotionUser(
-  slackUsername: string,
+export async function findMatchingNotionUserByEmail(
+  // slackEmailSavedInNotion: string
+  slackEmail: string,
   email?: string,
 ): Promise<NotionUser[]> {
   const allNotionUsers: NotionUser[] = await getNotionUsers();
@@ -182,31 +183,15 @@ export async function findSingleMatchingNotionUser(
     });
   }
 
-  const nameMatches = allNotionUsers.filter((user) => {
-    return compareNames(slackUsername, user.name);
-  });
-  if (emailMatches.length > 0) {
-    return emailMatches;
-  }
-
-  if (nameMatches.length < 1) {
-    console.log("No match, now searching by substring:");
-    /* search using substring */
-    const partialNameMatches = allNotionUsers.filter((user) => {
-      return isPartialNameMatch(slackUsername, user.name);
-    });
-    return partialNameMatches;
-  } else {
-    return nameMatches;
-  }
+  return emailMatches;
 }
 
 export async function findAssignedBy(timelyUser: User) {
   const userInSlack = timelyUser;
 
-  const matchingNotionUser = await findSingleMatchingNotionUser(userInSlack.name, userInSlack.email);
-  
+  const matchingNotionUser = await findMatchingNotionUserByEmail(userInSlack.name, userInSlack.email);
+
   console.log(`(findAssignedBy), any found ${userInSlack}, searched id: ${userInSlack.userId}`, JSON.stringify(matchingNotionUser));
-  
+
   return matchingNotionUser;
 }

@@ -1,6 +1,6 @@
 import { formatSlackDate } from "../utils/timeHandling/dateHandler";
 import { NotionUser } from "../utils/controllers/userTypes";
-import { 
+import {
   NotionTask,
   ProjectWithName
 } from "../utils/taskFormatting/task";
@@ -14,7 +14,6 @@ import {
 export function createTaskInfo(
   notionTaskObj: NotionTask,
   projects: ProjectWithName[],
-  // extractedTask: ExtractedTask,
   assignees: NotionUser[],
 ) {
   const task = notionTaskObj;
@@ -39,7 +38,7 @@ export function createTaskInfo(
       if (project) {
         const notionTaskProject = notionTaskObj.project || []
         // Only include projects within the Project field of notion task
-        
+
         if (notionTaskProject.find((projElement) => projElement.id === project.id)) {
           projectNames += `${project.projectName}\n`;
         }
@@ -105,7 +104,6 @@ export function createTaskInfo(
  */
 export function createTaskInfoWithoutSelections(
   notionTask: NotionTask,
-  // assignees: NotionUser[],
   projects: ProjectWithName[]
 ) {
   const task = notionTask;
@@ -131,7 +129,7 @@ export function createTaskInfoWithoutSelections(
     projectsArray.forEach((project) => {
       if (project) {
         // `projectNames += `${project.projectName === "" ? " " : project.projectName}\n`;
-        projectNames += `Project id: ${project.id === "" ? " " : project.id}\n`;
+        projectNames += `${project.projectName === "" ? " " : project.projectName}\n`;
       }
     });
     // Remove trailing comma and space
@@ -192,7 +190,7 @@ export function createTaskInfoWithoutSelections(
  */
 export function createOptions(
   whichToCreate: string,
-  listOfItems:ProjectWithName[] | NotionUser[],
+  listOfItems: ProjectWithName[] | NotionUser[],
 ) {
   let index = 0;
 
@@ -217,7 +215,7 @@ export function createOptions(
           text: `*${project.projectName}*`,
           emoji: true,
         },
-        value: `${ "Project_" + index++}`,
+        value: `${"Project_" + index++}`,
       };
     });
     return optionsArray;
@@ -233,17 +231,15 @@ export function createOptions(
  */
 export function createNewTaskBlockWithSelections(
   notionTask: NotionTask,
-  // extractedTask: ExtractedTask,
   projects: ProjectWithName[],
-  selectBlockTitle: string,
   foundUsers: {
     identifiedUsers: NotionUser[];
     ambiguousUsers: NotionUser[];
   },
 ) {
   const taskInfo = createTaskInfo(notionTask, projects, foundUsers.identifiedUsers);
-
-  console.log(`Creating ${selectBlockTitle} select block`);
+  const parsedProjects = notionTask.project || [];
+  console.log(`Creating selection block`);
 
   // Create options for ambiguous users
   const userOptionsToChooseFrom = createOptions(
@@ -255,7 +251,8 @@ export function createNewTaskBlockWithSelections(
     projects
   );
 
-  if (projects.length > 1 && userOptionsToChooseFrom.length > 1) {
+
+  if (parsedProjects.length < 1 && userOptionsToChooseFrom.length > 1) {
     return {
       text: "Creating a new Task?",
       replace_original: true,
@@ -274,7 +271,7 @@ export function createNewTaskBlockWithSelections(
             type: "multi_static_select",
             placeholder: {
               type: "plain_text",
-              text: `Select ${selectBlockTitle}(s)`,
+              text: "Select Assignee(s)",
               emoji: true,
             },
             options: userOptionsToChooseFrom,
@@ -282,7 +279,7 @@ export function createNewTaskBlockWithSelections(
           },
           label: {
             type: "plain_text",
-            text: `${selectBlockTitle}`,
+            text: "Assignees",
             emoji: true,
           },
         },
@@ -352,7 +349,7 @@ export function createNewTaskBlockWithSelections(
     };
   }
 
-  if (projects.length > 1) {
+  if (parsedProjects.length === 0) {
     return {
       text: "Creating a new Task?",
       replace_original: true,
@@ -448,7 +445,7 @@ export function createNewTaskBlockWithSelections(
           type: "multi_static_select",
           placeholder: {
             type: "plain_text",
-            text: `Select ${selectBlockTitle}(s)`,
+            text: `Select Assignee(s)`,
             emoji: true,
           },
           options: userOptionsToChooseFrom,
@@ -456,7 +453,7 @@ export function createNewTaskBlockWithSelections(
         },
         label: {
           type: "plain_text",
-          text: `${selectBlockTitle}`,
+          text: "Assignees",
           emoji: true,
         },
       },
@@ -477,7 +474,7 @@ export function createNewTaskBlockWithSelections(
                 url: "",
               },
               userOptions: foundUsers.ambiguousUsers,
-	      projectOptions: []
+              projectOptions: []
             }),
             style: "primary",
             action_id: "SelectionActionId-2",
@@ -578,3 +575,218 @@ export const createTaskBlockWithoutSelections = function (
   };
   return blockNewTask;
 };
+
+
+/**
+ * Creates Slack blocks to be used in previewing and confirming a new task and prompting the user to select assignees.
+ * @param notionTask The task to be previewed.
+ * @param selectBlockTitle Either "Assignee" or "Assigned by"
+ * @param foundUsers A list of 0 or more Notion users who match the assignee of the task.
+ * @returns A set of Slack blocks to be used in previewing and confirming a new task and prompting the user to select assignees.
+ */
+export function createNewTaskBlockWithSelectionsForAmbiguousProjects(
+  notionTask: NotionTask,
+  projects: ProjectWithName[],
+  similarProjects: { id: string }[],
+  foundUsers: {
+    identifiedUsers: NotionUser[];
+    ambiguousUsers: NotionUser[];
+  },
+) {
+  const taskInfo = createTaskInfo(notionTask, projects, foundUsers.identifiedUsers);
+  
+  // Create options for ambiguous users
+  const userOptionsToChooseFrom = createOptions(
+    "NotionUsers",
+    foundUsers.ambiguousUsers,
+  );
+
+  const similarProjectToSelect: ProjectWithName[] = [];
+  similarProjects.forEach((projToSelect) => {
+    projects.forEach((projectFromNotion) => {
+      if (projectFromNotion.id == projToSelect.id) {
+        similarProjectToSelect.push(projectFromNotion)
+      }
+    })
+  });
+
+  const selectionForSimilarProjects = createOptions(
+    "Projects",
+    similarProjectToSelect
+  )
+
+
+  if (userOptionsToChooseFrom.length > 1) {
+    return {
+      text: "Creating a new Task?",
+      replace_original: true,
+      blocks: [
+        {
+          type: "section",
+          text: {
+            type: "mrkdwn",
+            text: "*You Are About to Create a New Task*",
+          },
+        },
+        ...taskInfo,
+        {
+          type: "input",
+          element: {
+            type: "multi_static_select",
+            placeholder: {
+              type: "plain_text",
+              text: "Select Assignee(s)",
+              emoji: true,
+            },
+            options: userOptionsToChooseFrom,
+            action_id: "multi_select-action",
+          },
+          label: {
+            type: "plain_text",
+            text: "Assignee(s)",
+            emoji: true,
+          },
+        },
+        {
+          type: "input",
+          element: {
+            type: "multi_static_select",
+            placeholder: {
+              type: "plain_text",
+              text: `Select ${"Project"}(s)`,
+              emoji: true,
+            },
+            options: selectionForSimilarProjects,
+            action_id: "multi_select-action",
+          },
+          label: {
+            type: "plain_text",
+            text: `${"Projects"}`,
+            emoji: true,
+          },
+        },
+        {
+          type: "actions",
+          elements: [
+            {
+              type: "button",
+              text: {
+                type: "plain_text",
+                text: "Confirm",
+                emoji: true,
+              },
+              value: JSON.stringify({
+                taskPageObject: {
+                  task: notionTask,
+                  pageId: "",
+                  url: "",
+                },
+                userOptions: foundUsers.ambiguousUsers,
+                projectOptions: similarProjectToSelect
+              }),
+              style: "primary",
+              action_id: "SelectionActionId-2",
+            },
+            {
+              type: "button",
+              text: {
+                type: "plain_text",
+                emoji: true,
+                text: "Cancel",
+              },
+              style: "danger",
+              value: "discard_123",
+              action_id: "actionId-1",
+            },
+          ],
+        },
+        {
+          type: "context",
+          elements: [
+            {
+              type: "mrkdwn",
+              text: "*You can edit the task in Notion after adding it*",
+            },
+          ],
+        },
+      ],
+    };
+  }
+
+  return {
+    text: "Creating a new Task?",
+    replace_original: true,
+    blocks: [
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: "*You Are About to Create a New Task*",
+        },
+      },
+      ...taskInfo,
+      {
+        type: "input",
+        element: {
+          type: "multi_static_select",
+          placeholder: {
+            type: "plain_text",
+            text: `Select ${"Project"}(s)`,
+            emoji: true,
+          },
+          options: selectionForSimilarProjects,
+          action_id: "multi_select-action",
+        },
+        label: {
+          type: "plain_text",
+          text: `${"Projects"}`,
+          emoji: true,
+        },
+      },
+      {
+        type: "actions",
+        elements: [
+          {
+            type: "button",
+            text: {
+              type: "plain_text",
+              text: "Confirm",
+              emoji: true,
+            },
+            value: JSON.stringify({
+              taskPageObject: {
+                task: notionTask,
+                pageId: "",
+                url: "",
+              },
+              userOptions: foundUsers.ambiguousUsers,
+              projectOptions: similarProjectToSelect
+            }),
+            style: "primary",
+            action_id: "SelectionActionId-2",
+          },
+          {
+            type: "button",
+            text: {
+              type: "plain_text",
+              emoji: true,
+              text: "Cancel",
+            },
+            style: "danger",
+            value: "discard_123",
+            action_id: "actionId-1",
+          },
+        ],
+      },
+      {
+        type: "context",
+        elements: [
+          {
+            type: "mrkdwn",
+            text: "*You can edit the task in Notion after adding it*",
+          },
+        ],
+      },
+    ],
+  };
+}

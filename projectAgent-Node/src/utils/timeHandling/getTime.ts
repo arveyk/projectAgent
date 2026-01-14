@@ -65,10 +65,6 @@ export async function getUserTimezoneData(
       tz_offset: offsetSeconds / (SECONDS_IN_MINUTE * MINUTES_IN_HOUR),
     };
 
-    // userData = {
-    //   timezoneInfo
-    //   
-    // }
     return info;
   }
 }

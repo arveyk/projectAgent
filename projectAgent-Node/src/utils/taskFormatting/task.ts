@@ -7,7 +7,7 @@ import {
 } from "@notionhq/client";
 import { BlockAction } from "@slack/bolt";
 import { NotionUser } from "../controllers/userTypes";
-import { TaskParseResult } from "../aiagent";
+import { TaskParseResult } from "../aiAgent";
 import { DateTime } from "luxon";
 
 export type PersonNoId = {

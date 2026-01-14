@@ -34,7 +34,7 @@
   "type": "module",
   "scripts": {
     "test": "cd ./src && npx jest",
-    "test-helpers": "npx jest utils/aiagent.test.js utils/db-search.test.js blockkit/createBlocks.test.js utils/convertEmptyFields.test.js utils/simplifyDBResults.test.js",
+    "test-helpers": "npx jest utils/aiAgent.test.js utils/db-search.test.js blockkit/createBlocks.test.js utils/convertEmptyFields.test.js utils/simplifyDBResults.test.js",
     "start": "node dist/index.cjs",
     "dev": "nodemon src/index.cjs",
     "format": "npx prettier . --write",

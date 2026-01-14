@@ -18,7 +18,7 @@ export function isValidCommand(reqBody: Request["body"]): {
     action: "",
   };
 
-  isValidCmd.isValid = commandParams.length >= 5;
+  isValidCmd.isValid = commandParams.length >= 3;
   isValidCmd.action = "add";
   return isValidCmd;
 }

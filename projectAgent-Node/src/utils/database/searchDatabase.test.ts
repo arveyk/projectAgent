@@ -1,5 +1,5 @@
 import {
-  filterSimilar,
+  filterSimilar
 } from "./searchDatabase";
 import { SIMPLIFIED_DB_PAGES } from "../../test-data/simplifiedDbPages"
 
@@ -54,3 +54,4 @@ describe("Tests filterSimilar on the message 'Josh, row the new boat'", () => {
     
   })
 })
+

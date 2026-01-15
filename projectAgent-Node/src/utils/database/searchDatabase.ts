@@ -1,4 +1,4 @@
-import { Client, QueryDataSourceResponse } from "@notionhq/client";
+import { Client, DataSourceObjectResponse, PageObjectResponse, QueryDataSourceResponse } from "@notionhq/client";
 import { ChatAnthropic } from "@langchain/anthropic";
 import { z } from "zod/v4";
 import { dbPage, simplifyDatabaseResults } from "./simplifyDatabaseResults";
@@ -144,7 +144,7 @@ export async function getProjects() {
 
   const projectsList = projectsQueryResponse.results;
   let simplifiedProjects = [];
-  
+
   logTimestampForBenchmarking("Done querying Projects");
   // console.log(JSON.stringify(projectsQueryResponse));
 
@@ -166,4 +166,54 @@ export async function getProjects() {
     }
   }
   return simplifiedProjects
+}
+
+export async function listPeopleNotion() {
+  logTimestampForBenchmarking("Querying People");
+  const NOTION_PEOPLE_DATA_SOURCE_ID = "2e9eef29-a653-8184-ba65-000be6e76228";
+
+  const peopleListingResponse = await notion.dataSources.query({
+    data_source_id: NOTION_PEOPLE_DATA_SOURCE_ID
+  });
+
+  const peoplesList = peopleListingResponse.results;
+  let simplifiedPeople: {
+    name: string;
+    email: string;
+    slackEmail: string;
+  }[] = [];
+
+  logTimestampForBenchmarking("Done querying Projects");
+  // console.log(JSON.stringify(projectsQueryResponse));
+
+  for (const person of peoplesList) {
+    console.log("Persons's detail", JSON.stringify(person));
+
+    if (person.object === "page" && "properties" in person) {
+      //
+
+      let name: string = "";
+      let email: string = "";
+      let slackEmail: string = "";
+
+      const propertyName_01 = "Email";
+      const propertyName_02 = "Slack Email"
+
+      for (const propName in person.properties) {
+        if (person.properties["type"].type === "title") {
+          const personsName = person.properties["title"];
+          //        const personsName = person.properties["title"][0].plain_text;
+
+        }
+      }
+      simplifiedPeople.push({
+        name: name,
+        email: email,
+        slackEmail: slackEmail
+      });
+      //}
+      //}
+    }
+  }
+  return simplifiedPeople
 }

@@ -23,13 +23,9 @@ jobs:
     - name: Build
       working-directory: ${{github.workspace}}/projectAgent-Node
       run: | 
-        pwd
-        ls -la .
         npm ci
         npm run build
         npm run zip
-        pwd
-        ls -la ./dist
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v4

@@ -21,11 +21,13 @@ jobs:
       uses: actions/checkout@v5
 
     - name: Build
-      working-directory: ./projectAgent-Node
+      working-directory: ${{github.workspace}}/projectAgent-Node
       run: | 
+        ls -la ${{ github.workspace }}/projectAgent-node
         npm ci
         npm run build
         npm run zip
+        ls -la ${{ github.workspace }}/projectAgent-node/dist
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v4
@@ -39,6 +41,7 @@ jobs:
       uses: aws-actions/aws-lambda-deploy@v1.1.0
       with:
         function-name: TimelyBot-dev
-        code-artifacts-dir: ./projectAgent-node/dist 
+        package-type: Zip
+        code-artifacts-dir: ${{github.workspace}}/projectAgent-Node/dist
         handler: index.handler
         runtime: nodejs24.x 

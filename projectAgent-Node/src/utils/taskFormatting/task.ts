@@ -10,6 +10,12 @@ import { NotionUser } from "../controllers/userTypes";
 import { TaskParseResult } from "../aiagent";
 import { DateTime } from "luxon";
 
+
+export type FoundUsers = {
+  identifiedUsers: NotionUser[];
+  ambiguousUsers: NotionUser[];
+}
+
 export type PersonNoId = {
   name: string;
   email?: string;
@@ -28,7 +34,7 @@ export type User = {
 
 export type ParsedData = {
   task: Task;
-  timelyUser: User;
+  taskCreator: User;
 }
 export type Task = {
   taskTitle: string;
@@ -63,7 +69,6 @@ export type TaskPage = {
 
 export function convertTask(taskInput: TaskParseResult,
   notionProjects: ProjectWithName[]): Task {
-  // export function convertTask(taskInput: TaskParseResult): ExtractedTask {
   console.log(JSON.stringify(taskInput));
 
   const dueDate = taskInput.dueDate
@@ -85,27 +90,36 @@ export function convertTask(taskInput: TaskParseResult,
 
   const taskProjects = taskInput.projects || []
 
-  const projects_1: { id: string }[] = [];
-  const projectsToSelect: { id: string }[] = [];
+  const identifiedProjects: { id: string }[] = [];
+
+  const projectsToSelectFrom: { id: string }[] = [];
 
   console.log(`notionProjects${JSON.stringify(notionProjects)}\ntaskProjects: ${taskProjects}`);
 
-  notionProjects.forEach((notionProjItem) => {
-    // Second loop
-    taskProjects.forEach((taskProjectItem) => {
-      if (notionProjItem && taskProjectItem) {
-        if (notionProjItem.projectName === taskProjectItem.projectName) {
-          projects_1.push({ id: notionProjItem.id });
+  notionProjects.forEach((projectFromAllProjectsArray) => {
+
+    if (similarProjects.includes(projectFromAllProjectsArray.projectName)) {
+      projectsToSelectFrom.push({ id: projectFromAllProjectsArray.id });
+    }
+    if (taskProjects.includes(projectFromAllProjectsArray.projectName)) {
+      identifiedProjects.push({ id: projectFromAllProjectsArray.id });
+    }
+    /*taskProjects.forEach((projectInTaskProjectsArray) => {
+      if (projectFromAllPorjectsArray && projectInTaskProjectsArray) {
+        if (projectFromAllPorjectsArray.projectName === projectInTaskProjectsArray.projectName) {
+          identifiedProjects.push({ id: projectFromAllPorjectsArray.id });
+        }
+      }
+        */
+    /*
+    similarProjects.forEach((unselectedProject) => {
+      /*if (projectFromAllPorjectsArray && unSelectedProject) {
+        if (projectFromAllPorjectsArray.projectName === unSelectedProject.projectName) {
+          projectsToSelect.push({ id: projectFromAllPorjectsArray.id});
         }
       }
     })
-    similarProjects.forEach((unSelectedProject) => {
-      if (notionProjItem && unSelectedProject) {
-        if (notionProjItem.projectName === unSelectedProject.projectName) {
-          projectsToSelect.push({ id: notionProjItem.id});
-        }
-      }
-    })
+      */
   })
 
   return {
@@ -114,8 +128,8 @@ export function convertTask(taskInput: TaskParseResult,
     dueDate: dueDate,
     startDate: startDate,
     description: taskInput["description"],
-    project: projects_1,
-    similarProjects: projectsToSelect
+    project: identifiedProjects,
+    similarProjects: projectsToSelectFrom
   };
 }
 

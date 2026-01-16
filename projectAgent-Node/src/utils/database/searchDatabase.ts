@@ -145,31 +145,29 @@ export function filterSimilar(pages: dbPage[], message: string): dbPage[] {
 export async function getProjects() {
   logTimestampForBenchmarking("Querying Projects");
   const projectsQueryResponse = await notion.dataSources.query({
-    data_source_id: NOTION_PROJECTS_DATA_SOURCE_ID
+    data_source_id: NOTION_PROJECTS_DATA_SOURCE_ID,
   });
 
   const projectsList = projectsQueryResponse.results;
   let simplifiedProjects = [];
-  
+
   logTimestampForBenchmarking("Done querying Projects");
   // console.log(JSON.stringify(projectsQueryResponse));
 
   for (const project of projectsList) {
     console.log("Projects id", project.id);
 
-
     if (project.object === "page" && "properties" in project) {
       for (const propName in project.properties) {
         if (project.properties[propName]["type"] === "title") {
-
           const projectTitle = project.properties[propName].title[0].plain_text;
           simplifiedProjects.push({
             projectName: projectTitle,
-            id: project.id
+            id: project.id,
           });
         }
       }
     }
   }
-  return simplifiedProjects
+  return simplifiedProjects;
 }

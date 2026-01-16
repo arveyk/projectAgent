@@ -5,10 +5,8 @@ import { SlackUser } from "./userTypes";
 import { SlashCommand } from "@slack/bolt";
 import { DateTime } from "luxon";
 
-
 const SECONDS_IN_A_MINUTE = 60;
 const MINUTES_IN_AN_HOUR = 60;
-
 
 type SlackUserData = {
   userId: string;
@@ -18,14 +16,14 @@ type SlackUserData = {
     tz: string;
     tz_label: string;
     tz_offset: number;
-  }
-}
+  };
+};
 type UserData = {
   eventTimeData: DateTime;
   userId: string;
   name: string;
   email: string;
-}
+};
 
 /**
  * Fetches a list of users from Slack and returns an array of user objects.
@@ -76,7 +74,9 @@ export const getSlackUsers = async function (): Promise<SlackUser[]> {
  * @param userID The id of the user to find.
  * @returns The Slack user with the given user id.
  */
-export async function getSlackUserDataById(userID: string): Promise<SlackUserData> {
+export async function getSlackUserDataById(
+  userID: string,
+): Promise<SlackUserData> {
   console.log("User ID", userID);
 
   const retrieveUserInfoResponse = await axios({
@@ -114,11 +114,14 @@ export async function getSlackUserDataById(userID: string): Promise<SlackUserDat
   if (isNaN(offsetSeconds)) {
     throw new Error("Timezone offset is not a number");
   }
-  console.log("(getSlackUserById): User info:", retrieveUserInfoResponse, "profile", userData.profile);
+  console.log(
+    "(getSlackUserById): User info:",
+    retrieveUserInfoResponse,
+    "profile",
+    userData.profile,
+  );
 
-
-
-  console.log("User Data", JSON.stringify(userData))
+  console.log("User Data", JSON.stringify(userData));
   return {
     userId: userID,
     name: userData.real_name,
@@ -126,9 +129,9 @@ export async function getSlackUserDataById(userID: string): Promise<SlackUserDat
     timezoneData: {
       tz: userData["tz"],
       tz_label: userData["tz_lable"],
-      tz_offset: offsetSeconds / (SECONDS_IN_A_MINUTE * MINUTES_IN_AN_HOUR)
-    }
-  }
+      tz_offset: offsetSeconds / (SECONDS_IN_A_MINUTE * MINUTES_IN_AN_HOUR),
+    },
+  };
 }
 
 export async function getAppUserData(

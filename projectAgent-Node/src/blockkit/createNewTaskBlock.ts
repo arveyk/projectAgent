@@ -3,7 +3,7 @@ import { UserSearchResult } from "../utils/controllers/userTypes";
 import {
   createNewTaskBlockWithSelections,
   createNewTaskBlockWithSelectionsForAmbiguousProjects,
-  createTaskBlockWithoutSelections
+  createTaskBlockWithoutSelections,
 } from "./createBlockPartsForNewTask";
 import {
   NotionTask,
@@ -16,7 +16,7 @@ import {
  * @param assignedBy:       user who is creating and assigning the task
  * @param task:             The task to be previewed.
  * @param userSearchResult: A list of 0 or more Notion users who match the assignee of the task.
- * 
+ *
  * @returns                 A set of Slack blocks to be used in previewing and confirming a new task.
  */
 export async function createNewTaskBlock(
@@ -28,9 +28,8 @@ export async function createNewTaskBlock(
   const identifiedUsers: NotionUser[] = [];
   const ambiguousUsers: NotionUser[] = [];
   const taskProjects = task.project || [];
-  const projects : ProjectWithName[] = task.existingProjects || [];
+  const projects: ProjectWithName[] = task.existingProjects || [];
   const similarProjects = task.similarProjects || [];
-
 
   for (const user of userSearchResult) {
     console.log(user.person.name);
@@ -57,27 +56,33 @@ export async function createNewTaskBlock(
   };
 
   if (similarProjects.length > 0) {
-    return createNewTaskBlockWithSelectionsForAmbiguousProjects(notionTask, projects,
+    return createNewTaskBlockWithSelectionsForAmbiguousProjects(
+      notionTask,
+      projects,
       similarProjects,
       {
         identifiedUsers,
-        ambiguousUsers
-      }
-    )
+        ambiguousUsers,
+      },
+    );
   }
   if (ambiguousUsers.length > 0 || taskProjects.length === 0) {
-    return createNewTaskBlockWithSelections(notionTask, projects, 
-      // similarProjects, 
+    return createNewTaskBlockWithSelections(
+      notionTask,
+      projects,
+      // similarProjects,
       {
-      identifiedUsers,
-      ambiguousUsers,
-    });
+        identifiedUsers,
+        ambiguousUsers,
+      },
+    );
   } else {
     let projectsArray: ProjectWithName[] = [];
 
     for (const projectInTaskProjectsArray of taskProjects) {
       const found = projects.filter((queriedProject) => {
-        if (projectInTaskProjectsArray.id === queriedProject.id) return queriedProject
+        if (projectInTaskProjectsArray.id === queriedProject.id)
+          return queriedProject;
       });
       projectsArray.push(...found);
     }

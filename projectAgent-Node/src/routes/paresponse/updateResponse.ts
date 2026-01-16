@@ -13,9 +13,7 @@ import {
   extractPayload,
 } from "../../utils/slashCommandProcessing";
 import { NotionUser } from "../../utils/controllers/userTypes";
-import {
-  integrateSelectedValues
-} from "../../utils/controllers/useSelectedOption";
+import { integrateSelectedValues } from "../../utils/controllers/useSelectedOption";
 
 /**
  * interactionHandler - Response to user interactions with blocks when a button
@@ -72,22 +70,29 @@ const interactionHandler: StreamifyHandler = async function (
       const taskPageAndOptionsObject: {
         taskPageObject: TaskPage;
         userOptions: NotionUser[];
-        projectOptions: ProjectWithName[]
+        projectOptions: ProjectWithName[];
       } = JSON.parse(payload["actions"][0].value || "{}");
       console.log(payload["actions"][0].value);
       console.log(JSON.stringify(taskPageAndOptionsObject));
 
-      const taskPageObj: TaskPage = taskPageAndOptionsObject.taskPageObject as TaskPage;
+      const taskPageObj: TaskPage =
+        taskPageAndOptionsObject.taskPageObject as TaskPage;
 
       if (action_id === "SelectionActionId-2") {
         console.log("Utilize users input");
         const userSelections: NotionUser[] =
           taskPageAndOptionsObject.userOptions;
         console.log(`${userSelections}`);
-        const projectOptions: ProjectWithName[] = taskPageAndOptionsObject.projectOptions;
+        const projectOptions: ProjectWithName[] =
+          taskPageAndOptionsObject.projectOptions;
 
         // task with integrated selected assignee and project values from slack interaction
-        const taskWithIntegratedValues = integrateSelectedValues(taskPageAndOptionsObject.taskPageObject.task, userSelections, projectOptions, payload);
+        const taskWithIntegratedValues = integrateSelectedValues(
+          taskPageAndOptionsObject.taskPageObject.task,
+          userSelections,
+          projectOptions,
+          payload,
+        );
 
         taskPageObj.task.project = taskWithIntegratedValues.project;
         taskPageObj.task.assignees = taskWithIntegratedValues.assignees;
@@ -95,7 +100,9 @@ const interactionHandler: StreamifyHandler = async function (
       console.log("Edit in Notion, Response Url", response_url);
       (async () => {
         try {
-          console.log(`(sendApprove) taskPageObj: ${JSON.stringify(taskPageObj)}, taskPageObj.task: ${taskPageObj.task}`);
+          console.log(
+            `(sendApprove) taskPageObj: ${JSON.stringify(taskPageObj)}, taskPageObj.task: ${taskPageObj.task}`,
+          );
           const taskAddResult = await addTaskNotionPage(taskPageObj.task);
 
           console.log(`Page added successfully? ${taskAddResult.success}`);

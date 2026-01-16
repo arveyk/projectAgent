@@ -4,26 +4,25 @@ import { NotionUser } from "./userTypes";
 type SelectionOption = {
   text: {
     type: "plain_text";
-    text: string;   //  "*Harvey Kis --- harvey.kis@example.com*",
+    text: string; //  "*Harvey Kis --- harvey.kis@example.com*",
     emoji: boolean;
   };
-  value: string;    //  "1"
+  value: string; //  "1"
 };
 
 /**
- * Integrated selected users into the assignee field 
+ * Integrated selected users into the assignee field
  * @param assignees:      assignees allready in task
  * @param selectedValues: what the user selected
  * @param userSelections: options the app user had to select from
- * 
- * @returns               all assingees, both from task 
+ *
+ * @returns               all assingees, both from task
  */
 export function integrateUserSelections(
   assignees: NotionUser[],
   selectedValues: SelectionOption[],
   userSelections: NotionUser[],
 ) {
-  
   const allAssignees: NotionUser[] = [...assignees];
   if (selectedValues.length < 1) {
     return [];
@@ -45,13 +44,13 @@ export function integrateUserSelections(
  * @param projects:           Projects from task
  * @param selectedValues:     selected projects Values
  * @param projectSelections:  all project options the user had to select from
- * 
+ *
  * @returns:                  projects from task plus projects the app user selected
  */
 export function integrateSelectedProjects(
   projects: { id: string }[],
   selectedValues: SelectionOption[],
-  projectSelections: ProjectWithName[]
+  projectSelections: ProjectWithName[],
 ) {
   const allProjects: { id: string }[] = [...projects];
 
@@ -65,9 +64,10 @@ export function integrateSelectedProjects(
     if (isNaN(index)) {
       throw "(integrateSelectedProjects): index value is Not a Number";
     }
-    if (allProjects.find((element) =>
-      projectSelections[index].id === element.id)
-    ) continue;
+    if (
+      allProjects.find((element) => projectSelections[index].id === element.id)
+    )
+      continue;
     allProjects.push({ id: projectSelections[index].id });
   }
   return allProjects;
@@ -80,16 +80,15 @@ export function integrateSelectedProjects(
  * @param projectSelectionsOptions project option the user selected from
  * @param payload:          what slack sends that contains all we need to process the task including
  *    the above
- *  
+ *
  * @returns                 tasks with integrated user options
  */
 export function integrateSelectedValues(
   notionTask: NotionTask,
   userSelectionsOptions: NotionUser[],
   projectSelectionsOptions: ProjectWithName[],
-  payload: any
+  payload: any,
 ) {
-
   const assignees = notionTask.assignees;
   const projects = notionTask.project || [];
 
@@ -107,12 +106,19 @@ export function integrateSelectedValues(
   }
 
   if (selectedValues[0].value.includes("Project_")) {
-    const allProjects = integrateSelectedProjects(projects, selectedValues, projectSelectionsOptions)
+    const allProjects = integrateSelectedProjects(
+      projects,
+      selectedValues,
+      projectSelectionsOptions,
+    );
 
     notionTask.project = allProjects;
-  }
-  else {
-    const allAssignees = integrateUserSelections(assignees, selectedValues, userSelectionsOptions);
+  } else {
+    const allAssignees = integrateUserSelections(
+      assignees,
+      selectedValues,
+      userSelectionsOptions,
+    );
     notionTask.assignees = [...notionTask.assignees, ...allAssignees];
   }
   if (valueKeys.length > 1) {
@@ -123,7 +129,11 @@ export function integrateSelectedValues(
     const selectedValues_01: SelectionOption[] =
       selected[selectedKey_01]["multi_select-action"]["selected_options"];
 
-    const allProjects2 = integrateSelectedProjects(projects, selectedValues_01, projectSelectionsOptions);
+    const allProjects2 = integrateSelectedProjects(
+      projects,
+      selectedValues_01,
+      projectSelectionsOptions,
+    );
 
     notionTask.project = allProjects2;
   }

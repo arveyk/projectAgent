@@ -10,11 +10,10 @@ import { NotionUser } from "../controllers/userTypes";
 import { TaskParseResult } from "../aiagent";
 import { DateTime } from "luxon";
 
-
 export type FoundUsers = {
   identifiedUsers: NotionUser[];
   ambiguousUsers: NotionUser[];
-}
+};
 
 export type PersonNoId = {
   name: string;
@@ -24,18 +23,18 @@ export type PersonNoId = {
 export type ProjectWithName = {
   projectName: string;
   id: string;
-}
+};
 
 export type User = {
   userId: string;
   name: string;
   email: string;
-}
+};
 
 export type ParsedData = {
   task: Task;
   taskCreator: User;
-}
+};
 export type Task = {
   taskTitle: string;
   assignees: PersonNoId[];
@@ -44,9 +43,8 @@ export type Task = {
   description: string;
   project?: { id: string }[];
   existingProjects?: ProjectWithName[];
-  similarProjects?: { id: string }[]
+  similarProjects?: { id: string }[];
 };
-
 
 export type NotionTask = {
   taskTitle: string;
@@ -56,7 +54,7 @@ export type NotionTask = {
   startDate?: Date;
   description: string;
   project?: {
-    id: string
+    id: string;
   }[];
 };
 
@@ -66,9 +64,10 @@ export type TaskPage = {
   url?: string;
 };
 
-
-export function convertTask(taskInput: TaskParseResult,
-  notionProjects: ProjectWithName[]): Task {
+export function convertTask(
+  taskInput: TaskParseResult,
+  notionProjects: ProjectWithName[],
+): Task {
   console.log(JSON.stringify(taskInput));
 
   const dueDate = taskInput.dueDate
@@ -79,21 +78,22 @@ export function convertTask(taskInput: TaskParseResult,
     : DateTime.now().toJSDate();
   const assignees = taskInput.assignees
     ? taskInput.assignees.map((assignee) => {
-      return { name: assignee };
-    })
+        return { name: assignee };
+      })
     : [];
   const similarProjects = taskInput.similarProjects || [];
 
-  const taskProjects = taskInput.projects || []
+  const taskProjects = taskInput.projects || [];
 
   const identifiedProjects: { id: string }[] = [];
 
   const projectsToSelectFrom: { id: string }[] = [];
 
-  console.log(`notionProjects${JSON.stringify(notionProjects)}\ntaskProjects: ${taskProjects}`);
+  console.log(
+    `notionProjects${JSON.stringify(notionProjects)}\ntaskProjects: ${taskProjects}`,
+  );
 
   notionProjects.forEach((projectFromAllProjectsArray) => {
-
     if (similarProjects.includes(projectFromAllProjectsArray.projectName)) {
       projectsToSelectFrom.push({ id: projectFromAllProjectsArray.id });
     }
@@ -116,7 +116,7 @@ export function convertTask(taskInput: TaskParseResult,
       }
     })
       */
-  })
+  });
 
   return {
     taskTitle: taskInput["taskTitle"],
@@ -125,7 +125,7 @@ export function convertTask(taskInput: TaskParseResult,
     startDate: startDate,
     description: taskInput["description"],
     project: identifiedProjects,
-    similarProjects: projectsToSelectFrom
+    similarProjects: projectsToSelectFrom,
   };
 }
 
@@ -193,15 +193,15 @@ export function convertTaskPageFromDbResponse(
   const assignees =
     "people" in properties["Assigned to"]
       ? properties["Assigned to"].people.map((response) =>
-        extractAssignees(response),
-      )
+          extractAssignees(response),
+        )
       : [];
 
   const assignedBy =
     "people" in properties["Assigned by"]
       ? properties["Assigned by"].people.map((response) =>
-        extractAssignees(response),
-      )
+          extractAssignees(response),
+        )
       : [];
 
   const dueDate =
@@ -218,14 +218,14 @@ export function convertTaskPageFromDbResponse(
       : undefined;
   const description =
     "rich_text" in properties["Description"] &&
-      properties["Description"]["rich_text"][0] !== undefined
+    properties["Description"]["rich_text"][0] !== undefined
       ? "plain_text" in properties["Description"]["rich_text"][0]
         ? properties["Description"].rich_text[0].plain_text
         : ""
       : "";
   const project =
     "rich_text" in properties["Project"] &&
-      properties["Project"]["rich_text"][0] !== undefined
+    properties["Project"]["rich_text"][0] !== undefined
       ? "plain_text" in properties["Project"]["rich_text"][0]
         ? properties["Project"].rich_text[0].plain_text
         : undefined
@@ -241,9 +241,7 @@ export function convertTaskPageFromDbResponse(
       dueDate: dueDate,
       startDate: startDate,
       description: description,
-      project: [
-        { id: project || "" }
-      ],
+      project: [{ id: project || "" }],
     },
     url: url,
     pageId: pageId,

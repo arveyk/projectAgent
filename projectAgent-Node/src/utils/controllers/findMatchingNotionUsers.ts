@@ -2,12 +2,11 @@ import { Task, User } from "../taskFormatting/task";
 import { getNotionUsers } from "./getUsersNotion";
 import { NotionUser, UserSearchResult } from "./userTypes";
 
-
 /**
  * Function to identify the assignees of task using names and emails to search
  * @param task: task to be created that contains the required assignees array
- *  
- * @returns 
+ *
+ * @returns
  */
 export async function findMatchingAssignees(
   task: Task,
@@ -150,7 +149,7 @@ export function isPartialNameMatch(
  * Concatenates name matches and email matches into a single array, and removes all duplicates.
  * @param nameMatches:  user found using name matching logic
  * @param emailMatches: users found using email matching logic
- * 
+ *
  * @returns             A single list containing all the unique users from both lists.
  */
 export function deduplicateUsers(
@@ -173,10 +172,10 @@ export function deduplicateUsers(
 }
 
 /**
- * 
+ *
  * @param slackEmail: email of slack user
  * @param email:      primary email to match against users in Notion
- *  
+ *
  * @returns           Notion user that has matching email
  */
 export async function findMatchingNotionUserByEmail(
@@ -204,11 +203,16 @@ export async function findMatchingNotionUserByEmail(
  * @param identifiedAppUser: assignedBy infered from slack, one creating the task
  */
 export async function findAssignedBy(identifiedAppUser: User) {
+  const matchingNotionUser = await findMatchingNotionUserByEmail(
+    identifiedAppUser.name,
+    identifiedAppUser.email,
+  );
 
-  const matchingNotionUser = await findMatchingNotionUserByEmail(identifiedAppUser.name, identifiedAppUser.email);
-
-  console.log(`(findAssignedB  slackEmail: string,
-y), any found ${identifiedAppUser}, searched id: ${identifiedAppUser.userId}`, JSON.stringify(matchingNotionUser));
+  console.log(
+    `(findAssignedB  slackEmail: string,
+y), any found ${identifiedAppUser}, searched id: ${identifiedAppUser.userId}`,
+    JSON.stringify(matchingNotionUser),
+  );
 
   return matchingNotionUser;
 }

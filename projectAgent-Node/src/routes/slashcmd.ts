@@ -6,7 +6,10 @@ import {
   getTaskProperties,
 } from "../utils/database/searchDatabase";
 import { sendLoadingMessage } from "../blockkit/loadingMessage";
-import { findAssignedBy, findMatchingAssignees } from "../utils/controllers/findMatchingNotionUsers";
+import {
+  findAssignedBy,
+  findMatchingAssignees,
+} from "../utils/controllers/findMatchingNotionUsers";
 import { logTimestampForBenchmarking } from "../utils/logTimestampForBenchmarking";
 import { SlashCommand } from "@slack/bolt";
 import {
@@ -57,7 +60,11 @@ const slashCmdHandler: StreamifyHandler = async function (
       const response_url = reqBody["response_url"];
 
       // Search database
-      await sendLoadingMessage("Searching Database", response_url, reqBody.text,);
+      await sendLoadingMessage(
+        "Searching Database",
+        response_url,
+        reqBody.text,
+      );
       logTimestampForBenchmarking("Searching database");
       const isInDatabase = await searchDatabase(reqBody.text);
       logTimestampForBenchmarking("Done searching database");
@@ -72,9 +79,9 @@ const slashCmdHandler: StreamifyHandler = async function (
       logTimestampForBenchmarking("Done parsing task");
 
       // Find Notion users
-      const assigneeSearchResults = await findMatchingAssignees(parsedData.task);
-
-  
+      const assigneeSearchResults = await findMatchingAssignees(
+        parsedData.task,
+      );
 
       if (!isInDatabase) {
         throw new Error("Error searching database");
@@ -124,7 +131,11 @@ const slashCmdHandler: StreamifyHandler = async function (
 
         // TODO get assigned by
         const assignedBy = await findAssignedBy(parsedData.taskCreator);
-        const slackBlocks = await createNewTaskBlock(assignedBy, parsedData.task, assigneeSearchResults);
+        const slackBlocks = await createNewTaskBlock(
+          assignedBy,
+          parsedData.task,
+          assigneeSearchResults,
+        );
 
         console.log("SlashCmdHandler taskBlockWithSelect", slackBlocks);
 

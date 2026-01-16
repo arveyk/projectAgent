@@ -151,7 +151,6 @@ export const parseTask = async function (
 ): Promise<ParsedData> {
   let textToParse;
 
-  //slash cmd text can be immediately accessed, for other events it is indirect, through events field
   if (reqBody["command"]) {
     textToParse = reqBody["text"];
   } else if (reqBody["event"]) {

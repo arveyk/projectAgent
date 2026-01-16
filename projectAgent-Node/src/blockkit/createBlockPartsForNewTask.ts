@@ -1,61 +1,95 @@
 import { formatSlackDate } from "../utils/timeHandling/dateHandler";
 import { NotionUser } from "../utils/controllers/userTypes";
 import {
+  FoundUsers,
   NotionTask,
   ProjectWithName
 } from "../utils/taskFormatting/task";
 
-/**
- * Creates the Slack blocks for previewing the details of a new task.
- * @param notionTaskObj The new task.
- * @param assignees A list of people the task is assigned to.
- * @returns The Slack blocks for previewing the details of a new task.
- */
-export function createTaskInfo(
-  notionTaskObj: NotionTask,
-  projects: ProjectWithName[],
-  assignees: NotionUser[],
-) {
-  const task = notionTaskObj;
-  // const task = notionTask;
-  const assigneesArr = assignees;
-  let assigneeNames = "";
-  let projectNames = "";
-  console.log(
-    `(createTaskInfo), assigneesArray: ${assigneesArr}, task${JSON.stringify(task)}`,
-  );
-  if (assigneesArr && Array.isArray(assigneesArr)) {
-    assigneesArr.forEach((assignee) => {
-      if (assignee) {
-        assigneeNames += `${assignee.name} (${assignee.email})\n`;
-      }
-    });
-    // Remove trailing comma and space
-    assigneeNames = assigneeNames.slice(0, -1);
-  }
-  if (projects && Array.isArray(projects)) {
-    projects.forEach((project) => {
-      if (project) {
-        const notionTaskProject = notionTaskObj.project || []
-        // Only include projects within the Project field of notion task
 
-        if (notionTaskProject.find((projElement) => projElement.id === project.id)) {
+
+/**
+ * Function to create the markdown message for the identified assignees names
+ *    to be displayed
+ * @param assigneesArray: array of assignees to be displayed
+ * 
+ * @returns: The string of assignee names to be displayed
+ */
+function createAssigneesDisplayMessageFromArray(assigneesArray: NotionUser[]) {
+  let assigneeNames = "";
+
+  assigneesArray.forEach((assignee) => {
+    if (assignee) {
+      assigneeNames += `${assignee.name} (${assignee.email})\n`;
+    }
+  });
+  // Remove trailing comma and space
+  assigneeNames = assigneeNames.slice(0, -1);
+
+  return assigneeNames;
+}
+/**
+ * Function to create the markdown message for the identified project
+ *    to be displayed by name
+ * @param notionTaskProjectsArray: array of projects
+ * @param allProjectsArray: 
+ * 
+ * @returns: string of project names
+ */
+function createProjectsDisplayMessageFromArray(notionTaskProjectsArray: {id: string}[], allProjectsArray: ProjectWithName[]) {
+  let projectNames = "";
+
+  allProjectsArray.forEach((project) => {
+    if (project) {
+
+        // Only include projects within the Project field of notionTask not all projects
+        // need to be displayed, only those relevant to the task.
+        if (allProjectsArray.find((projectElem) => projectElem.id === project.id)) {
           projectNames += `${project.projectName}\n`;
         }
       }
     });
-    // Remove trailing comma and space
-    projectNames = projectNames.slice(0, -1);
+    
+  // Remove trailing comma and space
+  projectNames = projectNames.slice(0, -1);
+
+  return projectNames;
+}
+
+/**
+ * Creates the info section of Slack blocks for previewing the details of a new task.
+ * @param notionTaskObj: The new task.
+ * @param projects:      Projects with names used in creating the task info to be displayed
+ * @param assignees:     A list of people the task is assigned to.
+ * 
+ * @returns:             The Slack blocks for previewing the details of a new task.
+ */
+export function createTaskInfo(
+  notionTask: NotionTask,
+  projects: ProjectWithName[],
+  assignees: NotionUser[],
+) {
+  const notionTaskProject = notionTask.project || []
+  const assigneesArray = assignees;
+  const assigneeNames = createAssigneesDisplayMessageFromArray(assigneesArray);
+
+  let projectNames = "";//createProjectsDisplayMessageFromArray(projects);
+  console.log(
+    `(createTaskInfo), assigneesArray: ${assigneesArray}, task${JSON.stringify(notionTask)}`,
+  );
+
+  if (projects && Array.isArray(projects)) {
+    projectNames += createProjectsDisplayMessageFromArray(notionTaskProject, projects)
   }
 
-  console.log(`(createTaskInfo) task: ${JSON.stringify(task)}`);
+  console.log(`(createTaskInfo) task: ${JSON.stringify(notionTask)}`);
   const columnLayoutBlock = [
     {
       type: "section",
       fields: [
         {
           type: "mrkdwn",
-          text: `*Task Title:*\n${task.taskTitle}`,
+          text: `*Task Title:*\n${notionTask.taskTitle}`,
         },
         {
           type: "mrkdwn",
@@ -68,12 +102,12 @@ export function createTaskInfo(
       fields: [
         {
           type: "mrkdwn",
-          text: `*Due Date:*\n${task.dueDate ? formatSlackDate(new Date(task.dueDate)) : ""
+          text: `*Due Date:*\n${notionTask.dueDate ? formatSlackDate(new Date(notionTask.dueDate)) : ""
             }`,
         },
         {
           type: "mrkdwn",
-          text: `*Start Date:*\n${task.startDate !== new Date(NaN) && task.startDate !== undefined ? formatSlackDate(new Date(task.startDate)) : task.startDate}`,
+          text: `*Start Date:*\n${notionTask.startDate !== new Date(NaN) && notionTask.startDate !== undefined ? formatSlackDate(new Date(notionTask.startDate)) : notionTask.startDate}`,
         },
       ],
     },
@@ -88,7 +122,7 @@ export function createTaskInfo(
       type: "section",
       text: {
         type: "mrkdwn",
-        text: `*Description:*\n${task.description}`,
+        text: `*Description:*\n${notionTask.description}`,
       },
     },
   ];
@@ -97,36 +131,28 @@ export function createTaskInfo(
 }
 
 /**
- * Creates the Slack blocks for previewing the details of a new task.
- * @param extractedTask The new task.
- * @param assignees A list of people the task is assigned to.
+ * Creates the info section of Slack blocks for previewing the details of a new task.
+ * @param notionTask: The new task.
+ * @param projects:   A list of projects from notion that we need to compare with and use their names
+ *    in displaying on slack.
+ * 
  * @returns The Slack blocks for previewing the details of a new task.
  */
 export function createTaskInfoWithoutSelections(
   notionTask: NotionTask,
-  projects: ProjectWithName[]
+  allProjectsArray: ProjectWithName[]
 ) {
-  const task = notionTask;
-  const assigneesArr = notionTask.assignees;
-  const projectsArray = projects;
+  const assigneesArray = notionTask.assignees;
 
-  let assigneeNames = "";
+  const assigneeNames = createAssigneesDisplayMessageFromArray(assigneesArray);
   let projectNames = "";
 
   console.log(
-    `(createTaskInfo), assigneesArray: ${assigneesArr}, task${JSON.stringify(task)}`,
+    `(createTaskInfoWithoutSelections), assigneesArray: ${assigneesArray}, task${JSON.stringify(notionTask)}`,
   );
-  if (assigneesArr && Array.isArray(assigneesArr)) {
-    assigneesArr.forEach((assignee) => {
-      if (assignee) {
-        assigneeNames += `${assignee.name} (${assignee.email})\n`;
-      }
-    });
-    // Remove trailing comma and space
-    assigneeNames = assigneeNames.slice(0, -1);
-  }
-  if (projectsArray && Array.isArray(projectsArray)) {
-    projectsArray.forEach((project) => {
+  
+  if (allProjectsArray && Array.isArray(allProjectsArray)) {
+    allProjectsArray.forEach((project) => {
       if (project) {
         // `projectNames += `${project.projectName === "" ? " " : project.projectName}\n`;
         projectNames += `${project.projectName === "" ? " " : project.projectName}\n`;
@@ -135,14 +161,13 @@ export function createTaskInfoWithoutSelections(
     // Remove trailing comma and space
     projectNames = projectNames.slice(0, -1);
   }
-  console.log(`(createTaskInfo) task: ${JSON.stringify(task)}`);
   const columnLayoutBlock = [
     {
       type: "section",
       fields: [
         {
           type: "mrkdwn",
-          text: `*Task Title:*\n${task.taskTitle}`,
+          text: `*Task Title:*\n${notionTask.taskTitle}`,
         },
         {
           type: "mrkdwn",
@@ -155,12 +180,12 @@ export function createTaskInfoWithoutSelections(
       fields: [
         {
           type: "mrkdwn",
-          text: `*Due Date:*\n${task.dueDate ? formatSlackDate(new Date(task.dueDate)) : ""
+          text: `*Due Date:*\n${notionTask.dueDate ? formatSlackDate(new Date(notionTask.dueDate)) : ""
             }`,
         },
         {
           type: "mrkdwn",
-          text: `*Start Date:*\n${task.startDate !== new Date(NaN) && task.startDate !== undefined ? formatSlackDate(new Date(task.startDate)) : task.startDate}`,
+          text: `*Start Date:*\n${notionTask.startDate !== new Date(NaN) && notionTask.startDate !== undefined ? formatSlackDate(new Date(notionTask.startDate)) : notionTask.startDate}`,
         },
       ],
     },
@@ -175,7 +200,7 @@ export function createTaskInfoWithoutSelections(
       type: "section",
       text: {
         type: "mrkdwn",
-        text: `*Description:*\n${task.description}`,
+        text: `*Description:*\n${notionTask.description}`,
       },
     },
   ];
@@ -185,7 +210,10 @@ export function createTaskInfoWithoutSelections(
 
 /**
  * Creates the options for a Slack dropdown menu.
- * @param listOfItems The items that will be put into the dropdowm menu.
+ * @param whichToCreate:  String to indicate what the user is selecting
+ * @param listOfItems:    The items that will be put into the dropdowm menu.
+ *    Either users or projects
+ * 
  * @returns The options for a Slack dropdown menu.
  */
 export function createOptions(
@@ -224,20 +252,19 @@ export function createOptions(
 
 /**
  * Creates Slack blocks to be used in previewing and confirming a new task and prompting the user to select assignees.
- * @param notionTask The task to be previewed.
- * @param selectBlockTitle Either "Assignee" or "Assigned by"
- * @param foundUsers A list of 0 or more Notion users who match the assignee of the task.
+ * @param notionTask:       The task to be previewed.
+ * @param selectBlockTitle: Either "Assignee" or "Assigned by"
+ * @param foundUsers:       An object that contains two lists, one (identifiedUsers)contains 0 or more Notion users who match the assignee of the task
+ *    the other list (ambiguousUsers) contains users who are yet to be identified as assignees for the task.
+ * 
  * @returns A set of Slack blocks to be used in previewing and confirming a new task and prompting the user to select assignees.
  */
 export function createNewTaskBlockWithSelections(
   notionTask: NotionTask,
-  projects: ProjectWithName[],
-  foundUsers: {
-    identifiedUsers: NotionUser[];
-    ambiguousUsers: NotionUser[];
-  },
+  allProjects: ProjectWithName[],
+  foundUsers: FoundUsers
 ) {
-  const taskInfo = createTaskInfo(notionTask, projects, foundUsers.identifiedUsers);
+  const taskInfo = createTaskInfo(notionTask, allProjects, foundUsers.identifiedUsers);
   const parsedProjects = notionTask.project || [];
   console.log(`Creating selection block`);
 
@@ -248,7 +275,7 @@ export function createNewTaskBlockWithSelections(
   );
   const projectOptions = createOptions(
     "Projects",
-    projects
+    allProjects
   );
 
 
@@ -318,7 +345,7 @@ export function createNewTaskBlockWithSelections(
                   url: "",
                 },
                 userOptions: foundUsers.ambiguousUsers,
-                projectOptions: projects
+                projectOptions: allProjects
               }),
               style: "primary",
               action_id: "SelectionActionId-2",
@@ -397,7 +424,7 @@ export function createNewTaskBlockWithSelections(
                   url: "",
                 },
                 userOptions: foundUsers.ambiguousUsers,
-                projectOptions: projects
+                projectOptions: allProjects
               }),
               style: "primary",
               action_id: "SelectionActionId-2",
@@ -507,13 +534,14 @@ export function createNewTaskBlockWithSelections(
 
 /**
  * Creates Slack blocks to be used in previewing and confirming a new task.
- * @param notionTask The task to be previewed.
- * @returns A set of Slack blocks to be used in previewing and confirming a new task.
+ * @param notionTask: The task to be previewed.
+ * @param projects:   All projects present in the notion database
+ * 
+ * @returns:          A set of Slack blocks to be used in previewing and confirming a new task.
  */
 export const createTaskBlockWithoutSelections = function (
   notionTask: NotionTask,
   projects: ProjectWithName[]
-  // extractedTask: ExtractedTask
 ) {
   const ColumnLayoutTaskInfo = createTaskInfoWithoutSelections(notionTask, projects);
   const blockNewTask = {
@@ -580,39 +608,47 @@ export const createTaskBlockWithoutSelections = function (
 /**
  * Creates Slack blocks to be used in previewing and confirming a new task and prompting the user to select assignees.
  * @param notionTask The task to be previewed.
- * @param selectBlockTitle Either "Assignee" or "Assigned by"
- * @param foundUsers A list of 0 or more Notion users who match the assignee of the task.
+ * @param allProjects: All projects that exist in the notion database
+ * @param similarProjects: projects that are ambiguous and similar, to be clarified
+ *    by the user in the selections block.
+ * @param foundUsers An object that contains two lists, one (identifiedUsers)contains 0 or more Notion users who match the assignee of the task
+ *    the other list (ambiguousUsers) contains users who are yet to be identified.
+ * 
  * @returns A set of Slack blocks to be used in previewing and confirming a new task and prompting the user to select assignees.
  */
 export function createNewTaskBlockWithSelectionsForAmbiguousProjects(
   notionTask: NotionTask,
-  projects: ProjectWithName[],
+  allProjects: ProjectWithName[],
   similarProjects: { id: string }[],
   foundUsers: {
     identifiedUsers: NotionUser[];
     ambiguousUsers: NotionUser[];
   },
 ) {
-  const taskInfo = createTaskInfo(notionTask, projects, foundUsers.identifiedUsers);
-  
+  const taskInfo = createTaskInfo(notionTask, allProjects, foundUsers.identifiedUsers);
+
   // Create options for ambiguous users
   const userOptionsToChooseFrom = createOptions(
     "NotionUsers",
     foundUsers.ambiguousUsers,
   );
 
-  const similarProjectToSelect: ProjectWithName[] = [];
+  // This is an array that will contain the projects the AI was not able to
+  // figure out amongst all the existing projects, if it should include in the task
+  // since from the users message there are several possible matches.
+  const arrayOfProjectToSelectFrom: ProjectWithName[] = [];
+
   similarProjects.forEach((projToSelect) => {
-    projects.forEach((projectFromNotion) => {
-      if (projectFromNotion.id == projToSelect.id) {
-        similarProjectToSelect.push(projectFromNotion)
+    allProjects.forEach((projectFromNotion) => {
+      if (projectFromNotion.id === projToSelect.id) {
+        arrayOfProjectToSelectFrom.push(projectFromNotion)
       }
     })
   });
 
-  const selectionForSimilarProjects = createOptions(
+  const projectOptionsToChooseFrom = createOptions(
     "Projects",
-    similarProjectToSelect
+    arrayOfProjectToSelectFrom
   )
 
 
@@ -656,7 +692,7 @@ export function createNewTaskBlockWithSelectionsForAmbiguousProjects(
               text: `Select ${"Project"}(s)`,
               emoji: true,
             },
-            options: selectionForSimilarProjects,
+            options: projectOptionsToChooseFrom,
             action_id: "multi_select-action",
           },
           label: {
@@ -682,7 +718,7 @@ export function createNewTaskBlockWithSelectionsForAmbiguousProjects(
                   url: "",
                 },
                 userOptions: foundUsers.ambiguousUsers,
-                projectOptions: similarProjectToSelect
+                projectOptions: arrayOfProjectToSelectFrom
               }),
               style: "primary",
               action_id: "SelectionActionId-2",
@@ -734,7 +770,7 @@ export function createNewTaskBlockWithSelectionsForAmbiguousProjects(
             text: `Select ${"Project"}(s)`,
             emoji: true,
           },
-          options: selectionForSimilarProjects,
+          options: projectOptionsToChooseFrom,
           action_id: "multi_select-action",
         },
         label: {
@@ -760,7 +796,7 @@ export function createNewTaskBlockWithSelectionsForAmbiguousProjects(
                 url: "",
               },
               userOptions: foundUsers.ambiguousUsers,
-              projectOptions: similarProjectToSelect
+              projectOptions: arrayOfProjectToSelectFrom
             }),
             style: "primary",
             action_id: "SelectionActionId-2",

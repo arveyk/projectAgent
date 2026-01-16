@@ -131,7 +131,7 @@ export async function getSlackUserDataById(userID: string): Promise<SlackUserDat
   }
 }
 
-export async function getTimelyUserData(
+export async function getAppUserData(
   reqBody: SlashCommand,
   timestamp: number,
 ): Promise<UserData> {

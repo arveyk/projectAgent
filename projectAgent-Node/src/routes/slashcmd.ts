@@ -11,7 +11,6 @@ import { logTimestampForBenchmarking } from "../utils/logTimestampForBenchmarkin
 import { SlashCommand } from "@slack/bolt";
 import {
   convertTaskPageFromDbResponse,
-  // NotionTask,
   TaskPage,
 } from "../utils/taskFormatting/task";
 import { GetPageResponse } from "@notionhq/client";

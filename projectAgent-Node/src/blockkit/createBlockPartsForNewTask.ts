@@ -279,7 +279,7 @@ export function createNewTaskBlockWithSelections(
   );
 
 
-  if (parsedProjects.length < 1 && userOptionsToChooseFrom.length > 1) {
+  if (parsedProjects.length === 0 && userOptionsToChooseFrom.length > 1) {
     return {
       text: "Creating a new Task?",
       replace_original: true,

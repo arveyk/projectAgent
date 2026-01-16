@@ -13,9 +13,11 @@ import {
 
 /**
  * Creates a set of Slack blocks to be used in previewing and confirming a new task.
- * @param task The task to be previewed.
- * @param userSearchResult A list of 0 or more Notion users who match the assignee of the task.
- * @returns A set of Slack blocks to be used in previewing and confirming a new task.
+ * @param assignedBy:       user who is creating and assigning the task
+ * @param task:             The task to be previewed.
+ * @param userSearchResult: A list of 0 or more Notion users who match the assignee of the task.
+ * 
+ * @returns                 A set of Slack blocks to be used in previewing and confirming a new task.
  */
 export async function createNewTaskBlock(
   assignedBy: NotionUser[],
@@ -41,8 +43,6 @@ export async function createNewTaskBlock(
     }
   }
 
-  // const assignedBy = await findAssignedBy(requestBody);
-
   //  Now create selection block
   //  if there are ambiguous users, create a selections block
   //  else create a normal block
@@ -65,7 +65,7 @@ export async function createNewTaskBlock(
       }
     )
   }
-  if (ambiguousUsers.length > 0 || taskProjects.length === 0 || similarProjects.length > 1) {
+  if (ambiguousUsers.length > 0 || taskProjects.length === 0) {
     return createNewTaskBlockWithSelections(notionTask, projects, 
       // similarProjects, 
       {
@@ -75,9 +75,9 @@ export async function createNewTaskBlock(
   } else {
     let projectsArray: ProjectWithName[] = [];
 
-    for (const proj of taskProjects) {
+    for (const projectInTaskProjectsArray of taskProjects) {
       const found = projects.filter((queriedProject) => {
-        if (proj.id === queriedProject.id) return queriedProject
+        if (projectInTaskProjectsArray.id === queriedProject.id) return queriedProject
       });
       projectsArray.push(...found);
     }

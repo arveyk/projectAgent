@@ -11,7 +11,7 @@ import {
 import { SlashCommand } from "@slack/bolt";
 import { logTimestampForBenchmarking } from "./logTimestampForBenchmarking";
 import { getProjects } from "./database/searchDatabase";
-import { getTimelyUserData } from "./controllers/getUsersSlack";
+import { getAppUserData } from "./controllers/getUsersSlack";
 
 
 const EXAMPLE_MSG_00 = "\
@@ -161,7 +161,7 @@ export const parseTask = async function (
   }
 
 
-  const appUserData = await getTimelyUserData(reqBody, timestamp);
+  const appUserData = await getAppUserData(reqBody, timestamp);
 
   // const timeData = await getEventTimeData(reqBody, timestamp);
   const timeData = appUserData.eventTimeData;

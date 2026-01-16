@@ -4,8 +4,9 @@ import { createTaskInfoWithoutSelections } from "./createBlockPartsForNewTask";
 
 /**
  * Creates a set of Slack blocks to be used in previewing and updating an existing task.
- * @param task: The task to be previewed.
- * @returns: A set of Slack blocks to be used in previewing and updating an existing task.
+ * @param taskPage: The task to be previewed.
+ * 
+ * @returns:        A set of Slack blocks to be used in previewing and updating an existing task.
  */
 export async function createExistingTaskBlock(taskPage: TaskPage) {
   const taskUrl = taskPage.url;
@@ -14,9 +15,9 @@ export async function createExistingTaskBlock(taskPage: TaskPage) {
 
   const taskProjects: ProjectWithName[] = [];
 
-  for (const associatedProj of associatedProjects) {
+  for (const taskProject of associatedProjects) {
     const foundProject = existingProjects.find((project) => {
-      if (project.id === associatedProj.id) {
+      if (project.id === taskProject.id) {
         return project;
       }
     });

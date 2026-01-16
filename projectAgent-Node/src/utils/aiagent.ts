@@ -13,25 +13,30 @@ import { logTimestampForBenchmarking } from "./logTimestampForBenchmarking";
 import { getProjects } from "./database/searchDatabase";
 import { getTimelyUserData } from "./controllers/getUsersSlack";
 
-export const EXAMPLE_OUTPUT_FOR_PROMPT: TaskParseResult = {
+
+const EXAMPLE_MSG_00 = "\
+Bob, starting tomorrow, please write a draft of the article and have it finished by August 20, 2025.";
+export const EXAMPLE_OUTPUT_FOR_PROMPT_00: TaskParseResult = {
   taskTitle: "Write article draft",
   assignees: ["Bob"],
   dueDate: "2025-08-20T00:00-07:00",
   description: "Write a draft of the article",
   projects: []
 };
+
+const EXAMPLE_MSG_01 = "\
+Bradley, finish up the landing gear for the F-22 Assembly and Maintenance project by July 5 2026";
+
 export const EXAMPLE_OUTPUT_FOR_PROMPT_01: TaskParseResult = {
   taskTitle: "Finish landing gear",
   assignees: ["Bradley"],
   dueDate: "2026-07-5T00:00-07:00",
   description: "Bradley, finish up the landing gear for the F-22 Assembly and Maintenance project by July 5 2026",
   projects: [
-    { projectName: "F-22 Assembly and Maintenance" }
+    "F-22 Assembly and Maintenance"
   ]
 };
 
-const EXAMPLE_MSG_01 = "\
-Bradley, finish up the landing gear for the F-22 Assembly and Maintenance project by July 5 2026";
 
 const EXAMPLE_MSG_02 = "Phinehas, research on a lighter and stronger vanadium carbon composite for the jet propulsion redesign"
 export const EXAMPLE_OUTPUT_FOR_PROMPT_02: TaskParseResult = {
@@ -40,8 +45,8 @@ export const EXAMPLE_OUTPUT_FOR_PROMPT_02: TaskParseResult = {
   dueDate: null,
   description: "Phinehas, research on a lighter and stronger vanadium carbon composite for the jet propulsion redesign",
   projects: [
-    { projectName: "Jet Propulsion Redesign" },
-    { projectName: "Vanadium Carbon Composite" }
+    "Jet Propulsion Redesign",
+    "Vanadium Carbon Composite"
   ]
 };
 
@@ -90,6 +95,19 @@ export const taskSchema = z.object({
     .describe("Assingnee phone number"),
   email: z.string().optional().nullable().describe("Assignee's email address"),
   projects: z
+    .string()
+    .array()
+    .optional()
+    .nullable()
+    .describe("Projects the task belongs to"),
+  similarProjects: z
+    .string()
+    .array()
+    .optional()
+    .nullable()
+    .describe("Project matches if it is unclear which project is being referred to"),
+
+  /*projects: z
     .object({
       projectName: z.string()
     })
@@ -105,6 +123,8 @@ export const taskSchema = z.object({
     .optional()
     .nullable()
     .describe("Project matches if it is unclear which project is being referred to"),
+
+*/
 });
 export type TaskParseResult = z.infer<typeof taskSchema>;
 
@@ -141,10 +161,10 @@ export const parseTask = async function (
   }
 
 
-  const timelyUserData = await getTimelyUserData(reqBody, timestamp);
+  const appUserData = await getTimelyUserData(reqBody, timestamp);
 
   // const timeData = await getEventTimeData(reqBody, timestamp);
-  const timeData = timelyUserData.eventTimeData;
+  const timeData = appUserData.eventTimeData;
 
   const notionProjects = await getProjects();
   console.log(`notionProjects found ${JSON.stringify(notionProjects)}`);
@@ -152,17 +172,10 @@ export const parseTask = async function (
   const prompt = `Today's date and time in ISO format is ${timeData.toISO()}, and our timezone is ${timeData.zoneName}. Please extract task information from a message, making sure to list any dates in ISO format with timezone offset. "By the end of the day" means by 17:00 in our timezone. If the message says to finish a task "by" some date but does not specify a time, that means by 0:00 of that date in our timezone. 
   Also, using this list ${JSON.stringify(notionProjects)}, infer the project or projects the task is linked to. The projectName is what will help in finding a match. \
   """Example: **Sample Projects**: ${EXAMPLE_INPUT_PROJECTS}.\n\
-  Input 1: Bob, starting tomorrow, please write a draft of the article and have it finished by August 20, 2025. Output: ${JSON.stringify(EXAMPLE_OUTPUT_FOR_PROMPT)},\
+  Input 1: ${EXAMPLE_MSG_00} Output: ${JSON.stringify(EXAMPLE_OUTPUT_FOR_PROMPT_00)},\
   Input 2: ${EXAMPLE_MSG_01}. Output 2: ${JSON.stringify(EXAMPLE_OUTPUT_FOR_PROMPT_01)}. Input 3 ${EXAMPLE_MSG_02}. Output 3 ${JSON.stringify(EXAMPLE_OUTPUT_FOR_PROMPT_02)}""" Here is the message: ${textToParse}`;
   console.log(`prompt: ${prompt}`);
 
-  /**
-   * Include prompt here?
-   * 
-   * const projectSearchPrompt = `
-    Please 
-    ${textToParse}, if no match is found, please include all the projects`;
-    */
   logTimestampForBenchmarking("(Database) LLM start");
 
   logTimestampForBenchmarking("(Parse) LLM start");
@@ -198,10 +211,10 @@ export const parseTask = async function (
   console.log(`task parse result after conversion: ${JSON.stringify(task)}`);
   return {
     task: task,
-    timelyUser: {
-      userId: timelyUserData.userId,
-      name: timelyUserData.name,
-      email: timelyUserData.email,
+    taskCreator: {
+      userId: appUserData.userId,
+      name: appUserData.name,
+      email: appUserData.email,
     }
   }
 };

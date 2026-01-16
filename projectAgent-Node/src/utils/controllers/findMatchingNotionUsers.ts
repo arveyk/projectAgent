@@ -1,8 +1,14 @@
-import { Task } from "../taskFormatting/task";
+import { Task, User } from "../taskFormatting/task";
 import { getNotionUsers } from "./getUsersNotion";
 import { NotionUser, UserSearchResult } from "./userTypes";
-import { User } from "../taskFormatting/task";
 
+
+/**
+ * Function to identify the assignees of task using names and emails to search
+ * @param task: task to be created that contains the required assignees array
+ *  
+ * @returns 
+ */
 export async function findMatchingAssignees(
   task: Task,
 ): Promise<UserSearchResult[]> {
@@ -142,9 +148,10 @@ export function isPartialNameMatch(
 
 /**
  * Concatenates name matches and email matches into a single array, and removes all duplicates.
- * @param nameMatches
- * @param emailMatches
- * @returns A single list containing all the unique users from both lists.
+ * @param nameMatches:  user found using name matching logic
+ * @param emailMatches: users found using email matching logic
+ * 
+ * @returns             A single list containing all the unique users from both lists.
  */
 export function deduplicateUsers(
   nameMatches: NotionUser[],
@@ -165,8 +172,14 @@ export function deduplicateUsers(
   return uniqueUsers;
 }
 
+/**
+ * 
+ * @param slackEmail: email of slack user
+ * @param email:      primary email to match against users in Notion
+ *  
+ * @returns           Notion user that has matching email
+ */
 export async function findMatchingNotionUserByEmail(
-  // slackEmailSavedInNotion: string
   slackEmail: string,
   email?: string,
 ): Promise<NotionUser[]> {
@@ -186,12 +199,16 @@ export async function findMatchingNotionUserByEmail(
   return emailMatches;
 }
 
-export async function findAssignedBy(timelyUser: User) {
-  const userInSlack = timelyUser;
+/**
+ * Function to find the assignedBy's details from notion side
+ * @param identifiedAppUser: assignedBy infered from slack, one creating the task
+ */
+export async function findAssignedBy(identifiedAppUser: User) {
 
-  const matchingNotionUser = await findMatchingNotionUserByEmail(userInSlack.name, userInSlack.email);
+  const matchingNotionUser = await findMatchingNotionUserByEmail(identifiedAppUser.name, identifiedAppUser.email);
 
-  console.log(`(findAssignedBy), any found ${userInSlack}, searched id: ${userInSlack.userId}`, JSON.stringify(matchingNotionUser));
+  console.log(`(findAssignedB  slackEmail: string,
+y), any found ${identifiedAppUser}, searched id: ${identifiedAppUser.userId}`, JSON.stringify(matchingNotionUser));
 
   return matchingNotionUser;
 }

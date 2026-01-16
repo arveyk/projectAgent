@@ -3,7 +3,6 @@ import {
   UNPROCESSED_SAMPLE_PAYLOAD,
   EXAMPLE_ONLY_PROJECT_SELECTED
 } from "../../test-data/example-selections-payload";
-"../../test-data/example-selection-payload"
 import { integrateSelectedValues } from "./useSelectedOption";
 import { TaskPage, ProjectWithName } from "../taskFormatting/task";
 import { NotionUser } from "./userTypes";

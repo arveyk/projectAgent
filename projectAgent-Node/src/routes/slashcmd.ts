@@ -124,7 +124,7 @@ const slashCmdHandler: StreamifyHandler = async function (
         );
 
         // TODO get assigned by
-        const assignedBy = await findAssignedBy(parsedData.timelyUser);
+        const assignedBy = await findAssignedBy(parsedData.taskCreator);
         const slackBlocks = await createNewTaskBlock(assignedBy, parsedData.task, assigneeSearchResults);
 
         console.log("SlashCmdHandler taskBlockWithSelect", slackBlocks);

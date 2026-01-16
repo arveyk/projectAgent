@@ -14,7 +14,6 @@ import {
 } from "../../utils/slashCommandProcessing";
 import { NotionUser } from "../../utils/controllers/userTypes";
 import {
-  // integrateUserSelections,
   integrateSelectedValues
 } from "../../utils/controllers/useSelectedOption";
 
@@ -87,12 +86,7 @@ const interactionHandler: StreamifyHandler = async function (
         console.log(`${userSelections}`);
         const projectOptions: ProjectWithName[] = taskPageAndOptionsObject.projectOptions;
 
-        // const allAssignees = integrateUserSelections(
-        //  taskPageObj.task.assignees,
-        //  payload,
-        //  userSelections,
-        // );
-        // taskPageObj.task.assignees = allAssignees;
+        // task with integrated selected assignee and project values from slack interaction
         const taskWithIntegratedValues = integrateSelectedValues(taskPageAndOptionsObject.taskPageObject.task, userSelections, projectOptions, payload);
 
         taskPageObj.task.project = taskWithIntegratedValues.project;
@@ -200,6 +194,7 @@ const interactionHandler: StreamifyHandler = async function (
         const pageUrl = payload.actions[0].value;
         const deletionResult = await deletePage(pageUrl);
         console.log(deletionResult);
+
         // TODO return message indicating success or failure
         sendReject(
           payload,

@@ -136,6 +136,12 @@ export function filterSimilar(pages: dbPage[], message: string): dbPage[] {
   return similarPages;
 }
 
+/**
+ * Function to get all project from projects database
+ * @param {*}
+ *
+ * @return	array of all projects in porjectsdatabase
+ */
 export async function getProjects() {
   logTimestampForBenchmarking("Querying Projects");
   const projectsQueryResponse = await notion.dataSources.query({

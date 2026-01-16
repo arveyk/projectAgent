@@ -82,11 +82,7 @@ export function convertTask(taskInput: TaskParseResult,
       return { name: assignee };
     })
     : [];
-  const similarProjects = taskInput.similarProjects
-    ? taskInput.similarProjects.map((project) => {
-      return project;
-    })
-    : [];
+  const similarProjects = taskInput.similarProjects || [];
 
   const taskProjects = taskInput.projects || []
 

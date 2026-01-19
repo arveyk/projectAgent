@@ -10,6 +10,9 @@ import { NotionUser } from "../controllers/userTypes";
 import { TaskParseResult } from "../aiagent";
 import { DateTime } from "luxon";
 
+
+// Type for variables to contains notion users the aiagent was able to identify as assignees and
+// users that are not identified as assignees for a task
 export type FoundUsers = {
   identifiedUsers: NotionUser[];
   ambiguousUsers: NotionUser[];
@@ -20,6 +23,7 @@ export type PersonNoId = {
   email?: string;
 };
 
+// Project containing both name of project and project id as saved in Notion Database
 export type ProjectWithName = {
   projectName: string;
   id: string;
@@ -31,6 +35,8 @@ export type User = {
   email: string;
 };
 
+// Extracted task details together with info of the user creating the task (which will be
+// used to create the assigned by field)
 export type ParsedData = {
   task: Task;
   taskCreator: User;
@@ -100,22 +106,6 @@ export function convertTask(
     if (taskProjects.includes(projectFromAllProjectsArray.projectName)) {
       identifiedProjects.push({ id: projectFromAllProjectsArray.id });
     }
-    /*taskProjects.forEach((projectInTaskProjectsArray) => {
-      if (projectFromAllPorjectsArray && projectInTaskProjectsArray) {
-        if (projectFromAllPorjectsArray.projectName === projectInTaskProjectsArray.projectName) {
-          identifiedProjects.push({ id: projectFromAllPorjectsArray.id });
-        }
-      }
-        */
-    /*
-    similarProjects.forEach((unselectedProject) => {
-      /*if (projectFromAllPorjectsArray && unSelectedProject) {
-        if (projectFromAllPorjectsArray.projectName === unSelectedProject.projectName) {
-          projectsToSelect.push({ id: projectFromAllPorjectsArray.id});
-        }
-      }
-    })
-      */
   });
 
   return {

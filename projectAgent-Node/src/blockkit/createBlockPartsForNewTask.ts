@@ -76,7 +76,7 @@ export function createTaskInfo(
   const assigneesArray = assignees;
   const assigneeNames = createAssigneesDisplayMessageFromArray(assigneesArray);
 
-  let projectNames = ""; //createProjectsDisplayMessageFromArray(projects);
+  let projectNames = "";
   console.log(
     `(createTaskInfo), assigneesArray: ${assigneesArray}, task${JSON.stringify(notionTaskProject)}`,
   );

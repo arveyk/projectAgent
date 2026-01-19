@@ -1,4 +1,4 @@
-import { parseTask } from "./aiAgent";
+import { parseTask } from "./aiagent";
 
 import {
   payloadGood,
@@ -24,8 +24,8 @@ describe("Tests parseTaskSlashCmd with a good payload", () => {
     console.log(JSON.stringify(parsedTask));
 
     //expect(parsedTask.assignees).toMatch(taskGood.assignees);
-    expect(parsedTask.taskTitle).toBeTruthy();
-    expect(parsedTask.description).toBeTruthy();
+    expect(parsedTask.task.taskTitle).toBeTruthy();
+    expect(parsedTask.task.description).toBeTruthy();
   }, 10000);
 });
 
@@ -39,8 +39,8 @@ describe("Tests parseTaskSlashCmd with a good payload from Harvey", () => {
     console.log(JSON.stringify(parsedTask));
 
     //expect(parsedTask.assignees).toMatch(taskHarvey.assignees);
-    expect(parsedTask.taskTitle).toBeTruthy();
-    expect(parsedTask.description).toBeTruthy();
+    expect(parsedTask.task.taskTitle).toBeTruthy();
+    expect(parsedTask.task.description).toBeTruthy();
   }, 10000);
 });
 
@@ -54,8 +54,8 @@ describe("Tests parseTaskSlashCmd inferring dates", () => {
     console.log(JSON.stringify(parsedTask));
 
     //expect(parsedTask.assignees).toMatch(taskInferDates.assignees);
-    expect(parsedTask.taskTitle).toBeTruthy();
-    expect(parsedTask.description).toBeTruthy();
+    expect(parsedTask.task.taskTitle).toBeTruthy();
+    expect(parsedTask.task.description).toBeTruthy();
   }, 10000);
 });
 

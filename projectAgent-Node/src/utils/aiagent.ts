@@ -31,7 +31,7 @@ Bradley, finish up the landing gear for the F-22 Assembly and Maintenance projec
 export const EXAMPLE_OUTPUT_FOR_PROMPT_01: TaskParseResult = {
   taskTitle: "Finish landing gear",
   assignees: ["Bradley"],
-  dueDate: "2026-07-5T00:00-07:00",
+  dueDate: "2026-07-05T00:00-07:00",
   description:
     "Bradley, finish up the landing gear for the F-22 Assembly and Maintenance project by July 5 2026",
   projects: ["F-22 Assembly and Maintenance"],

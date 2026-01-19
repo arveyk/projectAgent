@@ -1,7 +1,7 @@
 import { NotionUser } from "../utils/controllers/userTypes";
 import { UserSearchResult } from "../utils/controllers/userTypes";
 import {
-  createNewTaskBlockWithSelections,
+  createNewTaskBlockWithUserAnd_Or_ProjectsSelections,
   createNewTaskBlockWithSelectionsForAmbiguousProjects,
   createTaskBlockWithoutSelections,
 } from "./createBlockPartsForNewTask";
@@ -28,7 +28,7 @@ export async function createNewTaskBlock(
   const identifiedUsers: NotionUser[] = [];
   const ambiguousUsers: NotionUser[] = [];
   const taskProjects = task.project || [];
-  const projects: ProjectWithName[] = task.existingProjects || [];
+  const allExistingProjects: ProjectWithName[] = task.existingProjects || [];
   const similarProjects = task.similarProjects || [];
 
   for (const user of userSearchResult) {
@@ -58,7 +58,7 @@ export async function createNewTaskBlock(
   if (similarProjects.length > 0) {
     return createNewTaskBlockWithSelectionsForAmbiguousProjects(
       notionTask,
-      projects,
+      allExistingProjects,
       similarProjects,
       {
         identifiedUsers,
@@ -67,10 +67,9 @@ export async function createNewTaskBlock(
     );
   }
   if (ambiguousUsers.length > 0 || taskProjects.length === 0) {
-    return createNewTaskBlockWithSelections(
+    return createNewTaskBlockWithUserAnd_Or_ProjectsSelections(
       notionTask,
-      projects,
-      // similarProjects,
+      allExistingProjects,
       {
         identifiedUsers,
         ambiguousUsers,
@@ -80,7 +79,7 @@ export async function createNewTaskBlock(
     let projectsArray: ProjectWithName[] = [];
 
     for (const projectInTaskProjectsArray of taskProjects) {
-      const found = projects.filter((queriedProject) => {
+      const found = allExistingProjects.filter((queriedProject) => {
         if (projectInTaskProjectsArray.id === queriedProject.id)
           return queriedProject;
       });

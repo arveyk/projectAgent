@@ -1,4 +1,9 @@
-import { Client, DataSourceObjectResponse, PageObjectResponse, QueryDataSourceResponse } from "@notionhq/client";
+import {
+  Client,
+  DataSourceObjectResponse,
+  PageObjectResponse,
+  QueryDataSourceResponse,
+} from "@notionhq/client";
 import { ChatAnthropic } from "@langchain/anthropic";
 import { z } from "zod/v4";
 import { dbPage, simplifyDatabaseResults } from "./simplifyDatabaseResults";
@@ -145,7 +150,7 @@ export function filterSimilar(pages: dbPage[], message: string): dbPage[] {
 export async function getProjects() {
   logTimestampForBenchmarking("Querying Projects");
   const projectsQueryResponse = await notion.dataSources.query({
-    data_source_id: NOTION_PROJECTS_DATA_SOURCE_ID
+    data_source_id: NOTION_PROJECTS_DATA_SOURCE_ID,
   });
 
   const projectsList = projectsQueryResponse.results;
@@ -157,21 +162,19 @@ export async function getProjects() {
   for (const project of projectsList) {
     console.log("Projects id", project.id);
 
-
     if (project.object === "page" && "properties" in project) {
       for (const propName in project.properties) {
         if (project.properties[propName]["type"] === "title") {
-
           const projectTitle = project.properties[propName].title[0].plain_text;
           simplifiedProjects.push({
             projectName: projectTitle,
-            id: project.id
+            id: project.id,
           });
         }
       }
     }
   }
-  return simplifiedProjects
+  return simplifiedProjects;
 }
 
 export async function listPeopleNotion() {
@@ -179,7 +182,7 @@ export async function listPeopleNotion() {
   const NOTION_PEOPLE_DATA_SOURCE_ID = "2e9eef29-a653-8184-ba65-000be6e76228";
 
   const peopleListingResponse = await notion.dataSources.query({
-    data_source_id: NOTION_PEOPLE_DATA_SOURCE_ID
+    data_source_id: NOTION_PEOPLE_DATA_SOURCE_ID,
   });
 
   const peoplesList = peopleListingResponse.results;
@@ -203,23 +206,22 @@ export async function listPeopleNotion() {
       let slackEmail: string = "";
 
       const propertyName_01 = "Email";
-      const propertyName_02 = "Slack Email"
+      const propertyName_02 = "Slack Email";
 
       for (const propName in person.properties) {
         if (person.properties["type"].type === "title") {
           const personsName = person.properties["title"];
           //        const personsName = person.properties["title"][0].plain_text;
-
         }
       }
       simplifiedPeople.push({
         name: name,
         email: email,
-        slackEmail: slackEmail
+        slackEmail: slackEmail,
       });
       //}
       //}
     }
   }
-  return simplifiedPeople
+  return simplifiedPeople;
 }

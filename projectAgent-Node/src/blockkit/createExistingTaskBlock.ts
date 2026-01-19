@@ -5,7 +5,7 @@ import { createTaskInfoWithoutSelections } from "./createBlockPartsForNewTask";
 /**
  * Creates a set of Slack blocks to be used in previewing and updating an existing task.
  * @param taskPage: The task to be previewed.
- * 
+ *
  * @returns:        A set of Slack blocks to be used in previewing and updating an existing task.
  */
 export async function createExistingTaskBlock(taskPage: TaskPage) {
@@ -26,7 +26,10 @@ export async function createExistingTaskBlock(taskPage: TaskPage) {
     }
   }
 
-  const sectionInfo = createTaskInfoWithoutSelections(taskPage.task, taskProjects);
+  const sectionInfo = createTaskInfoWithoutSelections(
+    taskPage.task,
+    taskProjects,
+  );
   return {
     text: "Updating a Task?",
     replace_original: true,

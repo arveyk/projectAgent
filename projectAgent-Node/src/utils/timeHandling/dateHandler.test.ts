@@ -4,7 +4,7 @@ import { Task } from "../taskFormatting/task";
 
 const taskObj: Task = {
   taskTitle: "Pick flowers for centerpiece",
-  assignees: [{name: "Josh"}],
+  assignees: [{ name: "Josh" }],
   dueDate: new Date("2025-10-15T07:00:00.000Z"),
   startDate: new Date("2025-10-09T16:37:50.048Z"),
   description: "Pick flowers for the centerpiece",

@@ -6,7 +6,7 @@ import { DateTime } from "luxon";
 
 const taskKitchen: Task = {
   taskTitle: "Fix plumbing issue in second floor kitchen",
-  assignees: [{name: "Jeremy"}],
+  assignees: [{ name: "Jeremy" }],
   dueDate: DateTime.fromMillis(1759852422989)
     .setZone("Africa/Nairobi")
     .toJSDate(),
@@ -17,16 +17,12 @@ const taskKitchen: Task = {
 describe("tests createTaskInfoBlock", () => {
   it("Creates  task block", () => {
     console.log(JSON.stringify(notionTask));
-    const taskBlock = createTaskInfoWithoutSelections(
-      notionTask, [] 
-    );
+    const taskBlock = createTaskInfoWithoutSelections(notionTask, []);
     console.log(JSON.stringify(taskBlock));
   });
   it("Creates a task block from the troublesome payload", () => {
     console.log(`taskKitchen: ${JSON.stringify(taskKitchen)}`);
-    const taskBlock = createTaskInfoWithoutSelections(
-      notionTask, []
-    );
+    const taskBlock = createTaskInfoWithoutSelections(notionTask, []);
     console.log(`block: ${JSON.stringify(taskBlock)}`);
   });
 });

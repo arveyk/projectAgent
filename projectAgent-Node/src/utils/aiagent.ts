@@ -6,57 +6,54 @@ import { BaseLanguageModelInput } from "@langchain/core/dist/language_models/bas
 import {
   convertTask,
   ParsedData,
-  ProjectWithName
+  ProjectWithName,
 } from "./taskFormatting/task";
 import { SlashCommand } from "@slack/bolt";
 import { logTimestampForBenchmarking } from "./logTimestampForBenchmarking";
 import { getProjects } from "./database/searchDatabase";
 import { getAppUserData } from "./controllers/getUsersSlack";
 
-
-const EXAMPLE_MSG_00 = "\
+const EXAMPLE_MSG_00 =
+  "\
 Bob, starting tomorrow, please write a draft of the article and have it finished by August 20, 2025.";
 export const EXAMPLE_OUTPUT_FOR_PROMPT_00: TaskParseResult = {
   taskTitle: "Write article draft",
   assignees: ["Bob"],
   dueDate: "2025-08-20T00:00-07:00",
   description: "Write a draft of the article",
-  projects: []
+  projects: [],
 };
 
-const EXAMPLE_MSG_01 = "\
+const EXAMPLE_MSG_01 =
+  "\
 Bradley, finish up the landing gear for the F-22 Assembly and Maintenance project by July 5 2026";
 
 export const EXAMPLE_OUTPUT_FOR_PROMPT_01: TaskParseResult = {
   taskTitle: "Finish landing gear",
   assignees: ["Bradley"],
   dueDate: "2026-07-5T00:00-07:00",
-  description: "Bradley, finish up the landing gear for the F-22 Assembly and Maintenance project by July 5 2026",
-  projects: [
-    "F-22 Assembly and Maintenance"
-  ]
+  description:
+    "Bradley, finish up the landing gear for the F-22 Assembly and Maintenance project by July 5 2026",
+  projects: ["F-22 Assembly and Maintenance"],
 };
 
-
-const EXAMPLE_MSG_02 = "Phinehas, research on a lighter and stronger vanadium carbon composite for the jet propulsion redesign"
+const EXAMPLE_MSG_02 =
+  "Phinehas, research on a lighter and stronger vanadium carbon composite for the jet propulsion redesign";
 export const EXAMPLE_OUTPUT_FOR_PROMPT_02: TaskParseResult = {
   taskTitle: "Research on Lighter and Stronger Vanadium Carbon Composite",
   assignees: ["Phinehas"],
   dueDate: null,
-  description: "Phinehas, research on a lighter and stronger vanadium carbon composite for the jet propulsion redesign",
-  projects: [
-    "Jet Propulsion Redesign",
-    "Vanadium Carbon Composite"
-  ]
+  description:
+    "Phinehas, research on a lighter and stronger vanadium carbon composite for the jet propulsion redesign",
+  projects: ["Jet Propulsion Redesign", "Vanadium Carbon Composite"],
 };
 
 export const EXAMPLE_INPUT_PROJECTS: ProjectWithName[] = [
   { projectName: "F-22 Assembly and Maintenance", id: "kl*9J9kjs)_nsdyyusdl" },
   { projectName: "Jet Propulsion Redesign", id: "1xc9Dtrhjs)ns4h7jLKd" },
   { projectName: "Project assigned by Donald", id: "lapI-2nd7dUHnis927hd" },
-  { projectName: "Vanadium Carbon Composite", id: "dsdPO219083nd-siosau" }
-]
-
+  { projectName: "Vanadium Carbon Composite", id: "dsdPO219083nd-siosau" },
+];
 
 logTimestampForBenchmarking("(Parse) model initialization start");
 const model = new ChatAnthropic({
@@ -105,7 +102,9 @@ export const taskSchema = z.object({
     .array()
     .optional()
     .nullable()
-    .describe("Project matches if it is unclear which project is being referred to"),
+    .describe(
+      "Project matches if it is unclear which project is being referred to",
+    ),
 
   /*projects: z
     .object({
@@ -158,7 +157,6 @@ export const parseTask = async function (
   } else {
     textToParse = "No Task available";
   }
-
 
   const appUserData = await getAppUserData(reqBody, timestamp);
 
@@ -214,6 +212,6 @@ export const parseTask = async function (
       userId: appUserData.userId,
       name: appUserData.name,
       email: appUserData.email,
-    }
-  }
+    },
+  };
 };

@@ -138,7 +138,6 @@ export function filterSimilar(pages: dbPage[], message: string): dbPage[] {
 
 /**
  * Function to get all project from projects database
- * @param {*}
  *
  * @return	array of all projects in porjectsdatabase
  */

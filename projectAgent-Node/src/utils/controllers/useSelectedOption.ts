@@ -14,27 +14,27 @@ type SelectionOption = {
  * Integrated selected users into the assignee field
  * @param assignees:      assignees allready in task
  * @param selectedValues: what the user selected
- * @param userSelections: options the app user had to select from
+ * @param allDisplayedAssigneeOptions: options the app user had to select from
  *
  * @returns               all assingees, both from task
  */
 export function integrateUserSelections(
   assignees: NotionUser[],
   selectedValues: SelectionOption[],
-  userSelections: NotionUser[],
+  allDisplayedAssigneeOptions: NotionUser[],
 ) {
   const allAssignees: NotionUser[] = [...assignees];
   if (selectedValues.length < 1) {
     return [];
   }
 
-  for (const indexHolder of selectedValues) {
-    console.log(parseInt(indexHolder["value"]));
-    const index = parseInt(indexHolder["value"]);
+  for (const selectedOption of selectedValues) {
+    console.log(parseInt(selectedOption["value"]));
+    const index = parseInt(selectedOption["value"]);
     if (isNaN(index)) {
-      throw "(integrateUserSelections): index value is Not a Number";
+      throw new Error("(integrateUserSelections): index value is Not a Number");
     }
-    allAssignees.push(userSelections[index]);
+    allAssignees.push(allDisplayedAssigneeOptions[index]);
   }
   return allAssignees;
 }
@@ -43,14 +43,14 @@ export function integrateUserSelections(
  * Function to integrate selected projects into the existing task projects
  * @param projects:           Projects from task
  * @param selectedValues:     selected projects Values
- * @param projectSelections:  all project options the user had to select from
+ * @param allDisplayedProjectOptions:  all project options the user had to select from
  *
  * @returns:                  projects from task plus projects the app user selected
  */
 export function integrateSelectedProjects(
   projects: { id: string }[],
   selectedValues: SelectionOption[],
-  projectSelections: ProjectWithName[],
+  allDisplayedProjectOptions: ProjectWithName[],
 ) {
   const allProjects: { id: string }[] = [...projects];
 
@@ -62,13 +62,13 @@ export function integrateSelectedProjects(
     console.log(parseInt(selectedOption["value"]));
     const index = parseInt(selectedOption["value"].replace("Project_", ""));
     if (isNaN(index)) {
-      throw "(integrateSelectedProjects): index value is Not a Number";
+      throw new Error("(integrateSelectedProjects): index value is Not a Number");
     }
     if (
-      allProjects.find((element) => projectSelections[index].id === element.id)
+      allProjects.find((element) => allDisplayedProjectOptions[index].id === element.id)
     )
       continue;
-    allProjects.push({ id: projectSelections[index].id });
+    allProjects.push({ id: allDisplayedProjectOptions[index].id });
   }
   return allProjects;
 }

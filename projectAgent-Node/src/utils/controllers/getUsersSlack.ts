@@ -8,6 +8,8 @@ import { DateTime } from "luxon";
 const SECONDS_IN_A_MINUTE = 60;
 const MINUTES_IN_AN_HOUR = 60;
 
+// Combined data of user on slack that is creating a task. Both time zone data and 
+// userId, name and email that will be user to create the assigned by field in the task
 type SlackUserData = {
   userId: string;
   name: string;
@@ -18,6 +20,8 @@ type SlackUserData = {
     tz_offset: number;
   };
 };
+
+// similar to SlackUserData but with timezoneData resolved to eventTimeData
 type UserData = {
   eventTimeData: DateTime;
   userId: string;

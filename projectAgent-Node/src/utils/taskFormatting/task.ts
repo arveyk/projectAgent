@@ -10,6 +10,20 @@ import { NotionUser } from "../controllers/userTypes";
 import { TaskParseResult } from "../aiagent";
 import { DateTime } from "luxon";
 
+
+export type NewNotionTask = {
+    taskTitle: string;
+    assignees: NotionUser[];
+    assignedBy: NotionUser[];
+    dueDate?: Date;
+    startDate?: Date;
+    description: string;
+    project?: {
+      projectName: string;
+      id: string;
+    }[];
+}
+
 export type FoundUsers = {
   identifiedUsers: NotionUser[];
   ambiguousUsers: NotionUser[];

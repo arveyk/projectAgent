@@ -6,6 +6,7 @@ import {
   createTaskBlockWithoutSelections,
 } from "./createBlockPartsForNewTask";
 import {
+  NewNotionTask,
   NotionTask,
   ProjectWithName,
   Task,
@@ -45,6 +46,8 @@ export async function createNewTaskBlock(
   //  Now create selection block
   //  if there are ambiguous users, create a selections block
   //  else create a normal block
+
+  
   const notionTask: NotionTask = {
     taskTitle: task.taskTitle,
     assignees: identifiedUsers,
@@ -55,9 +58,27 @@ export async function createNewTaskBlock(
     project: task.project,
   };
 
+  const notionTaskWithProjectNames: NewNotionTask = {
+    taskTitle: task.taskTitle,
+    assignees: identifiedUsers,
+    assignedBy: assignedBy,
+    dueDate: task.dueDate,
+    startDate: task.startDate,
+    description: task.description,
+    project: [],
+  }
+
+  for (const project of projects) {
+    if (taskProjects.includes({id: project.id})){
+      notionTaskWithProjectNames.project ? 
+      notionTaskWithProjectNames.project.push(project): notionTaskWithProjectNames.project = [project];
+    }
+  }
+
+
   if (similarProjects.length > 0) {
     return createNewTaskBlockWithSelectionsForAmbiguousProjects(
-      notionTask,
+      notionTaskWithProjectNames,
       projects,
       similarProjects,
       {
@@ -68,7 +89,7 @@ export async function createNewTaskBlock(
   }
   if (ambiguousUsers.length > 0 || taskProjects.length === 0) {
     return createNewTaskBlockWithSelections(
-      notionTask,
+      notionTaskWithProjectNames,
       projects,
       // similarProjects,
       {
@@ -77,6 +98,9 @@ export async function createNewTaskBlock(
       },
     );
   } else {
+    /**
+     * 
+    
     let projectsArray: ProjectWithName[] = [];
 
     for (const projectInTaskProjectsArray of taskProjects) {
@@ -86,6 +110,7 @@ export async function createNewTaskBlock(
       });
       projectsArray.push(...found);
     }
-    return createTaskBlockWithoutSelections(notionTask, projectsArray);
+      */
+    return createTaskBlockWithoutSelections(notionTaskWithProjectNames);
   }
 }

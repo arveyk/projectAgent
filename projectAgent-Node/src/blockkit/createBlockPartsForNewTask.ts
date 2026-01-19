@@ -2,10 +2,23 @@ import { formatSlackDate } from "../utils/timeHandling/dateHandler";
 import { NotionUser } from "../utils/controllers/userTypes";
 import {
   FoundUsers,
+  NewNotionTask,
   NotionTask,
   ProjectWithName,
 } from "../utils/taskFormatting/task";
 
+
+/**
+ * function to turn create project without names
+ */
+
+function removeNameFromProjects(projectsWithNames: ProjectWithName[]): {id: string}[] {
+  const notionProjectsWithoutNames: {id: string}[] = 
+   projectsWithNames.map((project) => {
+    return {id: project.id }
+   });
+  return notionProjectsWithoutNames;
+}
 /**
  * Function to create the markdown message for the identified assignees names
  *    to be displayed
@@ -38,7 +51,7 @@ function createProjectsDisplayMessageFromArray(
   notionTaskProjectsArray: { id: string }[],
   allProjectsArray: ProjectWithName[],
 ) {
-let projectNames = "";
+  let projectNames = "";
 
   allProjectsArray.forEach((project) => {
     if (project) {
@@ -85,7 +98,7 @@ export function createTaskInfo(
       notionTaskProject,
       allProjects,
     );
-}
+  }
 
   console.log(`(createTaskInfo) task: ${JSON.stringify(notionTask)}`);
   const columnLayoutBlock = [
@@ -107,11 +120,10 @@ export function createTaskInfo(
       fields: [
         {
           type: "mrkdwn",
-          text: `*Due Date:*\n${
-            notionTask.dueDate
+          text: `*Due Date:*\n${notionTask.dueDate
               ? formatSlackDate(new Date(notionTask.dueDate))
               : ""
-          }`,
+            }`,
         },
         {
           type: "mrkdwn",
@@ -147,9 +159,9 @@ export function createTaskInfo(
  * @returns The Slack blocks for previewing the details of a new task.
  */
 export function createTaskInfoWithoutSelections(
-  notionTask: NotionTask,
-  allProjectsArray: ProjectWithName[],
+  notionTask: NewNotionTask,
 ) {
+  const taskProjects = notionTask.project || [];
   const assigneesArray = notionTask.assignees;
 
   const assigneeNames = createAssigneesDisplayMessageFromArray(assigneesArray);
@@ -159,16 +171,13 @@ export function createTaskInfoWithoutSelections(
     `(createTaskInfoWithoutSelections), assigneesArray: ${assigneesArray}, task${JSON.stringify(notionTask)}`,
   );
 
-  if (allProjectsArray && Array.isArray(allProjectsArray)) {
-    allProjectsArray.forEach((project) => {
-      if (project) {
-        // `projectNames += `${project.projectName === "" ? " " : project.projectName}\n`;
-        projectNames += `${project.projectName === "" ? " " : project.projectName}\n`;
-      }
-    });
-    // Remove trailing comma and space
-    projectNames = projectNames.slice(0, -1);
-  }
+  taskProjects.forEach((project) => {
+    if (project) {
+      projectNames += `${project.projectName === "" ? " " : project.projectName}\n`;
+    }
+  });
+  // Remove trailing comma and space
+  projectNames = projectNames.slice(0, -1);
   const columnLayoutBlock = [
     {
       type: "section",
@@ -188,11 +197,10 @@ export function createTaskInfoWithoutSelections(
       fields: [
         {
           type: "mrkdwn",
-          text: `*Due Date:*\n${
-            notionTask.dueDate
+          text: `*Due Date:*\n${notionTask.dueDate
               ? formatSlackDate(new Date(notionTask.dueDate))
               : ""
-          }`,
+            }`,
         },
         {
           type: "mrkdwn",
@@ -551,13 +559,26 @@ export function createNewTaskBlockWithSelections(
  * @returns:          A set of Slack blocks to be used in previewing and confirming a new task.
  */
 export const createTaskBlockWithoutSelections = function (
-  notionTask: NotionTask,
-  projects: ProjectWithName[],
+  notionTask: NewNotionTask
 ) {
   const ColumnLayoutTaskInfo = createTaskInfoWithoutSelections(
-    notionTask,
-    projects,
+    notionTask
   );
+
+  const notionProjectsWithoutNames: {id: string}[] = notionTask.project
+   ? removeNameFromProjects(notionTask.project): [];
+
+  const taskToAddToDatabase: NotionTask = {
+    assignees: notionTask.assignees,
+    assignedBy: notionTask.assignedBy,
+    description: notionTask.description,
+    dueDate: notionTask.dueDate,
+    taskTitle: notionTask.taskTitle,
+    startDate: notionTask.startDate,
+    project: notionProjectsWithoutNames
+
+  }
+
   const blockNewTask = {
     text: "Creating a new Task?",
     replace_original: true,
@@ -582,7 +603,7 @@ export const createTaskBlockWithoutSelections = function (
             },
             value: JSON.stringify({
               taskPageObject: {
-                task: notionTask,
+                task: taskToAddToDatabase,
                 pageId: "",
                 url: "",
               },

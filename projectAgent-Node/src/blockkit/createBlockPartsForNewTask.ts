@@ -38,14 +38,14 @@ function createProjectsDisplayMessageFromArray(
   notionTaskProjectsArray: { id: string }[],
   allProjectsArray: ProjectWithName[],
 ) {
-  let projectNames = "";
+let projectNames = "";
 
   allProjectsArray.forEach((project) => {
     if (project) {
       // Only include projects within the Project field of notionTask not all projects
       // need to be displayed, only those relevant to the task.
       if (
-        allProjectsArray.find((projectElem) => projectElem.id === project.id)
+        notionTaskProjectsArray.find((projectElem) => projectElem.id === project.id)
       ) {
         projectNames += `${project.projectName}\n`;
       }
@@ -61,14 +61,14 @@ function createProjectsDisplayMessageFromArray(
 /**
  * Creates the info section of Slack blocks for previewing the details of a new task.
  * @param notionTaskObj: The new task.
- * @param projects:      Projects with names used in creating the task info to be displayed
+ * @param allProjects:      Projects with names used in creating the task info to be displayed
  * @param assignees:     A list of people the task is assigned to.
  *
  * @returns:             The Slack blocks for previewing the details of a new task.
  */
 export function createTaskInfo(
   notionTask: NotionTask,
-  projects: ProjectWithName[],
+  allProjects: ProjectWithName[],
   assignees: NotionUser[],
 ) {
   const notionTaskProject = notionTask.project || [];
@@ -77,15 +77,15 @@ export function createTaskInfo(
 
   let projectNames = ""; //createProjectsDisplayMessageFromArray(projects);
   console.log(
-    `(createTaskInfo), assigneesArray: ${assigneesArray}, task${JSON.stringify(notionTask)}`,
+    `(createTaskInfo), assigneesArray: ${assigneesArray}, task${JSON.stringify(notionTaskProject)}`,
   );
 
-  if (projects && Array.isArray(projects)) {
+  if (allProjects && Array.isArray(allProjects)) {
     projectNames += createProjectsDisplayMessageFromArray(
       notionTaskProject,
-      projects,
+      allProjects,
     );
-  }
+}
 
   console.log(`(createTaskInfo) task: ${JSON.stringify(notionTask)}`);
   const columnLayoutBlock = [

@@ -182,7 +182,7 @@ export async function listPeopleNotion() {
   const NOTION_PEOPLE_DATA_SOURCE_ID = "2e9eef29-a653-8184-ba65-000be6e76228";
 
   const peopleListingResponse = await notion.dataSources.query({
-    data_source_id: NOTION_PEOPLE_DATA_SOURCE_ID,
+    data_source_id: NOTION_PEOPLE_DATA_SOURCE_ID
   });
 
   const peoplesList = peopleListingResponse.results;
@@ -206,7 +206,7 @@ export async function listPeopleNotion() {
       let slackEmail: string = "";
 
       const propertyName_01 = "Email";
-      const propertyName_02 = "Slack Email";
+      const propertyName_02 = "Slack Email"
 
       for (const propName in person.properties) {
         if (person.properties["type"].type === "title") {
@@ -217,11 +217,11 @@ export async function listPeopleNotion() {
       simplifiedPeople.push({
         name: name,
         email: email,
-        slackEmail: slackEmail,
+        slackEmail: slackEmail
       });
       //}
       //}
     }
   }
-  return simplifiedPeople;
+  return simplifiedPeople
 }

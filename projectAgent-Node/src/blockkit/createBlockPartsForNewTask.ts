@@ -7,7 +7,7 @@ import {
 } from "../utils/taskFormatting/task";
 
 /**
- * Function to create the markdown message for the identified assignees names to be displayed
+ * Function to combine assignee names separated by new line characters
  * @param assigneesArray: array of assignees to be displayed
  *
  * @returns: The string of assignee names to be displayed

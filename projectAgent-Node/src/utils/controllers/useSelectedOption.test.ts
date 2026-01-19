@@ -1,6 +1,5 @@
 import {
   EXAMPLE_USER_AND_PROJECT_SELECTED,
-  UNPROCESSED_SAMPLE_PAYLOAD,
   EXAMPLE_ONLY_PROJECT_SELECTED,
 } from "../../test-data/example-selections-payload";
 import { integrateSelectedValues } from "./useSelectedOption";
@@ -8,10 +7,9 @@ import { TaskPage, ProjectWithName } from "../taskFormatting/task";
 import { NotionUser } from "./userTypes";
 
 const payload = EXAMPLE_USER_AND_PROJECT_SELECTED.payload;
-const payload_01 = JSON.parse(UNPROCESSED_SAMPLE_PAYLOAD.payload);
 const payload_02 = JSON.parse(EXAMPLE_ONLY_PROJECT_SELECTED.payload);
 describe("Run payload Extraction and use values", () => {
-  (it("Shouls extract users's selections", () => {
+  (it("Should extract users's selections", () => {
     // console.log(payload, payload_01);
 
     const taskPageAndOptionsObject: {
@@ -22,17 +20,25 @@ describe("Run payload Extraction and use values", () => {
 
     const taskPageObject = taskPageAndOptionsObject.taskPageObject;
     const userSelection = taskPageAndOptionsObject.userOptions;
-    const projects = taskPageAndOptionsObject.projectOptions;
+    const projectOptions = taskPageAndOptionsObject.projectOptions;
+    const projectsBeforeAddingSelectedOptions = taskPageObject.task.project || [];
+
 
     const task = integrateSelectedValues(
       taskPageObject.task,
       userSelection,
-      projects,
+      projectOptions,
       payload,
     );
+    const taskProjects = task.project || [];
+
     console.log(task);
+    expect(task.assignees).not.toEqual(task.assignees);
+    expect(task.project).toBeDefined();
+
+    expect(projectsBeforeAddingSelectedOptions).toBeLessThan(taskProjects.length);
   }),
-    it("Shouls extract users's selections", () => {
+    it("Should extract users's selections", () => {
       // console.log(payload, payload_01);
 
       const taskPageAndOptionsObject: {
@@ -52,5 +58,6 @@ describe("Run payload Extraction and use values", () => {
         payload,
       );
       console.log(task);
+      expect(task.assignees).toEqual(task.assignees);
     }));
 });

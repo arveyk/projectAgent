@@ -6,6 +6,35 @@ import {
   ProjectWithName,
 } from "../utils/taskFormatting/task";
 
+
+// Type for options created for the selections menu
+type MenuType = {
+  text: {
+    type: string;
+    text: string;
+    emoji: boolean;
+  };
+  value: string;
+}
+
+// TaskInfo types the information section that displays task info in a block
+type TaskInfo = ({
+  type: string;
+  fields: {
+    type: string;
+    text: string;
+  }[];
+  text?: undefined;
+} | {
+  type: string;
+  text: {
+    type: string;
+    text: string;
+  };
+  fields?: undefined;
+})[]
+
+
 /**
  * Function to combine assignee names separated by new line characters
  * @param assigneesArray: array of assignees to be displayed
@@ -38,11 +67,11 @@ function createProjectsDisplayMessageFromArray(
   notionTaskProjectsArray: { id: string }[],
   allProjectsArray: ProjectWithName[],
 ): string {
-let projectNames = "";
+  let projectNames = "";
 
   allProjectsArray.forEach((project) => {
     if (project) {
-      
+
       // Only include projects that match the Project field of notionTask.
       // Not all projects need to be displayed, only those relevant to the task.
       if (
@@ -86,7 +115,7 @@ export function createTaskInfo(
       notionTaskProject,
       allProjects,
     );
-}
+  }
 
   console.log(`(createTaskInfo) task: ${JSON.stringify(notionTask)}`);
   const columnLayoutBlock = [
@@ -108,11 +137,10 @@ export function createTaskInfo(
       fields: [
         {
           type: "mrkdwn",
-          text: `*Due Date:*\n${
-            notionTask.dueDate
-              ? formatSlackDate(new Date(notionTask.dueDate))
-              : ""
-          }`,
+          text: `*Due Date:*\n${notionTask.dueDate
+            ? formatSlackDate(new Date(notionTask.dueDate))
+            : ""
+            }`,
         },
         {
           type: "mrkdwn",
@@ -190,11 +218,10 @@ export function createTaskInfoWithoutSelections(
       fields: [
         {
           type: "mrkdwn",
-          text: `*Due Date:*\n${
-            notionTask.dueDate
-              ? formatSlackDate(new Date(notionTask.dueDate))
-              : ""
-          }`,
+          text: `*Due Date:*\n${notionTask.dueDate
+            ? formatSlackDate(new Date(notionTask.dueDate))
+            : ""
+            }`,
         },
         {
           type: "mrkdwn",
@@ -232,7 +259,7 @@ export function createTaskInfoWithoutSelections(
 export function createMenuOptions(
   whichToCreate: string,
   listOfItems: ProjectWithName[] | NotionUser[],
-) {
+): MenuType[] {
   let index = 0;
 
   if (whichToCreate === "NotionUsers") {
@@ -292,262 +319,62 @@ export function createNewTaskBlockWithUserAnd_Or_ProjectsSelections(
   );
   const projectOptions = createMenuOptions("Projects", allProjects);
 
-  //Return these blocks if both number of projects in task is equal to zero (no projects) and number of
+  // Return these blocks if both number of projects in task is equal to zero (no projects) and number of
   // ambiguous assignees is grater than 1 
   if (parsedProjects.length === 0 && userOptionsToChooseFrom.length > 1) {
-    return {
-      text: "Creating a new Task?",
-      replace_original: true,
-      blocks: [
-        {
-          type: "section",
-          text: {
-            type: "mrkdwn",
-            text: "*You Are About to Create a New Task*",
-          },
-        },
-        ...taskInfo,
-        {
-          type: "input",
-          element: {
-            type: "multi_static_select",
-            placeholder: {
-              type: "plain_text",
-              text: "Select Assignee(s)",
-              emoji: true,
-            },
-            options: userOptionsToChooseFrom,
-            action_id: "multi_select-action",
-          },
-          label: {
-            type: "plain_text",
-            text: "Assignees",
-            emoji: true,
-          },
-        },
-        {
-          type: "input",
-          element: {
-            type: "multi_static_select",
-            placeholder: {
-              type: "plain_text",
-              text: `Select ${"Project"}(s)`,
-              emoji: true,
-            },
-            options: projectOptions,
-            action_id: "multi_select-action",
-          },
-          label: {
-            type: "plain_text",
-            text: `${"Projects"}`,
-            emoji: true,
-          },
-        },
-        {
-          type: "actions",
-          elements: [
-            {
-              type: "button",
-              text: {
-                type: "plain_text",
-                text: "Confirm",
-                emoji: true,
-              },
-              value: JSON.stringify({
-                taskPageObject: {
-                  task: notionTask,
-                  pageId: "",
-                  url: "",
-                },
-                userOptions: foundUsers.ambiguousUsers,
-                projectOptions: allProjects,
-              }),
-              style: "primary",
-              action_id: "SelectionActionId-2",
-            },
-            {
-              type: "button",
-              text: {
-                type: "plain_text",
-                emoji: true,
-                text: "Cancel",
-              },
-              style: "danger",
-              value: "discard_123",
-              action_id: "actionId-1",
-            },
-          ],
-        },
-        {
-          type: "context",
-          elements: [
-            {
-              type: "mrkdwn",
-              text: "*You can edit the task in Notion after adding it*",
-            },
-          ],
-        },
-      ],
-    };
+    const confirmationButtonValue: string = JSON.stringify({
+      taskPageObject: {
+        task: notionTask,
+        pageId: "",
+        url: "",
+      },
+      userOptions: foundUsers.ambiguousUsers,
+      projectOptions: allProjects,
+    })
+
+    return createBlockWithBothSelectionMenus(
+      taskInfo,
+      userOptionsToChooseFrom,
+      projectOptions,
+      confirmationButtonValue
+    );
   }
+
+  const confirmationButtonValueProjectsOnly = JSON.stringify({
+    taskPageObject: {
+      task: notionTask,
+      pageId: "",
+      url: "",
+    },
+    userOptions: foundUsers.ambiguousUsers,
+    projectOptions: allProjects,
+  });
 
   //Return these blocks if only number of projects is equal to zero
   if (parsedProjects.length === 0) {
-    return {
-      text: "Creating a new Task?",
-      replace_original: true,
-      blocks: [
-        {
-          type: "section",
-          text: {
-            type: "mrkdwn",
-            text: "*You Are About to Create a New Task*",
-          },
-        },
-        ...taskInfo,
-        {
-          type: "input",
-          element: {
-            type: "multi_static_select",
-            placeholder: {
-              type: "plain_text",
-              text: `Select ${"Project"}(s)`,
-              emoji: true,
-            },
-            options: projectOptions,
-            action_id: "multi_select-action",
-          },
-          label: {
-            type: "plain_text",
-            text: `${"Projects"}`,
-            emoji: true,
-          },
-        },
-        {
-          type: "actions",
-          elements: [
-            {
-              type: "button",
-              text: {
-                type: "plain_text",
-                text: "Confirm",
-                emoji: true,
-              },
-              value: JSON.stringify({
-                taskPageObject: {
-                  task: notionTask,
-                  pageId: "",
-                  url: "",
-                },
-                userOptions: foundUsers.ambiguousUsers,
-                projectOptions: allProjects,
-              }),
-              style: "primary",
-              action_id: "SelectionActionId-2",
-            },
-            {
-              type: "button",
-              text: {
-                type: "plain_text",
-                emoji: true,
-                text: "Cancel",
-              },
-              style: "danger",
-              value: "discard_123",
-              action_id: "actionId-1",
-            },
-          ],
-        },
-        {
-          type: "context",
-          elements: [
-            {
-              type: "mrkdwn",
-              text: "*You can edit the task in Notion after adding it*",
-            },
-          ],
-        },
-      ],
-    };
+    return createSelectionsBlocksWithOneMenu(
+      taskInfo,
+      projectOptions,
+      confirmationButtonValueProjectsOnly
+    );
   }
 
   // Return these blocks if number of ambiguous assingees is greater than 1
-  return {
-    text: "Creating a new Task?",
-    replace_original: true,
-    blocks: [
-      {
-        type: "section",
-        text: {
-          type: "mrkdwn",
-          text: "*You Are About to Create a New Task*",
-        },
-      },
-      ...taskInfo,
-      {
-        type: "input",
-        element: {
-          type: "multi_static_select",
-          placeholder: {
-            type: "plain_text",
-            text: `Select Assignee(s)`,
-            emoji: true,
-          },
-          options: userOptionsToChooseFrom,
-          action_id: "multi_select-action",
-        },
-        label: {
-          type: "plain_text",
-          text: "Assignees",
-          emoji: true,
-        },
-      },
-      {
-        type: "actions",
-        elements: [
-          {
-            type: "button",
-            text: {
-              type: "plain_text",
-              text: "Confirm",
-              emoji: true,
-            },
-            value: JSON.stringify({
-              taskPageObject: {
-                task: notionTask,
-                pageId: "",
-                url: "",
-              },
-              userOptions: foundUsers.ambiguousUsers,
-              projectOptions: [],
-            }),
-            style: "primary",
-            action_id: "SelectionActionId-2",
-          },
-          {
-            type: "button",
-            text: {
-              type: "plain_text",
-              emoji: true,
-              text: "Cancel",
-            },
-            style: "danger",
-            value: "discard_123",
-            action_id: "actionId-1",
-          },
-        ],
-      },
-      {
-        type: "context",
-        elements: [
-          {
-            type: "mrkdwn",
-            text: "*You can edit the task in Notion after adding it*",
-          },
-        ],
-      },
-    ],
-  };
+  const confirmationButtonValueUsersOnly = JSON.stringify({
+    taskPageObject: {
+      task: notionTask,
+      pageId: "",
+      url: "",
+    },
+    userOptions: foundUsers.ambiguousUsers,
+    projectOptions: [],
+  });
+
+  return createSelectionsBlocksWithOneMenu(
+    taskInfo,
+    userOptionsToChooseFrom,
+    confirmationButtonValueUsersOnly
+  );
 }
 
 /**
@@ -647,7 +474,6 @@ export function createNewTaskBlockWithSelectionsForAmbiguousProjects(
     allProjects,
     foundUsers.identifiedUsers,
   );
-
   // Create options for ambiguous users
   const userOptionsToChooseFrom = createMenuOptions(
     "NotionUsers",
@@ -656,119 +482,52 @@ export function createNewTaskBlockWithSelectionsForAmbiguousProjects(
 
   // This is an array that will contain the possible project matches that the user needs to select
   // from either one or multiple
-  const arrayOfProjectToSelectFrom: ProjectWithName[] = [];
+  const arrayOfProjectsToSelectFrom: ProjectWithName[] = [];
 
   similarProjects.forEach((projInSimilarProjectsArray) => {
     allProjects.forEach((projectFromNotion) => {
       if (projectFromNotion.id === projInSimilarProjectsArray.id) {
-        arrayOfProjectToSelectFrom.push(projectFromNotion);
+        arrayOfProjectsToSelectFrom.push(projectFromNotion);
       }
     });
   });
 
   const projectOptionsToChooseFrom = createMenuOptions(
     "Projects",
-    arrayOfProjectToSelectFrom,
+    arrayOfProjectsToSelectFrom,
   );
 
-  //Return this if both there are user and projects to select
+  const confirmationButtonValue: string = JSON.stringify({
+    taskPageObject: {
+      task: notionTask,
+      pageId: "",
+      url: "",
+    },
+    userOptions: foundUsers.ambiguousUsers,
+    projectOptions: arrayOfProjectsToSelectFrom,
+  });
+
+  //Return this if there are both user and projects to select
   if (userOptionsToChooseFrom.length > 1) {
-    return {
-      text: "Creating a new Task?",
-      replace_original: true,
-      blocks: [
-        {
-          type: "section",
-          text: {
-            type: "mrkdwn",
-            text: "*You Are About to Create a New Task*",
-          },
-        },
-        ...taskInfo,
-        {
-          type: "input",
-          element: {
-            type: "multi_static_select",
-            placeholder: {
-              type: "plain_text",
-              text: "Select Assignee(s)",
-              emoji: true,
-            },
-            options: userOptionsToChooseFrom,
-            action_id: "multi_select-action",
-          },
-          label: {
-            type: "plain_text",
-            text: "Assignee(s)",
-            emoji: true,
-          },
-        },
-        {
-          type: "input",
-          element: {
-            type: "multi_static_select",
-            placeholder: {
-              type: "plain_text",
-              text: `Select ${"Project"}(s)`,
-              emoji: true,
-            },
-            options: projectOptionsToChooseFrom,
-            action_id: "multi_select-action",
-          },
-          label: {
-            type: "plain_text",
-            text: `${"Projects"}`,
-            emoji: true,
-          },
-        },
-        {
-          type: "actions",
-          elements: [
-            {
-              type: "button",
-              text: {
-                type: "plain_text",
-                text: "Confirm",
-                emoji: true,
-              },
-              value: JSON.stringify({
-                taskPageObject: {
-                  task: notionTask,
-                  pageId: "",
-                  url: "",
-                },
-                userOptions: foundUsers.ambiguousUsers,
-                projectOptions: arrayOfProjectToSelectFrom,
-              }),
-              style: "primary",
-              action_id: "SelectionActionId-2",
-            },
-            {
-              type: "button",
-              text: {
-                type: "plain_text",
-                emoji: true,
-                text: "Cancel",
-              },
-              style: "danger",
-              value: "discard_123",
-              action_id: "actionId-1",
-            },
-          ],
-        },
-        {
-          type: "context",
-          elements: [
-            {
-              type: "mrkdwn",
-              text: "*You can edit the task in Notion after adding it*",
-            },
-          ],
-        },
-      ],
-    };
+    return createBlockWithBothSelectionMenus(
+      taskInfo,
+      userOptionsToChooseFrom,
+      projectOptionsToChooseFrom,
+      confirmationButtonValue
+    );
   }
-//Return this if on there are projects to be selected
+  //Return this if there are projects to be selected
+
+  return createSelectionsBlocksWithOneMenu(
+    taskInfo,
+    projectOptionsToChooseFrom,
+    confirmationButtonValue);
+}
+
+
+function createSelectionsBlocksWithOneMenu(taskInfo: TaskInfo, menuOptions: MenuType[], confirmationButtonValue: string) {
+
+  const menuTitle = menuOptions[0].value.includes("Project") ? "Project" : "Assignee";
   return {
     text: "Creating a new Task?",
     replace_original: true,
@@ -787,10 +546,104 @@ export function createNewTaskBlockWithSelectionsForAmbiguousProjects(
           type: "multi_static_select",
           placeholder: {
             type: "plain_text",
+            text: `Select ${menuTitle}(s)}`,
+            emoji: true,
+          },
+          options: menuOptions,
+          action_id: "multi_select-action",
+        },
+        label: {
+          type: "plain_text",
+          text: `${menuTitle}`,
+          emoji: true,
+        },
+      },
+      {
+        type: "actions",
+        elements: [
+          {
+            type: "button",
+            text: {
+              type: "plain_text",
+              text: "Confirm",
+              emoji: true,
+            },
+            value: confirmationButtonValue,
+            style: "primary",
+            action_id: "SelectionActionId-2",
+          },
+          {
+            type: "button",
+            text: {
+              type: "plain_text",
+              emoji: true,
+              text: "Cancel",
+            },
+            style: "danger",
+            value: "discard_123",
+            action_id: "actionId-1",
+          },
+        ],
+      },
+      {
+        type: "context",
+        elements: [
+          {
+            type: "mrkdwn",
+            text: "*You can edit the task in Notion after adding it*",
+          },
+        ],
+      },
+    ],
+  };
+}
+
+function createBlockWithBothSelectionMenus(taskInfo: TaskInfo,
+  userOptionsToSelectFrom: MenuType[],
+  projectOptionsToSelectFrom: MenuType[],
+  confirmationButtonValue_0: string
+) {
+
+  return {
+    text: "Creating a new Task?",
+    replace_original: true,
+    blocks: [
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: "*You Are About to Create a New Task*",
+        },
+      },
+      ...taskInfo,
+      {
+        type: "input",
+        element: {
+          type: "multi_static_select",
+          placeholder: {
+            type: "plain_text",
+            text: "Select Assignee(s)",
+            emoji: true,
+          },
+          options: userOptionsToSelectFrom,
+          action_id: "multi_select-action",
+        },
+        label: {
+          type: "plain_text",
+          text: "Assignees",
+          emoji: true,
+        },
+      },
+      {
+        type: "input",
+        element: {
+          type: "multi_static_select",
+          placeholder: {
+            type: "plain_text",
             text: `Select ${"Project"}(s)`,
             emoji: true,
           },
-          options: projectOptionsToChooseFrom,
+          options: projectOptionsToSelectFrom,
           action_id: "multi_select-action",
         },
         label: {
@@ -809,15 +662,7 @@ export function createNewTaskBlockWithSelectionsForAmbiguousProjects(
               text: "Confirm",
               emoji: true,
             },
-            value: JSON.stringify({
-              taskPageObject: {
-                task: notionTask,
-                pageId: "",
-                url: "",
-              },
-              userOptions: foundUsers.ambiguousUsers,
-              projectOptions: arrayOfProjectToSelectFrom,
-            }),
+            value: confirmationButtonValue_0,
             style: "primary",
             action_id: "SelectionActionId-2",
           },

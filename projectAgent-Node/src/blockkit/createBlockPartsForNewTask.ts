@@ -294,7 +294,7 @@ export function createMenuOptions(
  * Creates Slack blocks to be used in previewing and confirming a new task and prompting the user to select assignees.
  * @param notionTask:  The task to be previewed.
  * @param allProjects: All existing projects in Notion database
- * @param foundUsers:  An object that contains two lists, one (identifiedUsers)contains 0 or more Notion users who match the assignee of the task
+ * @param foundUsers:  An object that contains two lists, one (identifiedUsers) contains 0 or more Notion users who match the assignee of the task
  *    the other list (ambiguousUsers) contains users who are yet to be identified as assignees for the task.
  *
  * @returns A set of Slack blocks to be used in previewing and confirming a new task and prompting the user to select assignees.
@@ -320,7 +320,7 @@ export function createNewTaskBlockWithUserAnd_Or_ProjectsSelections(
   const projectOptions = createMenuOptions("Projects", allProjects);
 
   // Return these blocks if both number of projects in task is equal to zero (no projects) and number of
-  // ambiguous assignees is grater than 1 
+  // ambiguous assignees is greater than 1 
   if (parsedProjects.length === 0 && userOptionsToChooseFrom.length > 1) {
     const confirmationButtonValue: string = JSON.stringify({
       taskPageObject: {
@@ -458,7 +458,7 @@ export const createTaskBlockWithoutSelections = function (
  * @param allProjects:      All projects that exist in the notion database
  * @param similarProjects:  projects that are ambiguous and similar, to be clarified
  *    by the user in the selections block.
- * @param foundUsers:       An object that contains two lists, one (identifiedUsers)contains 0 or more Notion users who match the assignee of the task
+ * @param foundUsers:       An object that contains two lists, one (identifiedUsers) contains 0 or more Notion users who match the assignee of the task
  *    the other list (ambiguousUsers) contains users who are yet to be identified.
  *
  * @returns A set of Slack blocks to be used in previewing and confirming a new task and prompting the user to select assignees.
@@ -608,13 +608,13 @@ function createSelectionsBlocksWithOneMenu(taskInfo: TaskInfo, menuOptions: Menu
 
 /**
  * Function to create blocks with both assignee/user and projects selections menu
- * @param taskInfo:                   the task detials/information to be displayed 
+ * @param taskInfo:                   the task details/information to be displayed 
  * @param userOptionsToSelectFrom:    the assignee options the user will see and select from
  * @param projectOptionsToSelectFrom: the project options the user will see and select from
  * @param confirmationButtonValue:    payload containing task details and options the user chooses from,
- * string form
+ * in string form
  * 
- * @returns Slack block with the desired selections menu 
+ * @returns A Slack block with the desired selections menu 
  */
 function createBlockWithBothSelectionMenus(
   taskInfo: TaskInfo,

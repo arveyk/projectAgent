@@ -137,9 +137,9 @@ export function filterSimilar(pages: dbPage[], message: string): dbPage[] {
 }
 
 /**
- * Function to get all project from projects database
+ * Gets all projects from the projects database
  *
- * @return	array of all projects in porjectsdatabase
+ * @return	An array of all projects in the projects database
  */
 export async function getProjects() {
   logTimestampForBenchmarking("Querying Projects");

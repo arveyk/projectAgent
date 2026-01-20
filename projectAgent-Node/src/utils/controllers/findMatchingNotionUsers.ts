@@ -147,8 +147,8 @@ export function isPartialNameMatch(
 
 /**
  * Concatenates name matches and email matches into a single array, and removes all duplicates.
- * @param nameMatches:  user found using name matching logic
- * @param emailMatches: users found using email matching logic
+ * @param nameMatches:  Users found using name matching logic
+ * @param emailMatches: Users found using email matching logic
  *
  * @returns             A single list containing all the unique users from both lists.
  */
@@ -173,10 +173,10 @@ export function deduplicateUsers(
 
 /**
  *
- * @param slackEmail: email of slack user
- * @param email:      primary email to match against users in Notion
+ * @param slackEmail: The email of the Slack user
+ * @param email:      The primary email to match against users in Notion
  *
- * @returns           Notion user that has matching email
+ * @returns           A list of Notion users that match the email
  */
 export async function findMatchingNotionUserByEmail(
   slackEmail: string,
@@ -199,8 +199,8 @@ export async function findMatchingNotionUserByEmail(
 }
 
 /**
- * Function to find the assignedBy's details from notion side
- * @param identifiedAppUser: assignedBy infered from slack, one creating the task
+ * Function to find the assigner's details from the Notion side
+ * @param identifiedAppUser: The assigner of the new task, inferred from Slack
  */
 export async function findAssignedBy(identifiedAppUser: User) {
   const matchingNotionUser = await findMatchingNotionUserByEmail(

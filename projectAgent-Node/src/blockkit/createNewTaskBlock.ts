@@ -13,7 +13,7 @@ import {
 
 /**
  * Creates a set of Slack blocks to be used in previewing and confirming a new task.
- * @param assignedBy:       user who is creating and assigning the task
+ * @param assignedBy:       The user who is creating and assigning the task
  * @param task:             The task to be previewed.
  * @param userSearchResult: A list of 0 or more Notion users who match the assignee of the task.
  *

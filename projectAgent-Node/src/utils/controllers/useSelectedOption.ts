@@ -11,12 +11,12 @@ type SelectionOption = {
 };
 
 /**
- * Integrated selected users into the assignee field
- * @param assignees:      assignees allready in task
- * @param selectedValues: what the user selected
- * @param allDisplayedAssigneeOptions: options the app user had to select from
+ * Integrates selected Notion users into the assignee field
+ * @param assignees:      The assignees already in the task
+ * @param selectedValues: The assignees the app user selected
+ * @param allDisplayedAssigneeOptions: The options the app user had to select from
  *
- * @returns               all assingees, both from task
+ * @returns               All assignees, both from the original task and those selected by the app user
  */
 export function integrateUserSelections(
   assignees: NotionUser[],
@@ -40,12 +40,12 @@ export function integrateUserSelections(
 }
 
 /**
- * Function to integrate selected projects into the existing task projects
- * @param projects:           Projects from task
- * @param selectedValues:     selected projects Values
- * @param allDisplayedProjectOptions:  all project options the user had to select from
+ * Integrates selected projects into the existing task projects
+ * @param projects:           The projects from the task
+ * @param selectedValues:     The projects the app user selected
+ * @param allDisplayedProjectOptions:  All project options the app user had to select from
  *
- * @returns:                  projects from task plus projects the app user selected
+ * @returns:                  All projects, both from the original task and those selected by the app user
  */
 export function integrateSelectedProjects(
   projects: { id: string }[],

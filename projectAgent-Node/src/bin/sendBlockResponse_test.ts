@@ -6,21 +6,21 @@ import { exampleUserSearchResponse2 } from "../test-data/example-usersearch-resp
 import { createNewTaskBlock } from "../blockkit/createNewTaskBlock";
 import { NotionUser } from "../utils/controllers/userTypes";
 
-
-const EXAMPLE_ASSIGNED_BY: NotionUser[] = [{
-  userId: "136d872b-594c-817b-adaa-00026796be69",
-  name: "James Dirksen",
-  email: "james.dirksen@solutional.com",
-}]
+const EXAMPLE_ASSIGNED_BY: NotionUser[] = [
+  {
+    userId: "136d872b-594c-817b-adaa-00026796be69",
+    name: "James Dirksen",
+    email: "james.dirksen@solutional.com",
+  },
+];
 
 const EXAMPLE_PROJECTS_FROM_NOTION: ProjectWithName[] = [
-  { projectName: "AssignedBy Harv Example", id: "doisicwu93f434f3"},
-  { projectName: "AssignedBy Cece Example", id: "dwemcb87g4g3ns8g"},
-  { projectName: "Angle", id: "dvalknvonierngxn"},
-  { projectName: "Chessel", id: "m, nareu7924rnf8sdcLUHDH"},
-  { projectName: "Prject Agent", id: "mdio0920OIJNSIUudiew"},
-
-]
+  { projectName: "AssignedBy Harv Example", id: "doisicwu93f434f3" },
+  { projectName: "AssignedBy Cece Example", id: "dwemcb87g4g3ns8g" },
+  { projectName: "Angle", id: "dvalknvonierngxn" },
+  { projectName: "Chessel", id: "m, nareu7924rnf8sdcLUHDH" },
+  { projectName: "Prject Agent", id: "mdio0920OIJNSIUudiew" },
+];
 
 const task: TaskPage = {
   task: {
@@ -62,35 +62,38 @@ const task_b: TaskPage = {
 };
 
 // selection block new layout
-const columnLayoutWithSelections = createNewTaskBlockWithUserAnd_Or_ProjectsSelections(
-  task_b.task,
-  EXAMPLE_PROJECTS_FROM_NOTION,
-  {
-    identifiedUsers: [
-      {
-        userId: "152d872b-594c-8145-9c2c-000204787b69",
-        name: "Ceci Kurdelak",
-        email: "ceci.kurdelak@solutional.com",
-      },
-    ],
-    ambiguousUsers: [
-      {
-        userId: "136d872b-594c-817b-adaa-00026796be69",
-        name: "James Dirksen",
-        email: "james.dirksen@solutional.com",
-      },
-      {
-        userId: "13dd872b-594c-810f-8bb4-000282e27820",
-        name: "Daniel Dirksen",
-        email: "daniel.dirksen@solutional.com",
-      },
-    ],
-  },
-);
+const columnLayoutWithSelections =
+  createNewTaskBlockWithUserAnd_Or_ProjectsSelections(
+    task_b.task,
+    EXAMPLE_PROJECTS_FROM_NOTION,
+    {
+      identifiedUsers: [
+        {
+          userId: "152d872b-594c-8145-9c2c-000204787b69",
+          name: "Ceci Kurdelak",
+          email: "ceci.kurdelak@solutional.com",
+        },
+      ],
+      ambiguousUsers: [
+        {
+          userId: "136d872b-594c-817b-adaa-00026796be69",
+          name: "James Dirksen",
+          email: "james.dirksen@solutional.com",
+        },
+        {
+          userId: "13dd872b-594c-810f-8bb4-000282e27820",
+          name: "Daniel Dirksen",
+          email: "daniel.dirksen@solutional.com",
+        },
+      ],
+    },
+  );
 
-const blockSelectOrNoSelect = await createNewTaskBlock(EXAMPLE_ASSIGNED_BY, task.task, [
-  exampleUserSearchResponse2[1],
-]);
+const blockSelectOrNoSelect = await createNewTaskBlock(
+  EXAMPLE_ASSIGNED_BY,
+  task.task,
+  [exampleUserSearchResponse2[1]],
+);
 
 axios({
   method: "post",

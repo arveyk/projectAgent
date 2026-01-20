@@ -62,10 +62,14 @@ export function integrateSelectedProjects(
     console.log(parseInt(selectedOption["value"]));
     const index = parseInt(selectedOption["value"].replace("Project_", ""));
     if (isNaN(index)) {
-      throw new Error("(integrateSelectedProjects): index value is Not a Number");
+      throw new Error(
+        "(integrateSelectedProjects): index value is Not a Number",
+      );
     }
     if (
-      allProjects.find((element) => allDisplayedProjectOptions[index].id === element.id)
+      allProjects.find(
+        (element) => allDisplayedProjectOptions[index].id === element.id,
+      )
     )
       continue;
     allProjects.push({ id: allDisplayedProjectOptions[index].id });

@@ -6,7 +6,6 @@ import {
   ProjectWithName,
 } from "../utils/taskFormatting/task";
 
-
 // Type for options created for the selections menu
 type MenuType = {
   text: {
@@ -15,25 +14,27 @@ type MenuType = {
     emoji: boolean;
   };
   value: string;
-}
+};
 
 // TaskInfo types the information section that displays task info in a block
-type TaskInfo = ({
-  type: string;
-  fields: {
-    type: string;
-    text: string;
-  }[];
-  text?: undefined;
-} | {
-  type: string;
-  text: {
-    type: string;
-    text: string;
-  };
-  fields?: undefined;
-})[]
-
+type TaskInfo = (
+  | {
+      type: string;
+      fields: {
+        type: string;
+        text: string;
+      }[];
+      text?: undefined;
+    }
+  | {
+      type: string;
+      text: {
+        type: string;
+        text: string;
+      };
+      fields?: undefined;
+    }
+)[];
 
 /**
  * Function to combine assignee names separated by new line characters
@@ -41,7 +42,9 @@ type TaskInfo = ({
  *
  * @returns: The string of assignee names to be displayed
  */
-function createAssigneesDisplayMessageFromArray(assigneesArray: NotionUser[]): string {
+function createAssigneesDisplayMessageFromArray(
+  assigneesArray: NotionUser[],
+): string {
   let assigneeNames = "";
 
   assigneesArray.forEach((assignee) => {
@@ -71,11 +74,12 @@ function createProjectsDisplayMessageFromArray(
 
   allProjectsArray.forEach((project) => {
     if (project) {
-
       // Only include projects that match the Project field of notionTask.
       // Not all projects need to be displayed, only those relevant to the task.
       if (
-        notionTaskProjectsArray.find((projectElem) => projectElem.id === project.id)
+        notionTaskProjectsArray.find(
+          (projectElem) => projectElem.id === project.id,
+        )
       ) {
         projectNames += `${project.projectName}\n`;
       }
@@ -137,10 +141,11 @@ export function createTaskInfo(
       fields: [
         {
           type: "mrkdwn",
-          text: `*Due Date:*\n${notionTask.dueDate
-            ? formatSlackDate(new Date(notionTask.dueDate))
-            : ""
-            }`,
+          text: `*Due Date:*\n${
+            notionTask.dueDate
+              ? formatSlackDate(new Date(notionTask.dueDate))
+              : ""
+          }`,
         },
         {
           type: "mrkdwn",
@@ -189,7 +194,7 @@ export function createTaskInfoWithoutSelections(
   );
 
   // using allProjectsArray get the project names of the projects in task's project
-  // field 
+  // field
   if (allProjectsArray && Array.isArray(allProjectsArray)) {
     allProjectsArray.forEach((project) => {
       if (project) {
@@ -218,10 +223,11 @@ export function createTaskInfoWithoutSelections(
       fields: [
         {
           type: "mrkdwn",
-          text: `*Due Date:*\n${notionTask.dueDate
-            ? formatSlackDate(new Date(notionTask.dueDate))
-            : ""
-            }`,
+          text: `*Due Date:*\n${
+            notionTask.dueDate
+              ? formatSlackDate(new Date(notionTask.dueDate))
+              : ""
+          }`,
         },
         {
           type: "mrkdwn",
@@ -320,7 +326,7 @@ export function createNewTaskBlockWithUserAnd_Or_ProjectsSelections(
   const projectOptions = createMenuOptions("Projects", allProjects);
 
   // Return these blocks if both number of projects in task is equal to zero (no projects) and number of
-  // ambiguous assignees is greater than 1 
+  // ambiguous assignees is greater than 1
   if (parsedProjects.length === 0 && userOptionsToChooseFrom.length > 1) {
     const confirmationButtonValue: string = JSON.stringify({
       taskPageObject: {
@@ -330,13 +336,13 @@ export function createNewTaskBlockWithUserAnd_Or_ProjectsSelections(
       },
       userOptions: foundUsers.ambiguousUsers,
       projectOptions: allProjects,
-    })
+    });
 
     return createBlockWithBothSelectionMenus(
       taskInfo,
       userOptionsToChooseFrom,
       projectOptions,
-      confirmationButtonValue
+      confirmationButtonValue,
     );
   }
 
@@ -355,7 +361,7 @@ export function createNewTaskBlockWithUserAnd_Or_ProjectsSelections(
     return createSelectionsBlocksWithOneMenu(
       taskInfo,
       projectOptions,
-      confirmationButtonValueProjectsOnly
+      confirmationButtonValueProjectsOnly,
     );
   }
 
@@ -373,7 +379,7 @@ export function createNewTaskBlockWithUserAnd_Or_ProjectsSelections(
   return createSelectionsBlocksWithOneMenu(
     taskInfo,
     userOptionsToChooseFrom,
-    confirmationButtonValueUsersOnly
+    confirmationButtonValueUsersOnly,
   );
 }
 
@@ -467,7 +473,7 @@ export function createNewTaskBlockWithSelectionsForAmbiguousProjects(
   notionTask: NotionTask,
   allProjects: ProjectWithName[],
   similarProjects: { id: string }[],
-  foundUsers: FoundUsers
+  foundUsers: FoundUsers,
 ) {
   const taskInfo = createTaskInfo(
     notionTask,
@@ -513,7 +519,7 @@ export function createNewTaskBlockWithSelectionsForAmbiguousProjects(
       taskInfo,
       userOptionsToChooseFrom,
       projectOptionsToChooseFrom,
-      confirmationButtonValue
+      confirmationButtonValue,
     );
   }
   //Return this if there are projects to be selected
@@ -521,7 +527,8 @@ export function createNewTaskBlockWithSelectionsForAmbiguousProjects(
   return createSelectionsBlocksWithOneMenu(
     taskInfo,
     projectOptionsToChooseFrom,
-    confirmationButtonValue);
+    confirmationButtonValue,
+  );
 }
 
 /**
@@ -530,12 +537,17 @@ export function createNewTaskBlockWithSelectionsForAmbiguousProjects(
  * @param menuOptions:             options that will be deplayed in the menu
  * @param confirmationButtonValue: payload containing the task object and the options the user
  * selects from, either projects or assignees/users
- *  
- * @returns   Slack blocks with desired selections menu  
+ *
+ * @returns   Slack blocks with desired selections menu
  */
-function createSelectionsBlocksWithOneMenu(taskInfo: TaskInfo, menuOptions: MenuType[], confirmationButtonValue: string) {
-
-  const menuTitle = menuOptions[0].value.includes("Project") ? "Project" : "Assignee";
+function createSelectionsBlocksWithOneMenu(
+  taskInfo: TaskInfo,
+  menuOptions: MenuType[],
+  confirmationButtonValue: string,
+) {
+  const menuTitle = menuOptions[0].value.includes("Project")
+    ? "Project"
+    : "Assignee";
   return {
     text: "Creating a new Task?",
     replace_original: true,
@@ -608,21 +620,20 @@ function createSelectionsBlocksWithOneMenu(taskInfo: TaskInfo, menuOptions: Menu
 
 /**
  * Function to create blocks with both assignee/user and projects selections menu
- * @param taskInfo:                   the task details/information to be displayed 
+ * @param taskInfo:                   the task details/information to be displayed
  * @param userOptionsToSelectFrom:    the assignee options the user will see and select from
  * @param projectOptionsToSelectFrom: the project options the user will see and select from
  * @param confirmationButtonValue:    payload containing task details and options the user chooses from,
  * in string form
- * 
- * @returns A Slack block with the desired selections menu 
+ *
+ * @returns A Slack block with the desired selections menu
  */
 function createBlockWithBothSelectionMenus(
   taskInfo: TaskInfo,
   userOptionsToSelectFrom: MenuType[],
   projectOptionsToSelectFrom: MenuType[],
-  confirmationButtonValue: string
+  confirmationButtonValue: string,
 ) {
-
   return {
     text: "Creating a new Task?",
     replace_original: true,

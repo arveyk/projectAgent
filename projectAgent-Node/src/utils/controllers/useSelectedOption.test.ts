@@ -21,8 +21,8 @@ describe("Run payload Extraction and use values", () => {
     const taskPageObject = taskPageAndOptionsObject.taskPageObject;
     const userSelection = taskPageAndOptionsObject.userOptions;
     const projectOptions = taskPageAndOptionsObject.projectOptions;
-    const projectsBeforeAddingSelectedOptions = taskPageObject.task.project || [];
-
+    const projectsBeforeAddingSelectedOptions =
+      taskPageObject.task.project || [];
 
     const task = integrateSelectedValues(
       taskPageObject.task,
@@ -36,7 +36,9 @@ describe("Run payload Extraction and use values", () => {
     expect(task.assignees).not.toEqual(task.assignees);
     expect(task.project).toBeDefined();
 
-    expect(projectsBeforeAddingSelectedOptions).toBeLessThan(taskProjects.length);
+    expect(projectsBeforeAddingSelectedOptions).toBeLessThan(
+      taskProjects.length,
+    );
   }),
     it("Should extract users's selections", () => {
       // console.log(payload, payload_01);

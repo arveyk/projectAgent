@@ -77,15 +77,13 @@ export function integrateSelectedProjects(
   return allProjects;
 }
 
-/**
- * Takes what the user on slack selected and integrates them into the task to be added to the Database
- * @param notionTask:       task add the user's selections
- * @param userSelectionsOptions:   options of assignees, the app user chose from
- * @param projectSelectionsOptions project option the user selected from
- * @param payload:          what slack sends that contains all we need to process the task including
- *    the above
+/** Takes the user's selections and integrates them into the task to be created.
+ * @param notionTask: The new task.
+ * @param userSelectionsOptions: The assignee options the user chose from.
+ * @param projectSelectionsOptions: The project options the user chose from.
+ * @param payload: Data sent from Slack that contains all we need to process the task.
  *
- * @returns                 tasks with integrated user options
+ * @returns The task with the user's selections integrated.
  */
 export function integrateSelectedValues(
   notionTask: NotionTask,

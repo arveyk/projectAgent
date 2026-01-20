@@ -524,7 +524,15 @@ export function createNewTaskBlockWithSelectionsForAmbiguousProjects(
     confirmationButtonValue);
 }
 
-
+/**
+ * Function to create Slack block with one selection menu
+ * @param taskInfo:                task details/info to be displayed to the user
+ * @param menuOptions:             options that will be deplayed in the menu
+ * @param confirmationButtonValue: payload containing the task object and the options the user
+ * selects from, either projects or assignees/users
+ *  
+ * @returns   Slack blocks with desired selections menu  
+ */
 function createSelectionsBlocksWithOneMenu(taskInfo: TaskInfo, menuOptions: MenuType[], confirmationButtonValue: string) {
 
   const menuTitle = menuOptions[0].value.includes("Project") ? "Project" : "Assignee";
@@ -598,10 +606,21 @@ function createSelectionsBlocksWithOneMenu(taskInfo: TaskInfo, menuOptions: Menu
   };
 }
 
-function createBlockWithBothSelectionMenus(taskInfo: TaskInfo,
+/**
+ * Function to create blocks with both assignee/user and projects selections menu
+ * @param taskInfo:                   the task detials/information to be displayed 
+ * @param userOptionsToSelectFrom:    the assignee options the user will see and select from
+ * @param projectOptionsToSelectFrom: the project options the user will see and select from
+ * @param confirmationButtonValue:    payload containing task details and options the user chooses from,
+ * string form
+ * 
+ * @returns Slack block with the desired selections menu 
+ */
+function createBlockWithBothSelectionMenus(
+  taskInfo: TaskInfo,
   userOptionsToSelectFrom: MenuType[],
   projectOptionsToSelectFrom: MenuType[],
-  confirmationButtonValue_0: string
+  confirmationButtonValue: string
 ) {
 
   return {
@@ -662,7 +681,7 @@ function createBlockWithBothSelectionMenus(taskInfo: TaskInfo,
               text: "Confirm",
               emoji: true,
             },
-            value: confirmationButtonValue_0,
+            value: confirmationButtonValue,
             style: "primary",
             action_id: "SelectionActionId-2",
           },

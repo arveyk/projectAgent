@@ -246,12 +246,10 @@ export function convertTaskPageFromDbResponse(
         : ""
       : "";
   const project =
-    "rich_text" in properties["Project"] &&
-    properties["Project"]["rich_text"][0] !== undefined
-      ? "plain_text" in properties["Project"]["rich_text"][0]
-        ? properties["Project"].rich_text[0].plain_text
-        : undefined
-      : undefined;
+    "relation" in properties["Project"] &&
+    properties["Project"]["relation"][0] !== undefined
+      ? properties["Project"]["relation"]
+      : [];
   const url = pageResponse.url;
   const pageId = pageResponse.id;
 
@@ -263,7 +261,7 @@ export function convertTaskPageFromDbResponse(
       dueDate: dueDate,
       startDate: startDate,
       description: description,
-      project: [{ id: project || "" }],
+      project: project,
     },
     url: url,
     pageId: pageId,

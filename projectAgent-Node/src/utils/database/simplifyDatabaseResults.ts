@@ -7,6 +7,7 @@ export type dbPage = {
   taskTitle: string;
   description?: string;
   assignee: PersonNoId[];
+  project: { id: string }[];
 };
 
 /**
@@ -42,6 +43,7 @@ export const simplifyDatabaseResults = function (
       assignee: properties["Assigned to"]["people"].map((response) =>
         extractAssignees(response),
       ),
+      project: properties["Project"]["type"] === "relation" ? properties["Project"]["relation"] : []
     });
   }
   return simplifiedResults;

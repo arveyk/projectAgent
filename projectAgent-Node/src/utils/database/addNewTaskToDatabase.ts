@@ -32,8 +32,11 @@ export async function addTaskNotionPage(
     console.log("yay! the due date is not in the past!");
 
     const taskProperties = await createTaskProperties(taskObj);
+    console.log("Created task properties");
     const taskBody = createTaskBody(taskObj);
+    console.log("Created task body");
     try {
+      console.log("Adding task to Notion...");
       const newPage = await notion.pages.create({
         parent: {
           type: "data_source_id",
@@ -49,6 +52,7 @@ export async function addTaskNotionPage(
       };
     } catch (error) {
       if (error instanceof Error) {
+        console.error("(addTaskNotionPage) Error adding task to Notion:", error.message);
         return {
           success: false,
           errorMsg: error,
@@ -69,4 +73,3 @@ export async function addTaskNotionPage(
   }
 }
 
-export default addTaskNotionPage;

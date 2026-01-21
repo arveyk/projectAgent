@@ -28,7 +28,7 @@ const createAssigneeArray = async function (assignees: NotionUser[]) {
 };
 
 const createProjectArray = function (project: { id: string }[]) {
-  console.log(project);
+  console.log(`project: ${JSON.stringify(project)}`);
   return project;
 };
 
@@ -56,7 +56,6 @@ const createAssignedByArray = async function (
 };
 
 export const createTaskProperties = async function (taskObj: NotionTask) {
-  // export const setTaskProperties = function (taskObj: Task, assignedBy: {name: string, email: string}[]) {
   const taskTitle = taskObj["taskTitle"];
   const assignees = taskObj["assignees"];
   const assignedBy = taskObj["assignedBy"];
@@ -65,7 +64,7 @@ export const createTaskProperties = async function (taskObj: NotionTask) {
     ? taskObj["startDate"]
     : new Date().toISOString();
   const project = taskObj["project"] || " ";
-
+  console.log("Creating task properties...");
   return {
     "Task name": {
       title: createTitleArray(taskTitle),
@@ -87,7 +86,6 @@ export const createTaskProperties = async function (taskObj: NotionTask) {
       },
     },
 
-    // TODO implement getting Project id
     Project: {
       relation: createProjectArray(project as { id: string }[]),
     },

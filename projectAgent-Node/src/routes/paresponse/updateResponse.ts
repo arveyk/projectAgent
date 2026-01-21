@@ -1,5 +1,5 @@
 import axios from "axios";
-import addTaskNotionPage, {
+import { addTaskNotionPage, 
   PageAddResult,
 } from "../../utils/database/addNewTaskToDatabase";
 import { SLACK_BOT_TOKEN } from "../../env";
@@ -98,7 +98,7 @@ const interactionHandler: StreamifyHandler = async function (
         taskPageObj.task.assignees = taskWithIntegratedValues.assignees;
       }
       console.log("Edit in Notion, Response Url", response_url);
-      (async () => {
+      await (async () => {
         try {
           console.log(
             `(sendApprove) taskPageObj: ${JSON.stringify(taskPageObj)}, taskPageObj.task: ${taskPageObj.task}`,

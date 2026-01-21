@@ -28,7 +28,7 @@ const createAssigneeArray = async function (assignees: NotionUser[]) {
 };
 
 const createProjectArray = function (project: { id: string }[]) {
-  console.log(project);
+  console.log(`project: ${JSON.stringify(project)}`);
   return project;
 };
 

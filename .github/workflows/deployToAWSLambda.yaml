@@ -1,0 +1,45 @@
+name: Deploy to AWS Lambda
+
+on:
+  push:
+    branches: [ "dev" ]
+env: 
+    AWS_REGION: "us-west-2"
+    AUDIENCE: "sts.amazonaws.com"
+
+permissions:
+  id-token: write   # This is required for OIDC authentication
+  contents: read    # This is required to checkout the repository
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v5
+
+    - name: Build
+      working-directory: ${{github.workspace}}/projectAgent-Node
+      run: | 
+        npm ci
+        npm run build
+        npm run zip
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        audience: ${{ env.AUDIENCE }}
+        # The role-to-assume should be the ARN of the IAM role you created for GitHub Actions OIDC
+        role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }} 
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Deploy Lambda Function
+      uses: aws-actions/aws-lambda-deploy@v1.1.0
+      with:
+        function-name: TimelyBot-dev
+        package-type: Zip
+        code-artifacts-dir: ${{github.workspace}}/projectAgent-Node/dist
+        handler: index.handler
+        runtime: nodejs24.x 

@@ -1,8 +1,6 @@
 import {
   compareNames,
-  compareEmails,
   isPartialNameMatch,
-  findMatchingAssignees,
   findMatchingNotionUser,
   deduplicateUsers,
 } from "./findMatchingNotionUsers";

@@ -7,7 +7,6 @@ import dotenv from "dotenv";
 import { DateTime } from "luxon";
 dotenv.config();
 const userID = process.env.TEST_USER_ID ? process.env.TEST_USER_ID : "";
-const userID2 = process.env.TEST_USER_ID_2;
 
 describe("Tests getUserTimezone with a user from the workspace", () => {
   it("Returns the user's timezone", async () => {
@@ -16,8 +15,8 @@ describe("Tests getUserTimezone with a user from the workspace", () => {
 
     expect(timezone).toMatchObject({
       tz: "America/Los_Angeles",
-      tz_label: "Pacific Daylight Time",
-      tz_offset: -7,
+      tz_label: "Pacific Standard Time",
+      tz_offset: -8,
     });
   });
 });

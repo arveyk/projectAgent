@@ -27,14 +27,9 @@ const createAssigneeArray = async function (assignees: NotionUser[]) {
   }
 };
 
-const createProjectArray = function (project: string) {
+const createProjectArray = function (project: { id: string }[]) {
   console.log(project);
-  return [
-    // Commented out until we implement getting Project id
-    // {
-    //   id: ""
-    // }
-  ];
+  return project;
 };
 
 const createAssignedByArray = async function (
@@ -94,7 +89,7 @@ export const createTaskProperties = async function (taskObj: NotionTask) {
 
     // TODO implement getting Project id
     Project: {
-      relation: createProjectArray(project),
+      relation: createProjectArray(project as { id: string }[]),
     },
     "Assigned by": {
       people: await createAssignedByArray(assignedBy),

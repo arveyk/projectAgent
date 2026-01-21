@@ -7,30 +7,35 @@ import { SLACK_BOT_TOKEN } from "../env";
  * @param {*} slashCommand The text of the slash command that triggered the app.
  * @returns A Slack block for a loading message.
  */
-export const createLoadingMessageBlock = function (messageText: string, slashCommand?: string ) {
-  const blocks = slashCommand ? {
-    replace_original: true,
-    blocks: [
-      {
-        type: "section",
-        text: {
-          type: "mrkdwn",
-          text: `>${slashCommand}\n\n:arrows_counterclockwise: ${messageText}…`,
-        },
-      },
-    ],
-  } : {
-    replace_original: true,
-    blocks: [
-      {
-        type: "section",
-        text: {
-          type: "mrkdwn",
-          text: `:arrows_counterclockwise: ${messageText}…`,
-        },
-      },
-    ],
-  };
+export const createLoadingMessageBlock = function (
+  messageText: string,
+  slashCommand?: string,
+) {
+  const blocks = slashCommand
+    ? {
+        replace_original: true,
+        blocks: [
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: `>${slashCommand}\n\n:arrows_counterclockwise: ${messageText}…`,
+            },
+          },
+        ],
+      }
+    : {
+        replace_original: true,
+        blocks: [
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: `:arrows_counterclockwise: ${messageText}…`,
+            },
+          },
+        ],
+      };
   return blocks;
 };
 

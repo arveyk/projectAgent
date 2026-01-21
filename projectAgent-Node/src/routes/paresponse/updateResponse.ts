@@ -5,7 +5,7 @@ import addTaskNotionPage, {
 import { SLACK_BOT_TOKEN } from "../../env";
 import { BlockAction } from "@slack/bolt";
 import { createRedirectToNewPageBlock } from "../../blockkit/createRedirectToNewPageBlock";
-import { TaskPage } from "../../utils/taskFormatting/task";
+import { ProjectWithName, TaskPage } from "../../utils/taskFormatting/task";
 import { deletePage } from "../../utils/database/deleteDatabasePage";
 import { APIGatewayProxyEventV2, Context, StreamifyHandler } from "aws-lambda";
 import {
@@ -13,7 +13,7 @@ import {
   extractPayload,
 } from "../../utils/slashCommandProcessing";
 import { NotionUser } from "../../utils/controllers/userTypes";
-import { integrateUserSelections } from "../../utils/controllers/useSelectedOption";
+import { integrateSelectedValues } from "../../utils/controllers/useSelectedOption";
 
 /**
  * interactionHandler - Response to user interactions with blocks when a button
@@ -70,29 +70,39 @@ const interactionHandler: StreamifyHandler = async function (
       const taskPageAndOptionsObject: {
         taskPageObject: TaskPage;
         userOptions: NotionUser[];
+        projectOptions: ProjectWithName[];
       } = JSON.parse(payload["actions"][0].value || "{}");
       console.log(payload["actions"][0].value);
       console.log(JSON.stringify(taskPageAndOptionsObject));
 
-      const taskPageObj: TaskPage = taskPageAndOptionsObject.taskPageObject;
+      const taskPageObj: TaskPage =
+        taskPageAndOptionsObject.taskPageObject as TaskPage;
 
       if (action_id === "SelectionActionId-2") {
         console.log("Utilize users input");
         const userSelections: NotionUser[] =
           taskPageAndOptionsObject.userOptions;
         console.log(`${userSelections}`);
-        const allAssignees = integrateUserSelections(
-          taskPageObj.task.assignees,
-          payload,
-          userSelections,
-        );
-        taskPageObj.task.assignees = allAssignees;
-      }
+        const projectOptions: ProjectWithName[] =
+          taskPageAndOptionsObject.projectOptions;
 
+        // task with integrated selected assignee and project values from slack interaction
+        const taskWithIntegratedValues = integrateSelectedValues(
+          taskPageAndOptionsObject.taskPageObject.task,
+          userSelections,
+          projectOptions,
+          payload,
+        );
+
+        taskPageObj.task.project = taskWithIntegratedValues.project;
+        taskPageObj.task.assignees = taskWithIntegratedValues.assignees;
+      }
       console.log("Edit in Notion, Response Url", response_url);
       (async () => {
         try {
-          console.log(`(sendApprove) taskPageObj: ${JSON.stringify(taskPageObj)}, taskPageObj.task: ${taskPageObj.task}`);
+          console.log(
+            `(sendApprove) taskPageObj: ${JSON.stringify(taskPageObj)}, taskPageObj.task: ${taskPageObj.task}`,
+          );
           const taskAddResult = await addTaskNotionPage(taskPageObj.task);
 
           console.log(`Page added successfully? ${taskAddResult.success}`);
@@ -191,6 +201,7 @@ const interactionHandler: StreamifyHandler = async function (
         const pageUrl = payload.actions[0].value;
         const deletionResult = await deletePage(pageUrl);
         console.log(deletionResult);
+
         // TODO return message indicating success or failure
         sendReject(
           payload,

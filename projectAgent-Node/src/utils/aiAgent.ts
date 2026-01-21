@@ -1,19 +1,59 @@
 import { ChatAnthropic } from "@langchain/anthropic";
 import { z } from "zod/v4";
 import { ANTHROPIC_API_KEY, ANTHROPIC_MODEL_VER } from "../env";
-import { getEventTimeData } from "./timeHandling/getTime";
 import { RunnableConfig, Runnable } from "@langchain/core/dist/runnables";
 import { BaseLanguageModelInput } from "@langchain/core/dist/language_models/base";
-import { convertTask, Task } from "./taskFormatting/task";
+import {
+  convertTask,
+  ParsedData,
+  ProjectWithName,
+} from "./taskFormatting/task";
 import { SlashCommand } from "@slack/bolt";
 import { logTimestampForBenchmarking } from "./logTimestampForBenchmarking";
+import { getProjects } from "./database/searchDatabase";
+import { getAppUserData } from "./controllers/getUsersSlack";
 
-export const EXAMPLE_OUTPUT_FOR_PROMPT: TaskParseResult = {
+const EXAMPLE_MSG_00 =
+  "\
+Bob, starting tomorrow, please write a draft of the article and have it finished by August 20, 2025.";
+export const EXAMPLE_OUTPUT_FOR_PROMPT_00: TaskParseResult = {
   taskTitle: "Write article draft",
   assignees: ["Bob"],
   dueDate: "2025-08-20T00:00-07:00",
   description: "Write a draft of the article",
+  projects: [],
 };
+
+const EXAMPLE_MSG_01 =
+  "\
+Bradley, finish up the landing gear for the F-22 Assembly and Maintenance project by July 5 2026";
+
+export const EXAMPLE_OUTPUT_FOR_PROMPT_01: TaskParseResult = {
+  taskTitle: "Finish landing gear",
+  assignees: ["Bradley"],
+  dueDate: "2026-07-05T00:00-07:00",
+  description:
+    "Bradley, finish up the landing gear for the F-22 Assembly and Maintenance project by July 5 2026",
+  projects: ["F-22 Assembly and Maintenance"],
+};
+
+const EXAMPLE_MSG_02 =
+  "Phinehas, research on a lighter and stronger vanadium carbon composite for the jet propulsion redesign";
+export const EXAMPLE_OUTPUT_FOR_PROMPT_02: TaskParseResult = {
+  taskTitle: "Research on Lighter and Stronger Vanadium Carbon Composite",
+  assignees: ["Phinehas"],
+  dueDate: null,
+  description:
+    "Phinehas, research on a lighter and stronger vanadium carbon composite for the jet propulsion redesign",
+  projects: ["Jet Propulsion Redesign", "Vanadium Carbon Composite"],
+};
+
+export const EXAMPLE_INPUT_PROJECTS: ProjectWithName[] = [
+  { projectName: "F-22 Assembly and Maintenance", id: "kl*9J9kjs)_nsdyyusdl" },
+  { projectName: "Jet Propulsion Redesign", id: "1xc9Dtrhjs)ns4h7jLKd" },
+  { projectName: "Project assigned by Donald", id: "lapI-2nd7dUHnis927hd" },
+  { projectName: "Vanadium Carbon Composite", id: "dsdPO219083nd-siosau" },
+];
 
 logTimestampForBenchmarking("(Parse) model initialization start");
 const model = new ChatAnthropic({
@@ -51,11 +91,39 @@ export const taskSchema = z.object({
     .nullable()
     .describe("Assingnee phone number"),
   email: z.string().optional().nullable().describe("Assignee's email address"),
-  project: z
+  projects: z
     .string()
+    .array()
     .optional()
     .nullable()
-    .describe("The project the task belongs to"),
+    .describe("Projects the task belongs to"),
+  similarProjects: z
+    .string()
+    .array()
+    .optional()
+    .nullable()
+    .describe(
+      "Project matches if it is unclear which project is being referred to",
+    ),
+
+  /*projects: z
+    .object({
+      projectName: z.string()
+    })
+    .array()
+    .optional()
+    .nullable()
+    .describe("Projects the task belongs to"),
+  similarProjects: z
+    .object({
+      projectName: z.string()
+    })
+    .array()
+    .optional()
+    .nullable()
+    .describe("Project matches if it is unclear which project is being referred to"),
+
+*/
 });
 export type TaskParseResult = z.infer<typeof taskSchema>;
 
@@ -79,10 +147,9 @@ logTimestampForBenchmarking("(Parse) model initialization finished");
 export const parseTask = async function (
   reqBody: SlashCommand,
   timestamp: number,
-): Promise<Task> {
+): Promise<ParsedData> {
   let textToParse;
 
-  //slash cmd text can be immediately accessed, for other events it is indirect, through events field
   if (reqBody["command"]) {
     textToParse = reqBody["text"];
   } else if (reqBody["event"]) {
@@ -91,10 +158,22 @@ export const parseTask = async function (
     textToParse = "No Task available";
   }
 
-  const timeData = await getEventTimeData(reqBody, timestamp);
+  const appUserData = await getAppUserData(reqBody, timestamp);
 
-  const prompt = `Today's date and time in ISO format is ${timeData.toISO()}, and our timezone is ${timeData.zoneName}. Please extract information from this message, making sure to list any dates in ISO format with timezone offset. "By the end of the day" means by 17:00 in our timezone. If the message says to finish a task "by" some date but does not specify a time, that means by 0:00 of that date in our timezone. """Example: Input: Bob, starting tomorrow, please write a draft of the article and have it finished by August 20, 2025. Output: ${EXAMPLE_OUTPUT_FOR_PROMPT}""" Here is the message: ${textToParse}`;
+  // const timeData = await getEventTimeData(reqBody, timestamp);
+  const timeData = appUserData.eventTimeData;
+
+  const notionProjects = await getProjects();
+  console.log(`notionProjects found ${JSON.stringify(notionProjects)}`);
+
+  const prompt = `Today's date and time in ISO format is ${timeData.toISO()}, and our timezone is ${timeData.zoneName}. Please extract task information from a message, making sure to list any dates in ISO format with timezone offset. "By the end of the day" means by 17:00 in our timezone. If the message says to finish a task "by" some date but does not specify a time, that means by 0:00 of that date in our timezone. 
+  Also, using this list ${JSON.stringify(notionProjects)}, infer the project or projects the task is linked to. The projectName is what will help in finding a match. \
+  """Example: **Sample Projects**: ${EXAMPLE_INPUT_PROJECTS}.\n\
+  Input 1: ${EXAMPLE_MSG_00} Output: ${JSON.stringify(EXAMPLE_OUTPUT_FOR_PROMPT_00)},\
+  Input 2: ${EXAMPLE_MSG_01}. Output 2: ${JSON.stringify(EXAMPLE_OUTPUT_FOR_PROMPT_01)}. Input 3 ${EXAMPLE_MSG_02}. Output 3 ${JSON.stringify(EXAMPLE_OUTPUT_FOR_PROMPT_02)}""" Here is the message: ${textToParse}`;
   console.log(`prompt: ${prompt}`);
+
+  logTimestampForBenchmarking("(Database) LLM start");
 
   logTimestampForBenchmarking("(Parse) LLM start");
   const taskParseResult = await structuredLlmSlashCmd.invoke(prompt);
@@ -123,8 +202,16 @@ export const parseTask = async function (
   );
 
   // Convert the LLM output to a Task object for future ease of use
-  const task = convertTask(structuredResultData);
+  const task = convertTask(structuredResultData, notionProjects);
+  task.existingProjects = notionProjects;
 
   console.log(`task parse result after conversion: ${JSON.stringify(task)}`);
-  return task;
+  return {
+    task: task,
+    taskCreator: {
+      userId: appUserData.userId,
+      name: appUserData.name,
+      email: appUserData.email,
+    },
+  };
 };

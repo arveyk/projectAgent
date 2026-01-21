@@ -1,12 +1,15 @@
 import axios from "axios";
 import { createExistingTaskBlock } from "../blockkit/createExistingTaskBlock";
-import { parseTask } from "../utils/aiAgent";
+import { parseTask } from "../utils/aiagent";
 import {
   searchDatabase,
   getTaskProperties,
 } from "../utils/database/searchDatabase";
 import { sendLoadingMessage } from "../blockkit/loadingMessage";
-import { findMatchingAssignees } from "../utils/controllers/findMatchingNotionUsers";
+import {
+  findAssignedBy,
+  findMatchingAssignees,
+} from "../utils/controllers/findMatchingNotionUsers";
 import { logTimestampForBenchmarking } from "../utils/logTimestampForBenchmarking";
 import { SlashCommand } from "@slack/bolt";
 import {
@@ -57,7 +60,11 @@ const slashCmdHandler: StreamifyHandler = async function (
       const response_url = reqBody["response_url"];
 
       // Search database
-      await sendLoadingMessage("Searching Database", response_url, reqBody.text,);
+      await sendLoadingMessage(
+        "Searching Database",
+        response_url,
+        reqBody.text,
+      );
       logTimestampForBenchmarking("Searching database");
       const isInDatabase = await searchDatabase(reqBody.text);
       logTimestampForBenchmarking("Done searching database");
@@ -68,13 +75,13 @@ const slashCmdHandler: StreamifyHandler = async function (
       const timestamp: number = Date.now();
 
       logTimestampForBenchmarking("Parsing task");
-      const task = await parseTask(reqBody, timestamp);
+      const parsedData = await parseTask(reqBody, timestamp);
       logTimestampForBenchmarking("Done parsing task");
 
       // Find Notion users
-      const assigneeSearchResults = await findMatchingAssignees(task);
-
-      // TODO get assigned by
+      const assigneeSearchResults = await findMatchingAssignees(
+        parsedData.task,
+      );
 
       if (!isInDatabase) {
         throw new Error("Error searching database");
@@ -93,7 +100,7 @@ const slashCmdHandler: StreamifyHandler = async function (
           console.log(
             `(slashCmdHandler) existingTask: ${JSON.stringify(existingTask)}`,
           );
-          const updateBlock = createExistingTaskBlock(existingTask);
+          const updateBlock = await createExistingTaskBlock(existingTask);
           console.log("Update Block", JSON.stringify(updateBlock));
 
           axios({
@@ -119,9 +126,15 @@ const slashCmdHandler: StreamifyHandler = async function (
       } else {
         console.log(
           "Task to be passed to createNewTaskBlock",
-          JSON.stringify(task),
+          JSON.stringify(parsedData),
         );
-        const slackBlocks = createNewTaskBlock(task, assigneeSearchResults);
+
+        const assignedBy = await findAssignedBy(parsedData.taskCreator);
+        const slackBlocks = await createNewTaskBlock(
+          assignedBy,
+          parsedData.task,
+          assigneeSearchResults,
+        );
 
         console.log("SlashCmdHandler taskBlockWithSelect", slackBlocks);
 

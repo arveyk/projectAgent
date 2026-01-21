@@ -203,7 +203,7 @@ const interactionHandler: StreamifyHandler = async function (
         console.log(deletionResult);
 
         // TODO return message indicating success or failure
-        sendReject(
+        await sendReject(
           payload,
           action_text,
           response_url,
@@ -215,9 +215,9 @@ const interactionHandler: StreamifyHandler = async function (
       if (action_id === "cancelUpdateId-02") {
         cancelMessage = ":x: Task not Updated";
       }
-      sendReject(payload, action_text, response_url, cancelMessage);
+      await sendReject(payload, action_text, response_url, cancelMessage);
     } else {
-      sendReject(
+      await sendReject(
         payload,
         action_text,
         response_url,

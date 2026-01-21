@@ -1,7 +1,7 @@
 import { NotionUser } from "../utils/controllers/userTypes";
 import { UserSearchResult } from "../utils/controllers/userTypes";
 import {
-  createNewTaskBlockWithUserAnd_Or_ProjectsSelections,
+  createNewTaskBlockWithUserAndOrProjectsSelections,
   createNewTaskBlockWithSelectionsForAmbiguousProjects,
   createTaskBlockWithoutSelections,
 } from "./createBlockPartsForNewTask";
@@ -67,7 +67,7 @@ export async function createNewTaskBlock(
     );
   }
   if (ambiguousUsers.length > 0 || taskProjects.length === 0) {
-    return createNewTaskBlockWithUserAnd_Or_ProjectsSelections(
+    return createNewTaskBlockWithUserAndOrProjectsSelections(
       notionTask,
       allExistingProjects,
       {

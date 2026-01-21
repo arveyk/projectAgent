@@ -1,6 +1,6 @@
 import axios from "axios";
 import { ALL_SLN_WEBHOOK_URL } from "../env";
-import { createNewTaskBlockWithUserAnd_Or_ProjectsSelections } from "../blockkit/createBlockPartsForNewTask";
+import { createNewTaskBlockWithUserAndOrProjectsSelections } from "../blockkit/createBlockPartsForNewTask";
 import { ProjectWithName, TaskPage } from "../utils/taskFormatting/task";
 import { exampleUserSearchResponse2 } from "../test-data/example-usersearch-response";
 import { createNewTaskBlock } from "../blockkit/createNewTaskBlock";
@@ -63,7 +63,7 @@ const task_b: TaskPage = {
 
 // selection block new layout
 const columnLayoutWithSelections =
-  createNewTaskBlockWithUserAnd_Or_ProjectsSelections(
+  createNewTaskBlockWithUserAndOrProjectsSelections(
     task_b.task,
     EXAMPLE_PROJECTS_FROM_NOTION,
     {

@@ -91,6 +91,16 @@ export function integrateSelectedValues(
   projectSelectionsOptions: ProjectWithName[],
   payload: any,
 ) {
+
+  const notionTaskWithIntegratedValues: NotionTask = {
+    taskTitle: notionTask.taskTitle,
+    assignees: notionTask.assignees,
+    assignedBy: notionTask.assignedBy,
+    description: notionTask.description,
+    dueDate: notionTask.dueDate,
+    startDate: notionTask.startDate,
+    project: notionTask.project || []
+  }
   const assignees = notionTask.assignees;
   const projects = notionTask.project || [];
 
@@ -114,14 +124,14 @@ export function integrateSelectedValues(
       projectSelectionsOptions,
     );
 
-    notionTask.project = allProjects;
+    notionTaskWithIntegratedValues.project = allProjects;
   } else {
     const allAssignees = integrateUserSelections(
       assignees,
       selectedValues,
       userSelectionsOptions,
     );
-    notionTask.assignees = [...notionTask.assignees, ...allAssignees];
+    notionTaskWithIntegratedValues.assignees = [...notionTask.assignees, ...allAssignees];
   }
   if (valueKeys.length > 1) {
     const selectedKey_01 = valueKeys[1];
@@ -137,7 +147,7 @@ export function integrateSelectedValues(
       projectSelectionsOptions,
     );
 
-    notionTask.project = allProjects2;
+    notionTaskWithIntegratedValues.project = allProjects2;
   }
-  return notionTask;
+  return notionTaskWithIntegratedValues;
 }

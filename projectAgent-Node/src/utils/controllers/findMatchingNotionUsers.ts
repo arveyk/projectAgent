@@ -3,10 +3,11 @@ import { getNotionUsers } from "./getUsersNotion";
 import { NotionUser, UserSearchResult } from "./userTypes";
 
 /**
- * Function to identify the assignees of task using names and emails to search
+ * Function to identify the assignees of a task using names and emails to search
  * @param task: task to be created that contains the required assignees array
  *
- * @returns
+ * @returns     returns the user(s) in Notion (name and email) that match the user details
+ *   extracted by the AI. 
  */
 export async function findMatchingAssignees(
   task: Task,
@@ -27,7 +28,11 @@ export async function findMatchingAssignees(
 
 /**
  * Finds a Notion user matching the Slack user who assigned the given task.
- * @param slackUsername
+ * @param slackUsername:  name of user in slack used to search for user/user
+ *   in Notion to use as assignee(s)
+ * 
+ * @returns               Array Notion users that match the slack user with the name
+ *   equal to value of slackUsername
  */
 export async function findMatchingNotionUser(
   slackUsername: string,
@@ -200,7 +205,10 @@ export async function findMatchingNotionUserByEmail(
 
 /**
  * Function to find the assigner's details from the Notion side
- * @param identifiedAppUser: The assigner of the new task, inferred from Slack
+ * @param identifiedAppUser: The assigner(creator) of the new task, inferred from Slack
+ * 
+ * @returns                  Array containing only the Notion user that matches slack user that is creating the
+ *   task. This is what is placed in the assignedBy field in a task
  */
 export async function findAssignedBy(identifiedAppUser: User) {
   const matchingNotionUser = await findMatchingNotionUserByEmail(

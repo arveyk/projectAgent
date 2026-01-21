@@ -17,7 +17,6 @@ export type TimezoneInfo = {
  * @param {*} userID The user's ID
  * @returns The user's timezone, timezone label, and offset from UTC
  */
-
 export async function getUserTimezoneData(
   userID: string,
 ): Promise<TimezoneInfo> {
@@ -68,6 +67,14 @@ export async function getUserTimezoneData(
   }
 }
 
+/**
+ * Function to get the time data that the user is on slack activates project agent
+ * @param reqBody:   Payload containing the task details to be extracted and user creating
+ *    the task
+ * @param timestamp: Time at which project agent is activeted
+ * 
+ * @returns          Time data at which the task is being created
+ */
 export async function getEventTimeData(
   reqBody: SlashCommand,
   timestamp: number,

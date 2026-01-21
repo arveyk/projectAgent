@@ -56,15 +56,14 @@ const createAssignedByArray = async function (
 };
 
 export const createTaskProperties = async function (taskObj: NotionTask) {
-  // export const setTaskProperties = function (taskObj: Task, assignedBy: {name: string, email: string}[]) {
-  const taskTitle = taskObj["taskTitle"];
-  const assignees = taskObj["assignees"];
-  const assignedBy = taskObj["assignedBy"];
-  const dueDate = taskObj["dueDate"];
-  const startDate = taskObj["startDate"]
-    ? taskObj["startDate"]
+  const taskTitle = taskObj.taskTitle;
+  const assignees = taskObj.assignees;
+  const assignedBy = taskObj.assignedBy;
+  const dueDate = taskObj.dueDate;
+  const startDate = taskObj.startDate
+    ? taskObj.startDate
     : new Date().toISOString();
-  const project = taskObj["project"] || " ";
+  const project = taskObj.project || [];
 
   return {
     "Task name": {
@@ -87,9 +86,8 @@ export const createTaskProperties = async function (taskObj: NotionTask) {
       },
     },
 
-    // TODO implement getting Project id
     Project: {
-      relation: createProjectArray(project as { id: string }[]),
+      relation: createProjectArray(project),
     },
     "Assigned by": {
       people: await createAssignedByArray(assignedBy),

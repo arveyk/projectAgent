@@ -459,7 +459,7 @@ export const createTaskBlockWithoutSelections = function (
 };
 
 /**
- * Creates Slack blocks to be used in previewing and confirming a new task and prompting the user to select assignees.
+ * Creates Slack blocks to be used in previewing and confirming a new task and prompting the user to select project/projects.
  * @param notionTask:       The task to be previewed.
  * @param allProjects:      All projects that exist in the notion database
  * @param similarProjects:  projects that are ambiguous and similar, to be clarified
@@ -467,7 +467,7 @@ export const createTaskBlockWithoutSelections = function (
  * @param foundUsers:       An object that contains two lists, one (identifiedUsers) contains 0 or more Notion users who match the assignee of the task
  *    the other list (ambiguousUsers) contains users who are yet to be identified.
  *
- * @returns A set of Slack blocks to be used in previewing and confirming a new task and prompting the user to select assignees.
+ * @returns A set of Slack blocks to be used in previewing and confirming a new task and prompting the user to select project/projects.
  */
 export function createNewTaskBlockWithSelectionsForAmbiguousProjects(
   notionTask: NotionTask,
@@ -566,7 +566,7 @@ function createSelectionsBlocksWithOneMenu(
           type: "multi_static_select",
           placeholder: {
             type: "plain_text",
-            text: `Select ${menuTitle}(s)}`,
+            text: `Select ${menuTitle}(s)`,
             emoji: true,
           },
           options: menuOptions,

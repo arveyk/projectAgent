@@ -197,7 +197,7 @@ const interactionHandler: StreamifyHandler = async function (
           );
         });
     } else if (action_text === "Delete") {
-      (async () => {
+      await (async () => {
         const pageUrl = payload.actions[0].value;
         const deletionResult = await deletePage(pageUrl);
         console.log(deletionResult);

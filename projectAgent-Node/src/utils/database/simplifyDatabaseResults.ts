@@ -19,6 +19,7 @@ export const simplifyDatabaseResults = function (
   dbResults: QueryDataSourceResponse,
 ): dbPage[] {
   const resultList = dbResults["results"];
+  console.log(`Number of pages found: ${resultList.length}`);
 
   const simplifiedResults: dbPage[] = new Array();
   for (let result of resultList) {
@@ -32,10 +33,14 @@ export const simplifyDatabaseResults = function (
     if (properties["Assigned to"]["type"] !== "people") {
       throw new Error("Assignee is the wrong type");
     }
+    if (! properties["Description"]){
+      throw new Error("Description field is missing from this database");
+    }
+    console.log(JSON.stringify(properties["Description"]));
     simplifiedResults.push({
       pageId: result["id"],
       taskTitle: properties["Task name"]["title"][0]["plain_text"],
-      description:
+      description: 
         properties["Description"]["type"] === "rich_text" &&
         properties["Description"]["rich_text"].length > 0
           ? properties["Description"]["rich_text"][0]["plain_text"]

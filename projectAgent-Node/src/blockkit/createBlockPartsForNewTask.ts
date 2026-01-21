@@ -358,7 +358,7 @@ export function createNewTaskBlockWithUserAndOrProjectsSelections(
 
   //Return these blocks if only number of projects is equal to zero
   if (parsedProjects.length === 0) {
-    return createSelectionsBlocksWithOneMenu(
+    return createBlocksWithOneSelectionMenu(
       taskInfo,
       projectOptions,
       confirmationButtonValueProjectsOnly,
@@ -376,7 +376,7 @@ export function createNewTaskBlockWithUserAndOrProjectsSelections(
     projectOptions: [],
   });
 
-  return createSelectionsBlocksWithOneMenu(
+  return createBlocksWithOneSelectionMenu(
     taskInfo,
     userOptionsToChooseFrom,
     confirmationButtonValueUsersOnly,
@@ -524,7 +524,7 @@ export function createNewTaskBlockWithSelectionsForAmbiguousProjects(
   }
   //Return this if there are projects to be selected
 
-  return createSelectionsBlocksWithOneMenu(
+  return createBlocksWithOneSelectionMenu(
     taskInfo,
     projectOptionsToChooseFrom,
     confirmationButtonValue,
@@ -540,7 +540,7 @@ export function createNewTaskBlockWithSelectionsForAmbiguousProjects(
  *
  * @returns   Slack blocks with desired selections menu
  */
-function createSelectionsBlocksWithOneMenu(
+function createBlocksWithOneSelectionMenu(
   taskInfo: TaskInfo,
   menuOptions: MenuType[],
   confirmationButtonValue: string,

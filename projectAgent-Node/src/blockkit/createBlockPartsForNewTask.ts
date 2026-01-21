@@ -305,7 +305,7 @@ export function createMenuOptions(
  *
  * @returns A set of Slack blocks to be used in previewing and confirming a new task and prompting the user to select assignees.
  */
-export function createNewTaskBlockWithUserAnd_Or_ProjectsSelections(
+export function createNewTaskBlockWithUserAndOrProjectsSelections(
   notionTask: NotionTask,
   allProjects: ProjectWithName[],
   foundUsers: FoundUsers,

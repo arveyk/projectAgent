@@ -103,7 +103,7 @@ const slashCmdHandler: StreamifyHandler = async function (
           const updateBlock = await createExistingTaskBlock(existingTask);
           console.log("Update Block", JSON.stringify(updateBlock));
 
-          axios({
+          await axios({
             method: "post",
             url: reqBody["response_url"],
             data: {
@@ -138,7 +138,7 @@ const slashCmdHandler: StreamifyHandler = async function (
 
         console.log("SlashCmdHandler taskBlockWithSelect", slackBlocks);
 
-        axios({
+        await axios({
           method: "post",
           url: reqBody["response_url"],
           data: slackBlocks,

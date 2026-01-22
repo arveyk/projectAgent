@@ -38,10 +38,10 @@ export const simplifyDatabaseResults = function (
       throw new Error("Database response is not a full page");
     }
     const properties = result["properties"];
-    if (properties["Task name"]["type"] !== "title") {
+    if (properties["Task name"].type !== "title") {
       throw new Error("Task Title is the wrong type");
     }
-    if (properties["Assigned to"]["type"] !== "people") {
+    if (properties["Assigned to"].type !== "people") {
       throw new Error("Assignee is the wrong type");
     }
     if (!properties["Description"]) {
@@ -55,17 +55,14 @@ export const simplifyDatabaseResults = function (
           ? properties["Task name"]["title"][0]["plain_text"]
           : "Untitled Task",
       description:
-        properties["Description"]["type"] === "rich_text" &&
-        properties["Description"]["rich_text"].length > 0
-          ? properties["Description"]["rich_text"][0]["plain_text"]
+        properties.Description.type === "rich_text" &&
+        properties.Description.rich_text.length > 0
+          ? properties.Description.rich_text[0].plain_text
           : undefined,
       assignee: properties["Assigned to"]["people"].map((response) =>
         extractAssignees(response),
       ),
-      project:
-        properties["Project"]["type"] === "relation"
-          ? properties["Project"]["relation"]
-          : [],
+      project: properties.Project.type === "relation" ? properties.Project.relation : []
     });
   }
   return simplifiedResults;

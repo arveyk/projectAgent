@@ -256,7 +256,8 @@ export function createTaskInfoWithoutSelections(
 
 /**
  * Creates the options for a Slack dropdown menu.
- * @param whichToCreate:  String to indicate what the user is selecting
+ * @param whichToCreate:  String to indicate what the user is selecting either
+ *   projects or assingees
  * @param listOfItems:    The items that will be put into the dropdowm menu.
  *    Either users or projects
  *
@@ -266,20 +267,26 @@ export function createMenuOptions(
   whichToCreate: string,
   listOfItems: ProjectWithName[] | NotionUser[],
 ): MenuType[] {
-  let index = 0;
 
   if (whichToCreate === "NotionUsers") {
     const userArray = listOfItems as NotionUser[];
-    return userArray.map((person) => {
+    const userMenuOptionsArray =  userArray.map((person) => {
       return {
         text: {
           type: "plain_text",
           text: `${person.name} (${person.email})`,
           emoji: true,
         },
-        value: `${index++}`,
+        value: `${JSON.stringify(person)}`,
       };
     });
+
+    // Slack limits the number of options to 100 items so we do this
+    if (userMenuOptionsArray.length > 100) {
+      return userMenuOptionsArray.slice(0, 100);
+    }
+    return userMenuOptionsArray;
+
   } else {
     const projectArray = listOfItems as ProjectWithName[];
     const optionsArray = projectArray.map((project) => {
@@ -289,9 +296,13 @@ export function createMenuOptions(
           text: `*${project.projectName}*`,
           emoji: true,
         },
-        value: `${"Project_" + index++}`,
+        // Replacing index with the id of the project
+        value: `${"Project_" + project.id}`,
       };
     });
+    if (optionsArray.length > 100) {
+      return optionsArray.slice(0, 100);
+    }
     return optionsArray;
   }
 }
@@ -333,9 +344,7 @@ export function createNewTaskBlockWithUserAndOrProjectsSelections(
         task: notionTask,
         pageId: "",
         url: "",
-      },
-      userOptions: foundUsers.ambiguousUsers,
-      projectOptions: allProjects,
+      }
     });
 
     return createBlockWithBothSelectionMenus(
@@ -351,14 +360,12 @@ export function createNewTaskBlockWithUserAndOrProjectsSelections(
       task: notionTask,
       pageId: "",
       url: "",
-    },
-    userOptions: foundUsers.ambiguousUsers,
-    projectOptions: allProjects,
+    }
   });
 
   //Return these blocks if only number of projects is equal to zero
   if (parsedProjects.length === 0) {
-    return createSelectionsBlocksWithOneMenu(
+    return createBlocksWithOneSelectionMenu(
       taskInfo,
       projectOptions,
       confirmationButtonValueProjectsOnly,
@@ -371,12 +378,10 @@ export function createNewTaskBlockWithUserAndOrProjectsSelections(
       task: notionTask,
       pageId: "",
       url: "",
-    },
-    userOptions: foundUsers.ambiguousUsers,
-    projectOptions: [],
+    }
   });
 
-  return createSelectionsBlocksWithOneMenu(
+  return createBlocksWithOneSelectionMenu(
     taskInfo,
     userOptionsToChooseFrom,
     confirmationButtonValueUsersOnly,
@@ -425,8 +430,8 @@ export const createTaskBlockWithoutSelections = function (
                 task: notionTask,
                 pageId: "",
                 url: "",
-              },
-              userOptions: [],
+              }
+              //userOptions [],
             }),
             style: "primary",
             action_id: "actionId-2",
@@ -459,7 +464,7 @@ export const createTaskBlockWithoutSelections = function (
 };
 
 /**
- * Creates Slack blocks to be used in previewing and confirming a new task and prompting the user to select assignees.
+ * Creates Slack blocks to be used in previewing and confirming a new task and prompting the user to select project/projects.
  * @param notionTask:       The task to be previewed.
  * @param allProjects:      All projects that exist in the notion database
  * @param similarProjects:  projects that are ambiguous and similar, to be clarified
@@ -467,7 +472,7 @@ export const createTaskBlockWithoutSelections = function (
  * @param foundUsers:       An object that contains two lists, one (identifiedUsers) contains 0 or more Notion users who match the assignee of the task
  *    the other list (ambiguousUsers) contains users who are yet to be identified.
  *
- * @returns A set of Slack blocks to be used in previewing and confirming a new task and prompting the user to select assignees.
+ * @returns A set of Slack blocks to be used in previewing and confirming a new task and prompting the user to select project/projects.
  */
 export function createNewTaskBlockWithSelectionsForAmbiguousProjects(
   notionTask: NotionTask,
@@ -509,8 +514,6 @@ export function createNewTaskBlockWithSelectionsForAmbiguousProjects(
       pageId: "",
       url: "",
     },
-    userOptions: foundUsers.ambiguousUsers,
-    projectOptions: arrayOfProjectsToSelectFrom,
   });
 
   //Return this if there are both user and projects to select
@@ -524,7 +527,7 @@ export function createNewTaskBlockWithSelectionsForAmbiguousProjects(
   }
   //Return this if there are projects to be selected
 
-  return createSelectionsBlocksWithOneMenu(
+  return createBlocksWithOneSelectionMenu(
     taskInfo,
     projectOptionsToChooseFrom,
     confirmationButtonValue,
@@ -540,7 +543,7 @@ export function createNewTaskBlockWithSelectionsForAmbiguousProjects(
  *
  * @returns   Slack blocks with desired selections menu
  */
-function createSelectionsBlocksWithOneMenu(
+function createBlocksWithOneSelectionMenu(
   taskInfo: TaskInfo,
   menuOptions: MenuType[],
   confirmationButtonValue: string,
@@ -566,7 +569,7 @@ function createSelectionsBlocksWithOneMenu(
           type: "multi_static_select",
           placeholder: {
             type: "plain_text",
-            text: `Select ${menuTitle}(s)}`,
+            text: `Select ${menuTitle}(s)`,
             emoji: true,
           },
           options: menuOptions,

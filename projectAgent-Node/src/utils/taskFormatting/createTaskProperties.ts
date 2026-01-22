@@ -56,15 +56,15 @@ const createAssignedByArray = async function (
 };
 
 export const createTaskProperties = async function (taskObj: NotionTask) {
-  const taskTitle = taskObj["taskTitle"];
-  const assignees = taskObj["assignees"];
-  const assignedBy = taskObj["assignedBy"];
-  const dueDate = taskObj["dueDate"];
-  const startDate = taskObj["startDate"]
-    ? taskObj["startDate"]
+  const taskTitle = taskObj.taskTitle;
+  const assignees = taskObj.assignees;
+  const assignedBy = taskObj.assignedBy;
+  const dueDate = taskObj.dueDate;
+  const startDate = taskObj.startDate
+    ? taskObj.startDate
     : new Date().toISOString();
-  const project = taskObj["project"] || " ";
-  console.log("Creating task properties...");
+  const project = taskObj.project || [];
+
   return {
     "Task name": {
       title: createTitleArray(taskTitle),
@@ -87,7 +87,7 @@ export const createTaskProperties = async function (taskObj: NotionTask) {
     },
 
     Project: {
-      relation: createProjectArray(project as { id: string }[]),
+      relation: createProjectArray(project),
     },
     "Assigned by": {
       people: await createAssignedByArray(assignedBy),

@@ -70,8 +70,6 @@ const interactionHandler: StreamifyHandler = async function (
     if (action_text === "Confirm" || action_text === "Add Task") {
       const taskPageAndOptionsObject: {
         taskPageObject: TaskPage;
-        userOptions: NotionUser[];
-        projectOptions: ProjectWithName[];
       } = JSON.parse(payload["actions"][0].value || "{}");
       console.log(payload["actions"][0].value);
       console.log(JSON.stringify(taskPageAndOptionsObject));
@@ -81,17 +79,10 @@ const interactionHandler: StreamifyHandler = async function (
 
       if (action_id === "SelectionActionId-2") {
         console.log("Utilize users input");
-        const userSelections: NotionUser[] =
-          taskPageAndOptionsObject.userOptions;
-        console.log(`${userSelections}`);
-        const projectOptions: ProjectWithName[] =
-          taskPageAndOptionsObject.projectOptions;
 
         // task with integrated selected assignee and project values from slack interaction
         const taskWithIntegratedValues = integrateSelectedValues(
           taskPageAndOptionsObject.taskPageObject.task,
-          userSelections,
-          projectOptions,
           payload,
         );
 

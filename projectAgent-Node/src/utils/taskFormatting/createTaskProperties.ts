@@ -60,9 +60,7 @@ export const createTaskProperties = async function (taskObj: NotionTask) {
   const assignees = taskObj.assignees;
   const assignedBy = taskObj.assignedBy;
   const dueDate = taskObj.dueDate;
-  const startDate = taskObj.startDate
-    ? taskObj.startDate
-    : new Date().toISOString();
+  const startDate = taskObj.startDate;
   const project = taskObj.project || [];
 
   return {
@@ -73,17 +71,19 @@ export const createTaskProperties = async function (taskObj: NotionTask) {
       people: await createAssigneeArray(assignees),
     },
     Due: {
-      date: dueDate
+      date: typeof dueDate !== "undefined"
         ? {
-            start: dueDate.toString(),
+            start: dueDate,
           }
         : null,
     },
 
     Start: {
-      date: {
-        start: startDate.toString(),
-      },
+      date: typeof startDate !== "undefined"
+      ? {
+        start: startDate,
+      }
+      : null,
     },
 
     Project: {

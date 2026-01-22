@@ -147,7 +147,7 @@ export const parseTask = async function (
   const notionProjects = await getProjects();
   console.log(`notionProjects found ${JSON.stringify(notionProjects)}`);
 
-  const prompt = `Today's date in ISO format is ${timeData.toISODate()}. Please extract task information from a message, making sure to list any dates in ISO format.
+  const prompt = `Today's date in ISO format is ${timeData.toISODate()}. Please extract task information from a message, making sure to list any dates in ISO format. If a start date is not specifed, assume the start date is today's date. "By tomorrow" means the due date is tomorrow.
   Also, using this list ${JSON.stringify(notionProjects)}, infer the project or projects the task is linked to. The projectName is what will help in finding a match. \
   """Example: **Sample Projects**: ${EXAMPLE_INPUT_PROJECTS}.\n\
   Input 1: ${EXAMPLE_MSG_00} Output: ${JSON.stringify(EXAMPLE_OUTPUT_FOR_PROMPT_00)},\

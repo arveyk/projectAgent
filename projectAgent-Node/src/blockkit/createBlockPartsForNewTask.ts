@@ -149,7 +149,7 @@ export function createTaskInfo(
         },
         {
           type: "mrkdwn",
-          text: `*Start Date:*\n${notionTask.startDate !== new Date(NaN) && notionTask.startDate !== undefined ? formatSlackDate(new Date(notionTask.startDate)) : notionTask.startDate}`,
+          text: `*Start Date:*\n${notionTask.startDate !== undefined ? formatSlackDate(new Date(notionTask.startDate)) : notionTask.startDate}`,
         },
       ],
     },
@@ -231,7 +231,7 @@ export function createTaskInfoWithoutSelections(
         },
         {
           type: "mrkdwn",
-          text: `*Start Date:*\n${notionTask.startDate !== new Date(NaN) && notionTask.startDate !== undefined ? formatSlackDate(new Date(notionTask.startDate)) : notionTask.startDate}`,
+          text: `*Start Date:*\n${notionTask.startDate !== undefined ? formatSlackDate(new Date(notionTask.startDate)) : notionTask.startDate}`,
         },
       ],
     },

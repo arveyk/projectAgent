@@ -1,5 +1,3 @@
-import { DateTime } from "luxon";
-
 export function validateDate(dateString: string): Date | "Invalid Date Value" {
   const year = new Date().getFullYear().toString();
   let dateArray;

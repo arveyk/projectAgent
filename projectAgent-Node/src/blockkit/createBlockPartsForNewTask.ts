@@ -270,7 +270,7 @@ export function createMenuOptions(
 
   if (whichToCreate === "NotionUsers") {
     const userArray = listOfItems as NotionUser[];
-    return userArray.map((person) => {
+    const userMenuOptionsArray =  userArray.map((person) => {
       return {
         text: {
           type: "plain_text",
@@ -280,6 +280,13 @@ export function createMenuOptions(
         value: `${JSON.stringify(person)}`,
       };
     });
+
+    // Slack limits the number of options to 100 items so we do this
+    if (userMenuOptionsArray.length > 100) {
+      return userMenuOptionsArray.slice(0, 100);
+    }
+    return userMenuOptionsArray;
+
   } else {
     const projectArray = listOfItems as ProjectWithName[];
     const optionsArray = projectArray.map((project) => {
@@ -293,6 +300,9 @@ export function createMenuOptions(
         value: `${"Project_" + project.id}`,
       };
     });
+    if (optionsArray.length > 100) {
+      return optionsArray.slice(0, 100);
+    }
     return optionsArray;
   }
 }

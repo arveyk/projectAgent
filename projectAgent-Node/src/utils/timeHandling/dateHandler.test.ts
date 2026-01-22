@@ -1,3 +1,14 @@
+import { formatDateString } from "./dateHandler";
+
+describe("Tests formatSlackDate", () => {
+    it("Should return the date in <Day of week>, <Date> format", () => {
+        const dateString = "01-01-2026";
+        const formattedDate = formatDateString(dateString);
+        console.log(formattedDate);
+        expect(formattedDate).toMatch("Thu Jan 01 2026");
+    })
+})
+
 // import { DateTime } from "luxon";
 // import { formatSlackDate, validateDate, validateDueDate } from "./dateHandler";
 // import { Task } from "../taskFormatting/task";

@@ -21,11 +21,15 @@ export function validateDate(dateString: string): Date | "Invalid Date Value" {
   }
 }
 
-export function formatSlackDate(date: Date): string {
-  console.log(`(formatSlackDate) date: ${date}`);
-  const timestampSeconds = Math.round(date.valueOf() / 1000);
-  console.log(`(formatSlackDate) timestamp (seconds): ${timestampSeconds}`);
-  return `<!date^${timestampSeconds}^{date_long}|${date.toISOString()}>`;
+/**
+ * Formats an ISO date string as a JS DateString.
+ * @param date The ISO date string to format.
+ * @returns The date as a JS DateString.
+ */
+export function formatDateString(dateString: string): string {
+  const date = new Date(dateString);
+  const formattedDate = date.toDateString()
+  return formattedDate;
 }
 
 /**

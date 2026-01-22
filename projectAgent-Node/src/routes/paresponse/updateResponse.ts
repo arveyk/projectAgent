@@ -1,5 +1,6 @@
 import axios from "axios";
-import { addTaskNotionPage, 
+import {
+  addTaskNotionPage,
   PageAddResult,
 } from "../../utils/database/addNewTaskToDatabase";
 import { SLACK_BOT_TOKEN } from "../../env";
@@ -69,8 +70,6 @@ const interactionHandler: StreamifyHandler = async function (
     if (action_text === "Confirm" || action_text === "Add Task") {
       const taskPageAndOptionsObject: {
         taskPageObject: TaskPage;
-        userOptions: NotionUser[];
-        projectOptions: ProjectWithName[];
       } = JSON.parse(payload["actions"][0].value || "{}");
       console.log(payload["actions"][0].value);
       console.log(JSON.stringify(taskPageAndOptionsObject));
@@ -80,17 +79,10 @@ const interactionHandler: StreamifyHandler = async function (
 
       if (action_id === "SelectionActionId-2") {
         console.log("Utilize users input");
-        const userSelections: NotionUser[] =
-          taskPageAndOptionsObject.userOptions;
-        console.log(`${userSelections}`);
-        const projectOptions: ProjectWithName[] =
-          taskPageAndOptionsObject.projectOptions;
 
         // task with integrated selected assignee and project values from slack interaction
         const taskWithIntegratedValues = integrateSelectedValues(
           taskPageAndOptionsObject.taskPageObject.task,
-          userSelections,
-          projectOptions,
           payload,
         );
 
@@ -197,13 +189,13 @@ const interactionHandler: StreamifyHandler = async function (
           );
         });
     } else if (action_text === "Delete") {
-      (async () => {
+      await (async () => {
         const pageUrl = payload.actions[0].value;
         const deletionResult = await deletePage(pageUrl);
         console.log(deletionResult);
 
         // TODO return message indicating success or failure
-        sendReject(
+        await sendReject(
           payload,
           action_text,
           response_url,
@@ -215,9 +207,9 @@ const interactionHandler: StreamifyHandler = async function (
       if (action_id === "cancelUpdateId-02") {
         cancelMessage = ":x: Task not Updated";
       }
-      sendReject(payload, action_text, response_url, cancelMessage);
+      await sendReject(payload, action_text, response_url, cancelMessage);
     } else {
-      sendReject(
+      await sendReject(
         payload,
         action_text,
         response_url,

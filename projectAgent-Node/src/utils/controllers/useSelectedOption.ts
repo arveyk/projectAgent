@@ -14,14 +14,12 @@ type SelectionOption = {
  * Integrates selected Notion users into the assignee field
  * @param assignees:      The assignees already in the task
  * @param selectedValues: The assignees the app user selected
- * @param allDisplayedAssigneeOptions: The options the app user had to select from
  *
  * @returns               All assignees, both from the original task and those selected by the app user
  */
 export function integrateUserSelections(
   assignees: NotionUser[],
   selectedValues: SelectionOption[],
-  allDisplayedAssigneeOptions: NotionUser[],
 ) {
   const allAssignees: NotionUser[] = [...assignees];
   if (selectedValues.length < 1) {
@@ -30,11 +28,10 @@ export function integrateUserSelections(
 
   for (const selectedOption of selectedValues) {
     console.log(parseInt(selectedOption["value"]));
-    const index = parseInt(selectedOption["value"]);
-    if (isNaN(index)) {
-      throw new Error("(integrateUserSelections): index value is Not a Number");
-    }
-    allAssignees.push(allDisplayedAssigneeOptions[index]);
+    const selectedUser:string = JSON.parse(selectedOption["value"]);
+    
+    allAssignees.push(selectedUser);
+
   }
   return allAssignees;
 }
@@ -43,14 +40,12 @@ export function integrateUserSelections(
  * Integrates selected projects into the existing task projects
  * @param projects:           The projects from the task
  * @param selectedValues:     The projects the app user selected
- * @param allDisplayedProjectOptions:  All project options the app user had to select from
  *
  * @returns:                  All projects, both from the original task and those selected by the app user
  */
 export function integrateSelectedProjects(
   projects: { id: string }[],
   selectedValues: SelectionOption[],
-  allDisplayedProjectOptions: ProjectWithName[],
 ) {
   const allProjects: { id: string }[] = [...projects];
 
@@ -60,35 +55,28 @@ export function integrateSelectedProjects(
 
   for (const selectedOption of selectedValues) {
     console.log(parseInt(selectedOption["value"]));
-    const index = parseInt(selectedOption["value"].replace("Project_", ""));
-    if (isNaN(index)) {
-      throw new Error(
-        "(integrateSelectedProjects): index value is Not a Number",
-      );
-    }
+    // Refactoring so that we use the project id directly
+    const projectId:string = selectedOption["value"].replace("Project_", "");
+    
     if (
       allProjects.find(
-        (element) => allDisplayedProjectOptions[index].id === element.id,
+        (element) => projectId === element.id,
       )
     )
       continue;
-    allProjects.push({ id: allDisplayedProjectOptions[index].id });
+    allProjects.push({ id: projectId });
   }
   return allProjects;
 }
 
 /** Takes the user's selections and integrates them into the task to be created.
  * @param notionTask: The new task.
- * @param userSelectionsOptions: The assignee options the user chose from.
- * @param projectSelectionsOptions: The project options the user chose from.
  * @param payload: Data sent from Slack that contains all we need to process the task.
  *
  * @returns The task with the user's selections integrated.
  */
 export function integrateSelectedValues(
   notionTask: NotionTask,
-  userSelectionsOptions: NotionUser[],
-  projectSelectionsOptions: ProjectWithName[],
   payload: any,
 ) {
 
@@ -122,7 +110,6 @@ export function integrateSelectedValues(
     const allProjects = integrateSelectedProjects(
       projects,
       selectedValues,
-      projectSelectionsOptions,
     );
 
     notionTaskWithIntegratedValues.project = allProjects;
@@ -130,7 +117,6 @@ export function integrateSelectedValues(
     const allAssignees = integrateUserSelections(
       assignees,
       selectedValues,
-      userSelectionsOptions,
     );
     notionTaskWithIntegratedValues.assignees = [...notionTask.assignees, ...allAssignees];
   }
@@ -145,7 +131,6 @@ export function integrateSelectedValues(
     const allProjects2 = integrateSelectedProjects(
       projects,
       selectedValues_01,
-      projectSelectionsOptions,
     );
 
     notionTaskWithIntegratedValues.project = allProjects2;

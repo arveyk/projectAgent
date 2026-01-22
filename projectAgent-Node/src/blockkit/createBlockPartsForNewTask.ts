@@ -256,7 +256,8 @@ export function createTaskInfoWithoutSelections(
 
 /**
  * Creates the options for a Slack dropdown menu.
- * @param whichToCreate:  String to indicate what the user is selecting
+ * @param whichToCreate:  String to indicate what the user is selecting either
+ *   projects or assingees
  * @param listOfItems:    The items that will be put into the dropdowm menu.
  *    Either users or projects
  *
@@ -266,7 +267,6 @@ export function createMenuOptions(
   whichToCreate: string,
   listOfItems: ProjectWithName[] | NotionUser[],
 ): MenuType[] {
-  let index = 0;
 
   if (whichToCreate === "NotionUsers") {
     const userArray = listOfItems as NotionUser[];
@@ -277,7 +277,7 @@ export function createMenuOptions(
           text: `${person.name} (${person.email})`,
           emoji: true,
         },
-        value: `${index++}`,
+        value: `${JSON.stringify(person)}`,
       };
     });
   } else {
@@ -289,7 +289,8 @@ export function createMenuOptions(
           text: `*${project.projectName}*`,
           emoji: true,
         },
-        value: `${"Project_" + index++}`,
+        // Replacing index with the id of the project
+        value: `${"Project_" + project.id}`,
       };
     });
     return optionsArray;
@@ -333,9 +334,7 @@ export function createNewTaskBlockWithUserAndOrProjectsSelections(
         task: notionTask,
         pageId: "",
         url: "",
-      },
-      userOptions: foundUsers.ambiguousUsers,
-      projectOptions: allProjects,
+      }
     });
 
     return createBlockWithBothSelectionMenus(
@@ -351,9 +350,7 @@ export function createNewTaskBlockWithUserAndOrProjectsSelections(
       task: notionTask,
       pageId: "",
       url: "",
-    },
-    userOptions: foundUsers.ambiguousUsers,
-    projectOptions: allProjects,
+    }
   });
 
   //Return these blocks if only number of projects is equal to zero
@@ -371,9 +368,7 @@ export function createNewTaskBlockWithUserAndOrProjectsSelections(
       task: notionTask,
       pageId: "",
       url: "",
-    },
-    userOptions: foundUsers.ambiguousUsers,
-    projectOptions: [],
+    }
   });
 
   return createBlocksWithOneSelectionMenu(
@@ -425,8 +420,8 @@ export const createTaskBlockWithoutSelections = function (
                 task: notionTask,
                 pageId: "",
                 url: "",
-              },
-              userOptions: [],
+              }
+              //userOptions [],
             }),
             style: "primary",
             action_id: "actionId-2",
@@ -509,8 +504,6 @@ export function createNewTaskBlockWithSelectionsForAmbiguousProjects(
       pageId: "",
       url: "",
     },
-    userOptions: foundUsers.ambiguousUsers,
-    projectOptions: arrayOfProjectsToSelectFrom,
   });
 
   //Return this if there are both user and projects to select

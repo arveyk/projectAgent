@@ -1,4 +1,4 @@
-import { Client, QueryDataSourceResponse } from "@notionhq/client";
+import { Client, collectPaginatedAPI, QueryDataSourceResponse } from "@notionhq/client";
 import { ChatAnthropic } from "@langchain/anthropic";
 import { z } from "zod/v4";
 import { dbPage, simplifyDatabaseResults } from "./simplifyDatabaseResults";
@@ -58,7 +58,8 @@ export const searchDatabase = async function (
   console.log(`message (searchDB): ${JSON.stringify(message)}`);
 
   logTimestampForBenchmarking("Querying database");
-  const response = await notion.dataSources.query({
+  // TODO handle multiple pages of results
+  const response = await collectPaginatedAPI(notion.dataSources.query, {
     data_source_id: NOTION_TASKS_DATA_SOURCE_ID,
   });
   logTimestampForBenchmarking("Done querying database");

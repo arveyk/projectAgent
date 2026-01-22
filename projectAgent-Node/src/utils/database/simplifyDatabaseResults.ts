@@ -1,5 +1,5 @@
 import { isFullPage } from "@notionhq/client";
-import { QueryDataSourceResponse } from "@notionhq/client/build/src/api-endpoints";
+import { DataSourceObjectResponse, PageObjectResponse, PartialDataSourceObjectResponse, PartialPageObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 import { extractAssignees, PersonNoId } from "../taskFormatting/task";
 
 export type dbPage = {
@@ -16,13 +16,12 @@ export type dbPage = {
  * @returns A simplified version of the Notion database results.
  */
 export const simplifyDatabaseResults = function (
-  dbResults: QueryDataSourceResponse,
+  dbResults: (PageObjectResponse | PartialPageObjectResponse | PartialDataSourceObjectResponse | DataSourceObjectResponse)[],
 ): dbPage[] {
-  const resultList = dbResults["results"];
-  console.log(`Number of pages found: ${resultList.length}`);
+  console.log(`Number of pages found: ${dbResults.length}`);
 
   const simplifiedResults: dbPage[] = new Array();
-  for (let result of resultList) {
+  for (let result of dbResults) {
     if (!isFullPage(result)) {
       throw new Error("Database response is not a full page");
     }

@@ -19,7 +19,7 @@ Bob, starting tomorrow, please write a draft of the article and have it finished
 export const EXAMPLE_OUTPUT_FOR_PROMPT_00: TaskParseResult = {
   taskTitle: "Write article draft",
   assignees: ["Bob"],
-  dueDate: "2025-08-20T00:00-07:00",
+  dueDate: "2025-08-20",
   description: "Write a draft of the article",
   projects: [],
 };
@@ -31,7 +31,7 @@ Bradley, finish up the landing gear for the F-22 Assembly and Maintenance projec
 export const EXAMPLE_OUTPUT_FOR_PROMPT_01: TaskParseResult = {
   taskTitle: "Finish landing gear",
   assignees: ["Bradley"],
-  dueDate: "2026-07-05T00:00-07:00",
+  dueDate: "2026-07-05",
   description:
     "Bradley, finish up the landing gear for the F-22 Assembly and Maintenance project by July 5 2026",
   projects: ["F-22 Assembly and Maintenance"],
@@ -72,18 +72,18 @@ export const taskSchema = z.object({
     .nullable()
     .describe("Name of person or people assigned with the task"),
   dueDate: z.iso
-    .datetime({ offset: true })
+    .date()
     .optional()
     .nullable()
     .describe(
-      "Task due date in ISO standard format with timezone offset included",
+      "Task due date in ISO standard format",
     ),
   startDate: z.iso
-    .datetime({ offset: true })
+    .date()
     .optional()
     .nullable()
     .describe(
-      "Task start date in ISO standard format with timezone offset included",
+      "Task start date in ISO standard format",
     ),
   phonenumber: z
     .string()
@@ -147,7 +147,7 @@ export const parseTask = async function (
   const notionProjects = await getProjects();
   console.log(`notionProjects found ${JSON.stringify(notionProjects)}`);
 
-  const prompt = `Today's date and time in ISO format is ${timeData.toISO()}, and our timezone is ${timeData.zoneName}. Please extract task information from a message, making sure to list any dates in ISO format with timezone offset. "By the end of the day" means by 17:00 in our timezone. If the message says to finish a task "by" some date but does not specify a time, that means by 0:00 of that date in our timezone. 
+  const prompt = `Today's date in ISO format is ${timeData.toISODate()}. Please extract task information from a message, making sure to list any dates in ISO format.
   Also, using this list ${JSON.stringify(notionProjects)}, infer the project or projects the task is linked to. The projectName is what will help in finding a match. \
   """Example: **Sample Projects**: ${EXAMPLE_INPUT_PROJECTS}.\n\
   Input 1: ${EXAMPLE_MSG_00} Output: ${JSON.stringify(EXAMPLE_OUTPUT_FOR_PROMPT_00)},\

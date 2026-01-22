@@ -41,8 +41,9 @@ export type User = {
   email: string;
 };
 
-/** Extracted task details together with info of the user creating the task (which will be
-used to create the assignedBy field) */
+/** 
+ * Extracted task details together with info of the user creating the task (which will be used to create the assignedBy field) 
+*/
 export type ParsedData = {
   task: Task;
   taskCreator: User;

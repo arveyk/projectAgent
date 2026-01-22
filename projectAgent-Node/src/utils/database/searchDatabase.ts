@@ -175,3 +175,25 @@ export async function getProjects() {
   }
   return simplifiedProjects;
 }
+
+/**
+ * Checks if a page contains any sensitive n-grams (words or sequences of words)
+ * - The check is case-insensitive and ignores whitespace
+ * @param page The page to check.
+ * @returns True if the page contains any sensitive n-grams, false otherwise.
+ */
+export function containsSensitiveNgrams(page: PageObjectResponse): boolean {
+  const pageNormalized = normalizeForComparison(JSON.stringify(page));
+  return SENSITIVE_NGRAMS.some((ngram) => (
+    pageNormalized.includes(normalizeForComparison(ngram))
+  ));
+}
+
+/**
+ * Normalizes a string for comparison by converting it to lowercase, removing all whitespace.
+ * @param str The string to normalize.
+ * @returns The normalized string.
+ */
+export function normalizeForComparison(str: string): string {
+  return str.toLowerCase().replace(/\s+/g, "");
+}

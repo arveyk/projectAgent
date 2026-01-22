@@ -293,7 +293,7 @@ export function createMenuOptions(
       return {
         text: {
           type: "plain_text",
-          text: `*${project.projectName}*`,
+          text: `${project.projectName}`,
           emoji: true,
         },
         // Replacing index with the id of the project

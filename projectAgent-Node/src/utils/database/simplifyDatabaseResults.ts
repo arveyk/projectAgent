@@ -22,6 +22,8 @@ export const simplifyDatabaseResults = function (
 
   const simplifiedResults: dbPage[] = new Array();
   for (let result of dbResults) {
+    console.log(JSON.stringify(result));
+
     if (!isFullPage(result)) {
       throw new Error("Database response is not a full page");
     }
@@ -38,7 +40,7 @@ export const simplifyDatabaseResults = function (
     console.log(JSON.stringify(properties["Description"]));
     simplifiedResults.push({
       pageId: result["id"],
-      taskTitle: properties["Task name"]["title"][0]["plain_text"],
+      taskTitle: properties["Task name"]["title"].length > 0 ? properties["Task name"]["title"][0]["plain_text"] : "Untitled Task",
       description: 
         properties["Description"]["type"] === "rich_text" &&
         properties["Description"]["rich_text"].length > 0

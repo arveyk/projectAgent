@@ -1,3 +1,13 @@
+import { simplifyDatabaseResults } from "./simplifyDatabaseResults";
+import { EXAMPLE_TASK_RESPONSE_NO_TITLE } from "../../test-data/exampleTaskResponseNoTitle";
+
+describe("Tests simplifyDatabaseResults with a task with no name", () => {
+    it("Should run with no errors and put 'Untitled Task' as the title", () => {
+        const simplifiedTask = simplifyDatabaseResults(EXAMPLE_TASK_RESPONSE_NO_TITLE.results)[0];
+        expect(simplifiedTask.taskTitle).toMatch("Untitled Task");
+    })
+})
+
 // import { dbPage, simplifyDatabaseResults } from "./simplifyDatabaseResults";
 // import {
 //   exampleDbResult_1,

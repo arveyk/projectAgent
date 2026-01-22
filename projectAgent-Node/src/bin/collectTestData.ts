@@ -21,7 +21,7 @@ async function getTestData() {
   });
   await saveJson(rawPages, "log/testData/responses/example-rawPages.json");
 
-  const simplifiedPages = simplifyDatabaseResults(rawPages);
+  const simplifiedPages = simplifyDatabaseResults(rawPages.results);
   await saveJson(
     simplifiedPages,
     "log/testData/responses/example-simplifiedPages.json",

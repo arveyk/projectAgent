@@ -52,7 +52,10 @@ export async function addTaskNotionPage(
       };
     } catch (error) {
       if (error instanceof Error) {
-        console.error("(addTaskNotionPage) Error adding task to Notion:", error.message);
+        console.error(
+          "(addTaskNotionPage) Error adding task to Notion:",
+          error.message,
+        );
         return {
           success: false,
           errorMsg: error,
@@ -72,4 +75,3 @@ export async function addTaskNotionPage(
     };
   }
 }
-

@@ -1,5 +1,6 @@
 import axios from "axios";
-import { addTaskNotionPage, 
+import {
+  addTaskNotionPage,
   PageAddResult,
 } from "../../utils/database/addNewTaskToDatabase";
 import { SLACK_BOT_TOKEN } from "../../env";

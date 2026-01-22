@@ -17,7 +17,7 @@
 //   it("Creates  task block", () => {
 //     console.log(JSON.stringify(notionTask));
 //     const taskBlock = createColumnLayoutTaskInfo(
-//       notionTask, notionTask.assignees  
+//       notionTask, notionTask.assignees
 //     );
 //     console.log(JSON.stringify(taskBlock));
 //   });

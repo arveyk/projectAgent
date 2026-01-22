@@ -113,13 +113,13 @@ export async function testPostToSlack(eventResUrl: string, slackBlocks?: any) {
           family: 4,
         },
       )
-      .then((resp) => {
-        console.log("OK from slack", resp);
+      .then((responseFromSlack) => {
+        console.log("OK from slack", responseFromSlack.data);
+	console.log("Data sent to Slack", responseFromSlack.config.data);
       })
       .catch((err) => {
         console.log("Error in Axios", err);
       });
-
 
   } catch (err) {
     console.log(err);

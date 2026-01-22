@@ -92,15 +92,6 @@ export function integrateSelectedValues(
   payload: any,
 ) {
 
-  const notionTaskWithIntegratedValues: NotionTask = {
-    taskTitle: notionTask.taskTitle,
-    assignees: notionTask.assignees,
-    assignedBy: notionTask.assignedBy,
-    description: notionTask.description,
-    dueDate: notionTask.dueDate,
-    startDate: notionTask.startDate,
-    project: notionTask.project || []
-  }
   const assignees = notionTask.assignees;
   const projects = notionTask.project || [];
 
@@ -115,6 +106,16 @@ export function integrateSelectedValues(
 
   if (selectedValues.length === 0) {
     return notionTask;
+  }
+  
+  const notionTaskWithIntegratedValues: NotionTask = {
+    taskTitle: notionTask.taskTitle,
+    assignees: [...notionTask.assignees],
+    assignedBy: [...notionTask.assignedBy],
+    description: notionTask.description,
+    dueDate: notionTask.dueDate,
+    startDate: notionTask.startDate,
+    project: [...(notionTask.project || [])]
   }
 
   if (selectedValues[0].value.includes("Project_")) {

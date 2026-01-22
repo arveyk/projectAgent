@@ -3,8 +3,8 @@ import { SLACK_BOT_TOKEN } from "../../env";
 import { DateTime } from "luxon";
 import { SlashCommand } from "@slack/bolt";
 
-const SECONDS_IN_MINUTE = 60;
-const MINUTES_IN_HOUR = 60;
+const SECONDS_IN_ONE_MINUTE = 60;
+const MINUTES_IN_ONE_HOUR = 60;
 
 export type TimezoneInfo = {
   tz: string;
@@ -14,8 +14,8 @@ export type TimezoneInfo = {
 
 /**
  * Gets timezone data about a user.
- * @param {*} userID The user's ID
- * @returns The user's timezone, timezone label, and offset from UTC
+ * @param userID: The user's ID
+ * @returns       The user's timezone, timezone label, and offset from UTC
  */
 export async function getUserTimezoneData(
   userID: string,
@@ -60,7 +60,7 @@ export async function getUserTimezoneData(
     const info: TimezoneInfo = {
       tz: userData["tz"],
       tz_label: userData["tz_label"],
-      tz_offset: offsetSeconds / (SECONDS_IN_MINUTE * MINUTES_IN_HOUR),
+      tz_offset: offsetSeconds / (SECONDS_IN_ONE_MINUTE * MINUTES_IN_ONE_HOUR),
     };
 
     return info;
@@ -71,9 +71,9 @@ export async function getUserTimezoneData(
  * Function to get the time data that the user is on slack activates project agent
  * @param reqBody:   Payload containing the task details to be extracted and user creating
  *    the task
- * @param timestamp: Time at which project agent is activeted
+ * @param timestamp: Time at which project agent is activated in milliseconds
  * 
- * @returns          Time data at which the task is being created
+ * @returns          Timezone data at which the task is being created
  */
 export async function getEventTimeData(
   reqBody: SlashCommand,

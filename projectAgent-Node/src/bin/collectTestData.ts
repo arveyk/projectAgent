@@ -4,6 +4,7 @@ import { Client } from "@notionhq/client";
 import { NOTION_API_KEY } from "../env";
 import { NOTION_TASKS_DATA_SOURCE_ID } from "../env";
 import { simplifyDatabaseResults } from "../utils/database/simplifyDatabaseResults";
+import { getProjects, getProjectsRaw } from "../utils/database/searchDatabase";
 
 /**
  * ts-node script that retrieves notion objects
@@ -26,6 +27,12 @@ async function getTestData() {
     simplifiedPages,
     "log/testData/responses/example-simplifiedPages.json",
   );
+
+  const projectsRaw = await getProjectsRaw();
+  await saveJson(projectsRaw, "log/testData/responses/example-projectsRaw.json");
+
+  const projects = await getProjects();
+  await saveJson(projects, "log/testData/responses/example-projects.json");
 }
 
 /**

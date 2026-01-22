@@ -40,6 +40,9 @@ if (!process.env.SLACK_USER_OAUTH_TOKEN) {
 if (!process.env.ALL_SLN_WEBHOOK_URL) {
   throw new Error("Missing task management webhook url");
 }
+if (!process.env.SENSITIVE_NGRAMS) {
+  throw new Error("Missing sensitive ngrams");
+}
 
 export const PORT: string = process.env.PORT || "8080";
 export const SLACK_BOT_TOKEN: string = process.env.SLACK_BOT_TOKEN;
@@ -57,3 +60,4 @@ export const PROJ_AGENT_APP_ID: string = process.env.PROJ_AGENT_APP_ID;
 export const SLACK_USER_OAUTH_TOKEN: string =
   process.env.SLACK_USER_OAUTH_TOKEN;
 export const ALL_SLN_WEBHOOK_URL: string = process.env.ALL_SLN_WEBHOOK_URL;
+export const SENSITIVE_NGRAMS: string[] = process.env.SENSITIVE_NGRAMS.split(",");

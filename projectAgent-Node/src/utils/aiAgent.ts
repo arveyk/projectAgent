@@ -105,25 +105,6 @@ export const taskSchema = z.object({
     .describe(
       "Project matches if it is unclear which project is being referred to",
     ),
-
-  /*projects: z
-    .object({
-      projectName: z.string()
-    })
-    .array()
-    .optional()
-    .nullable()
-    .describe("Projects the task belongs to"),
-  similarProjects: z
-    .object({
-      projectName: z.string()
-    })
-    .array()
-    .optional()
-    .nullable()
-    .describe("Project matches if it is unclear which project is being referred to"),
-
-*/
 });
 export type TaskParseResult = z.infer<typeof taskSchema>;
 

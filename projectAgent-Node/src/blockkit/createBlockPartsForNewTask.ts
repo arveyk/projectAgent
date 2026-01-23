@@ -7,7 +7,7 @@ import {
 } from "../utils/taskFormatting/task";
 
 // Type for options created for the selections menu
-type MenuType = {
+export type MenuType = {
   text: {
     type: string;
     text: string;
@@ -279,7 +279,13 @@ export function createMenuOptions(
         },
         value: `${JSON.stringify(person)}`,
       };
-    });
+    }).sort(
+      (a, b) => {
+        const nameA = a.text.text;
+        const nameB = b.text.text;
+        return (nameA < nameB) ? -1 : (nameA > nameB) ? 1 : 0;
+      }
+    );
 
     // Slack limits the number of options to 100 items so we do this
     if (userMenuOptionsArray.length > 100) {
@@ -299,7 +305,14 @@ export function createMenuOptions(
         // Replacing index with the id of the project
         value: `${"Project_" + project.id}`,
       };
-    });
+    }).sort(
+      (a, b) => {
+        const nameA = a.text.text;
+        const nameB = b.text.text;
+        return (nameA < nameB) ? -1 : (nameA > nameB) ? 1 : 0;
+      }
+    );
+
     if (optionsArray.length > 100) {
       return optionsArray.slice(0, 100);
     }

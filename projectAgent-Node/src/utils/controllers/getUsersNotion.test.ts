@@ -9,9 +9,9 @@ describe("Get notion users", () => {
 });
 
 describe("Get Slack users", () => {
-  it("Should get all notion Users", async () => {
+  it("Should get all Slack Users", async () => {
     const slackUsers = await getSlackUsers();
     expect(slackUsers.length).toBeGreaterThan(0);
-    console.log("Slack users", slackUsers)
+    console.log("Slack users", slackUsers);
   });
 });

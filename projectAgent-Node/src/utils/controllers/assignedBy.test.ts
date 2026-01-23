@@ -1,7 +1,7 @@
-import { EXAMPLE_SLACK_USER_IDS } from "../.././test-data/example-slack-userids"
+import { EXAMPLE_SLACK_USER_IDS } from "../../test-data/example-slack-userids"
 import { getSlackUserDataById } from "./getUsersSlack";
 import { findAssignedBy } from "./findMatchingNotionUsers";
-import { ExitStatus } from "typescript";
+
 
 describe("Test getting assigned by from Notion using slack Id", () => {
     it("Should match user if name in Slack and Notion are the same", async () => {

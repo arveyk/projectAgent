@@ -7,89 +7,99 @@ import {
 } from "@notionhq/client";
 import { BlockAction } from "@slack/bolt";
 import { NotionUser } from "../controllers/userTypes";
-import { TaskParseResult } from "../aiagent";
-import { DateTime } from "luxon";
+import { TaskParseResult } from "../aiAgent";
 
-
-export type NewNotionTask = {
-    taskTitle: string;
-    assignees: NotionUser[];
-    assignedBy: NotionUser[];
-    dueDate?: Date;
-    startDate?: Date;
-    description: string;
-    project?: {
-      projectName: string;
-      id: string;
-    }[];
-}
-
+/**
+ * Notion users identified and ambiguous for a task.
+ */
 export type FoundUsers = {
   identifiedUsers: NotionUser[];
   ambiguousUsers: NotionUser[];
 };
 
+/**
+ * A person without a user id.
+ */
 export type PersonNoId = {
   name: string;
   email?: string;
 };
 
+/** A project with a name and a project id. */
 export type ProjectWithName = {
   projectName: string;
   id: string;
 };
 
+/**
+ * A Slack user.
+ */
 export type User = {
   userId: string;
   name: string;
   email: string;
 };
 
+/** 
+ * Extracted task details together with info of the user creating the task (which will be used to create the assignedBy field) 
+*/
 export type ParsedData = {
   task: Task;
   taskCreator: User;
 };
+
+/**
+ * A task.
+ */
 export type Task = {
   taskTitle: string;
   assignees: PersonNoId[];
-  dueDate?: Date;
-  startDate?: Date;
+  dueDate?: string;
+  startDate?: string;
   description: string;
   project?: { id: string }[];
   existingProjects?: ProjectWithName[];
   similarProjects?: { id: string }[];
 };
 
+/**
+ * A task as represented in Notion.
+ */
 export type NotionTask = {
   taskTitle: string;
   assignees: NotionUser[];
   assignedBy: NotionUser[];
-  dueDate?: Date;
-  startDate?: Date;
+  dueDate?: string;
+  startDate?: string;
   description: string;
   project?: {
     id: string;
   }[];
 };
 
+/**
+ * A task page in Notion.
+ */
 export type TaskPage = {
   task: NotionTask;
   pageId: string;
   url?: string;
 };
 
+/**
+ * Converts data parsed by the LLM into a Task object.
+ * @param taskInput The parsed task data.
+ * @param notionProjects A list of Notion projects the task is assigned to.
+ * @returns A Task object.
+ */
 export function convertTask(
   taskInput: TaskParseResult,
   notionProjects: ProjectWithName[],
 ): Task {
   console.log(JSON.stringify(taskInput));
 
-  const dueDate = taskInput.dueDate
-    ? new Date(taskInput["dueDate"])
-    : undefined;
-  const startDate = taskInput.startDate
-    ? new Date(taskInput["startDate"])
-    : DateTime.now().toJSDate();
+  const dueDate = taskInput.dueDate;
+  const startDate = taskInput.startDate;
   const assignees = taskInput.assignees
     ? taskInput.assignees.map((assignee) => {
         return { name: assignee };
@@ -114,35 +124,24 @@ export function convertTask(
     if (taskProjects.includes(projectFromAllProjectsArray.projectName)) {
       identifiedProjects.push({ id: projectFromAllProjectsArray.id });
     }
-    /*taskProjects.forEach((projectInTaskProjectsArray) => {
-      if (projectFromAllPorjectsArray && projectInTaskProjectsArray) {
-        if (projectFromAllPorjectsArray.projectName === projectInTaskProjectsArray.projectName) {
-          identifiedProjects.push({ id: projectFromAllPorjectsArray.id });
-        }
-      }
-        */
-    /*
-    similarProjects.forEach((unselectedProject) => {
-      /*if (projectFromAllPorjectsArray && unSelectedProject) {
-        if (projectFromAllPorjectsArray.projectName === unSelectedProject.projectName) {
-          projectsToSelect.push({ id: projectFromAllPorjectsArray.id});
-        }
-      }
-    })
-      */
   });
 
   return {
     taskTitle: taskInput["taskTitle"],
     assignees: assignees,
-    dueDate: dueDate,
-    startDate: startDate,
+    dueDate: dueDate? dueDate : undefined,
+    startDate: startDate? startDate : undefined,
     description: taskInput["description"],
     project: identifiedProjects,
     similarProjects: projectsToSelectFrom,
   };
 }
 
+/**
+ * Converts a button payload to a TaskPage.
+ * @param payload The payload sent by a Slack button interaction.
+ * @returns A TaskPage object.
+ */
 export function convertTaskPageFromButtonPayload(
   payload: BlockAction,
 ): TaskPage {
@@ -192,6 +191,11 @@ export function convertTaskPageFromButtonPayload(
   }
 }
 
+/**
+ * Converts a Notion page response to a TaskPage.
+ * @param pageResponse The response from a Notion page query.
+ * @returns A TaskPage object.
+ */
 export function convertTaskPageFromDbResponse(
   pageResponse: PageObjectResponse,
 ): TaskPage {
@@ -221,13 +225,13 @@ export function convertTaskPageFromDbResponse(
   const dueDate =
     "date" in properties["Due"]
       ? properties["Due"].date
-        ? new Date(properties["Due"].date.start)
+        ? properties["Due"].date.start
         : undefined
       : undefined;
   const startDate =
     "date" in properties["Start"]
       ? properties["Start"].date
-        ? new Date(properties["Start"].date.start)
+        ? properties["Start"].date.start
         : undefined
       : undefined;
   const description =
@@ -238,12 +242,10 @@ export function convertTaskPageFromDbResponse(
         : ""
       : "";
   const project =
-    "rich_text" in properties["Project"] &&
-    properties["Project"]["rich_text"][0] !== undefined
-      ? "plain_text" in properties["Project"]["rich_text"][0]
-        ? properties["Project"].rich_text[0].plain_text
-        : undefined
-      : undefined;
+    "relation" in properties["Project"] &&
+    properties["Project"]["relation"][0] !== undefined
+      ? properties["Project"]["relation"]
+      : [];
   const url = pageResponse.url;
   const pageId = pageResponse.id;
 
@@ -255,7 +257,7 @@ export function convertTaskPageFromDbResponse(
       dueDate: dueDate,
       startDate: startDate,
       description: description,
-      project: [{ id: project || "" }],
+      project: project,
     },
     url: url,
     pageId: pageId,
@@ -265,8 +267,8 @@ export function convertTaskPageFromDbResponse(
 
 /**
  * Extracts a list of assignees from a database response
- * @param response
- * @returns
+ * @param response A Notion user response.
+ * @returns A NotionUser object.
  */
 export function extractAssignees(
   response:

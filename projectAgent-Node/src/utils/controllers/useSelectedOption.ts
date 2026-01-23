@@ -11,46 +11,41 @@ type SelectionOption = {
 };
 
 /**
- * Integrated selected users into the assignee field
- * @param assignees:      assignees allready in task
- * @param selectedValues: what the user selected
- * @param userSelections: options the app user had to select from
+ * Integrates selected Notion users into the assignee field
+ * @param assignees:      The assignees already in the task
+ * @param selectedValues: The assignees the app user selected
  *
- * @returns               all assingees, both from task
+ * @returns               All assignees, both from the original task and those selected by the app user
  */
 export function integrateUserSelections(
   assignees: NotionUser[],
   selectedValues: SelectionOption[],
-  userSelections: NotionUser[],
 ) {
   const allAssignees: NotionUser[] = [...assignees];
   if (selectedValues.length < 1) {
     return [];
   }
 
-  for (const indexHolder of selectedValues) {
-    console.log(parseInt(indexHolder["value"]));
-    const index = parseInt(indexHolder["value"]);
-    if (isNaN(index)) {
-      throw "(integrateUserSelections): index value is Not a Number";
-    }
-    allAssignees.push(userSelections[index]);
+  for (const selectedOption of selectedValues) {
+    console.log(parseInt(selectedOption["value"]));
+    const selectedUser:string = JSON.parse(selectedOption["value"]);
+    
+    allAssignees.push(selectedUser);
+
   }
   return allAssignees;
 }
 
 /**
- * Function to integrate selected projects into the existing task projects
- * @param projects:           Projects from task
- * @param selectedValues:     selected projects Values
- * @param projectSelections:  all project options the user had to select from
+ * Integrates selected projects into the existing task projects
+ * @param projects:           The projects from the task
+ * @param selectedValues:     The projects the app user selected
  *
- * @returns:                  projects from task plus projects the app user selected
+ * @returns:                  All projects, both from the original task and those selected by the app user
  */
 export function integrateSelectedProjects(
   projects: { id: string }[],
   selectedValues: SelectionOption[],
-  projectSelections: ProjectWithName[],
 ) {
   const allProjects: { id: string }[] = [...projects];
 
@@ -60,33 +55,28 @@ export function integrateSelectedProjects(
 
   for (const selectedOption of selectedValues) {
     console.log(parseInt(selectedOption["value"]));
-    const index = parseInt(selectedOption["value"].replace("Project_", ""));
-    if (isNaN(index)) {
-      throw "(integrateSelectedProjects): index value is Not a Number";
-    }
+    // Refactoring so that we use the project id directly
+    const projectId:string = selectedOption["value"].replace("Project_", "");
+    
     if (
-      allProjects.find((element) => projectSelections[index].id === element.id)
+      allProjects.find(
+        (element) => projectId === element.id,
+      )
     )
       continue;
-    allProjects.push({ id: projectSelections[index].id });
+    allProjects.push({ id: projectId });
   }
   return allProjects;
 }
 
-/**
- * Taskes what the user on slack selected and interates them into the task to be created
- * @param notionTask:       task add the user's selections
- * @param userSelectionsOptions:   options of assignees, the app user chose from
- * @param projectSelectionsOptions project option the user selected from
- * @param payload:          what slack sends that contains all we need to process the task including
- *    the above
+/** Takes the user's selections and integrates them into the task to be created.
+ * @param notionTask: The new task.
+ * @param payload: Data sent from Slack that contains all we need to process the task.
  *
- * @returns                 tasks with integrated user options
+ * @returns The task with the user's selections integrated.
  */
 export function integrateSelectedValues(
   notionTask: NotionTask,
-  userSelectionsOptions: NotionUser[],
-  projectSelectionsOptions: ProjectWithName[],
   payload: any,
 ) {
   const assignees = notionTask.assignees;
@@ -104,22 +94,30 @@ export function integrateSelectedValues(
   if (selectedValues.length === 0) {
     return notionTask;
   }
+  
+  const notionTaskWithIntegratedValues: NotionTask = {
+    taskTitle: notionTask.taskTitle,
+    assignees: [...notionTask.assignees],
+    assignedBy: [...notionTask.assignedBy],
+    description: notionTask.description,
+    dueDate: notionTask.dueDate,
+    startDate: notionTask.startDate,
+    project: [...(notionTask.project || [])]
+  }
 
   if (selectedValues[0].value.includes("Project_")) {
     const allProjects = integrateSelectedProjects(
       projects,
       selectedValues,
-      projectSelectionsOptions,
     );
 
-    notionTask.project = allProjects;
+    notionTaskWithIntegratedValues.project = allProjects;
   } else {
     const allAssignees = integrateUserSelections(
       assignees,
       selectedValues,
-      userSelectionsOptions,
     );
-    notionTask.assignees = [...notionTask.assignees, ...allAssignees];
+    notionTaskWithIntegratedValues.assignees = [...notionTask.assignees, ...allAssignees];
   }
   if (valueKeys.length > 1) {
     const selectedKey_01 = valueKeys[1];
@@ -132,10 +130,9 @@ export function integrateSelectedValues(
     const allProjects2 = integrateSelectedProjects(
       projects,
       selectedValues_01,
-      projectSelectionsOptions,
     );
 
-    notionTask.project = allProjects2;
+    notionTaskWithIntegratedValues.project = allProjects2;
   }
-  return notionTask;
+  return notionTaskWithIntegratedValues;
 }

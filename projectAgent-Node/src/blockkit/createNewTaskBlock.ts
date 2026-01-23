@@ -1,7 +1,7 @@
 import { NotionUser } from "../utils/controllers/userTypes";
 import { UserSearchResult } from "../utils/controllers/userTypes";
 import {
-  createNewTaskBlockWithSelections,
+  createNewTaskBlockWithUserAndOrProjectsSelections,
   createNewTaskBlockWithSelectionsForAmbiguousProjects,
   createTaskBlockWithoutSelections,
 } from "./createBlockPartsForNewTask";
@@ -14,7 +14,7 @@ import {
 
 /**
  * Creates a set of Slack blocks to be used in previewing and confirming a new task.
- * @param assignedBy:       user who is creating and assigning the task
+ * @param assignedBy:       The user who is creating and assigning the task
  * @param task:             The task to be previewed.
  * @param userSearchResult: A list of 0 or more Notion users who match the assignee of the task.
  *
@@ -29,7 +29,7 @@ export async function createNewTaskBlock(
   const identifiedUsers: NotionUser[] = [];
   const ambiguousUsers: NotionUser[] = [];
   const taskProjects = task.project || [];
-  const projects: ProjectWithName[] = task.existingProjects || [];
+  const allExistingProjects: ProjectWithName[] = task.existingProjects || [];
   const similarProjects = task.similarProjects || [];
 
   for (const user of userSearchResult) {
@@ -78,8 +78,8 @@ export async function createNewTaskBlock(
 
   if (similarProjects.length > 0) {
     return createNewTaskBlockWithSelectionsForAmbiguousProjects(
-      notionTaskWithProjectNames,
-      projects,
+      notionTask,
+      allExistingProjects,
       similarProjects,
       {
         identifiedUsers,
@@ -88,10 +88,9 @@ export async function createNewTaskBlock(
     );
   }
   if (ambiguousUsers.length > 0 || taskProjects.length === 0) {
-    return createNewTaskBlockWithSelections(
-      notionTaskWithProjectNames,
-      projects,
-      // similarProjects,
+    return createNewTaskBlockWithUserAndOrProjectsSelections(
+      notionTask,
+      allExistingProjects,
       {
         identifiedUsers,
         ambiguousUsers,
@@ -104,7 +103,7 @@ export async function createNewTaskBlock(
     let projectsArray: ProjectWithName[] = [];
 
     for (const projectInTaskProjectsArray of taskProjects) {
-      const found = projects.filter((queriedProject) => {
+      const found = allExistingProjects.filter((queriedProject) => {
         if (projectInTaskProjectsArray.id === queriedProject.id)
           return queriedProject;
       });

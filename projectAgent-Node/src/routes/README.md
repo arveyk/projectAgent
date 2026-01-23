@@ -3,6 +3,7 @@
 ## Event to handle
 
 ### Adding a Task
+// TODO update this super outdated readme
 
 - Slash command
   - check input format

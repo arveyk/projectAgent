@@ -28,7 +28,7 @@ const createAssigneeArray = async function (assignees: NotionUser[]) {
 };
 
 const createProjectArray = function (project: { id: string }[]) {
-  console.log(project);
+  console.log(`project: ${JSON.stringify(project)}`);
   return project;
 };
 
@@ -56,15 +56,12 @@ const createAssignedByArray = async function (
 };
 
 export const createTaskProperties = async function (taskObj: NotionTask) {
-  // export const setTaskProperties = function (taskObj: Task, assignedBy: {name: string, email: string}[]) {
-  const taskTitle = taskObj["taskTitle"];
-  const assignees = taskObj["assignees"];
-  const assignedBy = taskObj["assignedBy"];
-  const dueDate = taskObj["dueDate"];
-  const startDate = taskObj["startDate"]
-    ? taskObj["startDate"]
-    : new Date().toISOString();
-  const project = taskObj["project"] || " ";
+  const taskTitle = taskObj.taskTitle;
+  const assignees = taskObj.assignees;
+  const assignedBy = taskObj.assignedBy;
+  const dueDate = taskObj.dueDate;
+  const startDate = taskObj.startDate;
+  const project = taskObj.project || [];
 
   return {
     "Task name": {
@@ -74,22 +71,23 @@ export const createTaskProperties = async function (taskObj: NotionTask) {
       people: await createAssigneeArray(assignees),
     },
     Due: {
-      date: dueDate
+      date: typeof dueDate !== "undefined"
         ? {
-            start: dueDate.toString(),
+            start: dueDate,
           }
         : null,
     },
 
     Start: {
-      date: {
-        start: startDate.toString(),
-      },
+      date: typeof startDate !== "undefined"
+      ? {
+        start: startDate,
+      }
+      : null,
     },
 
-    // TODO implement getting Project id
     Project: {
-      relation: createProjectArray(project as { id: string }[]),
+      relation: createProjectArray(project),
     },
     "Assigned by": {
       people: await createAssignedByArray(assignedBy),

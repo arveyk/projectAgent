@@ -1,6 +1,6 @@
 import axios from "axios";
 import { createExistingTaskBlock } from "../blockkit/createExistingTaskBlock";
-import { parseTask } from "../utils/aiagent";
+import { parseTask } from "../utils/aiAgent";
 import {
   searchDatabase,
   getTaskProperties,
@@ -103,7 +103,7 @@ const slashCmdHandler: StreamifyHandler = async function (
           const updateBlock = await createExistingTaskBlock(existingTask);
           console.log("Update Block", JSON.stringify(updateBlock));
 
-          axios({
+          await axios({
             method: "post",
             url: reqBody["response_url"],
             data: {
@@ -129,7 +129,6 @@ const slashCmdHandler: StreamifyHandler = async function (
           JSON.stringify(parsedData),
         );
 
-        // TODO get assigned by
         const assignedBy = await findAssignedBy(parsedData.taskCreator);
         const slackBlocks = await createNewTaskBlock(
           assignedBy,
@@ -137,9 +136,9 @@ const slashCmdHandler: StreamifyHandler = async function (
           assigneeSearchResults,
         );
 
-        console.log("SlashCmdHandler taskBlockWithSelect", slackBlocks);
+        console.log("SlashCmdHandler taskBlockWithSelect", JSON.stringify(slackBlocks));
 
-        axios({
+        await axios({
           method: "post",
           url: reqBody["response_url"],
           data: slackBlocks,

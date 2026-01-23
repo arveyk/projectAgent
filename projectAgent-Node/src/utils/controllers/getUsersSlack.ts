@@ -119,8 +119,8 @@ export async function getSlackUserDataById(
     throw new Error("Timezone offset is not a number");
   }
   console.log(
-    "(getSlackUserById): User info:",
-    retrieveUserInfoResponse,
+    "(getSlackUserById): Response status:",
+    retrieveUserInfoResponse.status,
     "profile",
     userData.profile,
   );

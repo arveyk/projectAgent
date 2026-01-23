@@ -82,7 +82,7 @@ export function compareNames(
       slackUserName.toLowerCase().replace(".", " ").replace("@", "") ===
       notionUserName.toLowerCase().replace(".", " ").replace("@", "")
     ) {
-      console.log("Found Matching user, CompareNames Function", slackUserName);
+     // console.log(`Found Matching user, CompareNames Function, ${slackUserName}`);
       return true;
     } else {
       return false;
@@ -104,7 +104,7 @@ export function compareEmails(
 ): boolean {
   if (slackEmail !== undefined && notionEmail !== undefined) {
     if (slackEmail === notionEmail) {
-      console.log("Found Matching user, CompareEmails Function", slackEmail);
+      // console.log(`Found Matching user, CompareEmails Function, ${slackEmail}`);
       return true;
     } else {
       return false;
@@ -132,7 +132,7 @@ export function isPartialNameMatch(
         .replace("@", "")
         .includes(slackUserName.toLowerCase().replace("@", ""))
     ) {
-      console.log("Found Matching user", notionUserName);
+     // console.log(`Found Matching user, ${notionUserName}`);
       return true;
     } else if (
       slackUserName
@@ -140,7 +140,7 @@ export function isPartialNameMatch(
         .replace("@", "")
         .includes(notionUserName.toLowerCase().replace("@", ""))
     ) {
-      console.log("Found Matching user", notionUserName);
+      console.log(`Found Matching user, ${notionUserName}`);
       return true;
     } else {
       return false;
@@ -185,15 +185,14 @@ export function deduplicateUsers(
  */
 export async function findMatchingNotionUserByEmail(
   slackEmail: string,
-  email?: string,
 ): Promise<NotionUser[]> {
   const allNotionUsers: NotionUser[] = await getNotionUsers();
 
   let emailMatches: NotionUser[] = [];
-  if (email !== undefined) {
+  if (slackEmail !== undefined) {
     emailMatches = allNotionUsers.filter((user) => {
       if (user.email !== undefined) {
-        return compareEmails(email, user.email);
+        return compareEmails(slackEmail, user.email);
       } else {
         return false;
       }
@@ -212,15 +211,14 @@ export async function findMatchingNotionUserByEmail(
  */
 export async function findAssignedBy(identifiedAppUser: User) {
   const matchingNotionUser = await findMatchingNotionUserByEmail(
-    identifiedAppUser.name,
     identifiedAppUser.email,
   );
 
-  console.log(
-    `(findAssignedB  slackEmail: string,
-y), any found ${identifiedAppUser}, searched id: ${identifiedAppUser.userId}`,
-    JSON.stringify(matchingNotionUser),
-  );
+  // console.log(
+  //  `(findAssignedBy  slackEmail: string,
+// y), any found ${identifiedAppUser}, searched id: ${identifiedAppUser.userId}`,
+  //  JSON.stringify(matchingNotionUser),
+  // );
 
   return matchingNotionUser;
 }

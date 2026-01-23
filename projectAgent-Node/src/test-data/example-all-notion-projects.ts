@@ -1,8 +1,5 @@
 export const EXAMPLE_ALL_PROJECTS_IN_NOTIONDB = [
     {
-        "projectName": "Equinix Phase 0", "id": "242eef29-a653-80ce-ae09-c14aee2ad9ae"
-    },
-    {
         "projectName": "DONE: DCD London", "id": "247eef29-a653-802a-837b-feee19bdce64"
     },
     {
@@ -80,9 +77,6 @@ export const EXAMPLE_ALL_PROJECTS_IN_NOTIONDB = [
     },
     {
         "projectName": "LightRiver", "id": "26aeef29-a653-8050-a2ce-c7634bd663c3"
-    },
-    {
-        "projectName": "Equinix SOW 1", "id": "26eeef29-a653-8032-94c9-fc7af044fb58"
     },
     {
         "projectName": "PANW Telco DC Security", "id": "279eef29-a653-8062-8016-efa33429f8c2"

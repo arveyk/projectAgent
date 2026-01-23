@@ -17,7 +17,7 @@ type SelectionOption = {
  *
  * @returns               All assignees, both from the original task and those selected by the app user
  */
-export function integrateUserSelections(
+export function integrateSelectedUsers(
   assignees: NotionUser[],
   selectedValues: SelectionOption[],
 ) {
@@ -114,7 +114,7 @@ export function integrateSelectedValues(
 
     notionTaskWithIntegratedValues.project = allProjects;
   } else {
-    const allAssignees = integrateUserSelections(
+    const allAssignees = integrateSelectedUsers(
       assignees,
       selectedValues,
     );

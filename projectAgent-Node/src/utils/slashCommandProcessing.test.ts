@@ -27,11 +27,3 @@
 //     expect(result).toBeFalsy();
 //   });
 // });
-
-// describe("Tests isValidCmd with a command that is less than 5 words long", () => {
-//   it("Returns false", () => {
-//     const result = isValidCmd(payloadTooShort);
-
-//     expect(result).toBeFalsy();
-//   });
-// });

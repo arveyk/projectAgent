@@ -19,15 +19,11 @@ describe("Run payload Extraction and use values", () => {
     } = JSON.parse(payload["actions"][0].value || "{}");
 
     const taskPageObject = taskPageAndOptionsObject.taskPageObject;
-    const userSelection = taskPageAndOptionsObject.userOptions;
-    const projectOptions = taskPageAndOptionsObject.projectOptions;
     const projectsBeforeAddingSelectedOptions =
       taskPageObject.task.project || [];
 
     const task = integrateSelectedValues(
       taskPageObject.task,
-      userSelection,
-      projectOptions,
       payload,
     );
     const taskProjects = task.project || [];
@@ -50,13 +46,9 @@ describe("Run payload Extraction and use values", () => {
       } = JSON.parse(payload_02["actions"][0].value || "{}");
 
       const taskPageObject = taskPageAndOptionsObject.taskPageObject;
-      const userSelection = taskPageAndOptionsObject.userOptions;
-      const projects = taskPageAndOptionsObject.projectOptions;
 
       const task = integrateSelectedValues(
         taskPageObject.task,
-        userSelection,
-        projects,
         payload,
       );
       console.log(task);

@@ -1,4 +1,4 @@
-import { NotionTask, ProjectWithName } from "../taskFormatting/task";
+import { NotionTask } from "../taskFormatting/task";
 import { NotionUser } from "./userTypes";
 
 type SelectionOption = {
@@ -28,7 +28,7 @@ export function integrateUserSelections(
 
   for (const selectedOption of selectedValues) {
     console.log(parseInt(selectedOption["value"]));
-    const selectedUser:string = JSON.parse(selectedOption["value"]);
+    const selectedUser:NotionUser = JSON.parse(selectedOption["value"]);
     
     allAssignees.push(selectedUser);
 

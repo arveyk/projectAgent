@@ -1,6 +1,6 @@
-import { dbPage } from "../utils/database/simplifyDatabaseResults";
+import { TaskPage } from "../utils/database/simplifyTaskPages";
 
-export const SIMPLIFIED_DB_PAGES: dbPage[] = [
+export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
   {
     "pageId": "2bdeef29-a653-8000-8185-ff7539e44792",
     "taskTitle": "ARCHIVED Task overdue by 3 days (assigned by Harvey, assigned to Ceci)",

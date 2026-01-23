@@ -1,16 +1,16 @@
-import { simplifyDatabaseResults } from "./simplifyDatabaseResults";
+import { simplifyTaskPages } from "./simplifyTaskPages";
 import { EXAMPLE_TASK_RESPONSE_NO_TITLE } from "../../test-data/exampleTaskResponseNoTitle";
 
-describe("Tests simplifyDatabaseResults with a task with no name", () => {
+describe("Tests simplifyTaskPages with a task with no name", () => {
   it("Should run with no errors and put 'Untitled Task' as the title", () => {
-    const simplifiedTask = simplifyDatabaseResults(
+    const simplifiedTask = simplifyTaskPages(
       EXAMPLE_TASK_RESPONSE_NO_TITLE.results,
     )[0];
     expect(simplifiedTask.taskTitle).toMatch("Untitled Task");
   });
 });
 
-// import { dbPage, simplifyDatabaseResults } from "./simplifyDatabaseResults";
+// import { dbPage, simplifyTaskPages } from "./simplifyTaskPages";
 // import {
 //   exampleDbResult_1,
 //   exampleDbResult_2,
@@ -28,7 +28,7 @@ describe("Tests simplifyDatabaseResults with a task with no name", () => {
 //     ];
 //     const dbResults = exampleDbResult_1;
 
-//     const simplifiedResults = simplifyDatabaseResults(dbResults);
+//     const simplifiedResults = simplifyTaskPages(dbResults);
 //     console.log(JSON.stringify(simplifiedResults));
 //     expect(simplifiedResults).toMatchObject(tasks);
 //   });
@@ -55,7 +55,7 @@ describe("Tests simplifyDatabaseResults with a task with no name", () => {
 //     ];
 //     const dbResults = exampleDbResult_2;
 
-//     const simplifiedResults = simplifyDatabaseResults(dbResults);
+//     const simplifiedResults = simplifyTaskPages(dbResults);
 //     console.log(JSON.stringify(simplifiedResults));
 //     expect(simplifiedResults).toMatchObject(tasks);
 //   });
@@ -63,7 +63,7 @@ describe("Tests simplifyDatabaseResults with a task with no name", () => {
 
 // describe("Tests simplifyDBResults with the new database", () => {
 //   it("Returns the tasks correctly", () => {
-//     const simplifiedResults = simplifyDatabaseResults(exampleNewDb);
+//     const simplifiedResults = simplifyTaskPages(exampleNewDb);
 //     console.log(JSON.stringify(simplifiedResults));
 //   });
 // });

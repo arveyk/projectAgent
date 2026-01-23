@@ -1,4 +1,4 @@
-import { NotionTask, ProjectWithName } from "../taskFormatting/task";
+import { NotionTask } from "../taskFormatting/task";
 import { NotionUser } from "./userTypes";
 
 type SelectionOption = {
@@ -17,7 +17,7 @@ type SelectionOption = {
  *
  * @returns               All assignees, both from the original task and those selected by the app user
  */
-export function integrateUserSelections(
+export function integrateSelectedUsers(
   assignees: NotionUser[],
   selectedValues: SelectionOption[],
 ) {
@@ -28,7 +28,7 @@ export function integrateUserSelections(
 
   for (const selectedOption of selectedValues) {
     console.log(parseInt(selectedOption["value"]));
-    const selectedUser:string = JSON.parse(selectedOption["value"]);
+    const selectedUser:NotionUser = JSON.parse(selectedOption["value"]);
     
     allAssignees.push(selectedUser);
 
@@ -114,7 +114,7 @@ export function integrateSelectedValues(
 
     notionTaskWithIntegratedValues.project = allProjects;
   } else {
-    const allAssignees = integrateUserSelections(
+    const allAssignees = integrateSelectedUsers(
       assignees,
       selectedValues,
     );

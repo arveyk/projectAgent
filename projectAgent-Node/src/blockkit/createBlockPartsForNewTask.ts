@@ -1,4 +1,4 @@
-import { formatSlackDate } from "../utils/timeHandling/dateHandler";
+import { formatDateString } from "../utils/timeHandling/dateHandler";
 import { NotionUser } from "../utils/controllers/userTypes";
 import {
   FoundUsers,
@@ -143,13 +143,13 @@ export function createTaskInfo(
           type: "mrkdwn",
           text: `*Due Date:*\n${
             notionTask.dueDate
-              ? formatSlackDate(new Date(notionTask.dueDate))
+              ? formatDateString(notionTask.dueDate)
               : ""
           }`,
         },
         {
           type: "mrkdwn",
-          text: `*Start Date:*\n${notionTask.startDate !== new Date(NaN) && notionTask.startDate !== undefined ? formatSlackDate(new Date(notionTask.startDate)) : notionTask.startDate}`,
+          text: `*Start Date:*\n${notionTask.startDate !== undefined ? formatDateString(notionTask.startDate) : notionTask.startDate}`,
         },
       ],
     },
@@ -225,13 +225,13 @@ export function createTaskInfoWithoutSelections(
           type: "mrkdwn",
           text: `*Due Date:*\n${
             notionTask.dueDate
-              ? formatSlackDate(new Date(notionTask.dueDate))
+              ? formatDateString(notionTask.dueDate)
               : ""
           }`,
         },
         {
           type: "mrkdwn",
-          text: `*Start Date:*\n${notionTask.startDate !== new Date(NaN) && notionTask.startDate !== undefined ? formatSlackDate(new Date(notionTask.startDate)) : notionTask.startDate}`,
+          text: `*Start Date:*\n${notionTask.startDate !== undefined ? formatDateString(notionTask.startDate) : notionTask.startDate}`,
         },
       ],
     },

@@ -6,14 +6,13 @@ import {
 import { SLACK_BOT_TOKEN } from "../../env";
 import { BlockAction } from "@slack/bolt";
 import { createRedirectToNewPageBlock } from "../../blockkit/createRedirectToNewPageBlock";
-import { ProjectWithName, TaskPage } from "../../utils/taskFormatting/task";
+import { TaskPage } from "../../utils/taskFormatting/task";
 import { deletePage } from "../../utils/database/deleteDatabasePage";
 import { APIGatewayProxyEventV2, Context, StreamifyHandler } from "aws-lambda";
 import {
   extractRequestBody,
   extractPayload,
 } from "../../utils/slashCommandProcessing";
-import { NotionUser } from "../../utils/controllers/userTypes";
 import { integrateSelectedValues } from "../../utils/controllers/useSelectedOption";
 
 /**

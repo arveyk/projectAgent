@@ -3,7 +3,7 @@ import { dirname } from "path";
 import { Client } from "@notionhq/client";
 import { NOTION_API_KEY } from "../env";
 import { NOTION_TASKS_DATA_SOURCE_ID } from "../env";
-import { simplifyDatabaseResults } from "../utils/database/simplifyDatabaseResults";
+import { simplifyTaskPages } from "../utils/database/simplifyTaskPages";
 import { getProjects, getProjectsRaw } from "../utils/database/searchDatabase";
 
 /**
@@ -22,7 +22,7 @@ async function getTestData() {
   });
   await saveJson(rawPages, "log/testData/responses/example-rawPages.json");
 
-  const simplifiedPages = simplifyDatabaseResults(rawPages.results);
+  const simplifiedPages = simplifyTaskPages(rawPages.results);
   await saveJson(
     simplifiedPages,
     "log/testData/responses/example-simplifiedPages.json",

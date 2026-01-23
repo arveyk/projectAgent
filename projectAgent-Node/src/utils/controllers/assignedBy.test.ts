@@ -13,6 +13,7 @@ describe("Test getting assigned by from Notion using slack Id", () => {
             const user0sIdentityInNotion = await findAssignedBy(usersIdentityInSlack);
             console.log("User's Identity in Notion", user0sIdentityInNotion);
 
+            expect(user0sIdentityInNotion.length).toBeGreaterThan(0);
             expect(user0sIdentityInNotion[0].email).toMatch(usersIdentityInSlack.email);
     }),
     it("Should match user if name in Slack and Notion are the same", async () => {
@@ -25,6 +26,7 @@ describe("Test getting assigned by from Notion using slack Id", () => {
             const user0sIdentityInNotion = await findAssignedBy(usersIdentityInSlack);
             console.log("User's Identity in Notion", user0sIdentityInNotion);
 
+            expect(user0sIdentityInNotion.length).toBeGreaterThan(0);
             expect(user0sIdentityInNotion[0].email).toMatch(usersIdentityInSlack.email);
     }),
     it("Should match user if name in Slack and Notion are the same", async () => {
@@ -37,6 +39,7 @@ describe("Test getting assigned by from Notion using slack Id", () => {
             const user0sIdentityInNotion = await findAssignedBy(usersIdentityInSlack);
             console.log("User's Identity in Notion", user0sIdentityInNotion);
 
+            expect(user0sIdentityInNotion.length).toBeGreaterThan(0);
             expect(user0sIdentityInNotion[0].email).toMatch(usersIdentityInSlack.email);
     }),
     it("Should match user if name in Slack and Notion are the same", async () => {
@@ -49,6 +52,7 @@ describe("Test getting assigned by from Notion using slack Id", () => {
             const user0sIdentityInNotion = await findAssignedBy(usersIdentityInSlack);
             console.log("User's Identity in Notion", user0sIdentityInNotion);
 
+            expect(user0sIdentityInNotion.length).toBeGreaterThan(0);
             expect(user0sIdentityInNotion[0].email).toMatch(usersIdentityInSlack.email);
     }),
     it("Should match user if name in Slack and Notion are the same", async () => {
@@ -60,7 +64,8 @@ describe("Test getting assigned by from Notion using slack Id", () => {
 
             const user0sIdentityInNotion = await findAssignedBy(usersIdentityInSlack);
             console.log("User's Identity in Notion", user0sIdentityInNotion);
-
+            
+            expect(user0sIdentityInNotion.length).toBeGreaterThan(0);
             expect(user0sIdentityInNotion[0].email).toMatch(usersIdentityInSlack.email);
     })
 })

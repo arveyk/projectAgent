@@ -77,10 +77,12 @@ const slashCmdHandler: StreamifyHandler = async function (
       const parsedData = await parseTask(reqBody, timestamp);
       logTimestampForBenchmarking("Done parsing task");
 
+      logTimestampForBenchmarking("Searching Notion for assignees");
       // Find Notion users
       const assigneeSearchResults = await findMatchingAssignees(
         parsedData.task,
       );
+      logTimestampForBenchmarking("Done searching Notion for assignees");
 
       if (!isInDatabase) {
         throw new Error("Error searching database");

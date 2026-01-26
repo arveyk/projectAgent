@@ -77,14 +77,16 @@ export const searchDatabase = async function (
     ${JSON.stringify(similarPages)}.
   `.trim();
 
+  logTimestampForBenchmarking("(Database) LLM start");
   const llmResult = await structuredLlm.invoke(prompt);
+  logTimestampForBenchmarking("(Database) LLM finished");
   console.log(`Raw LLM response: ${JSON.stringify(llmResult.raw)}`);
   const parsed = llmResult.parsed;
   const result: TaskSearchResult = {
     exists: parsed.exists,
     taskId: parsed.task_id !== "<UNKNOWN>" ? parsed.task_id : undefined,
   };
-  logTimestampForBenchmarking("(Database) LLM finished");
+  
   console.log(`result: ${JSON.stringify(result)}`);
 
   return result;

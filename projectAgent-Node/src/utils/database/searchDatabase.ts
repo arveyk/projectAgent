@@ -26,7 +26,6 @@ const notion = new Client({
   notionVersion: "2025-09-03",
 });
 
-logTimestampForBenchmarking("(Database) model initialization start");
 const model = new ChatAnthropic({
   model: ANTHROPIC_MODEL_VER,
   temperature: 0,
@@ -42,7 +41,6 @@ const databaseSearchResult = z.object({
     .optional()
     .describe("The ID of the task entry from the database"),
 });
-logTimestampForBenchmarking("(Database) model initialization finished");
 
 export type TaskSearchResult = {
   exists: boolean;
@@ -65,9 +63,9 @@ export const searchDatabase = async function (
   console.log(`Model name: ${model.modelName}`);
   console.log(`message (searchDB): ${JSON.stringify(message)}`);
 
-  logTimestampForBenchmarking("Querying database");
+  logTimestampForBenchmarking("Querying task database");
   const tasks = await getTasks();
-  logTimestampForBenchmarking("Done querying database");
+  logTimestampForBenchmarking("Done querying task database");
 
   console.log(`Database response: ${JSON.stringify(tasks)}`);
 

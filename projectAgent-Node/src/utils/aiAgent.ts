@@ -55,7 +55,6 @@ export const EXAMPLE_INPUT_PROJECTS: ProjectWithName[] = [
   { projectName: "Vanadium Carbon Composite", id: "dsdPO219083nd-siosau" },
 ];
 
-logTimestampForBenchmarking("(Parse) model initialization start");
 const model = new ChatAnthropic({
   model: ANTHROPIC_MODEL_VER,
   temperature: 0,
@@ -118,7 +117,6 @@ const structuredLlmSlashCmd: Runnable<
   method: "json_mode",
 });
 // Error here is caused by mismatched zod version
-logTimestampForBenchmarking("(Parse) model initialization finished");
 
 /**
  * Uses Anthropic to parse a task assignment from a Slack slash command
@@ -153,8 +151,6 @@ export const parseTask = async function (
   Input 1: ${EXAMPLE_MSG_00} Output: ${JSON.stringify(EXAMPLE_OUTPUT_FOR_PROMPT_00)},\
   Input 2: ${EXAMPLE_MSG_01}. Output 2: ${JSON.stringify(EXAMPLE_OUTPUT_FOR_PROMPT_01)}. Input 3 ${EXAMPLE_MSG_02}. Output 3 ${JSON.stringify(EXAMPLE_OUTPUT_FOR_PROMPT_02)}""" Here is the message: ${textToParse}`;
   console.log(`prompt: ${prompt}`);
-
-  logTimestampForBenchmarking("(Database) LLM start");
 
   logTimestampForBenchmarking("(Parse) LLM start");
   const taskParseResult = await structuredLlmSlashCmd.invoke(prompt);

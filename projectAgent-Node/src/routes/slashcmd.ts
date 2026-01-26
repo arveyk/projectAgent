@@ -42,7 +42,6 @@ const slashCmdHandler: StreamifyHandler = async function (
     responseStream,
     httpResponseMetadata,
   );
-  responseStream.write("Slash command activated\n");
   responseStream.end();
 
   console.log(

@@ -54,7 +54,7 @@ export function integrateSelectedProjects(
   }
 
   for (const selectedOption of selectedValues) {
-    console.log(parseInt(selectedOption["value"]));
+    console.log(selectedOption["value"]);
     // Refactoring so that we use the project id directly
     const projectId:string = selectedOption["value"].replace("Project_", "");
     

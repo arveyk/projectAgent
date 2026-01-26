@@ -4,18 +4,16 @@ import {
 } from "../../test-data/example-selections-payload";
 import { integrateSelectedValues } from "./useSelectedOption";
 import { TaskPage, ProjectWithName } from "../taskFormatting/task";
-import { NotionUser } from "./userTypes";
 
 const payload = EXAMPLE_USER_AND_PROJECT_SELECTED.payload;
 const payload_02 = JSON.parse(EXAMPLE_ONLY_PROJECT_SELECTED.payload);
+
 describe("Run payload Extraction and use values", () => {
-  (it("Should extract users's selections", () => {
+  (it("Should extract users's selections and integrate them into task", () => {
     // console.log(payload, payload_01);
 
     const taskPageAndOptionsObject: {
       taskPageObject: TaskPage;
-      userOptions: NotionUser[];
-      projectOptions: ProjectWithName[];
     } = JSON.parse(payload["actions"][0].value || "{}");
 
     const taskPageObject = taskPageAndOptionsObject.taskPageObject;
@@ -29,29 +27,29 @@ describe("Run payload Extraction and use values", () => {
     const taskProjects = task.project || [];
 
     console.log(task);
-    expect(task.assignees).not.toEqual(task.assignees);
+
+    expect(taskPageObject.task.assignees).not.toEqual(task.assignees);
     expect(task.project).toBeDefined();
 
-    expect(projectsBeforeAddingSelectedOptions).toBeLessThan(
+    expect(projectsBeforeAddingSelectedOptions.length).toBeLessThan(
       taskProjects.length,
     );
   }),
-    it("Should extract users's selections", () => {
+    it("Should extract users's selections, integrate assignees", () => {
       // console.log(payload, payload_01);
 
       const taskPageAndOptionsObject: {
         taskPageObject: TaskPage;
-        userOptions: NotionUser[];
-        projectOptions: ProjectWithName[];
       } = JSON.parse(payload_02["actions"][0].value || "{}");
 
       const taskPageObject = taskPageAndOptionsObject.taskPageObject;
 
       const task = integrateSelectedValues(
         taskPageObject.task,
-        payload,
+        payload_02,
       );
       console.log(task);
-      expect(task.assignees).toEqual(task.assignees);
+      expect(taskPageObject.task.assignees).toEqual(task.assignees);
+      expect(taskPageObject.task.project).toEqual(task.project);
     }));
 });

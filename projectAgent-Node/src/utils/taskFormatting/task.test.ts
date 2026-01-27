@@ -1,6 +1,5 @@
 import { convertTaskPageFromDbResponse } from "./task";
-import { exampleDbResultExistingTask } from "../test-data/db-results/exampleDbResults";
-import { pageObjectResponse } from "../test-data/db-results/pageResponse";
+import { pageObjectResponse } from "../../test-data/db-results/pageResponse";
 
 describe("tests convertTaskPageFromDbResponse", () => {
   it("", () => {

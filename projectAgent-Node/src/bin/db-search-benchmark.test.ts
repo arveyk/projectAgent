@@ -1,4 +1,4 @@
-import { searchDB } from "../utils/database/searchDb";
+import { searchDatabase } from "../utils/database/searchDatabase";
 
 const message1 = "add Ceci, please fix the date formatting error";
 const message2 =
@@ -8,18 +8,18 @@ const message3 =
 
 describe("Tests with message 1", () => {
   it("Logs timestamps", async () => {
-    const response = await searchDB(message1);
+    const response = await searchDatabase(message1);
   });
 });
 
 describe("Tests with message 2", () => {
   it("Logs timestamps", async () => {
-    const response = await searchDB(message2);
+    const response = await searchDatabase(message2);
   });
 });
 
 describe("Tests with message 3", () => {
   it("Logs timestamps", async () => {
-    const response = await searchDB(message3);
+    const response = await searchDatabase(message3);
   });
 });

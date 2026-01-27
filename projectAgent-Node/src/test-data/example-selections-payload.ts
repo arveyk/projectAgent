@@ -37,7 +37,7 @@ export const EXAMPLE_USER_AND_PROJECT_SELECTED = {
 									"type": "plain_text",
 									"text": "Harvey Kisiangani (harvey.kisiangani@solutional.com)", "emoji": true
 								},
-								"value": "1"
+								"value": "{\\\"userId: 1e0d872b-594c-81e5-be86-000260493812}"
 							}
 						]
 					}
@@ -50,7 +50,7 @@ export const EXAMPLE_USER_AND_PROJECT_SELECTED = {
 								"text": {
 									"type": "plain_text", "text": "*Project Assigned by Ceci*", "emoji": true
 								},
-								"value": "Project_1"
+								"value": "Project_cWjYlMtRpvakDg2fD3wU43KF"
 							}
 						]
 					}

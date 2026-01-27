@@ -1,3 +1,5 @@
+import { DateTime } from "luxon";
+
 export function validateDate(dateString: string): Date | "Invalid Date Value" {
   const year = new Date().getFullYear().toString();
   let dateArray;
@@ -34,16 +36,21 @@ export function formatDateString(dateString: string): string {
 
 /**
  * Validates that a due date is not in the past.
- * @param {*} dueDate The due date
+ * @param {*} dueDateString The due date
  * @returns true if the due date is not in the past, else returns false.
  */
-export const validateDueDate = function (dueDate: Date): boolean {
-  // new Date(taskInput["dueDate"])
+export const validateDueDate = function (dueDateString: string): boolean {
+  const dueDate = DateTime.fromISO(dueDateString).toJSDate();
+
   const today: Date = new Date();
-  //const today = DateTime.now().setZone("utc").toJSDate();
+  today.setHours(0);
+  today.setMinutes(0);
+  today.setSeconds(0);
+  today.setMilliseconds(0);
+
   console.log(
-    `(validateDueDate) Today: ${today} (${new Date(today).getTime()} millis) Due Date: ${dueDate} (${new Date(dueDate).getTime()} millis)`,
+    `(validateDueDate) Today: ${today} (${today.getTime()} millis) Due Date: ${dueDate} (${dueDate.getTime()} millis)`,
   );
 
-  return new Date(dueDate).getTime() >= new Date(today).getTime();
+  return dueDate >= today;
 };

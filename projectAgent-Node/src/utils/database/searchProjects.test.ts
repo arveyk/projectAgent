@@ -45,3 +45,12 @@ describe("simplifyProject", () => {
     ).toMatchObject(exampleProject);
   });
 });
+
+describe("Tests getTasksRaw with the new property filters", () => {
+  it("Should return a non-empty list of tasks", async () => {
+    const rawProjects = await getProjects();
+    expect(rawProjects.length).toBeGreaterThan(0);
+    console.log(rawProjects.length);
+    console.log(JSON.stringify(rawProjects[0]));
+  })
+})

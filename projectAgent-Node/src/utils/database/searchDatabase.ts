@@ -171,6 +171,7 @@ export function filterSimilar(pages: TaskPage[], message: string): TaskPage[] {
 export async function getProjects() {
   logTimestampForBenchmarking("Querying Projects");
   const projectsList = await getProjectsRaw();
+  logTimestampForBenchmarking("Done querying Projects");
 
   let simplifiedProjects = projectsList
     .filter(project => isFullPage(project))
@@ -178,7 +179,6 @@ export async function getProjects() {
     .map(simplifyProject)
     .filter(project => project !== undefined)
 
-  logTimestampForBenchmarking("Done querying Projects");
   // console.log(JSON.stringify(projectsQueryResponse));
   return simplifiedProjects;
 }

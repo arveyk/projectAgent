@@ -1,0 +1,85 @@
+{
+    "0": {
+        "event": {
+            "version": "2.0",
+            "routeKey": "$default",
+            "rawPath": "/",
+            "rawQueryString": "",
+            "headers": {
+                "content-length": "475",
+                "x-amzn-tls-version": "TLSv1.3",
+                "x-forwarded-proto": "https",
+                "x-forwarded-port": "443",
+                "x-forwarded-for": "18.208.252.128",
+                "accept": "application/json,*/*",
+                "x-amzn-tls-cipher-suite": "TLS_AES_128_GCM_SHA256",
+                "x-amzn-trace-id": "Root=1-691cb2f4-295461566ba27bbd3bfa7fb2",
+                "host": "ffibu7pr5dl76qgxqwf6p4yk7y0hvnoy.lambda-url.us-west-2.on.aws",
+                "content-type": "application/x-www-form-urlencoded",
+                "x-slack-request-timestamp": "1763488499",
+                "x-slack-signature": "v0=29a94533ba3b3aff4134534c7e005f819b03f7842c9350080853dd33ed2ab6b5",
+                "accept-encoding": "gzip,deflate",
+                "user-agent": "Slackbot 1.0 (+https://api.slack.com/robots)"
+            },
+            "requestContext": {
+                "accountId": "anonymous",
+                "apiId": "ffibu7pr5dl76qgxqwf6p4yk7y0hvnoy",
+                "domainName": "ffibu7pr5dl76qgxqwf6p4yk7y0hvnoy.lambda-url.us-west-2.on.aws",
+                "domainPrefix": "ffibu7pr5dl76qgxqwf6p4yk7y0hvnoy",
+                "http": {
+                    "method": "POST",
+                    "path": "/",
+                    "protocol": "HTTP/1.1",
+                    "sourceIp": "18.208.252.128",
+                    "userAgent": "Slackbot 1.0 (+https://api.slack.com/robots)"
+                },
+                "requestId": "62ecd065-0724-415a-89ff-6f9e82129946",
+                "routeKey": "$default",
+                "stage": "$default",
+                "time": "18/Nov/2025:17:55:00 +0000",
+                "timeEpoch": "1763488500110"
+            },
+            "body": "dG9rZW49Y2hOcFF3NEZrbnpPRlZZZ3BkVnF0d3BlJnRlYW1faWQ9VDA4VkFESEgxN1MmdGVhbV9kb21haW49c29sdXRpb25hbHByby0xYzYxNDEzJmNoYW5uZWxfaWQ9QzA4VkFESjdTRUwmY2hhbm5lbF9uYW1lPWFsbC1zb2x1dGlvbmFsLXByb2plY3QtYWdlbnQmdXNlcl9pZD1VMDhWQURITkcwRyZ1c2VyX25hbWU9Y3JrdXJkZWxhayZjb21tYW5kPSUyRnRpbWVseS1sYW1iZGEmdGV4dD1hZGQrSGVsbG8rd29ybGQrJTNBMyZhcGlfYXBwX2lkPUEwOVJXSEVHVENQJmlzX2VudGVycHJpc2VfaW5zdGFsbD1mYWxzZSZyZXNwb25zZV91cmw9aHR0cHMlM0ElMkYlMkZob29rcy5zbGFjay5jb20lMkZjb21tYW5kcyUyRlQwOFZBREhIMTdTJTJGOTk0MTc5NTMzNjE1MCUyRkpKV1cxVUI1UVh5M016SkRNV2M5eFdaTSZ0cmlnZ2VyX2lkPTk5NDAzOTM1OTE4MTMuODk5NjQ1OTU3OTI2NC42YzYyMzgzNTBlNTI2YmQ0Mzc3OTg1NDBmYzBiYWE1OA==",
+            "isBase64Encoded": true
+        },
+        "context": {
+            "callbackWaitsForEmptyEventLoop": [
+                "Getter/Setter"
+            ],
+            "succeed": [
+                "Function (anonymous)"
+            ],
+            "fail": [
+                "Function (anonymous)"
+            ],
+            "done": [
+                "Function (anonymous)"
+            ],
+            "functionVersion": "$LATEST",
+            "functionName": "TimelyBot",
+            "memoryLimitInMB": "128",
+            "logGroupName": "/aws/lambda/TimelyBot",
+            "logStreamName": "2025/11/18/[$LATEST]bc2127f9155e45829d8280d9cf79391d",
+            "clientContext": "undefined",
+            "identity": "undefined",
+            "invokedFunctionArn": "arn:aws:lambda:us-west-2:297095269574:function:TimelyBot",
+            "awsRequestId": "62ecd065-0724-415a-89ff-6f9e82129946",
+            "tenantId": "undefined",
+            "getRemainingTimeInMillis": [
+                "Function: getRemainingTimeInMillis"
+            ]
+        },
+        "resolutionMode": "PROMISE",
+        "eventSourceName": "AWS_API_GATEWAY_V2",
+        "binarySettings": {
+            "contentTypes": [
+                "Array"
+            ],
+            "contentEncodings": [
+                "Array"
+            ]
+        },
+        "respondWithErrors": true
+    },
+    "message": "SERVERLESS_EXPRESS:PROXY"
+}

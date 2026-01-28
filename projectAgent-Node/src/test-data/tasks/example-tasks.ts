@@ -1,9 +1,19 @@
 import { DateTime } from "luxon";
-import { Task, NotionTask } from "../../utils/task";
+import { Task, NotionTask } from "../../utils/taskFormatting/task";
 
 export const task: Task = {
   taskTitle: "Schedule meeting with customer",
   assignees: [{"name":"Jacob"}],
+  dueDate: new Date("2025-05-11"),
+  startDate: new Date("2025-01-11"),
+  description:
+    "Schedule a meeting with the customer. Check the sender's Calendly for available times.",
+};
+
+export const notionTask: NotionTask = {
+  taskTitle: "Schedule meeting with customer",
+  assignees: [{"name":"Jacob", "userId": "IUwuhd-98732-gdkxn-e932-jwoiw"}],
+  assignedBy: [{"name":"Jacob", "userId": "IUwuhd-98732-gdkxn-e932-jwoiw"}],
   dueDate: new Date("2025-05-11"),
   startDate: new Date("2025-01-11"),
   description:
@@ -73,7 +83,7 @@ export const taskInferDates: Task = {
 
 export const taskHarvey: Task = {
   taskTitle: "Send photos for LinkedIn shout out",
-  assignees: [], //[{name:"Harvey"}],
+  assignees: [{name:"Harvey"}],
   dueDate: new Date("2025-08-06"),
   startDate: new Date("2025-08-05"),
   description:

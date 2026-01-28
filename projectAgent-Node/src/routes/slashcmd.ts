@@ -1,100 +1,86 @@
 import axios from "axios";
-import { Request, Response, NextFunction } from "express";
-import { createBlockNewTask } from "../blockkit/createBlocks";
-import { createUpdateBlock } from "../blockkit/updateBlock";
-import { parseTask } from "../utils/aiagent";
-import { searchDB, getTaskProperties } from "../utils/db-search";
-import { sendLoadingMsg } from "../blockkit/loadingMsg";
-import { findMatchingAssignees } from "../utils/controllers/userCreds";
-import { createMultiSelectionsBlock, createSelectionBlock } from "../blockkit/create_select";
-import { logTime } from "../utils/logTime";
-// import { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints";
+import { createExistingTaskBlock } from "../blockkit/createExistingTaskBlock";
+import { parseTask } from "../utils/aiAgent";
+import {
+  searchDatabase,
+  getTaskProperties,
+} from "../utils/database/searchDatabase";
+import { sendLoadingMessage } from "../blockkit/loadingMessage";
+import {
+  findAssignedBy,
+  findMatchingAssignees,
+} from "../utils/controllers/findMatchingNotionUsers";
+import { logTimestampForBenchmarking } from "../utils/logTimestampForBenchmarking";
 import { SlashCommand } from "@slack/bolt";
 import {
   convertTaskPageFromDbResponse,
-  NotionTask,
   TaskPage,
-} from "../utils/task";
+} from "../utils/taskFormatting/task";
 import { GetPageResponse } from "@notionhq/client";
+import { APIGatewayProxyEventV2, Context, StreamifyHandler } from "aws-lambda";
+import {
+  isValidCommand,
+  extractRequestBody,
+} from "../utils/slashCommandProcessing";
+import { createNewTaskBlock } from "../blockkit/createNewTaskBlock";
 
-// webhook for taskmanagement channel only
-const webhookURL = process.env.TASK_MANAGEMENT_WEBHOOK_URL;
-const webhookURL0 = "https:slack.com/api/chat.postEphimeral";
-console.log(webhookURL0);
+const slashCmdHandler: StreamifyHandler = async function (
+  event: APIGatewayProxyEventV2,
+  responseStream: awslambda.HttpResponseStream,
+  context: Context,
+) {
+  console.log("We are now in the slashcmd handler");
+  logTimestampForBenchmarking("Execution start");
+  const httpResponseMetadata = {
+    statusCode: 200,
+    headers: {
+      "Content-Type": "text/plain",
+    },
+  };
 
-const slashCmdHandler = async function (
-  request: Request,
-  response: Response,
-  next: NextFunction,
-): Promise<void> {
-  logTime("Execution start");
-  // Send OK
-  response.status(200).send();
+  responseStream = awslambda.HttpResponseStream.from(
+    responseStream,
+    httpResponseMetadata,
+  );
+  responseStream.end();
+
+  console.log(
+    `Event: ${JSON.stringify(event)}\nContext: ${JSON.stringify(context)}`,
+  );
 
   try {
-    const reqBody = request.body as SlashCommand;
+    const reqBody = extractRequestBody(event) as SlashCommand;
     console.log(`slashCmdHandler here. Any tasks for me?
 	  Request Body: ${JSON.stringify(reqBody)}`);
-    console.log(`headers: ${JSON.stringify(request.headers)}`);
-    // const command = request.body["command"];
+    console.log(`headers: ${JSON.stringify(event.headers)}`);
 
-    const validate = isValidCmd(reqBody);
-    if (validate.isValid) {
+    const commandValidationResult = isValidCommand(reqBody);
+    if (commandValidationResult.isValid) {
       const response_url = reqBody["response_url"];
 
       // Search database
-      await sendLoadingMsg("Searching Database", response_url);
-
-      //logTime("Searching database");
-      const isInDatabase = await searchDB(reqBody.text);
-      //logTime("Done searching database");
+      await sendLoadingMessage(
+        "Searching Database",
+        response_url,
+        reqBody.text,
+      );
+      logTimestampForBenchmarking("Searching database");
+      const isInDatabase = await searchDatabase(reqBody.text);
+      logTimestampForBenchmarking("Done searching database");
 
       console.log("IS in database?", JSON.stringify(isInDatabase));
 
-      await sendLoadingMsg("Parsing Task", response_url);
+      await sendLoadingMessage("Parsing Task", response_url);
       const timestamp: number = Date.now();
 
-      // logTime("Parsing task");
-      const task = await parseTask(reqBody, timestamp);
-      // logTime("Done parsing task");
+      logTimestampForBenchmarking("Parsing task");
+      const parsedData = await parseTask(reqBody, timestamp);
+      logTimestampForBenchmarking("Done parsing task");
 
       // Find Notion users
-      const assigneeSearchResults = await findMatchingAssignees(task);
-
-      // TODO get assigned by
-      // TODO show the user the list of potential assignees found in Notion and have them choose one
-
-      // implementing the dropdowns
-      console.log("(slashCmdHandler) - assigneeSearchResult and Task", JSON.stringify(assigneeSearchResults), JSON.stringify(task));
-      const notionTask: NotionTask = {
-        taskTitle: task.taskTitle,
-        // As a placeholder, just pick the first result
-
-        assignees: task.assignees.map(
-          (assignee) =>
-            assigneeSearchResults
-              .filter((result) => result.person === assignee)
-              .map((result) => result.foundUsers[0])[0],
-        ),
-        // As a placeholder, make this the same as assignees
-        assignedBy: task.assignees.map(
-          (assignee) =>
-            assigneeSearchResults
-              .filter((result) => result.person === assignee)
-              .map((result) => result.foundUsers[0])[0],
-        ),
-        dueDate: task.dueDate,
-        startDate: task.startDate,
-        description: task.description,
-        project: task.project,
-      };
-      
-      /**
-       * remove null in assignees and AsssignedBy Arrays
-       */
-
-      notionTask.assignees = notionTask.assignees.filter((assignee) => assignee)
-      notionTask.assignedBy = notionTask.assignedBy.filter((assignedBy) => assignedBy)
+      const assigneeSearchResults = await findMatchingAssignees(
+        parsedData.task,
+      );
 
       if (!isInDatabase) {
         throw new Error("Error searching database");
@@ -113,12 +99,10 @@ const slashCmdHandler = async function (
           console.log(
             `(slashCmdHandler) existingTask: ${JSON.stringify(existingTask)}`,
           );
-          // existingTask.startDate = new Date(existingTask.startDate)
-
-          const updateBlock = createUpdateBlock(existingTask);
+          const updateBlock = await createExistingTaskBlock(existingTask);
           console.log("Update Block", JSON.stringify(updateBlock));
 
-          axios({
+          await axios({
             method: "post",
             url: reqBody["response_url"],
             data: {
@@ -140,60 +124,23 @@ const slashCmdHandler = async function (
         }
       } else {
         console.log(
-          "Task to be passed to createBlockNewTask",
-          JSON.stringify(notionTask),
+          "Task to be passed to createNewTaskBlock",
+          JSON.stringify(parsedData),
         );
 
-        // Select block
+        const assignedBy = await findAssignedBy(parsedData.taskCreator);
+        const slackBlocks = await createNewTaskBlock(
+          assignedBy,
+          parsedData.task,
+          assigneeSearchResults,
+        );
 
-        let taskBlockWithSelect;
-        let selections2
-        if (task.assignees.length !== 1 || task.assignees[0] === null) {
-          console.log("Assignees not present, creating selection");
+        console.log("SlashCmdHandler taskBlockWithSelect", JSON.stringify(slackBlocks));
 
-          // TODO Replace with search results of matching Notion users;
-          const selectionBlock = createSelectionBlock(notionTask, "Major project", [
-            { name: "Phil", email: "philippians2@gmail.com", userId: "" },
-            { name: "James", email: "james1:5bond@agent", userId: "" },
-            { name: "You", email: "youandi@yahoo.com", userId: "" },
-            { name: "metoo", email: "meornottome@outlook.com", userId: "" },
-            { name: "Abyyy", email: "", userId: "" }
-          ]);
-
-          //const selectBlock3 = createSelectionBlock(notionTask, "Project(s)", assigneeSearchResults)
-          const selections = createMultiSelectionsBlock(notionTask
-            , ["No Project"], [{name: "Phil", email: "philsemail.com", userId: "323nus7fb2"}, 
-              {name: "James", email: "jamesemail@google.com", userId: "emviorub29384"},
-              {name: "Abyyy", email: "abbysemail@yahoo.com", userId: "aslcuq78gf2837fg3"}]);
-          taskBlockWithSelect = {
-            text: "Creating a new Task?",
-            replace_original: true,
-            blocks: selections.blocks
-          }
-          selections2 = {
-            text: "Creating a new Task?",
-            replace_original: true,
-            blocks: selectionBlock.blocks
-          }
-        }
-        console.log("SlashCmdHandler taskBlockWithSelect", selections2);
-
-
-        const taskBlock = createBlockNewTask({
-          task: notionTask,
-          url: "",
-          pageId: "",
-        } as TaskPage);
-        taskBlock.blocks[0].text
-          ? (taskBlock.blocks[0].text.text += JSON.stringify(
-            assigneeSearchResults || " User not in Channel",
-          ))
-          : console.log("First Text undefined");
-
-        axios({
+        await axios({
           method: "post",
           url: reqBody["response_url"],
-          data: selections2 ? selections2 : taskBlock,
+          data: slackBlocks,
           family: 4,
         }).then((resp) => {
           console.log("OK from slack", resp["status"]);
@@ -204,7 +151,7 @@ const slashCmdHandler = async function (
         method: "post",
         url: reqBody["response_url"],
         data: {
-          text: "Format: add ['Task Details']",
+          text: "Format: ['Task Details']",
         },
         family: 4,
       }).then((resp) => {
@@ -217,33 +164,9 @@ const slashCmdHandler = async function (
   } catch (err: Error | any) {
     console.log("slashCmdHandler Error", String(err));
     return err;
-  }
-  finally {
-    logTime("Execution finished");
+  } finally {
+    logTimestampForBenchmarking("Execution finished");
   }
 };
-
-/**
- * Parses a slash command and determines if it is a valid command.
- * @param {*} reqBody Request from Slack containing a slash command
- * @returns true if the slash command is valid, else returns false.
- */
-export function isValidCmd(reqBody: Request["body"]): {
-  isValid: boolean;
-  action?: string;
-} {
-  const commandParams = reqBody["text"].trim().split(" ");
-  let firstArg = commandParams[0];
-  let otherArgs = commandParams.slice(1, -1).join(" ");
-  const isValidCmd = {
-    isValid: false,
-    action: "",
-  };
-
-  isValidCmd.isValid =
-    (firstArg.toLowerCase() === "add" || "update") && otherArgs.length >= 5;
-  firstArg === "add" ? (isValidCmd.action = "add") : "update";
-  return isValidCmd;
-}
 
 export default slashCmdHandler;

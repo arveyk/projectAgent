@@ -1,19 +1,20 @@
 import axios from "axios";
-import { Request, Response, NextFunction } from "express";
-import { createFinalBlock } from "../../blockkit/createBlocks";
-import addTaskNotionPage, { PageAddResult } from "../../utils/notiondb";
-import { sendLoadingMsg } from "../../blockkit/loadingMsg";
-import { SLACK_BOT_TOKEN } from "../../env";
-import { BlockAction, ButtonAction } from "@slack/bolt";
-import { CreatePageResponse, UpdatePageResponse } from "@notionhq/client";
-import { redirectToNotionBlock } from "../../blockkit/edit_in_notion_button";
 import {
-  convertTaskPageFromButtonPayload,
-  Task,
-  TaskPage,
-} from "../../utils/task";
-import { deletePage } from "../../utils/db-deletepage";
-import { updateDbPage } from "../../utils/db-update";
+  addTaskNotionPage,
+  PageAddResult,
+} from "../../utils/database/addNewTaskToDatabase";
+import { SLACK_BOT_TOKEN } from "../../env";
+import { BlockAction } from "@slack/bolt";
+import { createRedirectToNewPageBlock } from "../../blockkit/createRedirectToNewPageBlock";
+import { TaskPage } from "../../utils/taskFormatting/task";
+import { deletePage } from "../../utils/database/deleteDatabasePage";
+import { APIGatewayProxyEventV2, Context, StreamifyHandler } from "aws-lambda";
+import {
+  extractRequestBody,
+  extractPayload,
+} from "../../utils/slashCommandProcessing";
+import { integrateSelectedValues } from "../../utils/controllers/useSelectedOption";
+
 /**
  * interactionHandler - Response to user interactions with blocks when a button
  * 		     is pressed
@@ -21,18 +22,30 @@ import { updateDbPage } from "../../utils/db-update";
  * @request - request from slack
  * @response - response that the function sends
  * @next - function to pass control to other functions that router uses
- *
- * @return - No return value
  */
-
-export default function interactionHandler(
-  request: Request,
-  response: Response,
-  next: NextFunction,
+const interactionHandler: StreamifyHandler = async function (
+  event: APIGatewayProxyEventV2,
+  responseStream: awslambda.HttpResponseStream,
+  context: Context,
 ) {
-  const payload = JSON.parse(request.body.payload);
-  console.log(`Body: ${JSON.stringify(request.body)}`);
-  console.log(`Body.payload${JSON.stringify(request.body.payload)}`);
+  const httpResponseMetadata = {
+    statusCode: 200,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  responseStream = awslambda.HttpResponseStream.from(
+    responseStream,
+    httpResponseMetadata,
+  );
+  responseStream.write("Button clicked\n");
+  responseStream.end();
+
+  const reqBody = extractRequestBody(event);
+  const payload = extractPayload(reqBody);
+  console.log(`Body: ${JSON.stringify(reqBody)}`);
+  console.log(`Body.payload${JSON.stringify(payload)}`);
   console.log("TRIGGER_ID", payload["trigger_id"]);
   console.log(`RESPONSE URL ${payload["response_url"]}`);
   console.log(`ACTIONS: ${JSON.stringify(payload["actions"])}`);
@@ -44,34 +57,45 @@ export default function interactionHandler(
     `TRIGGER_ID VARIABLE ${trigger_id}: RESPONSE_URL ${response_url} MESSAGE ${JSON.stringify(message)}`,
   );
 
-  const action_id = payload["actions"][0]["action_id"];
+  const action_id: string = payload["actions"][0]["action_id"];
   let action_text = "";
 
   if (typeof payload["actions"][0]["selected_option"] !== "undefined") {
-    console.log("Changed, No longer Handling these Blocks");
+    console.log("Changed, No longer handling these Blocks");
   } else {
     action_text = payload["actions"][0]["text"]["text"];
     console.log("action_text in else block", action_text);
 
     if (action_text === "Confirm" || action_text === "Add Task") {
-      // validate Date
-      // sendEdit(payload, response_url, undefined);
+      const taskPageAndOptionsObject: {
+        taskPageObject: TaskPage;
+      } = JSON.parse(payload["actions"][0].value || "{}");
+      console.log(payload["actions"][0].value);
+      console.log(JSON.stringify(taskPageAndOptionsObject));
 
-      const taskPageObj: TaskPage = JSON.parse(
-        payload["actions"][0].value || "{}",
-      );
+      const taskPageObj: TaskPage =
+        taskPageAndOptionsObject.taskPageObject as TaskPage;
+
+      if (action_id === "SelectionActionId-2") {
+        console.log("Utilize users input");
+
+        // task with integrated selected assignee and project values from slack interaction
+        const taskWithIntegratedValues = integrateSelectedValues(
+          taskPageAndOptionsObject.taskPageObject.task,
+          payload,
+        );
+
+        taskPageObj.task.project = taskWithIntegratedValues.project;
+        taskPageObj.task.assignees = taskWithIntegratedValues.assignees;
+      }
       console.log("Edit in Notion, Response Url", response_url);
-      // let action = "updated";
-      // if (!taskPageObj.url) {
-      //   action = "Created";
-      // }
-      (async () => {
+      await (async () => {
         try {
-          // await sendLoadingMsg("Adding Task", response_url);
-          console.log(`(sendApprove) taskDetailsObj.task: ${taskPageObj.task}`);
+          console.log(
+            `(sendApprove) taskPageObj: ${JSON.stringify(taskPageObj)}, taskPageObj.task: ${taskPageObj.task}`,
+          );
           const taskAddResult = await addTaskNotionPage(taskPageObj.task);
 
-          // const emoji = "white_check_mark";
           console.log(`Page added successfully? ${taskAddResult.success}`);
 
           const newTaskPage = taskAddResult.page;
@@ -79,12 +103,14 @@ export default function interactionHandler(
             taskPageObj.pageId = newTaskPage.id;
             taskPageObj.url = "url" in newTaskPage ? newTaskPage.url : "";
 
-            const editInNotionBlocks = redirectToNotionBlock(taskPageObj.url);
+            const editInNotionBlocks = createRedirectToNewPageBlock(
+              taskPageObj.url,
+            );
             console.log(
               "editInNotionBlocks",
               JSON.stringify(editInNotionBlocks),
             );
-            const replaceBlockRes = axios({
+            await axios({
               method: "post",
               url: response_url,
               data: {
@@ -130,7 +156,7 @@ export default function interactionHandler(
         action = "*Done: Task Updated*";
       }
 
-      const replaceBlockRes = axios({
+      await axios({
         method: "post",
         url: response_url,
         data: {
@@ -161,15 +187,14 @@ export default function interactionHandler(
             err,
           );
         });
-
-      // sendApprove(payload, response_url);
     } else if (action_text === "Delete") {
-      (async () => {
+      await (async () => {
         const pageUrl = payload.actions[0].value;
         const deletionResult = await deletePage(pageUrl);
         console.log(deletionResult);
+
         // TODO return message indicating success or failure
-        sendReject(
+        await sendReject(
           payload,
           action_text,
           response_url,
@@ -181,9 +206,9 @@ export default function interactionHandler(
       if (action_id === "cancelUpdateId-02") {
         cancelMessage = ":x: Task not Updated";
       }
-      sendReject(payload, action_text, response_url, cancelMessage);
+      await sendReject(payload, action_text, response_url, cancelMessage);
     } else {
-      sendReject(
+      await sendReject(
         payload,
         action_text,
         response_url,
@@ -191,10 +216,9 @@ export default function interactionHandler(
       );
     }
   }
-  next();
-}
+};
 
-function sendReject(
+async function sendReject(
   payload: BlockAction,
   action_text: string,
   response_url: string,
@@ -203,7 +227,7 @@ function sendReject(
   console.log(
     `Text in button ${"value" in payload.actions[0] ? payload.actions[0]["value"] : "No value"}, Action_Text${action_text}`,
   );
-  const replaceBlockRes = axios({
+  await axios({
     method: "post",
     url: response_url,
     data: {
@@ -242,41 +266,9 @@ function sendEdit(
     const interactionsTextPayload = payload["actions"][0].value;
     const taskDetailsObj = JSON.parse(interactionsTextPayload || "{}");
     console.log(`taskDetailsObj: ${JSON.stringify(taskDetailsObj)}`);
-    // TODO create the task and redirect user to task page so they can edit task there
   }
 }
 
-/**
- * when user submits block with edited task details for creating/updating a task
- * @param payload
- * @param response_url
- *
-function addTaskandTellUser(payload: BlockAction, response_url: string) {
-  if (payload["actions"][0].type === "button") {
-    const taskPageObj: TaskPage = JSON.parse(
-      payload["actions"][0].value || "{}",
-    );
-    const taskDetailsObj: Task = taskPageObj.task;
-    const block = redirectToNotionBlock(taskPageObj.url || "");
-
-    axios({
-      method: "post",
-      url: response_url,
-      data: block,
-      headers: {
-        Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
-        "Content-Type": "application/json; charset=UTF-8",
-      },
-      family: 4,
-    })
-      .then((Response) => {
-        console.log("Final Block Submission", Response);
-      })
-      .catch((err) => {
-        console.log("AXIOS ERROR in sendSubmit", err);
-      });
-  }
-} */
 function sendError(
   createRowResult: PageAddResult,
   payload: BlockAction,
@@ -302,7 +294,7 @@ function sendError(
               type: "section",
               text: {
                 type: "mrkdwn",
-                text: `:${errEmoji}: *Unable to ${errMessage} Entry*: ${createRowResult.errorMsg}, `,
+                text: `:${errEmoji}: *Unable to ${errMessage} Entry*: ${createRowResult.errorMsg}`,
               },
             },
           ],
@@ -335,3 +327,5 @@ function sendError(
     }
   }
 }
+
+export { interactionHandler };

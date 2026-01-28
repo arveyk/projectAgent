@@ -1,5 +1,4 @@
 import { NotionUser } from "./userTypes.js";
-import { ListUsersResponse } from "@notionhq/client/build/src/api-endpoints.js";
 import { NOTION_API_KEY } from "../../env";
 import { Client } from "@notionhq/client";
 
@@ -12,14 +11,13 @@ if (!NOTION_API_KEY) throw new Error("No Notion API Key given");
 
 /**
  * Function to get Notion users
- * @param: none
  * @return: Array of NotionUser objects
  */
 export async function getNotionUsers() {
   const humanUsers: NotionUser[] = [];
 
   const notionResp = await notion.users.list({});
-  // console.log("Logging  in getNotionUser", notionResp);
+  console.log("Logging results in getNotionUser", JSON.stringify(notionResp));
 
   notionResp.results.forEach((user) => {
     if (user.type === "person") {

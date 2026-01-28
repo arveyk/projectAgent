@@ -156,3 +156,35 @@ export const payloadNew = {
   "response_url": "https://hooks.slack.com/commands/T08VADHH17S/9637880950551/bvlZnWuVr21IoKD5OoTvwnBT", 
   "trigger_id": "9653356526162.8996459579264.a712f7e684ee4da6e95145628e060758" 
 }
+
+export const payloadNoDates = {
+  "token": "JWNJnukcVaHbRoRl6CwWYan6",
+  "team_id": "T08VADHH17S",
+  "team_domain": "solutionalpro-1c61413",
+  "channel_id": "C08VADJ7SEL",
+  "channel_name": "all-solutional-project-agent",
+  "user_id": "U08VADHNG0G",
+  "user_name": "crkurdelak",
+  "command": "/timely_01",
+  "text": "add Ceci, lease fix the Langchain bug",
+  "api_app_id": "A0935EDQRHB",
+  "is_enterprise_install": "false",
+  "response_url": "https://hooks.slack.com/commands/T08VADHH17S/9335989657841/DI7K17HpCUQIBdIvMgv23oRU",
+  "trigger_id": "9335989658337.8996459579264.9b1bec951ddb2c9268beb1284a7e6289"
+}
+
+export const payloadExample = {
+  "token": "JWNJnukcVaHbRoRl6CwWYan6",
+  "team_id": "T08VADHH17S",
+  "team_domain": "solutionalpro-1c61413",
+  "channel_id": "C08VADJ7SEL",
+  "channel_name": "all-solutional-project-agent",
+  "user_id": "U08VADHNG0G",
+  "user_name": "crkurdelak",
+  "command": "/timely_01",
+  "text": "Bob, starting tomorrow, please write a draft of the article and have it finished by August 20, 2025.",
+  "api_app_id": "A0935EDQRHB",
+  "is_enterprise_install": "false",
+  "response_url": "https://hooks.slack.com/commands/T08VADHH17S/9335989657841/DI7K17HpCUQIBdIvMgv23oRU",
+  "trigger_id": "9335989658337.8996459579264.9b1bec951ddb2c9268beb1284a7e6289"
+}

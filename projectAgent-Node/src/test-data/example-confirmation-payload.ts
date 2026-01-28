@@ -7,7 +7,7 @@ export const EXAMPLE_CONFIRM_CREATE_TASK = {
         "team_id": "T08VADHH17S"
     },
     "api_app_id": "A09RWHEGTCP",
-    "token": "chNpQw4FknzOFVYgpdVqtwpe",
+    "token": "nFVYgpdzc4hNpQwFkOqtVwpe",
     "container": {
         "type": "message",
         "message_ts": "1766587219.007600",

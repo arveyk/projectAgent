@@ -4,7 +4,6 @@ import { NOTION_API_KEY, NOTION_TASKS_DATA_SOURCE_ID } from "../../env";
 import { createTaskProperties } from "../taskFormatting/createTaskProperties";
 import { NotionTask } from "../taskFormatting/task";
 import { createTaskBody } from "../taskFormatting/createTaskBody";
-import { DateTime } from "luxon";
 
 export type PageAddResult = {
   success: boolean;
@@ -27,7 +26,7 @@ export async function addTaskNotionPage(
 ): Promise<PageAddResult> {
   // Make sure due date is not in the past
 
-  const dueDate = taskObj.dueDate ? DateTime.fromISO(taskObj.dueDate).toJSDate() : undefined;
+  const dueDate = taskObj.dueDate ? taskObj.dueDate : undefined;
   console.log(`(addtaskNotionPage) taskObj: ${JSON.stringify(taskObj)}`);
   if ((dueDate && validateDueDate(dueDate)) || !dueDate) {
     console.log("yay! the due date is not in the past!");

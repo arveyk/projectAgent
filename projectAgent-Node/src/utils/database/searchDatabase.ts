@@ -63,9 +63,7 @@ export const searchDatabase = async function (
   console.log(`Model name: ${model.modelName}`);
   console.log(`message (searchDB): ${JSON.stringify(message)}`);
 
-  logTimestampForBenchmarking("Querying task database");
   const tasks = await getTasks();
-  logTimestampForBenchmarking("Done querying task database");
 
   console.log(`Database response: ${JSON.stringify(tasks)}`);
 
@@ -99,7 +97,9 @@ export const searchDatabase = async function (
  * @return	An array of all tasks in the tasks database
  */
 export async function getTasks(): Promise<TaskPage[]> {
+  logTimestampForBenchmarking("Querying task database");
   const rawTasks = await getTasksRaw();
+  logTimestampForBenchmarking("Done querying task database");
   return rawTasks
     .filter(page => isFullPage(page))
     .filter(page => !containsSensitiveNgrams(page))
@@ -116,6 +116,12 @@ export async function getTasks(): Promise<TaskPage[]> {
 export async function getTasksRaw(): Promise<QueryDataSourceResponse["results"]> {
   return await collectPaginatedAPI(notion.dataSources.query, {
     data_source_id: NOTION_TASKS_DATA_SOURCE_ID,
+    filter_properties: [
+      "Task name",
+      "Description",
+      "Assigned to",
+      "Project"
+    ]
   });
 }
 

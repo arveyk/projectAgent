@@ -9,3 +9,5 @@ export SLACK_BOT_TOKEN="YOUR_SLACK_BOT_TOKEN"
 __Run the script__
 ./testagent.py
 
+pip install pre-commit
+pip install detect-secrets

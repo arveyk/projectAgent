@@ -12,6 +12,8 @@ import { SlashCommand } from "@slack/bolt";
 import { logTimestampForBenchmarking } from "./logTimestampForBenchmarking";
 import { getProjects } from "./database/searchDatabase";
 import { getAppUserData } from "./controllers/getUsersSlack";
+import { Project } from "../domain";
+import { DateTime } from "luxon";
 
 const EXAMPLE_MSG_00 =
   "\
@@ -147,28 +149,7 @@ export const parseTask = async function (
   const notionProjects = await getProjects();
   console.log(`notionProjects found ${JSON.stringify(notionProjects)}`);
 
-  const prompt = `Today's date in ISO format is ${timeData.toISODate()}. Please extract task information from a message, making sure to list any dates in ISO format. If a start date is not specifed, assume the start date is today's date. "By tomorrow" means the due date is tomorrow.
-  Also, using this list ${JSON.stringify(notionProjects)}, infer the project or projects the task is linked to. The projectName is what will help in finding a match. \
-  """Example: **Sample Projects**: ${EXAMPLE_INPUT_PROJECTS}.\n\
-  Input 1: ${EXAMPLE_MSG_00} Output: ${JSON.stringify(EXAMPLE_OUTPUT_FOR_PROMPT_00)},\
-  Input 2: ${EXAMPLE_MSG_01}. Output 2: ${JSON.stringify(EXAMPLE_OUTPUT_FOR_PROMPT_01)}. Input 3 ${EXAMPLE_MSG_02}. Output 3 ${JSON.stringify(EXAMPLE_OUTPUT_FOR_PROMPT_02)}""" Here is the message: ${textToParse}`;
-  console.log(`prompt: ${prompt}`);
-
-  logTimestampForBenchmarking("(Database) LLM start");
-
-  logTimestampForBenchmarking("(Parse) LLM start");
-  const taskParseResult = await structuredLlmSlashCmd.invoke(prompt);
-  logTimestampForBenchmarking("(Parse) LLM finished");
-
-  if (!taskParseResult) {
-    throw new Error(`Task parse result is ${typeof taskParseResult}`);
-  }
-  if (!taskParseResult.raw) {
-    throw new Error(`Raw LLM result is ${typeof taskParseResult.raw}`);
-  }
-  console.log(`Raw LLM response: ${JSON.stringify(taskParseResult.raw)}`);
-
-  console.log(JSON.stringify(taskParseResult.parsed));
+  const taskParseResult = await parseWithLLM(timeData, notionProjects, textToParse);
 
   const structuredResult = taskSchema.safeParse(taskParseResult.parsed);
   if (!structuredResult.success) {
@@ -196,3 +177,36 @@ export const parseTask = async function (
     },
   };
 };
+
+/**
+ * Parses a task from a message using a structured LLM.
+ * @param timeData The date and timezone of the message.
+ * @param notionProjects A list of all the projects in the database.
+ * @param textToParse The message to parse as a task.
+ * @returns The message parsed as a task.
+ */
+async function parseWithLLM(timeData: DateTime<boolean>, notionProjects: Project[], textToParse: string) {
+  const prompt = `Today's date in ISO format is ${timeData.toISODate()}. Please extract task information from a message, making sure to list any dates in ISO format. If a start date is not specifed, assume the start date is today's date. "By tomorrow" means the due date is tomorrow.
+  Also, using this list ${JSON.stringify(notionProjects)}, infer the project or projects the task is linked to. The projectName is what will help in finding a match. \
+  """Example: **Sample Projects**: ${EXAMPLE_INPUT_PROJECTS}.\n\
+  Input 1: ${EXAMPLE_MSG_00} Output: ${JSON.stringify(EXAMPLE_OUTPUT_FOR_PROMPT_00)},\
+  Input 2: ${EXAMPLE_MSG_01}. Output 2: ${JSON.stringify(EXAMPLE_OUTPUT_FOR_PROMPT_01)}. Input 3 ${EXAMPLE_MSG_02}. Output 3 ${JSON.stringify(EXAMPLE_OUTPUT_FOR_PROMPT_02)}""" Here is the message: ${textToParse}`;
+  console.log(`prompt: ${prompt}`);
+
+  logTimestampForBenchmarking("(Database) LLM start");
+
+  logTimestampForBenchmarking("(Parse) LLM start");
+  const taskParseResult = await structuredLlmSlashCmd.invoke(prompt);
+  logTimestampForBenchmarking("(Parse) LLM finished");
+
+  if (!taskParseResult) {
+    throw new Error(`Task parse result is ${typeof taskParseResult}`);
+  }
+  if (!taskParseResult.raw) {
+    throw new Error(`Raw LLM result is ${typeof taskParseResult.raw}`);
+  }
+  console.log(`Raw LLM response: ${JSON.stringify(taskParseResult.raw)}`);
+
+  console.log(JSON.stringify(taskParseResult.parsed));
+  return taskParseResult;
+}

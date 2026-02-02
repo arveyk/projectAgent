@@ -89,7 +89,7 @@ export const taskSchema = z.object({
     .string()
     .optional()
     .nullable()
-    .describe("Assingnee phone number"),
+    .describe("Assignee phone number"),
   email: z.string().optional().nullable().describe("Assignee's email address"),
   projects: z
     .string()

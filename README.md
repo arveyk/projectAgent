@@ -11,3 +11,4 @@ __Run the script__
 
 pip install pre-commit
 pip install detect-secrets
+pre-commit install

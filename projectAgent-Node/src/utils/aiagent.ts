@@ -149,19 +149,7 @@ export const parseTask = async function (
   const notionProjects = await getProjects();
   console.log(`notionProjects found ${JSON.stringify(notionProjects)}`);
 
-  const taskParseResult = await parseWithLLM(timeData, notionProjects, textToParse);
-
-  const structuredResult = taskSchema.safeParse(taskParseResult.parsed);
-  if (!structuredResult.success) {
-    console.error("Task parsing was unsuccessful");
-    throw structuredResult.error;
-  }
-
-  const structuredResultData = structuredResult.data;
-
-  console.log(
-    `Structured LLM response: ${JSON.stringify(structuredResultData)}`,
-  );
+  const structuredResultData = await parseWithLLM(timeData, notionProjects, textToParse);
 
   // Convert the LLM output to a Task object for future ease of use
   const task = convertTask(structuredResultData, notionProjects);
@@ -185,7 +173,7 @@ export const parseTask = async function (
  * @param textToParse The message to parse as a task.
  * @returns The message parsed as a task.
  */
-async function parseWithLLM(timeData: DateTime<boolean>, notionProjects: Project[], textToParse: string) {
+export async function parseWithLLM(timeData: DateTime<boolean>, notionProjects: Project[], textToParse: string) {
   const prompt = `Today's date in ISO format is ${timeData.toISODate()}. Please extract task information from a message, making sure to list any dates in ISO format. If a start date is not specifed, assume the start date is today's date. "By tomorrow" means the due date is tomorrow.
   Also, using this list ${JSON.stringify(notionProjects)}, infer the project or projects the task is linked to. The projectName is what will help in finding a match. \
   """Example: **Sample Projects**: ${EXAMPLE_INPUT_PROJECTS}.\n\
@@ -208,5 +196,16 @@ async function parseWithLLM(timeData: DateTime<boolean>, notionProjects: Project
   console.log(`Raw LLM response: ${JSON.stringify(taskParseResult.raw)}`);
 
   console.log(JSON.stringify(taskParseResult.parsed));
-  return taskParseResult;
+  const structuredResult = taskSchema.safeParse(taskParseResult.parsed);
+  if (!structuredResult.success) {
+    console.error("Task parsing was unsuccessful");
+    throw structuredResult.error;
+  }
+
+  const structuredResultData = structuredResult.data;
+
+  console.log(
+    `Structured LLM response: ${JSON.stringify(structuredResultData)}`,
+  );
+  return structuredResultData;
 }

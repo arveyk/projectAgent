@@ -46,6 +46,6 @@ describe("Tests convertTask with a task with a clear project and similar project
     const task = convertTask(llmTaskThatCausedBug, allProjects);
     expect(task.project).toBeDefined();
     expect(task.project?.length).toBeGreaterThan(0);
-    expect(task.similarProjects?.length).toBeLessThan(1);
+    expect(task.similarProjects?.length).toEqual(0);
   })
 })

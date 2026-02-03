@@ -105,9 +105,11 @@ export function convertTask(
         return { name: assignee };
       })
     : [];
-  const similarProjects = taskInput.similarProjects || [];
 
   const taskProjects = taskInput.projects || [];
+
+  // Only put anything in the similarProjects field if no exact project matches were found
+  const similarProjects = taskProjects.length > 0 ? [] : taskInput.similarProjects || [];
 
   const identifiedProjects: { id: string }[] = [];
 

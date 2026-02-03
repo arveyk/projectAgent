@@ -71,7 +71,7 @@ export const searchDatabase = async function (
   const similarPages = filterSimilar(tasks, message);
 
   const prompt = `
-    Please check if a task matching the message ${message} exists in the database response 
+    Please check if a task matching the message ${message} exists in the database response
     ${JSON.stringify(similarPages)}.
   `.trim();
 
@@ -84,7 +84,7 @@ export const searchDatabase = async function (
     exists: parsed.exists,
     taskId: parsed.task_id !== "<UNKNOWN>" ? parsed.task_id : undefined,
   };
-  
+
   console.log(`result: ${JSON.stringify(result)}`);
 
   return result;
@@ -108,7 +108,7 @@ export async function getTasks(): Promise<TaskPage[]> {
 
 /**
  * Retrieves all raw tasks (Notion pages) from the tasks database
- * 
+ *
  * Does not perform any filtering or simplification on the tasks
  *
  * @return	An array of all raw tasks in the tasks database
@@ -214,7 +214,11 @@ export async function getProjectsRaw(): Promise<QueryDataSourceResponse["results
           }
         },
       ],
-    }
+    },
+    filter_properties: [
+      "Project name",
+      "Status"
+    ]
   });
 }
 

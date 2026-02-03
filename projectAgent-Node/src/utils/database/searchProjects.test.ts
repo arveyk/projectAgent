@@ -18,7 +18,7 @@ describe("searchProjectsRaw", () => {
       ))
       // Shouldn't contain any of projects with Status "Done" or "Canceled"
       expect(finishedStatus).toBeUndefined();
-      
+
       todo("Move this to integration tests when integration tests are set up");
     },
     10000
@@ -46,7 +46,7 @@ describe("simplifyProject", () => {
   });
 });
 
-describe("Tests getTasksRaw with the new property filters", () => {
+describe("Tests getProjectsRaw with the new property filters", () => {
   it("Should return a non-empty list of tasks", async () => {
     const rawProjects = await getProjects();
     expect(rawProjects.length).toBeGreaterThan(0);

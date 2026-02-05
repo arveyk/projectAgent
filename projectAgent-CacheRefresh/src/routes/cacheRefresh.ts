@@ -24,6 +24,7 @@ const cacheRefreshHandler: Handler = async function (
 
     // pageResponse = await fetchPages()
     // userResponse = await fetchUsers()
+    // const notionResp = await notion.users.list({});
     // projectResponse = await fetchProjects()
     // await refreshPageCache(client, pageResponse)
     // await refreshUserCache(client, userResponse)

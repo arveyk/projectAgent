@@ -12,6 +12,7 @@ import { event } from "../test-data/aws/aws-event";
 describe("Tests extractBody", () => {
   it("", () => {
     const decoded = extractRequestBody(event);
+    expect(decoded).toBeDefined();
   });
 });
 

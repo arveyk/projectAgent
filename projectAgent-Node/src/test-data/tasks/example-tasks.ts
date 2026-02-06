@@ -2,7 +2,7 @@ import { DateTime } from "luxon";
 import { Task, NotionTask } from "../../utils/taskFormatting/task";
 
 
-const tomorrow = DateTime.now().plus({days: 1}).toString();
+const tomorrow = DateTime.now().plus({ days: 1 }).toISO();
 
 
 export const task: Task = {

@@ -120,7 +120,7 @@ export const EXAMPLE_ONLY_ASSIGNEE_SELECTED = {
 								"text": "Harvey Kisiangani (harvey.kisiangani@solutional.com)",
 								"emoji": true
 							},
-							"value": "1"
+							"value": "{\"id\":\"1\",\"name\":\"Harvey Kisiangani\",\"email\":\"harvey.kisiangani@solutional.com\"}"
 						}]
 					}
 				},

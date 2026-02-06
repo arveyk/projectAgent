@@ -7,7 +7,7 @@ type SelectionOption = {
     text: string; //  "*Harvey Kis --- harvey.kis@example.com*",
     emoji: boolean;
   };
-  value: string; //  "1"
+  value: string; //  "{userId: "", name: "", email: ""}"
 };
 
 /**
@@ -105,6 +105,7 @@ export function integrateSelectedValues(
     startDate: notionTask.startDate,
     project: [...(notionTask.project || [])]
   }
+
 
   if (selectedValues[0].value.includes("Project_")) {
     const allProjects = integrateSelectedProjects(

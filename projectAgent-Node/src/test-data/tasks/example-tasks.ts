@@ -1,6 +1,10 @@
 import { DateTime } from "luxon";
 import { Task, NotionTask } from "../../utils/taskFormatting/task";
 
+
+const tomorrow = DateTime.now().plus({days: 1}).toString();
+
+
 export const task: Task = {
   taskTitle: "Schedule meeting with customer",
   assignees: [{"name":"Jacob"}],
@@ -120,3 +124,19 @@ export const taskNoAssignee: NotionTask = {
   dueDate: new Date("2025-11-12").toISOString(), 
   description: "Fix the plumbing issue in the second floor kitchen. Call when the task is completed." 
 }
+
+export const jacobsTask: NotionTask = {
+  taskTitle: "Schedule meeting with customer",
+  assignees: [
+    {
+      userId: "1e0d872b-594c-81e5-be86-000260493812",
+      name: "Jacob",
+      email: "j@cob.com",
+    },
+  ],
+  assignedBy: [],
+  dueDate: tomorrow,
+  startDate: "2025-11-01",
+  description:
+    "Schedule a meeting with the customer. Check the sender's Calendly for available times.",
+};

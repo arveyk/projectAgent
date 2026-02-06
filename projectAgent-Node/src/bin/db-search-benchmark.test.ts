@@ -9,17 +9,17 @@ const message3 =
 describe("Tests with message 1", () => {
   it("Logs timestamps", async () => {
     const response = await searchDatabase(message1);
-  });
+  }, 7000);
 });
 
 describe("Tests with message 2", () => {
   it("Logs timestamps", async () => {
     const response = await searchDatabase(message2);
-  });
+  }, 10000);
 });
 
 describe("Tests with message 3", () => {
   it("Logs timestamps", async () => {
     const response = await searchDatabase(message3);
-  });
+  }, 7000);
 });

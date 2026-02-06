@@ -20,7 +20,7 @@ describe("Tests isValidCmd with a valid command", () => {
   it("Returns true", () => {
     const result = isValidCommand(payloadGood);
 
-    expect(result).toBeTruthy();
+    expect(result.isValid).toBe(true);
   });
 });
 

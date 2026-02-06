@@ -1,5 +1,14 @@
-import { Client, collectPaginatedAPI, ListUsersResponse, QueryDataSourceResponse } from "@notionhq/client";
-import { NOTION_API_KEY, NOTION_PROJECTS_DATA_SOURCE_ID, NOTION_TASKS_DATA_SOURCE_ID } from "../env";
+import {
+  Client,
+  collectPaginatedAPI,
+  ListUsersResponse,
+  QueryDataSourceResponse,
+} from "@notionhq/client";
+import {
+  NOTION_API_KEY,
+  NOTION_PROJECTS_DATA_SOURCE_ID,
+  NOTION_TASKS_DATA_SOURCE_ID,
+} from "../env";
 
 const notion = new Client({
   auth: NOTION_API_KEY,
@@ -13,15 +22,12 @@ const notion = new Client({
  *
  * @return	An array of all raw tasks in the tasks database
  */
-export async function getTasksRaw(): Promise<QueryDataSourceResponse["results"]> {
+export async function getTasksRaw(): Promise<
+  QueryDataSourceResponse["results"]
+> {
   return await collectPaginatedAPI(notion.dataSources.query, {
     data_source_id: NOTION_TASKS_DATA_SOURCE_ID,
-    filter_properties: [
-      "Task name",
-      "Description",
-      "Assigned to",
-      "Project"
-    ]
+    filter_properties: ["Task name", "Description", "Assigned to", "Project"],
   });
 }
 
@@ -32,7 +38,9 @@ export async function getTasksRaw(): Promise<QueryDataSourceResponse["results"]>
  *
  * @return	An array of all raw projects in the projects database
  */
-export async function getProjectsRaw(): Promise<QueryDataSourceResponse["results"]> {
+export async function getProjectsRaw(): Promise<
+  QueryDataSourceResponse["results"]
+> {
   return await collectPaginatedAPI(notion.dataSources.query, {
     data_source_id: NOTION_PROJECTS_DATA_SOURCE_ID,
     filter: {
@@ -41,26 +49,23 @@ export async function getProjectsRaw(): Promise<QueryDataSourceResponse["results
           property: "Status",
           status: {
             does_not_equal: "Done",
-          }
+          },
         },
         {
           property: "Status",
           status: {
             does_not_equal: "Canceled",
-          }
+          },
         },
         {
           property: "Status",
           status: {
             does_not_equal: "Archived",
-          }
+          },
         },
       ],
     },
-    filter_properties: [
-      "Project name",
-      "Status"
-    ]
+    filter_properties: ["Project name", "Status"],
   });
 }
 
@@ -69,6 +74,6 @@ export async function getProjectsRaw(): Promise<QueryDataSourceResponse["results
  * @returns All the users in the Notion workspace.
  */
 export async function getUsers(): Promise<ListUsersResponse> {
-    const notionResp = await notion.users.list({});
-    return notionResp;
+  const notionResp = await notion.users.list({});
+  return notionResp;
 }

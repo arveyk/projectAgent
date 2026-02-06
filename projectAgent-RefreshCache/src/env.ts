@@ -13,7 +13,7 @@ if (!process.env.NOTION_TASKS_DATA_SOURCE_ID) {
 }
 if (!process.env.REGION) {
   throw new Error("Missing AWS region");
-};
+}
 if (!process.env.CACHE_TABLE_NAME) {
   throw new Error("Missing cache table name");
 }

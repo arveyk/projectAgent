@@ -3,9 +3,6 @@ import { exampleUserSearchResponse } from "../test-data/example-usersearch-respo
 
 import {
     notionTask,
-    task_in_db,
-    task_in_db_reworded,
-    task_not_in_db,
 } from "../test-data/tasks/example-tasks";
 import { TaskPage } from "../utils/taskFormatting/task";
 import { NotionUser } from "../utils/controllers/userTypes";

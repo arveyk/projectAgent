@@ -36,7 +36,6 @@ describe("Test createBlockNewTask with a valid task object", () => {
                 }]
             })
         })
-        notionTask.assignees.push();
         const blocks = await createNewTaskBlock(EXAMPLE_ASSIGNED_BY, taskPage.task, exampleUserSearchResponse);
         console.log(JSON.stringify(blocks));
 

@@ -1,7 +1,6 @@
 import { isValidCommand, extractRequestBody } from "./slashCommandProcessing";
 import {
   payloadGood,
-  payloadNotAdd,
 } from "../test-data/payloads/slashcmd/payloads";
 import { event } from "../test-data/aws/aws-event";
 

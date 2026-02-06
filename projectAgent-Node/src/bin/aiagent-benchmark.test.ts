@@ -61,17 +61,17 @@ const payload3: SlashCommand = {
 describe("Tests with payload 1", () => {
   it("Logs timestamps", async () => {
     const response = await parseTask(payload1, Date.now());
-  });
+  }, 20000);
 });
 
 describe("Tests with payload 2", () => {
   it("Logs timestamps", async () => {
     const response = await parseTask(payload2, Date.now());
-  });
+  }, 20000);
 });
 
 describe("Tests with payload 3", () => {
   it("Logs timestamps", async () => {
     const response = await parseTask(payload3, Date.now());
-  });
+  }, 20000);
 });

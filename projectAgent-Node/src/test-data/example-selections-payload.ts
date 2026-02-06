@@ -8,7 +8,7 @@ export const EXAMPLE_USER_AND_PROJECT_SELECTED = {
 			"team_id": "T08VADHH17S"
 		},
 		"api_app_id": "A0A6W48S823",
-		"token": "cWjYlMtRpvakDg2fD3wU43KF",
+		"token": " ",
 		"container": {
 			"type": "message",
 			"message_ts": "1767964513.001200",
@@ -36,7 +36,7 @@ export const EXAMPLE_USER_AND_PROJECT_SELECTED = {
 								"type": "plain_text",
 								"text": "Harvey Kisiangani (harvey.kisiangani@solutional.com)", "emoji": true
 							},
-							"value": { "userId": "1e0d872b- 594c - 81e5 - be86 -000260493812", "name": "Harvey Kisiangani", "email": "harvey.kisiangani@solutional.com" }
+							"value": "{\"userId\":\"1e0d872b- 594c - 81e5 - be86 -000260493812\",\"name\":\"Harvey Kisiangani\",\"email\":\"harvey.kisiangani@solutional.com\"}"
 						}
 						]
 					}
@@ -69,24 +69,14 @@ export const EXAMPLE_USER_AND_PROJECT_SELECTED = {
 				"value": {
 					"taskPageObject": {
 						"task": {
-							"taskTitle": "Prime the new pump", "assignees": [], "assignedBy": [], "startDate": "2026-01 -09T13: 15: 12.886Z", "description": "Prime the new pump for the project created by Ceci", "project": [{
+							"taskTitle": "Prime the new pump", "assignees": [], "assignedBy": [],
+							"startDate": "2026-01 -09T13: 15: 12.886Z",
+							"description": "Prime the new pump for the project created by Ceci", "project": [{
 								"id": "2bdeef29- a653 - 8093 - 97fb - f411a20b58ed"
 
 							}]
 						}, "pageId": "", "url": ""
-					},
-					"userOptions": [{
-						"userId": "1e0d872b - 594c - 81e5 - be86 -000260493812", "name": "Harvey Kisiangani", "email": "harveykisiangani@gmail.com"
-					},
-					{
-						"userId": "25cd872b - 594c - 8111 - 84e3-00020e1da9ea", "name": "Harvey Kisiangani", "email": "harvey.kisiangani@solutional.com"
-					}],
-					"projectOptions": [{
-						"projectName": "Project Assigned by Harvey", "id": "2bdeef29 - a653 - 8020 - 9dd0 - e20ff33c265c"
-					},
-					{
-						"projectName": "Project Assigned by Ceci", "id": "2bdeef29 - a653 - 8093 - 97fb - f411a20b58ed"
-					}]
+					}
 				},
 				"style": "primary", "type": "button", "action_ts": "1767964532.869631"
 			}]
@@ -167,10 +157,10 @@ export const EXAMPLE_ONLY_ASSIGNEE_SELECTED = {
 					"url": ""
 				},
 				"userOptions": [{
-					"userId": "1e0d872b - 594c - 81e5 - be86 -000260493812", "name": "Harvey Kisiangani", "email": "harveykisiangani@gmail.com"
+					"userId": "1e0d872b-594c-81e5-be86-000260493812", "name": "Harvey Kisiangani", "email": "harveykisiangani@gmail.com"
 				},
 				{
-					"userId": "25cd872b - 594c - 8111 - 84e3-00020e1da9ea", "name": "Harvey Kisiangani", "email": "harvey.kisiangani@solutional.com"
+					"userId": "25cd872b-594c-8111-84e3-00020e1da9ea", "name": "Harvey Kisiangani", "email": "harvey.kisiangani@solutional.com"
 				}],
 				"projectOptions": [{
 					"projectName": "Project Assigned by Harvey", "id": "2bdeef29 - a653 - 8020 - 9dd0 - e20ff33c265c"
@@ -281,5 +271,84 @@ export const EXAMPLE_ONLY_PROJECT_SELECTED = {
 			"type": "button",
 			"action_ts": "1767969254.611832"
 		}]
+	}
+}
+
+export const EXAMPLE_NO_ITEM_SELECTED = {
+	"payload": {
+		"type": "block_actions",
+		"user": {
+			"id": "U08UDKY38QK",
+			"username": "harveykisiangani",
+			"name": "harveykisiangani",
+			"team_id": "T08VADHH17S"
+		},
+		"api_app_id": "A0A6W48S823",
+		"token": " ",
+		"container": {
+			"type": "message",
+			"message_ts": "1770378720.000600",
+			"channel_id": "C08VADJ7SEL",
+			"is_ephemeral": true
+		},
+		"trigger_id": "10485384085632.8996459579264.81406e90bcccfa331f3b6ecbe5d27d94",
+		"team": {
+			"id": "T08VADHH17S",
+			"domain": "solutionalpro-1c61413"
+		},
+		"enterprise": null,
+		"is_enterprise_install": false,
+		"channel": {
+			"id": "C08VADJ7SEL",
+			"name": "all-solutional-project-agent"
+		},
+		"state": {
+			"values": {
+				"rNoZw": {
+					"multi_select-action": {
+						"type": "multi_static_select",
+						"selected_options": []
+					}
+				},
+				"vEbNE": {
+					"multi_select-action": {
+						"type": "multi_static_select",
+						"selected_options": []
+					}
+				}
+			}
+		},
+		"response_url": "https://hooks.slack.com/actions/T08VADHH17S/10441651949815/oR8X7vKslLaSjFMfCfO7hha1",
+		"actions": [
+			{
+				"action_id": "SelectionActionId-2",
+				"block_id": "8eosz",
+				"text": {
+					"type": "plain_text",
+					"text": "Confirm",
+					"emoji": true
+				},
+				"value": {
+					"taskPageObject": {
+						"task":{
+							"taskTitle": "Create statistical analysis tool",
+							"assignees":[],
+							"assignedBy":[{
+								"userId": "1e0d872b-594c-81e5-be86-000260493812",
+								"name": "Harvey Kisiangani",
+								"email": "harveykisiangani@gmail.com"
+							}],
+							"startDate": "2026-02-06",
+							"description": "Harvey, create a statistical analysis tool for the population tracking project",
+							"project":[]
+						},
+						"pageId":"","url":""
+					}
+				},
+				"style": "primary",
+				"type": "button",
+				"action_ts": "1770378778.581932"
+			}
+		]
 	}
 }

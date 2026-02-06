@@ -36,7 +36,7 @@ export const EXAMPLE_USER_AND_PROJECT_SELECTED = {
 								"type": "plain_text",
 								"text": "Harvey Kisiangani (harvey.kisiangani@solutional.com)", "emoji": true
 							},
-							"value": "{\"userId\":\"1e0d872b- 594c - 81e5 - be86 -000260493812\",\"name\":\"Harvey Kisiangani\",\"email\":\"harvey.kisiangani@solutional.com\"}"
+							"value": "{\"userId\":\"1e0d872b-594c-81e5-be86-000260493812\",\"name\":\"Harvey Kisiangani\",\"email\":\"harvey.kisiangani@solutional.com\"}"
 						}
 						]
 					}

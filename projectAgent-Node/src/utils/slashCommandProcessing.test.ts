@@ -6,7 +6,7 @@ import { event } from "../test-data/aws/aws-event";
 
 
 /**
- * test failure could be due ot add prefix restriction still on
+ * test failure could be due to add prefix restriction still on
  * or length of statement to be processed still being checked
  */
 describe("Tests extractBody", () => {

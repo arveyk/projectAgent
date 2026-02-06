@@ -27,7 +27,7 @@ export function integrateSelectedUsers(
   }
 
   for (const selectedOption of selectedValues) {
-    console.log(parseInt(selectedOption["value"]));
+    console.log(selectedOption["value"]);
     const selectedUser:NotionUser = JSON.parse(selectedOption["value"]);
     
     allAssignees.push(selectedUser);
@@ -54,7 +54,7 @@ export function integrateSelectedProjects(
   }
 
   for (const selectedOption of selectedValues) {
-    console.log(parseInt(selectedOption["value"]));
+    console.log(selectedOption["value"]);
     // Refactoring so that we use the project id directly
     const projectId:string = selectedOption["value"].replace("Project_", "");
     
@@ -121,16 +121,16 @@ export function integrateSelectedValues(
     notionTaskWithIntegratedValues.assignees = [...notionTask.assignees, ...allAssignees];
   }
   if (valueKeys.length > 1) {
-    const selectedKey_01 = valueKeys[1];
-    console.log("Key 2", selectedKey_01);
+    const selectedKey = valueKeys[1];
+    console.log("Key 2", selectedKey);
     console.log("Selected", selected);
 
-    const selectedValues_01: SelectionOption[] =
-      selected[selectedKey_01]["multi_select-action"]["selected_options"];
+    const selectedValues: SelectionOption[] =
+      selected[selectedKey]["multi_select-action"]["selected_options"];
 
     const allProjects2 = integrateSelectedProjects(
       projects,
-      selectedValues_01,
+      selectedValues,
     );
 
     notionTaskWithIntegratedValues.project = allProjects2;

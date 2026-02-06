@@ -7,7 +7,7 @@ import { TaskPage, ProjectWithName } from "../taskFormatting/task";
 import { NotionUser } from "./userTypes";
 
 const payload = EXAMPLE_USER_AND_PROJECT_SELECTED.payload;
-const payload_02 = JSON.parse(EXAMPLE_ONLY_PROJECT_SELECTED.payload);
+const payload_02 = EXAMPLE_ONLY_PROJECT_SELECTED.payload;
 describe("Run payload Extraction and use values", () => {
   (it("Should extract users's selections", () => {
     // console.log(payload, payload_01);
@@ -16,7 +16,7 @@ describe("Run payload Extraction and use values", () => {
       taskPageObject: TaskPage;
       userOptions: NotionUser[];
       projectOptions: ProjectWithName[];
-    } = JSON.parse(payload["actions"][0].value || "{}");
+    } = payload["actions"][0].value || "{}";
 
     const taskPageObject = taskPageAndOptionsObject.taskPageObject;
     const projectsBeforeAddingSelectedOptions =
@@ -43,7 +43,7 @@ describe("Run payload Extraction and use values", () => {
         taskPageObject: TaskPage;
         userOptions: NotionUser[];
         projectOptions: ProjectWithName[];
-      } = JSON.parse(payload_02["actions"][0].value || "{}");
+      } = payload_02["actions"][0].value || "{}";
 
       const taskPageObject = taskPageAndOptionsObject.taskPageObject;
 

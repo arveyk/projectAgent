@@ -97,6 +97,7 @@ export const searchDatabase = async function (
  * @return	An array of all tasks in the tasks database
  */
 export async function getTasks(): Promise<TaskPage[]> {
+  // TODO check cache first
   logTimestampForBenchmarking("Querying task database");
   const rawTasks = await getTasksRaw();
   logTimestampForBenchmarking("Done querying task database");
@@ -169,6 +170,7 @@ export function filterSimilar(pages: TaskPage[], message: string): TaskPage[] {
  * @return	An array of all projects in the projects database
  */
 export async function getProjects() {
+  // TODO check cache first
   logTimestampForBenchmarking("Querying Projects");
   const projectsList = await getProjectsRaw();
   logTimestampForBenchmarking("Done querying Projects");

@@ -16,6 +16,7 @@ if (!NOTION_API_KEY) throw new Error("No Notion API Key given");
 export async function getNotionUsers() {
   const humanUsers: NotionUser[] = [];
 
+  // TODO check cache first
   const notionResp = await notion.users.list({});
   console.log("Logging results in getNotionUser", JSON.stringify(notionResp));
 

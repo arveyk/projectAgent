@@ -1,4 +1,4 @@
-import cacheRefreshHandler from "./routes/cacheRefresh";
+import cacheRefreshHandler from "./routes/refreshCache";
 import { Handler} from "aws-lambda";
 
 const handler: Handler = cacheRefreshHandler;

@@ -1,4 +1,4 @@
-import { Client, collectPaginatedAPI, QueryDataSourceResponse } from "@notionhq/client";
+import { Client, collectPaginatedAPI, ListUsersResponse, QueryDataSourceResponse } from "@notionhq/client";
 import { NOTION_API_KEY, NOTION_PROJECTS_DATA_SOURCE_ID, NOTION_TASKS_DATA_SOURCE_ID } from "../env";
 
 const notion = new Client({
@@ -62,4 +62,13 @@ export async function getProjectsRaw(): Promise<QueryDataSourceResponse["results
       "Status"
     ]
   });
+}
+
+/**
+ * Gets all the users in the Notion workspace.
+ * @returns All the users in the Notion workspace.
+ */
+export async function getUsers(): Promise<ListUsersResponse> {
+    const notionResp = await notion.users.list({});
+    return notionResp;
 }

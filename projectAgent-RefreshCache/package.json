@@ -27,7 +27,7 @@
     "format": "npx prettier . --write",
     "lint": "npx eslint",
     "build": "node build.cjs",
-    "zip": "cd ./dist/ && zip cacheRefresh.zip ./index.cjs && cd ..",
+    "zip": "cd ./dist/ && zip refreshCache.zip ./index.cjs && cd ..",
     "docker": "docker build -t minimal-cloud-run . && docker run --rm -p 8080:8080 --env-file .env minimal-cloud-run"
   },
   "keywords": [],

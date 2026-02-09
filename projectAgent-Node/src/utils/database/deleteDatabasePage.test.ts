@@ -5,14 +5,16 @@ import { jacobsTask } from "../../test-data/tasks/example-tasks";
 
 describe("Test deleting a notion page", () => {
 
-  it("should not error", async () => {
+  it("should delete the test page created", async () => {
 
+    // Creating a task to be deleted
     const addTaskResult = await addTaskNotionPage(jacobsTask);
     const taskPage = addTaskResult.page;
-    if (addTaskResult.success === true && taskPage) {
-        const response = await deletePage(taskPage.id);
-        console.log(response);
+    
+    expect(addTaskResult.success).toBeTruthy();
+    expect(taskPage).toBeDefined();
 
-    }
+    const response = await deletePage(taskPage.url);
+    console.log(response);
   });
 });

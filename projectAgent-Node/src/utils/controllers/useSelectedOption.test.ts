@@ -13,7 +13,7 @@ const payload_no_item_selected = EXAMPLE_NO_ITEM_SELECTED.payload;
 
 
 describe("Run payload Extraction and use values", () => {
-  (it("Should extract users's selections", () => {
+  it("Should extract users's selections", () => {
     // console.log(payload, payload_01);
 
     const taskPageObject: TaskPage
@@ -29,14 +29,14 @@ describe("Run payload Extraction and use values", () => {
     const taskProjects = task.project || [];
 
     console.log(task);
-    expect(task.assignees).not.toEqual(taskPageObject.task.assignees);
+    expect(taskPageObject.task.assignees).not.toEqual(task.assignees);
     expect(task.project).toBeDefined();
 
     expect(projectsBeforeAddingSelectedOptions.length).toBeLessThan(
       taskProjects.length,
     );
-  }),
-    it("Should extract users's selections", () => {
+  });
+  it("Should extract users's selections", () => {
       // console.log(payload, payload_01);
 
       const taskPageAndOptionsObject: {
@@ -52,8 +52,8 @@ describe("Run payload Extraction and use values", () => {
         payload_projects_selected,
       );
       console.log(task);
-      expect(task.assignees).toEqual(task.assignees);
-    })),
+      expect(taskPageObject.task.assignees).toEqual(task.assignees);
+    });
     it("Should have same task object after integration attempt", () => {
 
       const taskPageObject: TaskPage = 

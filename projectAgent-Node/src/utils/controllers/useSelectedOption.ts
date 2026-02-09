@@ -26,8 +26,9 @@ export function integrateSelectedUsers(
     return [];
   }
 
+  console.log("Selected users/assignees:", JSON.stringify(selectedValues));
+
   for (const selectedOption of selectedValues) {
-    console.log(selectedOption["value"]);
     const selectedUser:NotionUser = JSON.parse(selectedOption["value"]);
     
     allAssignees.push(selectedUser);
@@ -53,8 +54,9 @@ export function integrateSelectedProjects(
     return allProjects;
   }
 
+  console.log("Selected Projects:", JSON.stringify(selectedValues));
+
   for (const selectedOption of selectedValues) {
-    console.log(selectedOption["value"]);
     // Refactoring so that we use the project id directly
     const projectId:string = selectedOption["value"].replace("Project_", "");
     
@@ -123,8 +125,7 @@ export function integrateSelectedValues(
   }
   if (valueKeys.length > 1) {
     const selectedKey = valueKeys[1];
-    console.log("Key 2", selectedKey);
-    console.log("Selected", selected);
+    console.log("More than one item selected");
 
     const selectedValues: SelectionOption[] =
       selected[selectedKey]["multi_select-action"]["selected_options"];

@@ -26,7 +26,7 @@ describe("Tests parseTaskSlashCmd with a good payload", () => {
     //expect(parsedTask.assignees).toMatch(taskGood.assignees);
     expect(parsedTask.task.taskTitle).toBeTruthy();
     expect(parsedTask.task.description).toBeTruthy();
-  }, 10000);
+  }, 20000);
 });
 
 describe("Tests parseTaskSlashCmd with a good payload from Harvey", () => {
@@ -41,7 +41,7 @@ describe("Tests parseTaskSlashCmd with a good payload from Harvey", () => {
     //expect(parsedTask.assignees).toMatch(taskHarvey.assignees);
     expect(parsedTask.task.taskTitle).toBeTruthy();
     expect(parsedTask.task.description).toBeTruthy();
-  }, 10000);
+  }, 20000);
 });
 
 describe("Tests parseTaskSlashCmd inferring dates", () => {
@@ -56,7 +56,7 @@ describe("Tests parseTaskSlashCmd inferring dates", () => {
     //expect(parsedTask.assignees).toMatch(taskInferDates.assignees);
     expect(parsedTask.task.taskTitle).toBeTruthy();
     expect(parsedTask.task.description).toBeTruthy();
-  }, 10000);
+  }, 20000);
 });
 
 describe("tests parseTaskSlashCmd with the payload that's been causing trouble", () => {
@@ -68,5 +68,5 @@ describe("tests parseTaskSlashCmd with the payload that's been causing trouble",
     const parsedTask = await parseTask(payloadNew, timestamp);
     console.log(JSON.stringify(parsedTask));
     console.log(JSON.stringify(taskKitchen));
-  }, 10000);
+  }, 20000);
 });

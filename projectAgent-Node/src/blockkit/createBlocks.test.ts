@@ -2,18 +2,11 @@ import { createNewTaskBlock } from "./createNewTaskBlock";
 import { exampleUserSearchResponse } from "../test-data/example-usersearch-response";
 
 import {
-    notionTask,
-    task_in_db,
-    task_in_db_reworded,
-    task_not_in_db,
+    notionTask
 } from "../test-data/tasks/example-tasks";
-import { TaskPage } from "../utils/taskFormatting/task";
+import { NotionTask } from "../utils/taskFormatting/task";
 import { NotionUser } from "../utils/controllers/userTypes";
 
-const taskPage: TaskPage = {
-    task: notionTask,
-    pageId: "",
-};
 
 const EXAMPLE_ASSIGNED_BY: NotionUser[] = [
     {
@@ -23,43 +16,49 @@ const EXAMPLE_ASSIGNED_BY: NotionUser[] = [
     },
 ];
 
+const ExampleNotionTask: NotionTask = {
+  assignees: notionTask.assignees,
+  assignedBy: notionTask.assignedBy,
+  description: notionTask.description,
+  dueDate: notionTask.dueDate,
+  startDate: notionTask.startDate,
+  taskTitle: notionTask.taskTitle,
+  project: notionTask.project
+};
+
+
+ExampleNotionTask.assignees.forEach((assignee) => {
+    exampleUserSearchResponse.push({
+        person: {
+            name: assignee.name
+        },
+        foundUsers: [{
+            userId: assignee.userId,
+            name: assignee.name,
+            email: assignee.email || ""
+        }]
+    })
+})
+
 describe("Test createBlockNewTask with a valid task object", () => {
     it("returns blocks containing the task data", async () => {
-        expect(notionTask).toBeDefined();
+        expect(ExampleNotionTask).toBeDefined();
 
-        notionTask.assignees.forEach((assignee) => {
-            exampleUserSearchResponse.push({
-                person: {
-                    name: assignee.name
-                },
-                foundUsers: [{
-                    userId: assignee.userId,
-                    name: assignee.name,
-                    email: assignee.email || ""
-                }]
-            })
-        })
-        notionTask.assignees.push();
-        const blocks = await createNewTaskBlock(EXAMPLE_ASSIGNED_BY, taskPage.task, exampleUserSearchResponse);
-        console.log(JSON.stringify(blocks));
+        ExampleNotionTask.assignees.push();
+        const slackBlocksObject = await createNewTaskBlock(EXAMPLE_ASSIGNED_BY, ExampleNotionTask, exampleUserSearchResponse);
+        console.log(JSON.stringify(slackBlocksObject));
 
-        expect(JSON.stringify(blocks.blocks)).toMatch(
+        expect(JSON.stringify(slackBlocksObject.blocks)).toMatch(
             /Task Title.{1,4}Schedule meeting with customer/gm,
         );
-        expect(JSON.stringify(blocks.blocks)).toMatch(/Assignees:.{1,4}Jacob \(jacomsmail@example.com\)/gm);
-        expect(JSON.stringify(blocks.blocks)).toMatch(
+        expect(JSON.stringify(slackBlocksObject.blocks)).toMatch(/Assignees:.{1,4}Jacob \(jacomsmail@example.com\)/gm);
+        expect(JSON.stringify(slackBlocksObject.blocks)).toMatch(
             /Due Date:.{1,4}Sun May 11 2025/gm,
         );
-        expect(JSON.stringify(blocks.blocks)).toMatch(
+        expect(JSON.stringify(slackBlocksObject.blocks)).toMatch(
             /Start Date:.{1,4}Sat Jan 11 2025/gm,
         );
-        /**
-         * Deprecated field
-         * expect(JSON.stringify(blocks.blocks)).toMatch(
-          /Phone Number:.{1,8}55-555-5555/gm,
-        );
-         */
-        expect(JSON.stringify(blocks.blocks)).toMatch(
+        expect(JSON.stringify(slackBlocksObject.blocks)).toMatch(
             /Description:\*.{1,8}Schedule a meeting with the customer\. Check the sender's Calendly for available times\."/gm,
         );
     });

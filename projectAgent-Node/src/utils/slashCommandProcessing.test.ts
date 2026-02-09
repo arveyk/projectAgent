@@ -7,12 +7,18 @@ import { event } from "../test-data/aws/aws-event";
 
 
 /**
- * test failure could be due ot add prefix restriction still on
+ * test failure could be due to add prefix restriction still on
  * or length of statement to be processed still being checked
  */
+
 describe("Tests extractBody", () => {
   it("", () => {
     const decoded = extractRequestBody(event);
+
+    expect(decoded).toHaveProperty("command");
+    expect(decoded).toHaveProperty("response_url");
+    expect(decoded).toHaveProperty("text");
+    expect(decoded).toHaveProperty("user_id");
   });
 });
 
@@ -23,15 +29,3 @@ describe("Tests isValidCmd with a valid command", () => {
     expect(result).toBeTruthy();
   });
 });
-
-
-/**
- * Outdated Test since we no longer require add prefixed on the text
-describe('Tests isValidCmd with a command that does not start with "add"', () => {
-  it("Returns false", () => {
-    const result = isValidCommand(payloadNotAdd);
-
-    expect(result).toBeFalsy();
-  });
-});
-*/

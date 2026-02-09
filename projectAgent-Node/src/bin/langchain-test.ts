@@ -1,53 +1,56 @@
-import { ChatAnthropic } from "@langchain/anthropic";
-import { z } from "zod/v4";
-import { RunnableConfig, Runnable } from "@langchain/core/dist/runnables";
-import { BaseLanguageModelInput } from "@langchain/core/dist/language_models/base";
-import * as dotenv from "dotenv";
+import {
+  payloadNoDates,
+  payloadExample,
+} from "../test-data/payloads/slashcmd/payloads";
+import { parseTask, EXAMPLE_OUTPUT_FOR_PROMPT_00, taskSchema } from "../utils/aiAgent";
+import { structuredOutputDemo } from "./langchain";
 
-dotenv.config();
-const ANTHROPIC_API_KEY: string = process.env.ANTHROPIC_API_KEY
-  ? process.env.ANTHROPIC_API_KEY
-  : "";
-const ANTHROPIC_MODEL_VER: string = process.env.ANTHROPIC_MODEL_VER
-  ? process.env.ANTHROPIC_MODEL_VER
-  : "";
+describe("Tests structured output example", () => {
+  it("", async () => {
+    const message =
+      "the title is Hello, it involves Bob, Jenny, and Acorn, and the date is Nov 1 2025";
+    const structured = await structuredOutputDemo(message);
+    console.log(structured);
 
-const model = new ChatAnthropic({
-  model: ANTHROPIC_MODEL_VER,
-  temperature: 0,
-  apiKey: ANTHROPIC_API_KEY,
+    expect(structured.title).toEqual("Hello");
+
+    expect(structured.people.includes("Acorn")).toBeTruthy();
+    expect(structured.people.includes("Bob")).toBeTruthy();
+    expect(structured.people.includes("Jenny")).toBeTruthy();
+
+    expect(structured.date).toContain("2025-11-01");
+  }, 10000);
 });
 
-const schema = z.object({
-  title: z.string().describe("Short descriptive title"),
-  people: z.string().array().describe("The people associated with this object"),
-  date: z.iso
-    .datetime({ offset: true })
-    .describe(
-      "The date associated with the object in ISO standard format with timezone included",
-    ),
+describe("Tests parseTaskSlashCmd without a due date", () => {
+  it("Parses the task correctly", async () => {
+    expect(payloadNoDates).toBeDefined;
+    expect(typeof payloadNoDates).toBe("object");
+    const timestamp = 1755039682 * 1000;
+
+    const parsedObject = await parseTask(payloadNoDates, timestamp);
+    const parsedTask = parsedObject.task;
+    console.log(JSON.stringify(parsedTask));
+
+    //expect(parsedTask.assignees).toMatch(taskInferDates.assignees);
+    expect(parsedTask.taskTitle).toBeTruthy();
+    expect(parsedTask.description).toBeTruthy();
+  }, 10000);
 });
 
-type exampleObject = {
-  title: string;
-  people: string[];
-  date: string;
-};
+describe("Tests parseTaskSlashCmd with the same example given to the LLM", () => {
+  it("Parses the task correctly", async () => {
+    expect(payloadExample).toBeDefined;
+    expect(typeof payloadExample).toBe("object");
+    const timestamp = 1755039682 * 1000;
 
-const structuredOutputModel: Runnable<
-  BaseLanguageModelInput,
-  Record<string, any>,
-  RunnableConfig<Record<string, any>>
-> = model.withStructuredOutput(schema, { includeRaw: false });
+    const parsedObject = await parseTask(payloadExample, timestamp);
+    const parsedTask = parsedObject.task;
+    console.log(JSON.stringify(parsedTask));
 
-export async function structuredOutputDemo(
-  message: string,
-): Promise<exampleObject> {
-  const parsedObject = await structuredOutputModel.invoke(message);
-  const returnObject = {
-    title: parsedObject.title,
-    people: parsedObject.people,
-    date: parsedObject.date,
-  };
-  return returnObject;
-}
+    //expect(parsedTask.assignees).toMatch(taskInferDates.assignees);
+    expect(parsedTask.taskTitle).toBeTruthy();
+    expect(parsedTask.description).toBeTruthy();
+    expect(taskSchema.parse(EXAMPLE_OUTPUT_FOR_PROMPT_00)).toBeTruthy();
+  }, 10000);
+});

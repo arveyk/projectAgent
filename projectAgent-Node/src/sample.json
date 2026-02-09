@@ -9,14 +9,14 @@
         "team_id": "T03TNQFN62V"
       },
       "api_app_id": "A08T4SJP659",
-      "token": "cdpGCjWC3RGCqp0yCWWJa3cD",
+      "token": " ",
       "container": {
         "type": "message",
         "message_ts": "1753360751.914959",
         "channel_id": "C08R4M9P5SM",
         "is_ephemeral": false
       },
-      "trigger_id": "9248622086914.3940831754097.e7c46f0ae080e7b2e50b9158a243099f",
+      "trigger_id": " 629248622086914",
       "team": {
         "id": "T03TNQFN62V",
         "domain": "alxseco"
@@ -103,7 +103,7 @@
       "state": {
         "values": {}
       },
-      "response_url": "https:/hooks.slack.com/actions/T03TNQFN62V/9248621951362/gEdOqEpSbDoZapvBLmFQf6x9",
+      "response_url": "https://hooks.slack.com/actions/sampleChannel/sampleResponse/URL123",
       "actions": [
         {
           "action_id": "uSoeH",
@@ -131,14 +131,14 @@
         "team_id": "T03TNQFN62V"
       },
       "api_app_id": "A08T4SJP659",
-      "token": "cdpGCjWC3RGCqp0yCWWJa3cD",
+      "token": " ",
       "container": {
         "type": "message",
         "message_ts": "1753366881.890509",
         "channel_id": "C08R4M9P5SM",
         "is_ephemeral": false
       },
-      "trigger_id": "9249256782354.3940831754097.361d020f5e7358358aa562f678177aba",
+      "trigger_id": "92492567823548177aba",
       "team": {
         "id": "T03TNQFN62V",
         "domain": "alxseco"
@@ -225,7 +225,7 @@
       "state": {
         "values": {}
       },
-      "response_url": "https://hooks.slack.com/actions/T03TNQFN62V/9249256781090/rlbKSXFmGRkTSaDbrWOlCFYE",
+      "response_url": "https://hooks.slack.com/actions/sampleChannel/sampleResponse/URL123",
       "actions": [
         {
           "action_id": "uSoeH",
@@ -253,14 +253,14 @@
         "team_id": "T03TNQFN62V"
       },
       "api_app_id": "A08T4SJP659",
-      "token": "cdpGCjWC3RGCqp0yCWWJa3cD",
+      "token": " ",
       "container": {
         "type": "message",
         "message_ts": "1753367742.022029",
         "channel_id": "C08R4M9P5SM",
         "is_ephemeral": false
       },
-      "trigger_id": "9250277642756.3940831754097.9445d5c2bcfdf71b47f4ca7d9432e6b6",
+      "trigger_id": "bcfdf71b47f4ca7d9432e6b6",
       "team": {
         "id": "T03TNQFN62V",
         "domain": "alxseco"
@@ -347,7 +347,7 @@
       "state": {
         "values": {}
       },
-      "response_url": "https://hooks.slack.com/actions/T03TNQFN62V/9250277642692/shONXq4fooN3dCyJBWLjpzrU",
+      "response_url": "https://hooks.slack.com/actions/sampleChannel/sampleResponse/URL123",
       "actions": [
         {
           "action_id": "Yg6CW",
@@ -375,14 +375,14 @@
         "team_id": "T03TNQFN62V"
       },
       "api_app_id": "A08T4SJP659",
-      "token": "cdpGCjWC3RGCqp0yCWWJa3cD",
+      "token": " ",
       "container": {
         "type": "message",
         "message_ts": "1753368362.561609",
         "channel_id": "C08R4M9P5SM",
         "is_ephemeral": false
       },
-      "trigger_id": "9247807688501.3940831754097.25cf4f4a222a1ddcadd039ce62b8972e",
+      "trigger_id": "1ddcadd039ce62b8972e",
       "team": {
         "id": "T03TNQFN62V",
         "domain": "alxseco"
@@ -469,7 +469,7 @@
       "state": {
         "values": {}
       },
-      "response_url": "https://hooks.slack.com/actions/T03TNQFN62V/9247807668421/s8kXckqIk6FognxYgifFAxtQ",
+      "response_url": "https://hooks.slack.com/actions/sampleChannel/sampleResponse/URL123",
       "actions": [
         {
           "action_id": "uSoeH",
@@ -497,14 +497,14 @@
         "team_id": "T03TNQFN62V"
       },
       "api_app_id": "A08T4SJP659",
-      "token": "cdpGCjWC3RGCqp0yCWWJa3cD",
+      "token": " ",
       "container": {
         "type": "message",
         "message_ts": "1753368362.561609",
         "channel_id": "C08R4M9P5SM",
         "is_ephemeral": false
       },
-      "trigger_id": "9250368004100.3940831754097.3f22d26bfd4ac9d8061d6ba3fb895529",
+      "trigger_id": "9250061d6ba3fb895529",
       "team": {
         "id": "T03TNQFN62V",
         "domain": "alxseco"
@@ -594,7 +594,7 @@
       "state": {
         "values": {}
       },
-      "response_url": "https://hooks.slack.com/actions/T03TNQFN62V/9250367892308/2gbltJGTYWIqQ6Y7ONLDFyvd",
+      "response_url": "https://hooks.slack.com/actions/sampleChannel/sampleResponse/URL123",
       "actions": [
         {
           "action_id": "qLPi6",
@@ -621,14 +621,14 @@
       "team_id": "T03TNQFN62V"
     },
     "api_app_id": "A08T4SJP659",
-    "token": "cdpGCjWC3RGCqp0yCWWJa3cD",
+    "token": " ",
     "container": {
       "type": "message",
       "message_ts": "1753427347.623059",
       "channel_id": "C08R4M9P5SM",
       "is_ephemeral": false
     },
-    "trigger_id": "9237861098391.3940831754097.d8e0a71997d31983779462cb279d138a",
+    "trigger_id": "41983779462cb279d138a",
     "team": {
       "id": "T03TNQFN62V",
       "domain": "alxseco"
@@ -715,7 +715,7 @@
     "state": {
       "values": {}
     },
-    "response_url": "https://hooks.slack.com/actions/T03TNQFN62V/9237861098359/SZiTg2sy3SF1rsIQ23ZSxj5v",
+    "response_url": "https://hooks.slack.com/actions/sampleChannel/sampleResponse/URL123",
     "actions": [
       {
         "action_id": "uSoeH",

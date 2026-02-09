@@ -8,6 +8,7 @@ type SelectionOption = {
     emoji: boolean;
   };
   value: string; //  "{userId: "", name: "", email: ""}"
+  value: string; //  "{userId: "", name: "", email: ""}"
 };
 
 /**
@@ -109,6 +110,7 @@ export function integrateSelectedValues(
   }
 
 
+
   if (selectedValues[0].value.includes("Project_")) {
     const allProjects = integrateSelectedProjects(
       projects,
@@ -129,9 +131,12 @@ export function integrateSelectedValues(
 
     const selectedValues: SelectionOption[] =
       selected[selectedKey]["multi_select-action"]["selected_options"];
+    const selectedValues: SelectionOption[] =
+      selected[selectedKey]["multi_select-action"]["selected_options"];
 
     const allProjects2 = integrateSelectedProjects(
       projects,
+      selectedValues,
       selectedValues,
     );
 

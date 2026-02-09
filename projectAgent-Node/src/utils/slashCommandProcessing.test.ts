@@ -15,6 +15,8 @@ describe("Tests extractBody", () => {
   it("", () => {
     const decoded = extractRequestBody(event);
 
+    expect(decoded).toBeDefined();
+
     expect(decoded).toHaveProperty("command");
     expect(decoded).toHaveProperty("response_url");
     expect(decoded).toHaveProperty("text");

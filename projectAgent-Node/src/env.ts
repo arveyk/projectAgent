@@ -43,6 +43,12 @@ if (!process.env.ALL_SLN_WEBHOOK_URL) {
 if (!process.env.SENSITIVE_NGRAMS) {
   throw new Error("Missing sensitive ngrams");
 }
+if (!process.env.REGION) {
+  throw new Error("Missing AWS region");
+}
+if (!process.env.CACHE_TABLE_NAME) {
+  throw new Error("Missing cache table name");
+}
 
 export const PORT: string = process.env.PORT || "8080";
 export const SLACK_BOT_TOKEN: string = process.env.SLACK_BOT_TOKEN;
@@ -61,3 +67,5 @@ export const SLACK_USER_OAUTH_TOKEN: string =
   process.env.SLACK_USER_OAUTH_TOKEN;
 export const ALL_SLN_WEBHOOK_URL: string = process.env.ALL_SLN_WEBHOOK_URL;
 export const SENSITIVE_NGRAMS: string[] = process.env.SENSITIVE_NGRAMS.split(",");
+export const REGION: string = process.env.REGION;
+export const CACHE_TABLE_NAME: string = process.env.CACHE_TABLE_NAME;

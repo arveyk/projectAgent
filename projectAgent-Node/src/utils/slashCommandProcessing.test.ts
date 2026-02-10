@@ -1,7 +1,6 @@
 import { isValidCommand, extractRequestBody } from "./slashCommandProcessing";
 import {
   payloadGood,
-  payloadNotAdd,
 } from "../test-data/payloads/slashcmd/payloads";
 import { event } from "../test-data/aws/aws-event";
 
@@ -12,7 +11,7 @@ import { event } from "../test-data/aws/aws-event";
  */
 
 describe("Tests extractBody", () => {
-  it("", () => {
+  it("Test's Extraction of relevant data from slack payload", () => {
     const decoded = extractRequestBody(event);
 
     expect(decoded).toBeDefined();

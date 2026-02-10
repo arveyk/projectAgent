@@ -8,6 +8,7 @@ import { NotionTask } from "../utils/taskFormatting/task";
 import { NotionUser } from "../utils/controllers/userTypes";
 
 
+
 const EXAMPLE_ASSIGNED_BY: NotionUser[] = [
     {
         userId: "136dsg2b-594c-817b-adaa-000l3lf9e69",
@@ -47,7 +48,7 @@ describe("Test createBlockNewTask with a valid task object", () => {
         expect(ExampleNotionTask).toBeDefined();
 
         ExampleNotionTask.assignees.push();
-        const slackBlocksObject = await createNewTaskBlock(EXAMPLE_ASSIGNED_BY, ExampleNotionTask, exampleUserSearchResponse);
+        const slackBlocksObject = createNewTaskBlock(EXAMPLE_ASSIGNED_BY, ExampleNotionTask, exampleUserSearchResponse);
         console.log(JSON.stringify(slackBlocksObject));
 
         expect(JSON.stringify(slackBlocksObject.blocks)).toMatch(

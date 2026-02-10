@@ -32,7 +32,6 @@ describe("Tests parseTaskSlashCmd without a due date", () => {
     const parsedTask = parsedObject.task;
     console.log(JSON.stringify(parsedTask));
 
-    //expect(parsedTask.assignees).toMatch(taskInferDates.assignees);
     expect(parsedTask.taskTitle).toBeTruthy();
     expect(parsedTask.description).toBeTruthy();
   }, 10000);
@@ -48,7 +47,6 @@ describe("Tests parseTaskSlashCmd with the same example given to the LLM", () =>
     const parsedTask = parsedObject.task;
     console.log(JSON.stringify(parsedTask));
 
-    //expect(parsedTask.assignees).toMatch(taskInferDates.assignees);
     expect(parsedTask.taskTitle).toBeTruthy();
     expect(parsedTask.description).toBeTruthy();
     expect(taskSchema.parse(EXAMPLE_OUTPUT_FOR_PROMPT_00)).toBeTruthy();

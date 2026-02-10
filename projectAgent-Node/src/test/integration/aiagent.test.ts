@@ -5,7 +5,6 @@ import {
   payloadHarvey,
   payloadInferDates,
   payloadNew,
-  payloadNoDates,
 } from "../../test-data/payloads/slashcmd/payloads";
 import {
   taskKitchen,
@@ -20,7 +19,6 @@ describe("Tests parseTaskSlashCmd with a good payload", () => {
     const parsedTask = await parseTask(payloadGood, timestamp);
     console.log(JSON.stringify(parsedTask));
 
-    //expect(parsedTask.assignees).toMatch(taskGood.assignees);
     expect(parsedTask.task.taskTitle).toBeTruthy();
     expect(parsedTask.task.description).toBeTruthy();
   }, 20000);
@@ -35,7 +33,6 @@ describe("Tests parseTaskSlashCmd with a good payload from Harvey", () => {
     const parsedTask = await parseTask(payloadHarvey, timestamp);
     console.log(JSON.stringify(parsedTask));
 
-    //expect(parsedTask.assignees).toMatch(taskHarvey.assignees);
     expect(parsedTask.task.taskTitle).toBeTruthy();
     expect(parsedTask.task.description).toBeTruthy();
   }, 20000);
@@ -49,8 +46,6 @@ describe("Tests parseTaskSlashCmd inferring dates", () => {
 
     const parsedTask = await parseTask(payloadInferDates, timestamp);
     console.log(JSON.stringify(parsedTask));
-
-    //expect(parsedTask.assignees).toMatch(taskInferDates.assignees);
     expect(parsedTask.task.taskTitle).toBeTruthy();
     expect(parsedTask.task.description).toBeTruthy();
   }, 20000);

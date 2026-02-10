@@ -52,8 +52,8 @@ export const task_not_in_db: Task = {
 export const task_feed_cats: Task = {
   taskTitle: "Feed the cats",
   assignees: [{name:"Josh"}],
-  dueDate: new Date("2023-08-07").toISOString(),
-  startDate: new Date("2023-08-01").toISOString(),
+  dueDate: "2023-08-07",
+  startDate: "2023-08-01",
   description:
     "Feed the cats every day from August 1 to August 7. Give them their pills and ensure they have enough clean water.",
 };
@@ -70,8 +70,8 @@ export const task_unknown_fields = {
 export const taskGood: Task = {
   taskTitle: "Finish the mural",
   assignees: [{"name":"Jeff"},{"name": "Agnes"}],
-  dueDate: new Date("2025-09-01").toISOString(),
-  startDate: new Date("2025-08-06").toISOString(),
+  dueDate: "2025-09-01",
+  startDate: "2025-08-06",
   description:
     "Finish the mural, preferably by September 1",
 }
@@ -79,8 +79,8 @@ export const taskGood: Task = {
 export const taskInferDates: Task = {
   taskTitle: "Gather information and write report on similar products",
   assignees: [{name:"Ellen"}],
-  dueDate: new Date("2025-08-06").toISOString(),
-  startDate: new Date("2025-08-05").toISOString(),
+  dueDate: "2025-08-06",
+  startDate: "2025-08-05",
   description:
     "Gather information about similar preexisting products and write up a report",
 }
@@ -88,8 +88,8 @@ export const taskInferDates: Task = {
 export const taskHarvey: Task = {
   taskTitle: "Send photos for LinkedIn shout out",
   assignees: [{name:"Harvey"}],
-  dueDate: new Date("2025-08-06").toISOString(),
-  startDate: new Date("2025-08-05").toISOString(),
+  dueDate: "2025-08-06",
+  startDate: "2025-08-05",
   description:
     "Send some photos for a LinkedIn shout out",
 }
@@ -97,15 +97,15 @@ export const taskHarvey: Task = {
 export const taskSubstr: Task = {
   taskTitle: "Crown the winner",
   assignees: [{name:"Dan"}],
-  dueDate: new Date("2025-10-7").toISOString(),
-  startDate: new Date("2025-10-02").toISOString(),
+  dueDate: "2025-10-7",
+  startDate: "2025-10-02",
   description: "Crown the winner of the marathon with the golden diadem, and a sash of silver"
 }
 export const taskSubstr2: Task = {
   taskTitle: "Organize the files",
   assignees: [{name:"Lyn"}],
-  dueDate: new Date("2025-10-7").toISOString(),
-  startDate: new Date("2025-10-13").toISOString(),
+  dueDate: "2025-10-7",
+  startDate: "2025-10-13",
   description: "Contact out list of attendees for teh DCD conference next week Monday"
 }
 
@@ -121,7 +121,7 @@ export const taskNoAssignee: NotionTask = {
   taskTitle: "Fix plumbing issue in second floor kitchen", 
   assignees: [],
   assignedBy: [],
-  dueDate: new Date("2025-11-12").toISOString(), 
+  dueDate: "2025-11-12", 
   description: "Fix the plumbing issue in the second floor kitchen. Call when the task is completed." 
 }
 

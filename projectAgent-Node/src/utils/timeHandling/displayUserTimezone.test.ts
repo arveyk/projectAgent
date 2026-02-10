@@ -9,7 +9,6 @@ describe("tests displayUserTimezone", () => {
     console.log(`user's timezone: ${localDateString}`);
   });
 });
-import { displayUserTimezone } from "./displayUserTimezone";
 
 describe("tests displayUserTimezone", () => {
   it("converts a fixed UTC date to a user timezone string using the given offset", () => {

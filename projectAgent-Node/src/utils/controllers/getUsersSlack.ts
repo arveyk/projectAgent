@@ -132,7 +132,7 @@ export async function getSlackUserDataById(
     email: userData.profile.email,
     timezoneData: {
       tz: userData["tz"],
-      tz_label: userData["tz_lable"],
+      tz_label: userData["tz_label"],
       tz_offset: offsetSeconds / (SECONDS_IN_A_MINUTE * MINUTES_IN_AN_HOUR),
     },
   };

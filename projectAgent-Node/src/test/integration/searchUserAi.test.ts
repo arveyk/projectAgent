@@ -1,5 +1,5 @@
 // const request = require("supertest");
-import { searchUser } from "./searchUserAi";
+import { searchUser } from "../../utils/controllers/searchUserAi";
 import { EXAMPLE_ALL_NOTION_USERS } from "../../test-data/example-all-notion-users";
 import { taskHarvey
  } from "../../test-data/tasks/example-tasks";

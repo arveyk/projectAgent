@@ -7,7 +7,7 @@ import {
 } from "@notionhq/client";
 import { BlockAction } from "@slack/bolt";
 import { NotionUser } from "../controllers/userTypes";
-import { TaskParseResult } from "../aiAgent";
+import { TaskParseResult } from "../../utils/aiagent";
 
 /**
  * Notion users identified and ambiguous for a task.

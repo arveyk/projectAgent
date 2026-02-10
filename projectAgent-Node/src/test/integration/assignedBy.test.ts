@@ -1,6 +1,6 @@
 import { EXAMPLE_SLACK_USER_IDS } from "../../test-data/example-slack-userids"
-import { getSlackUserDataById } from "./getUsersSlack";
-import { findAssignedBy } from "./findMatchingNotionUsers";
+import { getSlackUserDataById } from "../../utils/controllers/getUsersSlack";
+import { findAssignedBy } from "../../utils/controllers/findMatchingNotionUsers";
 
 
 describe("Test getting assigned by from Notion using slack Id", () => {

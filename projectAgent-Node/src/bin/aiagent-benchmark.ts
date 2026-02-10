@@ -1,5 +1,5 @@
 import { SlashCommand } from "@slack/bolt";
-import { parseTask } from "../utils/aiAgent";
+import { parseTask } from "../utils/aiagent";
 
 const message1 = "add Ceci, please fix the date formatting error";
 const message2 =

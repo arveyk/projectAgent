@@ -1,4 +1,4 @@
-import { parseTask } from "./aiAgent";
+import { parseTask } from "../../utils/aiagent";
 
 import {
   payloadGood,
@@ -6,13 +6,10 @@ import {
   payloadInferDates,
   payloadNew,
   payloadNoDates,
-} from "../test-data/payloads/slashcmd/payloads";
+} from "../../test-data/payloads/slashcmd/payloads";
 import {
-  taskGood,
-  taskHarvey,
-  taskInferDates,
   taskKitchen,
-} from "../test-data/tasks/example-tasks";
+} from "../../test-data/tasks/example-tasks";
 
 describe("Tests parseTaskSlashCmd with a good payload", () => {
   it("Parses the task correctly", async () => {

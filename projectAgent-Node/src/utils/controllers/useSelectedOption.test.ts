@@ -2,7 +2,6 @@ import {
   EXAMPLE_USER_AND_PROJECT_SELECTED,
   EXAMPLE_ONLY_PROJECT_SELECTED,
   EXAMPLE_NO_ITEM_SELECTED
-  EXAMPLE_NO_ITEM_SELECTED
 } from "../../test-data/example-selections-payload";
 import { integrateSelectedValues } from "./useSelectedOption";
 import { TaskPage, ProjectWithName } from "../taskFormatting/task";
@@ -13,17 +12,10 @@ const payload_projects_selected = EXAMPLE_ONLY_PROJECT_SELECTED.payload;
 const payload_no_item_selected = EXAMPLE_NO_ITEM_SELECTED.payload;
 
 
-const payload_user_and_project_selected = EXAMPLE_USER_AND_PROJECT_SELECTED.payload;
-const payload_projects_selected = EXAMPLE_ONLY_PROJECT_SELECTED.payload;
-const payload_no_item_selected = EXAMPLE_NO_ITEM_SELECTED.payload;
-
 
 describe("Run payload Extraction and use values", () => {
   it("Should extract users's selections", () => {
     // console.log(payload, payload_01);
-
-    const taskPageObject: TaskPage
-     = payload_user_and_project_selected["actions"][0].value.taskPageObject || "{}";
 
     const taskPageObject: TaskPage
      = payload_user_and_project_selected["actions"][0].value.taskPageObject || "{}";
@@ -34,7 +26,6 @@ describe("Run payload Extraction and use values", () => {
     const task = integrateSelectedValues(
       taskPageObject.task,
       payload_user_and_project_selected,
-      payload_user_and_project_selected,
     );
     const taskProjects = task.project || [];
 
@@ -42,7 +33,6 @@ describe("Run payload Extraction and use values", () => {
     expect(taskPageObject.task.assignees).not.toEqual(task.assignees);
     expect(task.project).toBeDefined();
 
-    expect(projectsBeforeAddingSelectedOptions.length).toBeLessThan(
     expect(projectsBeforeAddingSelectedOptions.length).toBeLessThan(
       taskProjects.length,
     );
@@ -54,7 +44,6 @@ describe("Run payload Extraction and use values", () => {
         taskPageObject: TaskPage;
         userOptions: NotionUser[];
         projectOptions: ProjectWithName[];
-      } = payload_projects_selected["actions"][0].value || "{}";
       } = payload_projects_selected["actions"][0].value || "{}";
 
       const taskPageObject = taskPageAndOptionsObject.taskPageObject;

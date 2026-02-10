@@ -16,18 +16,26 @@ import { CACHE_TABLE_NAME, REGION } from "../env";
 // Convert callback-based functions to promise-based
 const gzipPromise = promisify(zlib.gzip);
 
-// initialize DDB client
-const DDBClient: DynamoDBClient = new DynamoDBClient({ region: REGION });
-const DDBDocumentClient: DynamoDBDocumentClient =
-    DynamoDBDocumentClient.from(DDBClient);
+/**
+ * Creates a DynamoDBDocumentClient for retrieving items from the cache.
+ * @returns A DynamoDBDocumentClient for retrieving items from the cache.
+ */
+export function createCacheClient(): DynamoDBDocumentClient {
+    const DDBClient: DynamoDBClient = new DynamoDBClient({ region: REGION });
+    const DDBDocumentClient: DynamoDBDocumentClient =
+        DynamoDBDocumentClient.from(DDBClient);
+    return DDBDocumentClient;
+}
 
 /**
  * Updates the cache.
+ * @param client A client that can access DynamoDB.
  * @param taskResponse The raw task response from Notion.
  * @param projectResponse The raw project response from Notion.
  * @param userResponse The raw user response from Notion.
  */
 export async function refreshCache(
+    client: DynamoDBDocumentClient,
     taskResponse: QueryDataSourceResponse["results"],
     projectResponse: QueryDataSourceResponse["results"],
     userResponse: ListUsersResponse,
@@ -45,21 +53,24 @@ export async function refreshCache(
             },
         },
     });
-    const batchGetResponse = await DDBDocumentClient.send(getCommand);
+    const batchGetResponse = await client.send(getCommand);
     console.log(JSON.stringify(batchGetResponse));
 
     // Refresh the cache
     const taskCacheResponse = await refreshCacheItem(
+        client,
         "task",
         taskResponse,
         batchGetResponse,
     );
     const projectCacheResponse = await refreshCacheItem(
+        client,
         "project",
         projectResponse,
         batchGetResponse,
     );
     const userCacheResponse = await refreshCacheItem(
+        client,
         "user",
         userResponse,
         batchGetResponse,
@@ -74,12 +85,14 @@ export async function refreshCache(
 
 /**
  * Updates a cache item.
+ * @param client A client that can access DynamoDB.
  * @param itemType The type of item being updated in the cache (task, project, or user)
  * @param notionResponse The raw response from Notion.
  * @param batchGetResponse The response from getting the current cache values.
  * @returns The response from updating the cache.
  */
 async function refreshCacheItem(
+    client: DynamoDBDocumentClient,
     itemType: "task" | "project" | "user",
     notionResponse: QueryDataSourceResponse["results"] | ListUsersResponse,
     batchGetResponse: BatchGetCommandOutput,
@@ -104,7 +117,7 @@ async function refreshCacheItem(
                 },
             },
         });
-        cacheResponse = await DDBDocumentClient.send(command);
+        cacheResponse = await client.send(command);
     }
     // If the cache entry doesn't exist, create it
     else {
@@ -115,7 +128,7 @@ async function refreshCacheItem(
                 RawResponse: compressedResponse,
             },
         });
-        cacheResponse = await DDBDocumentClient.send(command);
+        cacheResponse = await client.send(command);
     }
 
     return cacheResponse;

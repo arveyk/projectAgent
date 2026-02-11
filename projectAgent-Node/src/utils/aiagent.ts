@@ -12,6 +12,7 @@ import { SlashCommand } from "@slack/bolt";
 import { logTimestampForBenchmarking } from "./logTimestampForBenchmarking";
 import { getProjects } from "./database/searchDatabase";
 import { getAppUserData } from "./controllers/getUsersSlack";
+import { CacheData } from "./database/getFromCache";
 
 const EXAMPLE_MSG_00 =
   "\
@@ -126,6 +127,7 @@ const structuredLlmSlashCmd: Runnable<
 export const parseTask = async function (
   reqBody: SlashCommand,
   timestamp: number,
+  cacheItems: CacheData
 ): Promise<ParsedData> {
   let textToParse;
 
@@ -142,7 +144,7 @@ export const parseTask = async function (
   // const timeData = await getEventTimeData(reqBody, timestamp);
   const timeData = appUserData.eventTimeData;
 
-  const notionProjects = await getProjects();
+  const notionProjects = await getProjects(cacheItems);
   console.log(`notionProjects found ${JSON.stringify(notionProjects)}`);
 
   const prompt = `Today's date in ISO format is ${timeData.toISODate()}. Please extract task information from a message, making sure to list any dates in ISO format. If a start date is not specifed, assume the start date is today's date. "By tomorrow" means the due date is tomorrow.

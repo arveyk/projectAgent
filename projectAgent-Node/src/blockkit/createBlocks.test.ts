@@ -26,10 +26,10 @@ const ExampleNotionTask: NotionTask = {
   taskTitle: notionTask.taskTitle,
   project: notionTask.project
 };
-
+const testUserSearchResponse = [...exampleUserSearchResponse];
 
 ExampleNotionTask.assignees.forEach((assignee) => {
-    exampleUserSearchResponse.push({
+    testUserSearchResponse.push({
         person: {
             name: assignee.name
         },
@@ -44,11 +44,10 @@ ExampleNotionTask.assignees.forEach((assignee) => {
 // TODO: Mock API call
 
 describe("Test createBlockNewTask with a valid task object", () => {
-    it("returns blocks containing the task data", async () => {
+    it("returns blocks containing the task data", () => {
         expect(ExampleNotionTask).toBeDefined();
 
-        ExampleNotionTask.assignees.push();
-        const slackBlocksObject = createNewTaskBlock(EXAMPLE_ASSIGNED_BY, ExampleNotionTask, exampleUserSearchResponse);
+        const slackBlocksObject = createNewTaskBlock(EXAMPLE_ASSIGNED_BY, ExampleNotionTask, testUserSearchResponse);
         console.log(JSON.stringify(slackBlocksObject));
 
         expect(JSON.stringify(slackBlocksObject.blocks)).toMatch(

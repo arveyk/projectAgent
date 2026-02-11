@@ -47,7 +47,7 @@ export async function retrieveCache(client: DynamoDBDocumentClient): Promise<Cac
  * @param batchGetResponse A DynamoDB batch response from the cache.
  * @returns The extracted and decompressed cache data.
  */
-async function extractCacheData(batchGetResponse: BatchGetCommandOutput): Promise<CacheData> {
+export async function extractCacheData(batchGetResponse: BatchGetCommandOutput): Promise<CacheData> {
     const responses = batchGetResponse.Responses;
     if (!responses) {
         throw new Error("Couldn't fetch cache items");
@@ -85,7 +85,7 @@ async function extractCacheData(batchGetResponse: BatchGetCommandOutput): Promis
  * @param itemRecord A cache entry.
  * @returns The decompressed data of the cache item.
  */
-async function extractCacheItemData(itemRecord: Record<string, any> | undefined) {
+export async function extractCacheItemData(itemRecord: Record<string, any> | undefined) {
     const itemCompressed: Buffer<ArrayBuffer> | null = itemRecord ? itemRecord["RawResponse"] : null;
 
     const itemData: QueryDataSourceResponse["results"] | ListUsersResponse = itemCompressed ? JSON.parse((await gunzipPromise(itemCompressed)).toString()) : null;

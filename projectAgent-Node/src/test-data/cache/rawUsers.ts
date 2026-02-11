@@ -1,6 +1,6 @@
 import { ListUsersResponse } from "@notionhq/client";
 
-export const EXAMPLE_RAW_PROJECTS_RESPONSE: ListUsersResponse = {
+export const EXAMPLE_RAW_USERS_RESPONSE: ListUsersResponse = {
   "object": "list",
   "results": [
     {

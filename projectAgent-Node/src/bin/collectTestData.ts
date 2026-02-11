@@ -1,10 +1,12 @@
 import { mkdir, writeFile } from "fs/promises";
 import { dirname } from "path";
 import { Client } from "@notionhq/client";
-import { NOTION_API_KEY } from "../env";
+import { CACHE_TABLE_NAME, NOTION_API_KEY } from "../env";
 import { NOTION_TASKS_DATA_SOURCE_ID } from "../env";
 import { simplifyTaskPages } from "../utils/database/simplifyTaskPages";
 import { getProjects, getProjectsRaw } from "../utils/database/searchDatabase";
+import { BatchGetCommand } from "@aws-sdk/lib-dynamodb";
+import { createCacheClient } from "../utils/database/getFromCache";
 
 /**
  * ts-node script that retrieves notion objects
@@ -16,23 +18,48 @@ async function getTestData() {
     auth: NOTION_API_KEY,
     notionVersion: "2025-09-03",
   });
+  const cacheClient = createCacheClient();
+  const getCommand = new BatchGetCommand({
+    RequestItems: {
+      [CACHE_TABLE_NAME]: {
+        Keys: [
+          { ItemType: "task" },
+          { ItemType: "project" },
+          { ItemType: "user" },
+        ],
+      },
+    },
+  });
+
+  const batchGetResponse = await cacheClient.send(getCommand);
+  await saveJson(batchGetResponse, "log/testData/cache/cacheResponse.json");
 
   const rawPages = await notion.dataSources.query({
     data_source_id: NOTION_TASKS_DATA_SOURCE_ID,
+    filter_properties: [
+      "Task name",
+      "Description",
+      "Assigned to",
+      "Project"
+    ]
   });
-  await saveJson(rawPages, "log/testData/responses/example-rawPages.json");
+  const rawTasks = rawPages["results"];
+  await saveJson(rawTasks, "log/testData/cache/rawTasks.json");
 
-  const simplifiedPages = simplifyTaskPages(rawPages.results);
-  await saveJson(
-    simplifiedPages,
-    "log/testData/responses/example-simplifiedPages.json",
-  );
+  // const simplifiedPages = simplifyTaskPages(rawPages.results);
+  // await saveJson(
+  //   simplifiedPages,
+  //   "log/testData/responses/example-simplifiedPages.json",
+  // );
 
   const projectsRaw = await getProjectsRaw();
-  await saveJson(projectsRaw, "log/testData/responses/example-projectsRaw.json");
+  await saveJson(projectsRaw, "log/testData/cache/rawProjects.json");
 
-  const projects = await getProjects();
-  await saveJson(projects, "log/testData/responses/example-projects.json");
+  const rawUsers = await notion.users.list({});
+  await saveJson(rawUsers, "log/testData/cache/rawUsers.json");
+
+  // const projects = await getProjects();
+  // await saveJson(projects, "log/testData/responses/example-projects.json");
 }
 
 /**

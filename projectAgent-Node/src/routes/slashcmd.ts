@@ -60,8 +60,8 @@ const slashCmdHandler: StreamifyHandler = async function (
       const response_url = reqBody["response_url"];
 
       // Fetch cache
-       await sendLoadingMessage(
-        "Fetching data",
+      await sendLoadingMessage(
+        "Searching Database",
         response_url,
         reqBody.text,
       );
@@ -71,11 +71,6 @@ const slashCmdHandler: StreamifyHandler = async function (
       logTimestampForBenchmarking("Done fetching cache");
 
       // Search database
-      await sendLoadingMessage(
-        "Searching Database",
-        response_url,
-        reqBody.text,
-      );
       logTimestampForBenchmarking("Searching database");
       const isInDatabase = await searchDatabase(reqBody.text, cacheItems);
       logTimestampForBenchmarking("Done searching database");

@@ -15,7 +15,7 @@ export const EXAMPLE_USER_AND_PROJECT_SELECTED = {
 			"channel_id": "C08VADJ7SEL",
 			"is_ephemeral": true
 		},
-		"trigger_id": "10264570572098.8996459579264.fc0a3d91fb6ed4403572be9f5fe4b4de",
+		"trigger_id": "10268.89979264.fc0e9f5fe4b4de",
 		"team": {
 			"id": "T08VADHH17S",
 			"domain": "solutionalpro-1c61413"
@@ -56,7 +56,7 @@ export const EXAMPLE_USER_AND_PROJECT_SELECTED = {
 				}
 			}
 		},
-		"response_url": "https://hooks.slack.com/actions/T08VADHH17S/10261141601669/dyRlNm9OlbYgP8rn2BUaOfjP",
+		"response_url": "https://hooks.slack.com/actions/exampleChannel/exampleResponse/exampleURL",
 		"actions": [
 			{
 				"action_id": "SelectionActionId-2",
@@ -93,14 +93,14 @@ export const EXAMPLE_ONLY_ASSIGNEE_SELECTED = {
 			"team_id": "T08VADHH17S"
 		},
 		"api_app_id": "A0A6W48S823",
-		"token": " ", "container":
-		{
+		"token": " ",
+		"container": {
 			"type": "message",
 			"message_ts": "1767964513.001200",
 			"channel_id": "C08VADJ7SEL",
 			"is_ephemeral": true
 		},
-		"trigger_id": "10264570572098.8996459579264.fc0a3d91fb6ed4403572be9f5fe4b4de",
+		"trigger_id": "102098.8979264.fc0a3dfe4b4de",
 		"team": {
 			"id": "T08VADHH17S",
 			"domain": "solutionalpro-1c61413"
@@ -137,7 +137,7 @@ export const EXAMPLE_ONLY_ASSIGNEE_SELECTED = {
 					}
 				}
 			}
-		}, "response_url": "https://hooks.slack.com/actions/T08VADHH17S/10261141601669/dyRlNm9OlbYgP8rn2BUaOfjP",
+		}, "response_url": "https://hooks.slack.com/actions/SampleCHannel/sampleResponse/dURLUaOfjP",
 		"actions": [{
 			"action_id": "SelectionActionId-2",
 			"block_id": "XyU0G", "text": { "type": "plain_text", "text": "Confirm", "emoji": true },
@@ -192,7 +192,7 @@ export const EXAMPLE_ONLY_PROJECT_SELECTED = {
 			"channel_id": "C08VADJ7SEL",
 			"is_ephemeral": true
 		},
-		"trigger_id": "10263077280966.8996459579264.f04350577804046b456c67a6ca980e00",
+		"trigger_id": "102966.8964.f0435980e00",
 		"team": {
 			"id": "T08VADHH17S",
 			"domain": "solutionalpro-1c61413"
@@ -227,7 +227,7 @@ export const EXAMPLE_ONLY_PROJECT_SELECTED = {
 				}
 			}
 		},
-		"response_url": "https://hooks.slack.com/actions/T08VADHH17S/10278041067025/7QNg50JBvd9Cveb6C6l4M7DG",
+		"response_url": "https://hooks.slack.com/actions/TSAMPLECHANNEL/exampleREP25/7QNURLG",
 		"actions": [{
 			"action_id": "SelectionActionId-2",
 			"block_id": "b5S64",
@@ -291,7 +291,7 @@ export const EXAMPLE_NO_ITEM_SELECTED = {
 			"channel_id": "C08VADJ7SEL",
 			"is_ephemeral": true
 		},
-		"trigger_id": "10485384085632.8996459579264.81406e90bcccfa331f3b6ecbe5d27d94",
+		"trigger_id": "1045632.8964.814027d94",
 		"team": {
 			"id": "T08VADHH17S",
 			"domain": "solutionalpro-1c61413"
@@ -318,7 +318,7 @@ export const EXAMPLE_NO_ITEM_SELECTED = {
 				}
 			}
 		},
-		"response_url": "https://hooks.slack.com/actions/T08VADHH17S/10441651949815/oR8X7vKslLaSjFMfCfO7hha1",
+		"response_url": "https://hooks.slack.com/actions/SAMPLEChannel/URL/Response/KslLaSjFhha1",
 		"actions": [
 			{
 				"action_id": "SelectionActionId-2",
@@ -330,19 +330,19 @@ export const EXAMPLE_NO_ITEM_SELECTED = {
 				},
 				"value": {
 					"taskPageObject": {
-						"task":{
+						"task": {
 							"taskTitle": "Create statistical analysis tool",
-							"assignees":[],
-							"assignedBy":[{
+							"assignees": [],
+							"assignedBy": [{
 								"userId": "1e0d872b-594c-81e5-be86-000260493812",
 								"name": "Harvey Kisiangani",
 								"email": "harveykisiangani@gmail.com"
 							}],
 							"startDate": "2026-02-06",
 							"description": "Harvey, create a statistical analysis tool for the population tracking project",
-							"project":[]
+							"project": []
 						},
-						"pageId":"","url":""
+						"pageId": "", "url": ""
 					}
 				},
 				"style": "primary",

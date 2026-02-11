@@ -15,3 +15,5 @@ describe("Tests retrieveCache", () => {
         throw new Error("not implemented");
     })
 })
+
+// TODO make more specific unit test for extractCacheItemData

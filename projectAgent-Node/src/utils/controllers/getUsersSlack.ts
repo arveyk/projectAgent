@@ -101,7 +101,8 @@ export async function getSlackUserDataById(
     });
 
   if (!retrieveUserInfoResponse.data["ok"]) {
-    throw new Error(`Error fetching user by ID: ${retrieveUserInfoResponse}`);
+    console.log(retrieveUserInfoResponse);
+    throw new Error(`Invalid user ID`);
   }
   const userData = retrieveUserInfoResponse.data["user"];
 

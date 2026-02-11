@@ -31,9 +31,15 @@ describe("Tests getUserTimezone with an invalid user id", () => {
     }).rejects.toThrow("Invalid user ID");
 
   });
+  it("Throws error", async () => {
+    const userIDBad = "ABC1DEF2GHI";
+    await expect(async () => {
+      await getSlackUserDataById(userIDBad);
+    }).rejects.toThrow("Invalid user ID");
+  })
 });
 
-describe("Tests getTime with a valid payload from Harvey", () => {
+describe("Tests getEventTimeData with a valid payload from Harvey", () => {
   it("Returns the time of the event in Harvey's timezone", async () => {
     const timestamp = 1755039682 * 1000;
     const timeData = await getEventTimeData(payloadHarvey, timestamp);
@@ -45,7 +51,7 @@ describe("Tests getTime with a valid payload from Harvey", () => {
   });
 });
 
-describe("Tests getTime with a valid payload from Ceci", () => {
+describe("Tests getSlackUserDataById with a valid payload from Ceci", () => {
   it("Returns the time of the event in Ceci's timezone", async () => {
     const timestamp = 1755039682 * 1000;
     const timeZoneData = await getSlackUserDataById(payloadCeci.user_id);

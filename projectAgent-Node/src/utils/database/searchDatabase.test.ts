@@ -78,11 +78,11 @@ describe("Tests getTasksRaw with the new property filters", () => {
   it("Should return a non-empty list of tasks", async () => {
     const rawTasks = await getTasksRaw();
     expect(rawTasks.length).toBeGreaterThan(0);
-    console.log(rawTasks.map(result => isFullPage(result)));
+    console.log(rawTasks.map((result) => isFullPage(result)));
     console.log(rawTasks.length);
     console.log(JSON.stringify(rawTasks[0]));
 
     const tasks = simplifyTaskPages(rawTasks);
     expect(tasks.length).toEqual(rawTasks.length);
-  })
-})
+  });
+});

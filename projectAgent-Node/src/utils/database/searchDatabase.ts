@@ -102,9 +102,9 @@ export async function getTasks(): Promise<TaskPage[]> {
   const rawTasks = await getTasksRaw();
   logTimestampForBenchmarking("Done querying task database");
   return rawTasks
-    .filter(page => isFullPage(page))
-    .filter(page => !containsSensitiveNgrams(page))
-    .map(simplifyTaskPage)
+    .filter((page) => isFullPage(page))
+    .filter((page) => !containsSensitiveNgrams(page))
+    .map(simplifyTaskPage);
 }
 
 /**
@@ -114,15 +114,12 @@ export async function getTasks(): Promise<TaskPage[]> {
  *
  * @return	An array of all raw tasks in the tasks database
  */
-export async function getTasksRaw(): Promise<QueryDataSourceResponse["results"]> {
+export async function getTasksRaw(): Promise<
+  QueryDataSourceResponse["results"]
+> {
   return await collectPaginatedAPI(notion.dataSources.query, {
     data_source_id: NOTION_TASKS_DATA_SOURCE_ID,
-    filter_properties: [
-      "Task name",
-      "Description",
-      "Assigned to",
-      "Project"
-    ]
+    filter_properties: ["Task name", "Description", "Assigned to", "Project"],
   });
 }
 
@@ -176,10 +173,10 @@ export async function getProjects() {
   logTimestampForBenchmarking("Done querying Projects");
 
   let simplifiedProjects = projectsList
-    .filter(project => isFullPage(project))
-    .filter(project => !containsSensitiveNgrams(project))
+    .filter((project) => isFullPage(project))
+    .filter((project) => !containsSensitiveNgrams(project))
     .map(simplifyProject)
-    .filter(project => project !== undefined)
+    .filter((project) => project !== undefined);
 
   // console.log(JSON.stringify(projectsQueryResponse));
   return simplifiedProjects;
@@ -192,7 +189,9 @@ export async function getProjects() {
  *
  * @return	An array of all raw projects in the projects database
  */
-export async function getProjectsRaw(): Promise<QueryDataSourceResponse["results"]> {
+export async function getProjectsRaw(): Promise<
+  QueryDataSourceResponse["results"]
+> {
   return await collectPaginatedAPI(notion.dataSources.query, {
     data_source_id: NOTION_PROJECTS_DATA_SOURCE_ID,
     filter: {
@@ -201,26 +200,23 @@ export async function getProjectsRaw(): Promise<QueryDataSourceResponse["results
           property: "Status",
           status: {
             does_not_equal: "Done",
-          }
+          },
         },
         {
           property: "Status",
           status: {
             does_not_equal: "Canceled",
-          }
+          },
         },
         {
           property: "Status",
           status: {
             does_not_equal: "Archived",
-          }
+          },
         },
       ],
     },
-    filter_properties: [
-      "Project name",
-      "Status"
-    ]
+    filter_properties: ["Project name", "Status"],
   });
 }
 
@@ -230,9 +226,11 @@ export async function getProjectsRaw(): Promise<QueryDataSourceResponse["results
  * @param project The raw project (Notion page) to simplify
  * @return The simplified Project object, or undefined if the project could not be simplified
  */
-export function simplifyProject(project: PageObjectResponse): Project | undefined {
+export function simplifyProject(
+  project: PageObjectResponse,
+): Project | undefined {
   const titleProperty = Object.values(project.properties).find(
-    (prop) => prop.type === "title"
+    (prop) => prop.type === "title",
   );
   return titleProperty
     ? {

@@ -36,12 +36,7 @@ async function getTestData() {
 
   const rawPages = await notion.dataSources.query({
     data_source_id: NOTION_TASKS_DATA_SOURCE_ID,
-    filter_properties: [
-      "Task name",
-      "Description",
-      "Assigned to",
-      "Project"
-    ]
+    filter_properties: ["Task name", "Description", "Assigned to", "Project"],
   });
   const rawTasks = rawPages["results"];
   await saveJson(rawTasks, "log/testData/cache/rawTasks.json");

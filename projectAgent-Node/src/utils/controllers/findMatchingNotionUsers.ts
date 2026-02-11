@@ -7,7 +7,7 @@ import { NotionUser, UserSearchResult } from "./userTypes";
  * @param task: task to be created that contains the required assignees array
  *
  * @returns     returns the user(s) in Notion (name and email) that match the user details
- *   extracted by the AI. 
+ *   extracted by the AI.
  */
 export async function findMatchingAssignees(
   task: Task,
@@ -30,7 +30,7 @@ export async function findMatchingAssignees(
  * Finds a Notion user matching the Slack user who assigned the given task.
  * @param slackUsername:  name of user in slack used to search for user/user
  *   in Notion to use as assignee(s)
- * 
+ *
  * @returns               Array Notion users that match the slack user with the name
  *   equal to value of slackUsername
  */
@@ -82,7 +82,7 @@ export function compareNames(
       slackUserName.toLowerCase().replace(".", " ").replace("@", "") ===
       notionUserName.toLowerCase().replace(".", " ").replace("@", "")
     ) {
-     // console.log(`Found Matching user, CompareNames Function, ${slackUserName}`);
+      // console.log(`Found Matching user, CompareNames Function, ${slackUserName}`);
       return true;
     } else {
       return false;
@@ -132,7 +132,7 @@ export function isPartialNameMatch(
         .replace("@", "")
         .includes(slackUserName.toLowerCase().replace("@", ""))
     ) {
-     // console.log(`Found Matching user, ${notionUserName}`);
+      // console.log(`Found Matching user, ${notionUserName}`);
       return true;
     } else if (
       slackUserName
@@ -205,7 +205,7 @@ export async function findMatchingNotionUserByEmail(
 /**
  * Function to find the assigner's details from the Notion side
  * @param identifiedAppUser: The assigner(creator) of the new task, inferred from Slack
- * 
+ *
  * @returns                  Array containing only the Notion user that matches slack user that is creating the
  *   task. This is what is placed in the assignedBy field in a task
  */

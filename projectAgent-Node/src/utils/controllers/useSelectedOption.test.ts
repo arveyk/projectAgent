@@ -22,10 +22,7 @@ describe("Run payload Extraction and use values", () => {
     const projectsBeforeAddingSelectedOptions =
       taskPageObject.task.project || [];
 
-    const task = integrateSelectedValues(
-      taskPageObject.task,
-      payload,
-    );
+    const task = integrateSelectedValues(taskPageObject.task, payload);
     const taskProjects = task.project || [];
 
     console.log(task);
@@ -47,10 +44,7 @@ describe("Run payload Extraction and use values", () => {
 
       const taskPageObject = taskPageAndOptionsObject.taskPageObject;
 
-      const task = integrateSelectedValues(
-        taskPageObject.task,
-        payload,
-      );
+      const task = integrateSelectedValues(taskPageObject.task, payload);
       console.log(task);
       expect(task.assignees).toEqual(task.assignees);
     }));

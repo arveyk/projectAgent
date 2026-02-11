@@ -66,6 +66,7 @@ export const PROJ_AGENT_APP_ID: string = process.env.PROJ_AGENT_APP_ID;
 export const SLACK_USER_OAUTH_TOKEN: string =
   process.env.SLACK_USER_OAUTH_TOKEN;
 export const ALL_SLN_WEBHOOK_URL: string = process.env.ALL_SLN_WEBHOOK_URL;
-export const SENSITIVE_NGRAMS: string[] = process.env.SENSITIVE_NGRAMS.split(",");
+export const SENSITIVE_NGRAMS: string[] =
+  process.env.SENSITIVE_NGRAMS.split(",");
 export const REGION: string = process.env.REGION;
 export const CACHE_TABLE_NAME: string = process.env.CACHE_TABLE_NAME;

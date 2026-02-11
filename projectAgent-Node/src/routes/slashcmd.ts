@@ -137,7 +137,10 @@ const slashCmdHandler: StreamifyHandler = async function (
           assigneeSearchResults,
         );
 
-        console.log("SlashCmdHandler taskBlockWithSelect", JSON.stringify(slackBlocks));
+        console.log(
+          "SlashCmdHandler taskBlockWithSelect",
+          JSON.stringify(slackBlocks),
+        );
 
         await axios({
           method: "post",

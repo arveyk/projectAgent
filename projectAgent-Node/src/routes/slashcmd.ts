@@ -1,6 +1,6 @@
 import axios from "axios";
 import { createExistingTaskBlock } from "../blockkit/createExistingTaskBlock";
-import { parseTask } from "../utils/aiAgent";
+import { parseTask } from "../utils/aiagent";
 import {
   searchDatabase,
   getTaskProperties,
@@ -129,7 +129,7 @@ const slashCmdHandler: StreamifyHandler = async function (
         );
 
         const assignedBy = await findAssignedBy(parsedData.taskCreator);
-        const slackBlocks = await createNewTaskBlock(
+        const slackBlocks = createNewTaskBlock(
           assignedBy,
           parsedData.task,
           assigneeSearchResults,

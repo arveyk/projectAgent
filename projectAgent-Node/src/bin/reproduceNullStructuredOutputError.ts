@@ -1,4 +1,4 @@
-import { EXAMPLE_OUTPUT_FOR_PROMPT, taskSchema } from "../utils/aiAgent";
+import { EXAMPLE_OUTPUT_FOR_PROMPT_00, taskSchema } from "../utils/aiagent";
 import { ChatAnthropic } from "@langchain/anthropic";
 import { ANTHROPIC_API_KEY, ANTHROPIC_MODEL_VER } from "../env";
 import { RunnableConfig, Runnable } from "@langchain/core/dist/runnables";
@@ -32,7 +32,7 @@ let numTries = 0;
 do {
   let i = Math.floor(Math.random() * inputs.length);
   const input = inputs[i];
-  const prompt = `Today's date and time in ISO format is ${DateTime.now().toISO()}, and our timezone is ${DateTime.now().zoneName}. Please extract information from this message, making sure to list any dates in ISO format with timezone offset. "By the end of the day" means by 17:00 in our timezone. If the message says to finish a task "by" some date but does not specify a time, that means by 0:00 of that date in our timezone. """Example: Input: Bob, starting tomorrow, please write a draft of the article and have it finished by August 20, 2025. Output: ${EXAMPLE_OUTPUT_FOR_PROMPT}""" Here is the message: ${input}`;
+  const prompt = `Today's date and time in ISO format is ${DateTime.now().toISO()}, and our timezone is ${DateTime.now().zoneName}. Please extract information from this message, making sure to list any dates in ISO format with timezone offset. "By the end of the day" means by 17:00 in our timezone. If the message says to finish a task "by" some date but does not specify a time, that means by 0:00 of that date in our timezone. """Example: Input: Bob, starting tomorrow, please write a draft of the article and have it finished by August 20, 2025. Output: ${EXAMPLE_OUTPUT_FOR_PROMPT_00}""" Here is the message: ${input}`;
   llmOutput = await structuredLlmSlashCmd.invoke(prompt);
   safeParsed = taskSchema.safeParse(llmOutput.parsed);
   dueDateField = safeParsed.data?.dueDate;

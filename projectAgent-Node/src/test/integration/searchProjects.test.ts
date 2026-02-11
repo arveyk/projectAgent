@@ -1,5 +1,5 @@
 import { todo } from "node:test";
-import { getProjects, getProjectsRaw, simplifyProject } from "./searchDatabase";
+import { getProjects, getProjectsRaw, simplifyProject } from "../../utils/database/searchDatabase";
 import { exampleProjectRaw } from "../../test-data/projects/example-projectRaw";
 import { exampleProject } from "../../test-data/projects/example-project";
 import { isFullPage } from "@notionhq/client";

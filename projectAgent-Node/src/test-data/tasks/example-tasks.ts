@@ -8,8 +8,8 @@ const tomorrow = DateTime.now().plus({ days: 1 }).toISO();
 export const task: Task = {
   taskTitle: "Schedule meeting with customer",
   assignees: [{"name":"Jacob"}],
-  dueDate: new Date("2025-05-11").toISOString(),
-  startDate: new Date("2025-01-11").toISOString(),
+  dueDate: "2025-05-11",
+  startDate: "2025-01-11",
   description:
     "Schedule a meeting with the customer. Check the sender's Calendly for available times.",
 };
@@ -109,20 +109,20 @@ export const taskSubstr2: Task = {
   description: "Contact out list of attendees for teh DCD conference next week Monday"
 }
 
-export const taskKitchen: Task = { 
-  taskTitle: "Fix plumbing issue in second floor kitchen", 
-  assignees: [{name:"Jeremy"}], 
+export const taskKitchen: Task = {
+  taskTitle: "Fix plumbing issue in second floor kitchen",
+  assignees: [{name:"Jeremy"}],
   dueDate: DateTime.fromMillis(1759852422989).
-  setZone("Africa/Nairobi").toJSDate().toISOString(), 
-  description: "Fix the plumbing issue in the second floor kitchen. Call when the task is completed." 
+  setZone("Africa/Nairobi").toJSDate().toISOString(),
+  description: "Fix the plumbing issue in the second floor kitchen. Call when the task is completed."
 }
 
-export const taskNoAssignee: NotionTask = { 
-  taskTitle: "Fix plumbing issue in second floor kitchen", 
+export const taskNoAssignee: NotionTask = {
+  taskTitle: "Fix plumbing issue in second floor kitchen",
   assignees: [],
   assignedBy: [],
-  dueDate: "2025-11-12", 
-  description: "Fix the plumbing issue in the second floor kitchen. Call when the task is completed." 
+  dueDate: "2025-11-12",
+  description: "Fix the plumbing issue in the second floor kitchen. Call when the task is completed."
 }
 
 export const jacobsTask: NotionTask = {

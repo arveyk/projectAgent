@@ -20,6 +20,7 @@ import {
 import { logTimestampForBenchmarking } from "../logTimestampForBenchmarking";
 import { Project } from "../../domain";
 import { containsSensitiveNgrams } from "./containsSensitiveNgrams";
+import { CacheData } from "./getFromCache";
 
 const notion = new Client({
   auth: NOTION_API_KEY,
@@ -59,11 +60,12 @@ const structuredLlm = model.withStructuredOutput(databaseSearchResult, {
  */
 export const searchDatabase = async function (
   message: string,
+  cacheItems: CacheData
 ): Promise<TaskSearchResult> {
   console.log(`Model name: ${model.modelName}`);
   console.log(`message (searchDB): ${JSON.stringify(message)}`);
 
-  const tasks = await getTasks();
+  const tasks = await getTasks(cacheItems);
 
   console.log(`Database response: ${JSON.stringify(tasks)}`);
 
@@ -96,11 +98,17 @@ export const searchDatabase = async function (
  *
  * @return	An array of all tasks in the tasks database
  */
-export async function getTasks(): Promise<TaskPage[]> {
-  // TODO check cache first
-  logTimestampForBenchmarking("Querying task database");
-  const rawTasks = await getTasksRaw();
-  logTimestampForBenchmarking("Done querying task database");
+export async function getTasks(cacheItems: CacheData): Promise<TaskPage[]> {
+  let rawTasks: QueryDataSourceResponse["results"];
+  // Check cache first
+  if (cacheItems.tasks) {
+    rawTasks = cacheItems.tasks;
+  }
+  else {
+    logTimestampForBenchmarking("Querying task database");
+    rawTasks = await getTasksRaw();
+    logTimestampForBenchmarking("Done querying task database");
+  }
   return rawTasks
     .filter((page) => isFullPage(page))
     .filter((page) => !containsSensitiveNgrams(page))
@@ -166,11 +174,17 @@ export function filterSimilar(pages: TaskPage[], message: string): TaskPage[] {
  *
  * @return	An array of all projects in the projects database
  */
-export async function getProjects() {
-  // TODO check cache first
-  logTimestampForBenchmarking("Querying Projects");
-  const projectsList = await getProjectsRaw();
-  logTimestampForBenchmarking("Done querying Projects");
+export async function getProjects(cacheItems: CacheData) {
+  let projectsList: QueryDataSourceResponse["results"];
+  // Check cache first
+  if (cacheItems.projects) {
+    projectsList = cacheItems.projects;
+  }
+  else {
+    logTimestampForBenchmarking("Querying Projects");
+    projectsList = await getProjectsRaw();
+    logTimestampForBenchmarking("Done querying Projects");
+  }
 
   let simplifiedProjects = projectsList
     .filter((project) => isFullPage(project))
@@ -234,8 +248,8 @@ export function simplifyProject(
   );
   return titleProperty
     ? {
-        projectName: titleProperty.title[0].plain_text,
-        id: project.id,
-      }
+      projectName: titleProperty.title[0].plain_text,
+      id: project.id,
+    }
     : undefined;
 }

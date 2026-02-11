@@ -1,3 +1,4 @@
+import { CacheData } from "../database/getFromCache";
 import { Task, User } from "../taskFormatting/task";
 import { getNotionUsers } from "./getUsersNotion";
 import { NotionUser, UserSearchResult } from "./userTypes";
@@ -11,13 +12,14 @@ import { NotionUser, UserSearchResult } from "./userTypes";
  */
 export async function findMatchingAssignees(
   task: Task,
+  cacheItems: CacheData
 ): Promise<UserSearchResult[]> {
   const assignees = task.assignees;
   const matches = Promise.all(
     assignees.map(async (assignee) => {
       const match: UserSearchResult = {
         person: assignee,
-        foundUsers: await findMatchingNotionUser(assignee.name, assignee.email),
+        foundUsers: await findMatchingNotionUser(assignee.name, cacheItems, assignee.email),
       };
       return match;
     }),
@@ -36,9 +38,10 @@ export async function findMatchingAssignees(
  */
 export async function findMatchingNotionUser(
   slackUsername: string,
+  cacheItems: CacheData,
   email?: string,
 ): Promise<NotionUser[]> {
-  const allNotionUsers: NotionUser[] = await getNotionUsers();
+  const allNotionUsers: NotionUser[] = await getNotionUsers(cacheItems);
 
   let emailMatches: NotionUser[] = [];
   if (email !== undefined) {
@@ -185,8 +188,9 @@ export function deduplicateUsers(
  */
 export async function findMatchingNotionUserByEmail(
   slackEmail: string,
+  cacheItems: CacheData
 ): Promise<NotionUser[]> {
-  const allNotionUsers: NotionUser[] = await getNotionUsers();
+  const allNotionUsers: NotionUser[] = await getNotionUsers(cacheItems);
 
   let emailMatches: NotionUser[] = [];
   if (slackEmail !== undefined) {
@@ -209,9 +213,10 @@ export async function findMatchingNotionUserByEmail(
  * @returns                  Array containing only the Notion user that matches slack user that is creating the
  *   task. This is what is placed in the assignedBy field in a task
  */
-export async function findAssignedBy(identifiedAppUser: User) {
+export async function findAssignedBy(identifiedAppUser: User, cacheItems: CacheData) {
   const matchingNotionUser = await findMatchingNotionUserByEmail(
     identifiedAppUser.email,
+    cacheItems
   );
 
   return matchingNotionUser;

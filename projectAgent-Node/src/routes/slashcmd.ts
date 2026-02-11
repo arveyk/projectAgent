@@ -23,6 +23,7 @@ import {
   extractRequestBody,
 } from "../utils/slashCommandProcessing";
 import { createNewTaskBlock } from "../blockkit/createNewTaskBlock";
+import { createCacheClient, retrieveCache } from "../utils/database/getFromCache";
 
 const slashCmdHandler: StreamifyHandler = async function (
   event: APIGatewayProxyEventV2,
@@ -58,6 +59,17 @@ const slashCmdHandler: StreamifyHandler = async function (
     if (commandValidationResult.isValid) {
       const response_url = reqBody["response_url"];
 
+      // Fetch cache
+       await sendLoadingMessage(
+        "Fetching data",
+        response_url,
+        reqBody.text,
+      );
+      logTimestampForBenchmarking("Fetching cache");
+      const cacheClient = createCacheClient();
+      const cacheItems = await retrieveCache(cacheClient);
+      logTimestampForBenchmarking("Done fetching cache");
+
       // Search database
       await sendLoadingMessage(
         "Searching Database",
@@ -65,7 +77,7 @@ const slashCmdHandler: StreamifyHandler = async function (
         reqBody.text,
       );
       logTimestampForBenchmarking("Searching database");
-      const isInDatabase = await searchDatabase(reqBody.text);
+      const isInDatabase = await searchDatabase(reqBody.text, cacheItems);
       logTimestampForBenchmarking("Done searching database");
 
       console.log("IS in database?", JSON.stringify(isInDatabase));
@@ -74,13 +86,14 @@ const slashCmdHandler: StreamifyHandler = async function (
       const timestamp: number = Date.now();
 
       logTimestampForBenchmarking("Parsing task");
-      const parsedData = await parseTask(reqBody, timestamp);
+      const parsedData = await parseTask(reqBody, timestamp, cacheItems);
       logTimestampForBenchmarking("Done parsing task");
 
       logTimestampForBenchmarking("Searching Notion for assignees");
       // Find Notion users
       const assigneeSearchResults = await findMatchingAssignees(
         parsedData.task,
+        cacheItems
       );
       logTimestampForBenchmarking("Done searching Notion for assignees");
 
@@ -101,7 +114,7 @@ const slashCmdHandler: StreamifyHandler = async function (
           console.log(
             `(slashCmdHandler) existingTask: ${JSON.stringify(existingTask)}`,
           );
-          const updateBlock = await createExistingTaskBlock(existingTask);
+          const updateBlock = await createExistingTaskBlock(existingTask, cacheItems);
           console.log("Update Block", JSON.stringify(updateBlock));
 
           await axios({
@@ -130,7 +143,7 @@ const slashCmdHandler: StreamifyHandler = async function (
           JSON.stringify(parsedData),
         );
 
-        const assignedBy = await findAssignedBy(parsedData.taskCreator);
+        const assignedBy = await findAssignedBy(parsedData.taskCreator, cacheItems);
         const slackBlocks = await createNewTaskBlock(
           assignedBy,
           parsedData.task,

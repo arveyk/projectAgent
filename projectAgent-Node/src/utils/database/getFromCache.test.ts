@@ -17,33 +17,11 @@ import {
 import { EXAMPLE_RAW_USERS_RESPONSE } from "../../test-data/cache/rawUsers";
 import { EXAMPLE_RAW_PROJECTS_RESPONSE } from "../../test-data/cache/rawProjects";
 import { EXAMPLE_RAW_TASKS_RESPONSE } from "../../test-data/cache/rawTasks";
+import { CACHE_DATA_EXAMPLE_ALL, CACHE_DATA_EXAMPLE_NO_PROJECTS, CACHE_DATA_EXAMPLE_NO_TASKS, CACHE_DATA_EXAMPLE_NO_USERS } from "../../test-data/cache/cacheItems";
 
 const fakeCacheClient = {
   send: jest.fn(() => Promise.resolve(EXAMPLE_RAW_CACHE_RESPONSE_ALL)),
 } as unknown as DynamoDBDocumentClient;
-
-const cacheDataExample_all: CacheData = {
-  projects: EXAMPLE_RAW_PROJECTS_RESPONSE,
-  tasks: EXAMPLE_RAW_TASKS_RESPONSE,
-  users: EXAMPLE_RAW_USERS_RESPONSE,
-};
-
-const cacheDataExample_noUsers: CacheData = {
-  projects: EXAMPLE_RAW_PROJECTS_RESPONSE,
-  tasks: EXAMPLE_RAW_TASKS_RESPONSE,
-  users: null,
-};
-const cacheDataExample_noTasks: CacheData = {
-  projects: EXAMPLE_RAW_PROJECTS_RESPONSE,
-  tasks: null,
-  users: EXAMPLE_RAW_USERS_RESPONSE,
-};
-
-const cacheDataExample_noProjects: CacheData = {
-  projects: null,
-  tasks: EXAMPLE_RAW_TASKS_RESPONSE,
-  users: EXAMPLE_RAW_USERS_RESPONSE,
-};
 
 describe("Tests retrieveCache", () => {
   it("Should return all cache data", async () => {
@@ -52,7 +30,7 @@ describe("Tests retrieveCache", () => {
     expect(cacheItems.projects).toBeTruthy();
     expect(cacheItems.tasks).toBeTruthy();
     expect(cacheItems.users).toBeTruthy();
-    expect(cacheItems).toMatchObject(cacheDataExample_all);
+    expect(cacheItems).toMatchObject(CACHE_DATA_EXAMPLE_ALL);
   });
 });
 
@@ -91,7 +69,7 @@ describe("Tests extractCacheData", () => {
     expect(decompressed.projects).toBeTruthy();
     expect(decompressed.tasks).toBeTruthy();
     expect(decompressed.users).toBeTruthy();
-    expect(decompressed).toMatchObject(cacheDataExample_all);
+    expect(decompressed).toMatchObject(CACHE_DATA_EXAMPLE_ALL);
   });
 
   it("Should return all project and task data, correctly decompressed", async () => {
@@ -102,7 +80,7 @@ describe("Tests extractCacheData", () => {
     expect(decompressed.projects).toBeTruthy();
     expect(decompressed.tasks).toBeTruthy();
     expect(decompressed.users).toBeFalsy();
-    expect(decompressed).toMatchObject(cacheDataExample_noUsers);
+    expect(decompressed).toMatchObject(CACHE_DATA_EXAMPLE_NO_USERS);
   });
 
   it("Should return all project and user data, correctly decompressed", async () => {
@@ -113,7 +91,7 @@ describe("Tests extractCacheData", () => {
     expect(decompressed.projects).toBeTruthy();
     expect(decompressed.tasks).toBeFalsy();
     expect(decompressed.users).toBeTruthy();
-    expect(decompressed).toMatchObject(cacheDataExample_noTasks);
+    expect(decompressed).toMatchObject(CACHE_DATA_EXAMPLE_NO_TASKS);
   });
 
   it("Should return all user and task data, correctly decompressed", async () => {
@@ -124,6 +102,6 @@ describe("Tests extractCacheData", () => {
     expect(decompressed.projects).toBeFalsy();
     expect(decompressed.tasks).toBeTruthy();
     expect(decompressed.users).toBeTruthy();
-    expect(decompressed).toMatchObject(cacheDataExample_noProjects);
+    expect(decompressed).toMatchObject(CACHE_DATA_EXAMPLE_NO_PROJECTS);
   });
 });

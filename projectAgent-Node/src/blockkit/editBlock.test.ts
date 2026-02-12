@@ -1,14 +1,28 @@
 import { createTaskInfo } from "./createBlockPartsForNewTask";
 import { notionTask, taskNoAssignee } from "../test-data/tasks/example-tasks";
 import { EXAMPLE_ALL_PROJECTS_IN_NOTIONDB } from "../test-data/example-all-notion-projects";
+import { ProjectWithName } from "../utils/taskFormatting/task";
 
-
+const SAMPLE_PROJECTS: ProjectWithName[] = [
+  {
+    "projectName": "Products: Courses by Solutional",
+    "id": "247eef29-a653-806a-84ee-d9791693ab62"
+  },
+  {
+    "projectName": "Internal: TNOps Podcast",
+    "id": "247eef29-a653-8075-a6a7-c8f60e66ec26"
+  },
+  {
+    "projectName": "Internal: Staff",
+    "id": "247eef29-a653-8078-beec-e0cfce63afa7"
+  }
+]
 
 describe("Tests createTaskInfo Function", () => {
   it("Creates  task block for notion task without assingee or start date", () => {
     console.log(JSON.stringify(taskNoAssignee));
     const taskBlock = createTaskInfo(
-      taskNoAssignee, EXAMPLE_ALL_PROJECTS_IN_NOTIONDB, notionTask.assignees
+      taskNoAssignee, SAMPLE_PROJECTS, notionTask.assignees
     );
     console.log(JSON.stringify(taskBlock));
 

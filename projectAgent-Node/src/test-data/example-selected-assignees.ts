@@ -1,4 +1,4 @@
-export const EXAMPLE_CONFIRM_CREAETE_TASK_WITH_SELECTION = {
+export const EXAMPLE_CONFIRM_CREATE_TASK_WITH_SELECTION = {
     "type": "block_actions",
     "user": {
         "id": "U08UDKY38QK",

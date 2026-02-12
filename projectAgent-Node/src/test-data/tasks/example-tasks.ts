@@ -122,7 +122,8 @@ export const taskNoAssignee: NotionTask = {
   assignees: [],
   assignedBy: [],
   dueDate: "2025-11-12",
-  description: "Fix the plumbing issue in the second floor kitchen. Call when the task is completed."
+  description: "Fix the plumbing issue in the second floor kitchen. Call when the task is completed.",
+  project: [  {"id": "247eef29-a653-8078-beec-e0cfce63afa7"}]
 }
 
 export const jacobsTask: NotionTask = {

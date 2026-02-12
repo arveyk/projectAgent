@@ -1,4 +1,4 @@
-{
+const interactionsPayload = {
   "payload": {
     "type": "block_actions",
     "user": {
@@ -8,14 +8,14 @@
       "team_id": "T08VADHH17S"
     },
     "api_app_id": "A0935EDQRHB",
-    "token": "JWNJnukcVaHbRoRl6CwWYan6",
+    "token": " ",
     "container": {
       "type": "message",
       "message_ts": "1754468593.069599",
       "channel_id": "C08VADJ7SEL",
       "is_ephemeral": false
     },
-    "trigger_id": "9310558661813.8996459579264.0e0d1f0ff2935e66a43f6c00e97e49e9",
+    "trigger_id": "9813.864.sample0e0de49e9",
     "team": {
       "id": "T08VADHH17S",
       "domain": "solutionalpro-1c61413"
@@ -282,7 +282,7 @@
         }
       }
     },
-    "response_url": "https://hooks.slack.com/actions/T08VADHH17S/9310558658565/dY7N08gPS63dWUlCloAsvEXF",
+    "response_url": "https://hooks.slack.com/actions/TSampleChannel/sampleEndPoint/dsample",
     "actions": [
       {
         "action_id": "actionId-0",

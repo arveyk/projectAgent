@@ -10,7 +10,8 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
         "name": "Ceci Kurdelak",
         "email": "ceci.kurdelak@solutional.com",
       }
-    ]
+    ],
+    "project": [{"id": "assigned to Ceci by Harvey"}]
   },
   {
     "pageId": "2bdeef29-a653-8018-8eeb-fe1bd65f1b8e",
@@ -21,7 +22,8 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
         "name": "Harvey Kisiangani",
         "email": "harvey.kisiangani@solutional.com",
       }
-    ]
+    ],
+    "project": [{"id": "project-2bdeef29-a653-8018"}]
   },
   {
     "pageId": "2bdeef29-a653-802a-9674-f896fdb82564",
@@ -32,7 +34,8 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
         "name": "Harvey Kisiangani",
         "email": "harvey.kisiangani@solutional.com",
       }
-    ]
+    ],
+    "project": [{"id": "9674-f896fdb82564"}]
   },
   {
     "pageId": "2bdeef29-a653-8030-9864-cc4dedfdc63c",
@@ -43,7 +46,8 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
         "name": "Ceci Kurdelak",
         "email": "ceci.kurdelak@solutional.com",
       }
-    ]
+    ],
+    "project": [{"id": "9864-cc4dedfdc63c"}]
   },
   {
     "pageId": "2bdeef29-a653-8045-9d6c-f8edb6e6b8a4",
@@ -54,7 +58,8 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
         "name": "Ceci Kurdelak",
         "email": "ceci.kurdelak@solutional.com",
       }
-    ]
+    ],
+    "project": [{"id": "9d6c-f8edb6e6b8a4"}]
   },
   {
     "pageId": "2bdeef29-a653-8058-b0e9-d398da259483",
@@ -65,7 +70,8 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
         "name": "Harvey Kisiangani",
         "email": "harvey.kisiangani@solutional.com",
       }
-    ]
+    ],
+    "project": [{"id": "9d6c-f8edb6e6b8a4"}]
   },
   {
     "pageId": "2bdeef29-a653-8076-9ba3-da4bcb4f1962",
@@ -76,7 +82,8 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
         "name": "Ceci Kurdelak",
         "email": "ceci.kurdelak@solutional.com",
       }
-    ]
+    ],
+    "project": [{"id": "9ba3-da4bcb4f1962"}]
   },
   {
     "pageId": "2bdeef29-a653-8093-8b64-ee8964517d14",
@@ -87,7 +94,8 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
         "name": "Harvey Kisiangani",
         "email": "harvey.kisiangani@solutional.com",
       }
-    ]
+    ],
+    "project": [{"id": "8b64-ee8964517d14"}]
   },
   {
     "pageId": "2bdeef29-a653-80b1-aa16-d65bb1300a56",
@@ -98,7 +106,9 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
         "name": "Ceci Kurdelak",
         "email": "ceci.kurdelak@solutional.com",
       }
-    ]
+    ],
+    "project": [{"id": ""}]
+
   },
   {
     "pageId": "2bdeef29-a653-80cc-85d1-c628f124677b",
@@ -109,7 +119,9 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
         "name": "Harvey Kisiangani",
         "email": "harvey.kisiangani@solutional.com",
       }
-    ]
+    ],
+    "project": [{"id": ""}]
+
   },
   {
     "pageId": "2bdeef29-a653-80dc-9229-de3478220589",
@@ -120,7 +132,9 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
         "name": "Ceci Kurdelak",
         "email": "ceci.kurdelak@solutional.com",
       }
-    ]
+    ],
+    "project": [{"id": ""}]
+
   },
   {
     "pageId": "2bdeef29-a653-80fe-b7b5-ca86d9409c03",
@@ -131,7 +145,9 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
         "name": "Harvey Kisiangani",
         "email": "harvey.kisiangani@solutional.com",
       }
-    ]
+    ],
+    "project": [{"id": ""}]
+
   },
   {
     "pageId": "2d2eef29-a653-81b5-bcf7-c629b1d76b72",
@@ -142,7 +158,9 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
         "name": "Ceci Kurdelak",
         "email": "ceci.kurdelak@solutional.com",
       }
-    ]
+    ],
+    "project": [{"id": ""}]
+
   },
   {
     "pageId": "2d3eef29-a653-8144-a0cc-c5dc33486536",
@@ -153,7 +171,9 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
         "name": "Ceci Kurdelak",
         "email": "ceci.kurdelak@solutional.com",
       }
-    ]
+    ],
+    "project": [{"id": ""}]
+
   },
   {
     "pageId": "2d3eef29-a653-819e-97d6-e98e5d6dc2b0",
@@ -164,13 +184,17 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
         "name": "Harvey Kisiangani",
         "email": "harvey.kisiangani@solutional.com",
       }
-    ]
+    ],
+    "project": [{"id": ""}]
+
   },
   {
     "pageId": "2d3eef29-a653-81a4-87c6-fedce576bc32",
     "taskTitle": "Contact Quickmart manager to discuss employee coupons",
     "description": "This task involves contacting the Quickmart manager to discuss the implementation of employee coupons for the upcoming Friday. The deadline for this discussion is set for December 25, 2025, at 9:00 PM (UTC).\n\n",
-    "assignee": []
+    "assignee": [],
+    "project": [{"id": ""}]
+
   },
   {
     "pageId": "2d3eef29-a653-81c8-9692-f3b325fb8710",
@@ -181,19 +205,25 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
         "name": "Ceci Kurdelak",
         "email": "ceci.kurdelak@solutional.com",
       }
-    ]
+    ],
+    "project": [{"id": ""}]
+
   },
   {
     "pageId": "2d3eef29-a653-81dd-80b1-f1d452b4ef81",
     "taskTitle": "Call CEO of Zoox for important next year strategy",
     "description": "This document outlines a scheduled call with the CEO of Zoox to discuss key strategies for the upcoming year. The call is set to take place on December 24, 2025, from 10:12 AM to 2:00 PM (UTC).\n\n",
-    "assignee": []
+    "assignee": [],
+    "project": [{"id": ""}]
+
   },
   {
     "pageId": "2d8eef29-a653-8143-81f8-d5ae3a046036",
     "taskTitle": "Rake the lawn",
     "description": "This task involves raking the lawn, scheduled to start on December 29, 2025, and due by December 30, 2025. It is currently marked as not started.\n\n",
-    "assignee": []
+    "assignee": [],
+    "project": [{"id": ""}]
+
   },
   {
     "pageId": "2d8eef29-a653-815d-aafe-eb9dfe38a88d",
@@ -204,19 +234,25 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
         "name": "Ceci Kurdelak",
         "email": "ceci.kurdelak@solutional.com",
       }
-    ]
+    ],
+    "project": [{"id": ""}]
+
   },
   {
     "pageId": "2d8eef29-a653-81ad-98be-c81d87a57b95",
     "taskTitle": "Change the lightbulb",
     "description": "The task is to change the lightbulb, which is scheduled to start on December 29, 2025, and is due by December 30, 2025. This task has not yet been started.\n\n",
-    "assignee": []
+    "assignee": [],
+    "project": [{"id": ""}]
+
   },
   {
     "pageId": "2d8eef29-a653-81c8-b669-c41dddaf1756",
     "taskTitle": "Row your boat gently down the stream",
     "description": "This document outlines a task titled \"Row your boat gently down the stream,\" which is scheduled to start on December 29, 2025, and is due by December 30, 2025. The status of the task is currently marked as \"Not Started.\"\n\nTop 10 Keywords: boat, stream, rowing, gently, task, schedule, due date, December 2025, not started, water.",
-    "assignee": []
+    "assignee": [],
+    "project": [{"id": ""}]
+
   },
   {
     "pageId": "2d9eef29-a653-81b3-aedb-f37251d2c72e",
@@ -231,19 +267,25 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
         "name": "Harvey Kisiangani",
         "email": "harvey.kisiangani@solutional.com",
       }
-    ]
+    ],
+    "project": [{"id": ""}]
+
   },
   {
     "pageId": "2e0eef29-a653-8100-88c6-e44041628712",
     "taskTitle": "Get Old Bay spice",
     "description": "This task involves obtaining Old Bay spice, with a start date of January 6, 2026, and a due date of January 7, 2026. The status of the task is currently \"Not Started.\"\n\n",
-    "assignee": []
+    "assignee": [],
+    "project": [{"id": ""}]
+
   },
   {
     "pageId": "2e0eef29-a653-817d-9689-f8d338025ab4",
     "taskTitle": "Feed the cat",
     "description": "This document outlines the task to feed the cat as part of the \"Internal: Project Agent.\" The project is scheduled to start on January 6, 2026, at 5:37 PM (UTC) and is currently marked as not started.\n\n",
-    "assignee": []
+    "assignee": [],
+    "project": [{"id": ""}]
+
   },
   {
     "pageId": "2e0eef29-a653-819a-8e48-fe17818eae99",
@@ -254,7 +296,9 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
         "name": "Ceci Kurdelak",
         "email": "ceci.kurdelak@solutional.com",
       }
-    ]
+    ],
+    "project": [{"id": ""}]
+
   },
   {
     "pageId": "2e0eef29-a653-81a0-aa4b-fc07685b2078",
@@ -269,7 +313,9 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
         "name": "Harvey Kisiangani",
         "email": "harvey.kisiangani@solutional.com",
       }
-    ]
+    ],
+    "project": [{"id": ""}]
+
   },
   {
     "pageId": "2e0eef29-a653-81a4-84cb-d512772d0b30",
@@ -288,7 +334,9 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
         "name": "Harvey Kisiangani",
         "email": "harveykisiangani@gmail.com",
       }
-    ]
+    ],
+    "project": [{"id": ""}]
+
   },
   {
     "pageId": "2e0eef29-a653-81ab-9aa7-c5548a57d3c7",
@@ -299,7 +347,9 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
         "name": "Ceci Kurdelak",
         "email": "ceci.kurdelak@solutional.com",
       }
-    ]
+    ],
+    "project": [{"id": ""}]
+
   },
   {
     "pageId": "2e0eef29-a653-81b1-b6db-ca7af7a44081",
@@ -310,7 +360,9 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
         "name": "Ceci Kurdelak",
         "email": "ceci.kurdelak@solutional.com",
       }
-    ]
+    ],
+    "project": [{"id": ""}]
+
   },
   {
     "pageId": "2e0eef29-a653-81fd-8067-d25cf3308837",
@@ -325,7 +377,9 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
         "name": "Harvey Kisiangani",
         "email": "harvey.kisiangani@solutional.com",
       }
-    ]
+    ],
+    "project": [{"id": ""}]
+
   },
   {
     "pageId": "2e1eef29-a653-815d-b9f9-de045fd62cdd",
@@ -336,7 +390,9 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
         "name": "Ceci Kurdelak",
         "email": "ceci.kurdelak@solutional.com",
       }
-    ]
+    ],
+    "project": [{"id": ""}]
+
   },
   {
     "pageId": "2e2eef29-a653-8112-9bcf-d12bf714e2fd",
@@ -347,12 +403,15 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
         "name": "Ceci Kurdelak",
         "email": "ceci.kurdelak@solutional.com",
       }
-    ]
+    ],
+        "project": [{"id": ""}]
+
   },
   {
     "pageId": "2e2eef29-a653-81b8-a569-e79f565fffee",
     "taskTitle": "Feed the cats twice a day",
     "description": "This document serves as a reminder to feed the cats twice a day, with the task starting on January 8, 2026. The status of the task is currently \"Not Started.\"\n\n",
-    "assignee": []
+    "assignee": [],
+    "project": [{"id": ""}]
   }
 ]

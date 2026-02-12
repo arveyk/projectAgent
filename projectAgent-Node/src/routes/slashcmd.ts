@@ -129,7 +129,7 @@ const slashCmdHandler: StreamifyHandler = async function (
         );
 
         const assignedBy = await findAssignedBy(parsedData.taskCreator);
-        const slackBlocks = await createNewTaskBlock(
+        const slackBlocks = createNewTaskBlock(
           assignedBy,
           parsedData.task,
           assigneeSearchResults,

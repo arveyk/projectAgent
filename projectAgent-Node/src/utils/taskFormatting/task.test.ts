@@ -1,19 +1,11 @@
-// import { convertTaskPageFromDbResponse } from "./task";
-// import { exampleDbResultExistingTask } from "../test-data/db-results/exampleDbResults";
-// import { pageObjectResponse } from "../test-data/db-results/pageResponse";
-
-// describe("tests convertTaskPageFromDbResponse", () => {
-//   it("", () => {
-//     const taskPage = convertTaskPageFromDbResponse(pageObjectResponse);
-//     console.log(JSON.stringify(taskPage));
-//   });
-// });
 import { convertTask } from "./task";
 import { llmTaskWithClearProject } from "../../test-data/llmTasks/llm_taskWithClearProject";
 import { llmTaskWithNoFoundProject } from "../../test-data/llmTasks/llm_taskWithNoFoundProject";
 import { llmTaskWithUnclearProject } from "../../test-data/llmTasks/llm_taskWithUnclearProject";
 import { llmTaskThatCausedBug } from "../../test-data/llmTasks/llm_taskThatCausedBug";
 import { allProjects } from "../../test-data/projects/example-project";
+import { convertTaskPageFromDbResponse } from "./task";
+import { pageObjectResponse } from "../../test-data/db-results/pageResponse";
 
 describe("Tests convertTask with a task with a clear project and similar projects", () => {
   it("should return a Task with an empty similarProjects field", () => {
@@ -49,3 +41,14 @@ describe("Tests convertTask with a task with a clear project and similar project
     expect(task.similarProjects?.length).toEqual(0);
   })
 })
+
+describe("tests convertTaskPageFromDbResponse", () => {
+  it("should correctly convert the database response into a TaskPage object", () => {
+    const taskPage = convertTaskPageFromDbResponse(pageObjectResponse);
+
+    expect(taskPage).toBeDefined();
+    expect(taskPage?.url).toEqual(pageObjectResponse.url);
+    expect(taskPage.task.description).toEqual("Feed the cats every day. Give them their pills and ensure they have enough clean water.");
+    expect(taskPage.task.project).toMatchObject([{"id":"262eef29-a653-80e7-82d5-ef29c4cba142"}]);
+    });
+});

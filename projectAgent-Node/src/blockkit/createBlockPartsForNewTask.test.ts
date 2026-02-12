@@ -27,7 +27,7 @@ describe("Tests createMenuOptions with a list of projects", () => {
             {
                 "text": {
                     "type": "plain_text",
-                    "text": "*Project A*",
+                    "text": "Project A",
                     "emoji": true
                 },
                 "value": "Project_a"
@@ -35,7 +35,7 @@ describe("Tests createMenuOptions with a list of projects", () => {
             {
                 "text": {
                     "type": "plain_text",
-                    "text": "*Project B*",
+                    "text": "Project B",
                     "emoji": true
                 },
                 "value": "Project_b"
@@ -43,7 +43,7 @@ describe("Tests createMenuOptions with a list of projects", () => {
             {
                 "text": {
                     "type": "plain_text",
-                    "text": "*Project X*",
+                    "text": "Project X",
                     "emoji": true
                 },
                 "value": "Project_x"
@@ -51,7 +51,7 @@ describe("Tests createMenuOptions with a list of projects", () => {
             {
                 "text": {
                     "type": "plain_text",
-                    "text": "*Project Z*",
+                    "text": "Project Z",
                     "emoji": true
                 },
                 "value": "Project_z"

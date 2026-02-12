@@ -23,40 +23,40 @@ describe("Tests createMenuOptions with a list of projects", () => {
       },
     ];
 
-    const sortedOptions: MenuType[] = [
-      {
-        text: {
-          type: "plain_text",
-          text: "*Project A*",
-          emoji: true,
-        },
-        value: "Project_a",
-      },
-      {
-        text: {
-          type: "plain_text",
-          text: "*Project B*",
-          emoji: true,
-        },
-        value: "Project_b",
-      },
-      {
-        text: {
-          type: "plain_text",
-          text: "*Project X*",
-          emoji: true,
-        },
-        value: "Project_x",
-      },
-      {
-        text: {
-          type: "plain_text",
-          text: "*Project Z*",
-          emoji: true,
-        },
-        value: "Project_z",
-      },
-    ];
+        const sortedOptions: MenuType[] = [
+            {
+                "text": {
+                    "type": "plain_text",
+                    "text": "Project A",
+                    "emoji": true
+                },
+                "value": "Project_a"
+            },
+            {
+                "text": {
+                    "type": "plain_text",
+                    "text": "Project B",
+                    "emoji": true
+                },
+                "value": "Project_b"
+            },
+            {
+                "text": {
+                    "type": "plain_text",
+                    "text": "Project X",
+                    "emoji": true
+                },
+                "value": "Project_x"
+            },
+            {
+                "text": {
+                    "type": "plain_text",
+                    "text": "Project Z",
+                    "emoji": true
+                },
+                "value": "Project_z"
+            },
+        ]
 
     const options = createMenuOptions("Projects", projects);
     console.log(JSON.stringify(options));

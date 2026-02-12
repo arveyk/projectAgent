@@ -1,6 +1,6 @@
 import axios from "axios";
 import { createExistingTaskBlock } from "../blockkit/createExistingTaskBlock";
-import { parseTask } from "../utils/aiAgent";
+import { parseTask } from "../utils/aiagent";
 import {
   searchDatabase,
   getTaskProperties,

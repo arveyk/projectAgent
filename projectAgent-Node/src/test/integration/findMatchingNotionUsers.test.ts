@@ -3,8 +3,8 @@ import {
   isPartialNameMatch,
   findMatchingNotionUser,
   deduplicateUsers,
-} from "./findMatchingNotionUsers";
-import { NotionUser } from "./userTypes";
+} from "../../utils/controllers/findMatchingNotionUsers";
+import { NotionUser } from "../../utils/controllers/userTypes";
 
 describe("Tests compareNames", () => {
   it("returns true with exact match", () => {

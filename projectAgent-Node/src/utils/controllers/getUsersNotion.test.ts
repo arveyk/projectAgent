@@ -5,11 +5,13 @@ import { getSlackUsers } from "./getUsersSlack";
 describe("Get notion users", () => {
   it("Should get all Notion users when users are in the cache", async () => {
     const notionUser = await getNotionUsers(CACHE_DATA_EXAMPLE_ALL);
+    expect(notionUser).toBeDefined();
     expect(notionUser.length).toBeGreaterThan(0);
   });
 
   it("Should get all Notion users when users are not in the cache", async () => {
     const notionUser = await getNotionUsers(CACHE_DATA_EXAMPLE_NO_USERS);
+    expect(notionUser).toBeDefined();
     expect(notionUser.length).toBeGreaterThan(0);
   });
 });
@@ -17,6 +19,8 @@ describe("Get notion users", () => {
 describe("Get Slack users", () => {
   it("Should get all Slack Users", async () => {
     const slackUsers = await getSlackUsers();
+
+    expect(slackUsers).toBeDefined();
     expect(slackUsers.length).toBeGreaterThan(0);
     console.log("Slack users", slackUsers);
   });

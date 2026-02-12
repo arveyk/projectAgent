@@ -19,7 +19,7 @@ import {
  *
  * @returns                 A set of Slack blocks to be used in previewing and confirming a new task.
  */
-export async function createNewTaskBlock(
+export  function createNewTaskBlock(
   assignedBy: NotionUser[],
   task: Task,
   userSearchResult: UserSearchResult[],

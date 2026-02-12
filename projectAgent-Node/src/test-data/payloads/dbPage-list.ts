@@ -1,6 +1,6 @@
-import { dbPage } from "../../utils/database/simplifyDatabaseResults"
+import { TaskPage } from "../../utils/database/simplifyTaskPages"
 
-export const dbPageList: dbPage[] = [
+export const dbPageList: TaskPage[] = [
     {
         "pageId": "292eef29-a653-8127-9532-c1f31fd42614",
         "taskTitle": "Feed the emu and prepare for dinner",

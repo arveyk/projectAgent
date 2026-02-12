@@ -1,7 +1,13 @@
-import { Client, QueryDataSourceResponse } from "@notionhq/client";
+import {
+  Client,
+  collectPaginatedAPI,
+  isFullPage,
+  PageObjectResponse,
+  QueryDataSourceResponse,
+} from "@notionhq/client";
 import { ChatAnthropic } from "@langchain/anthropic";
 import { z } from "zod/v4";
-import { dbPage, simplifyDatabaseResults } from "./simplifyDatabaseResults";
+import { TaskPage, simplifyTaskPage } from "./simplifyTaskPages";
 import { stringSimilarity } from "string-similarity-js";
 
 import {
@@ -12,6 +18,8 @@ import {
   ANTHROPIC_MODEL_VER,
 } from "../../env";
 import { logTimestampForBenchmarking } from "../logTimestampForBenchmarking";
+import { Project } from "../../domain";
+import { containsSensitiveNgrams } from "./containsSensitiveNgrams";
 
 const notion = new Client({
   auth: NOTION_API_KEY,
@@ -36,7 +44,7 @@ const databaseSearchResult = z.object({
 });
 logTimestampForBenchmarking("(Database) model initialization finished");
 
-export type dbSearchResult = {
+export type TaskSearchResult = {
   exists: boolean;
   taskId?: string;
 };
@@ -53,33 +61,28 @@ const structuredLlm = model.withStructuredOutput(databaseSearchResult, {
  */
 export const searchDatabase = async function (
   message: string,
-): Promise<dbSearchResult> {
+): Promise<TaskSearchResult> {
   console.log(`Model name: ${model.modelName}`);
   console.log(`message (searchDB): ${JSON.stringify(message)}`);
 
   logTimestampForBenchmarking("Querying database");
-  const response = await notion.dataSources.query({
-    data_source_id: NOTION_TASKS_DATA_SOURCE_ID,
-  });
+  const tasks = await getTasks();
   logTimestampForBenchmarking("Done querying database");
 
-  //logTime("Simplifying response");
-  const simplifiedResponse = simplifyDatabaseResults(response);
-  //logTime("Done simplifying response");
-  console.log(`Database response: ${JSON.stringify(simplifiedResponse)}`);
+  console.log(`Database response: ${JSON.stringify(tasks)}`);
 
   // Limit pages to the 20 most similar to the message
-  const similarPages = filterSimilar(simplifiedResponse, message);
+  const similarPages = filterSimilar(tasks, message);
 
   const prompt = `
-      Please check if a task matching the message ${message} exists in the database response 
-      ${JSON.stringify(similarPages)}.
-    `;
+    Please check if a task matching the message ${message} exists in the database response 
+    ${JSON.stringify(similarPages)}.
+  `.trim();
 
   const llmResult = await structuredLlm.invoke(prompt);
   console.log(`Raw LLM response: ${JSON.stringify(llmResult.raw)}`);
   const parsed = llmResult.parsed;
-  const result: dbSearchResult = {
+  const result: TaskSearchResult = {
     exists: parsed.exists,
     taskId: parsed.task_id !== "<UNKNOWN>" ? parsed.task_id : undefined,
   };
@@ -89,18 +92,36 @@ export const searchDatabase = async function (
   return result;
 };
 
+/**
+ * Retrieves all tasks from the tasks database
+ * Performs filtering to remove tasks that are not fully populated or contain sensitive ngrams
+ *
+ * @return	An array of all tasks in the tasks database
+ */
+export async function getTasks(): Promise<TaskPage[]> {
+  const rawTasks = await getTasksRaw();
+  return rawTasks
+    .filter(page => isFullPage(page))
+    .filter(page => !containsSensitiveNgrams(page))
+    .map(simplifyTaskPage)
+}
+
+/**
+ * Retrieves all raw tasks (Notion pages) from the tasks database
+ * 
+ * Does not perform any filtering or simplification on the tasks
+ *
+ * @return	An array of all raw tasks in the tasks database
+ */
+export async function getTasksRaw(): Promise<QueryDataSourceResponse["results"]> {
+  return await collectPaginatedAPI(notion.dataSources.query, {
+    data_source_id: NOTION_TASKS_DATA_SOURCE_ID,
+  });
+}
+
 export const getTaskProperties = async function (pageID: string) {
   return await notion.pages.retrieve({ page_id: pageID });
 };
-
-export async function returnTasks(): Promise<QueryDataSourceResponse> {
-  // Retrieve all tasks
-  const response = await notion.dataSources.query({
-    data_source_id: NOTION_TASKS_DATA_SOURCE_ID,
-  });
-
-  return response;
-}
 
 /**
  * Returns up to 20 of the database pages that most closely match the given message.
@@ -108,7 +129,7 @@ export async function returnTasks(): Promise<QueryDataSourceResponse> {
  * @param message The message that triggered Project Agent.
  * @returns Up to 20 of the database pages that most closely match the given message.
  */
-export function filterSimilar(pages: dbPage[], message: string): dbPage[] {
+export function filterSimilar(pages: TaskPage[], message: string): TaskPage[] {
   const similarPages = pages
     .map((page) => {
       const similarity = stringSimilarity(
@@ -143,30 +164,68 @@ export function filterSimilar(pages: dbPage[], message: string): dbPage[] {
  */
 export async function getProjects() {
   logTimestampForBenchmarking("Querying Projects");
-  const projectsQueryResponse = await notion.dataSources.query({
-    data_source_id: NOTION_PROJECTS_DATA_SOURCE_ID,
-  });
+  const projectsList = await getProjectsRaw();
 
-  const projectsList = projectsQueryResponse.results;
-  let simplifiedProjects = [];
+  let simplifiedProjects = projectsList
+    .filter(project => isFullPage(project))
+    .filter(project => !containsSensitiveNgrams(project))
+    .map(simplifyProject)
+    .filter(project => project !== undefined)
 
   logTimestampForBenchmarking("Done querying Projects");
   // console.log(JSON.stringify(projectsQueryResponse));
-
-  for (const project of projectsList) {
-    console.log("Projects id", project.id);
-
-    if (project.object === "page" && "properties" in project) {
-      for (const propName in project.properties) {
-        if (project.properties[propName]["type"] === "title") {
-          const projectTitle = project.properties[propName].title[0].plain_text;
-          simplifiedProjects.push({
-            projectName: projectTitle,
-            id: project.id,
-          });
-        }
-      }
-    }
-  }
   return simplifiedProjects;
+}
+
+/**
+ * Retrieves all raw projects (Notion pages) from the projects database
+ *
+ * Does not perform any filtering or simplification on the projects
+ *
+ * @return	An array of all raw projects in the projects database
+ */
+export async function getProjectsRaw(): Promise<QueryDataSourceResponse["results"]> {
+  return await collectPaginatedAPI(notion.dataSources.query, {
+    data_source_id: NOTION_PROJECTS_DATA_SOURCE_ID,
+    filter: {
+      and: [
+        {
+          property: "Status",
+          status: {
+            does_not_equal: "Done",
+          }
+        },
+        {
+          property: "Status",
+          status: {
+            does_not_equal: "Canceled",
+          }
+        },
+        {
+          property: "Status",
+          status: {
+            does_not_equal: "Archived",
+          }
+        },
+      ],
+    }
+  });
+}
+
+/**
+ * Simplifies a raw project (Notion page) into a Project object
+ *
+ * @param project The raw project (Notion page) to simplify
+ * @return The simplified Project object, or undefined if the project could not be simplified
+ */
+export function simplifyProject(project: PageObjectResponse): Project | undefined {
+  const titleProperty = Object.values(project.properties).find(
+    (prop) => prop.type === "title"
+  );
+  return titleProperty
+    ? {
+        projectName: titleProperty.title[0].plain_text,
+        id: project.id,
+      }
+    : undefined;
 }

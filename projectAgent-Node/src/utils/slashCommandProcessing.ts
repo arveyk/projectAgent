@@ -4,6 +4,7 @@ import querystring from "querystring";
 
 /**
  * Parses a slash command and determines if it is a valid command.
+ * A valid command is one that has a non-empty "text" field in the request body.
  * @param {*} reqBody Request from Slack containing a slash command
  * @returns true if the slash command is valid, else returns false.
  */
@@ -12,14 +13,10 @@ export function isValidCommand(reqBody: Request["body"]): {
   isValid: boolean;
   action?: string;
 } {
-  const commandParams = reqBody["text"].trim().split(" ");
   const isValidCmd = {
-    isValid: false,
-    action: "",
+    isValid: Boolean(reqBody["text"]?.trim()),
+    action: "add",
   };
-
-  isValidCmd.isValid = commandParams.length >= 3;
-  isValidCmd.action = "add";
   return isValidCmd;
 }
 

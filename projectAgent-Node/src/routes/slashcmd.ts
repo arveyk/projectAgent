@@ -1,6 +1,6 @@
 import axios from "axios";
 import { createExistingTaskBlock } from "../blockkit/createExistingTaskBlock";
-import { parseTask } from "../utils/aiAgent";
+import { parseTask } from "../utils/aiagent";
 import {
   searchDatabase,
   getTaskProperties,
@@ -42,7 +42,6 @@ const slashCmdHandler: StreamifyHandler = async function (
     responseStream,
     httpResponseMetadata,
   );
-  responseStream.write("Slash command activated\n");
   responseStream.end();
 
   console.log(
@@ -130,7 +129,7 @@ const slashCmdHandler: StreamifyHandler = async function (
         );
 
         const assignedBy = await findAssignedBy(parsedData.taskCreator);
-        const slackBlocks = await createNewTaskBlock(
+        const slackBlocks = createNewTaskBlock(
           assignedBy,
           parsedData.task,
           assigneeSearchResults,
@@ -163,7 +162,7 @@ const slashCmdHandler: StreamifyHandler = async function (
       });
     }
   } catch (err: Error | any) {
-    console.log("slachCmdHandler Error", err);
+    console.log("slashCmdHandler Error", String(err));
     return err;
   } finally {
     logTimestampForBenchmarking("Execution finished");

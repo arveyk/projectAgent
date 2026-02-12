@@ -7,8 +7,7 @@ import {
 } from "@notionhq/client";
 import { BlockAction } from "@slack/bolt";
 import { NotionUser } from "../controllers/userTypes";
-import { TaskParseResult } from "../aiAgent";
-import { DateTime } from "luxon";
+import { TaskParseResult } from "../../utils/aiagent";
 
 /**
  * Notion users identified and ambiguous for a task.
@@ -41,8 +40,9 @@ export type User = {
   email: string;
 };
 
-/** Extracted task details together with info of the user creating the task (which will be
-used to create the assignedBy field) */
+/** 
+ * Extracted task details together with info of the user creating the task (which will be used to create the assignedBy field) 
+*/
 export type ParsedData = {
   task: Task;
   taskCreator: User;
@@ -54,8 +54,8 @@ export type ParsedData = {
 export type Task = {
   taskTitle: string;
   assignees: PersonNoId[];
-  dueDate?: Date;
-  startDate?: Date;
+  dueDate?: string;
+  startDate?: string;
   description: string;
   project?: { id: string }[];
   existingProjects?: ProjectWithName[];
@@ -69,8 +69,8 @@ export type NotionTask = {
   taskTitle: string;
   assignees: NotionUser[];
   assignedBy: NotionUser[];
-  dueDate?: Date;
-  startDate?: Date;
+  dueDate?: string;
+  startDate?: string;
   description: string;
   project?: {
     id: string;
@@ -98,12 +98,8 @@ export function convertTask(
 ): Task {
   console.log(JSON.stringify(taskInput));
 
-  const dueDate = taskInput.dueDate
-    ? new Date(taskInput["dueDate"])
-    : undefined;
-  const startDate = taskInput.startDate
-    ? new Date(taskInput["startDate"])
-    : DateTime.now().toJSDate();
+  const dueDate = taskInput.dueDate;
+  const startDate = taskInput.startDate;
   const assignees = taskInput.assignees
     ? taskInput.assignees.map((assignee) => {
         return { name: assignee };
@@ -133,8 +129,8 @@ export function convertTask(
   return {
     taskTitle: taskInput["taskTitle"],
     assignees: assignees,
-    dueDate: dueDate,
-    startDate: startDate,
+    dueDate: dueDate? dueDate : undefined,
+    startDate: startDate? startDate : undefined,
     description: taskInput["description"],
     project: identifiedProjects,
     similarProjects: projectsToSelectFrom,
@@ -229,13 +225,13 @@ export function convertTaskPageFromDbResponse(
   const dueDate =
     "date" in properties["Due"]
       ? properties["Due"].date
-        ? new Date(properties["Due"].date.start)
+        ? properties["Due"].date.start
         : undefined
       : undefined;
   const startDate =
     "date" in properties["Start"]
       ? properties["Start"].date
-        ? new Date(properties["Start"].date.start)
+        ? properties["Start"].date.start
         : undefined
       : undefined;
   const description =

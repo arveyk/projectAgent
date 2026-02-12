@@ -26,7 +26,7 @@ export async function addTaskNotionPage(
 ): Promise<PageAddResult> {
   // Make sure due date is not in the past
 
-  const dueDate = taskObj.dueDate;
+  const dueDate = taskObj.dueDate ? taskObj.dueDate : undefined;
   console.log(`(addtaskNotionPage) taskObj: ${JSON.stringify(taskObj)}`);
   if ((dueDate && validateDueDate(dueDate)) || !dueDate) {
     console.log("yay! the due date is not in the past!");
@@ -52,7 +52,10 @@ export async function addTaskNotionPage(
       };
     } catch (error) {
       if (error instanceof Error) {
-        console.error("(addTaskNotionPage) Error adding task to Notion:", error.message);
+        console.error(
+          "(addTaskNotionPage) Error adding task to Notion:",
+          error.message,
+        );
         return {
           success: false,
           errorMsg: error,
@@ -72,4 +75,3 @@ export async function addTaskNotionPage(
     };
   }
 }
-

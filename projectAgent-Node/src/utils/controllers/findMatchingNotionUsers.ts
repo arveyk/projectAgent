@@ -214,11 +214,5 @@ export async function findAssignedBy(identifiedAppUser: User) {
     identifiedAppUser.email,
   );
 
-  // console.log(
-  //  `(findAssignedBy  slackEmail: string,
-// y), any found ${identifiedAppUser}, searched id: ${identifiedAppUser.userId}`,
-  //  JSON.stringify(matchingNotionUser),
-  // );
-
   return matchingNotionUser;
 }

@@ -1,4 +1,4 @@
-export const EXAMPLE_CONFIRM_CREAETE_TASK_WITH_SELECTION = {
+export const EXAMPLE_CONFIRM_CREATE_TASK_WITH_SELECTION = {
     "type": "block_actions",
     "user": {
         "id": "U08UDKY38QK",
@@ -7,14 +7,14 @@ export const EXAMPLE_CONFIRM_CREAETE_TASK_WITH_SELECTION = {
         "team_id": "T08VADHH17S"
     },
     "api_app_id": "A09RWHEGTCP",
-    "token": "chNpQw4FknzOFVYgpdVqtwpe",
+    "token": " ",
     "container": {
         "type": "message",
         "message_ts": "1766586719.006800",
         "channel_id": "C08VADJ7SEL",
         "is_ephemeral": true
     },
-    "trigger_id": "10213418726304.8996459579264.a0cdde238ae35440d9552bd5d43c1e71",
+    "trigger_id": "1024.8999264.a0cdde23c1e71",
     "team": {
         "id": "T08VADHH17S",
         "domain": "solutionalpro-1c61413"
@@ -52,7 +52,7 @@ export const EXAMPLE_CONFIRM_CREAETE_TASK_WITH_SELECTION = {
             }
         }
     },
-    "response_url": "https://hooks.slack.com/actions/T08VADHH17S/10169668552023/LT4zF4eiXhWD6xo1PiZBvl1j",
+    "response_url": "https://hooks.slack.com/actions/ExampleChannel/exampleresponse/SampleEndPoint4eiXhWD6xo1",
     "actions": [
         {
             "action_id": "SelectionActionId-2",

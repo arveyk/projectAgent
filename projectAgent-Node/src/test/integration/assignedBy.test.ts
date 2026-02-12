@@ -1,6 +1,7 @@
 import { EXAMPLE_SLACK_USER_IDS } from "../../test-data/example-slack-userids"
 import { getSlackUserDataById } from "../../utils/controllers/getUsersSlack";
 import { findAssignedBy } from "../../utils/controllers/findMatchingNotionUsers";
+import { CACHE_DATA_EXAMPLE_ALL } from "../../test-data/cache/cacheItems";
 
 
 describe("Test getting assigned by from Notion using slack Id", () => {
@@ -10,7 +11,7 @@ describe("Test getting assigned by from Notion using slack Id", () => {
             expect(usersIdentityInSlack.name).toMatch(sampleUserInSlack.username);
             console.log("Searching for", usersIdentityInSlack.name);
 
-            const indexZeroIdentityInNotion = await findAssignedBy(usersIdentityInSlack);
+            const indexZeroIdentityInNotion = await findAssignedBy(usersIdentityInSlack, CACHE_DATA_EXAMPLE_ALL);
             console.log("User's Identity in Notion", indexZeroIdentityInNotion);
 
 	    expect(indexZeroIdentityInNotion[0]).toBeDefined();
@@ -23,7 +24,7 @@ describe("Test getting assigned by from Notion using slack Id", () => {
             console.log("Searching for", usersIdentityInSlack.name);
 
 
-            const indexOneIdentityInNotion = await findAssignedBy(usersIdentityInSlack);
+            const indexOneIdentityInNotion = await findAssignedBy(usersIdentityInSlack, CACHE_DATA_EXAMPLE_ALL);
             console.log("User's Identity in Notion", indexOneIdentityInNotion);
 
 	    expect(indexOneIdentityInNotion[0]).toBeDefined();
@@ -36,7 +37,7 @@ describe("Test getting assigned by from Notion using slack Id", () => {
             console.log("Searching for", usersIdentityInSlack.name);
 
 
-            const indexTwoIdentityInNotion = await findAssignedBy(usersIdentityInSlack);
+            const indexTwoIdentityInNotion = await findAssignedBy(usersIdentityInSlack, CACHE_DATA_EXAMPLE_ALL);
             console.log("User's Identity in Notion", indexTwoIdentityInNotion);
 
 	    expect(indexTwoIdentityInNotion[0]).not.toBeDefined();
@@ -49,7 +50,7 @@ describe("Test getting assigned by from Notion using slack Id", () => {
             console.log("Searching for", usersIdentityInSlack.name);
 
 
-            const indexThreeIdentityInNotion = await findAssignedBy(usersIdentityInSlack);
+            const indexThreeIdentityInNotion = await findAssignedBy(usersIdentityInSlack, CACHE_DATA_EXAMPLE_ALL);
             console.log("User's Identity in Notion", indexThreeIdentityInNotion);
 
 	    expect(indexThreeIdentityInNotion[0]).toBeDefined();
@@ -62,7 +63,7 @@ describe("Test getting assigned by from Notion using slack Id", () => {
             console.log("Searching for", usersIdentityInSlack.name);
 
 
-            const indexFourIdentityInNotion = await findAssignedBy(usersIdentityInSlack);
+            const indexFourIdentityInNotion = await findAssignedBy(usersIdentityInSlack, CACHE_DATA_EXAMPLE_ALL);
             console.log("User's Identity in Notion", indexFourIdentityInNotion);
 
 	    expect(indexFourIdentityInNotion[0]).toBeDefined();

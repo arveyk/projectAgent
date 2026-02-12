@@ -3,6 +3,7 @@ import { getProjects, getProjectsRaw, simplifyProject } from "../../utils/databa
 import { exampleProjectRaw } from "../../test-data/projects/example-projectRaw";
 import { exampleProject } from "../../test-data/projects/example-project";
 import { isFullPage } from "@notionhq/client";
+import { CACHE_DATA_EXAMPLE_ALL } from "../../test-data/cache/cacheItems";
 
 describe("searchProjectsRaw", () => {
   it("should return an array of projects excluding DONE projects", async () => {
@@ -26,7 +27,7 @@ describe("searchProjectsRaw", () => {
 
 describe("searchProjects", () => {
   it("should infer the project for a task", async () => {
-    const projectsArr = await getProjects();
+    const projectsArr = await getProjects(CACHE_DATA_EXAMPLE_ALL);
     expect(projectsArr.length).toBeGreaterThan(0);
     todo("Move this to integration tests when integration tests are set up");
   }, 10000);
@@ -42,7 +43,7 @@ describe("simplifyProject", () => {
 
 describe("Tests getProjectsRaw with the new property filters", () => {
   it("Should return a non-empty list of tasks", async () => {
-    const rawProjects = await getProjects();
+    const rawProjects = await getProjects(CACHE_DATA_EXAMPLE_ALL);
     expect(rawProjects.length).toBeGreaterThan(0);
     console.log(rawProjects.length);
     console.log(JSON.stringify(rawProjects[0]));

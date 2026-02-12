@@ -1,6 +1,5 @@
 import { DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
 import {
-  CacheData,
   extractCacheData,
   extractCacheItemData,
   retrieveCache,

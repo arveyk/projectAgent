@@ -1,3 +1,4 @@
+import { CACHE_DATA_EXAMPLE_ALL } from "../../test-data/cache/cacheItems";
 import {
   compareNames,
   isPartialNameMatch,
@@ -29,21 +30,21 @@ describe("tests isPartialNameMatch", () => {
 
 describe("Tests findMatchingAssigner", () => {
   it("Returns at least one result when given an exact name", async () => {
-    const matches = await findMatchingNotionUser("Daniel Dirksen");
+    const matches = await findMatchingNotionUser("Daniel Dirksen", CACHE_DATA_EXAMPLE_ALL);
     console.log(`Matches: ${JSON.stringify(matches)}`);
 
     expect(matches.length).toBeGreaterThan(0);
   });
 
   it("Returns at least one result when given a partial name", async () => {
-    const matches = await findMatchingNotionUser("Dirksen");
+    const matches = await findMatchingNotionUser("Dirksen", CACHE_DATA_EXAMPLE_ALL);
     console.log(`Matches: ${JSON.stringify(matches)}`);
 
     expect(matches.length).toBeGreaterThan(0);
   });
 
   it("Returns no results", async () => {
-    const matches = await findMatchingNotionUser("meow");
+    const matches = await findMatchingNotionUser("meow", CACHE_DATA_EXAMPLE_ALL);
     console.log(`Matches: ${JSON.stringify(matches)}`);
 
     expect(matches.length).toBe(0);

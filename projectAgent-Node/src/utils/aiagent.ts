@@ -12,6 +12,8 @@ import { SlashCommand } from "@slack/bolt";
 import { logTimestampForBenchmarking } from "./logTimestampForBenchmarking";
 import { getProjects } from "./database/searchDatabase";
 import { getAppUserData } from "./controllers/getUsersSlack";
+import { Project } from "../domain";
+import { DateTime } from "luxon";
 
 const EXAMPLE_MSG_00 =
   "\
@@ -89,7 +91,7 @@ export const taskSchema = z.object({
     .string()
     .optional()
     .nullable()
-    .describe("Assingnee phone number"),
+    .describe("Assignee phone number"),
   email: z.string().optional().nullable().describe("Assignee's email address"),
   projects: z
     .string()
@@ -147,6 +149,31 @@ export const parseTask = async function (
   const notionProjects = await getProjects();
   console.log(`notionProjects found ${JSON.stringify(notionProjects)}`);
 
+  const structuredResultData = await parseWithLLM(timeData, notionProjects, textToParse);
+
+  // Convert the LLM output to a Task object for future ease of use
+  const task = convertTask(structuredResultData, notionProjects);
+  task.existingProjects = notionProjects;
+
+  console.log(`task parse result after conversion: ${JSON.stringify(task)}`);
+  return {
+    task: task,
+    taskCreator: {
+      userId: appUserData.userId,
+      name: appUserData.name,
+      email: appUserData.email,
+    },
+  };
+};
+
+/**
+ * Parses a task from a message using a structured LLM.
+ * @param timeData The date and timezone of the message.
+ * @param notionProjects A list of all the projects in the database.
+ * @param textToParse The message to parse as a task.
+ * @returns The message parsed as a task.
+ */
+export async function parseWithLLM(timeData: DateTime<boolean>, notionProjects: Project[], textToParse: string) {
   const prompt = `Today's date in ISO format is ${timeData.toISODate()}. Please extract task information from a message, making sure to list any dates in ISO format. If a start date is not specifed, assume the start date is today's date. "By tomorrow" means the due date is tomorrow.
   Also, using this list ${JSON.stringify(notionProjects)}, infer the project or projects the task is linked to. The projectName is what will help in finding a match. \
   """Example: **Sample Projects**: ${EXAMPLE_INPUT_PROJECTS}.\n\
@@ -169,7 +196,6 @@ export const parseTask = async function (
   console.log(`Raw LLM response: ${JSON.stringify(taskParseResult.raw)}`);
 
   console.log(JSON.stringify(taskParseResult.parsed));
-
   const structuredResult = taskSchema.safeParse(taskParseResult.parsed);
   if (!structuredResult.success) {
     console.error("Task parsing was unsuccessful");
@@ -181,18 +207,5 @@ export const parseTask = async function (
   console.log(
     `Structured LLM response: ${JSON.stringify(structuredResultData)}`,
   );
-
-  // Convert the LLM output to a Task object for future ease of use
-  const task = convertTask(structuredResultData, notionProjects);
-  task.existingProjects = notionProjects;
-
-  console.log(`task parse result after conversion: ${JSON.stringify(task)}`);
-  return {
-    task: task,
-    taskCreator: {
-      userId: appUserData.userId,
-      name: appUserData.name,
-      email: appUserData.email,
-    },
-  };
-};
+  return structuredResultData;
+}

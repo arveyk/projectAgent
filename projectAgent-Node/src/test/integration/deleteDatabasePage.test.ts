@@ -17,5 +17,5 @@ describe("Test adding and deleting a notion page", () => {
     const response = await deletePage(taskPage?.url);
     expect(response).toBeDefined();
     console.log(response);
-  });
+  }, 10000);
 });

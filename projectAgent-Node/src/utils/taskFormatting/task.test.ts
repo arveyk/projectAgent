@@ -1,8 +1,8 @@
 import { convertTaskPageFromDbResponse } from "./task";
 import { pageObjectResponse } from "../../test-data/db-results/pageResponse";
 
-describe("tests convertTaskPageFromDbResponse", () => {
-  it("", () => {
+describe("Tests convertTaskPageFromDbResponse", () => {
+  it("Test if convertTaskPageFromDbResponse create a task page from given Notion task page", () => {
     const taskPage = convertTaskPageFromDbResponse(pageObjectResponse);
 
     expect(taskPage).toBeDefined();

@@ -9,8 +9,8 @@ import { NotionUser } from "../utils/controllers/userTypes";
 const EXAMPLE_ASSIGNED_BY: NotionUser[] = [
   {
     userId: "136dsg2b-594c-817b-adaa-000l3lf9e69",
-    name: "James Din",
-    email: "james.din@example-domain.com",
+    name: "James Bond",
+    email: "james.bond@example-domain.com",
   },
 ];
 
@@ -77,13 +77,13 @@ const columnLayoutWithSelections =
       ambiguousUsers: [
         {
           userId: "136d872b-594c-817b-adaa-00026796be69",
-          name: "James Din",
-          email: "james.din@example-domain.com",
+          name: "James Bond",
+          email: "james.bond@example-domain.com",
         },
         {
           userId: "13dd872b-594c-810f-8bb4-000282e27820",
-          name: "Daniel Dan",
-          email: "daniel.dan@example-domain.com",
+          name: "Belteshazar Dan",
+          email: "belteshazar.dan@example-domain.com",
         },
       ],
     },

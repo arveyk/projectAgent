@@ -17,7 +17,7 @@ export const EXAMPLE_SLACK_USER_IDS = [
   },
   {
     "id": 'U09AE554J85',
-    "username": 'Daniel',
+    "username": 'Belteshazar',
   },
   {
     "id": 'U09AE5RP4UV',
@@ -25,7 +25,7 @@ export const EXAMPLE_SLACK_USER_IDS = [
   },
   {
     "id": 'U09B79A2J2U',
-    "username": 'Daniel',
+    "username": 'Belteshazar',
   }
 
 ]

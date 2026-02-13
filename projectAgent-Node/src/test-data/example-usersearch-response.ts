@@ -26,13 +26,13 @@ export const exampleUserSearchResponse2 = [
     "foundUsers": [
       {
         "userId": "136d872b-594c-817b-adaa-00026796be69",
-        "name": "James Din",
-        "email": "james.din@example-domain.com"
+        "name": "James Bond",
+        "email": "james.bond@example-domain.com"
       },
       {
         "userId": "13difn2b-594c-810f-8bb4-000y7e27820",
-        "name": "Daniel Din",
-        "email": "daniel.din@example-domain.com"
+        "name": "Belteshazar Bond",
+        "email": "belteshazar.bond@example-domain.com"
       }
     ]
   },
@@ -58,13 +58,13 @@ export const exampleUserSearchResponse3 = [
     "foundUsers": [
       {
         "userId": "136d872b-594c-817b-adaa-00026796be69",
-        "name": "James Din",
-        "email": "james.din@example-domain.com"
+        "name": "James Bond",
+        "email": "james.bond@example-domain.com"
       },
       {
         "userId": "13dd872b-594c-810f-8bb4-000282e27820",
-        "name": "Daniel Din",
-        "email": "daniel.din@example-domain.com"
+        "name": "Belteshazar Bond",
+        "email": "belteshazar.bond@example-domain.com"
       }
     ]
   },

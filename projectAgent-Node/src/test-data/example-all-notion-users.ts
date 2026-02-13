@@ -145,7 +145,7 @@ export const EXAMPLE_ALL_NOTION_USERS = [
     ,
     {
         "userId": "13dd872b-594c-810f-8bb4-000282e27820",
-        "name": "Daniel Dan",
+        "name": "Belteshazar Dan",
         "email": "danny.dan@example-domain.com"
     }
     ,

@@ -29,7 +29,7 @@ describe("tests isPartialNameMatch", () => {
 
 describe("Tests findMatchingAssigner", () => {
   it("Returns at least one result when given an exact name", async () => {
-    const matches = await findMatchingNotionUser("Daniel Bond");
+    const matches = await findMatchingNotionUser("Belteshazar Bond");
     console.log(`Matches: ${JSON.stringify(matches)}`);
 
     expect(matches.length).toBeGreaterThan(0);

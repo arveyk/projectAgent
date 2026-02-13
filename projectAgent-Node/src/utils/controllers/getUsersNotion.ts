@@ -1,6 +1,7 @@
 import { NotionUser } from "./userTypes.js";
 import { NOTION_API_KEY } from "../../env";
 import { Client } from "@notionhq/client";
+import { CacheData } from "../database/getFromCache.js";
 
 const notion = new Client({
   auth: NOTION_API_KEY,
@@ -13,10 +14,11 @@ if (!NOTION_API_KEY) throw new Error("No Notion API Key given");
  * Function to get Notion users
  * @return: Array of NotionUser objects
  */
-export async function getNotionUsers() {
+export async function getNotionUsers(cacheItems: CacheData) {
   const humanUsers: NotionUser[] = [];
 
-  const notionResp = await notion.users.list({});
+  // Check cache first
+  const notionResp = cacheItems.users ? cacheItems.users : await notion.users.list({});
   console.log("Logging results in getNotionUser", JSON.stringify(notionResp));
 
   notionResp.results.forEach((user) => {

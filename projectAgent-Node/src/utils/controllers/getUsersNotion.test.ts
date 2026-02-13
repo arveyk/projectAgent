@@ -1,9 +1,16 @@
+import { CACHE_DATA_EXAMPLE_ALL, CACHE_DATA_EXAMPLE_NO_USERS } from "../../test-data/cache/cacheItems";
 import { getNotionUsers } from "./getUsersNotion";
 import { getSlackUsers } from "./getUsersSlack";
 
 describe("Get notion users", () => {
-  it("Should get all notion Users", async () => {
-    const notionUser = await getNotionUsers();
+  it("Should get all Notion users when users are in the cache", async () => {
+    const notionUser = await getNotionUsers(CACHE_DATA_EXAMPLE_ALL);
+    expect(notionUser).toBeDefined();
+    expect(notionUser.length).toBeGreaterThan(0);
+  });
+
+  it("Should get all Notion users when users are not in the cache", async () => {
+    const notionUser = await getNotionUsers(CACHE_DATA_EXAMPLE_NO_USERS);
     expect(notionUser).toBeDefined();
     expect(notionUser.length).toBeGreaterThan(0);
   });

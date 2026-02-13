@@ -55,7 +55,8 @@ export function simplifyTaskPage(
     assignee: properties["Assigned to"]["people"].map((response) =>
       extractAssignees(response),
     ),
-    project: properties.Project.type === "relation" ? properties.Project.relation : [],
+    project:
+      properties.Project.type === "relation" ? properties.Project.relation : [],
   };
 }
 
@@ -65,7 +66,7 @@ export function simplifyTaskPage(
  * @returns A simplified version of the Notion database results.
  */
 export function simplifyTaskPages(
-  dbResults: QueryDataSourceResponse["results"]
+  dbResults: QueryDataSourceResponse["results"],
 ): TaskPage[] {
   return dbResults.map(simplifyTaskPage);
 }

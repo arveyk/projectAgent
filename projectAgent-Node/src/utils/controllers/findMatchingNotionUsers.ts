@@ -1,3 +1,4 @@
+import { CacheData } from "../database/getFromCache";
 import { Task, User } from "../taskFormatting/task";
 import { getNotionUsers } from "./getUsersNotion";
 import { NotionUser, UserSearchResult } from "./userTypes";
@@ -7,17 +8,18 @@ import { NotionUser, UserSearchResult } from "./userTypes";
  * @param task: task to be created that contains the required assignees array
  *
  * @returns     returns the user(s) in Notion (name and email) that match the user details
- *   extracted by the AI. 
+ *   extracted by the AI.
  */
 export async function findMatchingAssignees(
   task: Task,
+  cacheItems: CacheData
 ): Promise<UserSearchResult[]> {
   const assignees = task.assignees;
   const matches = Promise.all(
     assignees.map(async (assignee) => {
       const match: UserSearchResult = {
         person: assignee,
-        foundUsers: await findMatchingNotionUser(assignee.name, assignee.email),
+        foundUsers: await findMatchingNotionUser(assignee.name, cacheItems, assignee.email),
       };
       return match;
     }),
@@ -30,15 +32,16 @@ export async function findMatchingAssignees(
  * Finds a Notion user matching the Slack user who assigned the given task.
  * @param slackUsername:  name of user in slack used to search for user/user
  *   in Notion to use as assignee(s)
- * 
+ *
  * @returns               Array Notion users that match the slack user with the name
  *   equal to value of slackUsername
  */
 export async function findMatchingNotionUser(
   slackUsername: string,
+  cacheItems: CacheData,
   email?: string,
 ): Promise<NotionUser[]> {
-  const allNotionUsers: NotionUser[] = await getNotionUsers();
+  const allNotionUsers: NotionUser[] = await getNotionUsers(cacheItems);
 
   let emailMatches: NotionUser[] = [];
   if (email !== undefined) {
@@ -82,7 +85,7 @@ export function compareNames(
       slackUserName.toLowerCase().replace(".", " ").replace("@", "") ===
       notionUserName.toLowerCase().replace(".", " ").replace("@", "")
     ) {
-     // console.log(`Found Matching user, CompareNames Function, ${slackUserName}`);
+      // console.log(`Found Matching user, CompareNames Function, ${slackUserName}`);
       return true;
     } else {
       return false;
@@ -132,7 +135,7 @@ export function isPartialNameMatch(
         .replace("@", "")
         .includes(slackUserName.toLowerCase().replace("@", ""))
     ) {
-     // console.log(`Found Matching user, ${notionUserName}`);
+      // console.log(`Found Matching user, ${notionUserName}`);
       return true;
     } else if (
       slackUserName
@@ -185,8 +188,9 @@ export function deduplicateUsers(
  */
 export async function findMatchingNotionUserByEmail(
   slackEmail: string,
+  cacheItems: CacheData
 ): Promise<NotionUser[]> {
-  const allNotionUsers: NotionUser[] = await getNotionUsers();
+  const allNotionUsers: NotionUser[] = await getNotionUsers(cacheItems);
 
   let emailMatches: NotionUser[] = [];
   if (slackEmail !== undefined) {
@@ -205,13 +209,14 @@ export async function findMatchingNotionUserByEmail(
 /**
  * Function to find the assigner's details from the Notion side
  * @param identifiedAppUser: The assigner(creator) of the new task, inferred from Slack
- * 
+ *
  * @returns                  Array containing only the Notion user that matches slack user that is creating the
  *   task. This is what is placed in the assignedBy field in a task
  */
-export async function findAssignedBy(identifiedAppUser: User) {
+export async function findAssignedBy(identifiedAppUser: User, cacheItems: CacheData) {
   const matchingNotionUser = await findMatchingNotionUserByEmail(
     identifiedAppUser.email,
+    cacheItems
   );
 
   return matchingNotionUser;

@@ -1,5 +1,7 @@
-import { filterSimilar } from "./searchDatabase";
+import { filterSimilar, getTasksRaw } from "./searchDatabase";
 import { SIMPLIFIED_DB_PAGES } from "../../test-data/simplifiedDbPages";
+import { isFullPage } from "@notionhq/client";
+import { simplifyTaskPages } from "./simplifyTaskPages";
 
 describe("Tests filterSimilar on the message 'Harvey, please rake the leaves'", () => {
   it("Should find both tasks that involve raking", () => {
@@ -69,5 +71,18 @@ describe("Tests filterSimilar on the message 'Josh, row the new boat'", () => {
     expect(similarPages).toContain(
       similarPages.find((page) => page.pageId === ROW_BOAT_ID),
     );
+  });
+});
+
+describe("Tests getTasksRaw with the new property filters", () => {
+  it("Should return a non-empty list of tasks", async () => {
+    const rawTasks = await getTasksRaw();
+    expect(rawTasks.length).toBeGreaterThan(0);
+    console.log(rawTasks.map((result) => isFullPage(result)));
+    console.log(rawTasks.length);
+    console.log(JSON.stringify(rawTasks[0]));
+
+    const tasks = simplifyTaskPages(rawTasks);
+    expect(tasks.length).toEqual(rawTasks.length);
   });
 });

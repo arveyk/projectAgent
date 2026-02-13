@@ -1,3 +1,4 @@
+import { CacheData } from "../utils/database/getFromCache";
 import { getProjects } from "../utils/database/searchDatabase";
 import { ProjectWithName, TaskPage } from "../utils/taskFormatting/task";
 import { createTaskInfoWithoutSelections } from "./createBlockPartsForNewTask";
@@ -8,10 +9,10 @@ import { createTaskInfoWithoutSelections } from "./createBlockPartsForNewTask";
  *
  * @returns:        A set of Slack blocks to be used in previewing and updating an existing task.
  */
-export async function createExistingTaskBlock(taskPage: TaskPage) {
+export async function createExistingTaskBlock(taskPage: TaskPage, cacheItems: CacheData) {
   const taskUrl = taskPage.url;
   const associatedProjects = taskPage.task.project || [];
-  const existingProjects = await getProjects();
+  const existingProjects = await getProjects(cacheItems);
 
   const taskProjects: ProjectWithName[] = [];
 

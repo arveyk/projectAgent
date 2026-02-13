@@ -20,13 +20,13 @@ import {
 import { logTimestampForBenchmarking } from "../logTimestampForBenchmarking";
 import { Project } from "../../domain";
 import { containsSensitiveNgrams } from "./containsSensitiveNgrams";
+import { CacheData } from "./getFromCache";
 
 const notion = new Client({
   auth: NOTION_API_KEY,
   notionVersion: "2025-09-03",
 });
 
-logTimestampForBenchmarking("(Database) model initialization start");
 const model = new ChatAnthropic({
   model: ANTHROPIC_MODEL_VER,
   temperature: 0,
@@ -42,7 +42,6 @@ const databaseSearchResult = z.object({
     .optional()
     .describe("The ID of the task entry from the database"),
 });
-logTimestampForBenchmarking("(Database) model initialization finished");
 
 export type TaskSearchResult = {
   exists: boolean;
@@ -61,13 +60,12 @@ const structuredLlm = model.withStructuredOutput(databaseSearchResult, {
  */
 export const searchDatabase = async function (
   message: string,
+  cacheItems: CacheData
 ): Promise<TaskSearchResult> {
   console.log(`Model name: ${model.modelName}`);
   console.log(`message (searchDB): ${JSON.stringify(message)}`);
 
-  logTimestampForBenchmarking("Querying database");
-  const tasks = await getTasks();
-  logTimestampForBenchmarking("Done querying database");
+  const tasks = await getTasks(cacheItems);
 
   console.log(`Database response: ${JSON.stringify(tasks)}`);
 
@@ -78,15 +76,17 @@ export const searchDatabase = async function (
     Please check if a task matching the message ${message} exists in the database response
     ${JSON.stringify(similarPages)}.
   `.trim();
+
   logTimestampForBenchmarking("(Database) LLM start");
   const llmResult = await structuredLlm.invoke(prompt);
+  logTimestampForBenchmarking("(Database) LLM finished");
   console.log(`Raw LLM response: ${JSON.stringify(llmResult.raw)}`);
   const parsed = llmResult.parsed;
   const result: TaskSearchResult = {
     exists: parsed.exists,
     taskId: parsed.task_id !== "<UNKNOWN>" ? parsed.task_id : undefined,
   };
-  logTimestampForBenchmarking("(Database) LLM finished");
+
   console.log(`result: ${JSON.stringify(result)}`);
 
   return result;
@@ -98,12 +98,21 @@ export const searchDatabase = async function (
  *
  * @return	An array of all tasks in the tasks database
  */
-export async function getTasks(): Promise<TaskPage[]> {
-  const rawTasks = await getTasksRaw();
+export async function getTasks(cacheItems: CacheData): Promise<TaskPage[]> {
+  let rawTasks: QueryDataSourceResponse["results"];
+  // Check cache first
+  if (cacheItems.tasks) {
+    rawTasks = cacheItems.tasks;
+  }
+  else {
+    logTimestampForBenchmarking("Querying task database");
+    rawTasks = await getTasksRaw();
+    logTimestampForBenchmarking("Done querying task database");
+  }
   return rawTasks
-    .filter(page => isFullPage(page))
-    .filter(page => !containsSensitiveNgrams(page))
-    .map(simplifyTaskPage)
+    .filter((page) => isFullPage(page))
+    .filter((page) => !containsSensitiveNgrams(page))
+    .map(simplifyTaskPage);
 }
 
 /**
@@ -113,9 +122,12 @@ export async function getTasks(): Promise<TaskPage[]> {
  *
  * @return	An array of all raw tasks in the tasks database
  */
-export async function getTasksRaw(): Promise<QueryDataSourceResponse["results"]> {
+export async function getTasksRaw(): Promise<
+  QueryDataSourceResponse["results"]
+> {
   return await collectPaginatedAPI(notion.dataSources.query, {
     data_source_id: NOTION_TASKS_DATA_SOURCE_ID,
+    filter_properties: ["Task name", "Description", "Assigned to", "Project"],
   });
 }
 
@@ -162,17 +174,24 @@ export function filterSimilar(pages: TaskPage[], message: string): TaskPage[] {
  *
  * @return	An array of all projects in the projects database
  */
-export async function getProjects() {
-  logTimestampForBenchmarking("Querying Projects");
-  const projectsList = await getProjectsRaw();
+export async function getProjects(cacheItems: CacheData) {
+  let projectsList: QueryDataSourceResponse["results"];
+  // Check cache first
+  if (cacheItems.projects) {
+    projectsList = cacheItems.projects;
+  }
+  else {
+    logTimestampForBenchmarking("Querying Projects");
+    projectsList = await getProjectsRaw();
+    logTimestampForBenchmarking("Done querying Projects");
+  }
 
   let simplifiedProjects = projectsList
-    .filter(project => isFullPage(project))
-    .filter(project => !containsSensitiveNgrams(project))
+    .filter((project) => isFullPage(project))
+    .filter((project) => !containsSensitiveNgrams(project))
     .map(simplifyProject)
-    .filter(project => project !== undefined)
+    .filter((project) => project !== undefined);
 
-  logTimestampForBenchmarking("Done querying Projects");
   // console.log(JSON.stringify(projectsQueryResponse));
   return simplifiedProjects;
 }
@@ -184,7 +203,9 @@ export async function getProjects() {
  *
  * @return	An array of all raw projects in the projects database
  */
-export async function getProjectsRaw(): Promise<QueryDataSourceResponse["results"]> {
+export async function getProjectsRaw(): Promise<
+  QueryDataSourceResponse["results"]
+> {
   return await collectPaginatedAPI(notion.dataSources.query, {
     data_source_id: NOTION_PROJECTS_DATA_SOURCE_ID,
     filter: {
@@ -193,22 +214,23 @@ export async function getProjectsRaw(): Promise<QueryDataSourceResponse["results
           property: "Status",
           status: {
             does_not_equal: "Done",
-          }
+          },
         },
         {
           property: "Status",
           status: {
             does_not_equal: "Canceled",
-          }
+          },
         },
         {
           property: "Status",
           status: {
             does_not_equal: "Archived",
-          }
+          },
         },
       ],
-    }
+    },
+    filter_properties: ["Project name", "Status"],
   });
 }
 
@@ -218,9 +240,11 @@ export async function getProjectsRaw(): Promise<QueryDataSourceResponse["results
  * @param project The raw project (Notion page) to simplify
  * @return The simplified Project object, or undefined if the project could not be simplified
  */
-export function simplifyProject(project: PageObjectResponse): Project | undefined {
+export function simplifyProject(
+  project: PageObjectResponse,
+): Project | undefined {
   const titleProperty = Object.values(project.properties).find(
-    (prop) => prop.type === "title"
+    (prop) => prop.type === "title",
   );
   return titleProperty
     ? {

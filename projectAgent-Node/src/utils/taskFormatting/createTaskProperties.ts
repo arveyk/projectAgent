@@ -71,19 +71,21 @@ export const createTaskProperties = async function (taskObj: NotionTask) {
       people: await createAssigneeArray(assignees),
     },
     Due: {
-      date: typeof dueDate !== "undefined"
-        ? {
-            start: dueDate,
-          }
-        : null,
+      date:
+        typeof dueDate !== "undefined"
+          ? {
+              start: dueDate,
+            }
+          : null,
     },
 
     Start: {
-      date: typeof startDate !== "undefined"
-      ? {
-        start: startDate,
-      }
-      : null,
+      date:
+        typeof startDate !== "undefined"
+          ? {
+              start: startDate,
+            }
+          : null,
     },
 
     Project: {

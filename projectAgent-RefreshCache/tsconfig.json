@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ES2022",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strict": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "types": ["node", "jest"],
+    "typeRoots": ["./src/types", "./node_modules/@types"],
+    "noUnusedLocals": true
+  },
+  "include": ["./src/**/*", "src/bin/createNewTaskBlockTest.ts", "index.ts"],
+  "exclude": ["node_modules", "dist"]
+}

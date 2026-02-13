@@ -9,6 +9,7 @@ import {
 import {
   taskKitchen,
 } from "../../test-data/tasks/example-tasks";
+import { CACHE_DATA_EXAMPLE_ALL } from "../../test-data/cache/cacheItems";
 
 describe("Tests parseTaskSlashCmd with a good payload", () => {
   it("Parses the task correctly", async () => {
@@ -16,7 +17,7 @@ describe("Tests parseTaskSlashCmd with a good payload", () => {
     expect(typeof payloadGood).toBe("object");
     const timestamp = 1755039682 * 1000;
 
-    const parsedTask = await parseTask(payloadGood, timestamp);
+    const parsedTask = await parseTask(payloadGood, timestamp, CACHE_DATA_EXAMPLE_ALL);
     console.log(JSON.stringify(parsedTask));
 
     expect(parsedTask.task.taskTitle).toBeTruthy();
@@ -30,7 +31,7 @@ describe("Tests parseTaskSlashCmd with a good payload from Harvey", () => {
     expect(typeof payloadHarvey).toBe("object");
     const timestamp = 1755039682 * 1000;
 
-    const parsedTask = await parseTask(payloadHarvey, timestamp);
+    const parsedTask = await parseTask(payloadHarvey, timestamp, CACHE_DATA_EXAMPLE_ALL);
     console.log(JSON.stringify(parsedTask));
 
     expect(parsedTask.task.taskTitle).toBeTruthy();
@@ -44,7 +45,7 @@ describe("Tests parseTaskSlashCmd inferring dates", () => {
     expect(typeof payloadInferDates).toBe("object");
     const timestamp = 1755039682 * 1000;
 
-    const parsedTask = await parseTask(payloadInferDates, timestamp);
+    const parsedTask = await parseTask(payloadInferDates, timestamp, CACHE_DATA_EXAMPLE_ALL);
     console.log(JSON.stringify(parsedTask));
     expect(parsedTask.task.taskTitle).toBeTruthy();
     expect(parsedTask.task.description).toBeTruthy();
@@ -57,7 +58,7 @@ describe("tests parseTaskSlashCmd with the payload that's been causing trouble",
     expect(typeof payloadNew).toBe("object");
     const timestamp = Date.now();
 
-    const parsedTask = await parseTask(payloadNew, timestamp);
+    const parsedTask = await parseTask(payloadNew, timestamp, CACHE_DATA_EXAMPLE_ALL);
     console.log(JSON.stringify(parsedTask));
     console.log(JSON.stringify(taskKitchen));
   }, 20000);

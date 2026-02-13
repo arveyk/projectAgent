@@ -1,6 +1,8 @@
 {
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.985.0",
     "@aws-sdk/core": "^3.936.0",
+    "@aws-sdk/lib-dynamodb": "^3.985.0",
     "@codegenie/serverless-express": "^4.17.0",
     "@google-cloud/functions-framework": "^4.0.0",
     "@langchain/anthropic": "^1.0.0-alpha.2",
@@ -40,7 +42,7 @@
     "format": "npx prettier . --write",
     "lint": "npx eslint",
     "build": "node build.cjs",
-    "zip": "cd ./dist/ && zip app.zip ./index.cjs && cd ..",
+    "zip": "cd ./dist/ && zip projectAgent.zip ./index.cjs && cd ..",
     "docker": "docker build -t minimal-cloud-run . && docker run --rm -p 8080:8080 --env-file .env minimal-cloud-run"
   },
   "keywords": [],

@@ -11,7 +11,7 @@ export const allProjects: Project[] = [
     "id": "2bdeef29-a653-8020-9dd0-e20ff33c265c"
   },
   {
-    "projectName": "Project Assigned by Ceci",
+    "projectName": "Project Assigned by Chimera",
     "id": "2bdeef29-a653-8093-97fb-f411a20b58ed"
   },
   {

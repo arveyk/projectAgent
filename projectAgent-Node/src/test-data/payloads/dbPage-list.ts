@@ -7,8 +7,8 @@ export const dbPageList: TaskPage[] = [
         "description": "Feed the emu and ensure she has enough water. Also, prepare something sweet for tomorrow's dinner.",
         "assignee": [
             {
-                "name": "Harvey Kisiangani",
-                "email": "harveykisiangani@gmail.com",
+                "name": "Harvey Spectre",
+                "email": "harveyspectre@example-mail.com",
                 // "userId": "1e0d872b-594c-81e5-be86-000260493812"
             }
         ]
@@ -19,8 +19,8 @@ export const dbPageList: TaskPage[] = [
         "description": "Give water to the cats today",
         "assignee": [
             {
-                "name": "Ceci Kurdelak",
-                "email": "ceci.kurdelak@solutional.com",
+                "name": "Chimera Tabitha",
+                "email": "chimera.tabitha@example-domain.com",
                 // "userId": "152d872b-594c-8145-9c2c-000204787b69"
             }
         ]
@@ -31,8 +31,8 @@ export const dbPageList: TaskPage[] = [
         "description": "Feed the cats today",
         "assignee": [
             {
-                "name": "Ceci Kurdelak",
-                "email": "ceci.kurdelak@solutional.com",
+                "name": "Chimera Tabitha",
+                "email": "chimera.tabitha@example-domain.com",
                 // "userId": "152d872b-594c-8145-9c2c-000204787b69"
             }
         ]
@@ -55,8 +55,8 @@ export const dbPageList: TaskPage[] = [
         "description": "Set up uptime monitoring for the Notionfications system.",
         "assignee": [
             {
-                "name": "Harvey Kisiangani",
-                "email": "harveykisiangani@gmail.com",
+                "name": "Harvey Spectre",
+                "email": "harveyspectre@example-mail.com",
                 // "userId": "1e0d872b-594c-81e5-be86-000260493812"
             }
         ]
@@ -67,8 +67,8 @@ export const dbPageList: TaskPage[] = [
         "description": "Finish migrating the database by the end of the week.",
         "assignee": [
             {
-                "name": "Ceci Kurdelak",
-                "email": "ceci.kurdelak@solutional.com",
+                "name": "Chimera Tabitha",
+                "email": "chimera.tabitha@example-domain.com",
                 // "userId": "152d872b-594c-8145-9c2c-000204787b69"
             }
         ]
@@ -79,8 +79,8 @@ export const dbPageList: TaskPage[] = [
         "description": "Fix the date formatting issue.",
         "assignee": [
             {
-                "name": "Ceci Kurdelak",
-                "email": "ceci.kurdelak@solutional.com",
+                "name": "Chimera Tabitha",
+                "email": "chimera.tabitha@example-domain.com",
                 // "userId": "152d872b-594c-8145-9c2c-000204787b69"
             }
         ]
@@ -100,11 +100,11 @@ export const dbPageList: TaskPage[] = [
     {
         "pageId": "293eef29-a653-81d9-bf8e-fa797d755368",
         "taskTitle": "Fix left engine of oldest F22",
-        "description": "Help crkurdelak fix the left engine of the oldest F22 aircraft in the fleet.",
+        "description": "Help crtabitha fix the left engine of the oldest F22 aircraft in the fleet.",
         "assignee": [
             {
-                "name": "Harvey Kisiangani",
-                "email": "harveykisiangani@gmail.com",
+                "name": "Harvey Spectre",
+                "email": "harveyspectre@example-mail.com",
                 // "userId": "1e0d872b-594c-81e5-be86-000260493812"
             }
         ]
@@ -115,8 +115,8 @@ export const dbPageList: TaskPage[] = [
         "description": "Feed the cats until next Monday. Make sure to give them their pills and that they have enough clean water.",
         "assignee": [
             {
-                "name": "Harvey Kisiangani",
-                "email": "harveykisiangani@gmail.com",
+                "name": "Harvey Spectre",
+                "email": "harveyspectre@example-mail.com",
                 // "userId": "1e0d872b-594c-81e5-be86-000260493812"
             }
         ]
@@ -127,8 +127,8 @@ export const dbPageList: TaskPage[] = [
         "description": "Remove all redundant code from the codebase",
         "assignee": [
             {
-                "name": "Harvey Kisiangani",
-                "email": "harveykisiangani@gmail.com",
+                "name": "Harvey Spectre",
+                "email": "harveyspectre@example-mail.com",
                 // "userId": "1e0d872b-594c-81e5-be86-000260493812"
             }
         ]
@@ -139,8 +139,8 @@ export const dbPageList: TaskPage[] = [
         "description": "Remove all redundant code from the codebase",
         "assignee": [
             {
-                "name": "Harvey Kisiangani",
-                "email": "harveykisiangani@gmail.com",
+                "name": "Harvey Spectre",
+                "email": "harveyspectre@example-mail.com",
                 // "userId": "1e0d872b-594c-81e5-be86-000260493812"
             }
         ]
@@ -151,8 +151,8 @@ export const dbPageList: TaskPage[] = [
         "description": "Feed the sheep by Friday",
         "assignee": [
             {
-                "name": "Harvey Kisiangani",
-                "email": "harveykisiangani@gmail.com",
+                "name": "Harvey Spectre",
+                "email": "harveyspectre@example-mail.com",
                 // "userId": "1e0d872b-594c-81e5-be86-000260493812"
             }
         ]

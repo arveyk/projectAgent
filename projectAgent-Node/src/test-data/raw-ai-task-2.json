@@ -15,7 +15,7 @@
                 "input": {
                     "taskTitle": "Fix the bug",
                     "assignees": [
-                        "Ceci"
+                        "Chimera"
                     ],
                     "dueDate": "<UNKNOWN>",
                     "description": "Please fix the bug"
@@ -47,7 +47,7 @@
                 "args": {
                     "taskTitle": "Fix the bug",
                     "assignees": [
-                        "Ceci"
+                        "Chimera"
                     ],
                     "dueDate": "<UNKNOWN>",
                     "description": "Please fix the bug"

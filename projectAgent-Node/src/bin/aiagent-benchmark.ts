@@ -1,11 +1,11 @@
 import { SlashCommand } from "@slack/bolt";
 import { parseTask } from "../utils/aiagent";
 
-const message1 = "add Ceci, please fix the date formatting error";
+const message1 = "add Chimara, please fix the date formatting error";
 const message2 =
   "add Harvey, please set up uptime monitoring for Notionfications";
 const message3 =
-  "add Ceci, could you finish the database migration by the end of the week?";
+  "add Chimara, could you finish the database migration by the end of the week?";
 
 const payload1: SlashCommand = {
   token: " ",
@@ -14,7 +14,7 @@ const payload1: SlashCommand = {
   channel_id: "C08VADJ7SEL",
   channel_name: "all-solutional-project-agent",
   user_id: "U08VADHNG0G",
-  user_name: "crkurdelak",
+  user_name: "crtabitha",
   command: "/timely_01",
   text: message1,
   api_app_id: "sample_id",
@@ -31,7 +31,7 @@ const payload2: SlashCommand = {
   channel_id: "C08VADJ7SEL",
   channel_name: "all-solutional-project-agent",
   user_id: "U08VADHNG0G",
-  user_name: "crkurdelak",
+  user_name: "crtabitha",
   command: "/timely_01",
   text: message2,
   api_app_id: "sample_id",
@@ -48,7 +48,7 @@ const payload3: SlashCommand = {
   channel_id: "C08VADJ7SEL",
   channel_name: "all-solutional-project-agent",
   user_id: "U08VADHNG0G",
-  user_name: "crkurdelak",
+  user_name: "crtabitha",
   command: "/timely_01",
   text: message3,
   api_app_id: "sample_id",

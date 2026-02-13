@@ -1,11 +1,11 @@
 export const payloadGood = {
-  "token": "JWNJnukcVaHbRoRl6CwWYan6",
+  "token": " ",
   "team_id": "T08VADHH17S",
   "team_domain": "solutionalpro-1c61413",
   "channel_id": "C08VADJ7SEL",
   "channel_name": "all-solutional-project-agent",
   "user_id": "U08VADHNG0G",
-  "user_name": "crkurdelak",
+  "user_name": "crtabitha",
   "command": "/timely_01",
   "text": "add Jeff, please finish the mural, preferably by September 1",
   "api_app_id": "A0935EDQRHB",
@@ -15,13 +15,13 @@ export const payloadGood = {
 }
 
 export const payloadPastDueDate = {
-  "token": "JWNJnukcVaHbRoRl6CwWYan6",
+  "token": " ",
   "team_id": "T08VADHH17S",
   "team_domain": "solutionalpro-1c61413",
   "channel_id": "C08VADJ7SEL",
   "channel_name": "all-solutional-project-agent",
   "user_id": "U08VADHNG0G",
-  "user_name": "crkurdelak",
+  "user_name": "crtabitha",
   "command": "/timely_01",
   "text": "add Jeff, please finish the mural, preferably by September 1",
   "api_app_id": "A0935EDQRHB",
@@ -31,13 +31,13 @@ export const payloadPastDueDate = {
 }
 
 export const payloadBadToken = {
-  "token": "JWNJnukcVaHbRoRl6CwWY123",
+  "token": " ",
   "team_id": "T08VADHH17S",
   "team_domain": "solutionalpro-1c61413",
   "channel_id": "C08VADJ7SEL",
   "channel_name": "all-solutional-project-agent",
   "user_id": "U08VADHNG0G",
-  "user_name": "crkurdelak",
+  "user_name": "crtabitha",
   "command": "/timely_01",
   "text": "add Jeff, please finish the mural, preferably by September 1",
   "api_app_id": "A0935EDQRHB",
@@ -47,13 +47,13 @@ export const payloadBadToken = {
 }
 
 export const payloadFormattingError = {
-  "token": "JWNJnukcVaHbRoRl6CwWY123",
+  "token": " ",
   "team_id": {
     "team_domain": "solutionalpro-1c61413",
     "channel_id": "C08VADJ7SEL",
     "channel_name": "all-solutional-project-agent",
     "user_id": "U08VADHNG0G",
-    "user_name": "crkurdelak"
+    "user_name": "crtabitha"
   },
   "command": "/timely_01",
   "text": "add Jeff, please finish the mural, preferably by September 1",
@@ -64,13 +64,13 @@ export const payloadFormattingError = {
 }
 
 export const payloadInferDates = {
-  "token": "JWNJnukcVaHbRoRl6CwWYan6",
+  "token": " ",
   "team_id": "T08VADHH17S",
   "team_domain": "solutionalpro-1c61413",
   "channel_id": "C08VADJ7SEL",
   "channel_name": "all-solutional-project-agent",
   "user_id": "U08VADHNG0G",
-  "user_name": "crkurdelak",
+  "user_name": "crtabitha",
   "command": "/timely_01",
   "text": "add Ellen, starting tommorrow, please gather information about similar preexisting products and write up a report by this Thursday.",
   "api_app_id": "A0935EDQRHB",
@@ -80,13 +80,13 @@ export const payloadInferDates = {
 }
 
 export const payloadNoTask = {
-  "token": "JWNJnukcVaHbRoRl6CwWYan6",
+  "token": " ",
   "team_id": "T08VADHH17S",
   "team_domain": "solutionalpro-1c61413",
   "channel_id": "C08VADJ7SEL",
   "channel_name": "all-solutional-project-agent",
   "user_id": "U08VADHNG0G",
-  "user_name": "crkurdelak",
+  "user_name": "crtabitha",
   "text": "Hi Mitsuko, it's great to meet you!",
   "api_app_id": "A0935EDQRHB",
   "is_enterprise_install": "false",
@@ -95,13 +95,13 @@ export const payloadNoTask = {
 }
 
 export const payloadNotAdd = {
-  "token": "JWNJnukcVaHbRoRl6CwWYan6",
+  "token": " ",
   "team_id": "T08VADHH17S",
   "team_domain": "solutionalpro-1c61413",
   "channel_id": "C08VADJ7SEL",
   "channel_name": "all-solutional-project-agent",
   "user_id": "U08VADHNG0G",
-  "user_name": "crkurdelak",
+  "user_name": "crtabitha",
   "text": "/timely Hi Mitsuko, it's great to meet you!",
   "api_app_id": "A0935EDQRHB",
   "is_enterprise_install": "false",
@@ -110,13 +110,13 @@ export const payloadNotAdd = {
 }
 
 export const payloadTooShort = {
-  "token": "JWNJnukcVaHbRoRl6CwWYan6",
+  "token": " ",
   "team_id": "T08VADHH17S",
   "team_domain": "solutionalpro-1c61413",
   "channel_id": "C08VADJ7SEL",
   "channel_name": "all-solutional-project-agent",
   "user_id": "U08VADHNG0G",
-  "user_name": "crkurdelak",
+  "user_name": "crtabitha",
   "command": "/timely_01",
   "text": "add Hi Mitsuko",
   "api_app_id": "A0935EDQRHB",
@@ -126,13 +126,13 @@ export const payloadTooShort = {
 }
 
 export const payloadHarvey = {
-  "token": "JWNJnukcVaHbRoRl6CwWYan6",
+  "token": " ",
   "team_id": "T08VADHH17S",
   "team_domain": "solutionalpro-1c61413",
   "channel_id": "C08VADJ7SEL",
   "channel_name": "all-solutional-project-agent",
   "user_id": "U08UDKY38QK",
-  "user_name": "harveykisiangani",
+  "user_name": "harveyspectre",
   "command": "/timely_01",
   "text": "add Harvey, can you please send some photos for a Linked-in shout out by the end of the day tomorrow",
   "api_app_id": "A0935EDQRHB",
@@ -142,13 +142,13 @@ export const payloadHarvey = {
 }
 
 export const payloadNew = { 
-  "token": "JWNJnukcVaHbRoRl6CwWYan6", 
+  "token": " ", 
   "team_id": "T08VADHH17S", 
   "team_domain": "solutionalpro-1c61413", 
   "channel_id": "C08VADJ7SEL", 
   "channel_name": "all-solutional-project-agent", 
   "user_id": "U08UDKY38QK", 
-  "user_name": "harveykisiangani", 
+  "user_name": "harveyspectre", 
   "command": "/timely_01", 
   "text": "Jeremy add Jeremy please fix the plumbing issue in the second floor kitchen. Call me when done", 
   "api_app_id": "A0935EDQRHB", 
@@ -158,15 +158,15 @@ export const payloadNew = {
 }
 
 export const payloadNoDates = {
-  "token": "JWNJnukcVaHbRoRl6CwWYan6",
+  "token": " ",
   "team_id": "T08VADHH17S",
   "team_domain": "solutionalpro-1c61413",
   "channel_id": "C08VADJ7SEL",
   "channel_name": "all-solutional-project-agent",
   "user_id": "U08VADHNG0G",
-  "user_name": "crkurdelak",
+  "user_name": "crtabitha",
   "command": "/timely_01",
-  "text": "add Ceci, lease fix the Langchain bug",
+  "text": "add Chimara, lease fix the Langchain bug",
   "api_app_id": "A0935EDQRHB",
   "is_enterprise_install": "false",
   "response_url": "https://hooks.slack.com/commands/T08VADHH17S/9335989657841/DI7K17HpCUQIBdIvMgv23oRU",
@@ -174,13 +174,13 @@ export const payloadNoDates = {
 }
 
 export const payloadExample = {
-  "token": "JWNJnukcVaHbRoRl6CwWYan6",
+  "token": " ",
   "team_id": "T08VADHH17S",
   "team_domain": "solutionalpro-1c61413",
   "channel_id": "C08VADJ7SEL",
   "channel_name": "all-solutional-project-agent",
   "user_id": "U08VADHNG0G",
-  "user_name": "crkurdelak",
+  "user_name": "crtabitha",
   "command": "/timely_01",
   "text": "Bob, starting tomorrow, please write a draft of the article and have it finished by August 20, 2025.",
   "api_app_id": "A0935EDQRHB",

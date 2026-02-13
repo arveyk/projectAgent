@@ -36,7 +36,7 @@ async function getTestData() {
   const projects = await getProjects();
   await saveJson(projects, "log/testData/responses/example-projects.json");
 
-  const taskThatCausedBug = await parseWithLLM(DateTime.now(), projects, "Scott Robohn, please follow up with Kristen on events after the John Capobianco trial for the Itential project by 2/27/2026.");
+  const taskThatCausedBug = await parseWithLLM(DateTime.now(), projects, "Scott Rhymes, please follow up with Kristen on events after the John Capobianco trial for the Itential project by 2/27/2026.");
   // const taskClearProject = await parseWithLLM(DateTime.now(), projects, "Paint a portrait of yourself");
   // const taskUnclearProject = await parseWithLLM(DateTime.now(), projects, "Paint a cat portrait");
   // const taskNoFoundProject = await parseWithLLM(DateTime.now(), projects, "Brush the dogs");

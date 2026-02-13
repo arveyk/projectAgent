@@ -1,19 +1,19 @@
 export const EXAMPLE_SLACK_USER_IDS = [
   {
     "id": "U08UDKY38QK",
-    "username": "Harvey Kisiangani"
+    "username": "Harvey Spectre"
   },
   {
     "id": 'U08UDKYJVBM',
-    "username": 'James Dirksen (Sol)',
+    "username": 'James Bond (Sol)',
   },
   {
     "id": 'U08VADHNG0G',
-    "username": 'Ceci Kurdelak',
+    "username": 'Chimara Tabitha',
   },
   {
     "id": 'U092TCSFAA2',
-    "username": 'Harvey Kisiangani',
+    "username": 'Harvey Spectre',
   },
   {
     "id": 'U09AE554J85',

@@ -75,10 +75,10 @@ export const searchDatabase = async function (
   const similarPages = filterSimilar(tasks, message);
 
   const prompt = `
-    Please check if a task matching the message ${message} exists in the database response 
+    Please check if a task matching the message ${message} exists in the database response
     ${JSON.stringify(similarPages)}.
   `.trim();
-
+  logTimestampForBenchmarking("(Database) LLM start");
   const llmResult = await structuredLlm.invoke(prompt);
   console.log(`Raw LLM response: ${JSON.stringify(llmResult.raw)}`);
   const parsed = llmResult.parsed;
@@ -108,7 +108,7 @@ export async function getTasks(): Promise<TaskPage[]> {
 
 /**
  * Retrieves all raw tasks (Notion pages) from the tasks database
- * 
+ *
  * Does not perform any filtering or simplification on the tasks
  *
  * @return	An array of all raw tasks in the tasks database
@@ -224,8 +224,8 @@ export function simplifyProject(project: PageObjectResponse): Project | undefine
   );
   return titleProperty
     ? {
-        projectName: titleProperty.title[0].plain_text,
-        id: project.id,
-      }
+      projectName: titleProperty.title[0].plain_text,
+      id: project.id,
+    }
     : undefined;
 }

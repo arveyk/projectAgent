@@ -1,7 +1,7 @@
 import { getUserTimezoneData, getEventTimeData } from "./getTime";
 import { getSlackUserDataById } from "../controllers/getUsersSlack";
 import {
-  payloadGood as payloadChimara,
+  payloadGood as payloadChimera,
   payloadHarvey,
 } from "../../test-data/payloads/slashcmd/payloads";
 import dotenv from "dotenv";
@@ -51,10 +51,10 @@ describe("Tests getEventTimeData with a valid payload from Harvey", () => {
   });
 });
 
-describe("Tests getSlackUserDataById with a valid payload from Chimara", () => {
-  it("Returns the time of the event in Chimara's timezone", async () => {
+describe("Tests getSlackUserDataById with a valid payload from Chimera", () => {
+  it("Returns the time of the event in Chimera's timezone", async () => {
     const timestamp = 1755039682 * 1000;
-    const timeZoneData = await getSlackUserDataById(payloadChimara.user_id);
+    const timeZoneData = await getSlackUserDataById(payloadChimera.user_id);
     console.log(`time data: ${JSON.stringify(timeZoneData)}`);
   
     const time = DateTime.fromMillis(timestamp).setZone(timeZoneData.timezoneData.tz);

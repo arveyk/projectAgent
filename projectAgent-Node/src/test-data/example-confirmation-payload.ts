@@ -38,7 +38,7 @@ export const EXAMPLE_CONFIRM_CREATE_TASK = {
                 "emoji": true
             },
             "value":
-                "{\"task\":{\"taskTitle\":\"Draw a map to the Notional Museum\",\"assignees\":[{\"userId\":\"152d872b-594c-8145-9c2c-000204787b69\",\"name\":\"Chimara Tabitha\",\"email\":\"chimara.tabitha@example-domain.com\"}],\"assignedBy\":[{\"userId\":\"152d872b-594c-8145-9c2c-000204787b69\",\"name\":\"Chimara Tabitha\",\"email\":\"chimara.tabitha@example-domain.com\"}],\"dueDate\":\"2025-12-26T21:00:00.000Z\",\"startDate\":\"2025-12-24T14:40:19.659Z\",\"description\":\"Draw a map to the Notional Museum for our vacation on Saturday\"},\"pageId\":\"\",\"url\":\"\"}",
+                "{\"task\":{\"taskTitle\":\"Draw a map to the Notional Museum\",\"assignees\":[{\"userId\":\"152d872b-594c-8145-9c2c-000204787b69\",\"name\":\"Chimera Tabitha\",\"email\":\"chimera.tabitha@example-domain.com\"}],\"assignedBy\":[{\"userId\":\"152d872b-594c-8145-9c2c-000204787b69\",\"name\":\"Chimera Tabitha\",\"email\":\"chimera.tabitha@example-domain.com\"}],\"dueDate\":\"2025-12-26T21:00:00.000Z\",\"startDate\":\"2025-12-24T14:40:19.659Z\",\"description\":\"Draw a map to the Notional Museum for our vacation on Saturday\"},\"pageId\":\"\",\"url\":\"\"}",
             "style": "primary",
             "type": "button",
             "action_ts": "1766587277.711963"

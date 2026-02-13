@@ -19,8 +19,8 @@ export const dbPageList: TaskPage[] = [
         "description": "Give water to the cats today",
         "assignee": [
             {
-                "name": "Chimara Tabitha",
-                "email": "chimara.tabitha@example-domain.com",
+                "name": "Chimera Tabitha",
+                "email": "chimera.tabitha@example-domain.com",
                 // "userId": "152d872b-594c-8145-9c2c-000204787b69"
             }
         ]
@@ -31,8 +31,8 @@ export const dbPageList: TaskPage[] = [
         "description": "Feed the cats today",
         "assignee": [
             {
-                "name": "Chimara Tabitha",
-                "email": "chimara.tabitha@example-domain.com",
+                "name": "Chimera Tabitha",
+                "email": "chimera.tabitha@example-domain.com",
                 // "userId": "152d872b-594c-8145-9c2c-000204787b69"
             }
         ]
@@ -67,8 +67,8 @@ export const dbPageList: TaskPage[] = [
         "description": "Finish migrating the database by the end of the week.",
         "assignee": [
             {
-                "name": "Chimara Tabitha",
-                "email": "chimara.tabitha@example-domain.com",
+                "name": "Chimera Tabitha",
+                "email": "chimera.tabitha@example-domain.com",
                 // "userId": "152d872b-594c-8145-9c2c-000204787b69"
             }
         ]
@@ -79,8 +79,8 @@ export const dbPageList: TaskPage[] = [
         "description": "Fix the date formatting issue.",
         "assignee": [
             {
-                "name": "Chimara Tabitha",
-                "email": "chimara.tabitha@example-domain.com",
+                "name": "Chimera Tabitha",
+                "email": "chimera.tabitha@example-domain.com",
                 // "userId": "152d872b-594c-8145-9c2c-000204787b69"
             }
         ]

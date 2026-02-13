@@ -190,7 +190,7 @@ export const EXAMPLE_ALL_PROJECTS_IN_NOTIONDB = [
         "projectName": "Carahsoft Cisco Enablement", "id": "2cceef29-a653-80f9-9551-d6fdd3aa1a7c"
     },
     {
-        "projectName": "Nokia Events 2026 - Chimaralia", "id": "2cdeef29-a653-80cd-8d25-c5c7f5be22ad"
+        "projectName": "Nokia Events 2026 - Chimeralia", "id": "2cdeef29-a653-80cd-8d25-c5c7f5be22ad"
     },
     {
         "projectName": "Products: SNAFU", "id": "2cfeef29-a653-8016-8670-c1e1c5f2d553"

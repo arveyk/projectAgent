@@ -38,13 +38,13 @@ export const exampleUserSearchResponse2 = [
   },
   {
     "person": {
-      "name": "Chimara"
+      "name": "Chimera"
     },
     "foundUsers": [
       {
         "userId": "152d872b-594c-8145-9c2c-000204787b69",
-        "name": "Chimara K",
-        "email": "chimara.k@example-domain.com"
+        "name": "Chimera K",
+        "email": "chimera.k@example-domain.com"
       }
     ]
   }

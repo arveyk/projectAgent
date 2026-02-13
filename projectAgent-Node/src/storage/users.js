@@ -225,7 +225,7 @@ export const slackUsers = [
     deleted: false,
     color: "d1707d",
     is_email_confirmed: true,
-    real_name: "Chimara Tabitha",
+    real_name: "Chimera Tabitha",
     tz: "America/Los_Angeles",
     tz_label: "Pacific Daylight Time",
     tz_offset: -25200,
@@ -236,16 +236,16 @@ export const slackUsers = [
     is_ultra_restricted: false,
     who_can_share_contact_card: "EVERYONE",
     profile: {
-      real_name: "Chimara Tabitha",
+      real_name: "Chimera Tabitha",
       display_name: "",
       avatar_hash: "ge03e0f52591",
-      real_name_normalized: "Chimara Tabitha",
+      real_name_normalized: "Chimera Tabitha",
       display_name_normalized: "",
       image_24:
         "Favatars%2Fava_0024-24.png",
       image_32:
         "Favatars%2Fava_0024-32.png",
-      first_name: "Chimara",
+      first_name: "Chimera",
       last_name: "Tabitha",
       team: "T08VADHH17S",
       email: "crtabitha@example-mail.com",
@@ -727,7 +727,7 @@ export const notionUsers = [
   {
     object: "user",
     id: "152d872b-594c-8145-9c2c-000204787b69",
-    name: "Chimara Tabitha",
+    name: "Chimera Tabitha",
     avatar_url: null,
     type: "person",
     person: { email: "crtabitha@example-mail.com" },

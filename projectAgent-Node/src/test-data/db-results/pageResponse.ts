@@ -36,7 +36,7 @@ export const pageResponse: GetPageResponse = {
                 {
                     "object": "user",
                     "id": "152d872b-594c-8145-9c2c-000204787b69",
-                    "name": "Chimara Tabitha",
+                    "name": "Chimera Tabitha",
                     "avatar_url": "https://s3-us-west-2.amazonaws.com/public.notion-static.com/78f66135-d1a4-4c17-8217-4e025621539c/20240104_175839_-_Copy_(2).jpg",
                     "type": "person",
                     "person": {
@@ -93,7 +93,7 @@ export const pageResponse: GetPageResponse = {
                 {
                     "object": "user",
                     "id": "152d872b-594c-8145-9c2c-000204787b69",
-                    "name": "Chimara Tabitha",
+                    "name": "Chimera Tabitha",
                     "avatar_url": "https://s3-us-west-2.amazonaws.com/public.notion-static.com/78f66135-d1a4-4c17-8217-4e025621539c/20240104_175839_-_Copy_(2).jpg",
                     "type": "person",
                     "person": {
@@ -195,7 +195,7 @@ export const pageObjectResponse: PageObjectResponse = {
                 {
                     "object": "user",
                     "id": "152d872b-594c-8145-9c2c-000204787b69",
-                    "name": "Chimara Tabitha",
+                    "name": "Chimera Tabitha",
                     "avatar_url": "https://s3-us-west-2.amazonaws.com/public.notion-static.com/78f66135-d1a4-4c17-8217-4e025621539c/20240104_175839_-_Copy_(2).jpg",
                     "type": "person",
                     "person": {
@@ -252,7 +252,7 @@ export const pageObjectResponse: PageObjectResponse = {
                 {
                     "object": "user",
                     "id": "152d872b-594c-8145-9c2c-000204787b69",
-                    "name": "Chimara Tabitha",
+                    "name": "Chimera Tabitha",
                     "avatar_url": "https://s3-us-west-2.amazonaws.com/public.notion-static.com/78f66135-d1a4-4c17-8217-4e025621539c/20240104_175839_-_Copy_(2).jpg",
                     "type": "person",
                     "person": {

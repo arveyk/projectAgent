@@ -22,7 +22,7 @@ const structuredLlmSlashCmd: Runnable<
 const inputs = [
   // "add Harvey, if you would, please take a yard implement, sometimes known as a rake, and use it to clean up the leaves from the paved side walkways, which may be referred to as paths, or sidewalks, or whatever else you would like to call them.",
   // "Belteshazar, please go out to the garden, identify which plants we want to be there, and which are invaders, sometimes known as 'weeds', and remove the unwanted plants from the ground.",
-  // "Chimara, please observe the loudly meowing creatures, sometimes known as 'cats', and determine whether they have been given food. If they have not, give them some"
+  // "Chimera, please observe the loudly meowing creatures, sometimes known as 'cats', and determine whether they have been given food. If they have not, give them some"
   "add Harvey, rake the leaves",
 ];
 let llmOutput: Record<string, unknown>;

@@ -1,10 +1,10 @@
 import { searchDatabase } from "../utils/database/searchDatabase";
 
-const message1 = "add Chimara, please fix the date formatting error";
+const message1 = "add Chimera, please fix the date formatting error";
 const message2 =
   "add Harvey, please set up uptime monitoring for Notionfications";
 const message3 =
-  "add Chimara, could you finish the database migration by the end of the week?";
+  "add Chimera, could you finish the database migration by the end of the week?";
 
 
 /**

@@ -72,6 +72,7 @@ const slashCmdHandler: StreamifyHandler = async function (
 
       // Search database
       logTimestampForBenchmarking("Searching database");
+      // TODO only pass data needed
       const isInDatabase = await searchDatabase(reqBody.text, cacheItems);
       logTimestampForBenchmarking("Done searching database");
 

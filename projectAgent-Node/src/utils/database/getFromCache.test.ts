@@ -5,13 +5,7 @@ import {
   retrieveCache,
 } from "./getFromCache";
 import {
-  EXAMPLE_RAW_CACHE_RESPONSE_ALL,
-  EXAMPLE_COMPRESSED_USER_DATA,
-  EXAMPLE_COMPRESSED_PROJECT_DATA,
-  EXAMPLE_COMPRESSED_TASKS_DATA,
-  EXAMPLE_RAW_CACHE_RESPONSE_NO_USERS,
-  EXAMPLE_RAW_CACHE_RESPONSE_NO_TASKS,
-  EXAMPLE_RAW_CACHE_RESPONSE_NO_PROJECTS,
+  getExampleRawCacheResponse, getExampleCompressedData
 } from "../../test-data/cache/cacheResponse";
 import { EXAMPLE_RAW_USERS_RESPONSE } from "../../test-data/cache/rawUsers";
 import { EXAMPLE_RAW_PROJECTS_RESPONSE } from "../../test-data/cache/rawProjects";
@@ -19,7 +13,7 @@ import { EXAMPLE_RAW_TASKS_RESPONSE } from "../../test-data/cache/rawTasks";
 import { CACHE_DATA_EXAMPLE_ALL, CACHE_DATA_EXAMPLE_NO_PROJECTS, CACHE_DATA_EXAMPLE_NO_TASKS, CACHE_DATA_EXAMPLE_NO_USERS } from "../../test-data/cache/cacheItems";
 
 const fakeCacheClient = {
-  send: jest.fn(() => Promise.resolve(EXAMPLE_RAW_CACHE_RESPONSE_ALL)),
+  send: jest.fn(async () => getExampleRawCacheResponse(true, true, true)),
 } as unknown as DynamoDBDocumentClient;
 
 describe("Tests retrieveCache", () => {
@@ -36,21 +30,21 @@ describe("Tests retrieveCache", () => {
 describe("Tests extractCacheItemData", () => {
   it("Should return the correctly decompressed user data", async () => {
     const decompressed = await extractCacheItemData(
-      EXAMPLE_COMPRESSED_USER_DATA,
+      await getExampleCompressedData("user"),
     );
     expect(decompressed).toMatchObject(EXAMPLE_RAW_USERS_RESPONSE);
   });
 
   it("Should return the correctly decompressed project data", async () => {
     const decompressed = await extractCacheItemData(
-      EXAMPLE_COMPRESSED_PROJECT_DATA,
+      await getExampleCompressedData("project"),
     );
     expect(decompressed).toMatchObject(EXAMPLE_RAW_PROJECTS_RESPONSE);
   });
 
   it("Should return the correctly decompressed task data", async () => {
     const decompressed = await extractCacheItemData(
-      EXAMPLE_COMPRESSED_TASKS_DATA,
+      await getExampleCompressedData("task"),
     );
     expect(decompressed).toMatchObject(EXAMPLE_RAW_TASKS_RESPONSE);
   });
@@ -63,7 +57,8 @@ describe("Tests extractCacheItemData", () => {
 
 describe("Tests extractCacheData", () => {
   it("Should return all the cache data, correctly decompressed", async () => {
-    const decompressed = await extractCacheData(EXAMPLE_RAW_CACHE_RESPONSE_ALL);
+    const cacheDataExampleAll = await getExampleRawCacheResponse(true, true, true);
+    const decompressed = await extractCacheData(cacheDataExampleAll);
 
     expect(decompressed.projects).toBeTruthy();
     expect(decompressed.tasks).toBeTruthy();
@@ -72,9 +67,8 @@ describe("Tests extractCacheData", () => {
   });
 
   it("Should return all project and task data, correctly decompressed", async () => {
-    const decompressed = await extractCacheData(
-      EXAMPLE_RAW_CACHE_RESPONSE_NO_USERS,
-    );
+    const cacheDataExampleNoUsers = await getExampleRawCacheResponse(false, true, true);
+    const decompressed = await extractCacheData(cacheDataExampleNoUsers);
 
     expect(decompressed.projects).toBeTruthy();
     expect(decompressed.tasks).toBeTruthy();
@@ -83,9 +77,8 @@ describe("Tests extractCacheData", () => {
   });
 
   it("Should return all project and user data, correctly decompressed", async () => {
-    const decompressed = await extractCacheData(
-      EXAMPLE_RAW_CACHE_RESPONSE_NO_TASKS,
-    );
+    const cacheDataExampleNoTasks = await getExampleRawCacheResponse(true, false, true);
+    const decompressed = await extractCacheData(cacheDataExampleNoTasks);
 
     expect(decompressed.projects).toBeTruthy();
     expect(decompressed.tasks).toBeFalsy();
@@ -94,9 +87,8 @@ describe("Tests extractCacheData", () => {
   });
 
   it("Should return all user and task data, correctly decompressed", async () => {
-    const decompressed = await extractCacheData(
-      EXAMPLE_RAW_CACHE_RESPONSE_NO_PROJECTS,
-    );
+    const cacheDataExampleNoProjects = await getExampleRawCacheResponse(true, true, false);
+    const decompressed = await extractCacheData(cacheDataExampleNoProjects);
 
     expect(decompressed.projects).toBeFalsy();
     expect(decompressed.tasks).toBeTruthy();

@@ -3,8 +3,8 @@ const interactionsPayload = {
     "type": "block_actions",
     "user": {
       "id": "U08UDKY38QK",
-      "username": "harveykisiangani",
-      "name": "harveykisiangani",
+      "username": "harveyspectre",
+      "name": "harveyspectre",
       "team_id": "T08VADHH17S"
     },
     "api_app_id": "A0935EDQRHB",

@@ -29,9 +29,6 @@ export const slackUsers = [
       image_32: "https://a.slack-edge.com/80588/img/slackbot_32.png",
       image_48: "https://a.slack-edge.com/80588/img/slackbot_48.png",
       image_72: "https://a.slack-edge.com/80588/img/slackbot_72.png",
-      image_192:
-        "https://a.slack-edge.com/80588/marketing/img/avatars/slackbot/avatar-slackbot.png",
-      image_512: "https://a.slack-edge.com/80588/img/slackbot_512.png",
       first_name: "slackbot",
       last_name: "",
       team: "T08VADHH17S",
@@ -49,7 +46,7 @@ export const slackUsers = [
   },
   {
     id: "U08UDKY38QK",
-    name: "harveykisiangani",
+    name: "harveyspectre",
     is_bot: false,
     updated: 1750838306,
     is_app_user: false,
@@ -57,7 +54,7 @@ export const slackUsers = [
     deleted: false,
     color: "bc3663",
     is_email_confirmed: true,
-    real_name: "Harvey Kisiangani",
+    real_name: "Harvey Spectre",
     tz: "Africa/Nairobi",
     tz_label: "East Africa Time",
     tz_offset: 10800,
@@ -68,32 +65,20 @@ export const slackUsers = [
     is_ultra_restricted: false,
     who_can_share_contact_card: "EVERYONE",
     profile: {
-      real_name: "Harvey Kisiangani",
-      display_name: "Harvey Kisiangani",
+      real_name: "Harvey Spectre",
+      display_name: "Harvey Spectre",
       avatar_hash: "398bf0d0ca2d",
-      real_name_normalized: "Harvey Kisiangani",
-      display_name_normalized: "Harvey Kisiangani",
+      real_name_normalized: "Harvey Spectre",
+      display_name_normalized: "Harvey Spectre",
       image_24:
-        "https://avatars.slack-edge.com/2025-06-25/9100728494018_398bf0d0ca2d39ec5394_24.jpg",
+        "sample://2d39ec5394_24.jpg",
       image_32:
-        "https://avatars.slack-edge.com/2025-06-25/9100728494018_398bf0d0ca2d39ec5394_32.jpg",
-      image_48:
-        "https://avatars.slack-edge.com/2025-06-25/9100728494018_398bf0d0ca2d39ec5394_48.jpg",
-      image_72:
-        "https://avatars.slack-edge.com/2025-06-25/9100728494018_398bf0d0ca2d39ec5394_72.jpg",
-      image_192:
-        "https://avatars.slack-edge.com/2025-06-25/9100728494018_398bf0d0ca2d39ec5394_192.jpg",
-      image_512:
-        "https://avatars.slack-edge.com/2025-06-25/9100728494018_398bf0d0ca2d39ec5394_512.jpg",
-      image_1024:
-        "https://avatars.slack-edge.com/2025-06-25/9100728494018_398bf0d0ca2d39ec5394_1024.jpg",
-      image_original:
-        "https://avatars.slack-edge.com/2025-06-25/9100728494018_398bf0d0ca2d39ec5394_original.jpg",
+        "sample://aca2d39ec5394_32.jpg",
       is_custom_image: true,
       first_name: "Harvey",
-      last_name: "Kisiangani",
+      last_name: "Spectre",
       team: "T08VADHH17S",
-      email: "harveykisiangani@gmail.com",
+      email: "harveyspectre@example-mail.com",
       title: "",
       phone: "",
       skype: "",
@@ -106,7 +91,7 @@ export const slackUsers = [
   },
   {
     id: "U08UDKYJVBM",
-    name: "james.dirksen",
+    name: "james.bond",
     is_bot: false,
     updated: 1750914237,
     is_app_user: false,
@@ -114,7 +99,7 @@ export const slackUsers = [
     deleted: false,
     color: "3c989f",
     is_email_confirmed: true,
-    real_name: "James Dirksen (Sol)",
+    real_name: "James Bond (Sol)",
     tz: "America/Los_Angeles",
     tz_label: "Pacific Daylight Time",
     tz_offset: -25200,
@@ -125,27 +110,19 @@ export const slackUsers = [
     is_ultra_restricted: false,
     who_can_share_contact_card: "EVERYONE",
     profile: {
-      real_name: "James Dirksen (Sol)",
-      display_name: "James Dirksen (Sol)",
+      real_name: "James Bond (Sol)",
+      display_name: "James Bond (Sol)",
       avatar_hash: "g80d6141c73d",
-      real_name_normalized: "James Dirksen (Sol)",
-      display_name_normalized: "James Dirksen (Sol)",
+      real_name_normalized: "James Bond (Sol)",
+      display_name_normalized: "James Bond (Sol)",
       image_24:
-        "https://secure.gravatar.com/avatar/80d6141c73d227a8424dc7ce11151f3d.jpg?s=24&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0010-24.png",
+        "2Favatars%2Fava_0010-24.png",
       image_32:
-        "https://secure.gravatar.com/avatar/80d6141c73d227a8424dc7ce11151f3d.jpg?s=32&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0010-32.png",
-      image_48:
-        "https://secure.gravatar.com/avatar/80d6141c73d227a8424dc7ce11151f3d.jpg?s=48&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0010-48.png",
-      image_72:
-        "https://secure.gravatar.com/avatar/80d6141c73d227a8424dc7ce11151f3d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0010-72.png",
-      image_192:
-        "https://secure.gravatar.com/avatar/80d6141c73d227a8424dc7ce11151f3d.jpg?s=192&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0010-192.png",
-      image_512:
-        "https://secure.gravatar.com/avatar/80d6141c73d227a8424dc7ce11151f3d.jpg?s=512&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0010-512.png",
+        "Favatars%2Fava_0010-32.png",
       first_name: "James",
-      last_name: "Dirksen (Sol)",
+      last_name: "Bond (Sol)",
       team: "T08VADHH17S",
-      email: "james.dirksen@solutional.com",
+      email: "james.bond@example-domain.com",
       title: "",
       phone: "",
       skype: "",
@@ -183,17 +160,9 @@ export const slackUsers = [
       real_name_normalized: "Project Agent Slack",
       display_name_normalized: "",
       image_24:
-        "https://secure.gravatar.com/avatar/ad200bd696ceec0eefbbf0ead3f6d3ab.jpg?s=24&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0014-24.png",
+        "Favatars%2Fava_0014-24.png",
       image_32:
-        "https://secure.gravatar.com/avatar/ad200bd696ceec0eefbbf0ead3f6d3ab.jpg?s=32&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0014-32.png",
-      image_48:
-        "https://secure.gravatar.com/avatar/ad200bd696ceec0eefbbf0ead3f6d3ab.jpg?s=48&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0014-48.png",
-      image_72:
-        "https://secure.gravatar.com/avatar/ad200bd696ceec0eefbbf0ead3f6d3ab.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0014-72.png",
-      image_192:
-        "https://secure.gravatar.com/avatar/ad200bd696ceec0eefbbf0ead3f6d3ab.jpg?s=192&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0014-192.png",
-      image_512:
-        "https://secure.gravatar.com/avatar/ad200bd696ceec0eefbbf0ead3f6d3ab.jpg?s=512&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0014-512.png",
+        "Favatars%2Fava_0014-32.png",
       first_name: "Project",
       last_name: "Agent Slack",
       team: "T08VADHH17S",
@@ -226,21 +195,9 @@ export const slackUsers = [
       real_name_normalized: "Channel icebreaker",
       display_name_normalized: "",
       image_24:
-        "https://avatars.slack-edge.com/2025-05-29/8984554452113_0755b9f3b355f4ff3fa_24.png",
+        "sample:f3b355f4ff3fa_24.png",
       image_32:
-        "https://avatars.slack-edge.com/2025-05-29/8984554452113_50755b9f3b355f4ff3fa_32.png",
-      image_48:
-        "https://avatars.slack-edge.com/2025-05-29/8984554452113_50755b9f3b355f4ff3fa_48.png",
-      image_72:
-        "https://avatars.slack-edge.com/2025-05-29/8984554452113_50755b9f3b355f4ff3fa_72.png",
-      image_192:
-        "https://avatars.slack-edge.com/2025-05-29/8984554452113_50755b9f3b355f4ff3fa_192.png",
-      image_512:
-        "https://avatars.slack-edge.com/2025-05-29/8984554452113_50755b9f3b355f4ff3fa_512.png",
-      image_1024:
-        "https://avatars.slack-edge.com/2025-05-29/8984554452113_50755b9f3b355f4ff3fa_1024.png",
-      image_original:
-        "https://avatars.slack-edge.com/2025-05-29/8984554452113_50755b9f3b355f4ff3fa_original.png",
+        "sample:355f4ff3fa_32.png",
       is_custom_image: true,
       first_name: "Channel",
       last_name: "icebreaker",
@@ -260,7 +217,7 @@ export const slackUsers = [
   },
   {
     id: "U08VADHNG0G",
-    name: "crkurdelak",
+    name: "crtabitha",
     is_bot: false,
     updated: 1748550176,
     is_app_user: false,
@@ -268,7 +225,7 @@ export const slackUsers = [
     deleted: false,
     color: "d1707d",
     is_email_confirmed: true,
-    real_name: "Ceci Kurdelak",
+    real_name: "Chimera Tabitha",
     tz: "America/Los_Angeles",
     tz_label: "Pacific Daylight Time",
     tz_offset: -25200,
@@ -279,27 +236,19 @@ export const slackUsers = [
     is_ultra_restricted: false,
     who_can_share_contact_card: "EVERYONE",
     profile: {
-      real_name: "Ceci Kurdelak",
+      real_name: "Chimera Tabitha",
       display_name: "",
       avatar_hash: "ge03e0f52591",
-      real_name_normalized: "Ceci Kurdelak",
+      real_name_normalized: "Chimera Tabitha",
       display_name_normalized: "",
       image_24:
-        "https://secure.gravatar.com/avatar/e03e0f5259132b3e68bc5d955dca43c8.jpg?s=24&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-24.png",
+        "Favatars%2Fava_0024-24.png",
       image_32:
-        "https://secure.gravatar.com/avatar/e03e0f5259132b3e68bc5d955dca43c8.jpg?s=32&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-32.png",
-      image_48:
-        "https://secure.gravatar.com/avatar/e03e0f5259132b3e68bc5d955dca43c8.jpg?s=48&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-48.png",
-      image_72:
-        "https://secure.gravatar.com/avatar/e03e0f5259132b3e68bc5d955dca43c8.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png",
-      image_192:
-        "https://secure.gravatar.com/avatar/e03e0f5259132b3e68bc5d955dca43c8.jpg?s=192&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-192.png",
-      image_512:
-        "https://secure.gravatar.com/avatar/e03e0f5259132b3e68bc5d955dca43c8.jpg?s=512&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-512.png",
-      first_name: "Ceci",
-      last_name: "Kurdelak",
+        "Favatars%2Fava_0024-32.png",
+      first_name: "Chimera",
+      last_name: "Tabitha",
       team: "T08VADHH17S",
-      email: "crkurdelak@gmail.com",
+      email: "crtabitha@example-mail.com",
       title: "",
       phone: "",
       skype: "",
@@ -337,17 +286,9 @@ export const slackUsers = [
       real_name_normalized: "Project Agent Test",
       display_name_normalized: "",
       image_24:
-        "https://secure.gravatar.com/avatar/a6cf42632428b975473fbc3d509c91dd.jpg?s=24&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-24.png",
+        "Favatars%2Fava_0015-24.png",
       image_32:
-        "https://secure.gravatar.com/avatar/a6cf42632428b975473fbc3d509c91dd.jpg?s=32&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-32.png",
-      image_48:
-        "https://secure.gravatar.com/avatar/a6cf42632428b975473fbc3d509c91dd.jpg?s=48&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-48.png",
-      image_72:
-        "https://secure.gravatar.com/avatar/a6cf42632428b975473fbc3d509c91dd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png",
-      image_192:
-        "https://secure.gravatar.com/avatar/a6cf42632428b975473fbc3d509c91dd.jpg?s=192&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-192.png",
-      image_512:
-        "https://secure.gravatar.com/avatar/a6cf42632428b975473fbc3d509c91dd.jpg?s=512&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-512.png",
+        "Favatars%2Fava_0015-32.png",
       first_name: "Project",
       last_name: "Agent Test",
       team: "T08VADHH17S",
@@ -366,7 +307,7 @@ export const slackUsers = [
   },
   {
     id: "U092TCSFAA2",
-    name: "harvey.kisiangani",
+    name: "harvey.spectre",
     is_bot: false,
     updated: 1750843038,
     is_app_user: false,
@@ -374,7 +315,7 @@ export const slackUsers = [
     deleted: false,
     color: "a63024",
     is_email_confirmed: false,
-    real_name: "Harvey Kisiangani",
+    real_name: "Harvey Spectre",
     tz: "Africa/Nairobi",
     tz_label: "East Africa Time",
     tz_offset: 10800,
@@ -386,27 +327,19 @@ export const slackUsers = [
     is_invited_user: true,
     who_can_share_contact_card: "EVERYONE",
     profile: {
-      real_name: "Harvey Kisiangani",
+      real_name: "Harvey Spectre",
       display_name: "",
       avatar_hash: "g80b762eddd7",
-      real_name_normalized: "Harvey Kisiangani",
+      real_name_normalized: "Harvey Spectre",
       display_name_normalized: "",
       image_24:
-        "https://secure.gravatar.com/avatar/80b762eddd7fa0515db29b0be0dfcc17.jpg?s=24&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0025-24.png",
+        "Favatars%2Fava_0025-24.png",
       image_32:
-        "https://secure.gravatar.com/avatar/80b762eddd7fa0515db29b0be0dfcc17.jpg?s=32&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0025-32.png",
-      image_48:
-        "https://secure.gravatar.com/avatar/80b762eddd7fa0515db29b0be0dfcc17.jpg?s=48&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0025-48.png",
-      image_72:
-        "https://secure.gravatar.com/avatar/80b762eddd7fa0515db29b0be0dfcc17.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0025-72.png",
-      image_192:
-        "https://secure.gravatar.com/avatar/80b762eddd7fa0515db29b0be0dfcc17.jpg?s=192&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0025-192.png",
-      image_512:
-        "https://secure.gravatar.com/avatar/80b762eddd7fa0515db29b0be0dfcc17.jpg?s=512&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0025-512.png",
+        "Favatars%2Fava_0025-32.png",
       first_name: "Harvey",
-      last_name: "Kisiangani",
+      last_name: "Spectre",
       team: "T08VADHH17S",
-      email: "harvey.kisiangani@solutional.com",
+      email: "harvey.spectre@example-domain.com",
       title: "",
       phone: "",
       skype: "",
@@ -444,17 +377,9 @@ export const slackUsers = [
       real_name_normalized: "temp-bot",
       display_name_normalized: "",
       image_24:
-        "https://secure.gravatar.com/avatar/ee9170d1f07719d971bffbf311bbd510.jpg?s=24&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-24.png",
+        "Favatars%2Fava_0001-24.png",
       image_32:
-        "https://secure.gravatar.com/avatar/ee9170d1f07719d971bffbf311bbd510.jpg?s=32&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-32.png",
-      image_48:
-        "https://secure.gravatar.com/avatar/ee9170d1f07719d971bffbf311bbd510.jpg?s=48&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-48.png",
-      image_72:
-        "https://secure.gravatar.com/avatar/ee9170d1f07719d971bffbf311bbd510.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png",
-      image_192:
-        "https://secure.gravatar.com/avatar/ee9170d1f07719d971bffbf311bbd510.jpg?s=192&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-192.png",
-      image_512:
-        "https://secure.gravatar.com/avatar/ee9170d1f07719d971bffbf311bbd510.jpg?s=512&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-512.png",
+        "Favatars%2Fava_0001-32.png",
       first_name: "temp-bot",
       last_name: "",
       team: "T08VADHH17S",
@@ -498,21 +423,9 @@ export const slackUsers = [
       real_name_normalized: "n8n.cloud",
       display_name_normalized: "",
       image_24:
-        "https://avatars.slack-edge.com/2025-06-25/9107083299442_596ed6fc08a564eda6b6_24.png",
+        "99442_596ed6fc08a564eda6b6_24.png",
       image_32:
-        "https://avatars.slack-edge.com/2025-06-25/9107083299442_596ed6fc08a564eda6b6_32.png",
-      image_48:
-        "https://avatars.slack-edge.com/2025-06-25/9107083299442_596ed6fc08a564eda6b6_48.png",
-      image_72:
-        "https://avatars.slack-edge.com/2025-06-25/9107083299442_596ed6fc08a564eda6b6_72.png",
-      image_192:
-        "https://avatars.slack-edge.com/2025-06-25/9107083299442_596ed6fc08a564eda6b6_192.png",
-      image_512:
-        "https://avatars.slack-edge.com/2025-06-25/9107083299442_596ed6fc08a564eda6b6_512.png",
-      image_1024:
-        "https://avatars.slack-edge.com/2025-06-25/9107083299442_596ed6fc08a564eda6b6_1024.png",
-      image_original:
-        "https://avatars.slack-edge.com/2025-06-25/9107083299442_596ed6fc08a564eda6b6_original.png",
+        "6fc08a564eda6b6_32.png",
       is_custom_image: true,
       first_name: "n8n.cloud",
       last_name: "",
@@ -557,17 +470,9 @@ export const slackUsers = [
       real_name_normalized: "Demo App",
       display_name_normalized: "",
       image_24:
-        "https://secure.gravatar.com/avatar/2432c01c87007e6ba327c6d11433f001.jpg?s=24&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0000-24.png",
+        "Favatars%2Fava_0000-24.png",
       image_32:
-        "https://secure.gravatar.com/avatar/2432c01c87007e6ba327c6d11433f001.jpg?s=32&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0000-32.png",
-      image_48:
-        "https://secure.gravatar.com/avatar/2432c01c87007e6ba327c6d11433f001.jpg?s=48&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0000-48.png",
-      image_72:
-        "https://secure.gravatar.com/avatar/2432c01c87007e6ba327c6d11433f001.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0000-72.png",
-      image_192:
-        "https://secure.gravatar.com/avatar/2432c01c87007e6ba327c6d11433f001.jpg?s=192&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0000-192.png",
-      image_512:
-        "https://secure.gravatar.com/avatar/2432c01c87007e6ba327c6d11433f001.jpg?s=512&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0000-512.png",
+        "Favatars%2Fava_0000-32.png",
       first_name: "Demo",
       last_name: "App",
       team: "T08VADHH17S",
@@ -611,17 +516,9 @@ export const slackUsers = [
       real_name_normalized: "My Messenger",
       display_name_normalized: "",
       image_24:
-        "https://secure.gravatar.com/avatar/33632286aca906b48804a45585060d76.jpg?s=24&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-24.png",
+        "Favatars%2Fava_0024-24.png",
       image_32:
-        "https://secure.gravatar.com/avatar/33632286aca906b48804a45585060d76.jpg?s=32&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-32.png",
-      image_48:
-        "https://secure.gravatar.com/avatar/33632286aca906b48804a45585060d76.jpg?s=48&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-48.png",
-      image_72:
-        "https://secure.gravatar.com/avatar/33632286aca906b48804a45585060d76.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png",
-      image_192:
-        "https://secure.gravatar.com/avatar/33632286aca906b48804a45585060d76.jpg?s=192&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-192.png",
-      image_512:
-        "https://secure.gravatar.com/avatar/33632286aca906b48804a45585060d76.jpg?s=512&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-512.png",
+        "Favatars%2Fava_0024-32.png",
       first_name: "My",
       last_name: "Messenger",
       team: "T08VADHH17S",
@@ -665,17 +562,9 @@ export const slackUsers = [
       real_name_normalized: "test-bot",
       display_name_normalized: "",
       image_24:
-        "https://secure.gravatar.com/avatar/62d567b6b916507cb74d19749d68790c.jpg?s=24&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-24.png",
+        "Favatars%2Fava_0006-24.png",
       image_32:
-        "https://secure.gravatar.com/avatar/62d567b6b916507cb74d19749d68790c.jpg?s=32&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-32.png",
-      image_48:
-        "https://secure.gravatar.com/avatar/62d567b6b916507cb74d19749d68790c.jpg?s=48&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-48.png",
-      image_72:
-        "https://secure.gravatar.com/avatar/62d567b6b916507cb74d19749d68790c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-72.png",
-      image_192:
-        "https://secure.gravatar.com/avatar/62d567b6b916507cb74d19749d68790c.jpg?s=192&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-192.png",
-      image_512:
-        "https://secure.gravatar.com/avatar/62d567b6b916507cb74d19749d68790c.jpg?s=512&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-512.png",
+        "2Favatars%2Fava_0006-32.png",
       first_name: "test-bot",
       last_name: "",
       team: "T08VADHH17S",
@@ -694,7 +583,7 @@ export const slackUsers = [
   },
   {
     id: "U09AE554J85",
-    name: "daniel.dirksen",
+    name: "danny.dan",
     is_bot: false,
     updated: 1755558098,
     is_app_user: false,
@@ -702,7 +591,7 @@ export const slackUsers = [
     deleted: false,
     color: "db3150",
     is_email_confirmed: true,
-    real_name: "Daniel",
+    real_name: "Belteshazar",
     tz: "America/Los_Angeles",
     tz_label: "Pacific Daylight Time",
     tz_offset: -25200,
@@ -713,27 +602,19 @@ export const slackUsers = [
     is_ultra_restricted: false,
     who_can_share_contact_card: "EVERYONE",
     profile: {
-      real_name: "Daniel",
-      display_name: "Daniel",
+      real_name: "Belteshazar",
+      display_name: "Belteshazar",
       avatar_hash: "g4d5c9ca6669",
-      real_name_normalized: "Daniel",
-      display_name_normalized: "Daniel",
+      real_name_normalized: "Belteshazar",
+      display_name_normalized: "Belteshazar",
       image_24:
-        "https://secure.gravatar.com/avatar/4d5c9ca666981958595c7192aa7768ac.jpg?s=24&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0026-24.png",
+        "%2Favatars%2Fava_0026-24.png",
       image_32:
-        "https://secure.gravatar.com/avatar/4d5c9ca666981958595c7192aa7768ac.jpg?s=32&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0026-32.png",
-      image_48:
-        "https://secure.gravatar.com/avatar/4d5c9ca666981958595c7192aa7768ac.jpg?s=48&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0026-48.png",
-      image_72:
-        "https://secure.gravatar.com/avatar/4d5c9ca666981958595c7192aa7768ac.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0026-72.png",
-      image_192:
-        "https://secure.gravatar.com/avatar/4d5c9ca666981958595c7192aa7768ac.jpg?s=192&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0026-192.png",
-      image_512:
-        "https://secure.gravatar.com/avatar/4d5c9ca666981958595c7192aa7768ac.jpg?s=512&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0026-512.png",
-      first_name: "Daniel",
+        "Favatars%2Fava_0026-32.png",
+      first_name: "Belteshazar",
       last_name: "",
       team: "T08VADHH17S",
-      email: "daniel.dirksen@solutional.com",
+      email: "danny.dan@example-domain.com",
       title: "",
       phone: "",
       skype: "",
@@ -771,21 +652,13 @@ export const slackUsers = [
       real_name_normalized: "Brooklyn",
       display_name_normalized: "Brooklyn",
       image_24:
-        "https://secure.gravatar.com/avatar/2e574e7f07d4506e2626ff33b9462d28.jpg?s=24&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0012-24.png",
+        ".jpg2Favatars%2Fava_0012-24.png",
       image_32:
-        "https://secure.gravatar.com/avatar/2e574e7f07d4506e2626ff33b9462d28.jpg?s=32&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0012-32.png",
-      image_48:
-        "https://secure.gravatar.com/avatar/2e574e7f07d4506e2626ff33b9462d28.jpg?s=48&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0012-48.png",
-      image_72:
-        "https://secure.gravatar.com/avatar/2e574e7f07d4506e2626ff33b9462d28.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0012-72.png",
-      image_192:
-        "https://secure.gravatar.com/avatar/2e574e7f07d4506e2626ff33b9462d28.jpg?s=192&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0012-192.png",
-      image_512:
-        "https://secure.gravatar.com/avatar/2e574e7f07d4506e2626ff33b9462d28.jpg?s=512&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0012-512.png",
+        "Favatars%2Fava_0012-32.png",
       first_name: "Brooklyn",
       last_name: "",
       team: "T08VADHH17S",
-      email: "brooklyn@solutional.com",
+      email: "brooklyn@example-domain.com",
       title: "",
       phone: "",
       skype: "",
@@ -798,7 +671,7 @@ export const slackUsers = [
   },
   {
     id: "U09B79A2J2U",
-    name: "daniel.dirksen_1",
+    name: "danny.dan_1",
     is_bot: false,
     updated: 1755272344,
     is_app_user: false,
@@ -806,7 +679,7 @@ export const slackUsers = [
     deleted: false,
     color: "d58247",
     is_email_confirmed: true,
-    real_name: "Daniel",
+    real_name: "Belteshazar",
     tz: "America/Los_Angeles",
     tz_label: "Pacific Daylight Time",
     tz_offset: -25200,
@@ -817,27 +690,19 @@ export const slackUsers = [
     is_ultra_restricted: false,
     who_can_share_contact_card: "EVERYONE",
     profile: {
-      real_name: "Daniel",
-      display_name: "Daniel",
+      real_name: "Belteshazar",
+      display_name: "Belteshazar",
       avatar_hash: "gd80bd5caa40",
-      real_name_normalized: "Daniel",
-      display_name_normalized: "Daniel",
+      real_name_normalized: "Belteshazar",
+      display_name_normalized: "Belteshazar",
       image_24:
-        "https://secure.gravatar.com/avatar/d80bd5caa4025c5740beef63ad1277e2.jpg?s=24&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-24.png",
+        "avatarslack-edge.com.png",
       image_32:
-        "https://secure.gravatar.com/avatar/d80bd5caa4025c5740beef63ad1277e2.jpg?s=32&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-32.png",
-      image_48:
-        "https://secure.gravatar.com/avatar/d80bd5caa4025c5740beef63ad1277e2.jpg?s=48&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-48.png",
-      image_72:
-        "https://secure.gravatar.com/avatar/d80bd5caa4025c5740beef63ad1277e2.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png",
-      image_192:
-        "https://secure.gravatar.com/avatar/d80bd5caa4025c5740beef63ad1277e2.jpg?s=192&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-192.png",
-      image_512:
-        "https://secure.gravatar.com/avatar/d80bd5caa4025c5740beef63ad1277e2.jpg?s=512&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-512.png",
-      first_name: "Daniel",
+        "avatar._0020-32.png",
+      first_name: "Belteshazar",
       last_name: "",
       team: "T08VADHH17S",
-      email: "daniel.dirksen+1@solutional.com",
+      email: "danny.dan+1@example-domain.com",
       title: "",
       phone: "",
       skype: "",
@@ -854,35 +719,32 @@ export const notionUsers = [
   {
     object: "user",
     id: "1e0d872b-594c-81e5-be86-000260493812",
-    name: "Harvey Kisiangani",
-    avatar_url:
-      "https://lh3.googleusercontent.com/a/ACg8ocJPEZrdkCpP57gr8TnO-ONwkZl3ZU4gd3KISv81Esya6wGna9Q=s100",
+    name: "Harvey Spectre",
+    avatar_url: null,
     type: "person",
-    person: { email: "harveykisiangani@gmail.com" },
+    person: { email: "harveyspectre@example-mail.com" },
   },
   {
     object: "user",
     id: "152d872b-594c-8145-9c2c-000204787b69",
-    name: "Ceci Kurdelak",
-    avatar_url:
-      "https://s3-us-west-2.amazonaws.com/public.notion-static.com/78f66135-d1a4-4c17-8217-4e025621539c/20240104_175839_-_Copy_(2).jpg",
+    name: "Chimera Tabitha",
+    avatar_url: null,
     type: "person",
-    person: { email: "crkurdelak@gmail.com" },
+    person: { email: "crtabitha@example-mail.com" },
   },
   {
     object: "user",
     id: "13dd872b-594c-810f-8bb4-000282e27820",
-    name: "Daniel Dirksen",
+    name: "Belteshazar Bond",
     avatar_url: null,
     type: "person",
-    person: { email: "daniel.dirksen@solutional.com" },
+    person: { email: "danny.dan@example-domain.com" },
   },
   {
     object: "user",
     id: "1e37b3ca-5344-81aa-be14-002701d76296",
     name: "Zapier",
-    avatar_url:
-      "https://s3-us-west-2.amazonaws.com/public.notion-static.com/c8ba7d4b-5bfb-4381-ba50-6a05b956b3ca/logo_black.png",
+    avatar_url: null,
     type: "bot",
     bot: {},
   },
@@ -894,7 +756,7 @@ export const notionUsers = [
     type: "bot",
     bot: {
       owner: [Object],
-      workspace_name: "Harvey Kisiangani’s Notion",
+      workspace_name: "Harvey Spectre’s Notion",
       workspace_limits: [Object],
     },
   },

@@ -12,8 +12,8 @@ import { NotionUser } from "../utils/controllers/userTypes";
 const EXAMPLE_ASSIGNED_BY: NotionUser[] = [
     {
         userId: "136dsg2b-594c-817b-adaa-000l3lf9e69",
-        name: "Maverick Din",
-        email: "mav.din@solutional.com",
+        name: "Maverick Bond",
+        email: "mav.bond@example-domain.com",
     },
 ];
 

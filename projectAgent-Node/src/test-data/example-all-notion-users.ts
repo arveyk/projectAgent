@@ -1,3 +1,5 @@
+import { GetUserResponse } from "@notionhq/client"
+
 export const EXAMPLE_ALL_NOTION_USERS = [
     {
         "userId": "13ed872b-594c-81a7-84f8-0002e9e2cf87",
@@ -155,3 +157,61 @@ export const EXAMPLE_ALL_NOTION_USERS = [
         "email": "scott.robohn@solutional.com"
     }
 ]
+
+
+export const EXAMPLE_NOTION_USERS_RESPONSE: Record<string, GetUserResponse> = {
+    "152d872b-594c-8145-9c2c-000204787b69": {
+        object: "user",
+        id: "152d872b-594c-8145-9c2c-000204787b69",
+        name: "Ceci Kurdelak",
+        avatar_url:
+            "https://s3-us-west-2.amazonaws.com/public.notion-static.com/78f66135-d1a4-4c17-8217-4e025621539c/20240104_175839_-_Copy_(2).jpg",
+        type: "person",
+        person: {
+            email: "ceci.kurdelak@solutional.com",
+        },
+    },
+    "1e0d872b-594c-81e5-be86-000260493812": {
+        object: "user",
+        id: "1e0d872b-594c-81e5-be86-000260493812",
+        name: "Harvey Kisiangani",
+        avatar_url:
+            "https://lh3.googleusercontent.com/a/ACg8ocJPEZrdkCpP57gr8TnO-ONwkZl3ZU4gd3KISv81Esya6wGna9Q=s100",
+        type: "person",
+        person: {
+            email: "harveykisiangani@gmail.com",
+        },
+    },
+    "25cd872b-594c-8111-84e3-00020e1da9ea": {
+        object: "user",
+        id: "25cd872b-594c-8111-84e3-00020e1da9ea",
+        name: "Harvey Kisiangani",
+        avatar_url:
+            "https://lh3.googleusercontent.com/a/ACg8ocLQ3i_IljHwZpP04xXsuwKPcCGmTcP6VujYmPbscA87CUw1Ew=s100",
+        type: "person",
+        person: {
+            email: "harvey.kisiangani@solutional.com",
+        },
+    },
+    "13dd872b-594c-810f-8bb4-000282e27820": {
+        object: "user",
+        id: "13dd872b-594c-810f-8bb4-000282e27820",
+        name: "Daniel Dirksen",
+        avatar_url:
+            "https://s3-us-west-2.amazonaws.com/public.notion-static.com/bc9f5c02-88ed-4668-971b-c8480fb70fca/DSC_3230.jpg",
+        type: "person",
+        person: {
+            email: "daniel.dirksen@solutional.com",
+        },
+    },
+    "136d872b-594c-817b-adaa-00026796be69": {
+        object: "user",
+        id: "136d872b-594c-817b-adaa-00026796be69",
+        name: "James Dirksen",
+        avatar_url: null,
+        type: "person",
+        person: {
+            email: "james.dirksen@solutional.com",
+        },
+    }
+}

@@ -1,10 +1,19 @@
+import { EXAMPLE_ALL_NOTION_USERS, EXAMPLE_NOTION_USERS_RESPONSE } from "../../test-data/example-all-notion-users";
 import {
   compareNames,
   isPartialNameMatch,
   findMatchingNotionUser,
   deduplicateUsers,
 } from "../../utils/controllers/findMatchingNotionUsers";
+import { getNotionUsers } from "../../utils/controllers/getUsersNotion";
 import { NotionUser } from "../../utils/controllers/userTypes";
+
+
+const fakeNotionUserQueryResponse = {
+  getNotionUsers: jest.fn(() => Promise.resolve(EXAMPLE_ALL_NOTION_USERS))
+}
+
+
 
 describe("Tests compareNames", () => {
   it("returns true with exact match", () => {
@@ -28,6 +37,11 @@ describe("tests isPartialNameMatch", () => {
 });
 
 describe("Tests findMatchingAssigner", () => {
+
+  beforeEach(() => {
+    jest.resetModules();
+    jest.clearAllMocks();
+  });
   it("Returns at least one result when given an exact name", async () => {
     const matches = await findMatchingNotionUser("Daniel Dirksen");
     console.log(`Matches: ${JSON.stringify(matches)}`);

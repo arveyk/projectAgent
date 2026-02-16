@@ -61,5 +61,9 @@ describe("Test createBlockNewTask with a valid task object", () => {
         expect(JSON.stringify(slackBlocksObject.blocks)).toMatch(
             /Description:\*.{1,8}Schedule a meeting with the customer\. Check the sender's Calendly for available times\."/gm,
         );
+
+        // Test that buttons value does not have more than 2001 characters
+      
+        expect(slackBlocksObject.blocks[7].elements[0].value.length).toBeLessThan(2001);
     });
 });

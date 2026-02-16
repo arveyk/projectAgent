@@ -89,7 +89,7 @@ const columnLayoutWithSelections =
     },
   );
 
-const blockSelectOrNoSelect = await createNewTaskBlock(
+const blockSelectOrNoSelect = createNewTaskBlock(
   EXAMPLE_ASSIGNED_BY,
   task.task,
   [exampleUserSearchResponse2[1]],

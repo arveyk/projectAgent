@@ -1,3 +1,4 @@
+import { EXAMPLE_RAW_USERS_RESPONSE } from "../../test-data/cache/rawUsers";
 import {
   compareNames,
   isPartialNameMatch,
@@ -29,21 +30,21 @@ describe("tests isPartialNameMatch", () => {
 
 describe("Tests findMatchingAssigner", () => {
   it("Returns at least one result when given an exact name", async () => {
-    const matches = await findMatchingNotionUser("Belteshazar Bond");
+    const matches = await findMatchingNotionUser("Belteshazar Bond", EXAMPLE_RAW_USERS_RESPONSE);
     console.log(`Matches: ${JSON.stringify(matches)}`);
 
     expect(matches.length).toBeGreaterThan(0);
   });
 
   it("Returns at least one result when given a partial name", async () => {
-    const matches = await findMatchingNotionUser("Bond");
+    const matches = await findMatchingNotionUser("Bond", EXAMPLE_RAW_USERS_RESPONSE);
     console.log(`Matches: ${JSON.stringify(matches)}`);
 
     expect(matches.length).toBeGreaterThan(0);
   });
 
   it("Returns no results", async () => {
-    const matches = await findMatchingNotionUser("meow");
+    const matches = await findMatchingNotionUser("meow", EXAMPLE_RAW_USERS_RESPONSE);
     console.log(`Matches: ${JSON.stringify(matches)}`);
 
     expect(matches.length).toBe(0);

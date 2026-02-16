@@ -142,9 +142,7 @@ export function createTaskInfo(
         {
           type: "mrkdwn",
           text: `*Due Date:*\n${
-            notionTask.dueDate
-              ? formatDateString(notionTask.dueDate)
-              : ""
+            notionTask.dueDate ? formatDateString(notionTask.dueDate) : ""
           }`,
         },
         {
@@ -224,9 +222,7 @@ export function createTaskInfoWithoutSelections(
         {
           type: "mrkdwn",
           text: `*Due Date:*\n${
-            notionTask.dueDate
-              ? formatDateString(notionTask.dueDate)
-              : ""
+            notionTask.dueDate ? formatDateString(notionTask.dueDate) : ""
           }`,
         },
         {
@@ -267,51 +263,49 @@ export function createMenuOptions(
   whichToCreate: string,
   listOfItems: ProjectWithName[] | NotionUser[],
 ): MenuType[] {
-
   if (whichToCreate === "NotionUsers") {
     const userArray = listOfItems as NotionUser[];
-    const userMenuOptionsArray =  userArray.map((person) => {
-      return {
-        text: {
-          type: "plain_text",
-          text: `${person.name} (${person.email})`,
-          emoji: true,
-        },
-        value: `${JSON.stringify(person)}`,
-      };
-    }).sort(
-      (a, b) => {
+    const userMenuOptionsArray = userArray
+      .map((person) => {
+        return {
+          text: {
+            type: "plain_text",
+            text: `${person.name} (${person.email})`,
+            emoji: true,
+          },
+          value: `${JSON.stringify(person)}`,
+        };
+      })
+      .sort((a, b) => {
         const nameA = a.text.text;
         const nameB = b.text.text;
-        return (nameA < nameB) ? -1 : (nameA > nameB) ? 1 : 0;
-      }
-    );
+        return nameA < nameB ? -1 : nameA > nameB ? 1 : 0;
+      });
 
     // Slack limits the number of options to 100 items so we do this
     if (userMenuOptionsArray.length > 100) {
       return userMenuOptionsArray.slice(0, 100);
     }
     return userMenuOptionsArray;
-
   } else {
     const projectArray = listOfItems as ProjectWithName[];
-    const optionsArray = projectArray.map((project) => {
-      return {
-        text: {
-          type: "plain_text",
-          text: `${project.projectName}`,
-          emoji: true,
-        },
-        // Replacing index with the id of the project
-        value: `${"Project_" + project.id}`,
-      };
-    }).sort(
-      (a, b) => {
+    const optionsArray = projectArray
+      .map((project) => {
+        return {
+          text: {
+            type: "plain_text",
+            text: `${project.projectName}`,
+            emoji: true,
+          },
+          // Replacing index with the id of the project
+          value: `${"Project_" + project.id}`,
+        };
+      })
+      .sort((a, b) => {
         const nameA = a.text.text;
         const nameB = b.text.text;
-        return (nameA < nameB) ? -1 : (nameA > nameB) ? 1 : 0;
-      }
-    );
+        return nameA < nameB ? -1 : nameA > nameB ? 1 : 0;
+      });
 
     if (optionsArray.length > 100) {
       return optionsArray.slice(0, 100);
@@ -357,7 +351,7 @@ export function createNewTaskBlockWithUserAndOrProjectsSelections(
         task: notionTask,
         pageId: "",
         url: "",
-      }
+      },
     });
 
     return createBlockWithBothSelectionMenus(
@@ -373,7 +367,7 @@ export function createNewTaskBlockWithUserAndOrProjectsSelections(
       task: notionTask,
       pageId: "",
       url: "",
-    }
+    },
   });
 
   //Return these blocks if only number of projects is equal to zero
@@ -391,7 +385,7 @@ export function createNewTaskBlockWithUserAndOrProjectsSelections(
       task: notionTask,
       pageId: "",
       url: "",
-    }
+    },
   });
 
   return createBlocksWithOneSelectionMenu(
@@ -443,7 +437,7 @@ export const createTaskBlockWithoutSelections = function (
                 task: notionTask,
                 pageId: "",
                 url: "",
-              }
+              },
               //userOptions [],
             }),
             style: "primary",

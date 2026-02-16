@@ -1,3 +1,4 @@
+import { CACHE_DATA_EXAMPLE_ALL } from "../test-data/cache/cacheItems";
 import {
   payloadNoDates,
   payloadExample,
@@ -28,7 +29,7 @@ describe("Tests parseTaskSlashCmd without a due date", () => {
     expect(typeof payloadNoDates).toBe("object");
     const timestamp = 1755039682 * 1000;
 
-    const parsedObject = await parseTask(payloadNoDates, timestamp);
+    const parsedObject = await parseTask(payloadNoDates, timestamp, CACHE_DATA_EXAMPLE_ALL);
     const parsedTask = parsedObject.task;
     console.log(JSON.stringify(parsedTask));
 
@@ -43,7 +44,7 @@ describe("Tests parseTaskSlashCmd with the same example given to the LLM", () =>
     expect(typeof payloadExample).toBe("object");
     const timestamp = 1755039682 * 1000;
 
-    const parsedObject = await parseTask(payloadExample, timestamp);
+    const parsedObject = await parseTask(payloadExample, timestamp, CACHE_DATA_EXAMPLE_ALL);
     const parsedTask = parsedObject.task;
     console.log(JSON.stringify(parsedTask));
 

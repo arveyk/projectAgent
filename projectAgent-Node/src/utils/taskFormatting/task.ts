@@ -42,7 +42,7 @@ export type User = {
 
 /**
  * Extracted task details together with info of the user creating the task (which will be used to create the assignedBy field)
-*/
+ */
 export type ParsedData = {
   task: Task;
   taskCreator: User;
@@ -131,8 +131,8 @@ export function convertTask(
   return {
     taskTitle: taskInput["taskTitle"],
     assignees: assignees,
-    dueDate: dueDate? dueDate : undefined,
-    startDate: startDate? startDate : undefined,
+    dueDate: dueDate ? dueDate : undefined,
+    startDate: startDate ? startDate : undefined,
     description: taskInput["description"],
     project: identifiedProjects,
     similarProjects: projectsToSelectFrom,

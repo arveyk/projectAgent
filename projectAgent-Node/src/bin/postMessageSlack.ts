@@ -69,30 +69,37 @@ const eventPayload = {
   ],
   is_ext_shared_channel: false,
   event_context:
-    "4-eyJldCI6Im1lc3NhZ2UiLCJ0aWQiOiJUMDhWQURISDE3UyIsImFpZCI6IkEwOTM1RURRUkhCIiwiY2lkIjoiQzA4VkFESjdTRUwifQ",
+    "",
 };
-const test00 = [[{projectName: "test00", id: "JIUsbds"}, {projectName: "test00_proj02", id: "Iodshs"}], []];
+const test00 = [
+  [
+    { projectName: "test00", id: "JIUsbds" },
+    { projectName: "test00_proj02", id: "Iodshs" },
+  ],
+  [],
+];
 const test2 = [
   ["Damaris", "Hunter"],
   ["Project0", "Project1", "Project clear", "Anime", "Writter"],
 ];
 const test3 = [["JIUsbds", "Iodshs"], ["OIHOIH"]];
 const test4AmbiguouseUsers: NotionUser[] = [
-  {userId:"Iodshs", name: "testUser000"},
-  { userId: "OIHOIH", name: "testUser001"},
-  {userId: "Credentials", name: "testUser002"}
+  { userId: "Iodshs", name: "testUser000" },
+  { userId: "OIHOIH", name: "testUser001" },
+  { userId: "Credentials", name: "testUser002" },
 ];
 const eventResponseURL = "https://slack.com/api/chat.postMessage";
 const channel_id = eventPayload.event.channel;
 console.log(channel_id);
 
-
-const exampleBlocks = createNewTaskBlockWithUserAndOrProjectsSelections(taskNoAssignee,
-  test00[0], {
+const exampleBlocks = createNewTaskBlockWithUserAndOrProjectsSelections(
+  taskNoAssignee,
+  test00[0],
+  {
     identifiedUsers: [],
-    ambiguousUsers: test4AmbiguouseUsers
-  }
-)
+    ambiguousUsers: test4AmbiguouseUsers,
+  },
+);
 
 export async function testPostToSlack(eventResUrl: string, slackBlocks?: any) {
   try {
@@ -115,12 +122,11 @@ export async function testPostToSlack(eventResUrl: string, slackBlocks?: any) {
       )
       .then((responseFromSlack) => {
         console.log("OK from slack", responseFromSlack.data);
-	console.log("Data sent to Slack", responseFromSlack.config.data);
+        console.log("Data sent to Slack", responseFromSlack.config.data);
       })
       .catch((err) => {
         console.log("Error in Axios", err);
       });
-
   } catch (err) {
     console.log(err);
   }

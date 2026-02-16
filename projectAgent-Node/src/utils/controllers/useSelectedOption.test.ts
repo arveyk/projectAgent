@@ -57,7 +57,7 @@ describe("Run payload Extraction and use values", () => {
     });
     it("Should have same task object after integration attempt", () => {
 
-      const taskPageObject: TaskPage = 
+      const taskPageObject: TaskPage =
       payload_no_item_selected["actions"][0].value.taskPageObject || "{}";
 
       const task = integrateSelectedValues(

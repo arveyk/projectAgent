@@ -8,35 +8,35 @@ import { NotionUser } from "../../utils/controllers/userTypes";
 
 describe("Tests compareNames", () => {
   it("returns true with exact match", () => {
-    expect(compareNames("Ceci Kurdelak", "Ceci Kurdelak")).toBeTruthy();
+    expect(compareNames("Chimera Tabitha", "Chimera Tabitha")).toBeTruthy();
   });
   it("returns false", () => {
-    expect(compareNames("Ceci Kurdelak", "Meow")).toBeFalsy();
+    expect(compareNames("Chimera Tabitha", "Meow")).toBeFalsy();
   });
 });
 
 describe("tests isPartialNameMatch", () => {
   it("returns true", () => {
-    expect(isPartialNameMatch("Ceci", "Ceci Kurdelak")).toBeTruthy();
+    expect(isPartialNameMatch("Chimera", "Chimera Tabitha")).toBeTruthy();
   });
   it("returns true", () => {
-    expect(isPartialNameMatch("Ceci Kurdelak", "Ceci")).toBeTruthy();
+    expect(isPartialNameMatch("Chimera Tabitha", "Chimera")).toBeTruthy();
   });
   it("returns false", () => {
-    expect(isPartialNameMatch("Ceci Kurdelak", "Meow")).toBeFalsy();
+    expect(isPartialNameMatch("Chimera Tabitha", "Meow")).toBeFalsy();
   });
 });
 
 describe("Tests findMatchingAssigner", () => {
   it("Returns at least one result when given an exact name", async () => {
-    const matches = await findMatchingNotionUser("Daniel Dirksen");
+    const matches = await findMatchingNotionUser("Belteshazar Bond");
     console.log(`Matches: ${JSON.stringify(matches)}`);
 
     expect(matches.length).toBeGreaterThan(0);
   });
 
   it("Returns at least one result when given a partial name", async () => {
-    const matches = await findMatchingNotionUser("Dirksen");
+    const matches = await findMatchingNotionUser("Bond");
     console.log(`Matches: ${JSON.stringify(matches)}`);
 
     expect(matches.length).toBeGreaterThan(0);

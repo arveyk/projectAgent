@@ -10,9 +10,9 @@ export const llmTaskThatCausedBug: {
   similarProjects?: string[] | null | undefined;
 } = {
   "taskTitle": "Follow up with Kristen on events after John Capobianco trial",
-  "description": "Scott Robohn, please follow up with Kristen on events after the John Capobianco trial for the Itential project by 2/27/2026.",
+  "description": "Scott Rhymes, please follow up with Kristen on events after the John Capobianco trial for the Itential project by 2/27/2026.",
   "assignees": [
-    "Scott Robohn"
+    "Scott Rhymes"
   ],
   "dueDate": "2026-02-27",
   "startDate": "2026-02-02",

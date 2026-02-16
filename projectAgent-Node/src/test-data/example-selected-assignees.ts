@@ -2,8 +2,8 @@ export const EXAMPLE_CONFIRM_CREATE_TASK_WITH_SELECTION = {
     "type": "block_actions",
     "user": {
         "id": "U08UDKY38QK",
-        "username": "harveykisiangani",
-        "name": "harveykisiangani",
+        "username": "harveyspectre",
+        "name": "harveyspectre",
         "team_id": "T08VADHH17S"
     },
     "api_app_id": "A09RWHEGTCP",
@@ -34,7 +34,7 @@ export const EXAMPLE_CONFIRM_CREATE_TASK_WITH_SELECTION = {
                         {
                             "text": {
                                 "type": "plain_text",
-                                "text": "*Harvey Kisiangani --- harvey.kisiangani@solutional.com*",
+                                "text": "*Harvey Spectre --- harvey.spectre@example-domain.com*",
                                 "emoji": true
                             },
                             "value": "1"
@@ -42,7 +42,7 @@ export const EXAMPLE_CONFIRM_CREATE_TASK_WITH_SELECTION = {
                         {
                             "text": {
                                 "type": "plain_text",
-                                "text": "*Harvey Kisiangani --- harveykisiangani@gmail.com*",
+                                "text": "*Harvey Spectre --- harveyspectre@example-mail.com*",
                                 "emoji": true
                             },
                             "value": "0"

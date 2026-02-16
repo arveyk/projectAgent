@@ -1,17 +1,17 @@
 export const exampleUserSearchResponse = [
   {
     "person": {
-      "name": "Gervasi"
+      "name": "Bocherini"
     },
     "foundUsers": [
       {
         "userId": "1d1d872b-594c-819f-bce3-00027369acef",
-        "name": "Phil G",
+        "name": "Philemon G",
         "email": "pogba.g@example-domain.com"
       },
       {
         "userId": "264d872b-594c-811e-afe6-0002754d4767",
-        "name": "Julia G",
+        "name": "Joana G",
 	"email": "joana.g@example-domain.com"
       }
     ]
@@ -38,13 +38,13 @@ export const exampleUserSearchResponse2 = [
   },
   {
     "person": {
-      "name": "Chimera"
+      "name": "Dresdan"
     },
     "foundUsers": [
       {
         "userId": "152d872b-594c-8145-9c2c-000204787b69",
-        "name": "Chimera K",
-        "email": "chimera.k@example-domain.com"
+        "name": "Dresdan K",
+        "email": "dresdan.k@example-domain.com"
       }
     ]
   }
@@ -70,17 +70,17 @@ export const exampleUserSearchResponse3 = [
   },
   {
     "person": {
-      "name": "Gervasi"
+      "name": "Bocherini"
     },
     "foundUsers": [
       {
         "userId": "1d1d872b-594c-819f-bce3-00027369acef",
-        "name": "Phil G",
+        "name": "Philemon G",
         "email": "pogba.g@example-domain.com"
       },
       {
         "userId": "264d872b-594c-811e-afe6-0002754d4767",
-        "name": "Julia G",
+        "name": "Joana G",
 	"email": "joana.g@example-domain.com"
       }
     ]

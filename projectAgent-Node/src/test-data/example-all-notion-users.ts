@@ -7,31 +7,31 @@ export const EXAMPLE_ALL_NOTION_USERS = [
     ,
     {
         "userId": "152d872b-594c-8145-9c2c-000204787b69",
-        "name": "Chimera Tabitha",
-        "email": "chimera.tabitha@example-domain.com"
+        "name": "Dresden Tabitha",
+        "email": "dresdan.tabitha@example-domain.com"
     }
     ,
     {
         "userId": "155d872b-594c-810e-9174-00024470271f",
-        "name": "Katherine",
-        "email": "katherine@bond.com"
+        "name": "Kate",
+        "email": "kate@bond.com"
     }
     ,
     {
         "userId": "158d872b-594c-81b0-a53d-0002632ed5fc",
-        "name": "Nick McKibbon",
-        "email": "nick.mckibbon@example-mail.com"
+        "name": "Nick Furry",
+        "email": "nick.furry@example-mail.com"
     }
     ,
     {
         "userId": "1bbd872b-594c-8153-b8b4-0002a90b5da6",
-        "name": "Brooklyn",
-        "email": "brooklyn@example-domain.com"
+        "name": "Mississippi",
+        "email": "mississippi@example-domain.com"
     }
     ,
     {
         "userId": "1d1d872b-594c-819f-bce3-00027369acef",
-        "name": "Phil Gervasi",
+        "name": "Philemon Bocherini",
         "email": "pogba.bocherini@example-domain.com"
     }
     ,
@@ -61,7 +61,7 @@ export const EXAMPLE_ALL_NOTION_USERS = [
     ,
     {
         "userId": "264d872b-594c-811e-afe6-0002754d4767",
-        "name": "Julia Gervasi",
+        "name": "Joana Bocherini",
         "email": "joana.bocherini@example-domain.com"
     }
     ,
@@ -103,38 +103,38 @@ export const EXAMPLE_ALL_NOTION_USERS = [
     ,
     {
         "userId": "264d872b-594c-81bd-9ea8-0002b5ca7b01",
-        "name": "ian.bancy@example-domain.com",
-        "email": "ian.bancy@example-domain.com"
+        "name": "elon.duncan@example-domain.com",
+        "email": "elon.duncan@example-domain.com"
     }
     ,
     {
         "userId": "264d872b-594c-81f4-9623-0002780160a1",
-        "name": "joe.deguzman@example-domain.com",
-        "email": "joe.deguzman@example-domain.com"
+        "name": "joe.christopher@example-domain.com",
+        "email": "joe.christopher@example-domain.com"
     }
     ,
     {
         "userId": "264d872b-594c-81f6-92be-000247426fce",
-        "name": "zak.gard@example-domain.com",
-        "email": "zak.gard@example-domain.com"
+        "name": "zak.green@example-domain.com",
+        "email": "zak.green@example-domain.com"
     }
     ,
     {
         "userId": "a0aeb683-ecc4-4e9c-8dd2-136239554894",
-        "name": "Keegan",
-        "email": "kmdcmd201105@example-mail.com"
+        "name": "Nathan",
+        "email": "nate201105@example-mail.com"
     }
     ,
     {
         "userId": "ad835b36-8b72-47ab-8db0-b67f8b77c6d1",
         "name": "Jeremy Jones",
-        "email": "jeremychristopherjones@example-mail.com"
+        "email": "jeremyjones@example-mail.com"
     }
     ,
     {
         "userId": "bd1eb041-d113-442c-abd2-0562680fc656",
-        "name": "Phil",
-        "email": "pogbabocherini@example-mail.com"
+        "name": "Philemon",
+        "email": "philemonbocherini@example-mail.com"
     }
     ,
     {
@@ -146,12 +146,12 @@ export const EXAMPLE_ALL_NOTION_USERS = [
     {
         "userId": "13dd872b-594c-810f-8bb4-000282e27820",
         "name": "Belteshazar Dan",
-        "email": "danny.dan@example-domain.com"
+        "email": "bel.dan@example-domain.com"
     }
     ,
     {
         "userId": "145d872b-594c-81bb-960d-0002af602358",
         "name": "Scott Rhymes",
-        "email": "scott.rhymes@example-domain.com"
+        "email": "scotty.rhymes@example-domain.com"
     }
 ]

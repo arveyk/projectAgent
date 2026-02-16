@@ -1,4 +1,4 @@
-import { CacheData } from "../utils/database/getFromCache";
+import { QueryDataSourceResponse } from "@notionhq/client";
 import { getProjects } from "../utils/database/searchDatabase";
 import { ProjectWithName, TaskPage } from "../utils/taskFormatting/task";
 import { createTaskInfoWithoutSelections } from "./createBlockPartsForNewTask";
@@ -6,13 +6,14 @@ import { createTaskInfoWithoutSelections } from "./createBlockPartsForNewTask";
 /**
  * Creates a set of Slack blocks to be used in previewing and updating an existing task.
  * @param taskPage: The task to be previewed.
+ * @param fetchedProjects Projects fetched from Notion.
  *
  * @returns:        A set of Slack blocks to be used in previewing and updating an existing task.
  */
-export async function createExistingTaskBlock(taskPage: TaskPage, cacheItems: CacheData) {
+export async function createExistingTaskBlock(taskPage: TaskPage, fetchedProjects: QueryDataSourceResponse["results"] | null) {
   const taskUrl = taskPage.url;
   const associatedProjects = taskPage.task.project || [];
-  const existingProjects = await getProjects(cacheItems);
+  const existingProjects = await getProjects(fetchedProjects);
 
   const taskProjects: ProjectWithName[] = [];
 

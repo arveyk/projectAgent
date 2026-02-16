@@ -69,11 +69,14 @@ const slashCmdHandler: StreamifyHandler = async function (
       const cacheClient = createCacheClient();
       const cacheItems = await retrieveCache(cacheClient);
       logTimestampForBenchmarking("Done fetching cache");
+      const fetchedProjects = cacheItems.projects;
+      const fetchedTasks = cacheItems.tasks;
+      const fetchedUsers = cacheItems.users;
 
       // Search database
       logTimestampForBenchmarking("Searching database");
       // TODO only pass data needed
-      const isInDatabase = await searchDatabase(reqBody.text, cacheItems);
+      const isInDatabase = await searchDatabase(reqBody.text, fetchedTasks);
       logTimestampForBenchmarking("Done searching database");
 
       console.log("IS in database?", JSON.stringify(isInDatabase));
@@ -82,14 +85,14 @@ const slashCmdHandler: StreamifyHandler = async function (
       const timestamp: number = Date.now();
 
       logTimestampForBenchmarking("Parsing task");
-      const parsedData = await parseTask(reqBody, timestamp, cacheItems);
+      const parsedData = await parseTask(reqBody, timestamp, fetchedProjects);
       logTimestampForBenchmarking("Done parsing task");
 
       logTimestampForBenchmarking("Searching Notion for assignees");
       // Find Notion users
       const assigneeSearchResults = await findMatchingAssignees(
         parsedData.task,
-        cacheItems
+        fetchedUsers
       );
       logTimestampForBenchmarking("Done searching Notion for assignees");
 
@@ -110,7 +113,7 @@ const slashCmdHandler: StreamifyHandler = async function (
           console.log(
             `(slashCmdHandler) existingTask: ${JSON.stringify(existingTask)}`,
           );
-          const updateBlock = await createExistingTaskBlock(existingTask, cacheItems);
+          const updateBlock = await createExistingTaskBlock(existingTask, fetchedProjects);
           console.log("Update Block", JSON.stringify(updateBlock));
 
           await axios({
@@ -139,8 +142,8 @@ const slashCmdHandler: StreamifyHandler = async function (
           JSON.stringify(parsedData),
         );
 
-        const assignedBy = await findAssignedBy(parsedData.taskCreator, cacheItems);
-        const slackBlocks = await createNewTaskBlock(
+        const assignedBy = await findAssignedBy(parsedData.taskCreator, fetchedUsers);
+        const slackBlocks = createNewTaskBlock(
           assignedBy,
           parsedData.task,
           assigneeSearchResults,

@@ -1,4 +1,4 @@
-import { CacheData } from "../database/getFromCache";
+import { ListUsersResponse } from "@notionhq/client";
 import { Task, User } from "../taskFormatting/task";
 import { getNotionUsers } from "./getUsersNotion";
 import { NotionUser, UserSearchResult } from "./userTypes";
@@ -6,20 +6,21 @@ import { NotionUser, UserSearchResult } from "./userTypes";
 /**
  * Function to identify the assignees of a task using names and emails to search
  * @param task: task to be created that contains the required assignees array
+ * @param alreadyFetchedUsers Users already fetched from Notion
  *
  * @returns     returns the user(s) in Notion (name and email) that match the user details
  *   extracted by the AI.
  */
 export async function findMatchingAssignees(
   task: Task,
-  cacheItems: CacheData
+  alreadyFetchedUsers: ListUsersResponse | null
 ): Promise<UserSearchResult[]> {
   const assignees = task.assignees;
   const matches = Promise.all(
     assignees.map(async (assignee) => {
       const match: UserSearchResult = {
         person: assignee,
-        foundUsers: await findMatchingNotionUser(assignee.name, cacheItems, assignee.email),
+        foundUsers: await findMatchingNotionUser(assignee.name, alreadyFetchedUsers, assignee.email),
       };
       return match;
     }),
@@ -32,16 +33,16 @@ export async function findMatchingAssignees(
  * Finds a Notion user matching the Slack user who assigned the given task.
  * @param slackUsername:  name of user in slack used to search for user/user
  *   in Notion to use as assignee(s)
- *
+ * @param alreadyFetchedUsers Notion users already fetched from the database.
  * @returns               Array Notion users that match the slack user with the name
  *   equal to value of slackUsername
  */
 export async function findMatchingNotionUser(
   slackUsername: string,
-  cacheItems: CacheData,
+  alreadyFetchedUsers: ListUsersResponse | null,
   email?: string,
 ): Promise<NotionUser[]> {
-  const allNotionUsers: NotionUser[] = await getNotionUsers(cacheItems);
+  const allNotionUsers: NotionUser[] = await getNotionUsers(alreadyFetchedUsers);
 
   let emailMatches: NotionUser[] = [];
   if (email !== undefined) {
@@ -188,9 +189,9 @@ export function deduplicateUsers(
  */
 export async function findMatchingNotionUserByEmail(
   slackEmail: string,
-  cacheItems: CacheData
+  foundUsers: ListUsersResponse | null
 ): Promise<NotionUser[]> {
-  const allNotionUsers: NotionUser[] = await getNotionUsers(cacheItems);
+  const allNotionUsers: NotionUser[] = await getNotionUsers(foundUsers);
 
   let emailMatches: NotionUser[] = [];
   if (slackEmail !== undefined) {
@@ -213,10 +214,10 @@ export async function findMatchingNotionUserByEmail(
  * @returns                  Array containing only the Notion user that matches slack user that is creating the
  *   task. This is what is placed in the assignedBy field in a task
  */
-export async function findAssignedBy(identifiedAppUser: User, cacheItems: CacheData) {
+export async function findAssignedBy(identifiedAppUser: User, foundUsers: ListUsersResponse | null) {
   const matchingNotionUser = await findMatchingNotionUserByEmail(
     identifiedAppUser.email,
-    cacheItems
+    foundUsers
   );
 
   return matchingNotionUser;

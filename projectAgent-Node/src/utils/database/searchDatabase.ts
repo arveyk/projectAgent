@@ -20,7 +20,6 @@ import {
 import { logTimestampForBenchmarking } from "../logTimestampForBenchmarking";
 import { Project } from "../../domain";
 import { containsSensitiveNgrams } from "./containsSensitiveNgrams";
-import { CacheData } from "./getFromCache";
 
 const notion = new Client({
   auth: NOTION_API_KEY,
@@ -54,18 +53,19 @@ const structuredLlm = model.withStructuredOutput(databaseSearchResult, {
 });
 
 /**
- * Searches Notion database for a task based on its title and assignee fields
- * @param {*} message The message that triggered Project Agent
- * @returns true if the task is found, else returns false
+ * Searches Notion database for a task based on its title and assignee fields.
+ * @param {*} message The message that triggered Project Agent.
+ * @param alreadyFetchedTasks Tasks already fetched from Notion.
+ * @returns true if the task is found, else returns false.
  */
 export const searchDatabase = async function (
   message: string,
-  cacheItems: CacheData
+  alreadyFetchedTasks: QueryDataSourceResponse["results"] | null
 ): Promise<TaskSearchResult> {
   console.log(`Model name: ${model.modelName}`);
   console.log(`message (searchDB): ${JSON.stringify(message)}`);
 
-  const tasks = await getTasks(cacheItems);
+  const tasks = await getTasks(alreadyFetchedTasks);
 
   console.log(`Database response: ${JSON.stringify(tasks)}`);
 
@@ -93,16 +93,16 @@ export const searchDatabase = async function (
 };
 
 /**
- * Retrieves all tasks from the tasks database
- * Performs filtering to remove tasks that are not fully populated or contain sensitive ngrams
+ * Retrieves all tasks from the tasks database.
+ * Performs filtering to remove tasks that are not fully populated or contain sensitive ngrams.
+ * @param alreadyFetchedTasks Tasks already fetched from Notion.
  *
- * @return	An array of all tasks in the tasks database
+ * @return	An array of all tasks in the tasks database.
  */
-export async function getTasks(cacheItems: CacheData): Promise<TaskPage[]> {
+export async function getTasks(alreadyFetchedTasks: QueryDataSourceResponse["results"] | null): Promise<TaskPage[]> {
   let rawTasks: QueryDataSourceResponse["results"];
-  // Check cache first
-  if (cacheItems.tasks) {
-    rawTasks = cacheItems.tasks;
+  if (alreadyFetchedTasks) {
+    rawTasks = alreadyFetchedTasks;
   }
   else {
     logTimestampForBenchmarking("Querying task database");
@@ -170,15 +170,15 @@ export function filterSimilar(pages: TaskPage[], message: string): TaskPage[] {
 }
 
 /**
- * Gets all projects from the projects database
- *
- * @return	An array of all projects in the projects database
+ * Gets all projects from the projects database.
+ * @param alreadyFetchedProjects Projects already fetched from the database.
+ * @return	An array of all projects in the projects database.
  */
-export async function getProjects(cacheItems: CacheData) {
+export async function getProjects(alreadyFetchedProjects: QueryDataSourceResponse["results"] | null) {
   let projectsList: QueryDataSourceResponse["results"];
-  // Check cache first
-  if (cacheItems.projects) {
-    projectsList = cacheItems.projects;
+
+  if (alreadyFetchedProjects) {
+    projectsList = alreadyFetchedProjects;
   }
   else {
     logTimestampForBenchmarking("Querying Projects");

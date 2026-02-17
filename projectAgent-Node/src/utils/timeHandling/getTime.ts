@@ -72,7 +72,7 @@ export async function getUserTimezoneData(
  * @param reqBody:   Payload containing the task details to be extracted and user creating
  *    the task
  * @param timestamp: Time at which project agent is activated in milliseconds
- * 
+ *
  * @returns          Timezone data at which the task is being created
  */
 export async function getEventTimeData(

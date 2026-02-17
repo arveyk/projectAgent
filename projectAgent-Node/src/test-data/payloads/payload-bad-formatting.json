@@ -4,7 +4,7 @@
     "event_id": "Ev095FKRUR1V",
     "event_time": 1752586063,
     "api_app_id": "A08T4SJP659",
-    "token": "cdpGCjWC3RGCqp0yCWWJa3cD",
+    "token": " ",
     "event_context": "4-eyJldCI6ImFwcF9tZW50aW9uIiwidGlkIjoiVDAzVE5RRk42MlYiLCJhaWQiOiJBMDhUNFNKUDY1OSIsImNpZCI6IkMwOFI0TTlQNVNNIn0",
     "authorizations": [
       {
@@ -45,7 +45,7 @@
     "team": "T03TNQFN62V",
     "client_msg_id": "ea3ffb61-65cc-4c6a-a18b-db4051373bf1",
     "ts": "1752586063.569079",
-    "type": "event_callback",
+    "type-2": "event_callback",
     "is_ext_shared_channel": false,
     "team_id": "T03TNQFN62V"
   },

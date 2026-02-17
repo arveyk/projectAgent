@@ -1,29 +1,32 @@
-// import { isValidCmd, extractReqBody } from "./slashUtils";
-// import {
-//   payloadGood,
-//   payloadNotAdd,
-//   payloadTooShort,
-// } from "../test-data/payloads/slashcmd/payloads";
-// import { event } from "../test-data/aws/aws-event";
+import { isValidCommand, extractRequestBody } from "./slashCommandProcessing";
+import {
+  payloadGood,
+} from "../test-data/payloads/slashcmd/payloads";
+import { event } from "../test-data/aws/aws-event";
 
-// describe("Tests extractBody", () => {
-//   it("", () => {
-//     const decoded = extractReqBody(event);
-//   });
-// });
 
-// describe("Tests isValidCmd with a valid command", () => {
-//   it("Returns true", () => {
-//     const result = isValidCmd(payloadGood);
+/**
+ * test failure could be due to add prefix restriction still on
+ * or length of statement to be processed still being checked
+ */
 
-//     expect(result).toBeTruthy();
-//   });
-// });
+describe("Tests extractBody", () => {
+  it("Test's Extraction of relevant data from slack payload", () => {
+    const decoded = extractRequestBody(event);
 
-// describe('Tests isValidCmd with a command that does not start with "add"', () => {
-//   it("Returns false", () => {
-//     const result = isValidCmd(payloadNotAdd);
+    expect(decoded).toBeDefined();
 
-//     expect(result).toBeFalsy();
-//   });
-// });
+    expect(decoded).toHaveProperty("command");
+    expect(decoded).toHaveProperty("response_url");
+    expect(decoded).toHaveProperty("text");
+    expect(decoded).toHaveProperty("user_id");
+  });
+});
+
+describe("Tests isValidCmd with a valid command", () => {
+  it("Returns true", () => {
+    const result = isValidCommand(payloadGood);
+
+    expect(result).toBeTruthy();
+  });
+});

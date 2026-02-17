@@ -14,7 +14,7 @@ describe("tests createBlockLoadingMsg", () => {
           type: "section",
           text: {
             type: "mrkdwn",
-            text: `:arrows_counterclockwise: Test Message…`,
+            text: `>${"Test message for creating a loading message response"}\n\n:arrows_counterclockwise: Test Message…`,
           },
         },
       ],

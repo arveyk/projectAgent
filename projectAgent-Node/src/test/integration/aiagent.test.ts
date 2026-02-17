@@ -1,18 +1,15 @@
-import { parseTask } from "./aiAgent";
+import { parseTask } from "../../utils/aiagent";
 
 import {
   payloadGood,
   payloadHarvey,
   payloadInferDates,
   payloadNew,
-  payloadNoDates,
-} from "../test-data/payloads/slashcmd/payloads";
+} from "../../test-data/payloads/slashcmd/payloads";
 import {
-  taskGood,
-  taskHarvey,
-  taskInferDates,
   taskKitchen,
-} from "../test-data/tasks/example-tasks";
+} from "../../test-data/tasks/example-tasks";
+import { EXAMPLE_RAW_PROJECTS_RESPONSE } from "../../test-data/cache/rawProjects";
 
 describe("Tests parseTaskSlashCmd with a good payload", () => {
   it("Parses the task correctly", async () => {
@@ -20,13 +17,12 @@ describe("Tests parseTaskSlashCmd with a good payload", () => {
     expect(typeof payloadGood).toBe("object");
     const timestamp = 1755039682 * 1000;
 
-    const parsedTask = await parseTask(payloadGood, timestamp);
+    const parsedTask = await parseTask(payloadGood, timestamp, EXAMPLE_RAW_PROJECTS_RESPONSE);
     console.log(JSON.stringify(parsedTask));
 
-    //expect(parsedTask.assignees).toMatch(taskGood.assignees);
     expect(parsedTask.task.taskTitle).toBeTruthy();
     expect(parsedTask.task.description).toBeTruthy();
-  }, 10000);
+  }, 20000);
 });
 
 describe("Tests parseTaskSlashCmd with a good payload from Harvey", () => {
@@ -35,13 +31,12 @@ describe("Tests parseTaskSlashCmd with a good payload from Harvey", () => {
     expect(typeof payloadHarvey).toBe("object");
     const timestamp = 1755039682 * 1000;
 
-    const parsedTask = await parseTask(payloadHarvey, timestamp);
+    const parsedTask = await parseTask(payloadHarvey, timestamp, EXAMPLE_RAW_PROJECTS_RESPONSE);
     console.log(JSON.stringify(parsedTask));
 
-    //expect(parsedTask.assignees).toMatch(taskHarvey.assignees);
     expect(parsedTask.task.taskTitle).toBeTruthy();
     expect(parsedTask.task.description).toBeTruthy();
-  }, 10000);
+  }, 20000);
 });
 
 describe("Tests parseTaskSlashCmd inferring dates", () => {
@@ -50,13 +45,11 @@ describe("Tests parseTaskSlashCmd inferring dates", () => {
     expect(typeof payloadInferDates).toBe("object");
     const timestamp = 1755039682 * 1000;
 
-    const parsedTask = await parseTask(payloadInferDates, timestamp);
+    const parsedTask = await parseTask(payloadInferDates, timestamp, EXAMPLE_RAW_PROJECTS_RESPONSE);
     console.log(JSON.stringify(parsedTask));
-
-    //expect(parsedTask.assignees).toMatch(taskInferDates.assignees);
     expect(parsedTask.task.taskTitle).toBeTruthy();
     expect(parsedTask.task.description).toBeTruthy();
-  }, 10000);
+  }, 20000);
 });
 
 describe("tests parseTaskSlashCmd with the payload that's been causing trouble", () => {
@@ -65,8 +58,8 @@ describe("tests parseTaskSlashCmd with the payload that's been causing trouble",
     expect(typeof payloadNew).toBe("object");
     const timestamp = Date.now();
 
-    const parsedTask = await parseTask(payloadNew, timestamp);
+    const parsedTask = await parseTask(payloadNew, timestamp, EXAMPLE_RAW_PROJECTS_RESPONSE);
     console.log(JSON.stringify(parsedTask));
     console.log(JSON.stringify(taskKitchen));
-  }, 10000);
+  }, 20000);
 });

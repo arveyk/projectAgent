@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 
 const eventPayload = {
-  token: "JWNJnukcVaHbRoRl6CwWYan6",
+  token: " ",
   team_id: "T08VADHH17S",
   context_team_id: "T08VADHH17S",
   context_enterprise_id: null,

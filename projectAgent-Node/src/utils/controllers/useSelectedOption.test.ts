@@ -3,7 +3,7 @@ import {
   EXAMPLE_ONLY_PROJECT_SELECTED,
   EXAMPLE_NO_ITEM_SELECTED,
   EXAMPLE_ONLY_ASSIGNEE_SELECTED
-} from "../../test-data/example-selections-payload";
+} from "../../test-data/example-payloads-with-user-selections";
 import { integrateSelectedValues } from "./useSelectedOption";
 import { TaskPage, ProjectWithName, Task } from "../taskFormatting/task";
 import { NotionUser } from "./userTypes";

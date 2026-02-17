@@ -53,35 +53,35 @@ export const exampleUserSearchResponse2 = [
 export const exampleUserSearchResponse3 = [
   {
     "person": {
-      "name": "Dirksen"
+      "name": "Bond"
     },
     "foundUsers": [
       {
         "userId": "136d872b-594c-817b-adaa-00026796be69",
-        "name": "James Din",
-        "email": "james.din@solutional.com"
+        "name": "James Bond",
+        "email": "james.bond@solutional.com"
       },
       {
         "userId": "13dd872b-594c-810f-8bb4-000282e27820",
-        "name": "Daniel Din",
-        "email": "daniel.din@solutional.com"
+        "name": "Daniel Bond",
+        "email": "daniel.Bond@solutional.com"
       }
     ]
   },
   {
     "person": {
-      "name": "Gervasi"
+      "name": "Givani"
     },
     "foundUsers": [
       {
         "userId": "1d1d872b-594c-819f-bce3-00027369acef",
-        "name": "Phil G",
-        "email": "phil.g@solutional.com"
+        "name": "Philemon Givani",
+        "email": "philemon.givani@solutional.com"
       },
       {
         "userId": "264d872b-594c-811e-afe6-0002754d4767",
-        "name": "Julia G",
-	"email": "julia.g@solutional.com"
+        "name": "Joanna Givani",
+	"email": "joanna.givani@solutional.com"
       }
     ]
   }

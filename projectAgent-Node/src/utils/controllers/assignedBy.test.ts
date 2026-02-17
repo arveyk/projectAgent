@@ -1,6 +1,6 @@
-import { findMatchingNotionUserByEmail } from "../../utils/controllers/findMatchingNotionUsers";
-import * as getNotionWorkspaceUsers from "../../utils/controllers/getUsersNotion";
-import { getNotionUsers } from "../../utils/controllers/getUsersNotion";
+import { findMatchingNotionUserByEmail } from "./findMatchingNotionUsers";
+import * as getNotionWorkspaceUsers from "./getUsersNotion";
+import { getNotionUsers } from "./getUsersNotion";
 import { EXAMPLE_ALL_NOTION_USERS } from "../../test-data/example-all-notion-users";
 import {
         BILL_IN_SLACK,

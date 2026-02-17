@@ -14,22 +14,22 @@ jest.mock("../../utils/controllers/getUsersNotion");
 
 describe("Tests compareNames", () => {
   it("returns true with exact match", () => {
-    expect(compareNames("Ceci Kurdelak", "Ceci Kurdelak")).toBeTruthy();
+    expect(compareNames("Ramona Madison", "Ramona Madison")).toBeTruthy();
   });
   it("returns false", () => {
-    expect(compareNames("Ceci Kurdelak", "Meow")).toBeFalsy();
+    expect(compareNames("Ramona Madison", "Meow")).toBeFalsy();
   });
 });
 
 describe("tests isPartialNameMatch", () => {
   it("returns true", () => {
-    expect(isPartialNameMatch("Ceci", "Ceci Kurdelak")).toBeTruthy();
+    expect(isPartialNameMatch("Ramona", "Ramona Madison")).toBeTruthy();
   });
   it("returns true", () => {
-    expect(isPartialNameMatch("Ceci Kurdelak", "Ceci")).toBeTruthy();
+    expect(isPartialNameMatch("Ramona Madison", "Ramona")).toBeTruthy();
   });
   it("returns false", () => {
-    expect(isPartialNameMatch("Ceci Kurdelak", "Meow")).toBeFalsy();
+    expect(isPartialNameMatch("Ramona Madison", "Meow")).toBeFalsy();
   });
 });
 

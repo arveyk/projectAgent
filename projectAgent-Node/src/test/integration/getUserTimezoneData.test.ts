@@ -1,6 +1,6 @@
 import { getSlackUserDataById } from "../../utils/controllers/getUsersSlack";
 import {
-  payloadGood as payloadCeci,
+  payloadGood as payloadRamona,
   payloadHarvey,
 } from "../../test-data/payloads/slashcmd/payloads";
 import dotenv from "dotenv";
@@ -51,10 +51,10 @@ describe("Tests getSlackUserDataById with a valid payload from Harvey", () => {
   });
 });
 
-describe("Tests getSlackUserDataById with a valid payload from Ceci", () => {
-  it("Returns the time of the event in Ceci's timezone", async () => {
+describe("Tests getSlackUserDataById with a valid payload from Ramona", () => {
+  it("Returns the time of the event in Ramona's timezone", async () => {
     const timestamp = 1755039682 * 1000;
-    const userData = await getSlackUserDataById(payloadCeci.user_id);
+    const userData = await getSlackUserDataById(payloadRamona.user_id);
     console.log(`time data: ${JSON.stringify(userData)}`);
   
     const time = DateTime.fromMillis(timestamp).setZone(userData.timezoneData.tz);

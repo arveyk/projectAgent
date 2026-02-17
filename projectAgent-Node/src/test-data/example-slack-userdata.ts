@@ -24,7 +24,7 @@ export const RAMONA_CECI_IN_SLACK = {
 export const MARTIN_IN_SLACK = {
     userId: 'U09AE554J85',
     name: 'Martin',
-    email: 'martin.brandon@solutional.com',
+    email: 'martin.brandonshared-domain.com',
     timezoneData: {
         tz: 'America/Los_Angeles',
         tz_label: 'Pacific Standard Time',

@@ -89,7 +89,7 @@ const sample02 = {
 
 const sample03 = {
    "id":"U08VADHNG0G",
-   "name":"cmelisa", // ceci
+   "name":"cmadison", // Ramona
    "is_bot":false,
    "updated":1748550176,
    "is_app_user":false,
@@ -117,7 +117,7 @@ const sample03 = {
       "first_name":"Cloe",
       "last_name":"Melisa",
       "team":"T08VADHH17S",
-      "email":"cmelisa@my-domain.com",
+      "email":"cmadison@my-domain.com",
       "title":"",
       "phone":"",
       "skype":"",

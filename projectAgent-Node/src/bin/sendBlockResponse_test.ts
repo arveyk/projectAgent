@@ -10,7 +10,7 @@ const EXAMPLE_ASSIGNED_BY: NotionUser[] = [
   {
     userId: "136dsg2b-594c-817b-adaa-000l3lf9e69",
     name: "James Din",
-    email: "james.din@solutional.com",
+    email: "james.bondshared-domain.com",
   },
 ];
 
@@ -70,20 +70,20 @@ const columnLayoutWithSelections =
       identifiedUsers: [
         {
           userId: "152d872b-594c-8145-9c2c-000204787b69",
-          name: "Ceci Kurdelak",
-          email: "ceci.kurdelak@solutional.com",
+          name: "Ramona Madison",
+          email: "Ramona.madisonshared-domain.com",
         },
       ],
       ambiguousUsers: [
         {
           userId: "136d872b-594c-817b-adaa-00026796be69",
           name: "James Dirksen",
-          email: "james.dirksen@solutional.com",
+          email: "james.dirksenshared-domain.com",
         },
         {
           userId: "13dd872b-594c-810f-8bb4-000282e27820",
           name: "Daniel Dirksen",
-          email: "daniel.dirksen@solutional.com",
+          email: "daniel.dirksenshared-domain.com",
         },
       ],
     },

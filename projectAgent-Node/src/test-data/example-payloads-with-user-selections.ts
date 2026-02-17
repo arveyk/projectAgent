@@ -34,9 +34,9 @@ export const EXAMPLE_USER_AND_PROJECT_SELECTED = {
 						"selected_options": [{
 							"text": {
 								"type": "plain_text",
-								"text": "Harvey Kisiangani (harvey.kisiangani@solutional.com)", "emoji": true
+								"text": "Harvey Kisiangani (harvey.kisianganishared-domain.com)", "emoji": true
 							},
-							"value": "{\"userId\":\"1e0d872b-594c-81e5-be86-000260493812\",\"name\":\"Harvey Kisiangani\",\"email\":\"harvey.kisiangani@solutional.com\"}"
+							"value": "{\"userId\":\"1e0d872b-594c-81e5-be86-000260493812\",\"name\":\"Harvey Kisiangani\",\"email\":\"harvey.kisianganishared-domain.com\"}"
 						}
 						]
 					}
@@ -47,7 +47,7 @@ export const EXAMPLE_USER_AND_PROJECT_SELECTED = {
 						"selected_options": [
 							{
 								"text": {
-									"type": "plain_text", "text": "*Project Assigned by Ceci*", "emoji": true
+									"type": "plain_text", "text": "*Project Assigned by Ramona*", "emoji": true
 								},
 								"value": "Project_cWjYlMtRpvakDg2fD3wU43KF"
 							}
@@ -71,7 +71,7 @@ export const EXAMPLE_USER_AND_PROJECT_SELECTED = {
 						"task": {
 							"taskTitle": "Prime the new pump", "assignees": [], "assignedBy": [],
 							"startDate": "2026-01 -09T13: 15: 12.886Z",
-							"description": "Prime the new pump for the project created by Ceci", "project": [{
+							"description": "Prime the new pump for the project created by Ramona", "project": [{
 								"id": "2bdeef29-a653-8093-97fb-f411a20b58ed"
 
 							}]
@@ -117,10 +117,10 @@ export const EXAMPLE_ONLY_ASSIGNEE_SELECTED = {
 						"selected_options": [{
 							"text": {
 								"type": "plain_text",
-								"text": "Harvey Kisiangani (harvey.kisiangani@solutional.com)",
+								"text": "Harvey Kisiangani (harvey.kisianganishared-domain.com)",
 								"emoji": true
 							},
-							"value": "{\"id\":\"1oidinI387IUHISs123\",\"name\":\"Harvey Kisiangani\",\"email\":\"harvey.kisiangani@solutional.com\"}"
+							"value": "{\"id\":\"1oidinI387IUHISs123\",\"name\":\"Harvey Kisiangani\",\"email\":\"harvey.kisianganishared-domain.com\"}"
 						}]
 					}
 				},
@@ -142,7 +142,7 @@ export const EXAMPLE_ONLY_ASSIGNEE_SELECTED = {
 						"assignees": [],
 						"assignedBy": [],
 						"startDate": "2026-01 -09T13: 15: 12.886Z",
-						"description": "Prime the new pump for the project created by Ceci",
+						"description": "Prime the new pump for the project created by Ramona",
 						"project": [{
 							"id": "2bdeef29-a653-8093-97fb-f411a20b58ed"
 						}]
@@ -154,13 +154,13 @@ export const EXAMPLE_ONLY_ASSIGNEE_SELECTED = {
 					"userId": "1e0d872b-594c-81e5-be86-000260493812", "name": "Harvey Kisiangani", "email": "harveykisiangani@gmail.com"
 				},
 				{
-					"userId": "25cd872b-594c-8111-84e3-00020e1da9ea", "name": "Harvey Kisiangani", "email": "harvey.kisiangani@solutional.com"
+					"userId": "25cd872b-594c-8111-84e3-00020e1da9ea", "name": "Harvey Kisiangani", "email": "harvey.kisianganishared-domain.com"
 				}],
 				"projectOptions": [{
 					"projectName": "Project Assigned by Harvey", "id": "2bdeef29-a653-8020-9dd0-e20ff33c265c"
 				},
 				{
-					"projectName": "Project Assigned by Ceci", "id": "2bdeef29-a653-8093-97fb-f411a20b58ed"
+					"projectName": "Project Assigned by Ramona", "id": "2bdeef29-a653-8093-97fb-f411a20b58ed"
 				}]
 			},
 			"style": "primary",
@@ -212,7 +212,7 @@ export const EXAMPLE_ONLY_PROJECT_SELECTED = {
 							{
 								"text": {
 									"type": "plain_text",
-									"text": "*Project Assigned by Ceci*",
+									"text": "*Project Assigned by Ramona*",
 									"emoji": true
 								},
 								"value": "Project_2bdeef29a653809397fbf411a"
@@ -236,7 +236,7 @@ export const EXAMPLE_ONLY_PROJECT_SELECTED = {
 						"assignees": [],
 						"assignedBy": [],
 						"startDate": "2026-01-09T14:34:05.642Z",
-						"description": "Prime the new pump for the project created by Ceci",
+						"description": "Prime the new pump for the project created by Ramona",
 						"project": [{
 							"id": "2bdeef9aSAFffgdgg29a20b58ed"
 						}]

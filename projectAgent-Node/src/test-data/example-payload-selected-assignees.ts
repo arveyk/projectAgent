@@ -34,7 +34,7 @@ export const EXAMPLE_CONFIRM_CREATE_TASK_WITH_SELECTION = {
                         {
                             "text": {
                                 "type": "plain_text",
-                                "text": "*Harvey Kisiangani --- harvey.kisiangani@solutional.com*",
+                                "text": "*Harvey Kisiangani --- harvey.kisianganishared-domain.com*",
                                 "emoji": true
                             },
                             "value": "1"

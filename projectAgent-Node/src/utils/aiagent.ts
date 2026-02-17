@@ -181,8 +181,6 @@ export async function parseWithLLM(timeData: DateTime<boolean>, notionProjects: 
   Input 2: ${EXAMPLE_MSG_01}. Output 2: ${JSON.stringify(EXAMPLE_OUTPUT_FOR_PROMPT_01)}. Input 3 ${EXAMPLE_MSG_02}. Output 3 ${JSON.stringify(EXAMPLE_OUTPUT_FOR_PROMPT_02)}""" Here is the message: ${textToParse}`;
   console.log(`prompt: ${prompt}`);
 
-  logTimestampForBenchmarking("(Database) LLM start");
-
   logTimestampForBenchmarking("(Parse) LLM start");
   const taskParseResult = await structuredLlmSlashCmd.invoke(prompt);
   logTimestampForBenchmarking("(Parse) LLM finished");

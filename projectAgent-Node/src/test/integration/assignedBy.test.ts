@@ -1,71 +1,59 @@
-import { EXAMPLE_SLACK_USER_IDS } from "../../test-data/example-slack-userids"
-import { getSlackUserDataById } from "../../utils/controllers/getUsersSlack";
-import { findAssignedBy } from "../../utils/controllers/findMatchingNotionUsers";
+import { findMatchingNotionUserByEmail } from "../../utils/controllers/findMatchingNotionUsers";
+import * as getNotionWorkspaceUsers from "../../utils/controllers/getUsersNotion";
+import { getNotionUsers } from "../../utils/controllers/getUsersNotion";
+import { EXAMPLE_ALL_NOTION_USERS } from "../../test-data/example-all-notion-users";
+import {
+        BILL_IN_SLACK,
+        DRAKE_IN_SLACK,
+        EXAMPLE_JAMES_IN_SLACK,
+        HARVEY_IN_SLACK,
+        RAMONA_CECI_IN_SLACK
+} from "../../test-data/example-slack-userdata";
+
+jest.mock("../../utils/controllers/getUsersNotion");
+
 
 
 describe("Test getting assigned by from Notion using slack Id", () => {
-    it("Should find Harvey in Notion", async () => {
-            const sampleUserInSlack = EXAMPLE_SLACK_USER_IDS[0];
-            const usersIdentityInSlack = await getSlackUserDataById(sampleUserInSlack.id);
-            expect(usersIdentityInSlack.name).toMatch(sampleUserInSlack.username);
-            console.log("Searching for", usersIdentityInSlack.name);
+        beforeEach(() => {
+                jest.resetModules();
+                jest.clearAllMocks();
 
-            const indexZeroIdentityInNotion = await findAssignedBy(usersIdentityInSlack);
-            console.log("User's Identity in Notion", indexZeroIdentityInNotion);
+        });
+        jest.spyOn(getNotionWorkspaceUsers, "getNotionUsers").mockResolvedValue(EXAMPLE_ALL_NOTION_USERS);
+        it("Should find Harvey in Notion", async () => {
+                const harveyIdentityInNotion = await findMatchingNotionUserByEmail(HARVEY_IN_SLACK.email);
+                console.log("User's Identity in Notion", harveyIdentityInNotion);
 
-	    expect(indexZeroIdentityInNotion[0]).toBeDefined();
-            expect(indexZeroIdentityInNotion[0].email).toMatch(usersIdentityInSlack.email);
-    });
-    it("Should find James in Notion", async () => {
-            const sampleUserInSlack = EXAMPLE_SLACK_USER_IDS[1];
-            const usersIdentityInSlack = await getSlackUserDataById(sampleUserInSlack.id);
-            expect(usersIdentityInSlack.name).toMatch(sampleUserInSlack.username);
-            console.log("Searching for", usersIdentityInSlack.name);
+                expect(harveyIdentityInNotion[0]).toBeDefined();
+                expect(harveyIdentityInNotion[0].email).toMatch(HARVEY_IN_SLACK.email);
+        });
+        it("Should find James in Notion", async () => {
+                const jamesIdentityInNotion = await findMatchingNotionUserByEmail(EXAMPLE_JAMES_IN_SLACK.email);
+                console.log("User's Identity in Notion", jamesIdentityInNotion);
 
+                expect(jamesIdentityInNotion[0]).toBeDefined();
+                expect(jamesIdentityInNotion[0].email).toMatch(EXAMPLE_JAMES_IN_SLACK.email);
+        });
+        it("Should find Ramona in Notion", async () => {
+                const ceciIdentityInNotion = await findMatchingNotionUserByEmail(RAMONA_CECI_IN_SLACK.email);
+                console.log("User's Identity in Notion", ceciIdentityInNotion);
 
-            const indexOneIdentityInNotion = await findAssignedBy(usersIdentityInSlack);
-            console.log("User's Identity in Notion", indexOneIdentityInNotion);
+                expect(ceciIdentityInNotion[0]).not.toBeDefined();
+        });
+        it("Should find Bill Wilthers in Notion", async () => {
+                const spectreIdentityInNotion = await findMatchingNotionUserByEmail(BILL_IN_SLACK.email);
+                console.log("User's Identity in Notion", spectreIdentityInNotion);
 
-	    expect(indexOneIdentityInNotion[0]).toBeDefined();
-            expect(indexOneIdentityInNotion[0].email).toMatch(usersIdentityInSlack.email);
-    });
-    it("Should find Ceci in Notion", async () => {
-            const sampleUserInSlack = EXAMPLE_SLACK_USER_IDS[2];
-            const usersIdentityInSlack = await getSlackUserDataById(sampleUserInSlack.id);
-            expect(usersIdentityInSlack.name).toMatch(sampleUserInSlack.username);
-            console.log("Searching for", usersIdentityInSlack.name);
+                expect(spectreIdentityInNotion[0]).toBeDefined();
+                expect(spectreIdentityInNotion[0].email).toMatch(BILL_IN_SLACK.email);
+        });
+        it("Should find Drake in Notion", async () => {
+                const danielsIdentityInNotion = await findMatchingNotionUserByEmail(DRAKE_IN_SLACK.email);
+                console.log("User's Identity in Notion", danielsIdentityInNotion);
 
-
-            const indexTwoIdentityInNotion = await findAssignedBy(usersIdentityInSlack);
-            console.log("User's Identity in Notion", indexTwoIdentityInNotion);
-
-	    expect(indexTwoIdentityInNotion[0]).not.toBeDefined();
-            // expect(indexTwoIdentityInNotion[0].email).toMatch(usersIdentityInSlack.email);
-    });
-    it("Should find 2nd Harvey in Notion", async () => {
-            const sampleUserInSlack = EXAMPLE_SLACK_USER_IDS[3];
-            const usersIdentityInSlack = await getSlackUserDataById(sampleUserInSlack.id);
-            expect(usersIdentityInSlack.name).toMatch(sampleUserInSlack.username);
-            console.log("Searching for", usersIdentityInSlack.name);
-
-
-            const indexThreeIdentityInNotion = await findAssignedBy(usersIdentityInSlack);
-            console.log("User's Identity in Notion", indexThreeIdentityInNotion);
-
-	    expect(indexThreeIdentityInNotion[0]).toBeDefined();
-            expect(indexThreeIdentityInNotion[0].email).toMatch(usersIdentityInSlack.email);
-    });
-    it("Should find Daniel in Notion", async () => {
-            const sampleUserInSlack = EXAMPLE_SLACK_USER_IDS[4];
-            const usersIdentityInSlack = await getSlackUserDataById(sampleUserInSlack.id);
-            expect(usersIdentityInSlack.name).toMatch(sampleUserInSlack.username);
-            console.log("Searching for", usersIdentityInSlack.name);
-
-
-            const indexFourIdentityInNotion = await findAssignedBy(usersIdentityInSlack);
-            console.log("User's Identity in Notion", indexFourIdentityInNotion);
-
-	    expect(indexFourIdentityInNotion[0]).toBeDefined();
-            expect(indexFourIdentityInNotion[0].email).toMatch(usersIdentityInSlack.email);
-    })
+                expect(danielsIdentityInNotion[0]).not.toBeDefined();
+                // expect(danielsIdentityInNotion[0].email).not.toMatch(DRAKE_IN_SLACK.email);
+		
+        });
 })

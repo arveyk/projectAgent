@@ -1,19 +1,16 @@
-import { EXAMPLE_ALL_NOTION_USERS, EXAMPLE_NOTION_USERS_RESPONSE } from "../../test-data/example-all-notion-users";
+import { EXAMPLE_ALL_NOTION_USERS } from "../../test-data/example-all-notion-users";
 import {
   compareNames,
   isPartialNameMatch,
   findMatchingNotionUser,
   deduplicateUsers,
-} from "../../utils/controllers/findMatchingNotionUsers";
-import { getNotionUsers } from "../../utils/controllers/getUsersNotion";
-import { NotionUser } from "../../utils/controllers/userTypes";
+} from "./findMatchingNotionUsers";
+import * as getNotionWorkspaceUsers from "./getUsersNotion";
+
+import { NotionUser } from "./userTypes";
 
 
-const fakeNotionUserQueryResponse = {
-  getNotionUsers: jest.fn(() => Promise.resolve(EXAMPLE_ALL_NOTION_USERS))
-}
-
-
+jest.mock("../../utils/controllers/getUsersNotion");
 
 describe("Tests compareNames", () => {
   it("returns true with exact match", () => {
@@ -43,14 +40,17 @@ describe("Tests findMatchingAssigner", () => {
     jest.clearAllMocks();
   });
   it("Returns at least one result when given an exact name", async () => {
-    const matches = await findMatchingNotionUser("Daniel Dirksen");
+
+    jest.spyOn(getNotionWorkspaceUsers, "getNotionUsers").mockResolvedValue(EXAMPLE_ALL_NOTION_USERS);
+    const matches = await findMatchingNotionUser("Belteshazar Bond");
     console.log(`Matches: ${JSON.stringify(matches)}`);
 
     expect(matches.length).toBeGreaterThan(0);
+    expect(getNotionWorkspaceUsers.getNotionUsers).toHaveBeenCalledTimes(1);
   });
 
   it("Returns at least one result when given a partial name", async () => {
-    const matches = await findMatchingNotionUser("Dirksen");
+    const matches = await findMatchingNotionUser("Bond");
     console.log(`Matches: ${JSON.stringify(matches)}`);
 
     expect(matches.length).toBeGreaterThan(0);
@@ -61,6 +61,9 @@ describe("Tests findMatchingAssigner", () => {
     console.log(`Matches: ${JSON.stringify(matches)}`);
 
     expect(matches.length).toBe(0);
+    expect(getNotionWorkspaceUsers.getNotionUsers).toHaveBeenCalledTimes(1);
+    expect(getNotionWorkspaceUsers.getNotionUsers).toHaveBeenCalledWith();
+
   });
 });
 

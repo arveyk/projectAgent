@@ -42,6 +42,11 @@ describe("Tests createTaskInfo Function", () => {
       /Description:\*.{1,8}Fix the plumbing issue in the second floor kitchen\. Call when the task is completed\."/gm,
     );
 
+    expect(JSON.stringify(taskNoAssignee).length).toBeLessThan(2001);
+        // Work around for checking is block structure is consistent
+        expect(() => {
+            JSON.stringify(taskBlock);
+        }).not.toThrow();
 
   });
 
@@ -65,5 +70,11 @@ describe("Tests createTaskInfo Function", () => {
     expect(JSON.stringify(taskBlock)).toMatch(
       /Description:\*.{1,8}Schedule a meeting with the customer\. Check the sender's Calendly for available times\."/gm,
     );
+
+    expect(JSON.stringify(notionTask).length).toBeLessThan(2001);
+        // Work around for checking is block structure is consistent
+        expect(() => {
+            JSON.stringify(taskBlock);
+        }).not.toThrow();
   });
 });

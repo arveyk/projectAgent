@@ -1,5 +1,5 @@
-import { getNotionUsers } from "./getUsersNotion";
-import { getSlackUsers } from "./getUsersSlack";
+import { getNotionUsers } from "../../utils/controllers/getUsersNotion";
+import { getSlackUsers } from "../../utils/controllers/getUsersSlack";
 
 describe("Get notion users", () => {
   it("Should get all notion Users", async () => {

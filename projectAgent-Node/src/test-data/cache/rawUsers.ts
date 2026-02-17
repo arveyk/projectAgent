@@ -16,11 +16,11 @@ export const EXAMPLE_RAW_USERS_RESPONSE: ListUsersResponse = {
     {
       "object": "user",
       "id": "152d872b-594c-8145-9c2c-000204787b69",
-      "name": "Dresdan Tabitha",
+      "name": "Dresdan Madison",
       "avatar_url": "placeholder_sample_url",
       "type": "person",
       "person": {
-        "email": "dresdan.tabith@example-domain.com"
+        "email": "ramona.tabith@example-domain.com"
       }
     },
     {

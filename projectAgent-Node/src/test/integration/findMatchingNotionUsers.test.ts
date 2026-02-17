@@ -9,22 +9,22 @@ import { NotionUser } from "../../utils/controllers/userTypes";
 
 describe("Tests compareNames", () => {
   it("returns true with exact match", () => {
-    expect(compareNames("Chimera Tabitha", "Chimera Tabitha")).toBeTruthy();
+    expect(compareNames("Ramona Madison", "Ramona Madison")).toBeTruthy();
   });
   it("returns false", () => {
-    expect(compareNames("Chimera Tabitha", "Meow")).toBeFalsy();
+    expect(compareNames("Ramona Madison", "Meow")).toBeFalsy();
   });
 });
 
 describe("tests isPartialNameMatch", () => {
   it("returns true", () => {
-    expect(isPartialNameMatch("Chimera", "Chimera Tabitha")).toBeTruthy();
+    expect(isPartialNameMatch("Ramona", "Ramona Madison")).toBeTruthy();
   });
   it("returns true", () => {
-    expect(isPartialNameMatch("Chimera Tabitha", "Chimera")).toBeTruthy();
+    expect(isPartialNameMatch("Ramona Madison", "Ramona")).toBeTruthy();
   });
   it("returns false", () => {
-    expect(isPartialNameMatch("Chimera Tabitha", "Meow")).toBeFalsy();
+    expect(isPartialNameMatch("Ramona Madison", "Meow")).toBeFalsy();
   });
 });
 

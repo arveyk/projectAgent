@@ -7,8 +7,8 @@ export const EXAMPLE_ALL_NOTION_USERS = [
     ,
     {
         "userId": "152d872b-594c-8145-9c2c-000204787b69",
-        "name": "Dresden Tabitha",
-        "email": "dresdan.tabitha@example-domain.com"
+        "name": "Dresden Madison",
+        "email": "ramona.madison@example-domain.com"
     }
     ,
     {

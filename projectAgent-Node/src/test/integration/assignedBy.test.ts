@@ -30,7 +30,7 @@ describe("Test getting assigned by from Notion using slack Id", () => {
 	    expect(indexOneIdentityInNotion[0]).toBeDefined();
             expect(indexOneIdentityInNotion[0].email).toMatch(usersIdentityInSlack.email);
     });
-    it("Should find Chimera in Notion", async () => {
+    it("Should find Ramona in Notion", async () => {
             const sampleUserInSlack = EXAMPLE_SLACK_USER_IDS[2];
             const usersIdentityInSlack = await getSlackUserDataById(sampleUserInSlack.id);
             expect(usersIdentityInSlack.name).toMatch(sampleUserInSlack.username);

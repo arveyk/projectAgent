@@ -70,8 +70,8 @@ const columnLayoutWithSelections =
       identifiedUsers: [
         {
           userId: "152d872b-594c-8145-9c2c-000204787b69",
-          name: "Chimera Tabitha",
-          email: "chimera.tabitha@example-domain.com",
+          name: "Ramona Madison",
+          email: "ramona.madison@example-domain.com",
         },
       ],
       ambiguousUsers: [

@@ -61,7 +61,11 @@ export async function extractCacheData(
     throw new Error("Couldn't fetch cache items");
   }
 
-  const cacheItems = responses["projectagent-cache-dev"];
+  const cacheItems = responses[CACHE_TABLE_NAME];
+
+  if (!cacheItems) {
+    throw new Error("Cache items undefined");
+  }
 
   const projectsRecord = cacheItems.find(
     (item) => item["ItemType"] === "project",

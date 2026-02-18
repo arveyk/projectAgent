@@ -11,7 +11,7 @@ export const exampleUserSearchResponse = [
       },
       {
         "userId": "264d872b-594c-811e-afe6-0002754d4767",
-        "name": "Joanna G",
+        "name": "Joanna Bocherini",
         "email": "joanna.bocherini@shared-domain.com"
       }
     ]

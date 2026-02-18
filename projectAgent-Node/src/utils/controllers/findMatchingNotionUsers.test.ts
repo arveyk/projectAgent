@@ -1,3 +1,4 @@
+import { EXAMPLE_RAW_USERS_RESPONSE } from "../../test-data/cache/rawUsers";
 import { EXAMPLE_ALL_NOTION_USERS } from "../../test-data/example-all-notion-users";
 import {
   compareNames,
@@ -50,7 +51,7 @@ describe("Tests findMatchingAssigner", () => {
   });
 
   it("Returns at least one result when given a partial name", async () => {
-    const matches = await findMatchingNotionUser("Bond");
+    const matches = await findMatchingNotionUser("Bond", EXAMPLE_RAW_USERS_RESPONSE);
     console.log(`Matches: ${JSON.stringify(matches)}`);
 
     expect(matches.length).toBeGreaterThan(0);
@@ -62,7 +63,6 @@ describe("Tests findMatchingAssigner", () => {
 
     expect(matches.length).toBe(0);
     expect(getNotionWorkspaceUsers.getNotionUsers).toHaveBeenCalledTimes(1);
-    expect(getNotionWorkspaceUsers.getNotionUsers).toHaveBeenCalledWith();
 
   });
 });

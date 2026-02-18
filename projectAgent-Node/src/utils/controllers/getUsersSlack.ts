@@ -96,8 +96,8 @@ export async function getSlackUserDataById(
       return response;
     })
     .catch((error) => {
-      console.error("Error fetching Slack user TimeZone:", error);
-      throw new Error("Failed to fetch Slack user TimeZone");
+      console.error("Error fetching Slack user Data:", error);
+      throw new Error("Failed to fetch Slack user Data");
     });
 
   if (!retrieveUserInfoResponse.data["ok"]) {

@@ -124,7 +124,7 @@ export async function testPostToSlack(eventResUrl: string, slackBlocks?: any) {
 
     return responseData;
   } catch (err) {
-    console.log(err);
+    return err;
   }
 }
 

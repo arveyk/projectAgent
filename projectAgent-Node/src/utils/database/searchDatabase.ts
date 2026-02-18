@@ -144,7 +144,7 @@ export async function getTasksRaw(): Promise<
         },
       ],
     },
-    filter_properties: ["Task name", "Description", "Assigned to", "Project", "Status"],
+    filter_properties: ["Task name", "Description", "Assigned to", "Project"],
   });
 }
 

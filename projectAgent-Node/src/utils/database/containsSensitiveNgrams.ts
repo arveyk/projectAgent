@@ -8,11 +8,14 @@ import { SENSITIVE_NGRAMS } from "../../env";
  * @param ngrams The n-grams to check for. Defaults to the SENSITIVE_NGRAMS from the environment.
  * @returns True if the page contains any sensitive n-grams, false otherwise.
  */
-export function containsSensitiveNgrams(page: PageObjectResponse, ngrams: string[] = SENSITIVE_NGRAMS): boolean {
+export function containsSensitiveNgrams(
+  page: PageObjectResponse,
+  ngrams: string[] = SENSITIVE_NGRAMS,
+): boolean {
   const pageNormalized = normalizeForComparison(JSON.stringify(page));
-  return ngrams.some((ngram) => (
-    pageNormalized.includes(normalizeForComparison(ngram))
-  ));
+  return ngrams.some((ngram) =>
+    pageNormalized.includes(normalizeForComparison(ngram)),
+  );
 }
 
 /**

@@ -30,7 +30,7 @@ export function validateDate(dateString: string): Date | "Invalid Date Value" {
  */
 export function formatDateString(dateString: string): string {
   const date = new Date(dateString);
-  const formattedDate = date.toDateString()
+  const formattedDate = date.toDateString();
   return formattedDate;
 }
 

@@ -57,7 +57,7 @@ describe("Tests findMatchingAssigner", () => {
   });
 
   it("Returns no results", async () => {
-    const matches = await findMatchingNotionUser("meow");
+    const matches = await findMatchingNotionUser("meow", EXAMPLE_RAW_USERS_RESPONSE);
     console.log(`Matches: ${JSON.stringify(matches)}`);
 
     expect(matches.length).toBe(0);

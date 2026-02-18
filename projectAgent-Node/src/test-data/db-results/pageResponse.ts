@@ -37,7 +37,7 @@ export const pageResponse: GetPageResponse = {
                     "object": "user",
                     "id": "152d872b-594c-8145-9c2c-000204787b69",
                     "name": "Ramona Madison",
-                    "avatar_url": "https://s3-us-west-2.amazonaws.com/public.notion-static.com/78f66135-d1a4-4c17-8217-4e025621539c/20240104_175839_-_Copy_(2).jpg",
+                    "avatar_url": "public.notion-static.com.jpg",
                     "type": "person",
                     "person": {
                         "email": "crmadison@gmail.com"
@@ -94,7 +94,7 @@ export const pageResponse: GetPageResponse = {
                     "object": "user",
                     "id": "152d872b-594c-8145-9c2c-000204787b69",
                     "name": "Ramona Madison",
-                    "avatar_url": "https://s3-us-west-2.amazonaws.com/public.notion-static.com/78f66135-d1a4-4c17-8217-4e025621539c/20240104_175839_-_Copy_(2).jpg",
+                    "avatar_url": "public.notion-static.com.jpg",
                     "type": "person",
                     "person": {
                         "email": "crmadison@gmail.com"
@@ -103,11 +103,11 @@ export const pageResponse: GetPageResponse = {
                 {
                     "object": "user",
                     "id": "1e0d872b-594c-81e5-be86-000260493812",
-                    "name": "Harvey Kisiangani",
-                    "avatar_url": "https://lh3.googleusercontent.com/a/ACg8ocJPEZrdkCpP57gr8TnO-ONwkZl3ZU4gd3KISv81Esya6wGna9Q=s100",
+                    "name": "Harvey Spectre",
+                    "avatar_url": "public.notion-static.com.jpg",
                     "type": "person",
                     "person": {
-                        "email": "harveykisiangani@gmail.com"
+                        "email": "harveyspectre@example-mail.com"
                     }
                 }
             ]
@@ -196,7 +196,7 @@ export const pageObjectResponse: PageObjectResponse = {
                     "object": "user",
                     "id": "152d872b-594c-8145-9c2c-000204787b69",
                     "name": "Ramona Madison",
-                    "avatar_url": "https://s3-us-west-2.amazonaws.com/public.notion-static.com/78f66135-d1a4-4c17-8217-4e025621539c/20240104_175839_-_Copy_(2).jpg",
+                    "avatar_url": "public.notion-static.com.jpg",
                     "type": "person",
                     "person": {
                         "email": "crmadison@gmail.com"
@@ -253,7 +253,7 @@ export const pageObjectResponse: PageObjectResponse = {
                     "object": "user",
                     "id": "152d872b-594c-8145-9c2c-000204787b69",
                     "name": "Ramona Madison",
-                    "avatar_url": "https://s3-us-west-2.amazonaws.com/public.notion-static.com/78f66135-d1a4-4c17-8217-4e025621539c/20240104_175839_-_Copy_(2).jpg",
+                    "avatar_url": "public.notion-static.com.jpg",
                     "type": "person",
                     "person": {
                         "email": "crmadison@gmail.com"
@@ -262,11 +262,11 @@ export const pageObjectResponse: PageObjectResponse = {
                 {
                     "object": "user",
                     "id": "1e0d872b-594c-81e5-be86-000260493812",
-                    "name": "Harvey Kisiangani",
-                    "avatar_url": "https://lh3.googleusercontent.com/a/ACg8ocJPEZrdkCpP57gr8TnO-ONwkZl3ZU4gd3KISv81Esya6wGna9Q=s100",
+                    "name": "Harvey Spectre",
+                    "avatar_url": "public.notion-static.com.jpg",
                     "type": "person",
                     "person": {
-                        "email": "harveykisiangani@gmail.com"
+                        "email": "harveyspectre@example-mail.com"
                     }
                 }
             ]
@@ -323,27 +323,27 @@ export const pageObjectResponse: PageObjectResponse = {
             ],
         },
         "Description": {
-          "id": "%40Ydr",
-          "type": "rich_text",
-          "rich_text": [
-            {
-              "type": "text",
-              "text": {
-                "content": "Feed the cats every day. Give them their pills and ensure they have enough clean water.",
-                "link": null
-              },
-              "annotations": {
-                "bold": false,
-                "italic": false,
-                "strikethrough": false,
-                "underline": false,
-                "code": false,
-                "color": "default"
-              },
-              "plain_text": "Feed the cats every day. Give them their pills and ensure they have enough clean water.",
-              "href": null
-            }
-          ]
+            "id": "%40Ydr",
+            "type": "rich_text",
+            "rich_text": [
+                {
+                    "type": "text",
+                    "text": {
+                        "content": "Feed the cats every day. Give them their pills and ensure they have enough clean water.",
+                        "link": null
+                    },
+                    "annotations": {
+                        "bold": false,
+                        "italic": false,
+                        "strikethrough": false,
+                        "underline": false,
+                        "code": false,
+                        "color": "default"
+                    },
+                    "plain_text": "Feed the cats every day. Give them their pills and ensure they have enough clean water.",
+                    "href": null
+                }
+            ]
         },
     },
     "url": "https://www.notion.so/Test-Task-1-263eef29a65380d0a0b6c62e827e0fb5",

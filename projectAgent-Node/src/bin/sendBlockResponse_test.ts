@@ -9,8 +9,8 @@ import { NotionUser } from "../utils/controllers/userTypes";
 const EXAMPLE_ASSIGNED_BY: NotionUser[] = [
   {
     userId: "136dsg2b-594c-817b-adaa-000l3lf9e69",
-    name: "James Din",
-    email: "james.bondshared-domain.com",
+    name: "James Bond",
+    email: "james.bond@example-domain.com",
   },
 ];
 
@@ -28,14 +28,14 @@ const task: TaskPage = {
     assignees: [
       {
         name: "Benjamin Noah",
-        email: "smoothbenja@gmail.com",
+        email: "smoothbenja@example-mail.com",
         userId: "U08UDKY38QK",
       },
     ],
     assignedBy: [
       {
         name: "Benjamin Noah",
-        email: "slybenja@gmail.com",
+        email: "slybenja@example-mail.com",
         userId: "U08UDKY38QK",
       },
     ],
@@ -71,19 +71,19 @@ const columnLayoutWithSelections =
         {
           userId: "152d872b-594c-8145-9c2c-000204787b69",
           name: "Ramona Madison",
-          email: "Ramona.madisonshared-domain.com",
+          email: "Ramona.madison@shared-domain.com",
         },
       ],
       ambiguousUsers: [
         {
           userId: "136d872b-594c-817b-adaa-00026796be69",
-          name: "James Dirksen",
-          email: "james.dirksenshared-domain.com",
+          name: "James Bond",
+          email: "james.bond@example-domain.com",
         },
         {
           userId: "13dd872b-594c-810f-8bb4-000282e27820",
-          name: "Daniel Dirksen",
-          email: "daniel.dirksenshared-domain.com",
+          name: "Belteshazar Bond",
+          email: "belteshazar.bond@example-domain.com",
         },
       ],
     },

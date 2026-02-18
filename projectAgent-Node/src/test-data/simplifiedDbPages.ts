@@ -8,7 +8,7 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
     "assignee": [
       {
         "name": "Ramona Madison",
-        "email": "Ramona.madisonshared-domain.com",
+        "email": "Ramona.madison@shared-domain.com",
       }
     ],
     "project": [{"id": "assigned to Ramona by Harvey"}]
@@ -27,12 +27,12 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
   },
   {
     "pageId": "2bdeef29-a653-802a-9674-f896fdb82564",
-    "taskTitle": "Task due today (assigned by Ramona, assigned to Harvey)",
-    "description": "This task, assigned by Ramona Madison to Harvey Kisiangani, is due on December 1, 2025 and is currently not started.\n\n",
+    "taskTitle": "Task due today (assigned by Dresdan, assigned to Harvey)",
+    "description": "This task, assigned by Dresdan Tabitha to Harvey Spectre, is due on December 1, 2025 and is currently not started.\n\n",
     "assignee": [
       {
-        "name": "Harvey Kisiangani",
-        "email": "harvey.kisianganishared-domain.com",
+        "name": "Harvey Spectre",
+        "email": "harvey.spectre@shared-domain.com",
       }
     ],
     "project": [{"id": "9674-f896fdb82564"}]
@@ -44,7 +44,7 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
     "assignee": [
       {
         "name": "Ramona Madison",
-        "email": "Ramona.madisonshared-domain.com",
+        "email": "Ramona.madison@shared-domain.com",
       }
     ],
     "project": [{"id": "9864-cc4dedfdc63c"}]
@@ -56,19 +56,19 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
     "assignee": [
       {
         "name": "Ramona Madison",
-        "email": "Ramona.madisonshared-domain.com",
+        "email": "Ramona.madison@shared-domain.com",
       }
     ],
     "project": [{"id": "9d6c-f8edb6e6b8a4"}]
   },
   {
     "pageId": "2bdeef29-a653-8058-b0e9-d398da259483",
-    "taskTitle": "ARCHIVED Task due today (assigned by Ramona, assigned to Harvey)",
-    "description": "This archived task, assigned by Ramona Madison to Harvey Kisiangani, is due today, December 1, 2025.\n\n",
+    "taskTitle": "ARCHIVED Task due today (assigned by Dresdan, assigned to Harvey)",
+    "description": "This archived task, assigned by Dresdan Tabitha to Harvey Spectre, is due today, December 1, 2025.\n\n",
     "assignee": [
       {
-        "name": "Harvey Kisiangani",
-        "email": "harvey.kisianganishared-domain.com",
+        "name": "Harvey Spectre",
+        "email": "harvey.spectre@shared-domain.com",
       }
     ],
     "project": [{"id": "9d6c-f8edb6e6b8a4"}]
@@ -80,19 +80,19 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
     "assignee": [
       {
         "name": "Ramona Madison",
-        "email": "Ramona.madisonshared-domain.com",
+        "email": "Ramona.madison@shared-domain.com",
       }
     ],
     "project": [{"id": "9ba3-da4bcb4f1962"}]
   },
   {
     "pageId": "2bdeef29-a653-8093-8b64-ee8964517d14",
-    "taskTitle": "COMPLETED Task due in 3 days (assigned by Ramona, assigned to Harvey)",
-    "description": "The task assigned by Ramona Madison to Harvey Kisiangani has been completed and was due on December 3, 2025. This successful completion reflects effective task management and collaboration.\n\nTop 10 keywords: completed task, Ramona Madison, Harvey Kisiangani, due date, December 3, 2025, task management, collaboration, assignment, productivity, status done.",
+    "taskTitle": "COMPLETED Task due in 3 days (assigned by Dresdan, assigned to Harvey)",
+    "description": "The task assigned by Dresdan Tabitha to Harvey Spectre has been completed and was due on December 3, 2025. This successful completion reflects effective task management and collaboration.\n\nTop 10 keywords: completed task, Dresdan Tabitha, Harvey Spectre, due date, December 3, 2025, task management, collaboration, assignment, productivity, status done.",
     "assignee": [
       {
-        "name": "Harvey Kisiangani",
-        "email": "harvey.kisianganishared-domain.com",
+        "name": "Harvey Spectre",
+        "email": "harvey.spectre@shared-domain.com",
       }
     ],
     "project": [{"id": "8b64-ee8964517d14"}]
@@ -104,7 +104,7 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
     "assignee": [
       {
         "name": "Ramona Madison",
-        "email": "Ramona.madisonshared-domain.com",
+        "email": "Ramona.madison@shared-domain.com",
       }
     ],
     "project": [{"id": ""}]
@@ -112,12 +112,12 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
   },
   {
     "pageId": "2bdeef29-a653-80cc-85d1-c628f124677b",
-    "taskTitle": "Task due in 3 days (assigned by Ramona, assigned to Harvey)",
-    "description": "This document outlines a task assigned by Ramona Madison to Harvey Kisiangani, which is due on December 3, 2025, and is currently not started.\n\n",
+    "taskTitle": "Task due in 3 days (assigned by Dresdan, assigned to Harvey)",
+    "description": "This document outlines a task assigned by Dresdan Tabitha to Harvey Spectre, which is due on December 3, 2025, and is currently not started.\n\n",
     "assignee": [
       {
-        "name": "Harvey Kisiangani",
-        "email": "harvey.kisianganishared-domain.com",
+        "name": "Harvey Spectre",
+        "email": "harvey.spectre@shared-domain.com",
       }
     ],
     "project": [{"id": ""}]
@@ -130,7 +130,7 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
     "assignee": [
       {
         "name": "Ramona Madison",
-        "email": "Ramona.madisonshared-domain.com",
+        "email": "Ramona.madison@shared-domain.com",
       }
     ],
     "project": [{"id": ""}]
@@ -138,12 +138,12 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
   },
   {
     "pageId": "2bdeef29-a653-80fe-b7b5-ca86d9409c03",
-    "taskTitle": "Task overdue by one day (assigned by Ramona, assigned to Harvey)",
-    "description": "This task, assigned by Ramona Madison to Harvey Kisiangani, is overdue by one day with a due date of November 30, 2025, and has not yet been started.\n\n",
+    "taskTitle": "Task overdue by one day (assigned by Dresdan, assigned to Harvey)",
+    "description": "This task, assigned by Dresdan Tabitha to Harvey Spectre, is overdue by one day with a due date of November 30, 2025, and has not yet been started.\n\n",
     "assignee": [
       {
-        "name": "Harvey Kisiangani",
-        "email": "harvey.kisianganishared-domain.com",
+        "name": "Harvey Spectre",
+        "email": "harvey.spectre@shared-domain.com",
       }
     ],
     "project": [{"id": ""}]
@@ -156,7 +156,7 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
     "assignee": [
       {
         "name": "Ramona Madison",
-        "email": "Ramona.madisonshared-domain.com",
+        "email": "Ramona.madison@shared-domain.com",
       }
     ],
     "project": [{"id": ""}]
@@ -169,7 +169,7 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
     "assignee": [
       {
         "name": "Ramona Madison",
-        "email": "Ramona.madisonshared-domain.com",
+        "email": "Ramona.madison@shared-domain.com",
       }
     ],
     "project": [{"id": ""}]
@@ -181,8 +181,8 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
     "description": "The project is set to start on December 24, 2025, and is due by December 26, 2025, indicating a very tight timeline. A rough estimate suggests a two-day duration for the project's execution.\n\nKeywords: project timeline, rough estimate, start date, due date, project management, scheduling, deadlines, execution plan, time allocation, task assignment.",
     "assignee": [
       {
-        "name": "Harvey Kisiangani",
-        "email": "harvey.kisianganishared-domain.com",
+        "name": "Harvey Spectre",
+        "email": "harvey.spectre@shared-domain.com",
       }
     ],
     "project": [{"id": ""}]
@@ -203,7 +203,7 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
     "assignee": [
       {
         "name": "Ramona Madison",
-        "email": "Ramona.madisonshared-domain.com",
+        "email": "Ramona.madison@shared-domain.com",
       }
     ],
     "project": [{"id": ""}]
@@ -232,7 +232,7 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
     "assignee": [
       {
         "name": "Ramona Madison",
-        "email": "Ramona.madisonshared-domain.com",
+        "email": "Ramona.madison@shared-domain.com",
       }
     ],
     "project": [{"id": ""}]
@@ -257,15 +257,15 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
   {
     "pageId": "2d9eef29-a653-81b3-aedb-f37251d2c72e",
     "taskTitle": "Rake the leaves",
-    "description": "This task involves raking the leaves, assigned to Harvey Kisiangani, and is scheduled to start on December 30, 2025. The status of the task is currently \"Not Started.\"\n\n",
+    "description": "This task involves raking the leaves, assigned to Harvey Spectre, and is scheduled to start on December 30, 2025. The status of the task is currently \"Not Started.\"\n\n",
     "assignee": [
       {
-        "name": "Harvey Kisiangani",
-        "email": "harveykisiangani@gmail.com",
+        "name": "Harvey Spectre",
+        "email": "harveyspectre@shared-mail.com",
       },
       {
-        "name": "Harvey Kisiangani",
-        "email": "harvey.kisianganishared-domain.com",
+        "name": "Harvey Spectre",
+        "email": "harvey.spectre@shared-domain.com",
       }
     ],
     "project": [{"id": ""}]
@@ -294,7 +294,7 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
     "assignee": [
       {
         "name": "Ramona Madison",
-        "email": "Ramona.madisonshared-domain.com",
+        "email": "Ramona.madison@shared-domain.com",
       }
     ],
     "project": [{"id": ""}]
@@ -307,7 +307,7 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
     "assignee": [
       {
         "name": "Ramona Madison",
-        "email": "Ramona.madisonshared-domain.com",
+        "email": "Ramona.madison@shared-domain.com",
       },
       {
         "name": "Harvey Kisiangani",
@@ -324,15 +324,15 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
     "assignee": [
       {
         "name": "Ramona Madison",
-        "email": "Ramona.madisonshared-domain.com",
+        "email": "Ramona.madison@shared-domain.com",
       },
       {
         "name": "Harvey Kisiangani",
         "email": "harvey.kisianganishared-domain.com",
       },
       {
-        "name": "Harvey Kisiangani",
-        "email": "harveykisiangani@gmail.com",
+        "name": "Harvey Spectre",
+        "email": "harveyspectre@shared-mail.com",
       }
     ],
     "project": [{"id": ""}]
@@ -345,7 +345,7 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
     "assignee": [
       {
         "name": "Ramona Madison",
-        "email": "Ramona.madisonshared-domain.com",
+        "email": "Ramona.madison@shared-domain.com",
       }
     ],
     "project": [{"id": ""}]
@@ -358,7 +358,7 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
     "assignee": [
       {
         "name": "Ramona Madison",
-        "email": "Ramona.madisonshared-domain.com",
+        "email": "Ramona.madison@shared-domain.com",
       }
     ],
     "project": [{"id": ""}]
@@ -367,15 +367,15 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
   {
     "pageId": "2e0eef29-a653-81fd-8067-d25cf3308837",
     "taskTitle": "Test the app",
-    "description": "This document outlines a task for Harvey Kisiangani to test an app, which is currently in a \"Not Started\" status. The task is scheduled to start on January 6, 2026, at 4:35 PM (UTC).\n\n",
+    "description": "This document outlines a task for Harvey Spectre to test an app, which is currently in a \"Not Started\" status. The task is scheduled to start on January 6, 2026, at 4:35 PM (UTC).\n\n",
     "assignee": [
       {
-        "name": "Harvey Kisiangani",
-        "email": "harveykisiangani@gmail.com",
+        "name": "Harvey Spectre",
+        "email": "harveyspectre@shared-mail.com",
       },
       {
-        "name": "Harvey Kisiangani",
-        "email": "harvey.kisianganishared-domain.com",
+        "name": "Harvey Spectre",
+        "email": "harvey.spectre@shared-domain.com",
       }
     ],
     "project": [{"id": ""}]
@@ -388,7 +388,7 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
     "assignee": [
       {
         "name": "Ramona Madison",
-        "email": "Ramona.madisonshared-domain.com",
+        "email": "Ramona.madison@shared-domain.com",
       }
     ],
     "project": [{"id": ""}]
@@ -401,7 +401,7 @@ export const SIMPLIFIED_DB_PAGES: TaskPage[] = [
     "assignee": [
       {
         "name": "Ramona Madison",
-        "email": "Ramona.madisonshared-domain.com",
+        "email": "Ramona.madison@shared-domain.com",
       }
     ],
         "project": [{"id": ""}]

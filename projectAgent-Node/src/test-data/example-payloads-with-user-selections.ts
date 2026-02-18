@@ -3,8 +3,8 @@ export const EXAMPLE_USER_AND_PROJECT_SELECTED = {
 		"type": "block_actions",
 		"user": {
 			"id": "U08UDKY38QK",
-			"username": "harveykisiangani",
-			"name": "harveykisiangani",
+			"username": "harveyspectre",
+			"name": "harveyspectre",
 			"team_id": "T08VADHH17S"
 		},
 		"api_app_id": "A0A6W48S823",
@@ -34,9 +34,9 @@ export const EXAMPLE_USER_AND_PROJECT_SELECTED = {
 						"selected_options": [{
 							"text": {
 								"type": "plain_text",
-								"text": "Harvey Kisiangani (harvey.kisianganishared-domain.com)", "emoji": true
+								"text": "Harvey Spectre (harvey.spectre@example-domain.com)", "emoji": true
 							},
-							"value": "{\"userId\":\"1e0d872b-594c-81e5-be86-000260493812\",\"name\":\"Harvey Kisiangani\",\"email\":\"harvey.kisianganishared-domain.com\"}"
+							"value": "{\"userId\":\"1e0d872b-594c-81e5-be86-000260493812\",\"name\":\"Harvey Spectre\",\"email\":\"harvey.spectre@example-domain.com\"}"
 						}
 						]
 					}
@@ -88,8 +88,8 @@ export const EXAMPLE_ONLY_ASSIGNEE_SELECTED = {
 	"payload": {
 		"type": "block_actions",
 		"user": {
-			"id": "U08UDKY38QK", "username": "harveykisiangani",
-			"name": "harveykisiangani",
+			"id": "U08UDKY38QK", "username": "harveyspectre",
+			"name": "harveyspectre",
 			"team_id": "T08VADHH17S"
 		},
 		"api_app_id": "A0A6W48S823",
@@ -117,10 +117,10 @@ export const EXAMPLE_ONLY_ASSIGNEE_SELECTED = {
 						"selected_options": [{
 							"text": {
 								"type": "plain_text",
-								"text": "Harvey Kisiangani (harvey.kisianganishared-domain.com)",
+								"text": "Harvey Spectre (harvey.spectre@example-domain.com)",
 								"emoji": true
 							},
-							"value": "{\"id\":\"1oidinI387IUHISs123\",\"name\":\"Harvey Kisiangani\",\"email\":\"harvey.kisianganishared-domain.com\"}"
+							"value": "{\"id\":\"1\",\"name\":\"Harvey Spectre\",\"email\":\"harvey.spectre@example-domain.com\"}"
 						}]
 					}
 				},
@@ -151,10 +151,10 @@ export const EXAMPLE_ONLY_ASSIGNEE_SELECTED = {
 					"url": ""
 				},
 				"userOptions": [{
-					"userId": "1e0d872b-594c-81e5-be86-000260493812", "name": "Harvey Kisiangani", "email": "harveykisiangani@gmail.com"
+					"userId": "1e0d872b-594c-81e5-be86-000260493812", "name": "Bill Withers", "email": "billwithers@my-email.com"
 				},
 				{
-					"userId": "25cd872b-594c-8111-84e3-00020e1da9ea", "name": "Harvey Kisiangani", "email": "harvey.kisianganishared-domain.com"
+					"userId": "25cd872b-594c-8111-84e3-00020e1da9ea", "name": "Harvey Spectre", "email": "harvey.spectre@example-domain.com"
 				}],
 				"projectOptions": [{
 					"projectName": "Project Assigned by Harvey", "id": "2bdeef29-a653-8020-9dd0-e20ff33c265c"
@@ -175,8 +175,8 @@ export const EXAMPLE_ONLY_PROJECT_SELECTED = {
 		"type": "block_actions",
 		"user": {
 			"id": "U08UDKY38QK",
-			"username": "harveykisiangani",
-			"name": "harveykisiangani",
+			"username": "harveyspectre",
+			"name": "harveyspectre",
 			"team_id": "T08VADHH17S"
 		},
 		"api_app_id": "A0A6W48S823",
@@ -257,8 +257,8 @@ export const EXAMPLE_NO_ITEM_SELECTED = {
 		"type": "block_actions",
 		"user": {
 			"id": "U08UDKY38QK",
-			"username": "harveykisiangani",
-			"name": "harveykisiangani",
+			"username": "harveyspectre",
+			"name": "harveyspectre",
 			"team_id": "T08VADHH17S"
 		},
 		"api_app_id": "A0A6W48S823",
@@ -313,8 +313,8 @@ export const EXAMPLE_NO_ITEM_SELECTED = {
 							"assignees": [],
 							"assignedBy": [{
 								"userId": "1e0d872b-594c-81e5-be86-000260493812",
-								"name": "Harvey Kisiangani",
-								"email": "harveykisiangani@gmail.com"
+								"name": "Harvey Spectre",
+								"email": "harveyspectre@example-mail.com"
 							}],
 							"startDate": "2026-02-06",
 							"description": "Harvey, create a statistical analysis tool for the population tracking project",

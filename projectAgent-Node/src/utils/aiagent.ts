@@ -14,6 +14,7 @@ import { getProjects } from "./database/searchDatabase";
 import { getAppUserData } from "./controllers/getUsersSlack";
 import { Project } from "../domain";
 import { DateTime } from "luxon";
+import { QueryDataSourceResponse } from "@notionhq/client";
 
 const EXAMPLE_MSG_00 =
   "\
@@ -57,7 +58,6 @@ export const EXAMPLE_INPUT_PROJECTS: ProjectWithName[] = [
   { projectName: "Vanadium Carbon Composite", id: "dsdPO219083nd-siosau" },
 ];
 
-logTimestampForBenchmarking("(Parse) model initialization start");
 const model = new ChatAnthropic({
   model: ANTHROPIC_MODEL_VER,
   temperature: 0,
@@ -120,16 +120,18 @@ const structuredLlmSlashCmd: Runnable<
   method: "json_mode",
 });
 // Error here is caused by mismatched zod version
-logTimestampForBenchmarking("(Parse) model initialization finished");
 
 /**
- * Uses Anthropic to parse a task assignment from a Slack slash command
- * @param {*} reqBody The body of the request
+ * Uses Anthropic to parse a task assignment from a Slack slash command.
+ * @param {*} reqBody The body of the request.
+ * @param timestamp The timestamp when the slash command was sent.
+ * @param alreadyFetchedProjects Projects pre-fetched from Notion.
  * @returns A TaskParseResult containing the formatted task.
  */
 export const parseTask = async function (
   reqBody: SlashCommand,
   timestamp: number,
+  alreadyFetchedProjects: QueryDataSourceResponse["results"] | null
 ): Promise<ParsedData> {
   let textToParse;
 
@@ -146,7 +148,7 @@ export const parseTask = async function (
   // const timeData = await getEventTimeData(reqBody, timestamp);
   const timeData = appUserData.eventTimeData;
 
-  const notionProjects = await getProjects();
+  const notionProjects = await getProjects(alreadyFetchedProjects);
   console.log(`notionProjects found ${JSON.stringify(notionProjects)}`);
 
   const structuredResultData = await parseWithLLM(timeData, notionProjects, textToParse);

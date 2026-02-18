@@ -3,8 +3,8 @@ import { GetUserResponse } from "@notionhq/client"
 export const EXAMPLE_ALL_NOTION_USERS = [
     {
         "userId": "13ed872b-594c-81a7-84f8-0002e9e2cf87",
-        "name": "Drew Dunn",
-        "email": "drew.dunn@shared-domain.com"
+        "name": "Drew Davidson",
+        "email": "drew.dave@shared-domain.com"
     }
     ,
     {
@@ -22,19 +22,19 @@ export const EXAMPLE_ALL_NOTION_USERS = [
     {
         "userId": "158d872b-594c-81b0-a53d-0002632ed5fc",
         "name": "Nick Furry",
-        "email": "nick.Furry@my-domain.com"
+        "email": "nick.furry@shared-mail.com"
     }
     ,
     {
         "userId": "1bbd872b-594c-8153-b8b4-0002a90b5da6",
-        "name": "Melinda",
-        "email": "melinda@shared-domain.com"
+        "name": "Mississippi",
+        "email": "mississippi@shared-domain.com"
     }
     ,
     {
         "userId": "1d1d872b-594c-819f-bce3-00027369acef",
-        "name": "Phil Bocherini",
-        "email": "phil.bocherini@shared-domain.com"
+        "name": "Philemon Bocherini",
+        "email": "philemon.bocherini@shared-domain.com"
     }
     ,
     {
@@ -57,14 +57,14 @@ export const EXAMPLE_ALL_NOTION_USERS = [
     ,
     {
         "userId": "262d872b-594c-816d-9e5e-00029d62603f",
-        "name": "Suzanne Ray",
+        "name": "Suzanne Rhoda",
         "email": "suzanne@shared-domain.com"
     }
     ,
     {
         "userId": "264d872b-594c-811e-afe6-0002754d4767",
-        "name": "Julia bocherini",
-        "email": "julia.bocherini@shared-domain.com"
+        "name": "Joana Bocherini",
+        "email": "joana.bocherini@shared-domain.com"
     }
     ,
     {

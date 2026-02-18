@@ -70,7 +70,7 @@ const eventPayload = {
   ],
   is_ext_shared_channel: false,
   event_context:
-    "4-eyJldCI6Im1lc3NhZ2UiLCJ0aWQiOiJUMDhWQURISDE3UyIsImFpZCI6IkEwOTM1RURRUkhCIiwiY2lkIjoiQzA4VkFESjdTRUwifQ",
+    "",
 };
 const testProjectsWithNames: ProjectWithName[] = [
   { projectName: "test00", id: "JIUsbds" },

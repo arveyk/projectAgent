@@ -33,6 +33,7 @@ export function integrateSelectedUsers(
 
     allAssignees.push(selectedUser);
 
+    allAssignees.push(selectedUser);
   }
   return allAssignees;
 }
@@ -77,11 +78,7 @@ export function integrateSelectedProjects(
  *
  * @returns The task with the user's selections integrated.
  */
-export function integrateSelectedValues(
-  notionTask: NotionTask,
-  payload: any,
-) {
-
+export function integrateSelectedValues(notionTask: NotionTask, payload: any) {
   const assignees = notionTask.assignees;
   const projects = notionTask.project || [];
 

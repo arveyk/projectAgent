@@ -127,7 +127,6 @@ export async function getTasksRaw(): Promise<
 > {
   return await collectPaginatedAPI(notion.dataSources.query, {
     data_source_id: NOTION_TASKS_DATA_SOURCE_ID,
-    // filter_properties: ["Task name", "Description", "Assigned to", "Project"],
     filter: {
       and: [
         {

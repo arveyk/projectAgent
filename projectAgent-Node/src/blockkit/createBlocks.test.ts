@@ -63,9 +63,9 @@ describe("Test createBlockNewTask with a valid task object", () => {
         );
 
         // Test that buttons value does not have more than 2001 characters
-      
+
         expect(JSON.stringify(ExampleNotionTask).length).toBeLessThan(2001);
-        // Work around for checking is block structure is consistent
+        // Work around for checking if block structure is consistent
         expect(() => {
             JSON.stringify(slackBlocksObject);
         }).not.toThrow();

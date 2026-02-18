@@ -19,7 +19,7 @@ const SAMPLE_PROJECTS: ProjectWithName[] = [
 ]
 
 describe("Tests createTaskInfo Function", () => {
-  it("Creates  task block for notion task without assingee or start date", () => {
+  it("Creates task block for notion task without assingee or start date", () => {
     console.log(JSON.stringify(taskNoAssignee));
     const taskBlock = createTaskInfo(
       taskNoAssignee, SAMPLE_PROJECTS, notionTask.assignees
@@ -43,7 +43,7 @@ describe("Tests createTaskInfo Function", () => {
     );
 
     expect(JSON.stringify(taskNoAssignee).length).toBeLessThan(2001);
-        // Work around for checking is block structure is consistent
+        // Work around for checking if block structure is consistent
         expect(() => {
             JSON.stringify(taskBlock);
         }).not.toThrow();
@@ -72,7 +72,7 @@ describe("Tests createTaskInfo Function", () => {
     );
 
     expect(JSON.stringify(notionTask).length).toBeLessThan(2001);
-        // Work around for checking is block structure is consistent
+        // Work around for checking if block structure is consistent
         expect(() => {
             JSON.stringify(taskBlock);
         }).not.toThrow();

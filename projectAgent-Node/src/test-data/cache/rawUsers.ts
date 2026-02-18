@@ -16,7 +16,7 @@ export const EXAMPLE_RAW_USERS_RESPONSE: ListUsersResponse = {
     {
       "object": "user",
       "id": "152d872b-594c-8145-9c2c-000204787b69",
-      "name": "Dresdan Madison",
+      "name": "Ramona Madison",
       "avatar_url": "placeholder_sample_url",
       "type": "person",
       "person": {
@@ -26,7 +26,7 @@ export const EXAMPLE_RAW_USERS_RESPONSE: ListUsersResponse = {
     {
       "object": "user",
       "id": "155d872b-594c-810e-9174-00024470271f",
-      "name": "Kate",
+      "name": "Kate Wilson",
       "avatar_url": null,
       "type": "person",
       "person": {

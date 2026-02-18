@@ -15,25 +15,26 @@ const blockWithNoAssignee = createNewTaskBlock([], taskNoAssignee, exampleUserSe
 
 const channelToPostMessage = "https://slack.com/api/chat.postMessage"
 
+// Skipping for now unit we get a suitable channel and bot to use
 
-describe("Check if blocks creates are valid, by sending to slack for validation", () => {
+describe.skip("Check if blocks creates are valid, by sending to slack for validation", () => {
     it("Sends blocks created to Slack for validation", async () => {
-        expect(async () => {
-            await testPostToSlack(channelToPostMessage, blockWithoutAssigneeTask);
-        }).not.toThrow();
+        await expect(
+            testPostToSlack(channelToPostMessage, blockWithoutAssigneeTask)
+        ).resolves.not.toThrow();
 
     });
     it("Sends blocks created to Slack for validation", async () => {
-        expect(async () => {
-          await testPostToSlack(channelToPostMessage, badBlocks);
-        }).not.toThrow();
+        await expect(
+            testPostToSlack(channelToPostMessage, badBlocks)
+        ).resolves.not.toThrow();
 
     });
     it("Sends blocks created to Slack for validation, check if bot is in channel", async () => {
         let response: any;
-        expect(async () => {
-            await testPostToSlack(channelToPostMessage, blockWithNoAssignee);
-        }).not.toThrow();
+        await expect(
+            testPostToSlack(channelToPostMessage, blockWithNoAssignee)
+        ).resolves.not.toThrow();
         response = await testPostToSlack(channelToPostMessage, blockWithNoAssignee);
         expect(response).toBeDefined();
         expect(response.ok).toBe(false);

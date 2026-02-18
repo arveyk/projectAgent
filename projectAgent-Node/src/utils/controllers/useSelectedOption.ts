@@ -21,7 +21,7 @@ export function integrateSelectedUsers(
   assignees: NotionUser[],
   selectedValues: SelectionOption[],
 ) {
-  const allAssignees: NotionUser[] = [...assignees];
+  const allAssignees: NotionUser[] = [];
   if (selectedValues.length < 1) {
     return [];
   }
@@ -30,7 +30,9 @@ export function integrateSelectedUsers(
 
   for (const selectedOption of selectedValues) {
     const selectedUser: NotionUser = JSON.parse(selectedOption["value"]);
-
+    if (assignees.includes(selectedUser)) {
+      continue;
+    }
     allAssignees.push(selectedUser);
   }
   return allAssignees;

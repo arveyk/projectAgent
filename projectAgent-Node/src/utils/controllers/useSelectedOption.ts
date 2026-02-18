@@ -32,8 +32,6 @@ export function integrateSelectedUsers(
     const selectedUser: NotionUser = JSON.parse(selectedOption["value"]);
 
     allAssignees.push(selectedUser);
-
-    allAssignees.push(selectedUser);
   }
   return allAssignees;
 }

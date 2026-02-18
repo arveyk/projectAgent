@@ -86,7 +86,7 @@ export const EXAMPLE_RAW_USERS_RESPONSE: ListUsersResponse = {
     {
       "object": "user",
       "id": "25cd872b-594c-8111-84e3-00020e1da9ea",
-      "name": "Harvey Kisiangani",
+      "name": "Harvey Spectre",
       "avatar_url": "placeholder-avatar-url",
       "type": "person",
       "person": {

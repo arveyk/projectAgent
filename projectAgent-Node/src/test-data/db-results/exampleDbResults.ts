@@ -53,7 +53,7 @@ export const exampleNewDb: QueryDataSourceResponse = {
                             "avatar_url": "public.notion-static.com.jpg",
                             "type": "person",
                             "person": {
-                                "email": "harveyspectre@example-mail.com"
+                                "email": "harveyspectre@example-domain.com"
                             }
                         }
                     ]
@@ -120,7 +120,7 @@ export const exampleNewDb: QueryDataSourceResponse = {
                             "avatar_url": "public.notion-static.com.jpg",
                             "type": "person",
                             "person": {
-                                "email": "harveyspectre@example-mail.com"
+                                "email": "harveyspectre@example-domain.com"
                             }
                         }
                     ]
@@ -217,7 +217,7 @@ export const exampleNewDb: QueryDataSourceResponse = {
                             "avatar_url": "public.notion-static.com.jpg",
                             "type": "person",
                             "person": {
-                                "email": "harveyspectre@example-mail.com"
+                                "email": "harveyspectre@example-domain.com"
                             }
                         }
                     ]
@@ -284,7 +284,7 @@ export const exampleNewDb: QueryDataSourceResponse = {
                             "avatar_url": "public.notion-static.com.jpg",
                             "type": "person",
                             "person": {
-                                "email": "harveyspectre@example-mail.com"
+                                "email": "harveyspectre@example-domain.com"
                             }
                         }
                     ]
@@ -442,7 +442,7 @@ export const exampleNewDb: QueryDataSourceResponse = {
                             "avatar_url": "public.notion-static.com.jpg",
                             "type": "person",
                             "person": {
-                                "email": "harveyspectre@example-mail.com"
+                                "email": "harveyspectre@example-domain.com"
                             }
                         }
                     ]
@@ -589,7 +589,7 @@ export const exampleNewDb: QueryDataSourceResponse = {
                             "avatar_url": "public.notion-static.com.jpg",
                             "type": "person",
                             "person": {
-                                "email": "harveyspectre@example-mail.com"
+                                "email": "harveyspectre@example-domain.com"
                             }
                         }
                     ]
@@ -747,7 +747,7 @@ export const exampleNewDb: QueryDataSourceResponse = {
                             "avatar_url": "public.notion-static.com.jpg",
                             "type": "person",
                             "person": {
-                                "email": "harveyspectre@example-mail.com"
+                                "email": "harveyspectre@example-domain.com"
                             }
                         }
                     ]
@@ -905,7 +905,7 @@ export const exampleNewDb: QueryDataSourceResponse = {
                             "avatar_url": "public.notion-static.com.jpg",
                             "type": "person",
                             "person": {
-                                "email": "harveyspectre@example-mail.com"
+                                "email": "harveyspectre@example-domain.com"
                             }
                         }
                     ]
@@ -1063,7 +1063,7 @@ export const exampleNewDb: QueryDataSourceResponse = {
                             "avatar_url": "public.notion-static.com.jpg",
                             "type": "person",
                             "person": {
-                                "email": "harveyspectre@example-mail.com"
+                                "email": "harveyspectre@example-domain.com"
                             }
                         }
                     ]
@@ -1333,7 +1333,7 @@ export const exampleNewDb: QueryDataSourceResponse = {
                             "avatar_url": "public.notion-static.com.jpg",
                             "type": "person",
                             "person": {
-                                "email": "harveyspectre@example-mail.com"
+                                "email": "harveyspectre@example-domain.com"
                             }
                         }
                     ]
@@ -1466,7 +1466,7 @@ export const exampleNewDb: QueryDataSourceResponse = {
                             "avatar_url": "public.notion-static.com.jpg",
                             "type": "person",
                             "person": {
-                                "email": "harveyspectre@example-mail.com"
+                                "email": "harveyspectre@example-domain.com"
                             }
                         }
                     ]
@@ -1740,7 +1740,7 @@ export const exampleNewDb: QueryDataSourceResponse = {
                             "avatar_url": "public.notion-static.com.jpg",
                             "type": "person",
                             "person": {
-                                "email": "harveyspectre@example-mail.com"
+                                "email": "harveyspectre@example-domain.com"
                             }
                         }
                     ]
@@ -1887,7 +1887,7 @@ export const exampleNewDb: QueryDataSourceResponse = {
                             "avatar_url": "public.notion-static.com.jpg",
                             "type": "person",
                             "person": {
-                                "email": "harveyspectre@example-mail.com"
+                                "email": "harveyspectre@example-domain.com"
                             }
                         }
                     ]
@@ -2024,7 +2024,7 @@ export const exampleNewDb: QueryDataSourceResponse = {
                             "avatar_url": "public.notion-static.com.jpg",
                             "type": "person",
                             "person": {
-                                "email": "harveyspectre@example-mail.com"
+                                "email": "harveyspectre@example-domain.com"
                             }
                         },
                         {
@@ -2171,7 +2171,7 @@ export const exampleNewDb: QueryDataSourceResponse = {
                             "avatar_url": "public.notion-static.com.jpg",
                             "type": "person",
                             "person": {
-                                "email": "harveyspectre@example-mail.com"
+                                "email": "harveyspectre@example-domain.com"
                             }
                         }
                     ]
@@ -2308,7 +2308,7 @@ export const exampleNewDb: QueryDataSourceResponse = {
                             "avatar_url": "public.notion-static.com.jpg",
                             "type": "person",
                             "person": {
-                                "email": "harveyspectre@example-mail.com"
+                                "email": "harveyspectre@example-domain.com"
                             }
                         }
                     ]

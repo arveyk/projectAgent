@@ -117,8 +117,8 @@ export const EXAMPLE_ALL_NOTION_USERS = [
     ,
     {
         "userId": "264d872b-594c-81f6-92be-000247426fce",
-        "name": "zak.garfield@shared-domain.com",
-        "email": "zak.garfield@shared-domain.com"
+        "name": "zak.green@shared-domain.com",
+        "email": "zak.green@shared-domain.com"
     }
     ,
     {

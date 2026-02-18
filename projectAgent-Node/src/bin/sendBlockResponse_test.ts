@@ -28,14 +28,14 @@ const task: TaskPage = {
     assignees: [
       {
         name: "Benjamin Noah",
-        email: "smoothbenja@example-mail.com",
+        email: "smoothbenja@example-domain.com",
         userId: "U08UDKY38QK",
       },
     ],
     assignedBy: [
       {
         name: "Benjamin Noah",
-        email: "slybenja@example-mail.com",
+        email: "slybenja@example-domain.com",
         userId: "U08UDKY38QK",
       },
     ],

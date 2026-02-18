@@ -107,7 +107,7 @@ export const pageResponse: GetPageResponse = {
                     "avatar_url": "public.notion-static.com.jpg",
                     "type": "person",
                     "person": {
-                        "email": "harveyspectre@example-mail.com"
+                        "email": "harveyspectre@example-domain.com"
                     }
                 }
             ]
@@ -266,7 +266,7 @@ export const pageObjectResponse: PageObjectResponse = {
                     "avatar_url": "public.notion-static.com.jpg",
                     "type": "person",
                     "person": {
-                        "email": "harveyspectre@example-mail.com"
+                        "email": "harveyspectre@example-domain.com"
                     }
                 }
             ]

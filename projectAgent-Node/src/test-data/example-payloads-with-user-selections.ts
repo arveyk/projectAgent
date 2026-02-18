@@ -314,7 +314,7 @@ export const EXAMPLE_NO_ITEM_SELECTED = {
 							"assignedBy": [{
 								"userId": "1e0d872b-594c-81e5-be86-000260493812",
 								"name": "Harvey Spectre",
-								"email": "harveyspectre@example-mail.com"
+								"email": "harveyspectre@example-domain.com"
 							}],
 							"startDate": "2026-02-06",
 							"description": "Harvey, create a statistical analysis tool for the population tracking project",

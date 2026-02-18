@@ -78,7 +78,7 @@ export const slackUsers = [
       first_name: "Harvey",
       last_name: "Spectre",
       team: "T08VADHH17S",
-      email: "harveyspectre@example-mail.com",
+      email: "harveyspectre@example-domain.com",
       title: "",
       phone: "",
       skype: "",
@@ -722,7 +722,7 @@ export const notionUsers = [
     name: "Harvey Spectre",
     avatar_url: null,
     type: "person",
-    person: { email: "harveyspectre@example-mail.com" },
+    person: { email: "harveyspectre@example-domain.com" },
   },
   {
     object: "user",

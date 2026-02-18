@@ -8,7 +8,7 @@ export const dbPageList: TaskPage[] = [
         "assignee": [
             {
                 "name": "Harvey Spectre",
-                "email": "harveyspectre@example-mail.com",
+                "email": "harveyspectre@example-domain.com",
                 // "userId": "1e0d872b-594c-81e5-be86-000260493812"
             }
         ],
@@ -65,7 +65,7 @@ export const dbPageList: TaskPage[] = [
         "assignee": [
             {
                 "name": "Harvey Spectre",
-                "email": "harveyspectre@example-mail.com",
+                "email": "harveyspectre@example-domain.com",
                 // "userId": "1e0d872b-594c-81e5-be86-000260493812"
             }
         ],
@@ -122,7 +122,7 @@ export const dbPageList: TaskPage[] = [
         "assignee": [
             {
                 "name": "Harvey Spectre",
-                "email": "harveyspectre@example-mail.com",
+                "email": "harveyspectre@example-domain.com",
                 // "userId": "1e0d872b-594c-81e5-be86-000260493812"
             }
         ],
@@ -136,7 +136,7 @@ export const dbPageList: TaskPage[] = [
         "assignee": [
             {
                 "name": "Harvey Spectre",
-                "email": "harveyspectre@example-mail.com",
+                "email": "harveyspectre@example-domain.com",
                 // "userId": "1e0d872b-594c-81e5-be86-000260493812"
             }
         ],
@@ -150,7 +150,7 @@ export const dbPageList: TaskPage[] = [
         "assignee": [
             {
                 "name": "Harvey Spectre",
-                "email": "harveyspectre@example-mail.com",
+                "email": "harveyspectre@example-domain.com",
                 // "userId": "1e0d872b-594c-81e5-be86-000260493812"
             }
         ],
@@ -164,7 +164,7 @@ export const dbPageList: TaskPage[] = [
         "assignee": [
             {
                 "name": "Harvey Spectre",
-                "email": "harveyspectre@example-mail.com",
+                "email": "harveyspectre@example-domain.com",
                 // "userId": "1e0d872b-594c-81e5-be86-000260493812"
             }
         ],
@@ -178,7 +178,7 @@ export const dbPageList: TaskPage[] = [
         "assignee": [
             {
                 "name": "Harvey Spectre",
-                "email": "harveyspectre@example-mail.com",
+                "email": "harveyspectre@example-domain.com",
                 // "userId": "1e0d872b-594c-81e5-be86-000260493812"
             }
         ],

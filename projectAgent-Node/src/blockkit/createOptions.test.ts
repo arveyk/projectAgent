@@ -9,7 +9,7 @@ describe("Test the value of the Confirm button of Slack block", () => {
       EXAMPLE_ALL_PROJECTS_IN_NOTIONDB,
     );
     expect(projectMenuOptions).toBeDefined();
-    expect(projectMenuOptions.length).toBeLessThan(71);
+    expect(projectMenuOptions.length).toBeLessThan(71); 
 
     console.log(JSON.stringify(projectMenuOptions.slice(0, 5), null, 2));
   }),

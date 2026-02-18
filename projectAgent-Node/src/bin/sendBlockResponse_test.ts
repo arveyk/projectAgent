@@ -71,7 +71,7 @@ const columnLayoutWithSelections =
         {
           userId: "152d872b-594c-8145-9c2c-000204787b69",
           name: "Ramona Madison",
-          email: "ramona.madison@example-domain.com",
+          email: "Ramona.madison@shared-domain.com",
         },
       ],
       ambiguousUsers: [
@@ -82,14 +82,14 @@ const columnLayoutWithSelections =
         },
         {
           userId: "13dd872b-594c-810f-8bb4-000282e27820",
-          name: "Belteshazar Dan",
-          email: "belteshazar.dan@example-domain.com",
+          name: "Belteshazar Bond",
+          email: "belteshazar.bond@example-domain.com",
         },
       ],
     },
   );
 
-const blockSelectOrNoSelect = await createNewTaskBlock(
+const blockSelectOrNoSelect = createNewTaskBlock(
   EXAMPLE_ASSIGNED_BY,
   task.task,
   [exampleUserSearchResponse2[1]],

@@ -42,7 +42,7 @@ export const EXAMPLE_CONFIRM_CREATE_TASK_WITH_SELECTION = {
                         {
                             "text": {
                                 "type": "plain_text",
-                                "text": "*Harvey Spectre --- harveyspectre@example-mail.com*",
+                                "text": "*Bill Withers --- billwithers@my-email.com*",
                                 "emoji": true
                             },
                             "value": "0"

@@ -6,13 +6,13 @@ export const exampleUserSearchResponse = [
     "foundUsers": [
       {
         "userId": "1d1d872b-594c-819f-bce3-00027369acef",
-        "name": "Philemon G",
-        "email": "pogba.g@example-domain.com"
+        "name": "Philemon Bocherini",
+        "email": "phil.bocherini@shared-domain.com"
       },
       {
         "userId": "264d872b-594c-811e-afe6-0002754d4767",
-        "name": "Joana G",
-	"email": "joana.g@example-domain.com"
+        "name": "Joanna G",
+        "email": "joanna.bocherini@shared-domain.com"
       }
     ]
   }
@@ -38,13 +38,13 @@ export const exampleUserSearchResponse2 = [
   },
   {
     "person": {
-      "name": "Dresdan"
+      "name": "Ramona"
     },
     "foundUsers": [
       {
         "userId": "152d872b-594c-8145-9c2c-000204787b69",
-        "name": "Dresdan K",
-        "email": "ramona.k@example-domain.com"
+        "name": "Ramona Madison",
+        "email": "ramona.madison@shared-domain.com"
       }
     ]
   }
@@ -59,12 +59,12 @@ export const exampleUserSearchResponse3 = [
       {
         "userId": "136d872b-594c-817b-adaa-00026796be69",
         "name": "James Bond",
-        "email": "james.bond@example-domain.com"
+        "email": "james.bond@shared-domain.com"
       },
       {
         "userId": "13dd872b-594c-810f-8bb4-000282e27820",
         "name": "Belteshazar Bond",
-        "email": "belteshazar.bond@example-domain.com"
+        "email": "belteshazar.bond@shared-domain.com"
       }
     ]
   },
@@ -75,13 +75,13 @@ export const exampleUserSearchResponse3 = [
     "foundUsers": [
       {
         "userId": "1d1d872b-594c-819f-bce3-00027369acef",
-        "name": "Philemon G",
-        "email": "pogba.g@example-domain.com"
+        "name": "Philemon Bocherini",
+        "email": "philemon.bocherini@shared-domain.com"
       },
       {
         "userId": "264d872b-594c-811e-afe6-0002754d4767",
-        "name": "Joana G",
-	"email": "joana.g@example-domain.com"
+        "name": "Joanna Bocherini",
+        "email": "joanna.bocherini@shared-domain.com"
       }
     ]
   }

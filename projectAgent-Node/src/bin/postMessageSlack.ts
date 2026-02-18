@@ -3,6 +3,7 @@ import axios from "axios";
 import { createNewTaskBlockWithUserAndOrProjectsSelections } from "../blockkit/createBlockPartsForNewTask";
 import { taskNoAssignee } from "../test-data/tasks/example-tasks";
 import { NotionUser } from "../utils/controllers/userTypes";
+import { ProjectWithName } from "../utils/taskFormatting/task";
 /**
  * (async () => {
   const personsArray = await readFile("./users.json");
@@ -11,7 +12,7 @@ import { NotionUser } from "../utils/controllers/userTypes";
 */
 
 const eventPayload = {
-  token: "JWNJnukcVaHbRoRl6CwWYan6",
+  token: " ",
   team_id: "T08VADHH17S",
   context_team_id: "T08VADHH17S",
   context_enterprise_id: null,
@@ -71,39 +72,31 @@ const eventPayload = {
   event_context:
     "",
 };
-const test00 = [
-  [
-    { projectName: "test00", id: "JIUsbds" },
-    { projectName: "test00_proj02", id: "Iodshs" },
-  ],
-  [],
+const testProjectsWithNames: ProjectWithName[] = [
+  { projectName: "test00", id: "JIUsbds" },
+  { projectName: "test00_proj02", id: "Iodshs" }
 ];
-const test2 = [
-  ["Damaris", "Hunter"],
-  ["Project0", "Project1", "Project clear", "Anime", "Writter"],
-];
-const test3 = [["JIUsbds", "Iodshs"], ["OIHOIH"]];
+
 const test4AmbiguouseUsers: NotionUser[] = [
   { userId: "Iodshs", name: "testUser000" },
   { userId: "OIHOIH", name: "testUser001" },
-  { userId: "Credentials", name: "testUser002" },
+  { userId: "Credentials", name: "testUser002" }
 ];
 const eventResponseURL = "https://slack.com/api/chat.postMessage";
 const channel_id = eventPayload.event.channel;
 console.log(channel_id);
 
-const exampleBlocks = createNewTaskBlockWithUserAndOrProjectsSelections(
-  taskNoAssignee,
-  test00[0],
-  {
-    identifiedUsers: [],
-    ambiguousUsers: test4AmbiguouseUsers,
-  },
-);
+
+const exampleBlocks = createNewTaskBlockWithUserAndOrProjectsSelections(taskNoAssignee,
+  testProjectsWithNames, {
+  identifiedUsers: [],
+  ambiguousUsers: test4AmbiguouseUsers
+}
+)
 
 export async function testPostToSlack(eventResUrl: string, slackBlocks?: any) {
   try {
-    await axios
+    const responseData = await axios
       .post(
         eventResUrl,
         {
@@ -123,15 +116,18 @@ export async function testPostToSlack(eventResUrl: string, slackBlocks?: any) {
       .then((responseFromSlack) => {
         console.log("OK from slack", responseFromSlack.data);
         console.log("Data sent to Slack", responseFromSlack.config.data);
+        return (responseFromSlack.data);
       })
       .catch((err) => {
         console.log("Error in Axios", err);
       });
+
+    return responseData;
   } catch (err) {
     console.log(err);
   }
 }
 
 (async () => {
-  await testPostToSlack(eventResponseURL, exampleBlocks);
+await testPostToSlack(eventResponseURL, exampleBlocks);
 })();

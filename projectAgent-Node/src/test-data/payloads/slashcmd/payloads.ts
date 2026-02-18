@@ -166,7 +166,7 @@ export const payloadNoDates = {
   "user_id": "U08VADHNG0G",
   "user_name": "crmadison",
   "command": "/timely_01",
-  "text": "add Dresdan, lease fix the Langchain bug",
+  "text": "add Ramona, lease fix the Langchain bug",
   "api_app_id": "A0935EDQRHB",
   "is_enterprise_install": "false",
   "response_url": "https://hooks.slack.com/commands/T08VADHH17S/9335989657841/DI7K17HpCUQIBdIvMgv23oRU",

@@ -1,3 +1,4 @@
+// Shared WorkSpace Users
 export const EXAMPLE_SLACK_USER_IDS = [
   {
     "id": "U08UDKY38QK",
@@ -9,7 +10,7 @@ export const EXAMPLE_SLACK_USER_IDS = [
   },
   {
     "id": 'U08VADHNG0G',
-    "username": 'Dresdan Madison',
+    "username": 'Ramona Madison',
   },
   {
     "id": 'U092TCSFAA2',

@@ -8,7 +8,6 @@ import zlib from "zlib";
 import { promisify } from "util";
 import { CACHE_TABLE_NAME, REGION } from "../../env";
 import { isFullPage, ListUsersResponse, QueryDataSourceResponse } from "@notionhq/client";
-import { filterDoneAndArchivedTasks } from "./simplifyTaskPages";
 
 // Convert callback-based functions to promise-based
 const gunzipPromise = promisify(zlib.gunzip);
@@ -91,11 +90,9 @@ export async function extractCacheData(
     throw new Error("Object 'users' is the wrong type");
   }
 
-  const activeTasks = filterDoneAndArchivedTasks(tasks);
-
   return {
     projects: projects,
-    tasks: activeTasks,
+    tasks: tasks,
     users: users,
   };
 }

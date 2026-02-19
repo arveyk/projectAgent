@@ -7,7 +7,7 @@ import {
         DRAKE_IN_SLACK,
         EXAMPLE_JAMES_IN_SLACK,
         HARVEY_IN_SLACK,
-        RAMONA_CECI_IN_SLACK
+        RAMONAIN_SLACK
 } from "../../test-data/example-slack-userdata";
 
 jest.mock("../../utils/controllers/getUsersNotion");
@@ -36,7 +36,7 @@ describe("Test getting assigned by from Notion using slack Id", () => {
                 expect(jamesIdentityInNotion[0].email).toMatch(EXAMPLE_JAMES_IN_SLACK.email);
         });
         it("Should find Ramona in Notion", async () => {
-                const RamonaIdentityInNotion = await findMatchingNotionUserByEmail(RAMONA_CECI_IN_SLACK.email);
+                const RamonaIdentityInNotion = await findMatchingNotionUserByEmail(RAMONAIN_SLACK.email);
                 console.log("User's Identity in Notion", RamonaIdentityInNotion);
 
                 expect(RamonaIdentityInNotion[0]).not.toBeDefined();
@@ -49,11 +49,11 @@ describe("Test getting assigned by from Notion using slack Id", () => {
                 expect(spectreIdentityInNotion[0].email).toMatch(BILL_IN_SLACK.email);
         });
         it("Should find Drake in Notion", async () => {
-                const danielsIdentityInNotion = await findMatchingNotionUserByEmail(DRAKE_IN_SLACK.email);
-                console.log("User's Identity in Notion", danielsIdentityInNotion);
+                const mavericksIdentityInNotion = await findMatchingNotionUserByEmail(DRAKE_IN_SLACK.email);
+                console.log("User's Identity in Notion", mavericksIdentityInNotion);
 
-                expect(danielsIdentityInNotion[0]).not.toBeDefined();
-                // expect(danielsIdentityInNotion[0].email).not.toMatch(DRAKE_IN_SLACK.email);
+                expect(mavericksIdentityInNotion[0]).not.toBeDefined();
+                // expect(mavericksIdentityInNotion[0].email).not.toMatch(DRAKE_IN_SLACK.email);
 		
         });
 })

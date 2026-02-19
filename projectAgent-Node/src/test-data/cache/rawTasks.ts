@@ -55,7 +55,7 @@ export const EXAMPLE_RAW_TASKS_RESPONSE: QueryDataSourceResponse["results"] = [
           {
             "type": "text",
             "text": {
-              "content": "Harvey is tasked with adding the finishing touches to the portrait, a project assigned by Daniel Dirksen that has not yet started.\n\n",
+              "content": "Harvey is tasked with adding the finishing touches to the portrait, a project assigned by Maverick Dirksen that has not yet started.\n\n",
               "link": null
             },
             "annotations": {
@@ -66,7 +66,7 @@ export const EXAMPLE_RAW_TASKS_RESPONSE: QueryDataSourceResponse["results"] = [
               "code": false,
               "color": "default"
             },
-            "plain_text": "Harvey is tasked with adding the finishing touches to the portrait, a project assigned by Daniel Dirksen that has not yet started.\n\n",
+            "plain_text": "Harvey is tasked with adding the finishing touches to the portrait, a project assigned by Maverick Dirksen that has not yet started.\n\n",
             "href": null
           },
           {
@@ -89,7 +89,7 @@ export const EXAMPLE_RAW_TASKS_RESPONSE: QueryDataSourceResponse["results"] = [
           {
             "type": "text",
             "text": {
-              "content": " portrait, finishing touches, art, assignment, Harvey Spectre, Daniel Dirksen, painting, creative work, art project, not started.",
+              "content": " portrait, finishing touches, art, assignment, Harvey Spectre, Maverick Dirksen, painting, creative work, art project, not started.",
               "link": null
             },
             "annotations": {
@@ -100,7 +100,7 @@ export const EXAMPLE_RAW_TASKS_RESPONSE: QueryDataSourceResponse["results"] = [
               "code": false,
               "color": "default"
             },
-            "plain_text": " portrait, finishing touches, art, assignment, Harvey Spectre, Daniel Dirksen, painting, creative work, art project, not started.",
+            "plain_text": " portrait, finishing touches, art, assignment, Harvey Spectre, Maverick Dirksen, painting, creative work, art project, not started.",
             "href": null
           }
         ]

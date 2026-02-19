@@ -73,11 +73,11 @@ describe("Tests that selected values in payload are added to task object", () =>
   it("Should extract users's project selections", () => {
       // console.log(payload, payload_01);
 
-      const taskPagProjectSelected: {
+      const taskPageProjectSelected: {
         taskPageObject: TaskPage;
       } = payloadProjectsSelected["actions"][0].value || "{}";
 
-      const taskPageObject = taskPagProjectSelected.taskPageObject;
+      const taskPageObject = taskPageProjectSelected.taskPageObject;
 
       const taskWithAdditionalProjects = integrateSelectedValues(
         taskPageObject.task,

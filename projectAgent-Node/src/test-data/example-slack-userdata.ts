@@ -10,7 +10,7 @@ export const MELINDA_IN_SLACK = {
 };
 
 
-export const RAMONA_CECI_IN_SLACK = {
+export const RAMONAIN_SLACK = {
     userId: 'U08VADHNG0G',
     name: 'Ramona Madison',
     email: 'ramadison@gmail.com',
@@ -34,8 +34,8 @@ export const MARTIN_IN_SLACK = {
 
 export const DRAKE_IN_SLACK = {
     userId: 'U09B79A2J2U',
-    name: 'Belteshazar Bond',
-    email: 'belteshazar.bond+1@my-domain.com',
+    name: 'Maverick Bond',
+    email: 'maverick.bond+1@my-domain.com',
     timezoneData: {
         tz: 'America/Los_Angeles',
         tz_label: 'Pacific Standard Time',

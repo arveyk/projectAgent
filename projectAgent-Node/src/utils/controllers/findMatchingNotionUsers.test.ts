@@ -43,7 +43,7 @@ describe("Tests findMatchingAssigner", () => {
   it("Returns at least one result when given an exact name", async () => {
 
     jest.spyOn(getNotionWorkspaceUsers, "getNotionUsers").mockResolvedValue(EXAMPLE_ALL_NOTION_USERS);
-    const matches = await findMatchingNotionUser("Belteshazar Bond", null);
+    const matches = await findMatchingNotionUser("Maverick Bond", null);
     console.log(`Matches: ${JSON.stringify(matches)}`);
 
     expect(matches.length).toBeGreaterThan(0);

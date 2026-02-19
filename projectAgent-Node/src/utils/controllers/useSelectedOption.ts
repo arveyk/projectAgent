@@ -30,10 +30,9 @@ export function integrateSelectedUsers(
 
   for (const selectedOption of selectedValues) {
     const selectedUser: NotionUser = JSON.parse(selectedOption["value"]);
-    if (assignees.includes(selectedUser)) {
-      continue;
+    if (!assignees.includes(selectedUser)) {
+      allAssignees.push(selectedUser);
     }
-    allAssignees.push(selectedUser);
   }
   return allAssignees;
 }
@@ -61,13 +60,9 @@ export function integrateSelectedProjects(
     // Refactoring so that we use the project id directly
     const projectId: string = selectedOption["value"].replace("Project_", "");
 
-    if (
-      allProjects.find(
-        (element) => projectId === element.id,
-      )
-    )
-      continue;
-    allProjects.push({ id: projectId });
+    if (!allProjects.includes({ "id": projectId})) {
+       allProjects.push({ id: projectId });
+    }
   }
   return allProjects;
 }
@@ -84,12 +79,12 @@ export function integrateSelectedValues(notionTask: NotionTask, payload: any) {
 
   const selected = payload["state"]["values"];
 
-  const valueKeys = Object.keys(selected);
+  const selectedValueKeysArray = Object.keys(selected);
 
-  const selectedKey = valueKeys[0];
+  const firstMenuSelectedKey = selectedValueKeysArray[0];
 
-  const selectedValues: SelectionOption[] =
-    selected[selectedKey]["multi_select-action"]["selected_options"];
+  const selectedOptionsObjects: SelectionOption[] =
+    selected[firstMenuSelectedKey]["multi_select-action"]["selected_options"];
 
   const notionTaskWithIntegratedValues: NotionTask = {
     taskTitle: notionTask.taskTitle,
@@ -101,35 +96,35 @@ export function integrateSelectedValues(notionTask: NotionTask, payload: any) {
     project: [...(notionTask.project || [])]
   }
 
-  if (selectedValues.length > 0) {
-    if (selectedValues[0].value.includes("Project_")) {
+  if (selectedOptionsObjects.length > 0) {
+    if (selectedOptionsObjects[0].value.includes("Project_")) {
       const allProjects = integrateSelectedProjects(
         projects,
-        selectedValues,
+        selectedOptionsObjects,
       );
 
       notionTaskWithIntegratedValues.project = allProjects;
     } else {
-      const allAssignees = integrateSelectedUsers(
+      const selectedAssignees = integrateSelectedUsers(
         assignees,
-        selectedValues,
+        selectedOptionsObjects,
       );
-      notionTaskWithIntegratedValues.assignees = [...notionTask.assignees, ...allAssignees];
+      notionTaskWithIntegratedValues.assignees = [...notionTask.assignees, ...selectedAssignees];
     }
   }
-  if (valueKeys.length > 1) {
-    const secondSelectedKey = valueKeys[1];
+  if (selectedValueKeysArray.length > 1) {
+    const secondMenuSelectedKey = selectedValueKeysArray[1];
     console.log("More than one item selected");
 
     const selectedValues: SelectionOption[] =
-      selected[secondSelectedKey]["multi_select-action"]["selected_options"];
+      selected[secondMenuSelectedKey]["multi_select-action"]["selected_options"];
 
-    const allProjects2 = integrateSelectedProjects(
+    const allProjectsSecondMenu = integrateSelectedProjects(
       projects,
       selectedValues,
     );
 
-    notionTaskWithIntegratedValues.project = allProjects2;
+    notionTaskWithIntegratedValues.project = allProjectsSecondMenu;
   }
 
   return notionTaskWithIntegratedValues;

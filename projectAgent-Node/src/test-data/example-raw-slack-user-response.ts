@@ -21,7 +21,7 @@ const sample0 = {
    "profile":{
       "real_name":"Harvey Spectre",
       "display_name":"Harvey Spectre",
-      "avatar_hash":"398bf0d0ca2d",
+      "avatar_hash":"",
       "real_name_normalized":"Harvey Spectre",
       "display_name_normalized":"Harvey Spectre",
       "image_24":"https:494018_3994_original.jpg",
@@ -37,7 +37,7 @@ const sample0 = {
       "status_text_canonical":"",
       "status_emoji":"",
       "status_emoji_display_info":[
-         
+
       ],
       "status_expiration":0
    }
@@ -45,7 +45,7 @@ const sample0 = {
 
 const sample02 = {
    "id":"U09B79A2J2U",
-   "name":"dickson.dirksen_1",
+   "name":"dickson.olsen_1",
    "is_bot":false,
    "updated":1755272344,
    "is_app_user":false,
@@ -66,7 +66,7 @@ const sample02 = {
    "profile":{
       "real_name":"dickson",
       "display_name":"dickson",
-      "avatar_hash":"gd80bd5caa40",
+      "avatar_hash":"",
       "real_name_normalized":"dickson",
       "display_name_normalized":"dickson",
       "image_24":"5c5740beef63ad127slack-edge.com%2Fdf1a_0020-512.png",
@@ -81,7 +81,7 @@ const sample02 = {
       "status_text_canonical":"",
       "status_emoji":"",
       "status_emoji_display_info":[
-         
+
       ],
       "status_expiration":0
    }
@@ -110,7 +110,7 @@ const sample03 = {
    "profile":{
       "real_name":"Cloe Melisa",
       "display_name":"",
-      "avatar_hash":"ge03e0f52591",
+      "avatar_hash":"",
       "real_name_normalized":"Cloe Melisa",
       "display_name_normalized":"",
       "image_24":"htt955dca43c8.jpg?s=dge.com%224-512.png",
@@ -125,7 +125,7 @@ const sample03 = {
       "status_text_canonical":"",
       "status_emoji":"",
       "status_emoji_display_info":[
-         
+
       ],
       "status_expiration":0
    }
@@ -154,7 +154,7 @@ const sample04 = {
    "profile":{
       "real_name":"James bond (Sol)",
       "display_name":"James bond (Sol)",
-      "avatar_hash":"g80d6141c73d",
+      "avatar_hash":"",
       "real_name_normalized":"James bond (Sol)",
       "display_name_normalized":"James bond (Sol)",
       "image_24":"httc73d227a8424dc7ce%2Fa.stars%2Fav2121-512.png",
@@ -169,9 +169,8 @@ const sample04 = {
       "status_text_canonical":"",
       "status_emoji":"",
       "status_emoji_display_info":[
-         
+
       ],
       "status_expiration":0
    }
 }
-

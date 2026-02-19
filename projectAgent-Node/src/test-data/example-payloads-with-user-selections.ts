@@ -47,7 +47,7 @@ export const EXAMPLE_USER_AND_PROJECT_SELECTED = {
 						"selected_options": [
 							{
 								"text": {
-									"type": "plain_text", "text": "*Project Assigned by Dresdan*", "emoji": true
+									"type": "plain_text", "text": "*Project Assigned by Ramona*", "emoji": true
 								},
 								"value": "Project_cWjYlMtRpvakDg2fD3wU43KF"
 							}
@@ -71,8 +71,8 @@ export const EXAMPLE_USER_AND_PROJECT_SELECTED = {
 						"task": {
 							"taskTitle": "Prime the new pump", "assignees": [], "assignedBy": [],
 							"startDate": "2026-01 -09T13: 15: 12.886Z",
-							"description": "Prime the new pump for the project created by Dresdan", "project": [{
-								"id": "2bdeef29- a653 - 8093 - 97fb - f411a20b58ed"
+							"description": "Prime the new pump for the project created by Ramona", "project": [{
+								"id": "2bdeef29-a653-8093-97fb-f411a20b58ed"
 
 							}]
 						}, "pageId": "", "url": ""
@@ -127,13 +127,7 @@ export const EXAMPLE_ONLY_ASSIGNEE_SELECTED = {
 				"pDrLp": {
 					"multi_select-action": {
 						"type": "multi_static_select",
-						"selected_options": [{
-							"text": {
-								"type": "plain_text",
-								"text": "*Project Assigned by Dresdan*", "emoji": true
-							},
-							"value": "Project_1"
-						}]
+						"selected_options": []
 					}
 				}
 			}
@@ -148,25 +142,25 @@ export const EXAMPLE_ONLY_ASSIGNEE_SELECTED = {
 						"assignees": [],
 						"assignedBy": [],
 						"startDate": "2026-01 -09T13: 15: 12.886Z",
-						"description": "Prime the new pump for the project created by Dresdan",
+						"description": "Prime the new pump for the project created by Ramona",
 						"project": [{
-							"id": "2bdeef29- a653 - 8093 - 97fb - f411a20b58ed"
+							"id": "2bdeef29-a653-8093-97fb-f411a20b58ed"
 						}]
 					},
 					"pageId": "",
 					"url": ""
 				},
 				"userOptions": [{
-					"userId": "1e0d872b-594c-81e5-be86-000260493812", "name": "Harvey Spectre", "email": "harveyspectre@example-mail.com"
+					"userId": "1e0d872b-594c-81e5-be86-000260493812", "name": "Bill Withers", "email": "billwithers@my-email.com"
 				},
 				{
 					"userId": "25cd872b-594c-8111-84e3-00020e1da9ea", "name": "Harvey Spectre", "email": "harvey.spectre@example-domain.com"
 				}],
 				"projectOptions": [{
-					"projectName": "Project Assigned by Harvey", "id": "2bdeef29 - a653 - 8020 - 9dd0 - e20ff33c265c"
+					"projectName": "Project Assigned by Harvey", "id": "2bdeef29-a653-8020-9dd0-e20ff33c265c"
 				},
 				{
-					"projectName": "Project Assigned by Dresdan", "id": "2bdeef29 - a653 - 8093 - 97fb - f411a20b58ed"
+					"projectName": "Project Assigned by Ramona", "id": "2bdeef29-a653-8093-97fb-f411a20b58ed"
 				}]
 			},
 			"style": "primary",
@@ -206,7 +200,8 @@ export const EXAMPLE_ONLY_PROJECT_SELECTED = {
 			"values": {
 				"btnTn": {
 					"multi_select-action": {
-						"type": "multi_static_select", "selected_options": []
+						"type": "multi_static_select",
+						"selected_options": []
 					}
 				},
 				"qbjGD": {
@@ -217,10 +212,10 @@ export const EXAMPLE_ONLY_PROJECT_SELECTED = {
 							{
 								"text": {
 									"type": "plain_text",
-									"text": "*Project Assigned by Dresdan*",
+									"text": "*Project Assigned by Ramona*",
 									"emoji": true
 								},
-								"value": "Project_1"
+								"value": "Project_2bdeef29a653809397fbf411a"
 							}
 						]
 					}
@@ -241,31 +236,14 @@ export const EXAMPLE_ONLY_PROJECT_SELECTED = {
 						"assignees": [],
 						"assignedBy": [],
 						"startDate": "2026-01-09T14:34:05.642Z",
-						"description": "Prime the new pump for the project created by Dresdan",
+						"description": "Prime the new pump for the project created by Ramona",
 						"project": [{
-							"id": "2bdeef29-a653-8093-97fb-f411a20b58ed"
+							"id": "2bdeef9aSAFffgdgg29a20b58ed"
 						}]
 					},
 					"pageId": "",
 					"url": ""
-				},
-				"userOptions": [{
-					"userId": "1e0d872b-594c-81e5-be86-000260493812",
-					"name": "Harvey Spectre", "email": "harveyspectre@example-mail.com"
-				},
-				{
-					"userId": "25cd872b-594c-8111-84e3-00020e1da9ea",
-					"name": "Harvey Spectre",
-					"email": "harvey.spectre@example-domain.com"
-				}],
-				"projectOptions": [{
-					"projectName": "Project Assigned by Harvey",
-					"id": "2bdeef29-a653-8020-9dd0-e20ff33c265c"
-				},
-				{
-					"projectName": "Project Assigned by Dresdan",
-					"id": "2bdeef29-a653-8093-97fb-f411a20b58ed"
-				}]
+				}
 			},
 			"style": "primary",
 			"type": "button",
@@ -336,7 +314,7 @@ export const EXAMPLE_NO_ITEM_SELECTED = {
 							"assignedBy": [{
 								"userId": "1e0d872b-594c-81e5-be86-000260493812",
 								"name": "Harvey Spectre",
-								"email": "harveyspectre@example-mail.com"
+								"email": "harveyspectre@example-domain.com"
 							}],
 							"startDate": "2026-02-06",
 							"description": "Harvey, create a statistical analysis tool for the population tracking project",

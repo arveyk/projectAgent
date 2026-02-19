@@ -16,17 +16,17 @@ export const EXAMPLE_RAW_USERS_RESPONSE: ListUsersResponse = {
     {
       "object": "user",
       "id": "152d872b-594c-8145-9c2c-000204787b69",
-      "name": "Dresdan Tabitha",
+      "name": "Ramona Madison",
       "avatar_url": "placeholder_sample_url",
       "type": "person",
       "person": {
-        "email": "dresdan.tabith@example-domain.com"
+        "email": "ramona.tabith@example-domain.com"
       }
     },
     {
       "object": "user",
       "id": "155d872b-594c-810e-9174-00024470271f",
-      "name": "Kate",
+      "name": "Kate Wilson",
       "avatar_url": null,
       "type": "person",
       "person": {
@@ -50,7 +50,7 @@ export const EXAMPLE_RAW_USERS_RESPONSE: ListUsersResponse = {
       "avatar_url": "placeholder-avatar_url",
       "type": "person",
       "person": {
-        "email": "mississippi@example-domain.com"
+        "email": "nairobi@example-domain.com"
       }
     },
     {
@@ -86,7 +86,7 @@ export const EXAMPLE_RAW_USERS_RESPONSE: ListUsersResponse = {
     {
       "object": "user",
       "id": "25cd872b-594c-8111-84e3-00020e1da9ea",
-      "name": "Harvey Kisiangani",
+      "name": "Harvey Spectre",
       "avatar_url": "placeholder-avatar-url",
       "type": "person",
       "person": {
@@ -106,11 +106,11 @@ export const EXAMPLE_RAW_USERS_RESPONSE: ListUsersResponse = {
     {
       "object": "user",
       "id": "264d872b-594c-811e-afe6-0002754d4767",
-      "name": "Joana Bocherini",
+      "name": "Joanna Bocherini",
       "avatar_url": "placeholder-avatar-url",
       "type": "person",
       "person": {
-        "email": "joana.bocherini@example-domain.com"
+        "email": "joanna.bocherini@example-domain.com"
       }
     },
     {
@@ -246,11 +246,11 @@ export const EXAMPLE_RAW_USERS_RESPONSE: ListUsersResponse = {
     {
       "object": "user",
       "id": "13dd872b-594c-810f-8bb4-000282e27820",
-      "name": "Daniel Bond",
+      "name": "Maverick Bond",
       "avatar_url": "placeholder-avatar-url",
       "type": "person",
       "person": {
-        "email": "daniel.bond@my-domain.com"
+        "email": "maverick.bond@my-domain.com"
       }
     },
     {

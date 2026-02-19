@@ -8,18 +8,18 @@ export const EXAMPLE_RAW_TASKS_RESPONSE: QueryDataSourceResponse["results"] = [
     "last_edited_time": "2026-01-13T17:40:00.000Z",
     "created_by": {
       "object": "user",
-      "id": "c5c7242a-08c1-471e-b154-2592356fb0de"
+      "id": "sample-user-id4-2592356fb0de"
     },
     "last_edited_by": {
       "object": "user",
-      "id": "c5c7242a-08c1-471e-b154-2592356fb0de"
+      "id": "sample-user-id4-2592356fb0de"
     },
     "cover": null,
     "icon": null,
     "parent": {
       "type": "data_source_id",
-      "data_source_id": "25eeef29-a653-8172-bd85-000bed7c6532",
-      "database_id": "25eeef29-a653-81ba-a4df-e937fe2137f4"
+      "data_source_id": "sample-datasource-id-000bed7c6532",
+      "database_id": "sample-database-id-e937fe2137f4"
     },
     "archived": false,
     "in_trash": false,
@@ -89,7 +89,7 @@ export const EXAMPLE_RAW_TASKS_RESPONSE: QueryDataSourceResponse["results"] = [
           {
             "type": "text",
             "text": {
-              "content": " portrait, finishing touches, art, assignment, Harvey Kisiangani, Daniel Dirksen, painting, creative work, art project, not started.",
+              "content": " portrait, finishing touches, art, assignment, Harvey Spectre, Daniel Dirksen, painting, creative work, art project, not started.",
               "link": null
             },
             "annotations": {
@@ -100,7 +100,7 @@ export const EXAMPLE_RAW_TASKS_RESPONSE: QueryDataSourceResponse["results"] = [
               "code": false,
               "color": "default"
             },
-            "plain_text": " portrait, finishing touches, art, assignment, Harvey Kisiangani, Daniel Dirksen, painting, creative work, art project, not started.",
+            "plain_text": " portrait, finishing touches, art, assignment, Harvey Spectre, Daniel Dirksen, painting, creative work, art project, not started.",
             "href": null
           }
         ]
@@ -111,12 +111,12 @@ export const EXAMPLE_RAW_TASKS_RESPONSE: QueryDataSourceResponse["results"] = [
         "people": [
           {
             "object": "user",
-            "id": "1e0d872b-594c-81e5-be86-000260493812",
-            "name": "Harvey Kisiangani",
-            "avatar_url": "https://lh3.googleusercontent.com/a/ACg8ocJPEZrdkCpP57gr8TnO-ONwkZl3ZU4gd3KISv81Esya6wGna9Q=s100",
+            "id": "harveys-id-000260493812",
+            "name": "Harvey Spectre",
+            "avatar_url": "placeholder_avatar_url.jpg",
             "type": "person",
             "person": {
-              "email": "harveykisiangani@gmail.com"
+              "email": "harveyspectre@gmail.com"
             }
           }
         ]
@@ -151,18 +151,18 @@ export const EXAMPLE_RAW_TASKS_RESPONSE: QueryDataSourceResponse["results"] = [
     "last_edited_time": "2026-01-21T16:49:00.000Z",
     "created_by": {
       "object": "user",
-      "id": "c5c7242a-08c1-471e-b154-2592356fb0de"
+      "id": "sample-user-id4-2592356fb0de"
     },
     "last_edited_by": {
       "object": "user",
-      "id": "c5c7242a-08c1-471e-b154-2592356fb0de"
+      "id": "sample-user-id4-2592356fb0de"
     },
     "cover": null,
     "icon": null,
     "parent": {
       "type": "data_source_id",
-      "data_source_id": "25eeef29-a653-8172-bd85-000bed7c6532",
-      "database_id": "25eeef29-a653-81ba-a4df-e937fe2137f4"
+      "data_source_id": "sample-datasource-id-000bed7c6532",
+      "database_id": "sample-database-id-e937fe2137f4"
     },
     "archived": false,
     "in_trash": false,
@@ -254,18 +254,18 @@ export const EXAMPLE_RAW_TASKS_RESPONSE: QueryDataSourceResponse["results"] = [
     "last_edited_time": "2026-01-21T01:07:00.000Z",
     "created_by": {
       "object": "user",
-      "id": "c5c7242a-08c1-471e-b154-2592356fb0de"
+      "id": "sample-user-id4-2592356fb0de"
     },
     "last_edited_by": {
       "object": "user",
-      "id": "c5c7242a-08c1-471e-b154-2592356fb0de"
+      "id": "sample-user-id4-2592356fb0de"
     },
     "cover": null,
     "icon": null,
     "parent": {
       "type": "data_source_id",
-      "data_source_id": "25eeef29-a653-8172-bd85-000bed7c6532",
-      "database_id": "25eeef29-a653-81ba-a4df-e937fe2137f4"
+      "data_source_id": "sample-datasource-id-000bed7c6532",
+      "database_id": "sample-database-id-e937fe2137f4"
     },
     "archived": false,
     "in_trash": false,
@@ -388,18 +388,18 @@ export const EXAMPLE_RAW_TASKS_RESPONSE: QueryDataSourceResponse["results"] = [
     "last_edited_time": "2026-01-21T01:09:00.000Z",
     "created_by": {
       "object": "user",
-      "id": "c5c7242a-08c1-471e-b154-2592356fb0de"
+      "id": "sample-user-id4-2592356fb0de"
     },
     "last_edited_by": {
       "object": "user",
-      "id": "c5c7242a-08c1-471e-b154-2592356fb0de"
+      "id": "sample-user-id4-2592356fb0de"
     },
     "cover": null,
     "icon": null,
     "parent": {
       "type": "data_source_id",
-      "data_source_id": "25eeef29-a653-8172-bd85-000bed7c6532",
-      "database_id": "25eeef29-a653-81ba-a4df-e937fe2137f4"
+      "data_source_id": "sample-datasource-id-000bed7c6532",
+      "database_id": "sample-database-id-e937fe2137f4"
     },
     "archived": false,
     "in_trash": false,
@@ -522,18 +522,18 @@ export const EXAMPLE_RAW_TASKS_RESPONSE: QueryDataSourceResponse["results"] = [
     "last_edited_time": "2026-01-21T16:51:00.000Z",
     "created_by": {
       "object": "user",
-      "id": "c5c7242a-08c1-471e-b154-2592356fb0de"
+      "id": "sample-user-id4-2592356fb0de"
     },
     "last_edited_by": {
       "object": "user",
-      "id": "c5c7242a-08c1-471e-b154-2592356fb0de"
+      "id": "sample-user-id4-2592356fb0de"
     },
     "cover": null,
     "icon": null,
     "parent": {
       "type": "data_source_id",
-      "data_source_id": "25eeef29-a653-8172-bd85-000bed7c6532",
-      "database_id": "25eeef29-a653-81ba-a4df-e937fe2137f4"
+      "data_source_id": "sample-datasource-id-000bed7c6532",
+      "database_id": "sample-database-id-e937fe2137f4"
     },
     "archived": false,
     "in_trash": false,
@@ -656,7 +656,7 @@ export const EXAMPLE_RAW_TASKS_RESPONSE: QueryDataSourceResponse["results"] = [
     "last_edited_time": "2026-01-21T16:38:00.000Z",
     "created_by": {
       "object": "user",
-      "id": "c5c7242a-08c1-471e-b154-2592356fb0de"
+      "id": "sample-user-id4-2592356fb0de"
     },
     "last_edited_by": {
       "object": "user",
@@ -666,8 +666,8 @@ export const EXAMPLE_RAW_TASKS_RESPONSE: QueryDataSourceResponse["results"] = [
     "icon": null,
     "parent": {
       "type": "data_source_id",
-      "data_source_id": "25eeef29-a653-8172-bd85-000bed7c6532",
-      "database_id": "25eeef29-a653-81ba-a4df-e937fe2137f4"
+      "data_source_id": "sample-datasource-id-000bed7c6532",
+      "database_id": "sample-database-id-e937fe2137f4"
     },
     "archived": false,
     "in_trash": false,
@@ -793,18 +793,18 @@ export const EXAMPLE_RAW_TASKS_RESPONSE: QueryDataSourceResponse["results"] = [
     "last_edited_time": "2026-01-29T23:50:00.000Z",
     "created_by": {
       "object": "user",
-      "id": "c5c7242a-08c1-471e-b154-2592356fb0de"
+      "id": "sample-user-id4-2592356fb0de"
     },
     "last_edited_by": {
       "object": "user",
-      "id": "c5c7242a-08c1-471e-b154-2592356fb0de"
+      "id": "sample-user-id4-2592356fb0de"
     },
     "cover": null,
     "icon": null,
     "parent": {
       "type": "data_source_id",
-      "data_source_id": "25eeef29-a653-8172-bd85-000bed7c6532",
-      "database_id": "25eeef29-a653-81ba-a4df-e937fe2137f4"
+      "data_source_id": "sample-datasource-id-000bed7c6532",
+      "database_id": "sample-database-id-e937fe2137f4"
     },
     "archived": false,
     "in_trash": false,
@@ -877,18 +877,18 @@ export const EXAMPLE_RAW_TASKS_RESPONSE: QueryDataSourceResponse["results"] = [
     "last_edited_time": "2026-02-06T20:36:00.000Z",
     "created_by": {
       "object": "user",
-      "id": "c5c7242a-08c1-471e-b154-2592356fb0de"
+      "id": "sample-user-id4-2592356fb0de"
     },
     "last_edited_by": {
       "object": "user",
-      "id": "c5c7242a-08c1-471e-b154-2592356fb0de"
+      "id": "sample-user-id4-2592356fb0de"
     },
     "cover": null,
     "icon": null,
     "parent": {
       "type": "data_source_id",
-      "data_source_id": "25eeef29-a653-8172-bd85-000bed7c6532",
-      "database_id": "25eeef29-a653-81ba-a4df-e937fe2137f4"
+      "data_source_id": "sample-datasource-id-000bed7c6532",
+      "database_id": "sample-database-id-e937fe2137f4"
     },
     "archived": false,
     "in_trash": false,
@@ -961,18 +961,18 @@ export const EXAMPLE_RAW_TASKS_RESPONSE: QueryDataSourceResponse["results"] = [
     "last_edited_time": "2026-02-11T21:45:00.000Z",
     "created_by": {
       "object": "user",
-      "id": "c5c7242a-08c1-471e-b154-2592356fb0de"
+      "id": "sample-user-id4-2592356fb0de"
     },
     "last_edited_by": {
       "object": "user",
-      "id": "c5c7242a-08c1-471e-b154-2592356fb0de"
+      "id": "sample-user-id4-2592356fb0de"
     },
     "cover": null,
     "icon": null,
     "parent": {
       "type": "data_source_id",
-      "data_source_id": "25eeef29-a653-8172-bd85-000bed7c6532",
-      "database_id": "25eeef29-a653-81ba-a4df-e937fe2137f4"
+      "data_source_id": "sample-datasource-id-000bed7c6532",
+      "database_id": "sample-database-id-e937fe2137f4"
     },
     "archived": false,
     "in_trash": false,
@@ -1048,18 +1048,18 @@ export const EXAMPLE_RAW_TASKS_RESPONSE: QueryDataSourceResponse["results"] = [
     "last_edited_time": "2026-02-11T21:48:00.000Z",
     "created_by": {
       "object": "user",
-      "id": "c5c7242a-08c1-471e-b154-2592356fb0de"
+      "id": "sample-user-id4-2592356fb0de"
     },
     "last_edited_by": {
       "object": "user",
-      "id": "c5c7242a-08c1-471e-b154-2592356fb0de"
+      "id": "sample-user-id4-2592356fb0de"
     },
     "cover": null,
     "icon": null,
     "parent": {
       "type": "data_source_id",
-      "data_source_id": "25eeef29-a653-8172-bd85-000bed7c6532",
-      "database_id": "25eeef29-a653-81ba-a4df-e937fe2137f4"
+      "data_source_id": "sample-datasource-id-000bed7c6532",
+      "database_id": "sample-database-id-e937fe2137f4"
     },
     "archived": false,
     "in_trash": false,
@@ -1132,18 +1132,18 @@ export const EXAMPLE_RAW_TASKS_RESPONSE: QueryDataSourceResponse["results"] = [
     "last_edited_time": "2026-02-11T22:00:00.000Z",
     "created_by": {
       "object": "user",
-      "id": "c5c7242a-08c1-471e-b154-2592356fb0de"
+      "id": "sample-user-id4-2592356fb0de"
     },
     "last_edited_by": {
       "object": "user",
-      "id": "c5c7242a-08c1-471e-b154-2592356fb0de"
+      "id": "sample-user-id4-2592356fb0de"
     },
     "cover": null,
     "icon": null,
     "parent": {
       "type": "data_source_id",
-      "data_source_id": "25eeef29-a653-8172-bd85-000bed7c6532",
-      "database_id": "25eeef29-a653-81ba-a4df-e937fe2137f4"
+      "data_source_id": "sample-datasource-id-000bed7c6532",
+      "database_id": "sample-database-id-e937fe2137f4"
     },
     "archived": false,
     "in_trash": false,
@@ -1219,7 +1219,7 @@ export const EXAMPLE_RAW_TASKS_RESPONSE: QueryDataSourceResponse["results"] = [
     "last_edited_time": "2026-02-11T21:55:00.000Z",
     "created_by": {
       "object": "user",
-      "id": "c5c7242a-08c1-471e-b154-2592356fb0de"
+      "id": "sample-user-id4-2592356fb0de"
     },
     "last_edited_by": {
       "object": "user",
@@ -1229,8 +1229,8 @@ export const EXAMPLE_RAW_TASKS_RESPONSE: QueryDataSourceResponse["results"] = [
     "icon": null,
     "parent": {
       "type": "data_source_id",
-      "data_source_id": "25eeef29-a653-8172-bd85-000bed7c6532",
-      "database_id": "25eeef29-a653-81ba-a4df-e937fe2137f4"
+      "data_source_id": "sample-datasource-id-000bed7c6532",
+      "database_id": "sample-database-id-e937fe2137f4"
     },
     "archived": false,
     "in_trash": false,
@@ -1303,18 +1303,18 @@ export const EXAMPLE_RAW_TASKS_RESPONSE: QueryDataSourceResponse["results"] = [
     "last_edited_time": "2026-02-11T21:57:00.000Z",
     "created_by": {
       "object": "user",
-      "id": "c5c7242a-08c1-471e-b154-2592356fb0de"
+      "id": "sample-user-id4-2592356fb0de"
     },
     "last_edited_by": {
       "object": "user",
-      "id": "c5c7242a-08c1-471e-b154-2592356fb0de"
+      "id": "sample-user-id4-2592356fb0de"
     },
     "cover": null,
     "icon": null,
     "parent": {
       "type": "data_source_id",
-      "data_source_id": "25eeef29-a653-8172-bd85-000bed7c6532",
-      "database_id": "25eeef29-a653-81ba-a4df-e937fe2137f4"
+      "data_source_id": "sample-datasource-id-000bed7c6532",
+      "database_id": "sample-database-id-e937fe2137f4"
     },
     "archived": false,
     "in_trash": false,

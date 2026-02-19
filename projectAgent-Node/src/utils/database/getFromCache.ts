@@ -7,7 +7,7 @@ import {
 import zlib from "zlib";
 import { promisify } from "util";
 import { CACHE_TABLE_NAME, REGION } from "../../env";
-import { ListUsersResponse, QueryDataSourceResponse } from "@notionhq/client";
+import { isFullPage, ListUsersResponse, QueryDataSourceResponse } from "@notionhq/client";
 
 // Convert callback-based functions to promise-based
 const gunzipPromise = promisify(zlib.gunzip);

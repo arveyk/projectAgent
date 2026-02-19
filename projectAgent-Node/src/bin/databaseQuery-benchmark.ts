@@ -9,8 +9,8 @@ const cacheItems: CacheData = {
     projects: null
 };
 
-const tasks = await getTasks(cacheItems);
+const tasks = await getTasks(cacheItems.tasks);
 console.log(tasks.length);
 
-const projects = await getProjects(cacheItems);
+const projects = await getProjects(cacheItems.projects);
 console.log(projects.length);

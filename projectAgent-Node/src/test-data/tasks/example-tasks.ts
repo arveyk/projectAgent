@@ -18,8 +18,8 @@ export const notionTask: NotionTask = {
   taskTitle: "Schedule meeting with customer",
   assignees: [{"name":"Jacob", "userId": "IUwuhd-98732-gdkxn-e932-jwoiw", "email": "jacomsmail@example.com"}],
   assignedBy: [{"name":"Jacob", "userId": "IUwuhd-98732-gdkxn-e932-jwoiw", "email": "jacomsmail@example.com"}],
-  dueDate: new Date("2025-05-11").toISOString(),
-  startDate: new Date("2025-01-11").toISOString(),
+  dueDate: "2025-05-11",
+  startDate: "2025-01-11",
   description:
     "Schedule a meeting with the customer. Check the sender's Calendly for available times.",
 };
@@ -27,16 +27,16 @@ export const notionTask: NotionTask = {
 export const task_in_db: Task = {
   taskTitle: "Build prototype",
   assignees: [{"name": "Callie"}],
-  dueDate: new Date("2025-08-06").toISOString(),
-  startDate: new Date("2025-07-30").toISOString(),
+  dueDate: "2025-08-06",
+  startDate: "2025-07-30",
   description: "Build the prototype",
 };
 
 export const task_in_db_reworded: Task = {
   taskTitle: "Create event supply list",
   assignees: [{"name": "Ellanie"}],
-  dueDate: new Date("2025-08-04").toISOString(),
-  startDate: new Date("2025-07-31").toISOString(),
+  dueDate: "2025-08-04",
+  startDate: "2025-07-31",
   description:
     "Create a list of all the supplies needed for the event and give it to Joe",
 };
@@ -44,8 +44,8 @@ export const task_in_db_reworded: Task = {
 export const task_not_in_db: Task = {
   taskTitle: "Take over the Tri-State Area",
   assignees: [{name:"Heinz"}],
-  dueDate: new Date("2025-05-11").toISOString(),
-  startDate: new Date("2026-01-11").toISOString(),
+  dueDate: "2025-05-11",
+  startDate: "2026-01-11",
   description: "Take over the Tri-State Area",
 };
 

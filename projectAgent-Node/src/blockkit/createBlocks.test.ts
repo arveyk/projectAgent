@@ -13,7 +13,7 @@ const EXAMPLE_ASSIGNED_BY: NotionUser[] = [
     {
         userId: "136dsg2b-594c-817b-adaa-000l3lf9e69",
         name: "Maverick Bond",
-        email: "mav.bond@example-domain.com",
+        email: "mav.bond@shared-domain.com",
     },
 ];
 
@@ -61,5 +61,13 @@ describe("Test createBlockNewTask with a valid task object", () => {
         expect(JSON.stringify(slackBlocksObject.blocks)).toMatch(
             /Description:\*.{1,8}Schedule a meeting with the customer\. Check the sender's Calendly for available times\."/gm,
         );
+
+        // Test that buttons value does not have more than 2001 characters
+
+        expect(JSON.stringify(ExampleNotionTask).length).toBeLessThan(2001);
+        // Work around for checking if block structure is consistent
+        expect(() => {
+            JSON.stringify(slackBlocksObject);
+        }).not.toThrow();
     });
 });

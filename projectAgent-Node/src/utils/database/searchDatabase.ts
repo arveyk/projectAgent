@@ -108,6 +108,7 @@ export async function getTasks(alreadyFetchedTasks: QueryDataSourceResponse["res
     logTimestampForBenchmarking("Querying task database");
     rawTasks = await getTasksRaw();
     logTimestampForBenchmarking("Done querying task database");
+    // console.log(JSON.stringify(rawTasks));
   }
   return rawTasks
     .filter((page) => isFullPage(page))
@@ -143,7 +144,7 @@ export async function getTasksRaw(): Promise<
         },
       ],
     },
-    filter_properties: ["Task name", "Description", "Assigned to", "Project"],
+    filter_properties: ["Task name", "Description", "Assigned to", "Project", "Status"],
   });
 }
 

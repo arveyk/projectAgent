@@ -61,6 +61,33 @@ export function simplifyTaskPage(
 }
 
 /**
+ * Function to filter out done and archived tasks
+ * @param tasks: Array of queried tasks
+ * 
+ * returns: Array of tasks excluding those labelled as done by the status property
+ */
+export function filterDoneAndArchivedTasks(tasks: (PageObjectResponse
+    | PartialPageObjectResponse
+    | PartialDataSourceObjectResponse
+    | DataSourceObjectResponse)[]
+  ) {
+
+  const fullPages = tasks.filter((task) => {
+    return isFullPage(task);
+  })
+  const activeTasks = fullPages.filter((task) => {
+      if (task.properties.Status.type === "status" &&
+         !["Done", "Archived"].includes(
+          task.properties.Status.status?.name || "Undefined")){
+            return true
+      }
+      // return false;
+  });
+
+  return activeTasks;
+}
+
+/**
  * Simplifies database query results from Notion to make them more readable to the LLM.
  * @param dbResults Database query results from Notion
  * @returns A simplified version of the Notion database results.

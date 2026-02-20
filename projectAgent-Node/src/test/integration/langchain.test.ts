@@ -1,10 +1,10 @@
-import { CACHE_DATA_EXAMPLE_ALL } from "../test-data/cache/cacheItems";
+import { CACHE_DATA_EXAMPLE_ALL } from "../../test-data/cache/cacheItems";
 import {
   payloadNoDates,
   payloadExample,
-} from "../test-data/payloads/slashcmd/payloads";
-import { parseTask, EXAMPLE_OUTPUT_FOR_PROMPT_00, taskSchema } from "../utils/aiagent";
-import { structuredOutputDemo } from "./langchain";
+} from "../../test-data/payloads/slashcmd/payloads";
+import { parseTask, EXAMPLE_OUTPUT_FOR_PROMPT_00, taskSchema } from "../../utils/aiagent";
+import { structuredOutputDemo } from "../../bin/langchain";
 
 describe("Tests structured output example", () => {
   it("", async () => {

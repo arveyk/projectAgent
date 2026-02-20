@@ -36,6 +36,7 @@
   "type": "module",
   "scripts": {
     "test": "npx jest --config ./jest.config.cjs",
+    "integration": "npx jest --config ./jest.integration.config.cjs",
     "test-helpers": "npx jest utils/aiagent.test.js utils/db-search.test.js blockkit/createBlocks.test.js utils/convertEmptyFields.test.js utils/simplifyDBResults.test.js",
     "start": "node dist/index.cjs",
     "dev": "nodemon src/index.cjs",

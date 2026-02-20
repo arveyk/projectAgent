@@ -3,13 +3,13 @@ import { EXAMPLE_ALL_PROJECTS_IN_NOTIONDB } from "../test-data/example-all-notio
 import { EXAMPLE_ALL_NOTION_USERS } from "../test-data/example-all-notion-users";
 
 describe("Test the value of the Confirm button of Slack block", () => {
-  (it("Should be within prescribed limits", function anomalyTest() {
+  it("Should produce number of items in menu within prescribed limits", function anomalyTest() {
     const projectMenuOptions = createMenuOptions(
       "Project",
       EXAMPLE_ALL_PROJECTS_IN_NOTIONDB,
     );
     expect(projectMenuOptions).toBeDefined();
-    expect(projectMenuOptions.length).toBeLessThan(71); 
+    expect(projectMenuOptions.length).toBeLessThan(71);
 
     console.log(JSON.stringify(projectMenuOptions.slice(0, 5), null, 2));
   }),
@@ -22,5 +22,5 @@ describe("Test the value of the Confirm button of Slack block", () => {
       expect(assigneeMenuOptions.length).toBeLessThan(71);
 
       console.log(JSON.stringify(assigneeMenuOptions.slice(0, 5), null, 2));
-    }));
+    });
 });

@@ -67,7 +67,7 @@ const payload3: SlashCommand = {
  * returns: no return value
  */
 async function benchMark(payload: SlashCommand) {
-  const parseTaskResult = await parseTask(payload1, Date.now());
+  const parseTaskResult = await parseTask(payload1, payload.text, Date.now(), null);
   console.log(`Responses:  ${parseTaskResult}`);
 }
 

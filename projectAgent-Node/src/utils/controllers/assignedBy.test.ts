@@ -16,7 +16,7 @@ import {
         DRAKE_IN_SLACK,
         EXAMPLE_JAMES_IN_SLACK,
         HARVEY_IN_SLACK,
-        RAMONAIN_SLACK
+        RAMONA_IN_SLACK
 } from "../../test-data/example-slack-userdata";
 import { EXAMPLE_RAW_USERS_RESPONSE } from "../../test-data/cache/rawUsers";
 
@@ -46,7 +46,7 @@ describe("Test getting assigned by from Notion using slack Id", () => {
                 expect(jamesIdentityInNotion[0].email).toMatch(EXAMPLE_JAMES_IN_SLACK.email);
         });
         it("Should find Ramona in Notion", async () => {
-                const RamonaIdentityInNotion = await findMatchingNotionUserByEmail(RAMONAIN_SLACK.email, EXAMPLE_RAW_USERS_RESPONSE);
+                const RamonaIdentityInNotion = await findMatchingNotionUserByEmail(RAMONA_IN_SLACK.email, EXAMPLE_RAW_USERS_RESPONSE);
                 console.log("User's Identity in Notion", RamonaIdentityInNotion);
 
                 expect(RamonaIdentityInNotion[0]).not.toBeDefined();

@@ -130,22 +130,32 @@ const structuredLlmSlashCmd: Runnable<
  */
 export const parseTask = async function (
   reqBody: SlashCommand,
+  textToParse: string,
   timestamp: number,
   alreadyFetchedProjects: QueryDataSourceResponse["results"] | null
 ): Promise<ParsedData> {
-  let textToParse;
+  /*let textToParse: {
+    inferredFromPreviousContext: boolean;
+    text:string; 
+  };*/
 
-  if (reqBody["command"]) {
-    textToParse = reqBody["text"];
+  /*if (reqBody["command"]) {
+    //textToParse = reqBody["text"];
+    textToParse = await inferInputSource(reqBody);
   } else if (reqBody["event"]) {
-    textToParse = reqBody["text"];
+    textToParse = {
+      inferredFromPreviousContext: false,
+      text: reqBody["text"],
+    }
   } else {
-    textToParse = "No Task available";
-  }
+    textToParse = {
+      inferredFromPreviousContext: false,
+      text: "No Task available"
+    }
+  }*/
 
   const appUserData = await getAppUserData(reqBody, timestamp);
 
-  // const timeData = await getEventTimeData(reqBody, timestamp);
   const timeData = appUserData.eventTimeData;
 
   const notionProjects = await getProjects(alreadyFetchedProjects);

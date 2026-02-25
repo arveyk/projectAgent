@@ -7,7 +7,7 @@ import {
 } from "../utils/database/searchDatabase";
 import { sendLoadingMessage } from "../blockkit/loadingMessage";
 import {
-  findAssignedBy,
+  findAssignedBysNotionProfile,
   findMatchingAssignees,
 } from "../utils/controllers/findMatchingNotionUsers";
 import { logTimestampForBenchmarking } from "../utils/logTimestampForBenchmarking";
@@ -24,6 +24,7 @@ import {
 } from "../utils/slashCommandProcessing";
 import { createNewTaskBlock } from "../blockkit/createNewTaskBlock";
 import { createCacheClient, retrieveCache } from "../utils/database/getFromCache";
+import { inferInputSource } from "../utils/controllers/contextResolution/inferInputSource";
 
 const slashCmdHandler: StreamifyHandler = async function (
   event: APIGatewayProxyEventV2,
@@ -55,15 +56,18 @@ const slashCmdHandler: StreamifyHandler = async function (
 	  Request Body: ${JSON.stringify(reqBody)}`);
     console.log(`headers: ${JSON.stringify(event.headers)}`);
 
-    const commandValidationResult = isValidCommand(reqBody);
-    if (commandValidationResult.isValid) {
+    const inferredContext = await inferInputSource(reqBody);
+
+    // const commandValidationResult = isValidCommand(reqBody);
+    // if (commandValidationResult.isValid) {
+   if (inferredContext) {
       const response_url = reqBody["response_url"];
 
       // Fetch cache
       await sendLoadingMessage(
         "Searching Database",
         response_url,
-        reqBody.text,
+        inferredContext.text,
       );
       logTimestampForBenchmarking("Fetching cache");
       const cacheClient = createCacheClient();
@@ -76,7 +80,9 @@ const slashCmdHandler: StreamifyHandler = async function (
       // Search database
       logTimestampForBenchmarking("Searching database");
       // TODO only pass data needed
-      const isInDatabase = await searchDatabase(reqBody.text, fetchedTasks);
+      
+
+      const isInDatabase = await searchDatabase(inferredContext.text, fetchedTasks);
       logTimestampForBenchmarking("Done searching database");
 
       console.log("IS in database?", JSON.stringify(isInDatabase));
@@ -85,7 +91,7 @@ const slashCmdHandler: StreamifyHandler = async function (
       const timestamp: number = Date.now();
 
       logTimestampForBenchmarking("Parsing task");
-      const parsedData = await parseTask(reqBody, timestamp, fetchedProjects);
+      const parsedData = await parseTask(reqBody, inferredContext.text, timestamp, fetchedProjects);
       logTimestampForBenchmarking("Done parsing task");
 
       logTimestampForBenchmarking("Searching Notion for assignees");
@@ -150,7 +156,7 @@ const slashCmdHandler: StreamifyHandler = async function (
           JSON.stringify(parsedData),
         );
 
-        const assignedBy = await findAssignedBy(parsedData.taskCreator, fetchedUsers);
+        const assignedBy = await findAssignedBysNotionProfile(parsedData.taskCreator, fetchedUsers);
         const slackBlocks = createNewTaskBlock(
           assignedBy,
           parsedData.task,
@@ -176,7 +182,7 @@ const slashCmdHandler: StreamifyHandler = async function (
         method: "post",
         url: reqBody["response_url"],
         data: {
-          text: "Format: ['Task Details']",
+          text: `Feature: Processing Previous context under development`,
         },
         family: 4,
       }).then((resp) => {

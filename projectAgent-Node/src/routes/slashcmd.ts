@@ -19,7 +19,6 @@ import {
 import { GetPageResponse } from "@notionhq/client";
 import { APIGatewayProxyEventV2, Context, StreamifyHandler } from "aws-lambda";
 import {
-  isValidCommand,
   extractRequestBody,
 } from "../utils/slashCommandProcessing";
 import { createNewTaskBlock } from "../blockkit/createNewTaskBlock";
@@ -56,11 +55,8 @@ const slashCmdHandler: StreamifyHandler = async function (
 	  Request Body: ${JSON.stringify(reqBody)}`);
     console.log(`headers: ${JSON.stringify(event.headers)}`);
 
-    const inferredContext = await inferInputSource(reqBody);
-
-    // const commandValidationResult = isValidCommand(reqBody);
-    // if (commandValidationResult.isValid) {
-   if (inferredContext) {
+    if (reqBody) {
+      const inferredContext = await inferInputSource(reqBody);
       const response_url = reqBody["response_url"];
 
       // Fetch cache
@@ -80,7 +76,7 @@ const slashCmdHandler: StreamifyHandler = async function (
       // Search database
       logTimestampForBenchmarking("Searching database");
       // TODO only pass data needed
-      
+
 
       const isInDatabase = await searchDatabase(inferredContext.text, fetchedTasks);
       logTimestampForBenchmarking("Done searching database");
@@ -182,7 +178,7 @@ const slashCmdHandler: StreamifyHandler = async function (
         method: "post",
         url: reqBody["response_url"],
         data: {
-          text: `Feature: Processing Previous context under development`,
+          text: "Feature request or user curiosity",
         },
         family: 4,
       }).then((resp) => {

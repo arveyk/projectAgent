@@ -17,12 +17,13 @@ export async function inferInputSource(requestBody: SlashCommand) {
 
   const userTextInputLength = requestBody.text.trim().length;
   let textToParse: string;
+
   if (requestBody["command"]) {
     textToParse = requestBody["text"];
   } else if (requestBody["event"]) {
     textToParse = requestBody["text"];
   } else {
-    textToParse = "No Task available";
+    textToParse = "No Task Available";
   }
 
 
@@ -32,7 +33,7 @@ export async function inferInputSource(requestBody: SlashCommand) {
         channel: requestBody.channel_id,
         inclusive: false,
         latest: requestBody.trigger_id,
-        limit: 3,
+        limit: 5,
       },
 
       headers: {
@@ -65,22 +66,25 @@ export async function inferInputSource(requestBody: SlashCommand) {
         const match = matchUserById(convo.user, allSlackUsers);
         return `${match?.name || "Unknown"}: ${convo.text}`;
       });
-      // console.log(convoWithSpeakerNames.reverse().join("\n"));
       console.log(conversationList);
+
+      textToParse = `Channel: ${requestBody.channel_name}\n`.concat(convoWithSpeakerNames.reverse().join("\n"))
+    } else {
+      convoWithSpeakerNames.push("No Task Available");
     }
+
       return {
        inferredFromPreviousContext: true,
-       text: convoWithSpeakerNames.reverse().join("\n")
+       text: textToParse
      }
   } else {    
       return {
        inferredFromPreviousContext: false,
-       text: requestBody.text
+       text: textToParse
       }
   }
 }
 
-// TODO create convoList function
 /**
  * Function to match user by id
  * @param userId:	id to match

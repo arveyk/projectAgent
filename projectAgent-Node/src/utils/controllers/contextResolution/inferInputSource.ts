@@ -49,16 +49,18 @@ export async function inferInputSource(requestBody: SlashCommand) {
 
     console.log(JSON.stringify(conversationHistoryResponse.data, null, 2));
 
-    const  recentMessageHistory = conversationHistoryResponse.data.messages;
+    const recentMessageHistory = conversationHistoryResponse.data.messages;
     let convoWithSpeakerNames: string[] = [];
     if (conversationHistoryResponse.data.ok === true) {
       const conversationList = [];
       for (const conversation of recentMessageHistory) {
         console.log(conversation.user, ": ", conversation.text)
-        conversationList.push({
-          user: conversation.user,
-          text: conversation.text
-        });
+        if (!conversation.subtype) {
+          conversationList.push({
+            user: conversation.user,
+            text: conversation.text
+          });
+        }
       }
 
       const allSlackUsers = await getSlackUsers();
@@ -73,15 +75,15 @@ export async function inferInputSource(requestBody: SlashCommand) {
       convoWithSpeakerNames.push("No Task Available");
     }
 
-      return {
-       inferredFromPreviousContext: true,
-       text: textToParse
-     }
-  } else {    
-      return {
-       inferredFromPreviousContext: false,
-       text: textToParse
-      }
+    return {
+      inferredFromPreviousContext: true,
+      text: textToParse
+    }
+  } else {
+    return {
+      inferredFromPreviousContext: false,
+      text: textToParse
+    }
   }
 }
 

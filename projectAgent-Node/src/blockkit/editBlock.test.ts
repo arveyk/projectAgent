@@ -27,13 +27,15 @@ describe("Tests createTaskInfo Function", () => {
     console.log(JSON.stringify(taskBlock));
 
     expect(taskBlock).toBeDefined();
+    const dueDate = new Date(taskNoAssignee.dueDate || "").toDateString();
+    const dueDateRegex = RegExp(`Due Date:.{1,4}${dueDate}`,"gm");
 
     expect(JSON.stringify(taskBlock)).toMatch(
       /Task Title.{1,4}Fix plumbing issue in second floor kitchen/gm,
     );
     expect(JSON.stringify(taskBlock)).toMatch(/Assignees:.{1,4}/gm);
     expect(JSON.stringify(taskBlock)).toMatch(
-      /Due Date:.{1,4}Wed Nov 12 2025/gm,
+      dueDateRegex,
     );
     expect(JSON.stringify(taskBlock)).toMatch(
       /Start Date:.{1,4}/gm,
@@ -56,16 +58,23 @@ describe("Tests createTaskInfo Function", () => {
       notionTask, EXAMPLE_ALL_PROJECTS_IN_NOTIONDB, notionTask.assignees
     );
     console.log(`block: ${JSON.stringify(taskBlock)}`);
+    expect(taskBlock).toBeDefined();
+
+    const dueDate = new Date(notionTask.dueDate || "").toDateString();
+    const dueDateRegex = RegExp(`Due Date:.{1,4}${dueDate}`, "gm");
+
+    const startDate = new Date(notionTask.startDate || "").toDateString();
+    const startDateRegex = RegExp(`Start Date:.{1,4}${startDate}`, "gm");
 
     expect(JSON.stringify(taskBlock)).toMatch(
       /Task Title.{1,4}Schedule meeting with customer/gm,
     );
     expect(JSON.stringify(taskBlock)).toMatch(/Assignees:.{1,4}Jacob \(jacomsmail@example.com\)/gm);
     expect(JSON.stringify(taskBlock)).toMatch(
-      /Due Date:.{1,4}Sun May 11 2025/gm,
+      dueDateRegex,
     );
     expect(JSON.stringify(taskBlock)).toMatch(
-      /Start Date:.{1,4}Sat Jan 11 2025/gm,
+      startDateRegex,
     );
     expect(JSON.stringify(taskBlock)).toMatch(
       /Description:\*.{1,8}Schedule a meeting with the customer\. Check the sender's Calendly for available times\."/gm,

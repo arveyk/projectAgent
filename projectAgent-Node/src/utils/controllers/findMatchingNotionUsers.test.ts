@@ -1,4 +1,16 @@
+/**
+ *  MOCKING ENV VARIABLES TO ALLOW TEST TO RUN
+ */
+jest.mock("../../env", () => {
+  return {
+    SLACK_BOT_TOKEN: "fake_bot_token",
+    SLACK_SIGNING_SECRET: "fake_signing_secret",
+    NOTION_API_KEY: "fake_notion_key"
+  }
+});
 import { EXAMPLE_RAW_USERS_RESPONSE } from "../../test-data/cache/rawUsers";
+
+
 import { EXAMPLE_ALL_NOTION_USERS } from "../../test-data/example-all-notion-users";
 import {
   compareNames,

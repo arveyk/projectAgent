@@ -56,6 +56,7 @@ export  function createNewTaskBlock(
   };
 
   if (similarProjects.length > 0) {
+    console.log("Calling createNewTaskBlockWithSelectionsForAmbiguousProjects");
     return createNewTaskBlockWithSelectionsForAmbiguousProjects(
       notionTask,
       allExistingProjects,
@@ -67,6 +68,7 @@ export  function createNewTaskBlock(
     );
   }
   if (ambiguousUsers.length > 0 || taskProjects.length === 0) {
+    console.log("Calling createNewTaskBlockWithUsersAndOrProjectsSelections");
     return createNewTaskBlockWithUserAndOrProjectsSelections(
       notionTask,
       allExistingProjects,
@@ -76,6 +78,7 @@ export  function createNewTaskBlock(
       },
     );
   } else {
+    console.log("Calling createTaskBlockWithoutSelections")
     let projectsArray: ProjectWithName[] = [];
 
     for (const projectInTaskProjectsArray of taskProjects) {

@@ -6,6 +6,7 @@ import {
 } from "../test-data/tasks/example-tasks";
 import { NotionTask } from "../utils/taskFormatting/task";
 import { NotionUser } from "../utils/controllers/userTypes";
+import { DateTime } from "luxon";
 
 
 
@@ -42,9 +43,14 @@ ExampleNotionTask.assignees.forEach((assignee) => {
 })
 
 describe("Test createBlockNewTask with a valid task object", () => {
-    it("returns blocks containing the task data", () => {
+    it("returns blocks containing the task data", () => {     
         expect(ExampleNotionTask).toBeDefined();
 
+        const dueDate = new Date(ExampleNotionTask.dueDate || "").toDateString();
+        const startDate = new Date(ExampleNotionTask.startDate || "").toDateString();
+
+        const startDateRegex = RegExp(`Start Date:.{1,4}${startDate}`, "gm");
+        const dueDateRegex = RegExp(`Due Date:.{1,4}${dueDate}`, "gm");
         const slackBlocksObject = createNewTaskBlock(EXAMPLE_ASSIGNED_BY, ExampleNotionTask, testUserSearchResponse);
         console.log(JSON.stringify(slackBlocksObject));
 
@@ -53,10 +59,10 @@ describe("Test createBlockNewTask with a valid task object", () => {
         );
         expect(JSON.stringify(slackBlocksObject.blocks)).toMatch(/Assignees:.{1,4}Jacob \(jacomsmail@example.com\)/gm);
         expect(JSON.stringify(slackBlocksObject.blocks)).toMatch(
-            /Due Date:.{1,4}Sun May 11 2025/gm,
+            dueDateRegex
         );
         expect(JSON.stringify(slackBlocksObject.blocks)).toMatch(
-            /Start Date:.{1,4}Sat Jan 11 2025/gm,
+            startDateRegex
         );
         expect(JSON.stringify(slackBlocksObject.blocks)).toMatch(
             /Description:\*.{1,8}Schedule a meeting with the customer\. Check the sender's Calendly for available times\."/gm,

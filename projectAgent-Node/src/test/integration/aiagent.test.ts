@@ -17,7 +17,7 @@ describe("Tests parseTaskSlashCmd with a good payload", () => {
     expect(typeof payloadGood).toBe("object");
     const timestamp = 1755039682 * 1000;
 
-    const parsedTask = await parseTask(payloadGood, timestamp, EXAMPLE_RAW_PROJECTS_RESPONSE);
+    const parsedTask = await parseTask(payloadGood, payloadGood.text, timestamp, EXAMPLE_RAW_PROJECTS_RESPONSE);
     console.log(JSON.stringify(parsedTask));
 
     expect(parsedTask.task.taskTitle).toBeTruthy();
@@ -31,7 +31,7 @@ describe("Tests parseTaskSlashCmd with a good payload from Harvey", () => {
     expect(typeof payloadHarvey).toBe("object");
     const timestamp = 1755039682 * 1000;
 
-    const parsedTask = await parseTask(payloadHarvey, timestamp, EXAMPLE_RAW_PROJECTS_RESPONSE);
+    const parsedTask = await parseTask(payloadHarvey, payloadHarvey.text, timestamp, EXAMPLE_RAW_PROJECTS_RESPONSE);
     console.log(JSON.stringify(parsedTask));
 
     expect(parsedTask.task.taskTitle).toBeTruthy();
@@ -45,7 +45,7 @@ describe("Tests parseTaskSlashCmd inferring dates", () => {
     expect(typeof payloadInferDates).toBe("object");
     const timestamp = 1755039682 * 1000;
 
-    const parsedTask = await parseTask(payloadInferDates, timestamp, EXAMPLE_RAW_PROJECTS_RESPONSE);
+    const parsedTask = await parseTask(payloadInferDates, payloadInferDates.text,timestamp, EXAMPLE_RAW_PROJECTS_RESPONSE);
     console.log(JSON.stringify(parsedTask));
     expect(parsedTask.task.taskTitle).toBeTruthy();
     expect(parsedTask.task.description).toBeTruthy();
@@ -58,7 +58,7 @@ describe("tests parseTaskSlashCmd with the payload that's been causing trouble",
     expect(typeof payloadNew).toBe("object");
     const timestamp = Date.now();
 
-    const parsedTask = await parseTask(payloadNew, timestamp, EXAMPLE_RAW_PROJECTS_RESPONSE);
+    const parsedTask = await parseTask(payloadNew, payloadNew.text,timestamp, EXAMPLE_RAW_PROJECTS_RESPONSE);
     console.log(JSON.stringify(parsedTask));
     console.log(JSON.stringify(taskKitchen));
   }, 20000);

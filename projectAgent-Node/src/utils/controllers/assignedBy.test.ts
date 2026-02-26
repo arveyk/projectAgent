@@ -46,10 +46,10 @@ describe("Test getting assigned by from Notion using slack Id", () => {
                 expect(jamesIdentityInNotion[0].email).toMatch(EXAMPLE_JAMES_IN_SLACK.email);
         });
         it("Should find Ramona in Notion", async () => {
-                const RamonaIdentityInNotion = await findMatchingNotionUserByEmail(RAMONA_IN_SLACK.email, EXAMPLE_RAW_USERS_RESPONSE);
-                console.log("User's Identity in Notion", RamonaIdentityInNotion);
+                const ramonaIdentityInNotion = await findMatchingNotionUserByEmail(RAMONA_IN_SLACK.email, EXAMPLE_RAW_USERS_RESPONSE);
+                console.log("User's Identity in Notion", ramonaIdentityInNotion);
 
-                expect(RamonaIdentityInNotion[0]).not.toBeDefined();
+                expect(ramonaIdentityInNotion[0]).not.toBeDefined();
         });
         it("Should find Bill Wilthers in Notion", async () => {
                 const spectreIdentityInNotion = await findMatchingNotionUserByEmail(BILL_IN_SLACK.email, null);

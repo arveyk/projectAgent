@@ -2,7 +2,7 @@ import { EXAMPLE_ALL_SLACK_USERS } from "../../../test-data/example-slack-userid
 import { inferInputSource } from "./inferInputSource";
 import { payloadHarvey, payloadExampleNoInputText } from "../../../test-data/payloads/slashcmd/payloads";
 import axios from "axios";
-import { EXAMPLE_CONVERSATION_HOSTORY } from "../../../test-data/example-payload-conversation-history";
+import { EXAMPLE_CONVERSATION_HISTORY } from "../../../test-data/example-payload-conversation-history";
 
 jest.mock("../getUsersSlack", () => {
     return {
@@ -19,10 +19,9 @@ beforeAll(() => {
 })
     it("Should set text value equal to that from payload", async function testInferred () {
         mockedAxios.get.mockResolvedValue({
-            data: EXAMPLE_CONVERSATION_HOSTORY
+            data: EXAMPLE_CONVERSATION_HISTORY
         });
 
-        
         const inferredContext = await inferInputSource(payloadExampleNoInputText);
         expect(inferredContext).toBeDefined();
         expect(inferredContext.inferredFromPreviousContext).toBeTruthy();
@@ -32,7 +31,7 @@ beforeAll(() => {
         console.log(inferredContext);
 
     });
-    it("Should creat depending on text value of payload", async function testInferred () {
+    it("Should create depending on text value of payload", async function testInferred () {
         const inferredContext = await inferInputSource(payloadHarvey);
         expect(inferredContext).toBeDefined();
         expect(inferredContext.inferredFromPreviousContext).toBeFalsy();
@@ -42,4 +41,4 @@ beforeAll(() => {
         console.log(inferredContext);
 
     });
-})
+});

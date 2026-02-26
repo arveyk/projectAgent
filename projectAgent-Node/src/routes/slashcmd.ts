@@ -7,7 +7,7 @@ import {
 } from "../utils/database/searchDatabase";
 import { sendLoadingMessage } from "../blockkit/loadingMessage";
 import {
-  findAssignedBysNotionProfile,
+  findNotionProfileOfAssignedBy,
   findMatchingAssignees,
 } from "../utils/controllers/findMatchingNotionUsers";
 import { logTimestampForBenchmarking } from "../utils/logTimestampForBenchmarking";
@@ -54,9 +54,10 @@ const slashCmdHandler: StreamifyHandler = async function (
     console.log(`slashCmdHandler here. Any tasks for me?
 	  Request Body: ${JSON.stringify(reqBody)}`);
     console.log(`headers: ${JSON.stringify(event.headers)}`);
+      
+    const inferredContext = await inferInputSource(reqBody);
 
-    if (reqBody) {
-      const inferredContext = await inferInputSource(reqBody);
+    if (inferredContext.error) {
       const response_url = reqBody["response_url"];
 
       // Fetch cache
@@ -152,7 +153,7 @@ const slashCmdHandler: StreamifyHandler = async function (
           JSON.stringify(parsedData),
         );
 
-        const assignedBy = await findAssignedBysNotionProfile(parsedData.taskCreator, fetchedUsers);
+        const assignedBy = await findNotionProfileOfAssignedBy(parsedData.taskCreator, fetchedUsers);
         const slackBlocks = createNewTaskBlock(
           assignedBy,
           parsedData.task,

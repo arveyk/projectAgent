@@ -1,4 +1,4 @@
-export const EXAMPLE_CONVERSATION_HOSTORY = {
+export const EXAMPLE_CONVERSATION_HISTORY = {
       "ok": true,
       "latest": "9223372036854.775807",
       "messages": [

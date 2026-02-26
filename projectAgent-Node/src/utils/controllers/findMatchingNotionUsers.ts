@@ -214,7 +214,7 @@ export async function findMatchingNotionUserByEmail(
  * @returns                  Array containing only the Notion user that matches slack user that is creating the
  *   task. This is what is placed in the assignedBy field in a task
  */
-export async function findAssignedBysNotionProfile(appUserSlackProfile: User, foundUsers: ListUsersResponse | null) {
+export async function findNotionProfileOfAssignedBy(appUserSlackProfile: User, foundUsers: ListUsersResponse | null) {
   const matchingNotionUser = await findMatchingNotionUserByEmail(
     appUserSlackProfile.email,
     foundUsers

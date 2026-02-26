@@ -6,8 +6,6 @@ import {
 } from "../test-data/tasks/example-tasks";
 import { NotionTask } from "../utils/taskFormatting/task";
 import { NotionUser } from "../utils/controllers/userTypes";
-import { DateTime } from "luxon";
-
 
 
 const EXAMPLE_ASSIGNED_BY: NotionUser[] = [

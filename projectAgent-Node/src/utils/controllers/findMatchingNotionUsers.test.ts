@@ -15,7 +15,7 @@ import { EXAMPLE_ALL_NOTION_USERS } from "../../test-data/example-all-notion-use
 import {
   compareNames,
   isPartialNameMatch,
-  findMatchingNotionUser,
+  findMatchingNotionUserProfile,
   deduplicateUsers,
 } from "./findMatchingNotionUsers";
 import * as getNotionWorkspaceUsers from "./getUsersNotion";
@@ -55,7 +55,7 @@ describe("Tests findMatchingAssigner", () => {
   it("Returns at least one result when given an exact name", async () => {
 
     jest.spyOn(getNotionWorkspaceUsers, "getNotionUsers").mockResolvedValue(EXAMPLE_ALL_NOTION_USERS);
-    const matches = await findMatchingNotionUser("Maverick Bond", null);
+    const matches = await findMatchingNotionUserProfile("Maverick Bond", null);
     console.log(`Matches: ${JSON.stringify(matches)}`);
 
     expect(matches.length).toBeGreaterThan(0);
@@ -63,14 +63,14 @@ describe("Tests findMatchingAssigner", () => {
   });
 
   it("Returns at least one result when given a partial name", async () => {
-    const matches = await findMatchingNotionUser("Bond", EXAMPLE_RAW_USERS_RESPONSE);
+    const matches = await findMatchingNotionUserProfile("Bond", EXAMPLE_RAW_USERS_RESPONSE);
     console.log(`Matches: ${JSON.stringify(matches)}`);
 
     expect(matches.length).toBeGreaterThan(0);
   });
 
   it("Returns no results", async () => {
-    const matches = await findMatchingNotionUser("meow", EXAMPLE_RAW_USERS_RESPONSE);
+    const matches = await findMatchingNotionUserProfile("meow", EXAMPLE_RAW_USERS_RESPONSE);
     console.log(`Matches: ${JSON.stringify(matches)}`);
 
     expect(matches.length).toBe(0);

@@ -8,7 +8,7 @@ import {
 import { sendLoadingMessage } from "../blockkit/loadingMessage";
 import {
   findAssignedBy,
-  findMatchingAssignees,
+  findMatchingAssignees, findMatchingNotionUserByEmail
 } from "../utils/controllers/findMatchingNotionUsers";
 import { logTimestampForBenchmarking } from "../utils/logTimestampForBenchmarking";
 import { SlashCommand } from "@slack/bolt";
@@ -25,6 +25,7 @@ import {
 } from "../utils/slashCommandProcessing";
 import { createNewTaskBlock } from "../blockkit/createNewTaskBlock";
 import { createCacheClient, retrieveCache } from "../utils/database/getFromCache";
+import { getAppUserData } from "../utils/controllers/getUsersSlack";
 
 const slashCmdHandler: StreamifyHandler = async function (
   event: APIGatewayProxyEventV2,
@@ -58,8 +59,10 @@ const slashCmdHandler: StreamifyHandler = async function (
 
     const commandType = isTaskCRUDCommand(reqBody);
     if (commandType.isTaskCommand) {
+      // Handle Task creation and what not
       await createOrEditTask(reqBody);
     } else {
+      // Handle Project creations and what nots
       await handleProjectRequest(reqBody);
     }
   } catch (err: Error | any) {
@@ -246,6 +249,10 @@ export async function handleProjectRequest(requestBody: SlashCommand) {
   // const parsedData = await parseTask(requestBody, timestamp, fetchedProjects);
   logTimestampForBenchmarking("Done parsing task");
 
+
+  const projectAuthor = await getAppUserData(requestBody, timestamp);
+  const projectAuthorNotionProfile = await findMatchingNotionUserByEmail(projectAuthor.email, fetchedUsers);
+
   try {
     await axios({
       method: "post",
@@ -257,8 +264,17 @@ export async function handleProjectRequest(requestBody: SlashCommand) {
             "type": "section",
             "text": {
               "type": "mrkdwn",
-              "text": `>$ :construction: , Timestamp: ${timestamp}\n\n>:construction_worker:`,
+              "text": `>$ :construction: , Timestamp: ${timestamp}\n>:construction_worker:`,
             },
+          },
+          {
+            "type": "section",
+            "fields": [
+              {
+                "type": "mrkdwn",
+                "text": `*Project Author:*\n${projectAuthorNotionProfile[0].name} ${projectAuthorNotionProfile[0].email || "No Email"}`,
+              }
+            ],
           },
         ],
       },

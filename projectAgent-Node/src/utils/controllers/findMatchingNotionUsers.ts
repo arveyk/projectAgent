@@ -20,7 +20,7 @@ export async function findMatchingAssignees(
     assignees.map(async (assignee) => {
       const match: UserSearchResult = {
         person: assignee,
-        foundUsers: await findMatchingNotionUser(assignee.name, alreadyFetchedUsers, assignee.email),
+        foundUsers: await findMatchingNotionUserProfile(assignee.name, alreadyFetchedUsers, assignee.email),
       };
       return match;
     }),
@@ -37,7 +37,7 @@ export async function findMatchingAssignees(
  * @returns               Array Notion users that match the slack user with the name
  *   equal to value of slackUsername
  */
-export async function findMatchingNotionUser(
+export async function findMatchingNotionUserProfile(
   slackUsername: string,
   alreadyFetchedUsers: ListUsersResponse | null,
   email?: string,

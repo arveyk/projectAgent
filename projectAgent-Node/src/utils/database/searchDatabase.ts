@@ -41,6 +41,15 @@ const databaseSearchResult = z.object({
     .optional()
     .describe("The ID of the task entry from the database"),
 });
+const projectsDatabaseSearchResult = z.object({
+  exists: z
+    .boolean()
+    .describe("True if the task exists in the database, else false"),
+  project_id: z
+    .string()
+    .optional()
+    .describe("The ID of the task entry from the database"),
+});
 
 export type TaskSearchResult = {
   exists: boolean;
@@ -51,6 +60,9 @@ export type TaskSearchResult = {
 const structuredLlm = model.withStructuredOutput(databaseSearchResult, {
   includeRaw: true,
 });
+
+const structuredLlmProjectSearch = model.withStructuredOutput(projectsDatabaseSearchResult, 
+  { includeRaw: true});
 
 /**
  * Searches Notion database for a task based on its title and assignee fields.
@@ -270,3 +282,37 @@ export function simplifyProject(
     }
     : undefined;
 }
+
+export const findProject = async function (
+  message: string,
+  alreadyFetchedProjects: QueryDataSourceResponse["results"] | null
+): Promise<TaskSearchResult> {
+  console.log(`Model name: ${model.modelName}`);
+  console.log(`message (searchDB): ${JSON.stringify(message)}`);
+
+  const projects = await getProjects(alreadyFetchedProjects);
+
+  console.log(`Database response: ${JSON.stringify(projects)}`);
+
+  // Limit pages to the 20 most similar to the message
+  // const similarPages = filterSimilar(projects, message);
+
+  const prompt = `
+    Please check if a project mentioned here "${message}" exists in the database response
+    ${JSON.stringify(projects.slice(0, 21))}.
+  `.trim();
+
+  logTimestampForBenchmarking("(Database) LLM start");
+  const llmResult = await structuredLlmProjectSearch.invoke(prompt);
+  logTimestampForBenchmarking("(Database) LLM finished");
+  console.log(`Raw LLM response: ${JSON.stringify(llmResult.raw)}`);
+  const parsed = llmResult.parsed;
+  const result = {
+    exists: parsed.exists,
+    projectId: parsed.project_id !== "<UNKNOWN>" ? parsed.project_id : undefined,
+  };
+
+  console.log(`result: ${JSON.stringify(result)}`);
+
+  return result;
+};

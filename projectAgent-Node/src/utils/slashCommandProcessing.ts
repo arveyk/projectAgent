@@ -47,3 +47,35 @@ export function extractPayload(reqBody: querystring.ParsedUrlQuery) {
   const payload = JSON.parse(payloadStr);
   return payload;
 }
+
+/**
+ * Function to categorize task into task creation or project creation
+ * 
+ * @param requestBody: request object from slack
+ * @return - 
+ */
+export function isTaskCRUDCommand(requestBody: Request["body"]): {
+  isTaskCommand: boolean;
+  action?: string;
+} {
+
+  const textWithTasks: string = requestBody["text"];
+  const isTaskCommand = true;
+
+  if (textWithTasks.trim().length === 0) {
+    return {
+      isTaskCommand,
+      action: "get task from chats"
+    };
+  } else if (textWithTasks.toLowerCase() === "create project") {
+    return {
+      isTaskCommand: false,
+      action: "Create Project"
+    };
+  } else {
+    return {
+      isTaskCommand,
+      action: "get task from text"
+    };
+  }
+}

@@ -29,7 +29,7 @@ describe("Tests parseTaskSlashCmd without a due date", () => {
     expect(typeof payloadNoDates).toBe("object");
     const timestamp = 1755039682 * 1000;
 
-    const parsedObject = await parseTask(payloadNoDates, timestamp, CACHE_DATA_EXAMPLE_ALL.projects);
+    const parsedObject = await parseTask(payloadNoDates, payloadNoDates.text, timestamp, CACHE_DATA_EXAMPLE_ALL.projects);
     const parsedTask = parsedObject.task;
     console.log(JSON.stringify(parsedTask));
 
@@ -44,7 +44,7 @@ describe("Tests parseTaskSlashCmd with the same example given to the LLM", () =>
     expect(typeof payloadExampleNoInputText).toBe("object");
     const timestamp = 1755039682 * 1000;
 
-    const parsedObject = await parseTask(payloadExampleNoInputText, timestamp, CACHE_DATA_EXAMPLE_ALL.projects);
+    const parsedObject = await parseTask(payloadExampleNoInputText, payloadExampleNoInputText.text, timestamp, CACHE_DATA_EXAMPLE_ALL.projects);
     const parsedTask = parsedObject.task;
     console.log(JSON.stringify(parsedTask));
 

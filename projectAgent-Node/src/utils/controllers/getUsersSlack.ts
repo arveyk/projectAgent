@@ -101,7 +101,7 @@ export async function getSlackUserDataById(
     });
 
   if (!retrieveUserInfoResponse.data["ok"]) {
-    console.log(retrieveUserInfoResponse);
+    console.log(retrieveUserInfoResponse.data);
     throw new Error(`Invalid user ID`);
   }
   const userData = retrieveUserInfoResponse.data["user"];
@@ -123,10 +123,10 @@ export async function getSlackUserDataById(
     "(getSlackUserById): Response status:",
     retrieveUserInfoResponse.status,
     "profile",
-    userData.profile,
+    userData.profile.real_name,
   );
 
-  console.log("User Data", JSON.stringify(userData));
+  // console.log("User Data", JSON.stringify(userData));
   return {
     userId: userID,
     name: userData.real_name,
@@ -148,7 +148,7 @@ export async function getAppUserData(
   const userTZData = userData.timezoneData;
 
   console.log(`user timezone data: ${JSON.stringify(userTZData)}`);
-  console.log(`timestamp: ${timestamp}`);
+  console.log(`timestamp: ${JSON.stringify(timestamp)}`);
 
   const time = DateTime.fromMillis(timestamp).setZone(userTZData.tz);
 

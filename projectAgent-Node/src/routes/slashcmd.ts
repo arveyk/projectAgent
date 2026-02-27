@@ -58,9 +58,9 @@ const slashCmdHandler: StreamifyHandler = async function (
 
     const commandType = isTaskCRUDCommand(reqBody);
     if (commandType.isTaskCommand) {
-      // call task add
+      await createOrEditTask(reqBody);
     } else {
-      // Call Project creation
+      await handleProjectRequest(reqBody);
     }
   } catch (err: Error | any) {
     console.log("slashCmdHandler Error", String(err));
@@ -74,135 +74,208 @@ export async function createOrEditTask(requestBody: SlashCommand) {
   const commandValidationResult = isValidCommand(requestBody);
 
   if (commandValidationResult.isValid) {
-        const response_url = requestBody["response_url"];
+    const response_url = requestBody["response_url"];
 
-        // Fetch cache
-        await sendLoadingMessage(
-          "Searching Database",
-          response_url,
-          requestBody.text,
+    // Fetch cache
+    await sendLoadingMessage(
+      "Searching Database",
+      response_url,
+      requestBody.text,
+    );
+    logTimestampForBenchmarking("Fetching cache");
+    const cacheClient = createCacheClient();
+    const cacheItems = await retrieveCache(cacheClient);
+    logTimestampForBenchmarking("Done fetching cache");
+    const fetchedProjects = cacheItems.projects;
+    const fetchedTasks = cacheItems.tasks;
+    const fetchedUsers = cacheItems.users;
+
+    // Search database
+    logTimestampForBenchmarking("Searching database");
+    // TODO only pass data needed
+    const isInDatabase = await searchDatabase(requestBody.text, fetchedTasks);
+    logTimestampForBenchmarking("Done searching database");
+
+    console.log("IS in database?", JSON.stringify(isInDatabase));
+
+    await sendLoadingMessage("Parsing Task", response_url);
+    const timestamp: number = Date.now();
+
+    logTimestampForBenchmarking("Parsing task");
+    const parsedData = await parseTask(requestBody, timestamp, fetchedProjects);
+    logTimestampForBenchmarking("Done parsing task");
+
+    logTimestampForBenchmarking("Searching Notion for assignees");
+    // Find Notion users
+    // TODO - Suggestions call getNotionUsers here and use that list to search for a match
+    //    some like const allNotionUsers or allDatabasePersons = getNotionUsers(fetchedUsers)
+    //    pass that to findMatchingAssignees
+    //    can also be passed to
+    //        findAssignedBy
+    //        and createNewtask
+    // Benefits:
+    //      Reduced number of API calls by getNotionUsers
+    const assigneeSearchResults = await findMatchingAssignees(
+      parsedData.task,
+      fetchedUsers
+    );
+    logTimestampForBenchmarking("Done searching Notion for assignees");
+
+    if (!isInDatabase) {
+      throw new Error("Error searching database");
+    }
+
+    if (isInDatabase.exists) {
+      console.log("Already in Database");
+
+      const pageObject: GetPageResponse = await getTaskProperties(
+        isInDatabase.taskId || "",
+      );
+
+      if ("properties" in pageObject) {
+        const existingTask: TaskPage =
+          convertTaskPageFromDbResponse(pageObject);
+        console.log(
+          `(slashCmdHandler) existingTask: ${JSON.stringify(existingTask)}`,
         );
-        logTimestampForBenchmarking("Fetching cache");
-        const cacheClient = createCacheClient();
-        const cacheItems = await retrieveCache(cacheClient);
-        logTimestampForBenchmarking("Done fetching cache");
-        const fetchedProjects = cacheItems.projects;
-        const fetchedTasks = cacheItems.tasks;
-        const fetchedUsers = cacheItems.users;
+        const updateBlock = await createExistingTaskBlock(existingTask, fetchedProjects);
+        console.log("Update Block", JSON.stringify(updateBlock));
 
-        // Search database
-        logTimestampForBenchmarking("Searching database");
-        // TODO only pass data needed
-        const isInDatabase = await searchDatabase(requestBody.text, fetchedTasks);
-        logTimestampForBenchmarking("Done searching database");
-
-        console.log("IS in database?", JSON.stringify(isInDatabase));
-
-        await sendLoadingMessage("Parsing Task", response_url);
-        const timestamp: number = Date.now();
-
-        logTimestampForBenchmarking("Parsing task");
-        const parsedData = await parseTask(requestBody, timestamp, fetchedProjects);
-        logTimestampForBenchmarking("Done parsing task");
-
-        logTimestampForBenchmarking("Searching Notion for assignees");
-        // Find Notion users
-        // TODO - Suggestions call getNotionUsers here and use that list to search for a match
-        //    some like const allNotionUsers or allDatabasePersons = getNotionUsers(fetchedUsers)
-        //    pass that to findMatchingAssignees
-        //    can also be passed to
-        //        findAssignedBy
-        //        and createNewtask
-        // Benefits:
-        //      Reduced number of API calls by getNotionUsers
-        const assigneeSearchResults = await findMatchingAssignees(
-          parsedData.task,
-          fetchedUsers
-        );
-        logTimestampForBenchmarking("Done searching Notion for assignees");
-
-        if (!isInDatabase) {
-          throw new Error("Error searching database");
-        }
-
-        if (isInDatabase.exists) {
-          console.log("Already in Database");
-
-          const pageObject: GetPageResponse = await getTaskProperties(
-            isInDatabase.taskId || "",
-          );
-
-          if ("properties" in pageObject) {
-            const existingTask: TaskPage =
-              convertTaskPageFromDbResponse(pageObject);
-            console.log(
-              `(slashCmdHandler) existingTask: ${JSON.stringify(existingTask)}`,
-            );
-            const updateBlock = await createExistingTaskBlock(existingTask, fetchedProjects);
-            console.log("Update Block", JSON.stringify(updateBlock));
-
-            await axios({
-              method: "post",
-              url: requestBody["response_url"],
-              data: {
-                text: "Already in DB",
-                blocks: updateBlock.blocks,
-              },
-              family: 4,
-            })
-              .then((resp) => {
-                console.log("OK from slack", resp["status"]);
-              })
-              .catch((err) => {
-                console.log(
-                  "(slashCmdHandler): Axios Error while posting updateBlock",
-                );
-              });
-          } else {
-            throw new Error("Error getting page properties");
-          }
-        } else {
-          console.log(
-            "Task to be passed to createNewTaskBlock",
-            JSON.stringify(parsedData),
-          );
-
-          const assignedBy = await findAssignedBy(parsedData.taskCreator, fetchedUsers);
-          const slackBlocks = createNewTaskBlock(
-            assignedBy,
-            parsedData.task,
-            assigneeSearchResults,
-          );
-
-          console.log(
-            "SlashCmdHandler taskBlockWithSelect",
-            JSON.stringify(slackBlocks),
-          );
-
-          await axios({
-            method: "post",
-            url: requestBody["response_url"],
-            data: slackBlocks,
-            family: 4,
-          }).then((resp) => {
-            console.log("OK from slack", resp["status"]);
-          });
-        }
-      } else {
-        axios({
+        await axios({
           method: "post",
           url: requestBody["response_url"],
           data: {
-            text: "Format: ['Task Details']",
+            text: "Already in DB",
+            blocks: updateBlock.blocks,
           },
           family: 4,
-        }).then((resp) => {
-          console.log(
-            "OK from slack Wrong command format Though",
-            resp["status"],
-          );
-        });
+        })
+          .then((resp) => {
+            console.log("OK from slack", resp["status"]);
+          })
+          .catch((err) => {
+            console.log(
+              "(slashCmdHandler): Axios Error while posting updateBlock",
+            );
+          });
+      } else {
+        throw new Error("Error getting page properties");
       }
+    } else {
+      console.log(
+        "Task to be passed to createNewTaskBlock",
+        JSON.stringify(parsedData),
+      );
+
+      const assignedBy = await findAssignedBy(parsedData.taskCreator, fetchedUsers);
+      const slackBlocks = createNewTaskBlock(
+        assignedBy,
+        parsedData.task,
+        assigneeSearchResults,
+      );
+
+      console.log(
+        "SlashCmdHandler taskBlockWithSelect",
+        JSON.stringify(slackBlocks),
+      );
+
+      await axios({
+        method: "post",
+        url: requestBody["response_url"],
+        data: slackBlocks,
+        family: 4,
+      }).then((resp) => {
+        console.log("OK from slack", resp["status"]);
+      });
+    }
+  } else {
+    await axios({
+      method: "post",
+      url: requestBody["response_url"],
+      data: {
+        text: "Format: ['Task Details']",
+        blocks: [
+          {
+            "type": "section",
+            "text": {
+              "type": "mrkdwn",
+              "text": `>:construction:Task creation from context comming up`,
+            },
+          },
+        ],
+      },
+      family: 4,
+    }).then((resp) => {
+      console.log(
+        "OK from slack Wrong command format Though",
+        resp["status"],
+      );
+    });
+  }
+}
+
+
+export async function handleProjectRequest(requestBody: SlashCommand) {
+  // TODO create project and sen results to user
+  const response_url = requestBody.response_url
+
+  await sendLoadingMessage(
+    "Searching Database",
+    response_url,
+    requestBody.text,
+  );
+  logTimestampForBenchmarking("Fetching cache");
+  const cacheClient = createCacheClient();
+  const cacheItems = await retrieveCache(cacheClient);
+  logTimestampForBenchmarking("Done fetching cache");
+  const fetchedProjects = cacheItems.projects;
+  const fetchedUsers = cacheItems.users;
+
+  // Search database
+  logTimestampForBenchmarking("Searching database");
+  // TODO only pass data needed
+  // TODO search for project
+
+  logTimestampForBenchmarking("Done searching database");
+
+  await sendLoadingMessage("Parsing Task", response_url);
+  const timestamp: number = Date.now();
+
+  logTimestampForBenchmarking("Parsing task");
+
+  // const parsedData = await parseTask(requestBody, timestamp, fetchedProjects);
+  logTimestampForBenchmarking("Done parsing task");
+
+  try {
+    await axios({
+      method: "post",
+      url: requestBody["response_url"],
+      data: {
+        text: "Projects coming up",
+        blocks: [
+          {
+            "type": "section",
+            "text": {
+              "type": "mrkdwn",
+              "text": `>$ :construction: , Timestamp: ${timestamp}\n\n>:construction_worker:`,
+            },
+          },
+        ],
+      },
+      family: 4,
+    })
+      .then((resp) => {
+        console.log("OK from slack", resp["status"]);
+      })
+      .catch((err) => {
+        console.log(
+          "(slashCmdHandler): Axios Error while posting updateBlock",
+        );
+      });
+  }
+  catch (error) {
+    console.log("Error handling in progress...", error);
+  }
 }
 
 export default slashCmdHandler;

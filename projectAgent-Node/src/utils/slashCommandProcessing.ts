@@ -67,7 +67,7 @@ export function isTaskCRUDCommand(requestBody: Request["body"]): {
       isTaskCommand,
       action: "get task from chats"
     };
-  } else if (textWithTasks.toLowerCase() === "create project") {
+  } else if (textWithTasks.toLowerCase().startsWith("create project")) {
     return {
       isTaskCommand: false,
       action: "Create Project"

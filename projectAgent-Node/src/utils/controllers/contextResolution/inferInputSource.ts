@@ -5,6 +5,14 @@ import { SLACK_BOT_TOKEN } from "../../../env";
 import { SlashCommand } from "@slack/bolt";
 
 
+type InferredContext = {
+  error: any | null,
+  inferredFromPreviousContext: boolean,
+  text: string
+
+}
+
+
 /**
  * Function to infer which input source the user would like processed
  *
@@ -12,7 +20,7 @@ import { SlashCommand } from "@slack/bolt";
  * @return returns the text that will be processed by Project Agent
  */
 
-export async function inferInputSource(requestBody: SlashCommand) {
+export async function inferInputSource(requestBody: SlashCommand): Promise<InferredContext> {
   console.log("(inferInputSource)");
 
   const userTextInputLength = requestBody.text.trim().length;
@@ -28,56 +36,18 @@ export async function inferInputSource(requestBody: SlashCommand) {
 
 
   if (userTextInputLength <= 1) {
-    const conversationHistoryResponse = await axios.get("https://slack.com/api/conversations.history", {
-      params: {
-        channel: requestBody.channel_id,
-        inclusive: false,
-        latest: requestBody.trigger_id,
-        limit: 5,
-      },
-
-      headers: {
-        "Authorization": `Bearer ${SLACK_BOT_TOKEN}`,
-        "Content-Type": "application/json",
-      },
-      family: 4
-    }).then((response) => {
-      return response;
-    }).catch((error) => {
-      console.log(error.data);
-      return error;
-    });
+    const conversationHistoryResponse = await getChatHistory(requestBody.channel_id, requestBody.trigger_id)
 
     console.log(JSON.stringify(conversationHistoryResponse.data, null, 2));
 
     const recentMessageHistory = conversationHistoryResponse.data.messages;
-    let convoWithSpeakerNames: string[] = [];
     if (conversationHistoryResponse.data.ok === true && recentMessageHistory) {
-      
+
       if (recentMessageHistory.length === 0) {
         textToParse = "No Task Available";
       }
-      else {
-        const conversationList = [];
-
-        for (const conversation of recentMessageHistory) {
-          console.log(conversation.user, ": ", conversation.text)
-          if (!conversation.subtype) {
-            conversationList.push({
-              user: conversation.user,
-              text: conversation.text
-            });
-          }
-        }
-
-        const allSlackUsers = await getSlackUsers();
-        convoWithSpeakerNames = conversationList.map((convo) => {
-          const match = matchUserById(convo.user, allSlackUsers);
-          return `${match?.name || "Unknown"}: ${convo.text}`;
-        });
-        console.log(conversationList);
-
-        textToParse = `Channel: ${requestBody.channel_name}\n`.concat(convoWithSpeakerNames.reverse().join("\n"));
+      else {        
+        textToParse = await createChatContext(requestBody.channel_name, recentMessageHistory);
       }
     } else {
       return {
@@ -113,4 +83,59 @@ export function matchUserById(userId: string, usersList: SlackUser[]) {
     return user.userId === userId;
   });
   return user;
+}
+
+/**
+ * Function to retrive 5 most recent chats from the user's channel
+ * 
+ * @param channelId -  Id of the channel where project agent is invoked
+ * @param triggerId - Trigger ID of the slash command
+ * @returns response from searching channel history
+ */
+
+export async function getChatHistory(channelId: string, triggerId: string) {
+  return await axios.get("https://slack.com/api/conversations.history", {
+    params: {
+      channel: channelId,
+      inclusive: false,
+      latest: triggerId,
+      limit: 5,
+    },
+
+    headers: {
+      "Authorization": `Bearer ${SLACK_BOT_TOKEN}`,
+      "Content-Type": "application/json",
+    },
+    family: 4
+  }).then((response) => {
+    return response;
+  }).catch((error) => {
+    console.log(error.data);
+    return error;
+  });
+};
+
+export async function createChatContext(channelName: string, recentMessageHistory: any): Promise<string> {
+  const conversationList = [];
+  
+  for (const conversation of recentMessageHistory) {
+    console.log(conversation.user, ": ", conversation.text)
+    if (!conversation.subtype) {
+      conversationList.push({
+        user: conversation.user,
+        text: conversation.text
+      });
+    }
+  }
+
+  const allSlackUsers = await getSlackUsers();
+  
+  const convoWithSpeakerNames: string[] = conversationList.map((convo) => {
+    const match = matchUserById(convo.user, allSlackUsers);
+    return `${match?.name || "Unknown"}: ${convo.text}`;
+  });
+  console.log(conversationList);
+
+  return `Channel: ${channelName}\n`.concat(convoWithSpeakerNames.reverse().join("\n"));
+
 }

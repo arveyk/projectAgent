@@ -2,7 +2,13 @@ module.exports = {
   preset: "ts-jest/presets/js-with-ts-esm",
   testEnvironment: "node",
   transform: {
-    "^.+\\.(ts|tsx)$": ["ts-jest", { useESM: true }],
+    "^.+\\.(ts|tsx)$": [
+      "ts-jest",
+      {
+        useESM: true,
+        // tsconfig: "<rootDir>/tsconfig.json"
+     }
+    ],
   },
   extensionsToTreatAsEsm: [".ts"],
   globals: {
@@ -13,4 +19,5 @@ module.exports = {
   },
   moduleFileExtensions: ["ts", "js", "json", "node"],
   testMatch: ["**/?(*.)+(spec|test).[tj]s?(x)"],
+  testPathIgnorePatterns: ["src/test/integration"]
 };

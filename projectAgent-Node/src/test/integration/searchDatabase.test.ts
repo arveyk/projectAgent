@@ -1,7 +1,7 @@
-import { filterSimilar, getTasksRaw } from "./searchDatabase";
+import { filterSimilar, getTasksRaw } from "../../utils/database/searchDatabase";
 import { SIMPLIFIED_DB_PAGES } from "../../test-data/simplifiedDbPages";
 import { isFullPage } from "@notionhq/client";
-import { simplifyTaskPages } from "./simplifyTaskPages";
+import { simplifyTaskPages } from "../../utils/database/simplifyTaskPages";
 
 describe("Tests filterSimilar on the message 'Harvey, please rake the leaves'", () => {
   it("Should find both tasks that involve raking", () => {

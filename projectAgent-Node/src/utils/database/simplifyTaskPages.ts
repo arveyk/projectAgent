@@ -52,9 +52,9 @@ export function simplifyTaskPage(
       properties.Description.rich_text.length > 0
         ? properties.Description.rich_text[0].plain_text
         : undefined,
-    assignee: properties["Assigned to"]["people"].map((response) =>
-      extractAssignees(response),
-    ),
+    assignee: properties["Assigned to"]["people"]
+      .map(extractAssignees)
+      .filter((person) => person !== null),
     project:
       properties.Project.type === "relation" ? properties.Project.relation : [],
   };

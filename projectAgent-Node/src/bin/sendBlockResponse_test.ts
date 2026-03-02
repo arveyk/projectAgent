@@ -28,14 +28,14 @@ const task: TaskPage = {
     assignees: [
       {
         name: "Benjamin Noah",
-        email: "smoothbenja@example-mail.com",
+        email: "smoothbenja@example-domain.com",
         userId: "U08UDKY38QK",
       },
     ],
     assignedBy: [
       {
         name: "Benjamin Noah",
-        email: "slybenja@example-mail.com",
+        email: "slybenja@example-domain.com",
         userId: "U08UDKY38QK",
       },
     ],
@@ -69,27 +69,27 @@ const columnLayoutWithSelections =
     {
       identifiedUsers: [
         {
-          userId: "152d872b-594c-8145-9c2c-000204787b69",
-          name: "Chimera Tabitha",
-          email: "chimera.tabitha@example-domain.com",
+          userId: "ramonas-id-000204787b69",
+          name: "Ramona Madison",
+          email: "Ramona.madison@shared-domain.com",
         },
       ],
       ambiguousUsers: [
         {
-          userId: "136d872b-594c-817b-adaa-00026796be69",
+          userId: "james-id-00026796be69",
           name: "James Bond",
           email: "james.bond@example-domain.com",
         },
         {
-          userId: "13dd872b-594c-810f-8bb4-000282e27820",
-          name: "Belteshazar Dan",
-          email: "belteshazar.dan@example-domain.com",
+          userId: "mavericks-id-000282e27820",
+          name: "Maverick Bond",
+          email: "maverick.bond@example-domain.com",
         },
       ],
     },
   );
 
-const blockSelectOrNoSelect = await createNewTaskBlock(
+const blockSelectOrNoSelect = createNewTaskBlock(
   EXAMPLE_ASSIGNED_BY,
   task.task,
   [exampleUserSearchResponse2[1]],

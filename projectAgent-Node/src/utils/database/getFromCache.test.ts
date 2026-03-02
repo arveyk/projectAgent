@@ -3,7 +3,7 @@ import {
   extractCacheData,
   extractCacheItemData,
   retrieveCache,
-} from "./getFromCache";
+} from "../../utils/database/getFromCache";
 import {
   getExampleRawCacheResponse, getExampleCompressedData
 } from "../../test-data/cache/cacheResponse";
@@ -12,7 +12,13 @@ import { EXAMPLE_RAW_PROJECTS_RESPONSE } from "../../test-data/cache/rawProjects
 import { EXAMPLE_RAW_TASKS_RESPONSE } from "../../test-data/cache/rawTasks";
 import { CACHE_DATA_EXAMPLE_ALL, CACHE_DATA_EXAMPLE_NO_PROJECTS, CACHE_DATA_EXAMPLE_NO_TASKS, CACHE_DATA_EXAMPLE_NO_USERS } from "../../test-data/cache/cacheItems";
 
-const fakeCacheClient = {
+// Mock the environment variables
+jest.mock("../../env", () => ({
+  // This is the cache table name used in the example data
+  CACHE_TABLE_NAME: "projectagent-cache-dev",
+}));
+
+const fakeCacheClient: DynamoDBDocumentClient = {
   send: jest.fn(async () => getExampleRawCacheResponse(true, true, true)),
 } as unknown as DynamoDBDocumentClient;
 

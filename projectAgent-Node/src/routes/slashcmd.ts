@@ -90,6 +90,14 @@ const slashCmdHandler: StreamifyHandler = async function (
 
       logTimestampForBenchmarking("Searching Notion for assignees");
       // Find Notion users
+      // TODO - Suggestions call getNotionUsers here and use that list to search for a match
+      //    some like const allNotionUsers or allDatabasePersons = getNotionUsers(fetchedUsers)
+      //    pass that to findMatchingAssignees
+      //    can also be passed to
+      //        findAssignedBy
+      //        and createNewtask
+      // Benefits:
+      //      Reduced number of API calls by getNotionUsers
       const assigneeSearchResults = await findMatchingAssignees(
         parsedData.task,
         fetchedUsers

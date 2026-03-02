@@ -2,6 +2,7 @@ import { NotionUser } from "./userTypes.js";
 import { NOTION_API_KEY } from "../../env";
 import { Client, ListUsersResponse } from "@notionhq/client";
 
+
 const notion = new Client({
   auth: NOTION_API_KEY,
   notionVersion: "2025-09-03",
@@ -29,6 +30,7 @@ export async function getNotionUsers(alreadyFetchedUsers: ListUsersResponse | nu
       });
     }
   });
+  
   console.log(JSON.stringify(humanUsers));
   return humanUsers;
 }

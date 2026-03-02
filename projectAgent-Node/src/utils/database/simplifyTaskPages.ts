@@ -54,7 +54,10 @@ export function simplifyTaskPage(
         : undefined,
     assignee: properties["Assigned to"]["people"].map((response) =>
       extractAssignees(response),
-    ),
+    ).filter((person) => {
+      // Is person undefined? Filtering undefined persons
+      return !!person
+    }),
     project:
       properties.Project.type === "relation" ? properties.Project.relation : [],
   };

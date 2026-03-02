@@ -214,14 +214,20 @@ export function convertTaskPageFromDbResponse(
     "people" in properties["Assigned to"]
       ? properties["Assigned to"].people.map((response) =>
           extractAssignees(response),
-        )
+        ).filter((person) => {
+          // Check if person undefined
+          return !!person;
+        })
       : [];
 
   const assignedBy =
     "people" in properties["Assigned by"]
       ? properties["Assigned by"].people.map((response) =>
           extractAssignees(response),
-        )
+        ).filter((person) => {
+          // Check if person is undefined
+          return !!person;
+        })
       : [];
 
   const dueDate =
@@ -277,7 +283,8 @@ export function extractAssignees(
     | PartialUserObjectResponse
     | UserObjectResponse
     | GroupObjectResponse,
-): NotionUser {
+)
+ {
   if (response["object"] === "user") {
     if (isFullUser(response)) {
       if (response["type"] === "person") {
@@ -286,14 +293,22 @@ export function extractAssignees(
           email: response["person"]["email"],
           userId: response["id"],
         };
-        return user;
+        return  user;
+        
       } else {
         throw new Error("Assignee is not a person");
       }
     } else {
       throw new Error("Assignee is not a full user");
     }
-  } else {
-    throw new Error("Person is the wrong type");
-  }
+  } /*else {
+    return {
+      isPersonFullUser: false,
+      user:{
+        name: "unknown",
+        email: "unknown",
+        userId: response["id"],
+      }
+    }
+  }*/
 }

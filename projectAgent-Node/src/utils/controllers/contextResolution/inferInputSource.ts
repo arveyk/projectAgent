@@ -69,7 +69,10 @@ type MessageElement = BotAddOrRemoveMessage | BotResponses | ChannelJoin | Messa
 export async function inferInputSource(requestBody: SlashCommand, timeStamp: number): Promise<InferredContext> {
   console.log("(inferInputSource)");
 
-  const userTextInputLength = requestBody.text.trim().length;
+  const userTextInputLength = requestBody.text.split(" ").filter((word) => {
+    // Elimites elements that are empty - that were spaces
+    return word !== "";
+  }).length;
   let textToParse: string;
 
   if (requestBody["command"] || requestBody["event"]) {

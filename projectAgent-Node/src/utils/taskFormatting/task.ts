@@ -102,14 +102,15 @@ export function convertTask(
   const startDate = taskInput.startDate;
   const assignees = taskInput.assignees
     ? taskInput.assignees.map((assignee) => {
-      return { name: assignee };
-    })
+        return { name: assignee };
+      })
     : [];
 
   const taskProjects = taskInput.projects || [];
 
   // Only put anything in the similarProjects field if no exact project matches were found
-  const similarProjects = taskProjects.length > 0 ? [] : taskInput.similarProjects || [];
+  const similarProjects =
+    taskProjects.length > 0 ? [] : taskInput.similarProjects || [];
 
   const identifiedProjects: { id: string }[] = [];
 
@@ -213,15 +214,15 @@ export function convertTaskPageFromDbResponse(
   const assignees =
     "people" in properties["Assigned to"]
       ? properties["Assigned to"].people
-        .map(extractAssignees)
-        .filter((person) => person !== null)
+          .map(extractAssignees)
+          .filter((person) => person !== null)
       : [];
 
   const assignedBy =
     "people" in properties["Assigned by"]
       ? properties["Assigned by"].people
-        .map(extractAssignees)
-        .filter((person) => person !== null)
+          .map(extractAssignees)
+          .filter((person) => person !== null)
       : [];
 
   const dueDate =
@@ -238,14 +239,14 @@ export function convertTaskPageFromDbResponse(
       : undefined;
   const description =
     "rich_text" in properties["Description"] &&
-      properties["Description"]["rich_text"][0] !== undefined
+    properties["Description"]["rich_text"][0] !== undefined
       ? "plain_text" in properties["Description"]["rich_text"][0]
         ? properties["Description"].rich_text[0].plain_text
         : ""
       : "";
   const project =
     "relation" in properties["Project"] &&
-      properties["Project"]["relation"][0] !== undefined
+    properties["Project"]["relation"][0] !== undefined
       ? properties["Project"]["relation"]
       : [];
   const url = pageResponse.url;
@@ -278,7 +279,11 @@ export function extractAssignees(
     | UserObjectResponse
     | GroupObjectResponse,
 ): NotionUser | null {
-  if (response["object"] !== "user" || !isFullUser(response) || response["type"] !== "person") {
+  if (
+    response["object"] !== "user" ||
+    !isFullUser(response) ||
+    response["type"] !== "person"
+  ) {
     return null;
   }
 

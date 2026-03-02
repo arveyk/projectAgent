@@ -7,7 +7,6 @@ import {
   QueryDataSourceResponse,
 } from "@notionhq/client/build/src/api-endpoints";
 import { extractAssignees, PersonNoId } from "../taskFormatting/task";
-import { NotionUser } from "../controllers/userTypes";
 
 export type TaskPage = {
   pageId: string;
@@ -53,12 +52,9 @@ export function simplifyTaskPage(
       properties.Description.rich_text.length > 0
         ? properties.Description.rich_text[0].plain_text
         : undefined,
-    assignee: properties["Assigned to"]["people"].map((response) =>
-      extractAssignees(response),
-    ).filter((person): person is NotionUser => {
-      // Is person undefined? Filtering undefined persons
-      return !!person
-    }),
+    assignee: properties["Assigned to"]["people"]
+      .map(extractAssignees)
+      .filter((person) => person !== null),
     project:
       properties.Project.type === "relation" ? properties.Project.relation : [],
   };

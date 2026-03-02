@@ -212,22 +212,16 @@ export function convertTaskPageFromDbResponse(
       : "No Title Provided";
   const assignees =
     "people" in properties["Assigned to"]
-      ? properties["Assigned to"].people.map((response) =>
-        extractAssignees(response),
-      ).filter((person): person is NotionUser => {
-        // Check if person undefined
-        return !!person;
-      })
+      ? properties["Assigned to"].people
+        .map(extractAssignees)
+        .filter((person) => person !== null)
       : [];
 
   const assignedBy =
     "people" in properties["Assigned by"]
-      ? properties["Assigned by"].people.map((response) =>
-        extractAssignees(response),
-      ).filter((person): person is NotionUser => {
-        // Check if person is undefined
-        return !!person;
-      })
+      ? properties["Assigned by"].people
+        .map(extractAssignees)
+        .filter((person) => person !== null)
       : [];
 
   const dueDate =
@@ -276,7 +270,7 @@ export function convertTaskPageFromDbResponse(
 /**
  * Extracts a list of assignees from a database response
  * @param response A Notion user response.
- * @returns A NotionUser object.
+ * @returns A NotionUser object, ignoring bots and groups, or null if the response is not a person user.
  */
 export function extractAssignees(
   response:
@@ -284,21 +278,14 @@ export function extractAssignees(
     | UserObjectResponse
     | GroupObjectResponse,
 ): NotionUser | null {
-  if (response["object"] === "user") {
-    if (isFullUser(response)) {
-
-      if (!(response["type"] === "person")) {
-        throw new Error("Assignee is not a person");
-      }
-
-      const user: NotionUser = {
-        name: response["name"] !== null ? response["name"] : "Unnamed person",
-        email: response["person"]["email"],
-        userId: response["id"],
-      };
-      return user;
-    }
-    return null
+  if (response["object"] !== "user" || !isFullUser(response) || response["type"] !== "person") {
+    return null;
   }
-  return null
+
+  const user: NotionUser = {
+    name: response["name"] !== null ? response["name"] : "Unnamed person",
+    email: response["person"]["email"],
+    userId: response["id"],
+  };
+  return user;
 }

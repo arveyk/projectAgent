@@ -102,8 +102,8 @@ export function convertTask(
   const startDate = taskInput.startDate;
   const assignees = taskInput.assignees
     ? taskInput.assignees.map((assignee) => {
-        return { name: assignee };
-      })
+      return { name: assignee };
+    })
     : [];
 
   const taskProjects = taskInput.projects || [];
@@ -213,21 +213,21 @@ export function convertTaskPageFromDbResponse(
   const assignees =
     "people" in properties["Assigned to"]
       ? properties["Assigned to"].people.map((response) =>
-          extractAssignees(response),
-        ).filter((person) => {
-          // Check if person undefined
-          return !!person;
-        })
+        extractAssignees(response),
+      ).filter((person) => {
+        // Check if person undefined
+        return !!person;
+      })
       : [];
 
   const assignedBy =
     "people" in properties["Assigned by"]
       ? properties["Assigned by"].people.map((response) =>
-          extractAssignees(response),
-        ).filter((person) => {
-          // Check if person is undefined
-          return !!person;
-        })
+        extractAssignees(response),
+      ).filter((person) => {
+        // Check if person is undefined
+        return !!person;
+      })
       : [];
 
   const dueDate =
@@ -244,14 +244,14 @@ export function convertTaskPageFromDbResponse(
       : undefined;
   const description =
     "rich_text" in properties["Description"] &&
-    properties["Description"]["rich_text"][0] !== undefined
+      properties["Description"]["rich_text"][0] !== undefined
       ? "plain_text" in properties["Description"]["rich_text"][0]
         ? properties["Description"].rich_text[0].plain_text
         : ""
       : "";
   const project =
     "relation" in properties["Project"] &&
-    properties["Project"]["relation"][0] !== undefined
+      properties["Project"]["relation"][0] !== undefined
       ? properties["Project"]["relation"]
       : [];
   const url = pageResponse.url;
@@ -283,32 +283,20 @@ export function extractAssignees(
     | PartialUserObjectResponse
     | UserObjectResponse
     | GroupObjectResponse,
-)
- {
+) {
   if (response["object"] === "user") {
     if (isFullUser(response)) {
-      if (response["type"] === "person") {
-        const user: NotionUser = {
-          name: response["name"] !== null ? response["name"] : "Unnamed person",
-          email: response["person"]["email"],
-          userId: response["id"],
-        };
-        return  user;
-        
-      } else {
+
+      if (!(response["type"] === "person")) {
         throw new Error("Assignee is not a person");
       }
-    } else {
-      throw new Error("Assignee is not a full user");
-    }
-  } /*else {
-    return {
-      isPersonFullUser: false,
-      user:{
-        name: "unknown",
-        email: "unknown",
+
+      const user: NotionUser = {
+        name: response["name"] !== null ? response["name"] : "Unnamed person",
+        email: response["person"]["email"],
         userId: response["id"],
-      }
+      };
+      return user;
     }
-  }*/
+  }
 }

@@ -1,7 +1,7 @@
 import { NotionUser } from "./userTypes.js";
 import { NOTION_API_KEY } from "../../env";
 import { Client, ListUsersResponse } from "@notionhq/client";
-import { extractAssignees } from "../taskFormatting/task.js";
+
 
 const notion = new Client({
   auth: NOTION_API_KEY,

@@ -123,9 +123,11 @@ const structuredLlmSlashCmd: Runnable<
 
 /**
  * Uses Anthropic to parse a task assignment from a Slack slash command.
- * @param {*} reqBody The body of the request.
- * @param timestamp The timestamp when the slash command was sent.
- * @param alreadyFetchedProjects Projects pre-fetched from Notion.
+ * @param reqBody:	      The body of the request.
+ * @param testToParse:	  Text containing task details to be extracted
+ * @param timestamp:	    The timestamp when the slash command was sent.
+ * @param alreadyFetched: Projects Projects pre-fetched from Notion.
+ * 
  * @returns A TaskParseResult containing the formatted task.
  */
 export const parseTask = async function (
@@ -134,25 +136,6 @@ export const parseTask = async function (
   timestamp: number,
   alreadyFetchedProjects: QueryDataSourceResponse["results"] | null
 ): Promise<ParsedData> {
-  /*let textToParse: {
-    inferredFromPreviousContext: boolean;
-    text:string; 
-  };*/
-
-  /*if (reqBody["command"]) {
-    //textToParse = reqBody["text"];
-    textToParse = await inferInputSource(reqBody);
-  } else if (reqBody["event"]) {
-    textToParse = {
-      inferredFromPreviousContext: false,
-      text: reqBody["text"],
-    }
-  } else {
-    textToParse = {
-      inferredFromPreviousContext: false,
-      text: "No Task available"
-    }
-  }*/
 
   const appUserData = await getAppUserData(reqBody, timestamp);
 
@@ -180,9 +163,10 @@ export const parseTask = async function (
 
 /**
  * Parses a task from a message using a structured LLM.
- * @param timeData The date and timezone of the message.
- * @param notionProjects A list of all the projects in the database.
- * @param textToParse The message to parse as a task.
+ * @param timeData:	      The date and timezone of the message.
+ * @param notionProjects: A list of all the projects in the database.
+ * @param textToParse:	  The message to parse as a task.
+ *
  * @returns The message parsed as a task.
  */
 export async function parseWithLLM(timeData: DateTime<boolean>, notionProjects: Project[], textToParse: string) {

@@ -1,17 +1,63 @@
-import axios from "axios";
 import { getSlackUsers } from "../getUsersSlack";
 import { SlackUser } from "../userTypes";
-import { SLACK_BOT_TOKEN } from "../../../env";
 import { SlashCommand } from "@slack/bolt";
+import { getChatHistory } from "../../../externalService/slackApiService";
 
 
 type InferredContext = {
   error: any | null,
   inferredFromPreviousContext: boolean,
   text: string
-
 }
 
+// Types for Message elements in the conversations history query response
+
+type MessageResponse = {
+  "user": string;
+  "type": "message";
+  "ts": number;
+  "client_msg_id": string,
+  "text": string;
+  "team": string;
+  "blocks": object[];
+  "reactions": object[];
+}
+
+type BotAddOrRemoveMessage = {
+  "subtype": "bot_add";
+  "text": string;
+  "user": string,
+  "bot_link": string;
+  "bot_id": string;
+  "type": "message",
+  "ts": number
+}
+type BotResponses = {
+  "user": "U0935EFG3GD";
+  "type": "message";
+  "ts": "1769021479.365719";
+  "edited": {
+    "user": string;
+    "ts": "1769021579.000000";
+  },
+  "bot_id": string;
+  "app_id": string;
+  "text": string;
+  "team": string;
+  "bot_profile": object[];
+  "blocks": object[];
+}
+
+type ChannelJoin = {
+  "subtype": "channel_join";
+  "user": string;
+  "text": string;
+  "inviter": string;
+  "type": "message",
+  "ts": number;
+}
+
+type MessageElement = BotAddOrRemoveMessage | BotResponses | ChannelJoin | MessageResponse;
 
 /**
  * Function to infer which input source the user would like processed
@@ -20,43 +66,41 @@ type InferredContext = {
  * @return returns the text that will be processed by Project Agent
  */
 
-export async function inferInputSource(requestBody: SlashCommand): Promise<InferredContext> {
+export async function inferInputSource(requestBody: SlashCommand, timeStamp: number): Promise<InferredContext> {
   console.log("(inferInputSource)");
 
   const userTextInputLength = requestBody.text.trim().length;
   let textToParse: string;
 
-  if (requestBody["command"]) {
-    textToParse = requestBody["text"];
-  } else if (requestBody["event"]) {
+  if (requestBody["command"] || requestBody["event"]) {
     textToParse = requestBody["text"];
   } else {
     textToParse = "No Task Available";
   }
 
+  if (userTextInputLength > 1) {
+    console.log("Input included")
+    return {
+      error: null,
+      inferredFromPreviousContext: false,
+      text: textToParse
+    }
+  }
+  const conversationHistoryResponse = await getChatHistory(requestBody.channel_id, timeStamp)
 
-  if (userTextInputLength <= 1) {
-    const conversationHistoryResponse = await getChatHistory(requestBody.channel_id, requestBody.trigger_id)
+  console.log(JSON.stringify(conversationHistoryResponse.data, null, 2));
 
-    console.log(JSON.stringify(conversationHistoryResponse.data, null, 2));
+  const recentMessageHistory: MessageElement[] | undefined = conversationHistoryResponse.data.messages;
 
-    const recentMessageHistory = conversationHistoryResponse.data.messages;
-    if (conversationHistoryResponse.data.ok === true && recentMessageHistory) {
-
-      if (recentMessageHistory.length === 0) {
-        textToParse = "No Task Available";
-      }
-      else {        
-        textToParse = await createChatContext(requestBody.channel_name, recentMessageHistory);
-      }
-    } else {
+  if (conversationHistoryResponse.data && recentMessageHistory) {
+    if (recentMessageHistory.length === 0) {
       return {
-        error: conversationHistoryResponse.data,
-        inferredFromPreviousContext: false,
-        text: "Error Encountered or History is empty"
+        error: null,
+        inferredFromPreviousContext: true,
+        text: "No Task Available"
       }
     }
-
+    textToParse = await createChatContext(requestBody.channel_name, recentMessageHistory);
     return {
       error: null,
       inferredFromPreviousContext: true,
@@ -64,9 +108,9 @@ export async function inferInputSource(requestBody: SlashCommand): Promise<Infer
     }
   } else {
     return {
-      error: null,
+      error: conversationHistoryResponse.data,
       inferredFromPreviousContext: false,
-      text: textToParse
+      text: "Error Encountered or History is empty"
     }
   }
 }
@@ -93,49 +137,32 @@ export function matchUserById(userId: string, usersList: SlackUser[]) {
  * @returns response from searching channel history
  */
 
-export async function getChatHistory(channelId: string, triggerId: string) {
-  return await axios.get("https://slack.com/api/conversations.history", {
-    params: {
-      channel: channelId,
-      inclusive: false,
-      latest: triggerId,
-      limit: 5,
-    },
 
-    headers: {
-      "Authorization": `Bearer ${SLACK_BOT_TOKEN}`,
-      "Content-Type": "application/json",
-    },
-    family: 4
-  }).then((response) => {
-    return response;
-  }).catch((error) => {
-    console.log(error.data);
-    return error;
-  });
-};
-
-export async function createChatContext(channelName: string, recentMessageHistory: any): Promise<string> {
-  const conversationList = [];
-  
-  for (const conversation of recentMessageHistory) {
-    console.log(conversation.user, ": ", conversation.text)
-    if (!conversation.subtype) {
-      conversationList.push({
+export async function createChatContext(channelName: string, recentMessageHistory: MessageElement[]): Promise<string> {
+  const conversationList: {
+    user: string, text: string
+  }[] = recentMessageHistory.map((conversation) => {
+    console.log(conversation.user, ": ", conversation.text);
+    // Existence of a subtype indicates that the conversation is a channel join (if a person or bot
+    // joins the channel) or if a bot is removed from a channel, those we definately do not need to process
+    if (!("subtype" in conversation)) {
+      return {
         user: conversation.user,
         text: conversation.text
-      });
+      };
     }
-  }
+  }).filter((convo) => {
+    return !(convo === undefined);
+  });
+
 
   const allSlackUsers = await getSlackUsers();
-  
+
   const convoWithSpeakerNames: string[] = conversationList.map((convo) => {
     const match = matchUserById(convo.user, allSlackUsers);
     return `${match?.name || "Unknown"}: ${convo.text}`;
   });
   console.log(conversationList);
-
   return `Channel: ${channelName}\n`.concat(convoWithSpeakerNames.reverse().join("\n"));
 
 }

@@ -232,7 +232,7 @@ async function sendReject(
     url: response_url,
     data: {
       replace_original: "true",
-      text: "Changes Not Approved",
+      // text: "Changes Not Approved",
       blocks: [
         {
           type: "section",

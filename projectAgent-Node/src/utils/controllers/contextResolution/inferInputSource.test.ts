@@ -12,17 +12,18 @@ jest.mock("../getUsersSlack", () => {
 jest.mock("axios");
 
 const mockedAxios = axios as jest.Mocked<typeof axios>
+const timestamp = Date.now();
 
 describe("To test how this function infers context", () => {
-beforeAll(() => {
-    console.log("Run");
-})
-    it("Should set text value equal to that from payload", async function testInferred () {
+    beforeAll(() => {
+        console.log("Run");
+    });
+    it("Should set text value equal to that from payload", async function testInferred() {
         mockedAxios.get.mockResolvedValue({
             data: EXAMPLE_CONVERSATION_HISTORY
         });
 
-        const inferredContext = await inferInputSource(payloadExampleNoInputText);
+        const inferredContext = await inferInputSource(payloadExampleNoInputText, timestamp);
         expect(inferredContext).toBeDefined();
         expect(inferredContext.inferredFromPreviousContext).toBeTruthy();
         expect(inferredContext.text).toBeDefined();
@@ -31,8 +32,8 @@ beforeAll(() => {
         console.log(inferredContext);
 
     });
-    it("Should create depending on text value of payload", async function testInferred () {
-        const inferredContext = await inferInputSource(payloadHarvey);
+    it("Should create depending on text value of payload", async function testInferred() {
+        const inferredContext = await inferInputSource(payloadHarvey, timestamp);
         expect(inferredContext).toBeDefined();
         expect(inferredContext.inferredFromPreviousContext).toBeFalsy();
         expect(inferredContext.text).toBeDefined();

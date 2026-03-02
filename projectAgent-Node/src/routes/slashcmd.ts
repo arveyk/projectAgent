@@ -32,6 +32,8 @@ const slashCmdHandler: StreamifyHandler = async function (
 ) {
   console.log("We are now in the slashcmd handler");
   logTimestampForBenchmarking("Execution start");
+  const timestamp: number = Date.now();
+
   const httpResponseMetadata = {
     statusCode: 200,
     headers: {
@@ -54,10 +56,10 @@ const slashCmdHandler: StreamifyHandler = async function (
     console.log(`slashCmdHandler here. Any tasks for me?
 	  Request Body: ${JSON.stringify(reqBody)}`);
     console.log(`headers: ${JSON.stringify(event.headers)}`);
-      
-    const inferredContext = await inferInputSource(reqBody);
 
-    if (inferredContext.error) {
+    const inferredContext = await inferInputSource(reqBody, timestamp);
+
+    if (inferredContext.error === null) {
       const response_url = reqBody["response_url"];
 
       // Fetch cache
@@ -79,13 +81,12 @@ const slashCmdHandler: StreamifyHandler = async function (
       // TODO only pass data needed
 
 
-      const isInDatabase = await searchDatabase(inferredContext.text, fetchedTasks);
+      const taskSearchResult = await searchDatabase(inferredContext.text, fetchedTasks);
       logTimestampForBenchmarking("Done searching database");
 
-      console.log("IS in database?", JSON.stringify(isInDatabase));
+      console.log("IS in database?", JSON.stringify(taskSearchResult));
 
       await sendLoadingMessage("Parsing Task", response_url);
-      const timestamp: number = Date.now();
 
       logTimestampForBenchmarking("Parsing task");
       const parsedData = await parseTask(reqBody, inferredContext.text, timestamp, fetchedProjects);
@@ -107,15 +108,15 @@ const slashCmdHandler: StreamifyHandler = async function (
       );
       logTimestampForBenchmarking("Done searching Notion for assignees");
 
-      if (!isInDatabase) {
+      if (!taskSearchResult) {
         throw new Error("Error searching database");
       }
 
-      if (isInDatabase.exists) {
+      if (taskSearchResult.exists) {
         console.log("Already in Database");
 
         const pageObject: GetPageResponse = await getTaskProperties(
-          isInDatabase.taskId || "",
+          taskSearchResult.taskId || "",
         );
 
         if ("properties" in pageObject) {
@@ -180,6 +181,15 @@ const slashCmdHandler: StreamifyHandler = async function (
         url: reqBody["response_url"],
         data: {
           text: "Feature request or user curiosity",
+          blocks: [
+            {
+              "type": "section",
+              "text": {
+                "type": "mrkdwn",
+                "text": "> Test Else block. Response",
+              }
+            }
+          ]
         },
         family: 4,
       }).then((resp) => {

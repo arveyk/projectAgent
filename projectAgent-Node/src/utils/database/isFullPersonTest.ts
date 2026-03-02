@@ -15,4 +15,9 @@ console.log(
         }
     ));
 
-console.log(isFullUser([] as UserObjectResponse | PartialUserObjectResponse));
+console.log(isFullUser({} as UserObjectResponse | PartialUserObjectResponse));
+
+console.log(isFullUser({
+    "object": "user",
+    "id": "1e0d872b-594c-81e5-be86-000260493812"
+}))

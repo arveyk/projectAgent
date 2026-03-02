@@ -291,6 +291,7 @@ export function extractAssignees(
         throw new Error("Assignee is not a person");
       }
     } else {
+      console.log("(extractAssignee)", JSON.stringify(response));
       throw new Error("Assignee is not a full user");
     }
   } else {

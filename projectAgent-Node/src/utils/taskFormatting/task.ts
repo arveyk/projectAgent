@@ -214,7 +214,7 @@ export function convertTaskPageFromDbResponse(
     "people" in properties["Assigned to"]
       ? properties["Assigned to"].people.map((response) =>
         extractAssignees(response),
-      ).filter((person) => {
+      ).filter((person): person is NotionUser => {
         // Check if person undefined
         return !!person;
       })
@@ -224,7 +224,7 @@ export function convertTaskPageFromDbResponse(
     "people" in properties["Assigned by"]
       ? properties["Assigned by"].people.map((response) =>
         extractAssignees(response),
-      ).filter((person) => {
+      ).filter((person): person is NotionUser => {
         // Check if person is undefined
         return !!person;
       })
@@ -283,7 +283,7 @@ export function extractAssignees(
     | PartialUserObjectResponse
     | UserObjectResponse
     | GroupObjectResponse,
-) {
+): NotionUser | null {
   if (response["object"] === "user") {
     if (isFullUser(response)) {
 
@@ -298,5 +298,7 @@ export function extractAssignees(
       };
       return user;
     }
+    return null
   }
+  return null
 }

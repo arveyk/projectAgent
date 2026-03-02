@@ -7,6 +7,7 @@ import {
   QueryDataSourceResponse,
 } from "@notionhq/client/build/src/api-endpoints";
 import { extractAssignees, PersonNoId } from "../taskFormatting/task";
+import { NotionUser } from "../controllers/userTypes";
 
 export type TaskPage = {
   pageId: string;
@@ -54,7 +55,7 @@ export function simplifyTaskPage(
         : undefined,
     assignee: properties["Assigned to"]["people"].map((response) =>
       extractAssignees(response),
-    ).filter((person) => {
+    ).filter((person): person is NotionUser => {
       // Is person undefined? Filtering undefined persons
       return !!person
     }),

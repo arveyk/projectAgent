@@ -109,7 +109,8 @@ export function convertTask(
   const taskProjects = taskInput.projects || [];
 
   // Only put anything in the similarProjects field if no exact project matches were found
-  const similarProjects = taskProjects.length > 0 ? [] : taskInput.similarProjects || [];
+  const similarProjects =
+    taskProjects.length > 0 ? [] : taskInput.similarProjects || [];
 
   const identifiedProjects: { id: string }[] = [];
 
@@ -212,16 +213,16 @@ export function convertTaskPageFromDbResponse(
       : "No Title Provided";
   const assignees =
     "people" in properties["Assigned to"]
-      ? properties["Assigned to"].people.map((response) =>
-          extractAssignees(response),
-        )
+      ? properties["Assigned to"].people
+          .map(extractAssignees)
+          .filter((person) => person !== null)
       : [];
 
   const assignedBy =
     "people" in properties["Assigned by"]
-      ? properties["Assigned by"].people.map((response) =>
-          extractAssignees(response),
-        )
+      ? properties["Assigned by"].people
+          .map(extractAssignees)
+          .filter((person) => person !== null)
       : [];
 
   const dueDate =
@@ -270,31 +271,26 @@ export function convertTaskPageFromDbResponse(
 /**
  * Extracts a list of assignees from a database response
  * @param response A Notion user response.
- * @returns A NotionUser object.
+ * @returns A NotionUser object, ignoring bots and groups, or null if the response is not a person user.
  */
 export function extractAssignees(
   response:
     | PartialUserObjectResponse
     | UserObjectResponse
     | GroupObjectResponse,
-): NotionUser {
-  if (response["object"] === "user") {
-    if (isFullUser(response)) {
-      if (response["type"] === "person") {
-        const user: NotionUser = {
-          name: response["name"] !== null ? response["name"] : "Unnamed person",
-          email: response["person"]["email"],
-          userId: response["id"],
-        };
-        return user;
-      } else {
-        throw new Error("Assignee is not a person");
-      }
-    } else {
-      console.log("(extractAssignee)", JSON.stringify(response));
-      throw new Error("Assignee is not a full user");
-    }
-  } else {
-    throw new Error("Person is the wrong type");
+): NotionUser | null {
+  if (
+    response["object"] !== "user" ||
+    !isFullUser(response) ||
+    response["type"] !== "person"
+  ) {
+    return null;
   }
+
+  const user: NotionUser = {
+    name: response["name"] !== null ? response["name"] : "Unnamed person",
+    email: response["person"]["email"],
+    userId: response["id"],
+  };
+  return user;
 }

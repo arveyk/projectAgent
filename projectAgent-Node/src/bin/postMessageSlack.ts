@@ -1,9 +1,8 @@
-import { SLACK_BOT_TOKEN } from "../env";
-import axios from "axios";
 import { createNewTaskBlockWithUserAndOrProjectsSelections } from "../blockkit/createBlockPartsForNewTask";
 import { taskNoAssignee } from "../test-data/tasks/example-tasks";
 import { NotionUser } from "../utils/controllers/userTypes";
 import { ProjectWithName } from "../utils/taskFormatting/task";
+import { sendBlockResponse } from "../externalService/slackApiService";
 /**
  * (async () => {
   const personsArray = await readFile("./users.json");
@@ -96,38 +95,18 @@ const exampleBlocks = createNewTaskBlockWithUserAndOrProjectsSelections(taskNoAs
 
 export async function testPostToSlack(eventResUrl: string, slackBlocks?: any) {
   try {
-    const responseData = await axios
-      .post(
-        eventResUrl,
-        {
-          channel: channel_id,
-          text: "Some Text",
-          // blocks: RequestApprovalBlock.blocks,
-          blocks: slackBlocks.blocks,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
-            "Content-Type": "application/json; charset=UTF-8",
-          },
-          family: 4,
-        },
-      )
-      .then((responseFromSlack) => {
-        console.log("OK from slack", responseFromSlack.data);
-        console.log("Data sent to Slack", responseFromSlack.config.data);
-        return (responseFromSlack.data);
-      })
-      .catch((err) => {
-        console.log("Error in Axios", err);
-      });
-
-    return responseData;
+    const responseFromSlack = await sendBlockResponse(eventResUrl,
+      slackBlocks.blocks,
+      "Error in Axios"
+    )
+    console.log("OK from slack", responseFromSlack.data);
+    console.log("Data sent to Slack", responseFromSlack.config.data);
+    return responseFromSlack.data
   } catch (err) {
     return err;
   }
 }
 
 (async () => {
-await testPostToSlack(eventResponseURL, exampleBlocks);
+  await testPostToSlack(eventResponseURL, exampleBlocks);
 })();

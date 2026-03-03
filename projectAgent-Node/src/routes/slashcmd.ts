@@ -1,4 +1,3 @@
-import axios from "axios";
 import { createExistingTaskBlock } from "../blockkit/createExistingTaskBlock";
 import { parseTask } from "../utils/aiagent";
 import {
@@ -24,6 +23,7 @@ import {
 import { createNewTaskBlock } from "../blockkit/createNewTaskBlock";
 import { createCacheClient, retrieveCache } from "../utils/database/getFromCache";
 import { inferInputSource } from "../utils/controllers/contextResolution/inferInputSource";
+import { sendBlockResponse } from "../externalService/slackApiService";
 
 const slashCmdHandler: StreamifyHandler = async function (
   event: APIGatewayProxyEventV2,
@@ -127,24 +127,13 @@ const slashCmdHandler: StreamifyHandler = async function (
           );
           const updateBlock = await createExistingTaskBlock(existingTask, fetchedProjects);
           console.log("Update Block", JSON.stringify(updateBlock));
-
-          await axios({
-            method: "post",
-            url: reqBody["response_url"],
-            data: {
-              text: "Already in DB",
-              blocks: updateBlock.blocks,
-            },
-            family: 4,
-          })
-            .then((resp) => {
-              console.log("OK from slack", resp["status"]);
-            })
-            .catch((err) => {
-              console.log(
-                "(slashCmdHandler): Axios Error while posting updateBlock",
-              );
-            });
+          
+          const response = await sendBlockResponse(reqBody["response_url"],
+            updateBlock.blocks,
+            "Error sending existing task notification block"
+          );
+          
+            console.log(response.data);
         } else {
           throw new Error("Error getting page properties");
         }
@@ -165,46 +154,32 @@ const slashCmdHandler: StreamifyHandler = async function (
           "SlashCmdHandler taskBlockWithSelect",
           JSON.stringify(slackBlocks),
         );
+        await sendBlockResponse(reqBody["response_url"], slackBlocks.blocks,
+          "Error sending New Task blocks");
 
-        await axios({
-          method: "post",
-          url: reqBody["response_url"],
-          data: slackBlocks,
-          family: 4,
-        }).then((resp) => {
-          console.log("OK from slack", resp["status"]);
-        });
       }
     } else {
-      axios({
-        method: "post",
-        url: reqBody["response_url"],
-        data: {
-          text: "Feature request or user curiosity",
-          blocks: [
-            {
-              "type": "section",
-              "text": {
-                "type": "mrkdwn",
-                "text": "> Test Else block. Response",
-              }
-            }
-          ]
-        },
-        family: 4,
-      }).then((resp) => {
-        console.log(
-          "OK from slack Wrong command format Though",
-          resp["status"],
-        );
-      });
+      const response = await sendBlockResponse(reqBody["response_url"], [
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "> Test Else block. Response",
+          }
+        }
+      ],
+        "OK from slack Wrong command format Though");
+
+      console.log(response.status);
     }
   } catch (err: Error | any) {
     console.log("slashCmdHandler Error", String(err));
     return err;
   } finally {
     logTimestampForBenchmarking("Execution finished");
+
   }
+
 };
 
 export default slashCmdHandler;

@@ -1,9 +1,7 @@
-import axios from "axios";
 import {
   addTaskNotionPage,
   PageAddResult,
 } from "../../utils/database/addNewTaskToDatabase";
-import { SLACK_BOT_TOKEN } from "../../env";
 import { BlockAction } from "@slack/bolt";
 import { createRedirectToNewPageBlock } from "../../blockkit/createRedirectToNewPageBlock";
 import { TaskPage } from "../../utils/taskFormatting/task";
@@ -14,6 +12,7 @@ import {
   extractPayload,
 } from "../../utils/slashCommandProcessing";
 import { integrateSelectedValues } from "../../utils/controllers/useSelectedOption";
+import { sendBlockResponse } from "../../externalService/slackApiService";
 
 /**
  * interactionHandler - Response to user interactions with blocks when a button
@@ -89,58 +88,42 @@ const interactionHandler: StreamifyHandler = async function (
         taskPageObj.task.assignees = taskWithIntegratedValues.assignees;
       }
       console.log("Edit in Notion, Response Url", response_url);
-      await (async () => {
-        try {
-          console.log(
-            `(sendApprove) taskPageObj: ${JSON.stringify(taskPageObj)}, taskPageObj.task: ${taskPageObj.task}`,
+      //await (async () => {
+      try {
+        console.log(
+          `(sendApprove) taskPageObj: ${JSON.stringify(taskPageObj)}, taskPageObj.task: ${taskPageObj.task}`,
+        );
+        const taskAddResult = await addTaskNotionPage(taskPageObj.task);
+
+        console.log(`Page added successfully? ${taskAddResult.success}`);
+
+        const newTaskPage = taskAddResult.page;
+        if (taskAddResult.success === true && newTaskPage) {
+          taskPageObj.pageId = newTaskPage.id;
+          taskPageObj.url = "url" in newTaskPage ? newTaskPage.url : "";
+
+          const editInNotionBlocks = createRedirectToNewPageBlock(
+            taskPageObj.url,
           );
-          const taskAddResult = await addTaskNotionPage(taskPageObj.task);
+          console.log(
+            "editInNotionBlocks",
+            JSON.stringify(editInNotionBlocks),
+          );
+          const axiosErrorMessage = "AXIOS ERROR in Edit in notion if-else - InteractionHandler";
+          const response = await sendBlockResponse(response_url,
+            editInNotionBlocks.blocks,
+            axiosErrorMessage
+          );
 
-          console.log(`Page added successfully? ${taskAddResult.success}`);
-
-          const newTaskPage = taskAddResult.page;
-          if (taskAddResult.success === true && newTaskPage) {
-            taskPageObj.pageId = newTaskPage.id;
-            taskPageObj.url = "url" in newTaskPage ? newTaskPage.url : "";
-
-            const editInNotionBlocks = createRedirectToNewPageBlock(
-              taskPageObj.url,
-            );
-            console.log(
-              "editInNotionBlocks",
-              JSON.stringify(editInNotionBlocks),
-            );
-            await axios({
-              method: "post",
-              url: response_url,
-              data: {
-                replace_original: "true",
-                text: "Sequence complete",
-                blocks: editInNotionBlocks.blocks,
-              },
-              headers: {
-                Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
-                "Content-Type": "application/json; charset=UTF-8",
-              },
-              family: 4,
-            })
-              .then((Response) => {
-                console.log("Update msg", Response);
-              })
-              .catch((err) => {
-                console.log(
-                  "AXIOS ERROR in Edit in notion if-else - InteractionHandler",
-                  err,
-                );
-              });
-          } else {
-            sendError(taskAddResult, payload, response_url);
-            console.log(taskAddResult.errorMsg);
-          }
-        } catch (error) {
-          console.error("Error adding task", error);
+          console.log(response);
+        } else {
+          await sendError(taskAddResult, payload, response_url);
+          console.log(taskAddResult.errorMsg);
         }
-      })();
+      } catch (error) {
+        console.error("Error adding task", error);
+      }
+      //})();
     } else if (
       action_text === "Edit in Notion" ||
       action_text === "Done" ||
@@ -155,38 +138,17 @@ const interactionHandler: StreamifyHandler = async function (
       if (action_id === "updateId-02") {
         action = "*Done: Task Updated*";
       }
+      const errorMessage = "AXIOS ERROR in Edit in notion if-else - InteractionHandler"
+      await sendBlockResponse(response_url, [
+        {
+          type: "section",
+          text: {
+            type: "mrkdwn",
+            text: `:white_check_mark: ${action}`,
+          },
+        },
+      ], errorMessage);
 
-      await axios({
-        method: "post",
-        url: response_url,
-        data: {
-          replace_original: "true",
-          text: "Sequence complete",
-          blocks: [
-            {
-              type: "section",
-              text: {
-                type: "mrkdwn",
-                text: `:white_check_mark: ${action}`,
-              },
-            },
-          ],
-        },
-        headers: {
-          Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
-          "Content-Type": "application/json; charset=UTF-8",
-        },
-        family: 4,
-      })
-        .then((Response) => {
-          console.log("Update msg", Response);
-        })
-        .catch((err) => {
-          console.log(
-            "AXIOS ERROR in Edit in notion if-else - InteractionHandler",
-            err,
-          );
-        });
     } else if (action_text === "Delete") {
       await (async () => {
         const pageUrl = payload.actions[0].value;
@@ -227,34 +189,16 @@ async function sendReject(
   console.log(
     `Text in button ${"value" in payload.actions[0] ? payload.actions[0]["value"] : "No value"}, Action_Text${action_text}`,
   );
-  await axios({
-    method: "post",
-    url: response_url,
-    data: {
-      replace_original: "true",
-      // text: "Changes Not Approved",
-      blocks: [
-        {
-          type: "section",
-          text: {
-            type: "mrkdwn",
-            text: `${action}`,
-          },
-        },
-      ],
+  const errorMessage = "AXIOS ERROR in sendReject"
+  await sendBlockResponse(response_url, [
+    {
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: `${action}`,
+      },
     },
-    headers: {
-      Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
-      "Content-Type": "application/json; charset=UTF-8",
-    },
-    family: 4,
-  })
-    .then((Response) => {
-      console.log("Update msg", Response);
-    })
-    .catch((err) => {
-      console.log("AXIOS ERROR in sendReject", err);
-    });
+  ], errorMessage);
 }
 
 function sendEdit(
@@ -269,7 +213,7 @@ function sendEdit(
   }
 }
 
-function sendError(
+async function sendError(
   createRowResult: PageAddResult,
   payload: BlockAction,
   response_url: string,
@@ -283,39 +227,23 @@ function sendError(
       errMessage = "Update";
       errEmoji = "x";
     }
-    axios
-      .post(
-        response_url,
+    const axiosErrorMessage = "2nd AXIOS ERROR in sendSubmit";
+    const response = await sendBlockResponse(response_url,
+      [
         {
-          replace_original: "true",
-          text: "Block Replaced",
-          blocks: [
-            {
-              type: "section",
-              text: {
-                type: "mrkdwn",
-                text: `:${errEmoji}: *Unable to ${errMessage} Entry*: ${createRowResult.errorMsg}`,
-              },
-            },
-          ],
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
-            "Content-Type": "application/json; charset=UTF-8",
+          type: "section",
+          text: {
+            type: "mrkdwn",
+            text: `:${errEmoji}: *Unable to ${errMessage} Entry*: ${createRowResult.errorMsg}`,
           },
-          family: 4,
         },
-      )
-      .then((Response) => {
-        console.log(
-          "Error while Attempting to create row, Please check inputs",
-          Response,
-        );
-      })
-      .catch((err) => {
-        console.log("2nd AXIOS ERROR in sendSubmit", err.response);
-      });
+      ],
+      axiosErrorMessage
+    );
+    console.log(
+      "Error while Attempting to create row, Please check inputs",
+      response,
+    );
 
     // If the due date is in the past, make the user edit it
     if (createRowResult.errorMsg === "A due date can't be in the past") {

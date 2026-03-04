@@ -124,9 +124,10 @@ const structuredLlmSlashCmd: Runnable<
 /**
  * Uses Anthropic to parse a task assignment from a Slack slash command.
  * @param reqBody:	      The body of the request.
- * @param testToParse:	  Text containing task details to be extracted
- * @param timestamp:	    The timestamp when the slash command was sent.
- * @param alreadyFetched: Projects Projects pre-fetched from Notion.
+ * @param textToParse:	  Text containing task details to be extracted
+ * @param timestamp:	    The timestamp when project agent starts processing a request from user
+ *  an approximation of the time the slash command is activated
+ * @param alreadyFetchedProjects: Projects pre-fetched from Notion.
  * 
  * @returns A TaskParseResult containing the formatted task.
  */
@@ -167,7 +168,7 @@ export const parseTask = async function (
  * @param notionProjects: A list of all the projects in the database.
  * @param textToParse:	  The message to parse as a task.
  *
- * @returns The message parsed as a task.
+ * @returns Structured object with task details.
  */
 export async function parseWithLLM(timeData: DateTime<boolean>, notionProjects: Project[], textToParse: string) {
   const prompt = `Today's date in ISO format is ${timeData.toISODate()}. Please extract task information from a message, making sure to list any dates in ISO format. If a start date is not specifed, assume the start date is today's date. "By tomorrow" means the due date is tomorrow.

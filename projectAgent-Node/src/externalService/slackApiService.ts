@@ -18,7 +18,7 @@ export async function getChatHistory(channelId: string, timeStamp: number) {
       params: {
         channel: channelId,
         inclusive: false,
-        latest: timeStamp,
+        latest: String(timeStamp / 1000), // Convert to seconds.
         limit: 5,
       },
       headers: {
@@ -58,9 +58,15 @@ export async function sendBlockResponse(responseURL: string, slackBlock: object[
       family: 4
     });
     console.log("(sendBlockResponse)", postBlocksToUserResponse.data);
-    return postBlocksToUserResponse.data
+    return {
+      success: true,
+      data: postBlocksToUserResponse.data
+    }
   } catch (error) {
     console.log(errorMessage, error);
-    return error
+    return {
+      success: false,
+      data: error
+    }
   }
 }

@@ -128,12 +128,11 @@ const slashCmdHandler: StreamifyHandler = async function (
           const updateBlock = await createExistingTaskBlock(existingTask, fetchedProjects);
           console.log("Update Block", JSON.stringify(updateBlock));
           
-          const response = await sendBlockResponse(reqBody["response_url"],
+          await sendBlockResponse(reqBody["response_url"],
             updateBlock.blocks,
             "Error sending existing task notification block"
           );
           
-            console.log(response.data);
         } else {
           throw new Error("Error getting page properties");
         }
@@ -169,8 +168,8 @@ const slashCmdHandler: StreamifyHandler = async function (
         }
       ],
         "OK from slack Wrong command format Though");
-
-      console.log(response.status);
+        
+      console.log(response.data.status);
     }
   } catch (err: Error | any) {
     console.log("slashCmdHandler Error", String(err));

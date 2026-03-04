@@ -110,12 +110,10 @@ const interactionHandler: StreamifyHandler = async function (
             JSON.stringify(editInNotionBlocks),
           );
           const axiosErrorMessage = "AXIOS ERROR in Edit in notion if-else - InteractionHandler";
-          const response = await sendBlockResponse(response_url,
+          await sendBlockResponse(response_url,
             editInNotionBlocks.blocks,
             axiosErrorMessage
           );
-
-          console.log(response);
         } else {
           await sendError(taskAddResult, payload, response_url);
           console.log(taskAddResult.errorMsg);
@@ -242,7 +240,7 @@ async function sendError(
     );
     console.log(
       "Error while Attempting to create row, Please check inputs",
-      response,
+      response
     );
 
     // If the due date is in the past, make the user edit it

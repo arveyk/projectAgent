@@ -81,7 +81,7 @@ export async function inferInputSource(requestBody: SlashCommand, timeStamp: num
     textToParse = "No Task Available";
   }
 
-  if (userTextInputLength > 1) {
+  if (userTextInputLength > 0) {
     console.log("Input included")
     return {
       error: null,

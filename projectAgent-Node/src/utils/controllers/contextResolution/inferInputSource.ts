@@ -15,7 +15,7 @@ type InferredContext = {
 type MessageResponse = {
   "user": string;
   "type": "message";
-  "ts": number;
+  "ts": string;
   "client_msg_id": string,
   "text": string;
   "team": string;
@@ -30,7 +30,7 @@ type BotAddOrRemoveMessage = {
   "bot_link": string;
   "bot_id": string;
   "type": "message",
-  "ts": number
+  "ts": string
 }
 type BotResponses = {
   "user": "U0935EFG3GD";
@@ -54,7 +54,7 @@ type ChannelJoin = {
   "text": string;
   "inviter": string;
   "type": "message",
-  "ts": number;
+  "ts": string;
 }
 
 type MessageElement = BotAddOrRemoveMessage | BotResponses | ChannelJoin | MessageResponse;
@@ -91,7 +91,7 @@ export async function inferInputSource(requestBody: SlashCommand, timeStamp: num
   }
   const historyQueryResponse = await getChatHistory(requestBody.channel_id, timeStamp)
   const historyData = historyQueryResponse.data;
-  console.log("Conversation History", JSON.stringify(historyData, null, 2));
+  console.log("Do we Have Conversation History", (historyData.messages ? "Yess": "No way"));
 
   if (!historyData) {
     return {
@@ -148,7 +148,6 @@ export async function createChatContext(channelName: string, recentMessageHistor
   const conversationList: {
     user: string, text: string
   }[] = recentMessageHistory.map((conversation) => {
-    console.log(conversation.user, ": ", conversation.text);
     // Existence of a subtype indicates that the conversation is a channel join (if a person or bot
     // joins the channel) or if a bot is removed from a channel, those we definately do not need to process
 
@@ -163,6 +162,10 @@ export async function createChatContext(channelName: string, recentMessageHistor
     }
     return null
   }).filter((convo) => convo !== null);
+
+  console.log("Number of chats to process", recentMessageHistory.length, 
+    "Number of chats left", conversationList.length
+  );
 
   const allSlackUsers = await getSlackUsers();
 

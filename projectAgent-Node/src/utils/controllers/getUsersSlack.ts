@@ -35,42 +35,30 @@ type UserData = {
  */
 export const getSlackUsers = async function (): Promise<SlackUser[]> {
   const listUsersURL = "https://slack.com/api/users.list";
-  const slackResp: UsersListResponse = await axios
-    .get(listUsersURL, {
-      headers: {
-        "Content-Type": "application/json charset=utf-8",
-        Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
-      },
-      family: 4,
-    })
-    .then((response) => {
-      // console.log("Slack users response:", response.data);
-      return response.data;
-    })
-    .catch((error) => {
-      console.error("Error fetching Slack users:", error);
-      throw new Error("Failed to fetch Slack users");
-    });
+  const failureMessage = "Failed to fetch Slack users";
 
-  const membersArray = slackResp.members;
-  const usersArr: SlackUser[] = [];
+  const workspaceUsersQuery = await queryUserOrUsersFromSlack(listUsersURL, failureMessage);
+  const slackResponse: UsersListResponse = workspaceUsersQuery.data;
+
+  const membersArray = slackResponse.members;
 
   if (membersArray) {
-    membersArray.forEach((element) => {
-      if (element.is_bot !== true) {
-        console.log(
-          `realname: ${element.real_name}, email: ${element.profile ? element.profile.email : null}, phone:${element.profile ? element.profile.phone : null}`,
-        );
-        usersArr.push({
-          userId: element.id,
-          name: element.real_name || "name not found",
-          email: element.profile ? element.profile.email : undefined,
-        });
+    const slackWorkSpaceMembers: SlackUser[] = membersArray.filter((user) => {
+      return user.is_bot !== true;
+    }).map((humanUsers) => {
+      return {
+        userId: humanUsers.id,
+        name: humanUsers.real_name || "name not found",
+        email: humanUsers.profile ? humanUsers.profile.email : undefined,
       }
     });
+
+    console.log(`Total users found: ${slackWorkSpaceMembers.length}`);
+    return slackWorkSpaceMembers;
   }
+  const usersArr: SlackUser[] = [];
   console.log(`Total users found: ${usersArr.length}`);
-  return usersArr;
+  return [];
 };
 
 /**
@@ -83,22 +71,10 @@ export async function getSlackUserDataById(
 ): Promise<SlackUserData> {
   console.log("User ID", userID);
 
-  const retrieveUserInfoResponse = await axios({
-    method: "get",
-    url: `https://slack.com/api/users.info?user=${userID}`,
-    headers: {
-      "Content-Type": "application/json; charset=UTF-8",
-      Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
-    },
-    family: 4,
-  })
-    .then((response) => {
-      return response;
-    })
-    .catch((error) => {
-      console.error("Error fetching Slack user Data:", error);
-      throw new Error("Failed to fetch Slack user Data");
-    });
+  const userQueryUrl = `https://slack.com/api/users.info?user=${userID}`;
+
+  const retrieveUserInfoResponse = await queryUserOrUsersFromSlack(userQueryUrl,
+    "Failed to fetch Slack user Data");
 
   if (!retrieveUserInfoResponse.data["ok"]) {
     console.log(retrieveUserInfoResponse.data);
@@ -158,4 +134,26 @@ export async function getAppUserData(
     name: userData.name,
     email: userData.email,
   };
+}
+
+export async function queryUserOrUsersFromSlack(hostURL: string, errorMessage: string) {
+  try {
+    const userQueryResponse = await axios.get(hostURL, {
+      headers: {
+        "Authorization": `Bearer ${SLACK_BOT_TOKEN}`,
+        "Content-Type": "application/json; charset=UTF-8",
+      },
+      family: 4
+    });
+
+    return userQueryResponse;
+  } catch (error) {
+    console.log(error);
+    throw new Error(errorMessage);
+    /*
+    return {
+      success: false,
+      data: error
+    }*/
+  }
 }

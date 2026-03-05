@@ -16,20 +16,18 @@ if (!NOTION_API_KEY) throw new Error("No Notion API Key given");
  * @return: Array of NotionUser objects
  */
 export async function getNotionUsers(alreadyFetchedUsers: ListUsersResponse | null) {
-  const humanUsers: NotionUser[] = [];
+  const notionResponse = alreadyFetchedUsers? alreadyFetchedUsers : await notion.users.list({});
+  console.log("Logging results in getNotionUser", JSON.stringify(notionResponse));
 
-  const notionResp = alreadyFetchedUsers? alreadyFetchedUsers : await notion.users.list({});
-  console.log("Logging results in getNotionUser", JSON.stringify(notionResp));
-
-  notionResp.results.forEach((user) => {
-    if (user.type === "person") {
-      humanUsers.push({
-        userId: user.id,
-        name: user.name ? user.name : "",
-        email: user.person.email,
-      });
+  const humanUsers: NotionUser[] = notionResponse.results.filter((member) => {
+    return member.type === "person";
+  }).map((humanMembers) => {
+    return {
+      userId: humanMembers.id,
+      name: humanMembers.name ? humanMembers.name : "",
+      email: humanMembers.person.email
     }
-  });
+  })
   
   console.log(JSON.stringify(humanUsers));
   return humanUsers;

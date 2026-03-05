@@ -35,7 +35,6 @@ export async function sendEmail(
   }
 
   const messageData = {
-  //MailgunMessageData = {
     from: `Project Agent ${SENDING_KEY}`,
     to: [emailBody.recipient],
     subject: `${recipientName}'s Monitor: ${today.toFormat("MMM dd '-' yyyy")}`,

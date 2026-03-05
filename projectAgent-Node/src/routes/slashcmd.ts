@@ -14,7 +14,9 @@ import { logTimestampForBenchmarking } from "../utils/logTimestampForBenchmarkin
 import { SlashCommand } from "@slack/bolt";
 import {
   convertTaskPageFromDbResponse,
+  Task,
   TaskPage,
+  User,
 } from "../utils/taskFormatting/task";
 import { GetPageResponse } from "@notionhq/client";
 import { APIGatewayProxyEventV2, Context, StreamifyHandler } from "aws-lambda";
@@ -24,6 +26,8 @@ import {
 } from "../utils/slashCommandProcessing";
 import { createNewTaskBlock } from "../blockkit/createNewTaskBlock";
 import { createCacheClient, retrieveCache } from "../utils/database/getFromCache";
+import { getAppUserData } from "../utils/controllers/getUsersSlack";
+import { setDefaults } from "../utils/taskFormatting/setDefaults";
 
 const slashCmdHandler: StreamifyHandler = async function (
   event: APIGatewayProxyEventV2,
@@ -75,18 +79,22 @@ const slashCmdHandler: StreamifyHandler = async function (
 
       // Search database
       logTimestampForBenchmarking("Searching database");
-      // TODO only pass data needed
       const isInDatabase = await searchDatabase(reqBody.text, fetchedTasks);
       logTimestampForBenchmarking("Done searching database");
 
       console.log("IS in database?", JSON.stringify(isInDatabase));
 
       await sendLoadingMessage("Parsing Task", response_url);
+
       const timestamp: number = Date.now();
+      const appUserData = await getAppUserData(reqBody, timestamp);
 
       logTimestampForBenchmarking("Parsing task");
-      const parsedData = await parseTask(reqBody, timestamp, fetchedProjects);
+      const parsedTask = await parseTask(reqBody, appUserData.eventTimeData, fetchedProjects);
       logTimestampForBenchmarking("Done parsing task");
+
+      // Set default start/due dates and assignees
+      const parsedTaskWithDefaults: Task = setDefaults(appUserData, parsedTask);
 
       logTimestampForBenchmarking("Searching Notion for assignees");
       // Find Notion users
@@ -99,7 +107,7 @@ const slashCmdHandler: StreamifyHandler = async function (
       // Benefits:
       //      Reduced number of API calls by getNotionUsers
       const assigneeSearchResults = await findMatchingAssignees(
-        parsedData.task,
+        parsedTaskWithDefaults,
         fetchedUsers
       );
       logTimestampForBenchmarking("Done searching Notion for assignees");
@@ -147,13 +155,16 @@ const slashCmdHandler: StreamifyHandler = async function (
       } else {
         console.log(
           "Task to be passed to createNewTaskBlock",
-          JSON.stringify(parsedData),
+          JSON.stringify(parsedTaskWithDefaults),
         );
 
-        const assignedBy = await findAssignedBy(parsedData.taskCreator, fetchedUsers);
+        const taskCreator: User = {
+          ...appUserData
+        }
+        const assignedBy = await findAssignedBy(taskCreator, fetchedUsers);
         const slackBlocks = createNewTaskBlock(
           assignedBy,
-          parsedData.task,
+          parsedTaskWithDefaults,
           assigneeSearchResults,
         );
 

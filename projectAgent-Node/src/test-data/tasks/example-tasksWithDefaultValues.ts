@@ -14,11 +14,59 @@ export const EXAMPLE_TASK_WITH_ALL_REQUIRED_FIELDS: Task = {
     description: "Pet the cats",
     assignees: [
         {
+            name: "Cecil Palmer",
+        }
+    ],
+    startDate: "2026-03-09",
+    dueDate: "2026-03-12"
+}
+
+export const EXAMPLE_TASK_WITH_ALL_REQUIRED_FIELDS_DEFAULT_ALL: Task = {
+    taskTitle: "Pet the cats",
+    description: "Pet the cats",
+    assignees: [
+        {
             name: "Dana Cardinal",
         }
     ],
     startDate: "2026-03-04",
     dueDate: "2026-03-06"
+}
+
+export const EXAMPLE_TASK_WITH_ALL_REQUIRED_FIELDS_DEFAULT_START: Task = {
+    taskTitle: "Pet the cats",
+    description: "Pet the cats",
+    assignees: [
+        {
+            name: "Cecil Palmer",
+        }
+    ],
+    startDate: "2026-03-04",
+    dueDate: "2026-03-12"
+}
+
+export const EXAMPLE_TASK_WITH_ALL_REQUIRED_FIELDS_DEFAULT_DUE: Task = {
+    taskTitle: "Pet the cats",
+    description: "Pet the cats",
+    assignees: [
+        {
+            name: "Cecil Palmer",
+        }
+    ],
+    startDate: "2026-03-09",
+    dueDate: "2026-03-06"
+}
+
+export const EXAMPLE_TASK_WITH_ALL_REQUIRED_FIELDS_DEFAULT_ASSIGNEE: Task = {
+    taskTitle: "Pet the cats",
+    description: "Pet the cats",
+    assignees: [
+        {
+            name: "Dana Cardinal",
+        }
+    ],
+    startDate: "2026-03-09",
+    dueDate: "2026-03-12"
 }
 
 export const EXAMPLE_TASK_MISSING_START_DATE: Task = {
@@ -26,10 +74,10 @@ export const EXAMPLE_TASK_MISSING_START_DATE: Task = {
     description: "Pet the cats",
     assignees: [
         {
-            name: "Dana Cardinal",
+            name: "Cecil Palmer",
         }
     ],
-    dueDate: "2026-03-06"
+    dueDate: "2026-03-12"
 }
 
 export const EXAMPLE_TASK_MISSING_DUE_DATE: Task = {
@@ -37,18 +85,18 @@ export const EXAMPLE_TASK_MISSING_DUE_DATE: Task = {
     description: "Pet the cats",
     assignees: [
         {
-            name: "Dana Cardinal",
+            name: "Cecil Palmer",
         }
     ],
-    startDate: "2026-03-04",
+    startDate: "2026-03-09",
 }
 
 export const EXAMPLE_TASK_MISSING_ASSIGNEES: Task = {
     taskTitle: "Pet the cats",
     description: "Pet the cats",
     assignees: [],
-    startDate: "2026-03-04",
-    dueDate: "2026-03-06"
+    startDate: "2026-03-09",
+    dueDate: "2026-03-12"
 }
 
 export const EXAMPLE_TASK_MISSING_START_DUE_ASSIGNEES: Task = {

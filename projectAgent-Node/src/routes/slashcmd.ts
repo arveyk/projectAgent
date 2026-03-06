@@ -23,7 +23,10 @@ import {
   extractRequestBody,
 } from "../utils/slashCommandProcessing";
 import { createNewTaskBlock } from "../blockkit/createNewTaskBlock";
-import { createCacheClient, retrieveCache } from "../utils/database/getFromCache";
+import {
+  createCacheClient,
+  retrieveCache,
+} from "../utils/database/getFromCache";
 
 const slashCmdHandler: StreamifyHandler = async function (
   event: APIGatewayProxyEventV2,
@@ -100,7 +103,7 @@ const slashCmdHandler: StreamifyHandler = async function (
       //      Reduced number of API calls by getNotionUsers
       const assigneeSearchResults = await findMatchingAssignees(
         parsedData.task,
-        fetchedUsers
+        fetchedUsers,
       );
       logTimestampForBenchmarking("Done searching Notion for assignees");
 
@@ -121,7 +124,10 @@ const slashCmdHandler: StreamifyHandler = async function (
           console.log(
             `(slashCmdHandler) existingTask: ${JSON.stringify(existingTask)}`,
           );
-          const updateBlock = await createExistingTaskBlock(existingTask, fetchedProjects);
+          const updateBlock = await createExistingTaskBlock(
+            existingTask,
+            fetchedProjects,
+          );
           console.log("Update Block", JSON.stringify(updateBlock));
 
           await axios({
@@ -150,7 +156,10 @@ const slashCmdHandler: StreamifyHandler = async function (
           JSON.stringify(parsedData),
         );
 
-        const assignedBy = await findAssignedBy(parsedData.taskCreator, fetchedUsers);
+        const assignedBy = await findAssignedBy(
+          parsedData.taskCreator,
+          fetchedUsers,
+        );
         const slackBlocks = createNewTaskBlock(
           assignedBy,
           parsedData.task,

@@ -6,14 +6,13 @@ const message2 =
 const message3 =
   "add Ramona, could you finish the database migration by the end of the week?";
 
-
 /**
  * Function to benchMark searchingDatabase
  *
  * returns: no return value
  */
 async function benchMarkSearchingDatabase(messageToSearch: string) {
-    await searchDatabase(messageToSearch);
+  await searchDatabase(messageToSearch);
 }
 
 (async () => {

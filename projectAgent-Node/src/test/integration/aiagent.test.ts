@@ -6,9 +6,7 @@ import {
   payloadInferDates,
   payloadNew,
 } from "../../test-data/payloads/slashcmd/payloads";
-import {
-  taskKitchen,
-} from "../../test-data/tasks/example-tasks";
+import { taskKitchen } from "../../test-data/tasks/example-tasks";
 import { EXAMPLE_RAW_PROJECTS_RESPONSE } from "../../test-data/cache/rawProjects";
 import { DateTime } from "luxon";
 
@@ -18,13 +16,19 @@ describe("Tests parseTaskSlashCmd with a good payload", () => {
     expect(typeof payloadGood).toBe("object");
     const currentDate = DateTime.fromISO("2025-08-12");
 
-    const parsedTask = await parseTask(payloadGood, currentDate, EXAMPLE_RAW_PROJECTS_RESPONSE);
+    const parsedTask = await parseTask(
+      payloadGood,
+      currentDate,
+      EXAMPLE_RAW_PROJECTS_RESPONSE,
+    );
     console.log(JSON.stringify(parsedTask));
 
     expect(parsedTask.taskTitle).toBeTruthy();
     expect(parsedTask.description).toBeTruthy();
     expect(parsedTask.dueDate).toMatch("2025-09-01");
-    expect(parsedTask.assignees.find(person => person.name.includes("Jeff"))).toBeTruthy();
+    expect(
+      parsedTask.assignees.find((person) => person.name.includes("Jeff")),
+    ).toBeTruthy();
   }, 20000);
 });
 
@@ -34,13 +38,19 @@ describe("Tests parseTaskSlashCmd with a good payload from Harvey", () => {
     expect(typeof payloadHarvey).toBe("object");
     const currentDate = DateTime.fromISO("2025-08-12");
 
-    const parsedTask = await parseTask(payloadHarvey, currentDate, EXAMPLE_RAW_PROJECTS_RESPONSE);
+    const parsedTask = await parseTask(
+      payloadHarvey,
+      currentDate,
+      EXAMPLE_RAW_PROJECTS_RESPONSE,
+    );
     console.log(JSON.stringify(parsedTask));
 
     expect(parsedTask.taskTitle).toBeTruthy();
     expect(parsedTask.description).toBeTruthy();
     expect(parsedTask.dueDate).toMatch("2025-08-13");
-    expect(parsedTask.assignees.find(person => person.name.includes("Harvey"))).toBeTruthy();
+    expect(
+      parsedTask.assignees.find((person) => person.name.includes("Harvey")),
+    ).toBeTruthy();
   }, 20000);
 });
 
@@ -50,13 +60,19 @@ describe("Tests parseTaskSlashCmd inferring dates", () => {
     expect(typeof payloadInferDates).toBe("object");
     const currentDate = DateTime.fromISO("2025-08-12");
 
-    const parsedTask = await parseTask(payloadInferDates, currentDate, EXAMPLE_RAW_PROJECTS_RESPONSE);
+    const parsedTask = await parseTask(
+      payloadInferDates,
+      currentDate,
+      EXAMPLE_RAW_PROJECTS_RESPONSE,
+    );
     console.log(JSON.stringify(parsedTask));
     expect(parsedTask.taskTitle).toBeTruthy();
     expect(parsedTask.description).toBeTruthy();
     expect(parsedTask.startDate).toMatch("2025-08-13");
     expect(parsedTask.dueDate).toMatch("2025-08-14");
-    expect(parsedTask.assignees.find(person => person.name.includes("Ellen"))).toBeTruthy();
+    expect(
+      parsedTask.assignees.find((person) => person.name.includes("Ellen")),
+    ).toBeTruthy();
   }, 20000);
 });
 
@@ -66,9 +82,15 @@ describe("tests parseTaskSlashCmd with the payload that's been causing trouble",
     expect(typeof payloadNew).toBe("object");
     const currentDate = DateTime.fromISO("2025-08-12");
 
-    const parsedTask = await parseTask(payloadNew, currentDate, EXAMPLE_RAW_PROJECTS_RESPONSE);
+    const parsedTask = await parseTask(
+      payloadNew,
+      currentDate,
+      EXAMPLE_RAW_PROJECTS_RESPONSE,
+    );
     console.log(JSON.stringify(parsedTask));
     console.log(JSON.stringify(taskKitchen));
-    expect(parsedTask.assignees.find(person => person.name.includes("Jeremy"))).toBeTruthy();
+    expect(
+      parsedTask.assignees.find((person) => person.name.includes("Jeremy")),
+    ).toBeTruthy();
   }, 20000);
 });

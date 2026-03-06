@@ -129,7 +129,10 @@ const slashCmdHandler: StreamifyHandler = async function (
           console.log(
             `(slashCmdHandler) existingTask: ${JSON.stringify(existingTask)}`,
           );
-          const updateBlock = await createExistingTaskBlock(existingTask, fetchedProjects);
+          const updateBlock = await createExistingTaskBlock(
+            existingTask,
+            fetchedProjects,
+          );
           console.log("Update Block", JSON.stringify(updateBlock));
 
           await axios({

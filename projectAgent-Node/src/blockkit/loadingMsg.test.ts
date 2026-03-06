@@ -5,8 +5,8 @@ jest.mock("../env", () => {
   return {
     SLACK_BOT_TOKEN: "fake_bot_token",
     SLACK_SIGNING_SECRET: "fake_signing_secret",
-    NOTION_API_KEY: "fake_notion_key"
-  }
+    NOTION_API_KEY: "fake_notion_key",
+  };
 });
 import { createLoadingMessageBlock } from "./loadingMessage";
 

@@ -41,25 +41,24 @@ const blockWithAssigneeSelectionMenu = createNewTaskBlock([{
 }], exampleTaskWithoutAssignees, [...exampleUserSearchResponse, ...exampleUserSearchResponse3]);
 
 const channelToPostMessage = "C08VADJ7SEL" // all-solutional-project agent channel
-const eventResponseURL = "https://slack.com/api/chat.postMessage";
 
 
 describe("Check if blocks creates are valid, by sending to slack for validation", () => {
     it("Sends blocks created to Slack for validation", async () => {
         await expect(
-            testPostToSlack(eventResponseURL, channelToPostMessage, blockWithProjectSelectionMenu.blocks)
+            testPostToSlack(channelToPostMessage, blockWithProjectSelectionMenu.blocks)
         ).resolves.not.toThrow();
 
     });
     it("Sends blocks created to Slack for validation", async () => {
         await expect(
-            testPostToSlack(eventResponseURL, channelToPostMessage, badBlocks.blocks)
+            testPostToSlack(channelToPostMessage, badBlocks.blocks)
         ).resolves.toThrow();
 
     });
     
     it("Sends blocks created to Slack for validation, check if bot is in channel", async () => {
-        const response = await testPostToSlack(eventResponseURL, channelToPostMessage, blockWithAssigneeSelectionMenu.blocks);
+        const response = await testPostToSlack(channelToPostMessage, blockWithAssigneeSelectionMenu.blocks);
         expect(response).toBeDefined();
         expect(response.ok).toBeTruthy;
         // expect(response.error).not.toBe("not_in_channel");

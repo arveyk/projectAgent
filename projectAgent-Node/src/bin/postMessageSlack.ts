@@ -94,9 +94,10 @@ const exampleBlocks = createNewTaskBlockWithUserAndOrProjectsSelections(taskNoAs
 }
 )
 
-export async function testPostToSlack(eventResUrl: string, slackChannelID: string, slackBlocks?: any) {
+export async function testPostToSlack(slackChannelID: string, slackBlocks?: any) {
   try {
-    const responseFromChannel = await axios.post(eventResUrl, {
+    const messagePostingUrl = "https://slack.com/api/chat.postMessage";
+    const responseFromChannel = await axios.post(messagePostingUrl, {
       channel: slackChannelID,
       text: "Test Post Blocks to slack channel",
       blocks: slackBlocks

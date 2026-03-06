@@ -14,7 +14,7 @@ import { NotionUser } from "../utils/controllers/userTypes";
  * @return relevant requested data
  */
 
-export async function externalQueries(service: string, requestBody: SlashCommand, alreadyFetchedData: {
+export function externalQueries(service: string, requestBody: SlashCommand, alreadyFetchedData: {
     projects: Project[],
     users: NotionUser[],
     tasks: NotionTask[]
@@ -36,6 +36,7 @@ export async function externalQueries(service: string, requestBody: SlashCommand
         }
     };
     return {
+        timestamp,
         users: allUsers,
         projects: async () => {
             console.log(`Getting: ${service}`)

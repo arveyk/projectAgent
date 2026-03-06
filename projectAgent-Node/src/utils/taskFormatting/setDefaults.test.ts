@@ -13,16 +13,11 @@ import {
 import { setDefaults } from "./setDefaults";
 
 describe("Test setDefaults with all required fields", () => {
-  it("Should return an identical copy of the task", () => {
-    const taskWithDefaults = setDefaults(
-      EXAMPLE_USER_DATA_DANA,
-      EXAMPLE_TASK_WITH_ALL_REQUIRED_FIELDS,
-    );
-    expect(taskWithDefaults).toMatchObject(
-      EXAMPLE_TASK_WITH_ALL_REQUIRED_FIELDS,
-    );
-  });
-});
+    it("Should return an identical copy of the task", () => {
+        const taskWithDefaults = setDefaults(EXAMPLE_USER_DATA_DANA, EXAMPLE_TASK_WITH_ALL_REQUIRED_FIELDS);
+        expect(taskWithDefaults).toMatchObject(EXAMPLE_TASK_WITH_ALL_REQUIRED_FIELDS);
+    })
+})
 
 describe("Test setDefaults with missing start/due dates or assignees", () => {
   it("Should return a copy of the task with the default start date", () => {

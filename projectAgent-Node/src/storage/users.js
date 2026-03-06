@@ -67,11 +67,13 @@ export const slackUsers = [
     profile: {
       real_name: "Harvey Spectre",
       display_name: "Harvey Spectre",
-      avatar_hash: "",
+      avatar_hash: "398bf0d0ca2d",
       real_name_normalized: "Harvey Spectre",
       display_name_normalized: "Harvey Spectre",
-      image_24: "sample://2d39ec5394_24.jpg",
-      image_32: "sample://aca2d39ec5394_32.jpg",
+      image_24:
+        "sample://2d39ec5394_24.jpg",
+      image_32:
+        "sample://aca2d39ec5394_32.jpg",
       is_custom_image: true,
       first_name: "Harvey",
       last_name: "Spectre",
@@ -113,8 +115,10 @@ export const slackUsers = [
       avatar_hash: "g80d6141c73d",
       real_name_normalized: "James Bond (Sol)",
       display_name_normalized: "James Bond (Sol)",
-      image_24: "2Favatars%2Fava_0010-24.png",
-      image_32: "Favatars%2Fava_0010-32.png",
+      image_24:
+        "2Favatars%2Fava_0010-24.png",
+      image_32:
+        "Favatars%2Fava_0010-32.png",
       first_name: "James",
       last_name: "Bond (Sol)",
       team: "T08VADHH17S",
@@ -155,8 +159,10 @@ export const slackUsers = [
       avatar_hash: "gad200bd696c",
       real_name_normalized: "Project Agent Slack",
       display_name_normalized: "",
-      image_24: "Favatars%2Fava_0014-24.png",
-      image_32: "Favatars%2Fava_0014-32.png",
+      image_24:
+        "Favatars%2Fava_0014-24.png",
+      image_32:
+        "Favatars%2Fava_0014-32.png",
       first_name: "Project",
       last_name: "Agent Slack",
       team: "T08VADHH17S",
@@ -188,8 +194,10 @@ export const slackUsers = [
       avatar_hash: "50755b9f3b35",
       real_name_normalized: "Channel icebreaker",
       display_name_normalized: "",
-      image_24: "sample:f3b355f4ff3fa_24.png",
-      image_32: "sample:355f4ff3fa_32.png",
+      image_24:
+        "sample:f3b355f4ff3fa_24.png",
+      image_32:
+        "sample:355f4ff3fa_32.png",
       is_custom_image: true,
       first_name: "Channel",
       last_name: "icebreaker",
@@ -233,8 +241,10 @@ export const slackUsers = [
       avatar_hash: "ge03e0f52591",
       real_name_normalized: "Ramona Madison",
       display_name_normalized: "",
-      image_24: "Favatars%2Fava_0024-24.png",
-      image_32: "Favatars%2Fava_0024-32.png",
+      image_24:
+        "Favatars%2Fava_0024-24.png",
+      image_32:
+        "Favatars%2Fava_0024-32.png",
       first_name: "Ramona",
       last_name: "Madison",
       team: "T08VADHH17S",
@@ -275,8 +285,10 @@ export const slackUsers = [
       avatar_hash: "ga6cf4263242",
       real_name_normalized: "Project Agent Test",
       display_name_normalized: "",
-      image_24: "Favatars%2Fava_0015-24.png",
-      image_32: "Favatars%2Fava_0015-32.png",
+      image_24:
+        "Favatars%2Fava_0015-24.png",
+      image_32:
+        "Favatars%2Fava_0015-32.png",
       first_name: "Project",
       last_name: "Agent Test",
       team: "T08VADHH17S",
@@ -320,8 +332,10 @@ export const slackUsers = [
       avatar_hash: "g80b762eddd7",
       real_name_normalized: "Harvey Spectre",
       display_name_normalized: "",
-      image_24: "Favatars%2Fava_0025-24.png",
-      image_32: "Favatars%2Fava_0025-32.png",
+      image_24:
+        "Favatars%2Fava_0025-24.png",
+      image_32:
+        "Favatars%2Fava_0025-32.png",
       first_name: "Harvey",
       last_name: "Spectre",
       team: "T08VADHH17S",
@@ -362,8 +376,10 @@ export const slackUsers = [
       avatar_hash: "gee9170d1f07",
       real_name_normalized: "temp-bot",
       display_name_normalized: "",
-      image_24: "Favatars%2Fava_0001-24.png",
-      image_32: "Favatars%2Fava_0001-32.png",
+      image_24:
+        "Favatars%2Fava_0001-24.png",
+      image_32:
+        "Favatars%2Fava_0001-32.png",
       first_name: "temp-bot",
       last_name: "",
       team: "T08VADHH17S",
@@ -403,11 +419,13 @@ export const slackUsers = [
     profile: {
       real_name: "n8n.cloud",
       display_name: "",
-      avatar_hash: "",
+      avatar_hash: "596ed6fc08a5",
       real_name_normalized: "n8n.cloud",
       display_name_normalized: "",
-      image_24: "99442_596ed6fc08a564eda6b6_24.png",
-      image_32: "6fc08a564eda6b6_32.png",
+      image_24:
+        "99442_596ed6fc08a564eda6b6_24.png",
+      image_32:
+        "6fc08a564eda6b6_32.png",
       is_custom_image: true,
       first_name: "n8n.cloud",
       last_name: "",
@@ -451,8 +469,10 @@ export const slackUsers = [
       avatar_hash: "g2432c01c870",
       real_name_normalized: "Demo App",
       display_name_normalized: "",
-      image_24: "Favatars%2Fava_0000-24.png",
-      image_32: "Favatars%2Fava_0000-32.png",
+      image_24:
+        "Favatars%2Fava_0000-24.png",
+      image_32:
+        "Favatars%2Fava_0000-32.png",
       first_name: "Demo",
       last_name: "App",
       team: "T08VADHH17S",
@@ -495,8 +515,10 @@ export const slackUsers = [
       avatar_hash: "g33632286aca",
       real_name_normalized: "My Messenger",
       display_name_normalized: "",
-      image_24: "Favatars%2Fava_0024-24.png",
-      image_32: "Favatars%2Fava_0024-32.png",
+      image_24:
+        "Favatars%2Fava_0024-24.png",
+      image_32:
+        "Favatars%2Fava_0024-32.png",
       first_name: "My",
       last_name: "Messenger",
       team: "T08VADHH17S",
@@ -539,8 +561,10 @@ export const slackUsers = [
       avatar_hash: "g62d567b6b91",
       real_name_normalized: "test-bot",
       display_name_normalized: "",
-      image_24: "Favatars%2Fava_0006-24.png",
-      image_32: "2Favatars%2Fava_0006-32.png",
+      image_24:
+        "Favatars%2Fava_0006-24.png",
+      image_32:
+        "2Favatars%2Fava_0006-32.png",
       first_name: "test-bot",
       last_name: "",
       team: "T08VADHH17S",
@@ -583,8 +607,10 @@ export const slackUsers = [
       avatar_hash: "g4d5c9ca6669",
       real_name_normalized: "Maverick",
       display_name_normalized: "Maverick",
-      image_24: "%2Favatars%2Fava_0026-24.png",
-      image_32: "Favatars%2Fava_0026-32.png",
+      image_24:
+        "%2Favatars%2Fava_0026-24.png",
+      image_32:
+        "Favatars%2Fava_0026-32.png",
       first_name: "Maverick",
       last_name: "",
       team: "T08VADHH17S",
@@ -625,8 +651,10 @@ export const slackUsers = [
       avatar_hash: "g2e574e7f07d",
       real_name_normalized: "Nairobi",
       display_name_normalized: "Nairobi",
-      image_24: ".jpg2Favatars%2Fava_0012-24.png",
-      image_32: "Favatars%2Fava_0012-32.png",
+      image_24:
+        ".jpg2Favatars%2Fava_0012-24.png",
+      image_32:
+        "Favatars%2Fava_0012-32.png",
       first_name: "Nairobi",
       last_name: "",
       team: "T08VADHH17S",
@@ -667,8 +695,10 @@ export const slackUsers = [
       avatar_hash: "gd80bd5caa40",
       real_name_normalized: "Maverick",
       display_name_normalized: "Maverick",
-      image_24: "avatarslack-edge.com.png",
-      image_32: "avatar._0020-32.png",
+      image_24:
+        "avatarslack-edge.com.png",
+      image_32:
+        "avatar._0020-32.png",
       first_name: "Maverick",
       last_name: "",
       team: "T08VADHH17S",
@@ -698,7 +728,7 @@ export const notionUsers = [
     object: "user",
     id: "152d872b-594c-8145-9c2c-000204787b69",
     name: "Ramona Madison",
-    avatar_url: null,
+    avatar_url: null,      
     type: "person",
     person: { email: "crmadison@gmail.com" },
   },

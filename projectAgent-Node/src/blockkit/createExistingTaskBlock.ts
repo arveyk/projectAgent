@@ -10,10 +10,7 @@ import { createTaskInfoWithoutSelections } from "./createBlockPartsForNewTask";
  *
  * @returns:        A set of Slack blocks to be used in previewing and updating an existing task.
  */
-export async function createExistingTaskBlock(
-  taskPage: TaskPage,
-  fetchedProjects: QueryDataSourceResponse["results"] | null,
-) {
+export async function createExistingTaskBlock(taskPage: TaskPage, fetchedProjects: QueryDataSourceResponse["results"] | null) {
   const taskUrl = taskPage.url;
   const associatedProjects = taskPage.task.project || [];
   const existingProjects = await getProjects(fetchedProjects);

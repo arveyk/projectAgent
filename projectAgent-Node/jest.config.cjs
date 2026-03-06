@@ -7,7 +7,7 @@ module.exports = {
       {
         useESM: true,
         // tsconfig: "<rootDir>/tsconfig.json"
-      },
+     }
     ],
   },
   extensionsToTreatAsEsm: [".ts"],
@@ -19,5 +19,5 @@ module.exports = {
   },
   moduleFileExtensions: ["ts", "js", "json", "node"],
   testMatch: ["**/?(*.)+(spec|test).[tj]s?(x)"],
-  testPathIgnorePatterns: ["src/test/integration"],
+  testPathIgnorePatterns: ["src/test/integration"]
 };

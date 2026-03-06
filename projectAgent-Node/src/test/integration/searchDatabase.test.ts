@@ -1,7 +1,4 @@
-import {
-  filterSimilar,
-  getTasksRaw,
-} from "../../utils/database/searchDatabase";
+import { filterSimilar, getTasksRaw } from "../../utils/database/searchDatabase";
 import { SIMPLIFIED_DB_PAGES } from "../../test-data/simplifiedDbPages";
 import { isFullPage } from "@notionhq/client";
 import { simplifyTaskPages } from "../../utils/database/simplifyTaskPages";

@@ -27,9 +27,9 @@ describe("Tests validateDueDate", () => {
 });
 
 describe("Tests validateDueDate", () => {
-  it("Should return false when given a date before the current date", () => {
-    const dueDate = DateTime.now().plus({ days: -1 }).toISODate();
-    const isValidDueDate = validateDueDate(dueDate);
-    expect(isValidDueDate).toBeFalsy();
-  });
+    it("Should return false when given a date before the current date", () => {
+        const dueDate = DateTime.now().plus({ days: -1 }).toISODate();
+        const isValidDueDate = validateDueDate(dueDate);
+        expect(isValidDueDate).toBeFalsy();
+    })
 });

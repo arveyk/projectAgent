@@ -4,16 +4,16 @@ import { getProjects, getTasks } from "../utils/database/searchDatabase";
 // This benchmarks getting tasks and projects when there is nothing in the cache.
 // The API call that retrieves the whole cache from DynamoDB happens at the beginning of slashCmdHandler.
 const cacheItems: CacheData = {
-  users: null,
-  tasks: null,
-  projects: null,
+    users: null,
+    tasks: null,
+    projects: null
 };
 
 (async () => {
-  const tasks = await getTasks(cacheItems.tasks);
-  console.log(tasks.length);
-  // console.log(JSON.stringify(tasks));
+    const tasks = await getTasks(cacheItems.tasks);
+    console.log(tasks.length);
+    // console.log(JSON.stringify(tasks));
 
-  const projects = await getProjects(cacheItems.projects);
-  console.log(projects.length);
+    const projects = await getProjects(cacheItems.projects);
+    console.log(projects.length);
 })();

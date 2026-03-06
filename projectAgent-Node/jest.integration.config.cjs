@@ -4,13 +4,13 @@ module.exports = {
   testEnvironment: "node",
   testMatch: ["<rootDir>/src/test/integration/**/*.test.ts"],
   transform: {
-    "^.+\\.(ts|tsx)$": [
+    "^.+\\.(ts|tsx)$" : [
       "ts-jest",
       {
         useESM: true,
         tsconfig: "<rootDir>/tsconfig.json",
-      },
+      }
     ],
   },
   extensionsToTreatAsEsm: [".ts"],
-};
+}

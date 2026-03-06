@@ -5,18 +5,12 @@ import {
   retrieveCache,
 } from "../../utils/database/getFromCache";
 import {
-  getExampleRawCacheResponse,
-  getExampleCompressedData,
+  getExampleRawCacheResponse, getExampleCompressedData
 } from "../../test-data/cache/cacheResponse";
 import { EXAMPLE_RAW_USERS_RESPONSE } from "../../test-data/cache/rawUsers";
 import { EXAMPLE_RAW_PROJECTS_RESPONSE } from "../../test-data/cache/rawProjects";
 import { EXAMPLE_RAW_TASKS_RESPONSE } from "../../test-data/cache/rawTasks";
-import {
-  CACHE_DATA_EXAMPLE_ALL,
-  CACHE_DATA_EXAMPLE_NO_PROJECTS,
-  CACHE_DATA_EXAMPLE_NO_TASKS,
-  CACHE_DATA_EXAMPLE_NO_USERS,
-} from "../../test-data/cache/cacheItems";
+import { CACHE_DATA_EXAMPLE_ALL, CACHE_DATA_EXAMPLE_NO_PROJECTS, CACHE_DATA_EXAMPLE_NO_TASKS, CACHE_DATA_EXAMPLE_NO_USERS } from "../../test-data/cache/cacheItems";
 
 // Mock the environment variables
 jest.mock("../../env", () => ({
@@ -69,11 +63,7 @@ describe("Tests extractCacheItemData", () => {
 
 describe("Tests extractCacheData", () => {
   it("Should return all the cache data, correctly decompressed", async () => {
-    const cacheDataExampleAll = await getExampleRawCacheResponse(
-      true,
-      true,
-      true,
-    );
+    const cacheDataExampleAll = await getExampleRawCacheResponse(true, true, true);
     const decompressed = await extractCacheData(cacheDataExampleAll);
 
     expect(decompressed.projects).toBeTruthy();
@@ -83,11 +73,7 @@ describe("Tests extractCacheData", () => {
   });
 
   it("Should return all project and task data, correctly decompressed", async () => {
-    const cacheDataExampleNoUsers = await getExampleRawCacheResponse(
-      false,
-      true,
-      true,
-    );
+    const cacheDataExampleNoUsers = await getExampleRawCacheResponse(false, true, true);
     const decompressed = await extractCacheData(cacheDataExampleNoUsers);
 
     expect(decompressed.projects).toBeTruthy();
@@ -97,11 +83,7 @@ describe("Tests extractCacheData", () => {
   });
 
   it("Should return all project and user data, correctly decompressed", async () => {
-    const cacheDataExampleNoTasks = await getExampleRawCacheResponse(
-      true,
-      false,
-      true,
-    );
+    const cacheDataExampleNoTasks = await getExampleRawCacheResponse(true, false, true);
     const decompressed = await extractCacheData(cacheDataExampleNoTasks);
 
     expect(decompressed.projects).toBeTruthy();
@@ -111,11 +93,7 @@ describe("Tests extractCacheData", () => {
   });
 
   it("Should return all user and task data, correctly decompressed", async () => {
-    const cacheDataExampleNoProjects = await getExampleRawCacheResponse(
-      true,
-      true,
-      false,
-    );
+    const cacheDataExampleNoProjects = await getExampleRawCacheResponse(true, true, false);
     const decompressed = await extractCacheData(cacheDataExampleNoProjects);
 
     expect(decompressed.projects).toBeFalsy();

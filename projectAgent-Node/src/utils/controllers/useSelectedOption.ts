@@ -60,8 +60,8 @@ export function integrateSelectedProjects(
     // Refactoring so that we use the project id directly
     const projectId: string = selectedOption["value"].replace("Project_", "");
 
-    if (!allProjects.includes({ id: projectId })) {
-      allProjects.push({ id: projectId });
+    if (!allProjects.includes({ "id": projectId})) {
+       allProjects.push({ id: projectId });
     }
   }
   return allProjects;
@@ -93,8 +93,8 @@ export function integrateSelectedValues(notionTask: NotionTask, payload: any) {
     description: notionTask.description,
     dueDate: notionTask.dueDate,
     startDate: notionTask.startDate,
-    project: [...(notionTask.project || [])],
-  };
+    project: [...(notionTask.project || [])]
+  }
 
   if (selectedOptionsObjects.length > 0) {
     if (selectedOptionsObjects[0].value.includes("Project_")) {
@@ -109,10 +109,7 @@ export function integrateSelectedValues(notionTask: NotionTask, payload: any) {
         assignees,
         selectedOptionsObjects,
       );
-      notionTaskWithIntegratedValues.assignees = [
-        ...notionTask.assignees,
-        ...selectedAssignees,
-      ];
+      notionTaskWithIntegratedValues.assignees = [...notionTask.assignees, ...selectedAssignees];
     }
   }
   if (selectedValueKeysArray.length > 1) {
@@ -120,9 +117,7 @@ export function integrateSelectedValues(notionTask: NotionTask, payload: any) {
     console.log("More than one item selected");
 
     const selectedValues: SelectionOption[] =
-      selected[secondMenuSelectedKey]["multi_select-action"][
-        "selected_options"
-      ];
+      selected[secondMenuSelectedKey]["multi_select-action"]["selected_options"];
 
     const allProjectsSecondMenu = integrateSelectedProjects(
       projects,

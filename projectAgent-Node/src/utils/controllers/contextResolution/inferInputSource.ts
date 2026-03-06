@@ -60,17 +60,19 @@ type ChannelJoin = {
 type MessageElement = BotAddOrRemoveMessage | BotResponses | ChannelJoin | MessageResponse;
 
 /**
- * Function to infer which input source the user would like processed
+ * Function to infer which input source the user would like processed.
+ * The possible input sources are the text of the slash command and the message history
+ * of the channel where Project Agent was invoked.
  *
- * @param requestBody: slash command request body from Slack
- * @return: returns the text that will be processed by Project Agent
+ * @param requestBody: A slash command request body from Slack
+ * @return: The text that will be processed by Project Agent
  */
 
 export async function inferInputSource(requestBody: SlashCommand, timeStamp: number): Promise<InferredContext> {
   console.log("(inferInputSource)");
 
   const userTextInputLength = requestBody.text.split(" ").filter((word) => {
-    // Elimites elements that are empty - that were spaces
+    // Eliminates elements that are empty - that were spaces
     return word !== "";
   }).length;
   let textToParse: string;
@@ -91,7 +93,7 @@ export async function inferInputSource(requestBody: SlashCommand, timeStamp: num
   }
   const historyQueryResponse = await getChatHistory(requestBody.channel_id, timeStamp)
   const historyData = historyQueryResponse.data;
-  console.log("Do we Have Conversation History", (historyData.messages ? "Yess": "No way"));
+  console.log("Do we Have Conversation History", (historyData.messages ? "Yess" : "No way"));
 
   if (!historyData) {
     return {
@@ -115,19 +117,21 @@ export async function inferInputSource(requestBody: SlashCommand, timeStamp: num
       text: textToParse
     }
   }
-  return {
-    error: historyQueryResponse.data,
-    inferredFromPreviousContext: false,
-    text: "Error Encountered or History is empty"
+  else {
+    return {
+      error: historyQueryResponse.data,
+      inferredFromPreviousContext: false,
+      text: "Error Encountered or History is empty"
+    }
   }
 }
 
 /**
  * Function to match user by id
- * @param userId:	id to match
- * @param usersList:	list of users to search from
+ * @param userId:	The user id to match
+ * @param usersList: A list of users to search from
  *
- * @return: Slack user with id matching userId, undefined if not match is found
+ * @return: Slack user with id matching userId, undefined if no match is found
  */
 export function matchUserById(userId: string, usersList: SlackUser[]): SlackUser | undefined {
   const user = usersList.find((user) => {
@@ -139,32 +143,36 @@ export function matchUserById(userId: string, usersList: SlackUser[]): SlackUser
 
 /**
  * Function to put together text from chat history that LLM will extract task from
- * @param channelName: Name of the channel where project agent is called
+ * @param channelName: Name of the channel where Project Agent is called
  * @param recentMessageHistory: Array of conversations retrieved from the channel where project
  * agent is invoked
- * @returns: the combined chats to ne passed to LLM for task extraction
+ * @returns: The combined chats to be passed to LLM for task extraction
  */
 export async function createChatContext(channelName: string, recentMessageHistory: MessageElement[]): Promise<string> {
   const conversationList: {
     user: string, text: string
   }[] = recentMessageHistory.map((conversation) => {
     // Existence of a subtype indicates that the conversation is a channel join (if a person or bot
-    // joins the channel) or if a bot is removed from a channel, those we definately do not need to process
+    // joins the channel) or if a bot is removed from a channel, those we definitely do not need to process
 
     if (!("subtype" in conversation || "bot_id" in conversation) && "client_msg_id" in conversation) {
       if (conversation.text.trim().startsWith("&gt; /timely")) {
         return null;
       }
-      return {
-        user: conversation.user,
-        text: conversation.text
-      };
+      else {
+        return {
+          user: conversation.user,
+          text: conversation.text
+        };
+      }
     }
-    return null
+    else {
+      return null
+    }
   }).filter((convo) => convo !== null);
 
-  console.log("Number of chats to process", recentMessageHistory.length, 
-    "Number of chats left", conversationList.length
+  console.log("Number of chats in recent message history:", recentMessageHistory.length,
+    "Number of chats left after filtering:", conversationList.length
   );
 
   const allSlackUsers = await getSlackUsers();

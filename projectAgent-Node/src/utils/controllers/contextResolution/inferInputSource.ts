@@ -5,7 +5,7 @@ import { getChatHistory } from "../../../externalService/slackApiService";
 
 
 type InferredContext = {
-  error: any | null,
+  error: unknown | null,
   inferredFromPreviousContext: boolean,
   text: string
 }
@@ -91,7 +91,7 @@ export async function inferInputSource(requestBody: SlashCommand, timeStamp: num
       text: textToParse
     }
   }
-  const historyQueryResponse = await getChatHistory(requestBody.channel_id, timeStamp)
+  const historyQueryResponse = await getChatHistory(requestBody.channel_id, timeStamp);
   const historyData = historyQueryResponse.data;
   console.log("Do we Have Conversation History", (historyData.messages ? "Yess" : "No way"));
 
@@ -108,7 +108,8 @@ export async function inferInputSource(requestBody: SlashCommand, timeStamp: num
     if (recentMessageHistory.length === 0) {
       textToParse = "No Task Available"
     } else {
-      textToParse = await createChatContext(requestBody.channel_name, recentMessageHistory);
+      const allSlackUsers = await getSlackUsers();
+      textToParse = createChatContext(requestBody.channel_name, recentMessageHistory, allSlackUsers);
     }
 
     return {
@@ -148,11 +149,12 @@ export function matchUserById(userId: string, usersList: SlackUser[]): SlackUser
  * agent is invoked
  * @returns: The combined chats to be passed to LLM for task extraction
  */
-export async function createChatContext(channelName: string, recentMessageHistory: MessageElement[]): Promise<string> {
+export function createChatContext(channelName: string, recentMessageHistory: MessageElement[], allSlackUsers: SlackUser[]): string {
   const conversationList: {
     user: string, text: string
   }[] = recentMessageHistory.map((conversation) => {
-    // Existence of a subtype indicates that the conversation is a channel join (if a person or bot
+    // Existence of a subtype indicates that the conversation is a channel join 
+    // (if a person or bot
     // joins the channel) or if a bot is removed from a channel, those we definitely do not need to process
 
     if (!("subtype" in conversation || "bot_id" in conversation) && "client_msg_id" in conversation) {
@@ -174,8 +176,6 @@ export async function createChatContext(channelName: string, recentMessageHistor
   console.log("Number of chats in recent message history:", recentMessageHistory.length,
     "Number of chats left after filtering:", conversationList.length
   );
-
-  const allSlackUsers = await getSlackUsers();
 
   const convoWithSpeakerNames: string[] = conversationList.map((convo) => {
     const match = matchUserById(convo.user, allSlackUsers);

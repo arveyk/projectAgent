@@ -36,7 +36,7 @@ export function simplifyTaskPage(
     | PartialPageObjectResponse
     | PartialDataSourceObjectResponse
     | DataSourceObjectResponse,
-): TaskPageWithNotionUsers {
+): TaskPage {
   if (!isFullPage(result)) {
     throw new Error("Database response is not a full page");
   }

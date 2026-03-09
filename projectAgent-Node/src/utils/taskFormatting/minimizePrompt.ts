@@ -5,7 +5,8 @@ type TaskPageWithIdAssignees = {
     "taskTitle": string;
     "description"?: string;
     "assignee": NotionUser[];
-    "project": {"id": string}[];
+    "project": {
+        "id": string}[];
 }
 
 const exampleDbResponse: TaskPageWithIdAssignees[] = [
@@ -226,12 +227,18 @@ export function minimizePrompt(taskPageArray: TaskPageWithIdAssignees[]) {
         return {
             taskTitle: task.taskTitle,
             pageId: task.pageId,
-            description: task.description || "No Description"
+            description: task.description || "No Description",
+            assignee: task.assignee.map((assignee) => {
+                return {
+                    name: assignee.name
+                }
+            })
         }
     });
 }
-
+/*
 (() => {
     const simplified = minimizePrompt(exampleDbResponse);
-    console.log("Simplified", simplified[2], "\n", "Before: ", exampleDbResponse[2]);
+    console.log("Simplified", simplified[0], "\n", "Before: ", exampleDbResponse[0]);
 })();
+*/

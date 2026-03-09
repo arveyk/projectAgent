@@ -63,7 +63,7 @@ export type Task = {
 };
 
 /**
- * A task as represented in Notion.
+ * A task as represented in Notion. Used for new Tasks
  */
 export type NotionTask = {
   taskTitle: string;
@@ -81,10 +81,33 @@ export type NotionTask = {
  * A task page in Notion.
  */
 export type TaskPage = {
-  task: NotionTask;
+  // task: NotionTask;
+  task: {
+    taskTitle: string;
+    assignees: PersonNoId[];
+    assignedBy: PersonNoId[];
+    dueDate?: string;
+    startDate?: string;
+    description: string;
+    project?: {
+      id: string;
+    }[];
+  };
   pageId: string;
   url?: string;
 };
+
+
+/**
+ * Task page For Existing tasks
+ */
+
+export type TaskPageExistingTask = {
+  task: NotionTask;
+  pageId: string;
+  url?: string;
+}
+
 
 /**
  * Converts data parsed by the LLM into a Task object.
@@ -102,8 +125,8 @@ export function convertTask(
   const startDate = taskInput.startDate;
   const assignees = taskInput.assignees
     ? taskInput.assignees.map((assignee) => {
-        return { name: assignee };
-      })
+      return { name: assignee };
+    })
     : [];
 
   const taskProjects = taskInput.projects || [];
@@ -214,15 +237,15 @@ export function convertTaskPageFromDbResponse(
   const assignees =
     "people" in properties["Assigned to"]
       ? properties["Assigned to"].people
-          .map(extractAssignees)
-          .filter((person) => person !== null)
+        .map(extractAssignees)
+        .filter((person) => person !== null)
       : [];
 
   const assignedBy =
     "people" in properties["Assigned by"]
       ? properties["Assigned by"].people
-          .map(extractAssignees)
-          .filter((person) => person !== null)
+        .map(extractAssignees)
+        .filter((person) => person !== null)
       : [];
 
   const dueDate =
@@ -239,14 +262,14 @@ export function convertTaskPageFromDbResponse(
       : undefined;
   const description =
     "rich_text" in properties["Description"] &&
-    properties["Description"]["rich_text"][0] !== undefined
+      properties["Description"]["rich_text"][0] !== undefined
       ? "plain_text" in properties["Description"]["rich_text"][0]
         ? properties["Description"].rich_text[0].plain_text
         : ""
       : "";
   const project =
     "relation" in properties["Project"] &&
-    properties["Project"]["relation"][0] !== undefined
+      properties["Project"]["relation"][0] !== undefined
       ? properties["Project"]["relation"]
       : [];
   const url = pageResponse.url;
@@ -278,7 +301,7 @@ export function extractAssignees(
     | PartialUserObjectResponse
     | UserObjectResponse
     | GroupObjectResponse,
-): NotionUser | null {
+): PersonNoId | null {
   if (
     response["object"] !== "user" ||
     !isFullUser(response) ||
@@ -287,10 +310,10 @@ export function extractAssignees(
     return null;
   }
 
-  const user: NotionUser = {
+  const user: PersonNoId = {
     name: response["name"] !== null ? response["name"] : "Unnamed person",
     email: response["person"]["email"],
-    userId: response["id"],
+    // userId: response["id"],
   };
   return user;
 }

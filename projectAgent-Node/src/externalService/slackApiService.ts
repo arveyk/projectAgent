@@ -46,7 +46,7 @@ export async function getChatHistory(channelId: string, timeStamp: number) {
  * 
  * @returns: Response from slack
  */
-export async function sendBlockResponse(responseURL: string, slackBlock: object[], errorMessage: string) {
+export async function sendBlockResponse(responseURL: string, slackBlock: object[]) {
   try {
     const postBlocksToUserResponse = await axios.post(responseURL,
       {
@@ -67,7 +67,8 @@ export async function sendBlockResponse(responseURL: string, slackBlock: object[
       data: postBlocksToUserResponse.data
     }
   } catch (error) {
-    console.log(errorMessage, error);
+    console.log(`Error encountered while sending this block, please assest its validity using block kit builder: 
+      ${JSON.stringify(slackBlock)}\n`, "Error:",error);
     return {
       success: false,
       error: error

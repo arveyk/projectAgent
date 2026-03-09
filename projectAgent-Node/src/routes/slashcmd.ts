@@ -130,7 +130,6 @@ const slashCmdHandler: StreamifyHandler = async function (
           
           await sendBlockResponse(reqBody["response_url"],
             updateBlock.blocks,
-            "Error sending existing task notification block"
           );
           
         } else {
@@ -153,9 +152,7 @@ const slashCmdHandler: StreamifyHandler = async function (
           "SlashCmdHandler taskBlockWithSelect",
           JSON.stringify(slackBlocks),
         );
-        await sendBlockResponse(reqBody["response_url"], slackBlocks.blocks,
-          "Error sending New Task blocks");
-
+        await sendBlockResponse(reqBody["response_url"], slackBlocks.blocks);
       }
     } else {
       const response = await sendBlockResponse(reqBody["response_url"], [
@@ -166,9 +163,7 @@ const slashCmdHandler: StreamifyHandler = async function (
             "text": "> Test Else block. Response",
           }
         }
-      ],
-        "OK from slack Wrong command format Though");
-        
+      ]);        
       console.log(response.data.status);
     }
   } catch (err: Error | any) {

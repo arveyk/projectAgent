@@ -109,10 +109,8 @@ const interactionHandler: StreamifyHandler = async function (
             "editInNotionBlocks",
             JSON.stringify(editInNotionBlocks),
           );
-          const axiosErrorMessage = "AXIOS ERROR in Edit in notion if-else - InteractionHandler";
           await sendBlockResponse(response_url,
             editInNotionBlocks.blocks,
-            axiosErrorMessage
           );
         } else {
           await sendError(taskAddResult, payload, response_url);
@@ -136,7 +134,6 @@ const interactionHandler: StreamifyHandler = async function (
       if (action_id === "updateId-02") {
         action = "*Done: Task Updated*";
       }
-      const errorMessage = "AXIOS ERROR in Edit in notion if-else - InteractionHandler"
       await sendBlockResponse(response_url, [
         {
           type: "section",
@@ -145,7 +142,7 @@ const interactionHandler: StreamifyHandler = async function (
             text: `:white_check_mark: ${action}`,
           },
         },
-      ], errorMessage);
+      ]);
 
     } else if (action_text === "Delete") {
       await (async () => {
@@ -187,7 +184,6 @@ async function sendReject(
   console.log(
     `Text in button ${"value" in payload.actions[0] ? payload.actions[0]["value"] : "No value"}, Action_Text${action_text}`,
   );
-  const errorMessage = "AXIOS ERROR in sendReject"
   await sendBlockResponse(response_url, [
     {
       type: "section",
@@ -196,7 +192,7 @@ async function sendReject(
         text: `${action}`,
       },
     },
-  ], errorMessage);
+  ]);
 }
 
 function sendEdit(
@@ -225,7 +221,6 @@ async function sendError(
       errMessage = "Update";
       errEmoji = "x";
     }
-    const axiosErrorMessage = "2nd AXIOS ERROR in sendSubmit";
     const response = await sendBlockResponse(response_url,
       [
         {
@@ -235,9 +230,7 @@ async function sendError(
             text: `:${errEmoji}: *Unable to ${errMessage} Entry*: ${createRowResult.errorMsg}`,
           },
         },
-      ],
-      axiosErrorMessage
-    );
+      ]);
     console.log(
       "Error while Attempting to create row, Please check inputs",
       response

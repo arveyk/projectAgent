@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ALL_SLN_WEBHOOK_URL } from "../env";
 import { createNewTaskBlockWithUserAndOrProjectsSelections } from "../blockkit/createBlockPartsForNewTask";
-import { ProjectWithName, TaskPage } from "../utils/taskFormatting/task";
+import { ProjectWithName, TaskPage, TaskPageExistingTask } from "../utils/taskFormatting/task";
 import { exampleUserSearchResponse2 } from "../test-data/example-usersearch-response";
 import { createNewTaskBlock } from "../blockkit/createNewTaskBlock";
 import { NotionUser } from "../utils/controllers/userTypes";
@@ -22,7 +22,7 @@ const EXAMPLE_PROJECTS_FROM_NOTION: ProjectWithName[] = [
   { projectName: "Prject Agent", id: "mdio0920OIJNSIUudiew" },
 ];
 
-const task: TaskPage = {
+const task: TaskPageExistingTask = {
   task: {
     taskTitle: "End of year Plans",
     assignees: [
@@ -48,7 +48,7 @@ const task: TaskPage = {
   },
   pageId: "",
 };
-const task_b: TaskPage = {
+const task_b: TaskPageExistingTask = {
   task: {
     taskTitle: "Add Timothy",
     assignees: [{ name: "Small Bro", email: "", userId: "U08UDKY38QK" }],

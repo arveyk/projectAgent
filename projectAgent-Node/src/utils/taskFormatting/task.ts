@@ -80,11 +80,34 @@ export type NotionTask = {
 /**
  * A task page in Notion.
  */
+
 export type TaskPage = {
-  task: NotionTask;
+  // task: NotionTask;
+  task: {
+    taskTitle: string;
+    assignees: PersonNoId[];
+    assignedBy: PersonNoId[];
+    dueDate?: string;
+    startDate?: string;
+    description: string;
+    project?: {
+      id: string;
+    }[];
+  };
   pageId: string;
   url?: string;
 };
+
+/**
+ * Task page For Existing tasks
+ */
+
+export type TaskPageExistingTask = {
+  task: NotionTask;
+  pageId: string;
+  url?: string;
+}
+
 
 /**
  * Converts data parsed by the LLM into a Task object.
@@ -278,7 +301,7 @@ export function extractAssignees(
     | PartialUserObjectResponse
     | UserObjectResponse
     | GroupObjectResponse,
-): NotionUser | null {
+): PersonNoId | null {
   if (
     response["object"] !== "user" ||
     !isFullUser(response) ||
@@ -287,10 +310,10 @@ export function extractAssignees(
     return null;
   }
 
-  const user: NotionUser = {
+  const user: PersonNoId = {
     name: response["name"] !== null ? response["name"] : "Unnamed person",
     email: response["person"]["email"],
-    userId: response["id"],
+    // userId: response["id"],
   };
   return user;
 }

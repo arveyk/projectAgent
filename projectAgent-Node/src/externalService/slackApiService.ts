@@ -2,13 +2,13 @@ import { SLACK_BOT_TOKEN } from "../env";
 import axios from "axios";
 
 /**
- * Function to retrive 5 most recent chats from the user's channel
- * 
+ * Function to retrieve 5 most recent chats from the user's channel
+ *
  * @param channelId -  Id of the channel where project agent is invoked
  * @param timeStamp- time in milliseconds, at which project agent starts to process
  * request to create task, this is a work around since there is currently no timestamp
  * included in the slash command payload
- * 
+ *
  * @returns response from searching channel history
  */
 
@@ -29,7 +29,7 @@ export async function getChatHistory(channelId: string, timeStamp: number) {
     });
     return chatHistory;
   } catch (error) {
-    console.log("Error encountered in (getChatHistory) while attempting to get Slack users\n",String(error));
+    console.log("Error encountered in (getChatHistory) while attempting to get chat history\n",String(error));
     return {
       data: {
         messages: undefined
@@ -43,7 +43,7 @@ export async function getChatHistory(channelId: string, timeStamp: number) {
  * @param responseURL: Url to post blocks to
  * @param slackBlock: Slack blocks to be sent to user as response to user
  * @param errorMessage: Error message in case post request fails
- * 
+ *
  * @returns: Response from slack
  */
 export async function sendBlockResponse(responseURL: string, slackBlock: object[]) {
@@ -67,7 +67,7 @@ export async function sendBlockResponse(responseURL: string, slackBlock: object[
       data: postBlocksToUserResponse.data
     }
   } catch (error) {
-    console.log(`Error encountered while sending this block, please assest its validity using block kit builder: 
+    console.log(`Error encountered while sending this block, please asses its validity using block kit builder:
       ${JSON.stringify(slackBlock)}\n`, "Error:",error);
     return {
       success: false,

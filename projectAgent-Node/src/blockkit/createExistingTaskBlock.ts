@@ -1,6 +1,6 @@
 import { QueryDataSourceResponse } from "@notionhq/client";
 import { getProjects } from "../utils/database/searchDatabase";
-import { ProjectWithName, TaskPage, TaskPageNewTask } from "../utils/taskFormatting/task";
+import { ProjectWithName, TaskPage } from "../utils/taskFormatting/task";
 import { createTaskInfoWithoutSelections } from "./createBlockPartsForNewTask";
 
 /**

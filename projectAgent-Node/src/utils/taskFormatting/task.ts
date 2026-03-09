@@ -294,7 +294,7 @@ export function convertTaskPageFromDbResponse(
 /**
  * Extracts a list of assignees from a database response
  * @param response A Notion user response.
- * @returns A NotionUser object, ignoring bots and groups, or null if the response is not a person user.
+ * @returns A PersonNoId object, ignoring bots and groups, or null if the response is not a person user.
  */
 export function extractAssignees(
   response:

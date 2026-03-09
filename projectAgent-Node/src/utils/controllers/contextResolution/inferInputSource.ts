@@ -33,7 +33,7 @@ type BotAddOrRemoveMessage = {
   "ts": string
 }
 type BotResponses = {
-  "user": "U0935EFG3GD";
+  "user": string;
   "type": "message";
   "ts": "1769021479.365719";
   "edited": {

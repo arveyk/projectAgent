@@ -1472,7 +1472,7 @@ export const EXAMPLE_LONG_CHAT_HISTORY =
       "type": "message",
       "ts": "1769041000.509699",
       "client_msg_id": "74685d79-8b35-4a39-8a75-b74079830c92",
-      "text": "&gt; /projectagent-dev Ceci, test the integration of Project Agent with the production database\n",
+      "text": "&gt; /projectagent-dev Ramona, test the integration of Project Agent with the production database\n",
       "team": "T08VADHH17S",
       "blocks": [
         {
@@ -1484,7 +1484,7 @@ export const EXAMPLE_LONG_CHAT_HISTORY =
               "elements": [
                 {
                   "type": "text",
-                  "text": "/projectagent-dev Ceci, test the integration of Project Agent with the production database"
+                  "text": "/projectagent-dev Ramona, test the integration of Project Agent with the production database"
                 }
               ]
             },

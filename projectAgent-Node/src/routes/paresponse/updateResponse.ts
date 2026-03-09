@@ -88,7 +88,6 @@ const interactionHandler: StreamifyHandler = async function (
         taskPageObj.task.assignees = taskWithIntegratedValues.assignees;
       }
       console.log("Edit in Notion, Response Url", response_url);
-      //await (async () => {
       try {
         console.log(
           `(sendApprove) taskPageObj: ${JSON.stringify(taskPageObj)}, taskPageObj.task: ${taskPageObj.task}`,
@@ -119,7 +118,6 @@ const interactionHandler: StreamifyHandler = async function (
       } catch (error) {
         console.error("Error adding task", error);
       }
-      //})();
     } else if (
       action_text === "Edit in Notion" ||
       action_text === "Done" ||

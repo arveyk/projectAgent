@@ -160,7 +160,7 @@ const slashCmdHandler: StreamifyHandler = async function (
           "type": "section",
           "text": {
             "type": "mrkdwn",
-            "text": "> Test Else block. Response",
+            "text": `> Error Encoutered while attempting to create task, Please try again\nError: ${String(inferredContext.error)}`,
           }
         }
       ]);        

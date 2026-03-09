@@ -3,7 +3,11 @@ import {
   payloadNoDates,
   payloadExampleNoInputText,
 } from "../../test-data/payloads/slashcmd/payloads";
-import { parseTask, EXAMPLE_OUTPUT_FOR_PROMPT_00, taskSchema } from "../../utils/aiagent";
+import {
+  parseTask,
+  EXAMPLE_OUTPUT_FOR_PROMPT_00,
+  taskSchema,
+} from "../../utils/aiagent";
 import { structuredOutputDemo } from "../../bin/langchain";
 
 describe("Tests structured output example", () => {

@@ -104,7 +104,7 @@ const slashCmdHandler: StreamifyHandler = async function (
       //      Reduced number of API calls by getNotionUsers
       const assigneeSearchResults = await findMatchingAssignees(
         parsedData.task,
-        fetchedUsers
+        fetchedUsers,
       );
       logTimestampForBenchmarking("Done searching Notion for assignees");
 
@@ -125,13 +125,16 @@ const slashCmdHandler: StreamifyHandler = async function (
           console.log(
             `(slashCmdHandler) existingTask: ${JSON.stringify(existingTask)}`,
           );
-          const updateBlock = await createExistingTaskBlock(existingTask, fetchedProjects);
+          const updateBlock = await createExistingTaskBlock(
+            existingTask,
+            fetchedProjects,
+          );
           console.log("Update Block", JSON.stringify(updateBlock));
-          
+
           await sendBlockResponse(reqBody["response_url"],
             updateBlock.blocks,
           );
-          
+
         } else {
           throw new Error("Error getting page properties");
         }
@@ -163,7 +166,7 @@ const slashCmdHandler: StreamifyHandler = async function (
             "text": `> Error Encoutered while attempting to create task, Please try again\nError: ${String(inferredContext.error)}`,
           }
         }
-      ]);        
+      ]);
       console.log(response.data.status);
     }
   } catch (err: Error | any) {

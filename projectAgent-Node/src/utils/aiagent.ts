@@ -77,16 +77,12 @@ export const taskSchema = z.object({
     .date()
     .optional()
     .nullable()
-    .describe(
-      "Task due date in ISO standard format",
-    ),
+    .describe("Task due date in ISO standard format"),
   startDate: z.iso
     .date()
     .optional()
     .nullable()
-    .describe(
-      "Task start date in ISO standard format",
-    ),
+    .describe("Task start date in ISO standard format"),
   phonenumber: z
     .string()
     .optional()
@@ -135,7 +131,7 @@ export const parseTask = async function (
   reqBody: SlashCommand,
   textToParse: string,
   timestamp: number,
-  alreadyFetchedProjects: QueryDataSourceResponse["results"] | null
+  alreadyFetchedProjects: QueryDataSourceResponse["results"] | null,
 ): Promise<ParsedData> {
 
   const appUserData = await getAppUserData(reqBody, timestamp);
@@ -145,7 +141,11 @@ export const parseTask = async function (
   const notionProjects = await getProjects(alreadyFetchedProjects);
   console.log(`notionProjects found ${JSON.stringify(notionProjects)}`);
 
-  const structuredResultData = await parseWithLLM(timeData, notionProjects, textToParse);
+  const structuredResultData = await parseWithLLM(
+    timeData,
+    notionProjects,
+    textToParse,
+  );
 
   // Convert the LLM output to a Task object for future ease of use
   const task = convertTask(structuredResultData, notionProjects);
@@ -170,7 +170,11 @@ export const parseTask = async function (
  *
  * @returns Structured object with task details.
  */
-export async function parseWithLLM(timeData: DateTime<boolean>, notionProjects: Project[], textToParse: string) {
+export async function parseWithLLM(
+  timeData: DateTime<boolean>,
+  notionProjects: Project[],
+  textToParse: string,
+) {
   const prompt = `Today's date in ISO format is ${timeData.toISODate()}. Please extract task information from a message, making sure to list any dates in ISO format. If a start date is not specifed, assume the start date is today's date. "By tomorrow" means the due date is tomorrow.
   Also, using this list ${JSON.stringify(notionProjects)}, infer the project or projects the task is linked to. The projectName is what will help in finding a match. \
   """Example: **Sample Projects**: ${EXAMPLE_INPUT_PROJECTS}.\n\

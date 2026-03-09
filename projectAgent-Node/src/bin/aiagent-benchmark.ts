@@ -58,12 +58,9 @@ const payload3: SlashCommand = {
   trigger_id: "sampleTrigger-933598beb1284a7e6289",
 };
 
-
-
-
 /**
  * Function call to run benchmarking tests
- * 
+ *
  * returns: no return value
  */
 async function benchMark(payload: SlashCommand) {
@@ -75,5 +72,7 @@ async function benchMark(payload: SlashCommand) {
   const firstResponse = await benchMark(payload1);
   const secondResponse = await benchMark(payload2);
   const thirdResponse = await benchMark(payload3);
-  console.log(`All responses 1st:  ${firstResponse},2nd :${secondResponse}, 3rd: ${thirdResponse}`);
+  console.log(
+    `All responses 1st:  ${firstResponse},2nd :${secondResponse}, 3rd: ${thirdResponse}`,
+  );
 })();

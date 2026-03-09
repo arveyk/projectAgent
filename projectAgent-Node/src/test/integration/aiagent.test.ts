@@ -6,9 +6,7 @@ import {
   payloadInferDates,
   payloadNew,
 } from "../../test-data/payloads/slashcmd/payloads";
-import {
-  taskKitchen,
-} from "../../test-data/tasks/example-tasks";
+import { taskKitchen } from "../../test-data/tasks/example-tasks";
 import { EXAMPLE_RAW_PROJECTS_RESPONSE } from "../../test-data/cache/rawProjects";
 
 describe("Tests parseTaskSlashCmd with a good payload", () => {

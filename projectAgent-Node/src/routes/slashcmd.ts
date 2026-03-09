@@ -24,6 +24,7 @@ import {
 } from "../utils/slashCommandProcessing";
 import { createNewTaskBlock } from "../blockkit/createNewTaskBlock";
 import { createCacheClient, retrieveCache } from "../utils/database/getFromCache";
+import { errorHandler } from "../monitor/errorHandler";
 
 const slashCmdHandler: StreamifyHandler = async function (
   event: APIGatewayProxyEventV2,
@@ -107,7 +108,6 @@ const slashCmdHandler: StreamifyHandler = async function (
       if (!isInDatabase) {
         throw new Error("Error searching database");
       }
-
       if (isInDatabase.exists) {
         console.log("Already in Database");
 
@@ -188,6 +188,12 @@ const slashCmdHandler: StreamifyHandler = async function (
     }
   } catch (err: Error | any) {
     console.log("slashCmdHandler Error", String(err));
+    // POST On Dev Channel
+    await errorHandler({
+      sendAlert: true,
+      error: err
+    }, "slack");
+
     return err;
   } finally {
     logTimestampForBenchmarking("Execution finished");

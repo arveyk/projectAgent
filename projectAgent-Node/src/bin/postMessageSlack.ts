@@ -94,7 +94,7 @@ const exampleBlocks = createNewTaskBlockWithUserAndOrProjectsSelections(taskNoAs
 }
 )
 
-export async function testPostToSlack(eventResUrl: string, slackBlocks?: any) {
+export async function testPostToSlack(eventResUrl: string, slackBlocks: object[]) {
   try {
     const responseData = await axios
       .post(
@@ -103,7 +103,7 @@ export async function testPostToSlack(eventResUrl: string, slackBlocks?: any) {
           channel: channel_id,
           text: "Some Text",
           // blocks: RequestApprovalBlock.blocks,
-          blocks: slackBlocks.blocks,
+          blocks: slackBlocks,
         },
         {
           headers: {
@@ -129,5 +129,5 @@ export async function testPostToSlack(eventResUrl: string, slackBlocks?: any) {
 }
 
 (async () => {
-await testPostToSlack(eventResponseURL, exampleBlocks);
+  await testPostToSlack(eventResponseURL, exampleBlocks.blocks);
 })();

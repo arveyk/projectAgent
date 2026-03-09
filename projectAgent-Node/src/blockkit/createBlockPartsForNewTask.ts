@@ -19,21 +19,21 @@ export type MenuType = {
 // TaskInfo types the information section that displays task info in a block
 type TaskInfo = (
   | {
+    type: string;
+    fields: {
       type: string;
-      fields: {
-        type: string;
-        text: string;
-      }[];
-      text?: undefined;
-    }
+      text: string;
+    }[];
+    text?: undefined;
+  }
   | {
+    type: string;
+    text: {
       type: string;
-      text: {
-        type: string;
-        text: string;
-      };
-      fields?: undefined;
-    }
+      text: string;
+    };
+    fields?: undefined;
+  }
 )[];
 
 /**
@@ -141,9 +141,8 @@ export function createTaskInfo(
       fields: [
         {
           type: "mrkdwn",
-          text: `*Due Date:*\n${
-            notionTask.dueDate ? formatDateString(notionTask.dueDate) : ""
-          }`,
+          text: `*Due Date:*\n${notionTask.dueDate ? formatDateString(notionTask.dueDate) : ""
+            }`,
         },
         {
           type: "mrkdwn",
@@ -221,9 +220,8 @@ export function createTaskInfoWithoutSelections(
       fields: [
         {
           type: "mrkdwn",
-          text: `*Due Date:*\n${
-            notionTask.dueDate ? formatDateString(notionTask.dueDate) : ""
-          }`,
+          text: `*Due Date:*\n${notionTask.dueDate ? formatDateString(notionTask.dueDate) : ""
+            }`,
         },
         {
           type: "mrkdwn",

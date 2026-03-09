@@ -7,7 +7,7 @@ import {
 } from "@notionhq/client";
 import { ChatAnthropic } from "@langchain/anthropic";
 import { z } from "zod/v4";
-import { TaskPage, simplifyTaskPage } from "./simplifyTaskPages";
+import { TaskPage, TaskPageWithNotionUsers, simplifyTaskPage } from "./simplifyTaskPages";
 import { stringSimilarity } from "string-similarity-js";
 
 import {
@@ -20,6 +20,7 @@ import {
 import { logTimestampForBenchmarking } from "../logTimestampForBenchmarking";
 import { Project } from "../../domain";
 import { containsSensitiveNgrams } from "./containsSensitiveNgrams";
+import { minimizePrompt } from "../taskFormatting/minimizePrompt";
 
 const notion = new Client({
   auth: NOTION_API_KEY,
@@ -72,8 +73,13 @@ export const searchDatabase = async function (
   // Limit pages to the 20 most similar to the message
   const similarPages = filterSimilar(tasks, message);
 
+  /**
+   * Find a way of trimming down the similarPages?
+   */
+  const minimizedPages = minimizePrompt(similarPages);
+
   const prompt = `
-    Please check if a task matching the message ${message} exists in the database response
+    Please check if a task matching the message "${message}" exists in the database response
     ${JSON.stringify(similarPages)}.
   `.trim();
 
@@ -81,6 +87,8 @@ export const searchDatabase = async function (
   const llmResult = await structuredLlm.invoke(prompt);
   logTimestampForBenchmarking("(Database) LLM finished");
   console.log(`Raw LLM response: ${JSON.stringify(llmResult.raw)}`);
+  console.log(`Whole LLM task extraction result: ${JSON.stringify(llmResult)}\n Promt: ${prompt}`);
+
   const parsed = llmResult.parsed;
   const result: TaskSearchResult = {
     exists: parsed.exists,
@@ -99,7 +107,7 @@ export const searchDatabase = async function (
  *
  * @return	An array of all tasks in the tasks database.
  */
-export async function getTasks(alreadyFetchedTasks: QueryDataSourceResponse["results"] | null): Promise<TaskPage[]> {
+export async function getTasks(alreadyFetchedTasks: QueryDataSourceResponse["results"] | null): Promise<TaskPageWithNotionUsers[]> {
   let rawTasks: QueryDataSourceResponse["results"];
   if (alreadyFetchedTasks) {
     rawTasks = alreadyFetchedTasks;
@@ -158,7 +166,7 @@ export const getTaskProperties = async function (pageID: string) {
  * @param message The message that triggered Project Agent.
  * @returns Up to 20 of the database pages that most closely match the given message.
  */
-export function filterSimilar(pages: TaskPage[], message: string): TaskPage[] {
+export function filterSimilar(pages: TaskPageWithNotionUsers[], message: string): TaskPageWithNotionUsers[] {
   const similarPages = pages
     .map((page) => {
       const similarity = stringSimilarity(

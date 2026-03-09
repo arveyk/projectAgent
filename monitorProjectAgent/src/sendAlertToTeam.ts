@@ -1,4 +1,3 @@
-// import { getMostRecentlyDeliveredEmail, getTimeSinceLastInvocation } from "./mailgunlogs";
 import { DateTime } from "luxon";
 
 function getTimeSinceLastInvocation() {

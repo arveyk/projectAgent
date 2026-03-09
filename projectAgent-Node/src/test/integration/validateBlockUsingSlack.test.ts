@@ -20,22 +20,22 @@ const channelToPostMessage = "https://slack.com/api/chat.postMessage"
 describe.skip("Check if blocks creates are valid, by sending to slack for validation", () => {
     it("Sends blocks created to Slack for validation", async () => {
         await expect(
-            testPostToSlack(channelToPostMessage, blockWithoutAssigneeTask)
+            testPostToSlack(channelToPostMessage, blockWithoutAssigneeTask.blocks)
         ).resolves.not.toThrow();
 
     });
     it("Sends blocks created to Slack for validation", async () => {
         await expect(
-            testPostToSlack(channelToPostMessage, badBlocks)
+            testPostToSlack(channelToPostMessage, badBlocks.blocks)
         ).resolves.not.toThrow();
 
     });
     it("Sends blocks created to Slack for validation, check if bot is in channel", async () => {
         let response: any;
         await expect(
-            testPostToSlack(channelToPostMessage, blockWithNoAssignee)
+            testPostToSlack(channelToPostMessage, blockWithNoAssignee.blocks)
         ).resolves.not.toThrow();
-        response = await testPostToSlack(channelToPostMessage, blockWithNoAssignee);
+        response = await testPostToSlack(channelToPostMessage, blockWithNoAssignee.blocks);
         expect(response).toBeDefined();
         expect(response.ok).toBe(false);
         // expect(response.error).not.toBe("not_in_channel");

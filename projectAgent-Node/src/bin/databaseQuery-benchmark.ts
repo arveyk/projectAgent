@@ -12,7 +12,7 @@ const cacheItems: CacheData = {
 (async () => {
     const tasks = await getTasks(cacheItems.tasks);
     console.log(tasks.length);
-    // console.log(JSON.stringify(tasks));
+    console.log(JSON.stringify(tasks));
 
     const projects = await getProjects(cacheItems.projects);
     console.log(projects.length);

@@ -14,6 +14,7 @@ import {
   extractPayload,
 } from "../../utils/slashCommandProcessing";
 import { integrateSelectedValues } from "../../utils/controllers/useSelectedOption";
+import { errorHandler } from "../../monitor/errorHandler";
 
 /**
  * interactionHandler - Response to user interactions with blocks when a button
@@ -60,161 +61,169 @@ const interactionHandler: StreamifyHandler = async function (
   const action_id: string = payload["actions"][0]["action_id"];
   let action_text = "";
 
-  if (typeof payload["actions"][0]["selected_option"] !== "undefined") {
-    console.log("Changed, No longer handling these Blocks");
-  } else {
-    action_text = payload["actions"][0]["text"]["text"];
-    console.log("action_text in else block", action_text);
+  try {
+    if (typeof payload["actions"][0]["selected_option"] !== "undefined") {
+      console.log("Changed, No longer handling these Blocks");
+    } else {
+      action_text = payload["actions"][0]["text"]["text"];
+      console.log("action_text in else block", action_text);
 
-    if (action_text === "Confirm" || action_text === "Add Task") {
-      const taskPageAndOptionsObject: {
-        taskPageObject: TaskPage;
-      } = JSON.parse(payload["actions"][0].value || "{}");
-      console.log(payload["actions"][0].value);
-      console.log(JSON.stringify(taskPageAndOptionsObject));
+      if (action_text === "Confirm" || action_text === "Add Task") {
+        const taskPageAndOptionsObject: {
+          taskPageObject: TaskPage;
+        } = JSON.parse(payload["actions"][0].value || "{}");
+        console.log(payload["actions"][0].value);
+        console.log(JSON.stringify(taskPageAndOptionsObject));
 
-      const taskPageObj: TaskPage =
-        taskPageAndOptionsObject.taskPageObject as TaskPage;
+        const taskPageObj: TaskPage =
+          taskPageAndOptionsObject.taskPageObject as TaskPage;
 
-      if (action_id === "SelectionActionId-2") {
-        console.log("Utilize users input");
+        if (action_id === "SelectionActionId-2") {
+          console.log("Utilize users input");
 
-        // task with integrated selected assignee and project values from slack interaction
-        const taskWithIntegratedValues = integrateSelectedValues(
-          taskPageAndOptionsObject.taskPageObject.task,
-          payload,
-        );
-
-        taskPageObj.task.project = taskWithIntegratedValues.project;
-        taskPageObj.task.assignees = taskWithIntegratedValues.assignees;
-      }
-      console.log("Edit in Notion, Response Url", response_url);
-      await (async () => {
-        try {
-          console.log(
-            `(sendApprove) taskPageObj: ${JSON.stringify(taskPageObj)}, taskPageObj.task: ${taskPageObj.task}`,
+          // task with integrated selected assignee and project values from slack interaction
+          const taskWithIntegratedValues = integrateSelectedValues(
+            taskPageAndOptionsObject.taskPageObject.task,
+            payload,
           );
-          const taskAddResult = await addTaskNotionPage(taskPageObj.task);
 
-          console.log(`Page added successfully? ${taskAddResult.success}`);
-
-          const newTaskPage = taskAddResult.page;
-          if (taskAddResult.success === true && newTaskPage) {
-            taskPageObj.pageId = newTaskPage.id;
-            taskPageObj.url = "url" in newTaskPage ? newTaskPage.url : "";
-
-            const editInNotionBlocks = createRedirectToNewPageBlock(
-              taskPageObj.url,
-            );
-            console.log(
-              "editInNotionBlocks",
-              JSON.stringify(editInNotionBlocks),
-            );
-            await axios({
-              method: "post",
-              url: response_url,
-              data: {
-                replace_original: "true",
-                text: "Sequence complete",
-                blocks: editInNotionBlocks.blocks,
-              },
-              headers: {
-                Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
-                "Content-Type": "application/json; charset=UTF-8",
-              },
-              family: 4,
-            })
-              .then((Response) => {
-                console.log("Update msg", Response);
-              })
-              .catch((err) => {
-                console.log(
-                  "AXIOS ERROR in Edit in notion if-else - InteractionHandler",
-                  err,
-                );
-              });
-          } else {
-            sendError(taskAddResult, payload, response_url);
-            console.log(taskAddResult.errorMsg);
-          }
-        } catch (error) {
-          console.error("Error adding task", error);
+          taskPageObj.task.project = taskWithIntegratedValues.project;
+          taskPageObj.task.assignees = taskWithIntegratedValues.assignees;
         }
-      })();
-    } else if (
-      action_text === "Edit in Notion" ||
-      action_text === "Done" ||
-      action_text === "Confirm Edits"
-    ) {
-      console.log("Edit in Notion, Response Url", response_url);
-      let action = "*Done*";
+        console.log("Edit in Notion, Response Url", response_url);
+        await (async () => {
+          try {
+            console.log(
+              `(sendApprove) taskPageObj: ${JSON.stringify(taskPageObj)}, taskPageObj.task: ${taskPageObj.task}`,
+            );
+            const taskAddResult = await addTaskNotionPage(taskPageObj.task);
 
-      if (payload["actions"][0].value === "done_123") {
-        action = "*Done: Task Created*";
-      }
-      if (action_id === "updateId-02") {
-        action = "*Done: Task Updated*";
-      }
+            console.log(`Page added successfully? ${taskAddResult.success}`);
 
-      await axios({
-        method: "post",
-        url: response_url,
-        data: {
-          replace_original: "true",
-          text: "Sequence complete",
-          blocks: [
-            {
-              type: "section",
-              text: {
-                type: "mrkdwn",
-                text: `:white_check_mark: ${action}`,
+            const newTaskPage = taskAddResult.page;
+            if (taskAddResult.success === true && newTaskPage) {
+              taskPageObj.pageId = newTaskPage.id;
+              taskPageObj.url = "url" in newTaskPage ? newTaskPage.url : "";
+
+              const editInNotionBlocks = createRedirectToNewPageBlock(
+                taskPageObj.url,
+              );
+              console.log(
+                "editInNotionBlocks",
+                JSON.stringify(editInNotionBlocks),
+              );
+              await axios({
+                method: "post",
+                url: response_url,
+                data: {
+                  replace_original: "true",
+                  text: "Sequence complete",
+                  blocks: editInNotionBlocks.blocks,
+                },
+                headers: {
+                  Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
+                  "Content-Type": "application/json; charset=UTF-8",
+                },
+                family: 4,
+              })
+                .then((Response) => {
+                  console.log("Update msg", Response);
+                })
+                .catch((err) => {
+                  console.log(
+                    "AXIOS ERROR in Edit in notion if-else - InteractionHandler",
+                    err,
+                  );
+                });
+            } else {
+              sendError(taskAddResult, payload, response_url);
+              console.log(taskAddResult.errorMsg);
+            }
+          } catch (error) {
+            console.error("Error adding task", error);
+          }
+        })();
+      } else if (
+        action_text === "Edit in Notion" ||
+        action_text === "Done" ||
+        action_text === "Confirm Edits"
+      ) {
+        console.log("Edit in Notion, Response Url", response_url);
+        let action = "*Done*";
+
+        if (payload["actions"][0].value === "done_123") {
+          action = "*Done: Task Created*";
+        }
+        if (action_id === "updateId-02") {
+          action = "*Done: Task Updated*";
+        }
+
+        await axios({
+          method: "post",
+          url: response_url,
+          data: {
+            replace_original: "true",
+            text: "Sequence complete",
+            blocks: [
+              {
+                type: "section",
+                text: {
+                  type: "mrkdwn",
+                  text: `:white_check_mark: ${action}`,
+                },
               },
-            },
-          ],
-        },
-        headers: {
-          Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
-          "Content-Type": "application/json; charset=UTF-8",
-        },
-        family: 4,
-      })
-        .then((Response) => {
-          console.log("Update msg", Response);
+            ],
+          },
+          headers: {
+            Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
+            "Content-Type": "application/json; charset=UTF-8",
+          },
+          family: 4,
         })
-        .catch((err) => {
-          console.log(
-            "AXIOS ERROR in Edit in notion if-else - InteractionHandler",
-            err,
-          );
-        });
-    } else if (action_text === "Delete") {
-      await (async () => {
-        const pageUrl = payload.actions[0].value;
-        const deletionResult = await deletePage(pageUrl);
-        console.log(deletionResult);
+          .then((Response) => {
+            console.log("Update msg", Response);
+          })
+          .catch((err) => {
+            console.log(
+              "AXIOS ERROR in Edit in notion if-else - InteractionHandler",
+              err,
+            );
+          });
+      } else if (action_text === "Delete") {
+        await (async () => {
+          const pageUrl = payload.actions[0].value;
+          const deletionResult = await deletePage(pageUrl);
+          console.log(deletionResult);
 
-        // TODO return message indicating success or failure
+          // TODO return message indicating success or failure
+          await sendReject(
+            payload,
+            action_text,
+            response_url,
+            ":put_litter_in_its_place: Task Deleted",
+          );
+        })();
+      } else if (action_text === "Cancel") {
+        let cancelMessage = ":x: Task not Added";
+        if (action_id === "cancelUpdateId-02") {
+          cancelMessage = ":x: Task not Updated";
+        }
+        await sendReject(payload, action_text, response_url, cancelMessage);
+      } else {
         await sendReject(
           payload,
           action_text,
           response_url,
-          ":put_litter_in_its_place: Task Deleted",
+          ":x: Task not Added/Updated: No Matching Action",
         );
-      })();
-    } else if (action_text === "Cancel") {
-      let cancelMessage = ":x: Task not Added";
-      if (action_id === "cancelUpdateId-02") {
-        cancelMessage = ":x: Task not Updated";
       }
-      await sendReject(payload, action_text, response_url, cancelMessage);
-    } else {
-      await sendReject(
-        payload,
-        action_text,
-        response_url,
-        ":x: Task not Added/Updated: No Matching Action",
-      );
     }
+  } catch (err) {
+    console.log(String(err));
+    await errorHandler({
+      sendAlert: true,
+      error: err
+  }, "Send to Slack");
   }
 };
 

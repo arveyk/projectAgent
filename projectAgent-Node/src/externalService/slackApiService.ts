@@ -67,7 +67,7 @@ export async function sendBlockResponse(responseURL: string, slackBlock: object[
       data: postBlocksToUserResponse.data
     }
   } catch (error) {
-    console.log(`Error encountered while sending this block, please asses its validity using block kit builder:
+    console.log(`Error encountered while sending this block, please assess its validity using block kit builder:
       ${JSON.stringify(slackBlock)}\n`, "Error:",error);
     return {
       success: false,

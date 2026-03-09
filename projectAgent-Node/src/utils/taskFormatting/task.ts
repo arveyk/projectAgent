@@ -82,7 +82,6 @@ export type NotionTask = {
  */
 
 export type TaskPage = {
-  // task: NotionTask;
   task: {
     taskTitle: string;
     assignees: PersonNoId[];
@@ -313,7 +312,6 @@ export function extractAssignees(
   const user: PersonNoId = {
     name: response["name"] !== null ? response["name"] : "Unnamed person",
     email: response["person"]["email"],
-    // userId: response["id"],
   };
   return user;
 }

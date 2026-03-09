@@ -99,10 +99,10 @@ export type TaskPage = {
 };
 
 /**
- * Task page For Existing tasks
+ * Task page For New tasks
  */
 
-export type TaskPageExistingTask = {
+export type TaskPageNewTask = {
   task: NotionTask;
   pageId: string;
   url?: string;
@@ -170,17 +170,17 @@ export function convertTask(
  */
 export function convertTaskPageFromButtonPayload(
   payload: BlockAction,
-): TaskPage {
+): TaskPageNewTask {
   if (payload["actions"][0].type === "button") {
     const interactionsValue = JSON.parse(
       payload["actions"][0]["value"] || "{}",
     );
-    const taskPageObj: TaskPage = JSON.parse(
+    const taskPageObj: TaskPageNewTask = JSON.parse(
       payload["actions"][0]["value"] || "{}",
     );
     console.log("Interactions Value", JSON.stringify(interactionsValue));
     console.log("Task Details Obj", JSON.stringify(taskPageObj));
-    let taskPage: TaskPage;
+    let taskPage: TaskPageNewTask;
 
     if (taskPageObj.url) {
       taskPage = {

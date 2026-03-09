@@ -3,6 +3,7 @@ import { NotionUser } from "../utils/controllers/userTypes";
 import {
   FoundUsers,
   NotionTask,
+  PersonNoId,
   ProjectWithName,
 } from "../utils/taskFormatting/task";
 
@@ -19,21 +20,21 @@ export type MenuType = {
 // TaskInfo types the information section that displays task info in a block
 type TaskInfo = (
   | {
+    type: string;
+    fields: {
       type: string;
-      fields: {
-        type: string;
-        text: string;
-      }[];
-      text?: undefined;
-    }
+      text: string;
+    }[];
+    text?: undefined;
+  }
   | {
+    type: string;
+    text: {
       type: string;
-      text: {
-        type: string;
-        text: string;
-      };
-      fields?: undefined;
-    }
+      text: string;
+    };
+    fields?: undefined;
+  }
 )[];
 
 /**
@@ -43,7 +44,7 @@ type TaskInfo = (
  * @returns: The string of assignee names to be displayed
  */
 function createAssigneesDisplayMessageFromArray(
-  assigneesArray: NotionUser[],
+  assigneesArray: PersonNoId[],
 ): string {
   let assigneeNames = "";
 
@@ -141,9 +142,8 @@ export function createTaskInfo(
       fields: [
         {
           type: "mrkdwn",
-          text: `*Due Date:*\n${
-            notionTask.dueDate ? formatDateString(notionTask.dueDate) : ""
-          }`,
+          text: `*Due Date:*\n${notionTask.dueDate ? formatDateString(notionTask.dueDate) : ""
+            }`,
         },
         {
           type: "mrkdwn",
@@ -172,23 +172,39 @@ export function createTaskInfo(
 
 /**
  * Creates the info section of Slack blocks for previewing the details of a new task.
- * @param notionTask:       The new task.
+ * @param taskWithPersonNoId:       The new task.
  * @param allProjectsArray: A list of projects from notion that we need to compare with and use their names
  *    in displaying on slack.
  *
  * @returns The Slack blocks for previewing the details of a new task.
  */
 export function createTaskInfoWithoutSelections(
-  notionTask: NotionTask,
+  taskWithPersonNoId: {
+
+    taskTitle: string;
+    assignees: PersonNoId[];
+    assignedBy: PersonNoId[];
+    dueDate?: string;
+    startDate?: string;
+    description: string;
+    project?: {
+      id: string;
+    }[];
+  },
   allProjectsArray: ProjectWithName[],
 ) {
-  const assigneesArray = notionTask.assignees;
+  const assigneesArray = taskWithPersonNoId.assignees;
 
-  const assigneeNames = createAssigneesDisplayMessageFromArray(assigneesArray);
+  const assigneeNames = createAssigneesDisplayMessageFromArray(assigneesArray.map((assignee) => {
+    return {
+      name: assignee.name,
+      email: assignee.email
+    };
+  }));
   let projectNames = "";
 
   console.log(
-    `(createTaskInfoWithoutSelections), assigneesArray: ${assigneesArray}, task${JSON.stringify(notionTask)}`,
+    `(createTaskInfoWithoutSelections), assigneesArray: ${assigneesArray}, task${JSON.stringify(taskWithPersonNoId)}`,
   );
 
   // using allProjectsArray get the project names of the projects in task's project
@@ -208,7 +224,7 @@ export function createTaskInfoWithoutSelections(
       fields: [
         {
           type: "mrkdwn",
-          text: `*Task Title:*\n${notionTask.taskTitle}`,
+          text: `*Task Title:*\n${taskWithPersonNoId.taskTitle}`,
         },
         {
           type: "mrkdwn",
@@ -221,13 +237,12 @@ export function createTaskInfoWithoutSelections(
       fields: [
         {
           type: "mrkdwn",
-          text: `*Due Date:*\n${
-            notionTask.dueDate ? formatDateString(notionTask.dueDate) : ""
-          }`,
+          text: `*Due Date:*\n${taskWithPersonNoId.dueDate ? formatDateString(taskWithPersonNoId.dueDate) : ""
+            }`,
         },
         {
           type: "mrkdwn",
-          text: `*Start Date:*\n${notionTask.startDate !== undefined ? formatDateString(notionTask.startDate) : notionTask.startDate}`,
+          text: `*Start Date:*\n${taskWithPersonNoId.startDate !== undefined ? formatDateString(taskWithPersonNoId.startDate) : taskWithPersonNoId.startDate}`,
         },
       ],
     },
@@ -242,7 +257,7 @@ export function createTaskInfoWithoutSelections(
       type: "section",
       text: {
         type: "mrkdwn",
-        text: `*Description:*\n${notionTask.description}`,
+        text: `*Description:*\n${taskWithPersonNoId.description}`,
       },
     },
   ];

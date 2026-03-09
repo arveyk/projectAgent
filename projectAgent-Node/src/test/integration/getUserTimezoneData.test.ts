@@ -15,7 +15,7 @@ describe("Tests getSlackUserDataById with a user from the workspace", () => {
     console.log(JSON.stringify(userData.timezoneData));
     expect(userData.timezoneData).toMatchObject({
       tz: "America/Los_Angeles",
-      tz_label: "Pacific Standard Time",
+      tz_label: "Pacific Standard Time", // "Pacific Daylight Time"
       tz_offset: -8,
     });
   });

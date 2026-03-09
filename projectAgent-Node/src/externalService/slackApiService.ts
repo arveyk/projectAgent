@@ -18,7 +18,7 @@ export async function getChatHistory(channelId: string, timeStamp: number) {
       params: {
         channel: channelId,
         inclusive: false,
-        latest: String(timeStamp / 1000), // Convert to seconds.
+        latest: String(timeStamp / 1000), // Convert from milliseconds to seconds.
         limit: 5,
       },
       headers: {
@@ -29,8 +29,12 @@ export async function getChatHistory(channelId: string, timeStamp: number) {
     });
     return chatHistory;
   } catch (error) {
-    console.log(error);
-    throw error;
+    console.log("Error encountered in (getChatHistory) while attempting to get Slack users\n",String(error));
+    return {
+      data: {
+        messages: undefined
+      }
+    }
   };
 };
 
@@ -66,7 +70,7 @@ export async function sendBlockResponse(responseURL: string, slackBlock: object[
     console.log(errorMessage, error);
     return {
       success: false,
-      data: error
+      error: error
     }
   }
 }

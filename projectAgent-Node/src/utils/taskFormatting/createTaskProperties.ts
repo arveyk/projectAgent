@@ -1,4 +1,4 @@
-import { NotionTask } from "./task";
+import { NotionTask } from "./taskAndProjectTypes";
 import { NotionUser } from "../controllers/userTypes";
 
 const createTitleArray = function (taskTitle: string) {
@@ -62,6 +62,7 @@ export const createTaskProperties = async function (taskObj: NotionTask) {
   const dueDate = taskObj.dueDate;
   const startDate = taskObj.startDate;
   const project = taskObj.project || [];
+  // Is Description missing intentionally?
 
   return {
     "Task name": {
@@ -74,8 +75,8 @@ export const createTaskProperties = async function (taskObj: NotionTask) {
       date:
         typeof dueDate !== "undefined"
           ? {
-              start: dueDate,
-            }
+            start: dueDate,
+          }
           : null,
     },
 
@@ -83,8 +84,8 @@ export const createTaskProperties = async function (taskObj: NotionTask) {
       date:
         typeof startDate !== "undefined"
           ? {
-              start: startDate,
-            }
+            start: startDate,
+          }
           : null,
     },
 
@@ -97,6 +98,7 @@ export const createTaskProperties = async function (taskObj: NotionTask) {
   };
 };
 
+// Does this need to be a promise?
 async function createNotionPerson(
   person: NotionUser,
 ): Promise<{ object: "user"; id: string }> {

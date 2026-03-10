@@ -6,107 +6,19 @@ import {
   UserObjectResponse,
 } from "@notionhq/client";
 import { BlockAction } from "@slack/bolt";
-import { NotionUser } from "../controllers/userTypes";
+import { PersonNoId, SlackUser } from "../controllers/userTypes";
 import { TaskParseResult } from "../aiagent";
+import { ProjectWithName, Task, TaskPage, TaskPageNewTask } from "./taskAndProjectTypes";
 
-/**
- * Notion users identified and ambiguous for a task.
- */
-export type FoundUsers = {
-  identifiedUsers: NotionUser[];
-  ambiguousUsers: NotionUser[];
-};
-
-/**
- * A person without a user id.
- */
-export type PersonNoId = {
-  name: string;
-  email?: string;
-};
-
-/** A project with a name and a project id. */
-export type ProjectWithName = {
-  projectName: string;
-  id: string;
-};
-
-/**
- * A Slack user.
- */
-export type User = {
-  userId: string;
-  name: string;
-  email: string;
-};
 
 /**
  * Extracted task details together with info of the user creating the task (which will be used to create the assignedBy field)
  */
 export type ParsedData = {
   task: Task;
-  taskCreator: User;
+  taskCreator: SlackUser;
 };
 
-/**
- * A task.
- */
-export type Task = {
-  taskTitle: string;
-  assignees: PersonNoId[];
-  dueDate?: string;
-  startDate?: string;
-  description: string;
-  project?: { id: string }[];
-  existingProjects?: ProjectWithName[];
-  similarProjects?: { id: string }[];
-};
-
-/**
- * A task as represented in Notion.
- */
-export type NotionTask = {
-  taskTitle: string;
-  assignees: NotionUser[];
-  assignedBy: NotionUser[];
-  dueDate?: string;
-  startDate?: string;
-  description: string;
-  project?: {
-    id: string;
-  }[];
-};
-
-/**
- * A task page in Notion.
- */
-
-export type TaskPage = {
-  // task: NotionTask;
-  task: {
-    taskTitle: string;
-    assignees: PersonNoId[];
-    assignedBy: PersonNoId[];
-    dueDate?: string;
-    startDate?: string;
-    description: string;
-    project?: {
-      id: string;
-    }[];
-  };
-  pageId: string;
-  url?: string;
-};
-
-/**
- * Task page For New tasks
- */
-
-export type TaskPageNewTask = {
-  task: NotionTask;
-  pageId: string;
-  url?: string;
-}
 
 
 /**
@@ -151,6 +63,8 @@ export function convertTask(
       identifiedProjects.push({ id: projectFromAllProjectsArray.id });
     }
   });
+  
+
 
   return {
     taskTitle: taskInput["taskTitle"],
@@ -313,7 +227,6 @@ export function extractAssignees(
   const user: PersonNoId = {
     name: response["name"] !== null ? response["name"] : "Unnamed person",
     email: response["person"]["email"],
-    // userId: response["id"],
   };
   return user;
 }

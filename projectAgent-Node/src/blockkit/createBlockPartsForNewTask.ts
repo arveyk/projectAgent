@@ -1,11 +1,12 @@
 import { formatDateString } from "../utils/timeHandling/dateHandler";
 import { NotionUser } from "../utils/controllers/userTypes";
 import {
-  FoundUsers,
+  ExistingTask,
   NotionTask,
-  PersonNoId,
   ProjectWithName,
-} from "../utils/taskFormatting/task";
+} from "../utils/taskFormatting/taskAndProjectTypes";
+import { FoundUsers, PersonNoId } from "../utils/controllers/userTypes";
+import { } from "../utils/taskFormatting/taskAndProjectTypes";
 
 // Type for options created for the selections menu
 export type MenuType = {
@@ -179,18 +180,7 @@ export function createTaskInfo(
  * @returns The Slack blocks for previewing the details of a new task.
  */
 export function createTaskInfoWithoutSelections(
-  taskWithPersonNoId: {
-
-    taskTitle: string;
-    assignees: PersonNoId[];
-    assignedBy: PersonNoId[];
-    dueDate?: string;
-    startDate?: string;
-    description: string;
-    project?: {
-      id: string;
-    }[];
-  },
+  taskWithPersonNoId: ExistingTask,
   allProjectsArray: ProjectWithName[],
 ) {
   const assigneesArray = taskWithPersonNoId.assignees;
@@ -515,19 +505,17 @@ export function createNewTaskBlockWithSelectionsForAmbiguousProjects(
 
   // This is an array that will contain the possible project matches that the user needs to select
   // from either one or multiple
-  const arrayOfProjectsToSelectFrom: ProjectWithName[] = [];
 
-  similarProjects.forEach((projInSimilarProjectsArray) => {
-    allProjects.forEach((projectFromNotion) => {
-      if (projectFromNotion.id === projInSimilarProjectsArray.id) {
-        arrayOfProjectsToSelectFrom.push(projectFromNotion);
-      }
-    });
-  });
+  const projectSelectionOptions = similarProjects.map((project) => {
+    const foundMatch = allProjects.find((existingProject) => {
+      return existingProject.id === project.id;
+    })
+    return foundMatch;
+  }).filter((unfiltered) => unfiltered !== undefined);
 
   const projectOptionsToChooseFrom = createMenuOptions(
     "Projects",
-    arrayOfProjectsToSelectFrom,
+    projectSelectionOptions,
   );
 
   const confirmationButtonValue: string = JSON.stringify({

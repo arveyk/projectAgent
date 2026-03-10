@@ -6,15 +6,13 @@ import { BaseLanguageModelInput } from "@langchain/core/dist/language_models/bas
 import {
   convertTask,
   ParsedData,
-  ProjectWithName,
 } from "./taskFormatting/task";
+import { ProjectWithName} from "./taskFormatting/taskAndProjectTypes";
 import { SlashCommand } from "@slack/bolt";
 import { logTimestampForBenchmarking } from "./logTimestampForBenchmarking";
-import { getProjects } from "./database/searchDatabase";
 import { getAppUserData } from "./controllers/getUsersSlack";
 import { Project } from "../domain";
 import { DateTime } from "luxon";
-import { QueryDataSourceResponse } from "@notionhq/client";
 
 const EXAMPLE_MSG_00 =
   "\
@@ -121,13 +119,14 @@ const structuredLlmSlashCmd: Runnable<
  * Uses Anthropic to parse a task assignment from a Slack slash command.
  * @param {*} reqBody The body of the request.
  * @param timestamp The timestamp when the slash command was sent.
- * @param alreadyFetchedProjects Projects pre-fetched from Notion.
+ * @param notionProjects Projects pre-fetched from Notion.
  * @returns A TaskParseResult containing the formatted task.
  */
 export const parseTask = async function (
   reqBody: SlashCommand,
   timestamp: number,
-  alreadyFetchedProjects: QueryDataSourceResponse["results"] | null,
+  notionProjects: Project[]
+  //alreadyFetchedProjects: QueryDataSourceResponse["results"] | null,
 ): Promise<ParsedData> {
   let textToParse;
 
@@ -144,7 +143,6 @@ export const parseTask = async function (
   // const timeData = await getEventTimeData(reqBody, timestamp);
   const timeData = appUserData.eventTimeData;
 
-  const notionProjects = await getProjects(alreadyFetchedProjects);
   console.log(`notionProjects found ${JSON.stringify(notionProjects)}`);
 
   const structuredResultData = await parseWithLLM(

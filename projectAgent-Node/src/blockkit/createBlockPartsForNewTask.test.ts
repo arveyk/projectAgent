@@ -1,5 +1,5 @@
 import { NotionUser } from "../utils/controllers/userTypes";
-import { ProjectWithName } from "../utils/taskFormatting/task";
+import { ProjectWithName } from "../utils/taskFormatting/taskAndProjectTypes";
 import { createMenuOptions, MenuType } from "./createBlockPartsForNewTask";
 
 describe("Tests createMenuOptions with a list of projects", () => {

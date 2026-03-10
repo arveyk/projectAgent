@@ -9,7 +9,7 @@ import {
   NotionTask,
   ProjectWithName,
   Task,
-} from "../utils/taskFormatting/task";
+} from "../utils/taskFormatting/taskAndProjectTypes";
 
 /**
  * Creates a set of Slack blocks to be used in previewing and confirming a new task.

@@ -1,5 +1,6 @@
 import { ListUsersResponse } from "@notionhq/client";
-import { Task, User } from "../taskFormatting/task";
+import { Task } from "../taskFormatting/taskAndProjectTypes";
+import { SlackUser } from "./userTypes";
 import { getNotionUsers } from "./getUsersNotion";
 import { NotionUser, UserSearchResult } from "./userTypes";
 
@@ -192,15 +193,14 @@ export function deduplicateUsers(
  *
  * @returns           A list of Notion users that match the email
  */
-export async function findMatchingNotionUserByEmail(
+export function findMatchingNotionUserByEmail(
   slackEmail: string,
-  foundUsers: ListUsersResponse | null,
-): Promise<NotionUser[]> {
-  const allNotionUsers: NotionUser[] = await getNotionUsers(foundUsers);
+  foundUsers: NotionUser[],
+): NotionUser[] {
 
   let emailMatches: NotionUser[] = [];
   if (slackEmail !== undefined) {
-    emailMatches = allNotionUsers.filter((user) => {
+    emailMatches = foundUsers.filter((user) => {
       if (user.email !== undefined) {
         return compareEmails(slackEmail, user.email);
       } else {
@@ -219,12 +219,12 @@ export async function findMatchingNotionUserByEmail(
  * @returns                  Array containing only the Notion user that matches slack user that is creating the
  *   task. This is what is placed in the assignedBy field in a task
  */
-export async function findAssignedBy(
-  identifiedAppUser: User,
-  foundUsers: ListUsersResponse | null,
+export function findAssignedBy(
+  identifiedAppUser: SlackUser,
+  foundUsers: NotionUser[],
 ) {
-  const matchingNotionUser = await findMatchingNotionUserByEmail(
-    identifiedAppUser.email,
+  const matchingNotionUser = findMatchingNotionUserByEmail(
+    identifiedAppUser.email || "",
     foundUsers,
   );
 

@@ -9,7 +9,7 @@ import { BatchGetCommand } from "@aws-sdk/lib-dynamodb";
 import { createCacheClient } from "../utils/database/getFromCache";
 import { parseWithLLM } from "../utils/aiagent";
 import { DateTime } from "luxon";
-
+import { allProjects } from "../test-data/projects/example-project";
 /**
  * ts-node script that retrieves notion objects
  * And saves them as json files to log/testData/
@@ -60,7 +60,7 @@ async function getTestData() {
 
   const taskThatCausedBug = await parseWithLLM(
     DateTime.now(),
-    projects,
+    allProjects,
     "Scott Rhymes, please follow up with Kristen on events after the John Capobianco trial for the Itential project by 2/27/2026.",
   );
   // const taskClearProject = await parseWithLLM(DateTime.now(), projects, "Paint a portrait of yourself");

@@ -80,7 +80,7 @@ const slashCmdHandler: StreamifyHandler = async function (
       const fetchedTasks = cacheItems.tasks;
       const fetchedUsers = cacheItems.users;
 
-      // Query all relevant data and use for subsequest steps
+      // Query all relevant data and use for subsequent steps
 
       const allNotionProjects = await getProjects(fetchedProjects);
       const notionUsers = await getNotionUsers(fetchedUsers);

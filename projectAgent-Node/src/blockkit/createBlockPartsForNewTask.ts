@@ -6,7 +6,6 @@ import {
   ProjectWithName
 } from "../domain";
 import { FoundUsers, PersonNoId } from "../utils/controllers/userTypes";
-import { } from "../utils/taskFormatting/taskAndProjectTypes";
 
 // Type for options created for the selections menu
 export type MenuType = {

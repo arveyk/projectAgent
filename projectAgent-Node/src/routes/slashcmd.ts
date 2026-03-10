@@ -16,7 +16,7 @@ import { SlashCommand } from "@slack/bolt";
 import {
   convertTaskPageFromDbResponse,
 } from "../utils/taskFormatting/task";
-import { TaskPage } from "../utils/taskFormatting/taskAndProjectTypes";
+import { LocalStore, TaskPage } from "../utils/taskFormatting/taskAndProjectTypes";
 import { GetPageResponse } from "@notionhq/client";
 import { APIGatewayProxyEventV2, Context, StreamifyHandler } from "aws-lambda";
 import {
@@ -85,7 +85,7 @@ const slashCmdHandler: StreamifyHandler = async function (
 
       const allNotionProjects = await getProjects(fetchedProjects);
 
-      const LocalStore = {
+      const localStore: LocalStore = {
         appUserData: await getAppUserData(reqBody, timestamp),
         notionUsers: await getNotionUsers(fetchedUsers),
         projects: allNotionProjects
@@ -177,7 +177,7 @@ const slashCmdHandler: StreamifyHandler = async function (
 
         const assignedBy = findAssignedBy(
           parsedData.taskCreator,
-          LocalStore.notionUsers,
+          localStore.notionUsers,
         );
         const slackBlocks = createNewTaskBlock(
           assignedBy,

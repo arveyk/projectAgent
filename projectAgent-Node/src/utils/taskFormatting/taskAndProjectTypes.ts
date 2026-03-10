@@ -1,3 +1,4 @@
+import { Project } from "../../domain";
 import { PersonNoId, NotionUser } from "../controllers/userTypes";
 
 /** A project with a name and a project id. */
@@ -9,21 +10,16 @@ export type ProjectWithName = {
 /**
  * Local Data reference, containing data retrieved from Notion
  */
-
 export type LocalStore = {
   users: NotionUser[];
-  projects: {
-    project?: { id: string };
-    existingProjects: ProjectWithName[];
-    similarProjects?: { id: string }[];
-  };
+  projects: Project[];
 }
+
 /**
  * Type for all projects, Extracted/inferred, 
  * all projects Existing in database and
  * similar projects
  */
-
 export type ProjectsReference = {
   project?: { id: string };
   existingProjects: ProjectWithName[];
@@ -34,7 +30,6 @@ export type ProjectsReference = {
 /**
  * Existing task type
  */
-
 export type ExistingTask = {
   taskTitle: string;
   assignees: PersonNoId[];
@@ -46,6 +41,7 @@ export type ExistingTask = {
     id: string;
   }[];
 }
+
 /**
  * A Task as extracted by the LLM.
  */
@@ -59,7 +55,6 @@ export type Task = {
   existingProjects?: ProjectWithName[]; // # Perhaps should moved to another place
   similarProjects?: { id: string }[];
 };
-
 
 /**
  * A task as represented in Notion.
@@ -79,7 +74,6 @@ export type NotionTask = {
 /**
  * Task page For New tasks
  */
-
 export type TaskPageNewTask = {
   task: NotionTask;
   pageId: string;
@@ -89,7 +83,6 @@ export type TaskPageNewTask = {
 /**
  * A task page for Existing tasks.
  */
-
 export type TaskPage = {
   task: ExistingTask;
   pageId: string;

@@ -8,6 +8,7 @@ import { createCacheClient } from "../utils/database/getFromCache";
 import { parseWithLLM } from "../utils/aiagent";
 import { DateTime } from "luxon";
 import { allProjects } from "../test-data/projects/example-project";
+import { getProjectsRaw } from "../utils/database/searchDatabase";
 /**
  * ts-node script that retrieves notion objects
  * And saves them as json files to log/testData/

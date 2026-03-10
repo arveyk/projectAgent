@@ -3,8 +3,6 @@ import { dirname } from "path";
 import { Client } from "@notionhq/client";
 import { CACHE_TABLE_NAME, NOTION_API_KEY } from "../env";
 import { NOTION_TASKS_DATA_SOURCE_ID } from "../env";
-import { simplifyTaskPages } from "../utils/database/simplifyTaskPages";
-import { getProjects, getProjectsRaw } from "../utils/database/searchDatabase";
 import { BatchGetCommand } from "@aws-sdk/lib-dynamodb";
 import { createCacheClient } from "../utils/database/getFromCache";
 import { parseWithLLM } from "../utils/aiagent";

@@ -17,11 +17,12 @@ export function setDefaults(appUserData: UserData, parsedTask: Task) {
     const defaultStartDate = currentDate.toISODate();
     const defaultDueDate = currentDate.plus({ days: 2 }).toISODate();
 
-    const defaultAssignees: PersonNoId[] = [];
-    defaultAssignees.push({
-        name: appUserData.name,
-        email: appUserData.email
-    });
+    const defaultAssignees: PersonNoId[] = [
+        {
+            name: appUserData.name,
+            email: appUserData.email,
+        }
+    ];
 
     const parsedDataWithDefaults: Task = {
         ...parsedTask,

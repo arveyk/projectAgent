@@ -1,11 +1,3 @@
-
-export const task = {
-  assignee: "Nick Fury",
-  email: "nick@shield.com",
-  tasktitle: "Avengers Initiative",
-  due: "20-04-2025",
-};
-
 export type NotionUser = {
   userId: string;
   name: string;

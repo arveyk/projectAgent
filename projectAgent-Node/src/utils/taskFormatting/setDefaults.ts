@@ -12,23 +12,26 @@ import { PersonNoId, Task } from "./task";
  * @returns A copy of the Task object with default values, if applicable.
  */
 export function setDefaults(appUserData: UserData, parsedTask: Task) {
-    const currentDate: DateTime<true> = appUserData.eventTimeData;
+  const currentDate: DateTime<true> = appUserData.eventTimeData;
 
-    const defaultStartDate = currentDate.toISODate();
-    const defaultDueDate = currentDate.plus({ days: 2 }).toISODate();
+  const defaultStartDate = currentDate.toISODate();
+  const defaultDueDate = currentDate.plus({ days: 2 }).toISODate();
 
-    const defaultAssignees: PersonNoId[] = [
-        {
-            name: appUserData.name,
-            email: appUserData.email,
-        }
-    ];
+  const defaultAssignees: PersonNoId[] = [
+    {
+      name: appUserData.name,
+      email: appUserData.email,
+    },
+  ];
 
-    const parsedDataWithDefaults: Task = {
-        ...parsedTask,
-        startDate: parsedTask.startDate ?? defaultStartDate,
-        dueDate: parsedTask.dueDate ?? defaultDueDate,
-        assignees: parsedTask.assignees.length === 0 ? defaultAssignees : parsedTask.assignees
-    };
-    return parsedDataWithDefaults;
+  const parsedDataWithDefaults: Task = {
+    ...parsedTask,
+    startDate: parsedTask.startDate ?? defaultStartDate,
+    dueDate: parsedTask.dueDate ?? defaultDueDate,
+    assignees:
+      parsedTask.assignees.length === 0
+        ? defaultAssignees
+        : parsedTask.assignees,
+  };
+  return parsedDataWithDefaults;
 }

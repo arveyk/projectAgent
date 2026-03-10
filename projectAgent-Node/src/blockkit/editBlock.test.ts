@@ -1,7 +1,7 @@
 import { createTaskInfo } from "./createBlockPartsForNewTask";
 import { notionTask, taskNoAssignee } from "../test-data/tasks/example-tasks";
 import { EXAMPLE_ALL_PROJECTS_IN_NOTIONDB } from "../test-data/example-all-notion-projects";
-import { ProjectWithName } from "../utils/taskFormatting/taskAndProjectTypes";
+import { ProjectWithName } from "../domain";
 
 const SAMPLE_PROJECTS: ProjectWithName[] = [
   {

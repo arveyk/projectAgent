@@ -3,8 +3,8 @@ import { NotionUser } from "../utils/controllers/userTypes";
 import {
   ExistingTask,
   NotionTask,
-  ProjectWithName,
-} from "../utils/taskFormatting/taskAndProjectTypes";
+  ProjectWithName
+} from "../domain";
 import { FoundUsers, PersonNoId } from "../utils/controllers/userTypes";
 import { } from "../utils/taskFormatting/taskAndProjectTypes";
 

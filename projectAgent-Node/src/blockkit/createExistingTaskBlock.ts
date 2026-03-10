@@ -1,4 +1,4 @@
-import { ProjectWithName, TaskPage } from "../utils/taskFormatting/taskAndProjectTypes";
+import { ProjectWithName, TaskPage } from "../domain";
 import { createTaskInfoWithoutSelections } from "./createBlockPartsForNewTask";
 import { Project } from "../domain";
 

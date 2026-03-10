@@ -8,7 +8,7 @@ import {
 import { BlockAction } from "@slack/bolt";
 import { PersonNoId, SlackUser } from "../controllers/userTypes";
 import { TaskParseResult } from "../aiagent";
-import { ProjectWithName, Task, TaskPage, TaskPageNewTask } from "./taskAndProjectTypes";
+import { ProjectWithName, Task, TaskPage, TaskPageNewTask } from "../../domain";
 
 
 /**

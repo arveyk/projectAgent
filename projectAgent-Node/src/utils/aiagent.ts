@@ -7,7 +7,7 @@ import {
   convertTask,
   ParsedData,
 } from "./taskFormatting/task";
-import { ProjectWithName} from "./taskFormatting/taskAndProjectTypes";
+import { ProjectWithName } from "../domain";
 import { SlashCommand } from "@slack/bolt";
 import { logTimestampForBenchmarking } from "./logTimestampForBenchmarking";
 import { getAppUserData } from "./controllers/getUsersSlack";
@@ -119,7 +119,7 @@ const structuredLlmSlashCmd: Runnable<
  * Uses Anthropic to parse a task assignment from a Slack slash command.
  * @param {*} reqBody The body of the request.
  * @param timestamp The timestamp when the slash command was sent.
- * @param notionProjects Projects pre-fetched from Notion.
+ * @param notionProjects Notion projects to search in when parsing the task.
  * @returns A TaskParseResult containing the formatted task.
  */
 export const parseTask = async function (

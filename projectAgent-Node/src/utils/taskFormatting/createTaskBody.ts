@@ -1,5 +1,5 @@
 import { BlockObjectRequest } from "@notionhq/client";
-import { Task } from "./taskAndProjectTypes";
+import { Task } from "../../domain";
 
 /**
  * Creates page body blocks containing the task description.

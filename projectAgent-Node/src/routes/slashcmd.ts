@@ -16,7 +16,7 @@ import { SlashCommand } from "@slack/bolt";
 import {
   convertTaskPageFromDbResponse,
 } from "../utils/taskFormatting/task";
-import { TaskPage } from "../utils/taskFormatting/taskAndProjectTypes";
+import { TaskPage } from "../domain";
 import { GetPageResponse } from "@notionhq/client";
 import { APIGatewayProxyEventV2, Context, StreamifyHandler } from "aws-lambda";
 import {

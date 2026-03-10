@@ -1,5 +1,5 @@
 import { ListUsersResponse } from "@notionhq/client";
-import { Task } from "../taskFormatting/taskAndProjectTypes";
+import { Task } from "../../domain";
 import { SlackUser } from "./userTypes";
 import { getNotionUsers } from "./getUsersNotion";
 import { NotionUser, UserSearchResult } from "./userTypes";

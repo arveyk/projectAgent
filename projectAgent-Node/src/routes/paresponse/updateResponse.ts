@@ -6,7 +6,7 @@ import {
 import { SLACK_BOT_TOKEN } from "../../env";
 import { BlockAction } from "@slack/bolt";
 import { createRedirectToNewPageBlock } from "../../blockkit/createRedirectToNewPageBlock";
-import { TaskPageNewTask } from "../../utils/taskFormatting/taskAndProjectTypes";
+import { TaskPageNewTask } from "../../domain";
 import { deletePage } from "../../utils/database/deleteDatabasePage";
 import { APIGatewayProxyEventV2, Context, StreamifyHandler } from "aws-lambda";
 import {

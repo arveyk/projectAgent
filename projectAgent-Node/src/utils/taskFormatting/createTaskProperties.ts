@@ -1,4 +1,4 @@
-import { NotionTask } from "./taskAndProjectTypes";
+import { NotionTask } from "../../domain";
 import { NotionUser } from "../controllers/userTypes";
 
 const createTitleArray = function (taskTitle: string) {

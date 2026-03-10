@@ -8,7 +8,6 @@ import zlib from "zlib";
 import { promisify } from "util";
 import { CACHE_TABLE_NAME, REGION } from "../../env";
 import {
-  isFullPage,
   ListUsersResponse,
   QueryDataSourceResponse,
 } from "@notionhq/client";

@@ -1,4 +1,3 @@
-import { Project } from "../../domain";
 import { PersonNoId, NotionUser } from "../controllers/userTypes";
 
 /** A project with a name and a project id. */
@@ -6,14 +5,6 @@ export type ProjectWithName = {
   projectName: string;
   id: string;
 };
-
-/**
- * Local Data reference, containing data retrieved from Notion
- */
-export type LocalStore = {
-  users: NotionUser[];
-  projects: Project[];
-}
 
 /**
  * Type for all projects, Extracted/inferred, 

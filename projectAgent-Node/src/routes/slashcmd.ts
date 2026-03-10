@@ -29,7 +29,6 @@ import {
   retrieveCache,
 } from "../utils/database/getFromCache";
 import { getNotionUsers } from "../utils/controllers/getUsersNotion";
-import { getAppUserData } from "../utils/controllers/getUsersSlack";
 
 const slashCmdHandler: StreamifyHandler = async function (
   event: APIGatewayProxyEventV2,
@@ -86,11 +85,9 @@ const slashCmdHandler: StreamifyHandler = async function (
       const allNotionProjects = await getProjects(fetchedProjects);
 
       const localStore: LocalStore = {
-        appUserData: await getAppUserData(reqBody, timestamp),
-        notionUsers: await getNotionUsers(fetchedUsers),
-        projects: allNotionProjects
+        users: await getNotionUsers(fetchedUsers),
+        projects: allNotionProjects,
       };
-
 
       // Search database
       logTimestampForBenchmarking("Searching database");
@@ -177,7 +174,7 @@ const slashCmdHandler: StreamifyHandler = async function (
 
         const assignedBy = findAssignedBy(
           parsedData.taskCreator,
-          localStore.notionUsers,
+          localStore.users,
         );
         const slackBlocks = createNewTaskBlock(
           assignedBy,

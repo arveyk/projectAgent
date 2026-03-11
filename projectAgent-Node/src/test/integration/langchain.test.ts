@@ -3,7 +3,11 @@ import {
   payloadNoDates,
   payloadExample,
 } from "../../test-data/payloads/slashcmd/payloads";
-import { parseTask, EXAMPLE_OUTPUT_FOR_PROMPT_00, taskSchema } from "../../utils/aiagent";
+import {
+  parseTask,
+  EXAMPLE_OUTPUT_FOR_PROMPT_00,
+  taskSchema,
+} from "../../utils/aiagent";
 import { structuredOutputDemo } from "../../bin/langchain";
 
 describe("Tests structured output example", () => {
@@ -29,7 +33,11 @@ describe("Tests parseTaskSlashCmd without a due date", () => {
     expect(typeof payloadNoDates).toBe("object");
     const timestamp = 1755039682 * 1000;
 
-    const parsedObject = await parseTask(payloadNoDates, timestamp, CACHE_DATA_EXAMPLE_ALL.projects);
+    const parsedObject = await parseTask(
+      payloadNoDates,
+      timestamp,
+      CACHE_DATA_EXAMPLE_ALL.projects,
+    );
     const parsedTask = parsedObject.task;
     console.log(JSON.stringify(parsedTask));
 
@@ -44,7 +52,11 @@ describe("Tests parseTaskSlashCmd with the same example given to the LLM", () =>
     expect(typeof payloadExample).toBe("object");
     const timestamp = 1755039682 * 1000;
 
-    const parsedObject = await parseTask(payloadExample, timestamp, CACHE_DATA_EXAMPLE_ALL.projects);
+    const parsedObject = await parseTask(
+      payloadExample,
+      timestamp,
+      CACHE_DATA_EXAMPLE_ALL.projects,
+    );
     const parsedTask = parsedObject.task;
     console.log(JSON.stringify(parsedTask));
 

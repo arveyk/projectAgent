@@ -13,14 +13,18 @@ import { NotionUser, UserSearchResult } from "./userTypes";
  */
 export async function findMatchingAssignees(
   task: Task,
-  alreadyFetchedUsers: ListUsersResponse | null
+  alreadyFetchedUsers: ListUsersResponse | null,
 ): Promise<UserSearchResult[]> {
   const assignees = task.assignees;
   const matches = Promise.all(
     assignees.map(async (assignee) => {
       const match: UserSearchResult = {
         person: assignee,
-        foundUsers: await findMatchingNotionUser(assignee.name, alreadyFetchedUsers, assignee.email),
+        foundUsers: await findMatchingNotionUser(
+          assignee.name,
+          alreadyFetchedUsers,
+          assignee.email,
+        ),
       };
       return match;
     }),
@@ -42,7 +46,8 @@ export async function findMatchingNotionUser(
   alreadyFetchedUsers: ListUsersResponse | null,
   email?: string,
 ): Promise<NotionUser[]> {
-  const allNotionUsers: NotionUser[] = await getNotionUsers(alreadyFetchedUsers);
+  const allNotionUsers: NotionUser[] =
+    await getNotionUsers(alreadyFetchedUsers);
 
   let emailMatches: NotionUser[] = [];
   if (email !== undefined) {
@@ -189,7 +194,7 @@ export function deduplicateUsers(
  */
 export async function findMatchingNotionUserByEmail(
   slackEmail: string,
-  foundUsers: ListUsersResponse | null
+  foundUsers: ListUsersResponse | null,
 ): Promise<NotionUser[]> {
   const allNotionUsers: NotionUser[] = await getNotionUsers(foundUsers);
 
@@ -214,10 +219,13 @@ export async function findMatchingNotionUserByEmail(
  * @returns                  Array containing only the Notion user that matches slack user that is creating the
  *   task. This is what is placed in the assignedBy field in a task
  */
-export async function findAssignedBy(identifiedAppUser: User, foundUsers: ListUsersResponse | null) {
+export async function findAssignedBy(
+  identifiedAppUser: User,
+  foundUsers: ListUsersResponse | null,
+) {
   const matchingNotionUser = await findMatchingNotionUserByEmail(
     identifiedAppUser.email,
-    foundUsers
+    foundUsers,
   );
 
   return matchingNotionUser;

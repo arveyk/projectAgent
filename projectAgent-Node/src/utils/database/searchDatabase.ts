@@ -60,7 +60,7 @@ const structuredLlm = model.withStructuredOutput(databaseSearchResult, {
  */
 export const searchDatabase = async function (
   message: string,
-  alreadyFetchedTasks: QueryDataSourceResponse["results"] | null
+  alreadyFetchedTasks: QueryDataSourceResponse["results"] | null,
 ): Promise<TaskSearchResult> {
   console.log(`Model name: ${model.modelName}`);
   console.log(`message (searchDB): ${JSON.stringify(message)}`);
@@ -102,12 +102,13 @@ export const searchDatabase = async function (
  *
  * @return	An array of all tasks in the tasks database.
  */
-export async function getTasks(alreadyFetchedTasks: QueryDataSourceResponse["results"] | null): Promise<TaskPage[]> {
+export async function getTasks(
+  alreadyFetchedTasks: QueryDataSourceResponse["results"] | null,
+): Promise<TaskPage[]> {
   let rawTasks: QueryDataSourceResponse["results"];
   if (alreadyFetchedTasks) {
     rawTasks = alreadyFetchedTasks;
-  }
-  else {
+  } else {
     logTimestampForBenchmarking("Querying task database");
     rawTasks = await getTasksRaw();
     logTimestampForBenchmarking("Done querying task database");
@@ -147,7 +148,13 @@ export async function getTasksRaw(): Promise<
         },
       ],
     },
-    filter_properties: ["Task name", "Description", "Assigned to", "Project", "Status"],
+    filter_properties: [
+      "Task name",
+      "Description",
+      "Assigned to",
+      "Project",
+      "Status",
+    ],
   });
 }
 
@@ -194,13 +201,14 @@ export function filterSimilar(pages: TaskPage[], message: string): TaskPage[] {
  * @param alreadyFetchedProjects Projects already fetched from the database.
  * @return	An array of all projects in the projects database.
  */
-export async function getProjects(alreadyFetchedProjects: QueryDataSourceResponse["results"] | null) {
+export async function getProjects(
+  alreadyFetchedProjects: QueryDataSourceResponse["results"] | null,
+) {
   let projectsList: QueryDataSourceResponse["results"];
 
   if (alreadyFetchedProjects) {
     projectsList = alreadyFetchedProjects;
-  }
-  else {
+  } else {
     logTimestampForBenchmarking("Querying Projects");
     projectsList = await getProjectsRaw();
     logTimestampForBenchmarking("Done querying Projects");
@@ -268,8 +276,8 @@ export function simplifyProject(
   );
   return titleProperty
     ? {
-      projectName: titleProperty.title[0].plain_text,
-      id: project.id,
-    }
+        projectName: titleProperty.title[0].plain_text,
+        id: project.id,
+      }
     : undefined;
 }

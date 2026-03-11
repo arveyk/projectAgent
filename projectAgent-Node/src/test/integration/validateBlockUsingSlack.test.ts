@@ -1,7 +1,14 @@
 import { createNewTaskBlock } from "../../blockkit/createNewTaskBlock";
-import { exampleUserSearchResponse3, exampleUserSearchResponse } from "../../test-data/example-usersearch-response";
+import {
+  exampleUserSearchResponse3,
+  exampleUserSearchResponse,
+} from "../../test-data/example-usersearch-response";
 import { createExistingTaskBlock } from "../../blockkit/createExistingTaskBlock";
-import { jacobsTask, notionTask, taskNoAssignee } from "../../test-data/tasks/example-tasks"
+import {
+  jacobsTask,
+  notionTask,
+  taskNoAssignee,
+} from "../../test-data/tasks/example-tasks";
 import { testPostToSlack } from "../../bin/postMessageSlack";
 
 /**
@@ -9,11 +16,23 @@ import { testPostToSlack } from "../../bin/postMessageSlack";
  * since we deleted all test bots to have only two remaining
  */
 
-const blockWithoutAssigneeTask = createNewTaskBlock(notionTask.assignedBy, notionTask, exampleUserSearchResponse3);
-const badBlocks = createNewTaskBlock(notionTask.assignees, jacobsTask, exampleUserSearchResponse);
-const blockWithNoAssignee = createNewTaskBlock([], taskNoAssignee, exampleUserSearchResponse);
+const blockWithoutAssigneeTask = createNewTaskBlock(
+  notionTask.assignedBy,
+  notionTask,
+  exampleUserSearchResponse3,
+);
+const badBlocks = createNewTaskBlock(
+  notionTask.assignees,
+  jacobsTask,
+  exampleUserSearchResponse,
+);
+const blockWithNoAssignee = createNewTaskBlock(
+  [],
+  taskNoAssignee,
+  exampleUserSearchResponse,
+);
 
-const channelToPostMessage = "https://slack.com/api/chat.postMessage"
+const channelToPostMessage = "https://slack.com/api/chat.postMessage";
 
 // Skipping for now unit we get a suitable channel and bot to use
 

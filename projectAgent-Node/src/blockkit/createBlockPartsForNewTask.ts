@@ -3,10 +3,9 @@ import { NotionUser } from "../utils/controllers/userTypes";
 import {
   ExistingTask,
   NotionTask,
-  ProjectWithName,
-} from "../utils/taskFormatting/taskAndProjectTypes";
+  ProjectWithName
+} from "../domain";
 import { FoundUsers, PersonNoId } from "../utils/controllers/userTypes";
-import { } from "../utils/taskFormatting/taskAndProjectTypes";
 
 // Type for options created for the selections menu
 export type MenuType = {
@@ -143,8 +142,9 @@ export function createTaskInfo(
       fields: [
         {
           type: "mrkdwn",
-          text: `*Due Date:*\n${notionTask.dueDate ? formatDateString(notionTask.dueDate) : ""
-            }`,
+          text: `*Due Date:*\n${
+            notionTask.dueDate ? formatDateString(notionTask.dueDate) : ""
+          }`,
         },
         {
           type: "mrkdwn",
@@ -223,11 +223,13 @@ export function createTaskInfoWithoutSelections(
         {
           type: "mrkdwn",
           text: `*Due Date:*\n${taskWithPersonNoId.dueDate ? formatDateString(taskWithPersonNoId.dueDate) : ""
-            }`,
+          }`,
         },
         {
           type: "mrkdwn",
-          text: `*Start Date:*\n${taskWithPersonNoId.startDate !== undefined ? formatDateString(taskWithPersonNoId.startDate) : taskWithPersonNoId.startDate}`,
+          text: `*Start Date:*\n${
+            taskWithPersonNoId.startDate !== undefined ? formatDateString(taskWithPersonNoId.startDate) : taskWithPersonNoId.startDate
+          }`,
         },
       ],
     },

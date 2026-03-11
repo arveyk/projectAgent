@@ -200,7 +200,7 @@ export function filterSimilar(pages: SimplifiedDatabasePage[], message: string):
  */
 export async function getProjects(
   alreadyFetchedProjects: QueryDataSourceResponse["results"] | null,
-) {
+): Promise<Project[]> {
   let projectsList: QueryDataSourceResponse["results"];
 
   if (alreadyFetchedProjects) {

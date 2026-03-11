@@ -6,7 +6,7 @@ import {
 import { SLACK_BOT_TOKEN } from "../../env";
 import { BlockAction } from "@slack/bolt";
 import { createRedirectToNewPageBlock } from "../../blockkit/createRedirectToNewPageBlock";
-import { TaskPageNewTask } from "../../utils/taskFormatting/taskAndProjectTypes";
+import { TaskPageNewTask } from "../../domain";
 import { deletePage } from "../../utils/database/deleteDatabasePage";
 import { APIGatewayProxyEventV2, Context, StreamifyHandler } from "aws-lambda";
 import {
@@ -67,20 +67,19 @@ const interactionHandler: StreamifyHandler = async function (
     console.log("action_text in else block", action_text);
 
     if (action_text === "Confirm" || action_text === "Add Task") {
-      const taskPageObjectCapsule: {
+      const { taskPageObject }: {
         taskPageObject: TaskPageNewTask;
       } = JSON.parse(payload["actions"][0].value || "{}");
       console.log(payload["actions"][0].value);
-      console.log(JSON.stringify(taskPageObjectCapsule));
 
-      const taskPageObj: TaskPageNewTask = taskPageObjectCapsule.taskPageObject;
+      const taskPageObj: TaskPageNewTask = taskPageObject;
 
       if (action_id === "SelectionActionId-2") {
         console.log("Utilize users input");
 
         // task with integrated selected assignee and project values from slack interaction
         const taskWithIntegratedValues = integrateSelectedValues(
-          taskPageObjectCapsule.taskPageObject.task,
+          taskPageObject.task,
           payload,
         );
 

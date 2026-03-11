@@ -16,7 +16,7 @@ import { SlashCommand } from "@slack/bolt";
 import {
   convertTaskPageFromDbResponse,
 } from "../utils/taskFormatting/task";
-import { TaskPage } from "../utils/taskFormatting/taskAndProjectTypes";
+import { TaskPage } from "../domain";
 import { GetPageResponse } from "@notionhq/client";
 import { APIGatewayProxyEventV2, Context, StreamifyHandler } from "aws-lambda";
 import {
@@ -29,7 +29,6 @@ import {
   retrieveCache,
 } from "../utils/database/getFromCache";
 import { getNotionUsers } from "../utils/controllers/getUsersNotion";
-import { getAppUserData } from "../utils/controllers/getUsersSlack";
 
 const slashCmdHandler: StreamifyHandler = async function (
   event: APIGatewayProxyEventV2,
@@ -81,16 +80,10 @@ const slashCmdHandler: StreamifyHandler = async function (
       const fetchedTasks = cacheItems.tasks;
       const fetchedUsers = cacheItems.users;
 
-      // Query all relevant data and use for subsequest steps
+      // Query all relevant data and use for subsequent steps
 
       const allNotionProjects = await getProjects(fetchedProjects);
-
-      const LocalStore = {
-        appUserData: await getAppUserData(reqBody, timestamp),
-        notionUsers: await getNotionUsers(fetchedUsers),
-        projects: allNotionProjects
-      };
-
+      const notionUsers = await getNotionUsers(fetchedUsers);
 
       // Search database
       logTimestampForBenchmarking("Searching database");
@@ -177,7 +170,7 @@ const slashCmdHandler: StreamifyHandler = async function (
 
         const assignedBy = findAssignedBy(
           parsedData.taskCreator,
-          LocalStore.notionUsers,
+          notionUsers,
         );
         const slackBlocks = createNewTaskBlock(
           assignedBy,

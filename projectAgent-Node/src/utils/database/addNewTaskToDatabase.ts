@@ -2,7 +2,7 @@ import { Client, CreatePageResponse } from "@notionhq/client";
 import { validateDueDate } from "../timeHandling/dateHandler";
 import { NOTION_API_KEY, NOTION_TASKS_DATA_SOURCE_ID } from "../../env";
 import { createTaskProperties } from "../taskFormatting/createTaskProperties";
-import { NotionTask } from "../taskFormatting/taskAndProjectTypes";
+import { NotionTask } from "../../domain";
 import { createTaskBody } from "../taskFormatting/createTaskBody";
 
 export type PageAddResult = {

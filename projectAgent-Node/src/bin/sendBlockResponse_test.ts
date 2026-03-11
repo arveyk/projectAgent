@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ALL_SLN_WEBHOOK_URL } from "../env";
 import { createNewTaskBlockWithUserAndOrProjectsSelections } from "../blockkit/createBlockPartsForNewTask";
-import { ProjectWithName, TaskPageNewTask } from "../utils/taskFormatting/taskAndProjectTypes";
+import { ProjectWithName, TaskPageNewTask } from "../domain";
 import { exampleUserSearchResponse2 } from "../test-data/example-usersearch-response";
 import { createNewTaskBlock } from "../blockkit/createNewTaskBlock";
 import { NotionUser } from "../utils/controllers/userTypes";

@@ -1,9 +1,9 @@
-name: Deploy to AWS Lambda (main branch)
+name: Deploy to AWS Lambda (prod)
 
 on:
   push:
     branches: [ "main" ]
-env: 
+env:
     AWS_REGION: "us-west-2"
     AUDIENCE: "sts.amazonaws.com"
 
@@ -22,7 +22,7 @@ jobs:
 
     - name: Build
       working-directory: ${{github.workspace}}/projectAgent-Node
-      run: | 
+      run: |
         npm ci
         npm run build
         npm run zip
@@ -32,14 +32,14 @@ jobs:
       with:
         audience: ${{ env.AUDIENCE }}
         # The role-to-assume should be the ARN of the IAM role you created for GitHub Actions OIDC
-        role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }} 
+        role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
         aws-region: ${{ env.AWS_REGION }}
 
     - name: Deploy Lambda Function
       uses: aws-actions/aws-lambda-deploy@v1.1.0
       with:
-        function-name: TimelyBot-dev
+        function-name: TimelyBot
         package-type: Zip
         code-artifacts-dir: ${{github.workspace}}/projectAgent-Node/dist
         handler: index.handler
-        runtime: nodejs24.x 
+        runtime: nodejs24.x

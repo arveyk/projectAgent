@@ -3,15 +3,10 @@ import { z } from "zod/v4";
 import { ANTHROPIC_API_KEY, ANTHROPIC_MODEL_VER } from "../env";
 import { RunnableConfig, Runnable } from "@langchain/core/dist/runnables";
 import { BaseLanguageModelInput } from "@langchain/core/dist/language_models/base";
-import {
-  convertTask,
-  ParsedData,
-  ProjectWithName,
-} from "./taskFormatting/task";
+import { convertTask, ProjectWithName, Task } from "./taskFormatting/task";
 import { SlashCommand } from "@slack/bolt";
 import { logTimestampForBenchmarking } from "./logTimestampForBenchmarking";
 import { getProjects } from "./database/searchDatabase";
-import { getAppUserData } from "./controllers/getUsersSlack";
 import { Project } from "../domain";
 import { DateTime } from "luxon";
 import { QueryDataSourceResponse } from "@notionhq/client";
@@ -77,16 +72,12 @@ export const taskSchema = z.object({
     .date()
     .optional()
     .nullable()
-    .describe(
-      "Task due date in ISO standard format",
-    ),
+    .describe("Task due date in ISO standard format"),
   startDate: z.iso
     .date()
     .optional()
     .nullable()
-    .describe(
-      "Task start date in ISO standard format",
-    ),
+    .describe("Task start date in ISO standard format"),
   phonenumber: z
     .string()
     .optional()
@@ -124,15 +115,15 @@ const structuredLlmSlashCmd: Runnable<
 /**
  * Uses Anthropic to parse a task assignment from a Slack slash command.
  * @param {*} reqBody The body of the request.
- * @param timestamp The timestamp when the slash command was sent.
+ * @param eventTimeData: The time of invocation in the user's timezone.
  * @param alreadyFetchedProjects Projects pre-fetched from Notion.
  * @returns A TaskParseResult containing the formatted task.
  */
 export const parseTask = async function (
   reqBody: SlashCommand,
-  timestamp: number,
-  alreadyFetchedProjects: QueryDataSourceResponse["results"] | null
-): Promise<ParsedData> {
+  eventTimeData: DateTime,
+  alreadyFetchedProjects: QueryDataSourceResponse["results"] | null,
+): Promise<Task> {
   let textToParse;
 
   if (reqBody["command"]) {
@@ -143,29 +134,24 @@ export const parseTask = async function (
     textToParse = "No Task available";
   }
 
-  const appUserData = await getAppUserData(reqBody, timestamp);
-
   // const timeData = await getEventTimeData(reqBody, timestamp);
-  const timeData = appUserData.eventTimeData;
+  const timeData = eventTimeData;
 
   const notionProjects = await getProjects(alreadyFetchedProjects);
   console.log(`notionProjects found ${JSON.stringify(notionProjects)}`);
 
-  const structuredResultData = await parseWithLLM(timeData, notionProjects, textToParse);
+  const structuredResultData = await parseWithLLM(
+    timeData,
+    notionProjects,
+    textToParse,
+  );
 
   // Convert the LLM output to a Task object for future ease of use
   const task = convertTask(structuredResultData, notionProjects);
   task.existingProjects = notionProjects;
 
   console.log(`task parse result after conversion: ${JSON.stringify(task)}`);
-  return {
-    task: task,
-    taskCreator: {
-      userId: appUserData.userId,
-      name: appUserData.name,
-      email: appUserData.email,
-    },
-  };
+  return task;
 };
 
 /**
@@ -175,8 +161,12 @@ export const parseTask = async function (
  * @param textToParse The message to parse as a task.
  * @returns The message parsed as a task.
  */
-export async function parseWithLLM(timeData: DateTime<boolean>, notionProjects: Project[], textToParse: string) {
-  const prompt = `Today's date in ISO format is ${timeData.toISODate()}. Please extract task information from a message, making sure to list any dates in ISO format. If a start date is not specifed, assume the start date is today's date. "By tomorrow" means the due date is tomorrow.
+export async function parseWithLLM(
+  timeData: DateTime<boolean>,
+  notionProjects: Project[],
+  textToParse: string,
+) {
+  const prompt = `Today's date in ISO format is ${timeData.toISODate()}. Please extract task information from a message, making sure to list any dates in ISO format. "By tomorrow" means the due date is tomorrow.
   Also, using this list ${JSON.stringify(notionProjects)}, infer the project or projects the task is linked to. The projectName is what will help in finding a match. \
   """Example: **Sample Projects**: ${EXAMPLE_INPUT_PROJECTS}.\n\
   Input 1: ${EXAMPLE_MSG_00} Output: ${JSON.stringify(EXAMPLE_OUTPUT_FOR_PROMPT_00)},\

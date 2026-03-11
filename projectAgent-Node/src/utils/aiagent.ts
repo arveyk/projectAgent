@@ -4,13 +4,12 @@ import { ANTHROPIC_API_KEY, ANTHROPIC_MODEL_VER } from "../env";
 import { RunnableConfig, Runnable } from "@langchain/core/dist/runnables";
 import { BaseLanguageModelInput } from "@langchain/core/dist/language_models/base";
 import {
-  convertTask,
-  ParsedData,
+  convertTask
 } from "./taskFormatting/task";
 import { ProjectWithName } from "../domain";
+import { Task } from "../domain";
 import { SlashCommand } from "@slack/bolt";
 import { logTimestampForBenchmarking } from "./logTimestampForBenchmarking";
-import { getAppUserData } from "./controllers/getUsersSlack";
 import { Project } from "../domain";
 import { DateTime } from "luxon";
 
@@ -118,16 +117,16 @@ const structuredLlmSlashCmd: Runnable<
 /**
  * Uses Anthropic to parse a task assignment from a Slack slash command.
  * @param {*} reqBody The body of the request.
- * @param timestamp The timestamp when the slash command was sent.
- * @param notionProjects Notion projects to search in when parsing the task.
+ * @param eventTimeData: The time of invocation in the user's timezone.
+ * @param alreadyFetchedProjects Projects pre-fetched from Notion.
  * @returns A TaskParseResult containing the formatted task.
  */
 export const parseTask = async function (
   reqBody: SlashCommand,
-  timestamp: number,
+  eventTimeData: DateTime,
   notionProjects: Project[]
   //alreadyFetchedProjects: QueryDataSourceResponse["results"] | null,
-): Promise<ParsedData> {
+): Promise<Task> {
   let textToParse;
 
   if (reqBody["command"]) {
@@ -138,10 +137,8 @@ export const parseTask = async function (
     textToParse = "No Task available";
   }
 
-  const appUserData = await getAppUserData(reqBody, timestamp);
-
   // const timeData = await getEventTimeData(reqBody, timestamp);
-  const timeData = appUserData.eventTimeData;
+  const timeData = eventTimeData;
 
   console.log(`notionProjects found ${JSON.stringify(notionProjects)}`);
 
@@ -156,14 +153,7 @@ export const parseTask = async function (
   task.existingProjects = notionProjects;
 
   console.log(`task parse result after conversion: ${JSON.stringify(task)}`);
-  return {
-    task: task,
-    taskCreator: {
-      userId: appUserData.userId,
-      name: appUserData.name,
-      email: appUserData.email,
-    },
-  };
+  return task;
 };
 
 /**
@@ -178,7 +168,7 @@ export async function parseWithLLM(
   notionProjects: Project[],
   textToParse: string,
 ) {
-  const prompt = `Today's date in ISO format is ${timeData.toISODate()}. Please extract task information from a message, making sure to list any dates in ISO format. If a start date is not specifed, assume the start date is today's date. "By tomorrow" means the due date is tomorrow.
+  const prompt = `Today's date in ISO format is ${timeData.toISODate()}. Please extract task information from a message, making sure to list any dates in ISO format. "By tomorrow" means the due date is tomorrow.
   Also, using this list ${JSON.stringify(notionProjects)}, infer the project or projects the task is linked to. The projectName is what will help in finding a match. \
   """Example: **Sample Projects**: ${EXAMPLE_INPUT_PROJECTS}.\n\
   Input 1: ${EXAMPLE_MSG_00} Output: ${JSON.stringify(EXAMPLE_OUTPUT_FOR_PROMPT_00)},\

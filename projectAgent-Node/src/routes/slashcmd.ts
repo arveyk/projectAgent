@@ -5,6 +5,7 @@ import {
   searchDatabase,
   getTaskProperties,
   getProjects,
+  simplifyProject,
 } from "../utils/database/searchDatabase";
 import { sendLoadingMessage } from "../blockkit/loadingMessage";
 import {
@@ -16,8 +17,9 @@ import { SlashCommand } from "@slack/bolt";
 import {
   convertTaskPageFromDbResponse,
 } from "../utils/taskFormatting/task";
-import { TaskPage } from "../domain";
-import { GetPageResponse } from "@notionhq/client";
+import { NotionUser, User } from "../utils/controllers/userTypes";
+import { Task, TaskPage } from "../domain";
+import { GetPageResponse, isFullPage } from "@notionhq/client";
 import { APIGatewayProxyEventV2, Context, StreamifyHandler } from "aws-lambda";
 import {
   isValidCommand,
@@ -29,6 +31,8 @@ import {
   retrieveCache,
 } from "../utils/database/getFromCache";
 import { getNotionUsers } from "../utils/controllers/getUsersNotion";
+import { getAppUserData } from "../utils/controllers/getUsersSlack";
+import { setDefaults } from "../utils/taskFormatting/setDefaults";
 
 const slashCmdHandler: StreamifyHandler = async function (
   event: APIGatewayProxyEventV2,
@@ -83,11 +87,14 @@ const slashCmdHandler: StreamifyHandler = async function (
       // Query all relevant data and use for subsequent steps
 
       const allNotionProjects = await getProjects(fetchedProjects);
-      const notionUsers = await getNotionUsers(fetchedUsers);
+      const notionUsers: NotionUser[] = (await getNotionUsers(fetchedUsers)).map(
+        (user) => {
+          return { userId: user.userId, name: user.name, email: user.email }
+        }
+      ).filter(user => user !== undefined);
 
       // Search database
       logTimestampForBenchmarking("Searching database");
-      // TODO only pass data needed
       const isInDatabase = await searchDatabase(reqBody.text, fetchedTasks);
       logTimestampForBenchmarking("Done searching database");
 
@@ -95,12 +102,25 @@ const slashCmdHandler: StreamifyHandler = async function (
 
       await sendLoadingMessage("Parsing Task", response_url);
 
+      const timestamp: number = Date.now();
+      const appUserData = await getAppUserData(reqBody, timestamp);
+
       logTimestampForBenchmarking("Parsing task");
-
-
-      const parsedData = await parseTask(reqBody, timestamp, allNotionProjects);
-
+      const parsedTask = await parseTask(
+        reqBody,
+        appUserData.eventTimeData,
+        fetchedProjects ? fetchedProjects.filter(
+          project => isFullPage(project)
+        ).map(
+          project => simplifyProject(project)
+        ).filter(
+          project => project !== undefined
+        ) : [],
+      );
       logTimestampForBenchmarking("Done parsing task");
+
+      // Set default start/due dates and assignees
+      const parsedTaskWithDefaults: Task = setDefaults(appUserData, parsedTask);
 
       logTimestampForBenchmarking("Searching Notion for assignees");
       // Find Notion users
@@ -113,8 +133,8 @@ const slashCmdHandler: StreamifyHandler = async function (
       // Benefits:
       //      Reduced number of API calls by getNotionUsers
       const assigneeSearchResults = await findMatchingAssignees(
-        parsedData.task,
-        fetchedUsers,
+        parsedTaskWithDefaults,
+        notionUsers,
       );
       logTimestampForBenchmarking("Done searching Notion for assignees");
 
@@ -165,16 +185,16 @@ const slashCmdHandler: StreamifyHandler = async function (
         // Process New Task
         console.log(
           "Task to be passed to createNewTaskBlock",
-          JSON.stringify(parsedData),
+          JSON.stringify(parsedTaskWithDefaults),
         );
 
-        const assignedBy = findAssignedBy(
-          parsedData.taskCreator,
-          notionUsers,
-        );
+        const taskCreator: User = {
+          ...appUserData,
+        };
+        const assignedBy = await findAssignedBy(taskCreator, notionUsers);
         const slackBlocks = createNewTaskBlock(
           assignedBy,
-          parsedData.task,
+          parsedTaskWithDefaults,
           assigneeSearchResults,
         );
 

@@ -6,18 +6,9 @@ import {
   UserObjectResponse,
 } from "@notionhq/client";
 import { BlockAction } from "@slack/bolt";
-import { PersonNoId, SlackUser } from "../controllers/userTypes";
+import { PersonNoId } from "../controllers/userTypes";
 import { TaskParseResult } from "../aiagent";
 import { ProjectWithName, Task, TaskPage, TaskPageNewTask } from "../../domain";
-
-
-/**
- * Extracted task details together with info of the user creating the task (which will be used to create the assignedBy field)
- */
-export type ParsedData = {
-  task: Task;
-  taskCreator: SlackUser;
-};
 
 
 
@@ -63,7 +54,7 @@ export function convertTask(
       identifiedProjects.push({ id: projectFromAllProjectsArray.id });
     }
   });
-  
+
 
 
   return {

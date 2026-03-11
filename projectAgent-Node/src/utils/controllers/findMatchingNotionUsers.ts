@@ -1,7 +1,6 @@
-import { ListUsersResponse } from "@notionhq/client";
+
 import { Task } from "../../domain";
 import { SlackUser } from "./userTypes";
-import { getNotionUsers } from "./getUsersNotion";
 import { NotionUser, UserSearchResult } from "./userTypes";
 
 /**
@@ -14,7 +13,7 @@ import { NotionUser, UserSearchResult } from "./userTypes";
  */
 export async function findMatchingAssignees(
   task: Task,
-  alreadyFetchedUsers: ListUsersResponse | null,
+  alreadyFetchedUsers: NotionUser[],
 ): Promise<UserSearchResult[]> {
   const assignees = task.assignees;
   const matches = Promise.all(
@@ -44,15 +43,12 @@ export async function findMatchingAssignees(
  */
 export async function findMatchingNotionUser(
   slackUsername: string,
-  alreadyFetchedUsers: ListUsersResponse | null,
+  alreadyFetchedUsers: NotionUser[],
   email?: string,
 ): Promise<NotionUser[]> {
-  const allNotionUsers: NotionUser[] =
-    await getNotionUsers(alreadyFetchedUsers);
-
   let emailMatches: NotionUser[] = [];
   if (email !== undefined) {
-    emailMatches = allNotionUsers.filter((user) => {
+    emailMatches = alreadyFetchedUsers.filter((user) => {
       if (user.email !== undefined) {
         return compareEmails(email, user.email);
       } else {
@@ -61,13 +57,13 @@ export async function findMatchingNotionUser(
     });
   }
 
-  const nameMatches = allNotionUsers.filter((user) => {
+  const nameMatches = alreadyFetchedUsers.filter((user) => {
     return compareNames(slackUsername, user.name);
   });
   if (nameMatches.length < 1) {
     console.log("No match, now searching by substring:");
     /* search using substring */
-    const partialNameMatches = allNotionUsers.filter((user) => {
+    const partialNameMatches = alreadyFetchedUsers.filter((user) => {
       return isPartialNameMatch(slackUsername, user.name);
     });
     return deduplicateUsers(partialNameMatches, emailMatches);

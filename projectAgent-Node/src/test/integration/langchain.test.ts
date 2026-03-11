@@ -9,6 +9,7 @@ import {
   taskSchema,
 } from "../../utils/aiagent";
 import { structuredOutputDemo } from "../../bin/langchain";
+import { DateTime } from "luxon";
 
 describe("Tests structured output example", () => {
   it("", async () => {
@@ -31,12 +32,11 @@ describe("Tests parseTaskSlashCmd without a due date", () => {
   it("Parses the task correctly", async () => {
     expect(payloadNoDates).toBeDefined;
     expect(typeof payloadNoDates).toBe("object");
-    const timestamp = 1755039682 * 1000;
+    const currentDate = DateTime.fromISO("2025-08-12");
 
-    const parsedObject = await parseTask(
+    const parsedTask = await parseTask(
       payloadNoDates,
-      timestamp, allProjects);
-    const parsedTask = parsedObject.task;
+      currentDate, allProjects);
     console.log(JSON.stringify(parsedTask));
 
     expect(parsedTask.taskTitle).toBeTruthy();
@@ -48,13 +48,12 @@ describe("Tests parseTaskSlashCmd with the same example given to the LLM", () =>
   it("Parses the task correctly", async () => {
     expect(payloadExample).toBeDefined;
     expect(typeof payloadExample).toBe("object");
-    const timestamp = 1755039682 * 1000;
+    const currentDate = DateTime.fromISO("2025-08-12");
 
-    const parsedObject = await parseTask(
+    const parsedTask = await parseTask(
       payloadExample,
-      timestamp, allProjects
+      currentDate, allProjects
     );
-    const parsedTask = parsedObject.task;
     console.log(JSON.stringify(parsedTask));
 
     expect(parsedTask.taskTitle).toBeTruthy();

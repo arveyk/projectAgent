@@ -31,3 +31,11 @@ export type PersonNoId = {
   email?: string;
 };
 
+/**
+ * A Slack user.
+ */
+export type User = {
+  userId: string;
+  name: string;
+  email: string;
+};

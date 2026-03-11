@@ -185,12 +185,7 @@ export function createTaskInfoWithoutSelections(
 ) {
   const assigneesArray = taskWithPersonNoId.assignees;
 
-  const assigneeNames = createAssigneesDisplayMessageFromArray(assigneesArray.map((assignee) => {
-    return {
-      name: assignee.name,
-      email: assignee.email
-    };
-  }));
+  const assigneeNames = createAssigneesDisplayMessageFromArray(assigneesArray);
   let projectNames = "";
 
   console.log(

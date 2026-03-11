@@ -1,30 +1,45 @@
-import { createAlertMessage } from "./sendAlertToTeam";
-import { postAlertToSlack } from "./postMessageToSlack";
-import { sendEmail } from "./mailgunService";
-import { UPTIME_EMAIL } from "./env";
+import axios from "axios";
+import { errorHandler } from "./errorHandler";
+// import { PROJECT_AGENT_HEALTHCHECK_URL } from "./env";
+import { SLACK_BOT_TOKEN } from "./env";
+import express, { Request, Response, NextFunction } from "express";
+import { PORT } from "./env";
 
-export async function errorHandler(sendError: boolean, communicationChannel: string) {
-    try {
-
-        const message = createAlertMessage(null
-        );
-        console.log("Error handler in action", sendError);
-
-        if (communicationChannel === "email") {
-            await sendEmail({
-                recipient: UPTIME_EMAIL,
-                msg: message.msg
-            }, "DevTeam");
-            console.log("Sending to email");
-        } else {
-            await postAlertToSlack("C08VADJ7SEL", message.msg);
-            console.log("Sending to Dev channels");
+export async function checkOnProjectAgent(req: Request, response: Response, next: NextFunction) {
+    const slackAPIUrl = "https://slack.com/api/auth.test"
+    const slackHealthCheck = await axios.post(slackAPIUrl, {
+        headers: {
+            Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
+            "Content-Type": "application/json; charset=UTF-8"
         }
-    } catch (error) {
-        console.log(`Error in monitor`, error);
+    });
+    /*
+    const projectAgentHealthCheckResult = await axios.get(PROJECT_AGENT_HEALTHCHECK_URL, {
+        family: 4
+    });
+    */
+
+    if (slackHealthCheck.data.ok === false) {
+        // await errorHandler(slackHealthCheck, "email");
+        await errorHandler(slackHealthCheck.data, "slack");
     }
+    /*
+    if (!projectAgentHealthCheckResult.data)  {
+        await errorHandler(projectAgentHealthCheckResult.status, "email");
+    }
+        */
+    response.status(200).json({
+        health: "Looking Good"
+    })
+    // next();
 }
 
-(async () => {
-    await errorHandler(true, 'emails');
-})();
+const app = express();
+
+app.use(express.json());
+
+app.get("/health", checkOnProjectAgent);
+
+app.listen(PORT, () => {
+    console.log("Health check on port: ", PORT);
+});

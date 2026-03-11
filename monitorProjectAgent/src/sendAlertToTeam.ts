@@ -15,7 +15,7 @@ export function createAlertMessage(error: unknown) {
       console.log("Error in Monitoring Service:", error);
       return {
         sendAlert: true,
-        msg: "**Alert!**\nMonitoring service failed ...",
+        msg: `*Alert!*\n> Monitoring service failed ... ${JSON.stringify(error)}`,
       }
     }
     const mostRecentError = "None"

@@ -2,12 +2,12 @@ import { SLACK_BOT_TOKEN } from "./env";
 import axios from "axios";
 
 
-export async function postAlertToSlack(devChannel: string, errorMessage: string) {
+export async function postAlertToSlack(alertChannel: string, errorMessage: string) {
   try {
     const postingUrl = "https://slack.com/api/chat.postMessage";
     const responseData = await axios.post(postingUrl,
       {
-        channel: devChannel,
+        channel: alertChannel,
         text: "Some Text",
         blocks: [
           {
@@ -16,20 +16,7 @@ export async function postAlertToSlack(devChannel: string, errorMessage: string)
               "type": "mrkdwn",
               "text": `*Error Check Project Agent*\n> Details ${errorMessage}>`
             }
-          },
-          {
-            "type": "section",
-            "fields": [
-              {
-                "type": "mrkdwn",
-                "text": "*Error Alert:* \nProject agent Monitoring service"
-              },
-              {
-                "type": "mrkdwn",
-                "text": `> *Details* \n >${errorMessage}`
-              }
-            ]
-          },
+          }
         ]
       },
       {

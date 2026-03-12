@@ -9,6 +9,9 @@ import { parseWithLLM } from "../utils/aiagent";
 import { DateTime } from "luxon";
 import { allProjects } from "../test-data/projects/example-project";
 import { getProjectsRaw } from "../utils/database/searchDatabase";
+import { getNotionUsers } from "../utils/controllers/getUsersNotion";
+import { EXAMPLE_RAW_USERS_RESPONSE } from "../test-data/cache/rawUsers";
+import { NotionUser } from "../utils/controllers/userTypes";
 /**
  * ts-node script that retrieves notion objects
  * And saves them as json files to log/testData/
@@ -19,6 +22,10 @@ async function getTestData() {
     auth: NOTION_API_KEY,
     notionVersion: "2025-09-03",
   });
+
+  const domainNotionUsers: NotionUser[] = await getNotionUsers(EXAMPLE_RAW_USERS_RESPONSE);
+  await saveJson(domainNotionUsers, "log/testData/domain/exampleNotionUsers.json")
+
   const cacheClient = createCacheClient();
   const getCommand = new BatchGetCommand({
     RequestItems: {

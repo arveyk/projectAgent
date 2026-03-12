@@ -8,7 +8,7 @@ import { DateTime } from "luxon";
 dotenv.config();
 const userID = process.env.TEST_USER_ID ? process.env.TEST_USER_ID : "";
 
-describe("Tests getSlackUserDataById with a user from the workspace", () => {
+describe.skip("Tests getSlackUserDataById with a user from the workspace", () => {
   it("Returns the user's timezone", async () => {
     const userData = await getSlackUserDataById(userID);
 

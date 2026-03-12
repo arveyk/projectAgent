@@ -17,7 +17,7 @@ import { SlashCommand } from "@slack/bolt";
 import {
   convertTaskPageFromDbResponse,
 } from "../utils/taskFormatting/task";
-import { NotionUser, User } from "../utils/controllers/userTypes";
+import { NotionUser, SlackUser } from "../utils/controllers/userTypes";
 import { Task, TaskPage } from "../domain";
 import { GetPageResponse, isFullPage } from "@notionhq/client";
 import { APIGatewayProxyEventV2, Context, StreamifyHandler } from "aws-lambda";
@@ -188,7 +188,7 @@ const slashCmdHandler: StreamifyHandler = async function (
           JSON.stringify(parsedTaskWithDefaults),
         );
 
-        const taskCreator: User = {
+        const taskCreator: SlackUser = {
           ...appUserData,
         };
         const assignedBy = await findAssignedBy(taskCreator, notionUsers);

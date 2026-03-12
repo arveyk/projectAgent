@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon --watch 'src/**/*.ts --exec 'tsx' index.ts",
-    "start": "npx tsx src/index.ts"
+    "start": "npx tsx src/index.ts",
+    "build": "node build.mjs"
   },
   "author": "Ceci, Daniel, Harvey",
   "license": "ISC",

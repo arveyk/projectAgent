@@ -210,12 +210,12 @@ export function findMatchingNotionUserByEmail(
 
 /**
  * Function to find the assigner's details from the Notion side
- * @param identifiedAppUser: The assigner(creator) of the new task, inferred from Slack
+ * @param appUserSlackProfile: The assigner(creator) of the new task, inferred from Slack
  *
  * @returns                  Array containing only the Notion user that matches slack user that is creating the
  *   task. This is what is placed in the assignedBy field in a task
  */
-export function findAssignedBy(
+export function findNotionProfileOfAssignedBy(
   identifiedAppUser: SlackUser,
   foundUsers: NotionUser[],
 ) {

@@ -1,4 +1,3 @@
-import axios from "axios";
 import { createExistingTaskBlock } from "../blockkit/createExistingTaskBlock";
 import { parseTask } from "../utils/aiagent";
 import {
@@ -9,7 +8,7 @@ import {
 } from "../utils/database/searchDatabase";
 import { sendLoadingMessage } from "../blockkit/loadingMessage";
 import {
-  findAssignedBy,
+  findNotionProfileOfAssignedBy,
   findMatchingAssignees,
 } from "../utils/controllers/findMatchingNotionUsers";
 import { logTimestampForBenchmarking } from "../utils/logTimestampForBenchmarking";
@@ -22,27 +21,26 @@ import { Task, TaskPage } from "../domain";
 import { GetPageResponse, isFullPage } from "@notionhq/client";
 import { APIGatewayProxyEventV2, Context, StreamifyHandler } from "aws-lambda";
 import {
-  isValidCommand,
   extractRequestBody,
 } from "../utils/slashCommandProcessing";
 import { createNewTaskBlock } from "../blockkit/createNewTaskBlock";
-import {
-  createCacheClient,
-  retrieveCache,
-} from "../utils/database/getFromCache";
+import { createCacheClient, retrieveCache } from "../utils/database/getFromCache";
 import { getNotionUsers } from "../utils/controllers/getUsersNotion";
 import { getAppUserData } from "../utils/controllers/getUsersSlack";
 import { setDefaults } from "../utils/taskFormatting/setDefaults";
+import { inferInputSource } from "../utils/controllers/contextResolution/inferInputSource";
+import { sendBlockResponse } from "../externalService/slackApiService";
 
 const slashCmdHandler: StreamifyHandler = async function (
   event: APIGatewayProxyEventV2,
   responseStream: awslambda.HttpResponseStream,
   context: Context,
 ) {
-  const timestamp: number = Date.now();
 
+  const timestamp: number = Date.now();
   console.log("We are now in the slashcmd handler: Activation Timestamp", timestamp);
   logTimestampForBenchmarking("Execution start");
+
   const httpResponseMetadata = {
     statusCode: 200,
     headers: {
@@ -66,15 +64,16 @@ const slashCmdHandler: StreamifyHandler = async function (
 	  Request Body: ${JSON.stringify(reqBody)}`);
     console.log(`headers: ${JSON.stringify(event.headers)}`);
 
-    const commandValidationResult = isValidCommand(reqBody);
-    if (commandValidationResult.isValid) {
+    const inferredContext = await inferInputSource(reqBody, timestamp);
+
+    if (inferredContext.error === null) {
       const response_url = reqBody["response_url"];
 
       // Fetch cache
       await sendLoadingMessage(
         "Searching Database",
         response_url,
-        reqBody.text,
+        inferredContext.text,
       );
       logTimestampForBenchmarking("Fetching cache");
       const cacheClient = createCacheClient();
@@ -95,19 +94,20 @@ const slashCmdHandler: StreamifyHandler = async function (
 
       // Search database
       logTimestampForBenchmarking("Searching database");
-      const isInDatabase = await searchDatabase(reqBody.text, fetchedTasks);
+
+      const taskSearchResult = await searchDatabase(inferredContext.text, fetchedTasks);
       logTimestampForBenchmarking("Done searching database");
 
-      console.log("IS in database?", JSON.stringify(isInDatabase));
+      console.log("IS in database?", JSON.stringify(taskSearchResult));
 
       await sendLoadingMessage("Parsing Task", response_url);
 
-      const timestamp: number = Date.now();
       const appUserData = await getAppUserData(reqBody, timestamp);
 
       logTimestampForBenchmarking("Parsing task");
       const parsedTask = await parseTask(
         reqBody,
+        inferredContext.text,
         appUserData.eventTimeData,
         fetchedProjects ? fetchedProjects.filter(
           project => isFullPage(project)
@@ -123,30 +123,21 @@ const slashCmdHandler: StreamifyHandler = async function (
       const parsedTaskWithDefaults: Task = setDefaults(appUserData, parsedTask);
 
       logTimestampForBenchmarking("Searching Notion for assignees");
-      // Find Notion users
-      // TODO - Suggestions call getNotionUsers here and use that list to search for a match
-      //    some like const allNotionUsers or allDatabasePersons = getNotionUsers(fetchedUsers)
-      //    pass that to findMatchingAssignees
-      //    can also be passed to
-      //        findAssignedBy
-      //        and createNewtask
-      // Benefits:
-      //      Reduced number of API calls by getNotionUsers
       const assigneeSearchResults = await findMatchingAssignees(
         parsedTaskWithDefaults,
         notionUsers,
       );
       logTimestampForBenchmarking("Done searching Notion for assignees");
 
-      if (!isInDatabase) {
+      if (!taskSearchResult) {
         throw new Error("Error searching database");
       }
       // Task Already in Database
-      if (isInDatabase.exists) {
+      if (taskSearchResult.exists) {
         console.log("Already in Database");
 
         const pageObject: GetPageResponse = await getTaskProperties(
-          isInDatabase.taskId || "",
+          taskSearchResult.taskId || "",
         );
 
         if ("properties" in pageObject) {
@@ -161,23 +152,10 @@ const slashCmdHandler: StreamifyHandler = async function (
           );
           console.log("Update Block", JSON.stringify(updateBlock));
 
-          await axios({
-            method: "post",
-            url: reqBody["response_url"],
-            data: {
-              text: "Already in DB",
-              blocks: updateBlock.blocks,
-            },
-            family: 4,
-          })
-            .then((resp) => {
-              console.log("OK from slack", resp["status"]);
-            })
-            .catch((err) => {
-              console.log(
-                "(slashCmdHandler): Axios Error while posting updateBlock",
-              );
-            });
+          await sendBlockResponse(reqBody["response_url"],
+            updateBlock.blocks,
+          );
+
         } else {
           throw new Error("Error getting page properties");
         }
@@ -191,7 +169,7 @@ const slashCmdHandler: StreamifyHandler = async function (
         const taskCreator: SlackUser = {
           ...appUserData,
         };
-        const assignedBy = await findAssignedBy(taskCreator, notionUsers);
+        const assignedBy = await findNotionProfileOfAssignedBy(taskCreator, notionUsers);
         const slackBlocks = createNewTaskBlock(
           assignedBy,
           parsedTaskWithDefaults,
@@ -202,37 +180,28 @@ const slashCmdHandler: StreamifyHandler = async function (
           "SlashCmdHandler taskBlockWithSelect",
           JSON.stringify(slackBlocks),
         );
-
-        await axios({
-          method: "post",
-          url: reqBody["response_url"],
-          data: slackBlocks,
-          family: 4,
-        }).then((resp) => {
-          console.log("OK from slack", resp["status"]);
-        });
+        await sendBlockResponse(reqBody["response_url"], slackBlocks.blocks);
       }
     } else {
-      axios({
-        method: "post",
-        url: reqBody["response_url"],
-        data: {
-          text: "Format: ['Task Details']",
-        },
-        family: 4,
-      }).then((resp) => {
-        console.log(
-          "OK from slack Wrong command format Though",
-          resp["status"],
-        );
-      });
+      const response = await sendBlockResponse(reqBody["response_url"], [
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": `> Error Encountered while attempting to create task, Please try again\nError: ${String(inferredContext.error)}`,
+          }
+        }
+      ]);
+      console.log(response.data.status);
     }
   } catch (err: Error | any) {
     console.log("slashCmdHandler Error", String(err));
     return err;
   } finally {
     logTimestampForBenchmarking("Execution finished");
+
   }
+
 };
 
 export default slashCmdHandler;

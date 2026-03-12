@@ -83,7 +83,7 @@ describe("Tests getTasksRaw with the new property filters", () => {
     expect(rawTasks.length).toBeGreaterThan(0);
     console.log(rawTasks.map((result) => isFullPage(result)));
     console.log(rawTasks.length);
-    console.log(JSON.stringify(rawTasks[0]));
+    console.log("Last test in searchDatabase", JSON.stringify(rawTasks[0]));
 
     const tasks = simplifyTaskPages(rawTasks);
     expect(tasks.length).toEqual(rawTasks.length);

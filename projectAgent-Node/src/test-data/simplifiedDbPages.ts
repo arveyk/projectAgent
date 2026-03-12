@@ -27,8 +27,8 @@ export const SIMPLIFIED_DB_PAGES: SimplifiedDatabasePage[] = [
   },
   {
     "pageId": "2bdeef29-a653-802a-9674-f896fdb82564",
-    "taskTitle": "Task due today (assigned by Dresdan, assigned to Harvey)",
-    "description": "This task, assigned by Dresdan Madison to Harvey Spectre, is due on December 1, 2025 and is currently not started.\n\n",
+    "taskTitle": "Task due today (assigned by Ramona, assigned to Harvey)",
+    "description": "This task, assigned by Ramona Madison to Harvey Spectre, is due on December 1, 2025 and is currently not started.\n\n",
     "assignee": [
       {
         "name": "Harvey Spectre",
@@ -63,8 +63,8 @@ export const SIMPLIFIED_DB_PAGES: SimplifiedDatabasePage[] = [
   },
   {
     "pageId": "2bdeef29-a653-8058-b0e9-d398da259483",
-    "taskTitle": "ARCHIVED Task due today (assigned by Dresdan, assigned to Harvey)",
-    "description": "This archived task, assigned by Dresdan Madison to Harvey Spectre, is due today, December 1, 2025.\n\n",
+    "taskTitle": "ARCHIVED Task due today (assigned by Ramona, assigned to Harvey)",
+    "description": "This archived task, assigned by Ramona Madison to Harvey Spectre, is due today, December 1, 2025.\n\n",
     "assignee": [
       {
         "name": "Harvey Spectre",
@@ -87,8 +87,8 @@ export const SIMPLIFIED_DB_PAGES: SimplifiedDatabasePage[] = [
   },
   {
     "pageId": "2bdeef29-a653-8093-8b64-ee8964517d14",
-    "taskTitle": "COMPLETED Task due in 3 days (assigned by Dresdan, assigned to Harvey)",
-    "description": "The task assigned by Dresdan Madison to Harvey Spectre has been completed and was due on December 3, 2025. This successful completion reflects effective task management and collaboration.\n\nTop 10 keywords: completed task, Dresdan Madison, Harvey Spectre, due date, December 3, 2025, task management, collaboration, assignment, productivity, status done.",
+    "taskTitle": "COMPLETED Task due in 3 days (assigned by Ramona, assigned to Harvey)",
+    "description": "The task assigned by Ramona Madison to Harvey Spectre has been completed and was due on December 3, 2025. This successful completion reflects effective task management and collaboration.\n\nTop 10 keywords: completed task, Ramona Madison, Harvey Spectre, due date, December 3, 2025, task management, collaboration, assignment, productivity, status done.",
     "assignee": [
       {
         "name": "Harvey Spectre",
@@ -112,8 +112,8 @@ export const SIMPLIFIED_DB_PAGES: SimplifiedDatabasePage[] = [
   },
   {
     "pageId": "2bdeef29-a653-80cc-85d1-c628f124677b",
-    "taskTitle": "Task due in 3 days (assigned by Dresdan, assigned to Harvey)",
-    "description": "This document outlines a task assigned by Dresdan Madison to Harvey Spectre, which is due on December 3, 2025, and is currently not started.\n\n",
+    "taskTitle": "Task due in 3 days (assigned by Ramona, assigned to Harvey)",
+    "description": "This document outlines a task assigned by Ramona Madison to Harvey Spectre, which is due on December 3, 2025, and is currently not started.\n\n",
     "assignee": [
       {
         "name": "Harvey Spectre",
@@ -138,8 +138,8 @@ export const SIMPLIFIED_DB_PAGES: SimplifiedDatabasePage[] = [
   },
   {
     "pageId": "2bdeef29-a653-80fe-b7b5-ca86d9409c03",
-    "taskTitle": "Task overdue by one day (assigned by Dresdan, assigned to Harvey)",
-    "description": "This task, assigned by Dresdan Madison to Harvey Spectre, is overdue by one day with a due date of November 30, 2025, and has not yet been started.\n\n",
+    "taskTitle": "Task overdue by one day (assigned by Ramona, assigned to Harvey)",
+    "description": "This task, assigned by Ramona Madison to Harvey Spectre, is overdue by one day with a due date of November 30, 2025, and has not yet been started.\n\n",
     "assignee": [
       {
         "name": "Harvey Spectre",

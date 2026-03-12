@@ -114,34 +114,25 @@ const structuredLlmSlashCmd: Runnable<
 
 /**
  * Uses Anthropic to parse a task assignment from a Slack slash command.
- * @param {*} reqBody The body of the request.
- * @param eventTimeData: The time of invocation in the user's timezone.
- * @param alreadyFetchedProjects Projects pre-fetched from Notion.
+ * @param reqBody:	      The body of the request.
+ * @param textToParse:	  Text containing task details to be extracted
+ *  @param eventTimeData: The time of invocation in the user's timezone.
+ * @param alreadyFetchedProjects: Projects pre-fetched from Notion.
+ *
  * @returns A TaskParseResult containing the formatted task.
  */
 export const parseTask = async function (
   reqBody: SlashCommand,
+  textToParse: string,
   eventTimeData: DateTime,
   notionProjects: Project[]
   //alreadyFetchedProjects: QueryDataSourceResponse["results"] | null,
 ): Promise<Task> {
-  let textToParse;
-
-  if (reqBody["command"]) {
-    textToParse = reqBody["text"];
-  } else if (reqBody["event"]) {
-    textToParse = reqBody["text"];
-  } else {
-    textToParse = "No Task available";
-  }
-
-  // const timeData = await getEventTimeData(reqBody, timestamp);
-  const timeData = eventTimeData;
 
   console.log(`notionProjects found ${JSON.stringify(notionProjects)}`);
 
   const structuredResultData = await parseWithLLM(
-    timeData,
+    eventTimeData,
     notionProjects,
     textToParse,
   );
@@ -156,10 +147,11 @@ export const parseTask = async function (
 
 /**
  * Parses a task from a message using a structured LLM.
- * @param timeData The date and timezone of the message.
- * @param notionProjects A list of all the projects in the database.
- * @param textToParse The message to parse as a task.
- * @returns The message parsed as a task.
+ * @param timeData:	      The date and timezone of the message.
+ * @param notionProjects: A list of all the projects in the database.
+ * @param textToParse:	  The message to parse as a task.
+ *
+ * @returns Structured object with task details.
  */
 export async function parseWithLLM(
   timeData: DateTime<boolean>,

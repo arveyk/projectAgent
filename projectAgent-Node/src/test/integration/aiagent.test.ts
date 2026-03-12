@@ -16,11 +16,7 @@ describe("Tests parseTaskSlashCmd with a good payload", () => {
     expect(typeof payloadGood).toBe("object");
     const currentDate = DateTime.fromISO("2025-08-12");
 
-    const parsedTask = await parseTask(
-      payloadGood,
-      currentDate,
-      EXAMPLE_ALL_PROJECTS_IN_NOTIONDB,
-    );
+    const parsedTask = await parseTask(payloadGood, payloadGood.text, currentDate, EXAMPLE_ALL_PROJECTS_IN_NOTIONDB);
     console.log(JSON.stringify(parsedTask));
 
     expect(parsedTask.taskTitle).toBeTruthy();
@@ -38,11 +34,7 @@ describe("Tests parseTaskSlashCmd with a good payload from Harvey", () => {
     expect(typeof payloadHarvey).toBe("object");
     const currentDate = DateTime.fromISO("2025-08-12");
 
-    const parsedTask = await parseTask(
-      payloadHarvey,
-      currentDate,
-      EXAMPLE_ALL_PROJECTS_IN_NOTIONDB,
-    );
+    const parsedTask = await parseTask(payloadHarvey, payloadHarvey.text, currentDate, EXAMPLE_ALL_PROJECTS_IN_NOTIONDB);
     console.log(JSON.stringify(parsedTask));
 
     expect(parsedTask.taskTitle).toBeTruthy();
@@ -60,11 +52,7 @@ describe("Tests parseTaskSlashCmd inferring dates", () => {
     expect(typeof payloadInferDates).toBe("object");
     const currentDate = DateTime.fromISO("2025-08-12");
 
-    const parsedTask = await parseTask(
-      payloadInferDates,
-      currentDate,
-      EXAMPLE_ALL_PROJECTS_IN_NOTIONDB,
-    );
+    const parsedTask = await parseTask(payloadInferDates, payloadInferDates.text, currentDate, EXAMPLE_ALL_PROJECTS_IN_NOTIONDB);
     console.log(JSON.stringify(parsedTask));
     expect(parsedTask.taskTitle).toBeTruthy();
     expect(parsedTask.description).toBeTruthy();
@@ -82,11 +70,7 @@ describe("tests parseTaskSlashCmd with the payload that's been causing trouble",
     expect(typeof payloadNew).toBe("object");
     const currentDate = DateTime.fromISO("2025-08-12");
 
-    const parsedTask = await parseTask(
-      payloadNew,
-      currentDate,
-      EXAMPLE_ALL_PROJECTS_IN_NOTIONDB,
-    );
+    const parsedTask = await parseTask(payloadNew, payloadNew.text,currentDate, EXAMPLE_ALL_PROJECTS_IN_NOTIONDB);
     console.log(JSON.stringify(parsedTask));
     console.log(JSON.stringify(taskKitchen));
     expect(

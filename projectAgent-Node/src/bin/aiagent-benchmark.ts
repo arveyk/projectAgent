@@ -1,5 +1,6 @@
 import { SlashCommand } from "@slack/bolt";
 import { parseTask } from "../utils/aiagent";
+import { DateTime } from "luxon";
 
 const message1 = "add Ramona, please fix the date formatting error";
 const message2 =
@@ -64,7 +65,8 @@ const payload3: SlashCommand = {
  * returns: no return value
  */
 async function benchMark(payload: SlashCommand) {
-  const parseTaskResult = await parseTask(payload1, payload.text, Date.now(), null);
+  // TODO Replace empty list with values from cache
+  const parseTaskResult = await parseTask(payload1, payload.text, DateTime.now(), []);
   console.log(`Responses:  ${parseTaskResult}`);
 }
 

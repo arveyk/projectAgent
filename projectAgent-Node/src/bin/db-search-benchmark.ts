@@ -12,7 +12,8 @@ const message3 =
  * returns: no return value
  */
 async function benchMarkSearchingDatabase(messageToSearch: string) {
-  await searchDatabase(messageToSearch);
+  // TODO: Replace null with value from cache
+  await searchDatabase(messageToSearch, null);
 }
 
 (async () => {

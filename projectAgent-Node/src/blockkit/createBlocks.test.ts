@@ -2,9 +2,8 @@ import { createNewTaskBlock } from "./createNewTaskBlock";
 import { exampleUserSearchResponse } from "../test-data/example-usersearch-response";
 
 import { notionTask } from "../test-data/tasks/example-tasks";
-import { NotionTask } from "../utils/taskFormatting/task";
+import { NotionTask } from "../domain";
 import { NotionUser } from "../utils/controllers/userTypes";
-import { DateTime } from "luxon";
 
 const EXAMPLE_ASSIGNED_BY: NotionUser[] = [
   {

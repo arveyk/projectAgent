@@ -6,11 +6,9 @@ import { BaseLanguageModelInput } from "@langchain/core/dist/language_models/bas
 import {
   convertTask
 } from "./taskFormatting/task";
-import { ProjectWithName } from "../domain";
-import { Task } from "../domain";
+import { ProjectWithName, Task, Project } from "../domain";
 import { SlashCommand } from "@slack/bolt";
 import { logTimestampForBenchmarking } from "./logTimestampForBenchmarking";
-import { Project } from "../domain";
 import { DateTime } from "luxon";
 
 const EXAMPLE_MSG_00 =

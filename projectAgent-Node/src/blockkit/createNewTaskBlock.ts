@@ -14,22 +14,23 @@ import {
 /**
  * Creates a set of Slack blocks to be used in previewing and confirming a new task.
  * @param assignedBy:       The user who is creating and assigning the task
- * @param task:             The task to be previewed.
+ * @param parsedTask:             The task to be previewed.
  * @param userSearchResult: A list of 0 or more Notion users who match the assignee of the task.
  *
  * @returns                 A set of Slack blocks to be used in previewing and confirming a new task.
  */
 export function createNewTaskBlock(
   assignedBy: NotionUser[],
-  task: Task,
+  allNotionUsers: NotionUser[],
   userSearchResult: UserSearchResult[],
+  parsedTask: Task,
 ) {
   console.log("(createNewTaskBlock)");
   const identifiedUsers: NotionUser[] = [];
   const ambiguousUsers: NotionUser[] = [];
-  const taskProjects = task.project || [];
-  const allExistingProjects: ProjectWithName[] = task.existingProjects || [];
-  const similarProjects = task.similarProjects || [];
+  const taskProjects = parsedTask.project || [];
+  const allExistingProjects: ProjectWithName[] = parsedTask.existingProjects || [];
+  const similarProjects = parsedTask.similarProjects || [];
 
   for (const user of userSearchResult) {
     console.log(user.person.name);
@@ -46,24 +47,29 @@ export function createNewTaskBlock(
   //  if there are ambiguous users, create a selections block
   //  else create a normal block
   const notionTask: NotionTask = {
-    taskTitle: task.taskTitle,
+    taskTitle: parsedTask.taskTitle,
     assignees: identifiedUsers,
     assignedBy: assignedBy,
-    dueDate: task.dueDate,
-    startDate: task.startDate,
-    description: task.description,
-    project: task.project,
+    dueDate: parsedTask.dueDate,
+    startDate: parsedTask.startDate,
+    description: parsedTask.description,
+    project: parsedTask.project,
   };
 
   if (similarProjects.length > 0) {
     console.log("Calling createNewTaskBlockWithSelectionsForAmbiguousProjects");
     return createNewTaskBlockWithSelectionsForAmbiguousProjects(
       notionTask,
-      allExistingProjects,
-      similarProjects,
       {
-        identifiedUsers,
-        ambiguousUsers,
+        allProjects: allExistingProjects,
+        similarProjects
+      },
+      {
+        allUsers: allNotionUsers,
+        foundUsers: {
+          identifiedUsers,
+          ambiguousUsers,
+        }
       },
     );
   }
@@ -72,6 +78,7 @@ export function createNewTaskBlock(
     return createNewTaskBlockWithUserAndOrProjectsSelections(
       notionTask,
       allExistingProjects,
+      allNotionUsers,
       {
         identifiedUsers,
         ambiguousUsers,

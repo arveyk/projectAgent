@@ -6,6 +6,7 @@ import {
   ProjectWithName
 } from "../domain";
 import { FoundUsers, PersonNoId } from "../utils/controllers/userTypes";
+import { getNotionUsers } from "../utils/controllers/getUsersNotion";
 
 // Type for options created for the selections menu
 export type MenuType = {
@@ -142,9 +143,8 @@ export function createTaskInfo(
       fields: [
         {
           type: "mrkdwn",
-          text: `*Due Date:*\n${
-            notionTask.dueDate ? formatDateString(notionTask.dueDate) : ""
-          }`,
+          text: `*Due Date:*\n${notionTask.dueDate ? formatDateString(notionTask.dueDate) : ""
+            }`,
         },
         {
           type: "mrkdwn",
@@ -223,13 +223,12 @@ export function createTaskInfoWithoutSelections(
         {
           type: "mrkdwn",
           text: `*Due Date:*\n${taskWithPersonNoId.dueDate ? formatDateString(taskWithPersonNoId.dueDate) : ""
-          }`,
+            }`,
         },
         {
           type: "mrkdwn",
-          text: `*Start Date:*\n${
-            taskWithPersonNoId.startDate !== undefined ? formatDateString(taskWithPersonNoId.startDate) : taskWithPersonNoId.startDate
-          }`,
+          text: `*Start Date:*\n${taskWithPersonNoId.startDate !== undefined ? formatDateString(taskWithPersonNoId.startDate) : taskWithPersonNoId.startDate
+            }`,
         },
       ],
     },
@@ -328,6 +327,7 @@ export function createMenuOptions(
 export function createNewTaskBlockWithUserAndOrProjectsSelections(
   notionTask: NotionTask,
   allProjects: ProjectWithName[],
+  allNotionUsers: NotionUser[],
   foundUsers: FoundUsers,
 ) {
   const taskInfo = createTaskInfo(
@@ -485,26 +485,31 @@ export const createTaskBlockWithoutSelections = function (
  */
 export function createNewTaskBlockWithSelectionsForAmbiguousProjects(
   notionTask: NotionTask,
-  allProjects: ProjectWithName[],
-  similarProjects: { id: string }[],
-  foundUsers: FoundUsers,
+  projects: {
+    allProjects: ProjectWithName[],
+    similarProjects: { id: string }[],
+  },
+  users: {
+    allUsers: NotionUser[],
+    foundUsers: FoundUsers,
+  }
 ) {
   const taskInfo = createTaskInfo(
     notionTask,
-    allProjects,
-    foundUsers.identifiedUsers,
+    projects.allProjects,
+    users.foundUsers.identifiedUsers,
   );
   // Create options for ambiguous users
   const userOptionsToChooseFrom = createMenuOptions(
     "NotionUsers",
-    foundUsers.ambiguousUsers,
+    users.foundUsers.ambiguousUsers,
   );
 
   // This is an array that will contain the possible project matches that the user needs to select
   // from either one or multiple
 
-  const projectSelectionOptions = similarProjects.map((project) => {
-    const foundMatch = allProjects.find((existingProject) => {
+  const projectSelectionOptions = projects.similarProjects.map((project) => {
+    const foundMatch = projects.allProjects.find((existingProject) => {
       return existingProject.id === project.id;
     })
     return foundMatch;
@@ -524,15 +529,18 @@ export function createNewTaskBlockWithSelectionsForAmbiguousProjects(
   });
 
   //Return this if there are both user and projects to select
-  if (userOptionsToChooseFrom.length > 1) {
+  if (userOptionsToChooseFrom.length > 1 || notionTask.assignees.length === 0) {
     return createBlockWithBothSelectionMenus(
       taskInfo,
-      userOptionsToChooseFrom,
+      notionTask.assignees.length === 0 ? createMenuOptions(
+        "NotionUsers",
+      users.allUsers) : userOptionsToChooseFrom,
       projectOptionsToChooseFrom,
       confirmationButtonValue,
     );
   }
   //Return this if there are projects to be selected
+
 
   return createBlocksWithOneSelectionMenu(
     taskInfo,

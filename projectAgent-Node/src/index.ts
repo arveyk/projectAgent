@@ -2,6 +2,7 @@ import slashCmdHandler from "./routes/slashcmd";
 import { interactionHandler } from "./routes/paresponse/updateResponse";
 import { StreamifyHandler, APIGatewayProxyEventV2, Context } from "aws-lambda";
 import { isPromise } from "util/types";
+import { healthCheckHandler } from "./routes/healthCheckHandler";
 
 // *const fallbackHandler = awslambda.streamifyResponse(async function(event: APIGatewayProxyEventV2, context: Context) {
 const fallbackHandler = awslambda.streamifyResponse(function (
@@ -21,6 +22,7 @@ const handler: StreamifyHandler = awslambda.streamifyResponse(function (
   const handlers: Record<string, StreamifyHandler | undefined> = {
     "/slashcmd": slashCmdHandler,
     "/interact": interactionHandler,
+    "/healthcheck": healthCheckHandler,
   };
 
   const urlPath: string = event["rawPath"];

@@ -4,6 +4,7 @@ import { UsersListResponse } from "@slack/web-api";
 import { SlackUser } from "./userTypes";
 import { SlashCommand } from "@slack/bolt";
 import { DateTime } from "luxon";
+import { fetchSlackUsersRaw } from "../../externalService/slackApiService";
 
 const SECONDS_IN_A_MINUTE = 60;
 const MINUTES_IN_AN_HOUR = 60;
@@ -34,23 +35,7 @@ export type UserData = {
  * @returns An array of user objects.
  */
 export const getSlackUsers = async function (): Promise<SlackUser[]> {
-  const listUsersURL = "https://slack.com/api/users.list";
-  const slackResp: UsersListResponse = await axios
-    .get(listUsersURL, {
-      headers: {
-        "Content-Type": "application/json charset=utf-8",
-        Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
-      },
-      family: 4,
-    })
-    .then((response) => {
-      // console.log("Slack users response:", response.data);
-      return response.data;
-    })
-    .catch((error) => {
-      console.error("Error fetching Slack users:", error);
-      throw new Error("Failed to fetch Slack users");
-    });
+  const slackResp: UsersListResponse = await fetchSlackUsersRaw();
 
   const membersArray = slackResp.members;
   const usersArr: SlackUser[] = [];

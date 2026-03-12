@@ -1,3 +1,4 @@
+import { UsersListResponse } from "@slack/web-api";
 import { SLACK_BOT_TOKEN } from "../env";
 import axios from "axios";
 
@@ -74,4 +75,26 @@ export async function sendBlockResponse(responseURL: string, slackBlock: object[
       error: error
     }
   }
+}
+
+export async function fetchSlackUsersRaw(): Promise<UsersListResponse> {
+  const listUsersURL = "https://slack.com/api/users.list";
+  const slackResp: UsersListResponse = await axios
+    .get(listUsersURL, {
+      headers: {
+        "Content-Type": "application/json charset=utf-8",
+        Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
+      },
+      family: 4,
+    })
+    .then((response) => {
+      // console.log("Slack users response:", response.data);
+      return response.data;
+    })
+    .catch((error) => {
+      console.error("Error fetching Slack users:", error);
+      throw new Error("Failed to fetch Slack users");
+    });
+
+  return slackResp;
 }

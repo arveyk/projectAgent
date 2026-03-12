@@ -4,6 +4,8 @@ import { parseTask } from "../utils/aiagent";
 import {
   searchDatabase,
   getTaskProperties,
+  getProjects,
+  simplifyProject,
 } from "../utils/database/searchDatabase";
 import { sendLoadingMessage } from "../blockkit/loadingMessage";
 import {
@@ -14,11 +16,10 @@ import { logTimestampForBenchmarking } from "../utils/logTimestampForBenchmarkin
 import { SlashCommand } from "@slack/bolt";
 import {
   convertTaskPageFromDbResponse,
-  Task,
-  TaskPage,
-  User,
 } from "../utils/taskFormatting/task";
-import { GetPageResponse } from "@notionhq/client";
+import { NotionUser, SlackUser } from "../utils/controllers/userTypes";
+import { Task, TaskPage } from "../domain";
+import { GetPageResponse, isFullPage } from "@notionhq/client";
 import { APIGatewayProxyEventV2, Context, StreamifyHandler } from "aws-lambda";
 import {
   isValidCommand,
@@ -29,6 +30,7 @@ import {
   createCacheClient,
   retrieveCache,
 } from "../utils/database/getFromCache";
+import { getNotionUsers } from "../utils/controllers/getUsersNotion";
 import { getAppUserData } from "../utils/controllers/getUsersSlack";
 import { setDefaults } from "../utils/taskFormatting/setDefaults";
 
@@ -37,7 +39,9 @@ const slashCmdHandler: StreamifyHandler = async function (
   responseStream: awslambda.HttpResponseStream,
   context: Context,
 ) {
-  console.log("We are now in the slashcmd handler");
+  const timestamp: number = Date.now();
+
+  console.log("We are now in the slashcmd handler: Activation Timestamp", timestamp);
   logTimestampForBenchmarking("Execution start");
   const httpResponseMetadata = {
     statusCode: 200,
@@ -80,6 +84,15 @@ const slashCmdHandler: StreamifyHandler = async function (
       const fetchedTasks = cacheItems.tasks;
       const fetchedUsers = cacheItems.users;
 
+      // Query all relevant data and use for subsequent steps
+
+      const allNotionProjects = await getProjects(fetchedProjects);
+      const notionUsers: NotionUser[] = (await getNotionUsers(fetchedUsers)).map(
+        (user) => {
+          return { userId: user.userId, name: user.name, email: user.email }
+        }
+      ).filter(user => user !== undefined);
+
       // Search database
       logTimestampForBenchmarking("Searching database");
       const isInDatabase = await searchDatabase(reqBody.text, fetchedTasks);
@@ -96,7 +109,13 @@ const slashCmdHandler: StreamifyHandler = async function (
       const parsedTask = await parseTask(
         reqBody,
         appUserData.eventTimeData,
-        fetchedProjects,
+        fetchedProjects ? fetchedProjects.filter(
+          project => isFullPage(project)
+        ).map(
+          project => simplifyProject(project)
+        ).filter(
+          project => project !== undefined
+        ) : [],
       );
       logTimestampForBenchmarking("Done parsing task");
 
@@ -115,14 +134,14 @@ const slashCmdHandler: StreamifyHandler = async function (
       //      Reduced number of API calls by getNotionUsers
       const assigneeSearchResults = await findMatchingAssignees(
         parsedTaskWithDefaults,
-        fetchedUsers,
+        notionUsers,
       );
       logTimestampForBenchmarking("Done searching Notion for assignees");
 
       if (!isInDatabase) {
         throw new Error("Error searching database");
       }
-
+      // Task Already in Database
       if (isInDatabase.exists) {
         console.log("Already in Database");
 
@@ -136,9 +155,9 @@ const slashCmdHandler: StreamifyHandler = async function (
           console.log(
             `(slashCmdHandler) existingTask: ${JSON.stringify(existingTask)}`,
           );
-          const updateBlock = await createExistingTaskBlock(
+          const updateBlock = createExistingTaskBlock(
             existingTask,
-            fetchedProjects,
+            allNotionProjects,
           );
           console.log("Update Block", JSON.stringify(updateBlock));
 
@@ -163,15 +182,16 @@ const slashCmdHandler: StreamifyHandler = async function (
           throw new Error("Error getting page properties");
         }
       } else {
+        // Process New Task
         console.log(
           "Task to be passed to createNewTaskBlock",
           JSON.stringify(parsedTaskWithDefaults),
         );
 
-        const taskCreator: User = {
+        const taskCreator: SlackUser = {
           ...appUserData,
         };
-        const assignedBy = await findAssignedBy(taskCreator, fetchedUsers);
+        const assignedBy = await findAssignedBy(taskCreator, notionUsers);
         const slackBlocks = createNewTaskBlock(
           assignedBy,
           parsedTaskWithDefaults,

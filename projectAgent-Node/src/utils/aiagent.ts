@@ -3,13 +3,13 @@ import { z } from "zod/v4";
 import { ANTHROPIC_API_KEY, ANTHROPIC_MODEL_VER } from "../env";
 import { RunnableConfig, Runnable } from "@langchain/core/dist/runnables";
 import { BaseLanguageModelInput } from "@langchain/core/dist/language_models/base";
-import { convertTask, ProjectWithName, Task } from "./taskFormatting/task";
+import {
+  convertTask
+} from "./taskFormatting/task";
+import { ProjectWithName, Task, Project } from "../domain";
 import { SlashCommand } from "@slack/bolt";
 import { logTimestampForBenchmarking } from "./logTimestampForBenchmarking";
-import { getProjects } from "./database/searchDatabase";
-import { Project } from "../domain";
 import { DateTime } from "luxon";
-import { QueryDataSourceResponse } from "@notionhq/client";
 
 const EXAMPLE_MSG_00 =
   "\
@@ -122,7 +122,8 @@ const structuredLlmSlashCmd: Runnable<
 export const parseTask = async function (
   reqBody: SlashCommand,
   eventTimeData: DateTime,
-  alreadyFetchedProjects: QueryDataSourceResponse["results"] | null,
+  notionProjects: Project[]
+  //alreadyFetchedProjects: QueryDataSourceResponse["results"] | null,
 ): Promise<Task> {
   let textToParse;
 
@@ -137,7 +138,6 @@ export const parseTask = async function (
   // const timeData = await getEventTimeData(reqBody, timestamp);
   const timeData = eventTimeData;
 
-  const notionProjects = await getProjects(alreadyFetchedProjects);
   console.log(`notionProjects found ${JSON.stringify(notionProjects)}`);
 
   const structuredResultData = await parseWithLLM(

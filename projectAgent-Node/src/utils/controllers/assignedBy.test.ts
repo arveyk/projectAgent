@@ -18,7 +18,6 @@ import {
   HARVEY_IN_SLACK,
   RAMONAIN_SLACK,
 } from "../../test-data/example-slack-userdata";
-import { EXAMPLE_RAW_USERS_RESPONSE } from "../../test-data/cache/rawUsers";
 
 jest.mock("../../utils/controllers/getUsersNotion");
 
@@ -33,7 +32,7 @@ describe("Test getting assigned by from Notion using slack Id", () => {
   it("Should find Harvey in Notion", async () => {
     const harveyIdentityInNotion = await findMatchingNotionUserByEmail(
       HARVEY_IN_SLACK.email,
-      null,
+      EXAMPLE_ALL_NOTION_USERS,
     );
     console.log("User's Identity in Notion", harveyIdentityInNotion);
 
@@ -43,7 +42,7 @@ describe("Test getting assigned by from Notion using slack Id", () => {
   it("Should find James in Notion", async () => {
     const jamesIdentityInNotion = await findMatchingNotionUserByEmail(
       EXAMPLE_JAMES_IN_SLACK.email,
-      EXAMPLE_RAW_USERS_RESPONSE,
+      EXAMPLE_ALL_NOTION_USERS,
     );
     console.log("User's Identity in Notion", jamesIdentityInNotion);
 
@@ -55,7 +54,7 @@ describe("Test getting assigned by from Notion using slack Id", () => {
   it("Should find Ramona in Notion", async () => {
     const RamonaIdentityInNotion = await findMatchingNotionUserByEmail(
       RAMONAIN_SLACK.email,
-      EXAMPLE_RAW_USERS_RESPONSE,
+      EXAMPLE_ALL_NOTION_USERS,
     );
     console.log("User's Identity in Notion", RamonaIdentityInNotion);
 
@@ -64,7 +63,7 @@ describe("Test getting assigned by from Notion using slack Id", () => {
   it("Should find Bill Wilthers in Notion", async () => {
     const spectreIdentityInNotion = await findMatchingNotionUserByEmail(
       BILL_IN_SLACK.email,
-      null,
+      EXAMPLE_ALL_NOTION_USERS,
     );
     console.log("User's Identity in Notion", spectreIdentityInNotion);
 
@@ -74,7 +73,7 @@ describe("Test getting assigned by from Notion using slack Id", () => {
   it("Should find Drake in Notion", async () => {
     const mavericksIdentityInNotion = await findMatchingNotionUserByEmail(
       DRAKE_IN_SLACK.email,
-      EXAMPLE_RAW_USERS_RESPONSE,
+      EXAMPLE_ALL_NOTION_USERS,
     );
     console.log("User's Identity in Notion", mavericksIdentityInNotion);
 

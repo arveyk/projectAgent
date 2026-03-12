@@ -64,7 +64,8 @@ const payload3: SlashCommand = {
  * returns: no return value
  */
 async function benchMark(payload: SlashCommand) {
-  const parseTaskResult = await parseTask(payload1, Date.now());
+  // TODO Replace null with values from cache
+  const parseTaskResult = await parseTask(payload1, Date.now(), []);
   console.log(`Responses:  ${parseTaskResult}`);
 }
 

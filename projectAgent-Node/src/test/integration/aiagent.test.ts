@@ -7,7 +7,7 @@ import {
   payloadNew,
 } from "../../test-data/payloads/slashcmd/payloads";
 import { taskKitchen } from "../../test-data/tasks/example-tasks";
-import { EXAMPLE_RAW_PROJECTS_RESPONSE } from "../../test-data/cache/rawProjects";
+import { EXAMPLE_ALL_PROJECTS_IN_NOTIONDB } from "../../test-data/example-all-notion-projects";
 import { DateTime } from "luxon";
 
 describe("Tests parseTaskSlashCmd with a good payload", () => {
@@ -19,7 +19,7 @@ describe("Tests parseTaskSlashCmd with a good payload", () => {
     const parsedTask = await parseTask(
       payloadGood,
       currentDate,
-      EXAMPLE_RAW_PROJECTS_RESPONSE,
+      EXAMPLE_ALL_PROJECTS_IN_NOTIONDB,
     );
     console.log(JSON.stringify(parsedTask));
 
@@ -41,7 +41,7 @@ describe("Tests parseTaskSlashCmd with a good payload from Harvey", () => {
     const parsedTask = await parseTask(
       payloadHarvey,
       currentDate,
-      EXAMPLE_RAW_PROJECTS_RESPONSE,
+      EXAMPLE_ALL_PROJECTS_IN_NOTIONDB,
     );
     console.log(JSON.stringify(parsedTask));
 
@@ -63,7 +63,7 @@ describe("Tests parseTaskSlashCmd inferring dates", () => {
     const parsedTask = await parseTask(
       payloadInferDates,
       currentDate,
-      EXAMPLE_RAW_PROJECTS_RESPONSE,
+      EXAMPLE_ALL_PROJECTS_IN_NOTIONDB,
     );
     console.log(JSON.stringify(parsedTask));
     expect(parsedTask.taskTitle).toBeTruthy();
@@ -85,7 +85,7 @@ describe("tests parseTaskSlashCmd with the payload that's been causing trouble",
     const parsedTask = await parseTask(
       payloadNew,
       currentDate,
-      EXAMPLE_RAW_PROJECTS_RESPONSE,
+      EXAMPLE_ALL_PROJECTS_IN_NOTIONDB,
     );
     console.log(JSON.stringify(parsedTask));
     console.log(JSON.stringify(taskKitchen));

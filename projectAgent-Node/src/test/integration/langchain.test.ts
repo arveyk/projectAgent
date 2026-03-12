@@ -1,4 +1,4 @@
-import { CACHE_DATA_EXAMPLE_ALL } from "../../test-data/cache/cacheItems";
+import { allProjects } from "../../test-data/projects/example-project";
 import {
   payloadNoDates,
   payloadExample,
@@ -36,9 +36,7 @@ describe("Tests parseTaskSlashCmd without a due date", () => {
 
     const parsedTask = await parseTask(
       payloadNoDates,
-      currentDate,
-      CACHE_DATA_EXAMPLE_ALL.projects,
-    );
+      currentDate, allProjects);
     console.log(JSON.stringify(parsedTask));
 
     expect(parsedTask.taskTitle).toBeTruthy();
@@ -54,8 +52,7 @@ describe("Tests parseTaskSlashCmd with the same example given to the LLM", () =>
 
     const parsedTask = await parseTask(
       payloadExample,
-      currentDate,
-      CACHE_DATA_EXAMPLE_ALL.projects,
+      currentDate, allProjects
     );
     console.log(JSON.stringify(parsedTask));
 

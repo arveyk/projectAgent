@@ -2,14 +2,14 @@ import formData from "form-data";
 import Mailgun from "mailgun.js";
 // import { MailgunMessageData } from "mailgun.js/Types/index.js";
 
-import { SENDING_KEY, DOMAIN, MAIL_GUN_API_KEY, DEPLOYMENT_ENV } from "./env";
+import { SENDING_KEY, DOMAIN, MAILGUN_API_KEY, DEPLOYMENT_ENV } from "./env";
 import { DateTime } from "luxon";
 
 
 const mailgun = new Mailgun(formData);
 const mg = mailgun.client({
   username: "api",
-  key: MAIL_GUN_API_KEY || "",
+  key: MAILGUN_API_KEY || "",
 });
 
 console.log("Sender: ", SENDING_KEY);

@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-if (!process.env.MAIL_GUN_API_KEY) {
+if (!process.env.MAILGUN_API_KEY) {
   throw new Error(
     "MAILGUN_API_KEY is undefined. Email functionality may be limited.",
   );
@@ -37,8 +37,8 @@ export const PORT: number = process.env.PORT
   ? parseInt(process.env.PORT)
   : 8080;
 
-export const MAIL_GUN_API_KEY: string | undefined =
-  process.env.MAIL_GUN_API_KEY;
+export const MAILGUN_API_KEY: string | undefined =
+  process.env.MAILGUN_API_KEY;
 export const SENDING_KEY: string = process.env.SENDING_KEY;
 export const DOMAIN: string = process.env.DOMAIN;
 export const UPTIME_EMAIL: string = process.env.UPTIME_EMAIL;

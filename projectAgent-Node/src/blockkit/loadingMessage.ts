@@ -4,14 +4,14 @@ import { SLACK_BOT_TOKEN } from "../env";
 /**
  * Creates a Slack block for a loading message.
  * @param {*} messageText The text of the loading message.
- * @param {*} slashCommand The text of the slash command that triggered the app.
+ * @param {*} slashCommandTextInput The text of the slash command (the user's input) that triggered the app.
  * @returns A Slack block for a loading message.
  */
 export const createLoadingMessageBlock = function (
   messageText: string,
-  slashCommand?: string,
+  slashCommandTextInput?: string,
 ) {
-  const blocks = slashCommand
+  const blocks = slashCommandTextInput
     ? {
         replace_original: true,
         blocks: [
@@ -19,7 +19,7 @@ export const createLoadingMessageBlock = function (
             type: "section",
             text: {
               type: "mrkdwn",
-              text: `>${slashCommand}\n\n:arrows_counterclockwise: ${messageText}…`,
+              text: `> ${slashCommandTextInput.replaceAll("\n", "\n> ")}\n\n:arrows_counterclockwise: ${messageText}…`,
             },
           },
         ],

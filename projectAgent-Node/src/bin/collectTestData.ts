@@ -3,13 +3,15 @@ import { dirname } from "path";
 import { Client } from "@notionhq/client";
 import { CACHE_TABLE_NAME, NOTION_API_KEY } from "../env";
 import { NOTION_TASKS_DATA_SOURCE_ID } from "../env";
-import { simplifyTaskPages } from "../utils/database/simplifyTaskPages";
-import { getProjects, getProjectsRaw } from "../utils/database/searchDatabase";
 import { BatchGetCommand } from "@aws-sdk/lib-dynamodb";
 import { createCacheClient } from "../utils/database/getFromCache";
 import { parseWithLLM } from "../utils/aiagent";
 import { DateTime } from "luxon";
-
+import { allProjects } from "../test-data/projects/example-project";
+import { getProjectsRaw } from "../utils/database/searchDatabase";
+import { getNotionUsers } from "../utils/controllers/getUsersNotion";
+import { EXAMPLE_RAW_USERS_RESPONSE } from "../test-data/cache/rawUsers";
+import { NotionUser } from "../utils/controllers/userTypes";
 /**
  * ts-node script that retrieves notion objects
  * And saves them as json files to log/testData/
@@ -20,6 +22,10 @@ async function getTestData() {
     auth: NOTION_API_KEY,
     notionVersion: "2025-09-03",
   });
+
+  const domainNotionUsers: NotionUser[] = await getNotionUsers(EXAMPLE_RAW_USERS_RESPONSE);
+  await saveJson(domainNotionUsers, "log/testData/domain/exampleNotionUsers.json")
+
   const cacheClient = createCacheClient();
   const getCommand = new BatchGetCommand({
     RequestItems: {
@@ -58,12 +64,19 @@ async function getTestData() {
   // const projects = await getProjects();
   // await saveJson(projects, "log/testData/responses/example-projects.json");
 
-  const taskThatCausedBug = await parseWithLLM(DateTime.now(), projects, "Scott Rhymes, please follow up with Kristen on events after the John Capobianco trial for the Itential project by 2/27/2026.");
+  const taskThatCausedBug = await parseWithLLM(
+    DateTime.now(),
+    allProjects,
+    "Scott Rhymes, please follow up with Kristen on events after the John Capobianco trial for the Itential project by 2/27/2026.",
+  );
   // const taskClearProject = await parseWithLLM(DateTime.now(), projects, "Paint a portrait of yourself");
   // const taskUnclearProject = await parseWithLLM(DateTime.now(), projects, "Paint a cat portrait");
   // const taskNoFoundProject = await parseWithLLM(DateTime.now(), projects, "Brush the dogs");
 
-  await saveJson(taskThatCausedBug, "log/testData/llmTasks/llm_taskThatCausedBug.json");
+  await saveJson(
+    taskThatCausedBug,
+    "log/testData/llmTasks/llm_taskThatCausedBug.json",
+  );
   // await saveJson(taskClearProject, "log/testData/llmTasks/llm_taskWithClearProject.json");
   // await saveJson(taskUnclearProject, "log/testData/llmTasks/llm_taskWithUnclearProject.json");
   // await saveJson(taskNoFoundProject, "log/testData/llmTasks/llm_taskWithNoFoundProject.json");

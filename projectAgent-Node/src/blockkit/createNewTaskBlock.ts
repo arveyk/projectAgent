@@ -8,8 +8,8 @@ import {
 import {
   NotionTask,
   ProjectWithName,
-  Task,
-} from "../utils/taskFormatting/task";
+  Task
+} from "../domain";
 
 /**
  * Creates a set of Slack blocks to be used in previewing and confirming a new task.
@@ -19,7 +19,7 @@ import {
  *
  * @returns                 A set of Slack blocks to be used in previewing and confirming a new task.
  */
-export  function createNewTaskBlock(
+export function createNewTaskBlock(
   assignedBy: NotionUser[],
   task: Task,
   userSearchResult: UserSearchResult[],
@@ -78,7 +78,7 @@ export  function createNewTaskBlock(
       },
     );
   } else {
-    console.log("Calling createTaskBlockWithoutSelections")
+    console.log("Calling createTaskBlockWithoutSelections");
     let projectsArray: ProjectWithName[] = [];
 
     for (const projectInTaskProjectsArray of taskProjects) {

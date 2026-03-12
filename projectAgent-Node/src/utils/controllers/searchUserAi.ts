@@ -2,7 +2,7 @@ import { ChatAnthropic } from "@langchain/anthropic";
 import { z } from "zod";
 import { ANTHROPIC_API_KEY, ANTHROPIC_MODEL_VER } from "../../env";
 import { NotionUser } from "./userTypes";
-import { Task } from "../taskFormatting/task";
+import { Task } from "../../domain";
 
 const model = new ChatAnthropic({
   model: ANTHROPIC_MODEL_VER,

@@ -10,7 +10,7 @@ export const MELINDA_IN_SLACK = {
 };
 
 
-export const RAMONAIN_SLACK = {
+export const RAMONA_IN_SLACK = {
     userId: 'U08VADHNG0G',
     name: 'Ramona Madison',
     email: 'ramadison@gmail.com',

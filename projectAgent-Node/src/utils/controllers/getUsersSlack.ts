@@ -8,7 +8,7 @@ import { DateTime } from "luxon";
 const SECONDS_IN_A_MINUTE = 60;
 const MINUTES_IN_AN_HOUR = 60;
 
-/* Combined data of user on Slack that is creating a task. Both time zone data and 
+/* Combined data of user on Slack that is creating a task. Both time zone data and
 userId, name and email that will be user to create the assigned by field in the task */
 type SlackUserData = {
   userId: string;
@@ -22,7 +22,7 @@ type SlackUserData = {
 };
 
 /* Similar to SlackUserData but with timezoneData resolved to eventTimeData */
-type UserData = {
+export type UserData = {
   eventTimeData: DateTime;
   userId: string;
   name: string;
@@ -101,7 +101,7 @@ export async function getSlackUserDataById(
     });
 
   if (!retrieveUserInfoResponse.data["ok"]) {
-    console.log(retrieveUserInfoResponse);
+    console.log(retrieveUserInfoResponse.data);
     throw new Error(`Invalid user ID`);
   }
   const userData = retrieveUserInfoResponse.data["user"];
@@ -123,10 +123,10 @@ export async function getSlackUserDataById(
     "(getSlackUserById): Response status:",
     retrieveUserInfoResponse.status,
     "profile",
-    userData.profile,
+    userData.profile.real_name,
   );
 
-  console.log("User Data", JSON.stringify(userData));
+  // console.log("User Data", JSON.stringify(userData));
   return {
     userId: userID,
     name: userData.real_name,
@@ -148,7 +148,7 @@ export async function getAppUserData(
   const userTZData = userData.timezoneData;
 
   console.log(`user timezone data: ${JSON.stringify(userTZData)}`);
-  console.log(`timestamp: ${timestamp}`);
+  console.log(`timestamp: ${JSON.stringify(timestamp)}`);
 
   const time = DateTime.fromMillis(timestamp).setZone(userTZData.tz);
 

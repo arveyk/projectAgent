@@ -6,22 +6,25 @@ import {
   payloadInferDates,
   payloadNew,
 } from "../../test-data/payloads/slashcmd/payloads";
-import {
-  taskKitchen,
-} from "../../test-data/tasks/example-tasks";
-import { EXAMPLE_RAW_PROJECTS_RESPONSE } from "../../test-data/cache/rawProjects";
+import { taskKitchen } from "../../test-data/tasks/example-tasks";
+import { EXAMPLE_ALL_PROJECTS_IN_NOTIONDB } from "../../test-data/example-all-notion-projects";
+import { DateTime } from "luxon";
 
 describe("Tests parseTaskSlashCmd with a good payload", () => {
   it("Parses the task correctly", async () => {
     expect(payloadGood).toBeDefined;
     expect(typeof payloadGood).toBe("object");
-    const timestamp = 1755039682 * 1000;
+    const currentDate = DateTime.fromISO("2025-08-12");
 
-    const parsedTask = await parseTask(payloadGood, timestamp, EXAMPLE_RAW_PROJECTS_RESPONSE);
+    const parsedTask = await parseTask(payloadGood, payloadGood.text, currentDate, EXAMPLE_ALL_PROJECTS_IN_NOTIONDB);
     console.log(JSON.stringify(parsedTask));
 
-    expect(parsedTask.task.taskTitle).toBeTruthy();
-    expect(parsedTask.task.description).toBeTruthy();
+    expect(parsedTask.taskTitle).toBeTruthy();
+    expect(parsedTask.description).toBeTruthy();
+    expect(parsedTask.dueDate).toMatch("2025-09-01");
+    expect(
+      parsedTask.assignees.find((person) => person.name.includes("Jeff")),
+    ).toBeTruthy();
   }, 20000);
 });
 
@@ -29,13 +32,17 @@ describe("Tests parseTaskSlashCmd with a good payload from Harvey", () => {
   it("Parses the task correctly", async () => {
     expect(payloadHarvey).toBeDefined;
     expect(typeof payloadHarvey).toBe("object");
-    const timestamp = 1755039682 * 1000;
+    const currentDate = DateTime.fromISO("2025-08-12");
 
-    const parsedTask = await parseTask(payloadHarvey, timestamp, EXAMPLE_RAW_PROJECTS_RESPONSE);
+    const parsedTask = await parseTask(payloadHarvey, payloadHarvey.text, currentDate, EXAMPLE_ALL_PROJECTS_IN_NOTIONDB);
     console.log(JSON.stringify(parsedTask));
 
-    expect(parsedTask.task.taskTitle).toBeTruthy();
-    expect(parsedTask.task.description).toBeTruthy();
+    expect(parsedTask.taskTitle).toBeTruthy();
+    expect(parsedTask.description).toBeTruthy();
+    expect(parsedTask.dueDate).toMatch("2025-08-13");
+    expect(
+      parsedTask.assignees.find((person) => person.name.includes("Harvey")),
+    ).toBeTruthy();
   }, 20000);
 });
 
@@ -43,12 +50,17 @@ describe("Tests parseTaskSlashCmd inferring dates", () => {
   it("Parses the task and infers start date and due date correctly", async () => {
     expect(payloadInferDates).toBeDefined;
     expect(typeof payloadInferDates).toBe("object");
-    const timestamp = 1755039682 * 1000;
+    const currentDate = DateTime.fromISO("2025-08-12");
 
-    const parsedTask = await parseTask(payloadInferDates, timestamp, EXAMPLE_RAW_PROJECTS_RESPONSE);
+    const parsedTask = await parseTask(payloadInferDates, payloadInferDates.text, currentDate, EXAMPLE_ALL_PROJECTS_IN_NOTIONDB);
     console.log(JSON.stringify(parsedTask));
-    expect(parsedTask.task.taskTitle).toBeTruthy();
-    expect(parsedTask.task.description).toBeTruthy();
+    expect(parsedTask.taskTitle).toBeTruthy();
+    expect(parsedTask.description).toBeTruthy();
+    expect(parsedTask.startDate).toMatch("2025-08-13");
+    expect(parsedTask.dueDate).toMatch("2025-08-14");
+    expect(
+      parsedTask.assignees.find((person) => person.name.includes("Ellen")),
+    ).toBeTruthy();
   }, 20000);
 });
 
@@ -56,10 +68,13 @@ describe("tests parseTaskSlashCmd with the payload that's been causing trouble",
   it("", async () => {
     expect(payloadNew).toBeDefined;
     expect(typeof payloadNew).toBe("object");
-    const timestamp = Date.now();
+    const currentDate = DateTime.fromISO("2025-08-12");
 
-    const parsedTask = await parseTask(payloadNew, timestamp, EXAMPLE_RAW_PROJECTS_RESPONSE);
+    const parsedTask = await parseTask(payloadNew, payloadNew.text,currentDate, EXAMPLE_ALL_PROJECTS_IN_NOTIONDB);
     console.log(JSON.stringify(parsedTask));
     console.log(JSON.stringify(taskKitchen));
+    expect(
+      parsedTask.assignees.find((person) => person.name.includes("Jeremy")),
+    ).toBeTruthy();
   }, 20000);
 });

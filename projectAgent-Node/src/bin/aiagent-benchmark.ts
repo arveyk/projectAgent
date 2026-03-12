@@ -1,5 +1,6 @@
 import { SlashCommand } from "@slack/bolt";
 import { parseTask } from "../utils/aiagent";
+import { DateTime } from "luxon";
 
 const message1 = "add Ramona, please fix the date formatting error";
 const message2 =
@@ -58,16 +59,14 @@ const payload3: SlashCommand = {
   trigger_id: "sampleTrigger-933598beb1284a7e6289",
 };
 
-
-
-
 /**
  * Function call to run benchmarking tests
- * 
+ *
  * returns: no return value
  */
 async function benchMark(payload: SlashCommand) {
-  const parseTaskResult = await parseTask(payload1, Date.now());
+  // TODO Replace empty list with values from cache
+  const parseTaskResult = await parseTask(payload1, payload.text, DateTime.now(), []);
   console.log(`Responses:  ${parseTaskResult}`);
 }
 
@@ -75,5 +74,7 @@ async function benchMark(payload: SlashCommand) {
   const firstResponse = await benchMark(payload1);
   const secondResponse = await benchMark(payload2);
   const thirdResponse = await benchMark(payload3);
-  console.log(`All responses 1st:  ${firstResponse},2nd :${secondResponse}, 3rd: ${thirdResponse}`);
+  console.log(
+    `All responses 1st:  ${firstResponse},2nd :${secondResponse}, 3rd: ${thirdResponse}`,
+  );
 })();

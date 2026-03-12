@@ -3,7 +3,7 @@ import {
   extractCacheData,
   extractCacheItemData,
   retrieveCache,
-} from "../../utils/database/getFromCache";
+} from "./getFromCache";
 import {
   getExampleRawCacheResponse,
   getExampleCompressedData,

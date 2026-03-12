@@ -1,7 +1,7 @@
-import { CACHE_DATA_EXAMPLE_ALL } from "../../test-data/cache/cacheItems";
+import { allProjects } from "../../test-data/projects/example-project";
 import {
   payloadNoDates,
-  payloadExample,
+  payloadExampleNoInputText,
 } from "../../test-data/payloads/slashcmd/payloads";
 import {
   parseTask,
@@ -36,9 +36,8 @@ describe("Tests parseTaskSlashCmd without a due date", () => {
 
     const parsedTask = await parseTask(
       payloadNoDates,
-      currentDate,
-      CACHE_DATA_EXAMPLE_ALL.projects,
-    );
+      payloadNoDates.text,
+      currentDate, allProjects);
     console.log(JSON.stringify(parsedTask));
 
     expect(parsedTask.taskTitle).toBeTruthy();
@@ -48,15 +47,11 @@ describe("Tests parseTaskSlashCmd without a due date", () => {
 
 describe("Tests parseTaskSlashCmd with the same example given to the LLM", () => {
   it("Parses the task correctly", async () => {
-    expect(payloadExample).toBeDefined;
-    expect(typeof payloadExample).toBe("object");
+    expect(payloadExampleNoInputText).toBeDefined;
+    expect(typeof payloadExampleNoInputText).toBe("object");
     const currentDate = DateTime.fromISO("2025-08-12");
 
-    const parsedTask = await parseTask(
-      payloadExample,
-      currentDate,
-      CACHE_DATA_EXAMPLE_ALL.projects,
-    );
+    const parsedTask = await parseTask(payloadExampleNoInputText, payloadExampleNoInputText.text, currentDate, allProjects);
     console.log(JSON.stringify(parsedTask));
 
     expect(parsedTask.taskTitle).toBeTruthy();

@@ -16,7 +16,7 @@ if (!NOTION_API_KEY) throw new Error("No Notion API Key given");
  */
 export async function getNotionUsers(
   alreadyFetchedUsers: ListUsersResponse | null,
-) {
+): Promise<NotionUser[]> {
   const humanUsers: NotionUser[] = [];
 
   const notionResp = alreadyFetchedUsers

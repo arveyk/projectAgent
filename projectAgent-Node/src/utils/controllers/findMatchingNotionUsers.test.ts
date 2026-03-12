@@ -3,21 +3,18 @@
  */
 jest.mock("../../env", () => {
   return {
-    SLACK_BOT_TOKEN: "fake_bot_token",
-    SLACK_SIGNING_SECRET: "fake_signing_secret",
-    NOTION_API_KEY: "fake_notion_key",
+    SLACK_BOT_TOKEN: "fake_bot_token", // pragma: allowlist secret
+    SLACK_SIGNING_SECRET: "fake_signing_secret", // pragma: allowlist secret
+    NOTION_API_KEY: "fake_notion_key", // pragma: allowlist secret
   };
 });
-import { EXAMPLE_RAW_USERS_RESPONSE } from "../../test-data/cache/rawUsers";
-
-import { EXAMPLE_ALL_NOTION_USERS } from "../../test-data/example-all-notion-users";
+import { EXAMPLE_NOTION_USERS_DOMAIN } from "../../test-data/domain/notionUsers";
 import {
   compareNames,
   isPartialNameMatch,
   findMatchingNotionUser,
   deduplicateUsers,
 } from "./findMatchingNotionUsers";
-import * as getNotionWorkspaceUsers from "./getUsersNotion";
 
 import { NotionUser } from "./userTypes";
 
@@ -50,20 +47,18 @@ describe("Tests findMatchingAssigner", () => {
     jest.clearAllMocks();
   });
   it("Returns at least one result when given an exact name", async () => {
-    jest
-      .spyOn(getNotionWorkspaceUsers, "getNotionUsers")
-      .mockResolvedValue(EXAMPLE_ALL_NOTION_USERS);
-    const matches = await findMatchingNotionUser("Maverick Bond", null);
+    const matches = await findMatchingNotionUser("Maverick Bond",
+      EXAMPLE_NOTION_USERS_DOMAIN
+    );
     console.log(`Matches: ${JSON.stringify(matches)}`);
 
     expect(matches.length).toBeGreaterThan(0);
-    expect(getNotionWorkspaceUsers.getNotionUsers).toHaveBeenCalledTimes(1);
   });
 
   it("Returns at least one result when given a partial name", async () => {
     const matches = await findMatchingNotionUser(
       "Bond",
-      EXAMPLE_RAW_USERS_RESPONSE,
+      EXAMPLE_NOTION_USERS_DOMAIN,
     );
     console.log(`Matches: ${JSON.stringify(matches)}`);
 
@@ -73,12 +68,11 @@ describe("Tests findMatchingAssigner", () => {
   it("Returns no results", async () => {
     const matches = await findMatchingNotionUser(
       "meow",
-      EXAMPLE_RAW_USERS_RESPONSE,
+      EXAMPLE_NOTION_USERS_DOMAIN,
     );
     console.log(`Matches: ${JSON.stringify(matches)}`);
 
     expect(matches.length).toBe(0);
-    expect(getNotionWorkspaceUsers.getNotionUsers).toHaveBeenCalledTimes(1);
   });
 });
 

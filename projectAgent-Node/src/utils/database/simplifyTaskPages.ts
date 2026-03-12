@@ -6,9 +6,10 @@ import {
   PartialPageObjectResponse,
   QueryDataSourceResponse,
 } from "@notionhq/client/build/src/api-endpoints";
-import { extractAssignees, PersonNoId } from "../taskFormatting/task";
+import { extractAssignees } from "../taskFormatting/task";
+import { PersonNoId } from "../controllers/userTypes";
 
-export type TaskPage = {
+export type SimplifiedDatabasePage = {
   pageId: string;
   taskTitle: string;
   description?: string;
@@ -19,7 +20,7 @@ export type TaskPage = {
 /**
  * Simplifies a single Notion database page result.
  * @param result A single Notion database page result.
- * @returns A simplified TaskPage object.
+ * @returns A simplified Database Page object.
  */
 export function simplifyTaskPage(
   result:
@@ -27,7 +28,7 @@ export function simplifyTaskPage(
     | PartialPageObjectResponse
     | PartialDataSourceObjectResponse
     | DataSourceObjectResponse,
-): TaskPage {
+): SimplifiedDatabasePage {
   if (!isFullPage(result)) {
     throw new Error("Database response is not a full page");
   }
@@ -67,6 +68,6 @@ export function simplifyTaskPage(
  */
 export function simplifyTaskPages(
   dbResults: QueryDataSourceResponse["results"],
-): TaskPage[] {
+): SimplifiedDatabasePage[] {
   return dbResults.map(simplifyTaskPage);
 }

@@ -2,15 +2,16 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+if (!process.env.SENDING_KEY) {
+  throw new Error("SENDING_KEY is undefined. Mailgun will conplain");
+}
+
 if (!process.env.MAILGUN_API_KEY) {
   throw new Error(
     "MAILGUN_API_KEY is undefined. Email functionality may be limited.",
   );
 }
 
-if (!process.env.SENDING_KEY) {
-  throw new Error("SENDING_KEY is undefined. Mailgun will conplain");
-}
 if (!process.env.DOMAIN) {
   throw new Error("DOMAIN is undefined. Mailgun lacking Domain to rule");
 }

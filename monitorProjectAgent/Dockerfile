@@ -6,7 +6,7 @@ WORKDIR ./
 # Install Dependancies
 COPY ./package*.json ./
 RUN npm ci
-RUN npm list ; ls ; ls src/
+RUN npm list ; ls ; ls ./src/
 
 
 # Copy source code

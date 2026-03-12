@@ -1,6 +1,5 @@
 steps:
   - name: gcr.io/cloud-builders/docker
-    #dir: /workspace/projectAgent-Node
     dir: monitorProjectAgent 
     args:
       - build
@@ -29,6 +28,8 @@ steps:
       - "--platform"
       - "managed"
       - "--allow-unauthenticated"
+      - "--set-secrets"
+      - MAILGUN_API_KEY=MAILGUN_API_KEY:latest,SENDING_KEY=SENDING_KEY:latest,DOMAIN=DOMAIN:latest,UPTIME_EMAIL=UPTIME_EMAIL:latest,DEPLOYMENT_ENV=DEPLOYMENT_ENV:latest,SLACK_BOT_TOKEN=SLACK_BOT_TOKEN:latest, MAIL_GUN_S_SECRET=MAIL_GUN_S_SECRET:latest,DEV_LIST=DEV_LIST:latest, PROJECT_AGENT_HEALTHCHECK_URL=PROJECT_AGENT_HEALTHCHECK_URL:latest, DEV_TEAM_SLACK_CHANNEL=DEV_TEAM_SLACK_CHANNEL:latest, SECOND_DEV_TEAM_SLACK_CHANNEL=SECOND_DEV_TEAM_SLACK_CHANNEL:latest
 images:
   - >-
     europe-west1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/projectagent/projectagent-monitor:$COMMIT_SHA

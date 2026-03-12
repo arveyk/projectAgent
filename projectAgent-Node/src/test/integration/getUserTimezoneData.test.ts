@@ -13,11 +13,17 @@ describe("Tests getSlackUserDataById with a user from the workspace", () => {
     const userData = await getSlackUserDataById(userID);
 
     console.log(JSON.stringify(userData.timezoneData));
-    expect(userData.timezoneData).toMatchObject({
+
+    const pacificTimezoneDataArray = [{
       tz: "America/Los_Angeles",
       tz_label: "Pacific Standard Time",
       tz_offset: -8,
-    });
+    }, {
+      tz: "America/Los_Angeles",
+      tz_label: "Pacific Standard Time",
+      tz_offset: -8,
+    }]
+    expect(pacificTimezoneDataArray.includes(userData.timezoneData)).toBeTruthy();
 
   });
 });
@@ -56,7 +62,7 @@ describe("Tests getSlackUserDataById with a valid payload from Ramona", () => {
     const timestamp = 1755039682 * 1000;
     const userData = await getSlackUserDataById(payloadRamona.user_id);
     console.log(`time data: ${JSON.stringify(userData)}`);
-  
+
     const time = DateTime.fromMillis(timestamp).setZone(userData.timezoneData.tz);
 
     expect(time).toEqual(

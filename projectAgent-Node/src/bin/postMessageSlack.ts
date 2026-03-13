@@ -1,7 +1,7 @@
 import { createNewTaskBlockWithUserAndOrProjectsSelections } from "../blockkit/createBlockPartsForNewTask";
 import { taskNoAssignee } from "../test-data/tasks/example-tasks";
 import { NotionUser } from "../utils/controllers/userTypes";
-import { ProjectWithName } from "../utils/taskFormatting/task";
+import { ProjectWithName } from "../domain";
 import axios from "axios";
 import { SLACK_BOT_TOKEN } from "../env";
 /**

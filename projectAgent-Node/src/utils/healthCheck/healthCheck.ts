@@ -52,7 +52,7 @@ export async function langchainAnthropicHealthCheck(model: ChatAnthropic) {
     let llmHealth: ServiceHealthResponse;
     try {
         // TODO replace this with a service method call once we have LLMService set up
-        const llmResponse = await model.invoke([new HumanMessage("Health check: say hello")]);
+        await model.invoke([new HumanMessage("Health check: say hello")]);
         llmHealth = {
             ok: true
         };
@@ -70,7 +70,7 @@ export async function notionHealthCheck(notion: Client) {
     let notionHealth: ServiceHealthResponse;
     try {
         // TODO replace this with a repo method call once we have NotionRepo set up
-        const notionResponse = await notion.users.list({});
+        await notion.users.list({});
         notionHealth = {
             ok: true
         };

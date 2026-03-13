@@ -158,8 +158,9 @@ export function createChatContext(channelName: string, recentMessageHistory: Mes
     // joins the channel) or if a bot is removed from a channel, those we definitely do not need to process
 
     if (!("subtype" in conversation || "bot_id" in conversation) && "client_msg_id" in conversation) {
-      if (conversation.text.trim().startsWith("&gt; /timely")) {
-        return null;
+      if (conversation.text.toLowerCase().startsWith("&gt; /")) {
+        // Exclude other project agent Invocations
+        return null
       }
       else {
         return {

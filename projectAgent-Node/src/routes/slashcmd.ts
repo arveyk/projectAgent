@@ -31,6 +31,7 @@ import { setDefaults } from "../utils/taskFormatting/setDefaults";
 import { inferInputSource } from "../utils/controllers/contextResolution/inferInputSource";
 import { sendBlockResponse } from "../externalService/slackApiService";
 
+
 const slashCmdHandler: StreamifyHandler = async function (
   event: APIGatewayProxyEventV2,
   responseStream: awslambda.HttpResponseStream,
@@ -196,6 +197,9 @@ const slashCmdHandler: StreamifyHandler = async function (
     }
   } catch (err: Error | any) {
     console.log("slashCmdHandler Error", String(err));
+    
+    // POST On Dev Channel
+
     return err;
   } finally {
     logTimestampForBenchmarking("Execution finished");

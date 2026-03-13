@@ -50,6 +50,25 @@ if (!process.env.CACHE_TABLE_NAME) {
   throw new Error("Missing cache table name");
 }
 
+
+if (!process.env.DOMAIN) {
+  throw new Error("DOMAIN is undefined. Mailgun lacking Domain to rule");
+}
+if (!process.env.SENDING_KEY) {
+  throw new Error("SENDING_KEY is undefined. Mailgun will conplain");
+}
+if (!process.env.MAILGUN_API_KEY) {
+  throw new Error(
+    "MAILGUN_API_KEY is undefined. Email functionality may be limited.",
+  );
+}
+if (!process.env.DEV_TEAM_SLACK_CHANNEL) {
+  throw new Error("First Alert Slack Channel Missing")
+}
+if (!process.env.DEPLOYMENT_ENV){
+  throw new Error("Missiong DEPLOYMENT_ENV");
+}
+
 export const PORT: string = process.env.PORT || "8080";
 export const SLACK_BOT_TOKEN: string = process.env.SLACK_BOT_TOKEN;
 export const SLACK_SIGNING_SECRET: string = process.env.SLACK_SIGNING_SECRET;
@@ -70,3 +89,10 @@ export const SENSITIVE_NGRAMS: string[] =
   process.env.SENSITIVE_NGRAMS.split(",");
 export const REGION: string = process.env.REGION;
 export const CACHE_TABLE_NAME: string = process.env.CACHE_TABLE_NAME;
+
+export const DOMAIN: string = process.env.DOMAIN;
+export const MAILGUN_API_KEY: string = process.env.MAILGUN_API_KEY;
+export const SENDING_KEY: string = process.env.SENDING_KEY;
+
+export const DEV_TEAM_SLACK_CHANNEL: string = process.env.DEV_TEAM_SLACK_CHANNEL
+export const DEPLOYMENT_ENV: string = process.env.DEPLOYMENT_ENV;

@@ -30,7 +30,7 @@ import { getAppUserData } from "../utils/controllers/getUsersSlack";
 import { setDefaults } from "../utils/taskFormatting/setDefaults";
 import { inferInputSource } from "../utils/controllers/contextResolution/inferInputSource";
 import { sendBlockResponse } from "../externalService/slackApiService";
-import { errorHandler  } from "../monitor/errorHandler";
+import { catchAllErrorHandler  } from "../monitor/errorHandler";
 const slashCmdHandler: StreamifyHandler = async function (
   event: APIGatewayProxyEventV2,
   responseStream: awslambda.HttpResponseStream,
@@ -197,7 +197,7 @@ const slashCmdHandler: StreamifyHandler = async function (
   } catch (err: Error | any) {
     console.log("slashCmdHandler Error", String(err));
     // POST On Dev Channel
-    await errorHandler({
+    await catchAllErrorHandler({
       sendAlert: true,
       error: err
     }, "slack");

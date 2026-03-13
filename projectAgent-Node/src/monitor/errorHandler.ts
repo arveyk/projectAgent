@@ -1,6 +1,6 @@
 import { postMessageOnSlackChannel } from "./postSlackMessage";
 
-export async function errorHandler(alertTrigger: {sendAlert: boolean, error: unknown }, communicationChannel: string) {
+export async function catchAllErrorHandler(alertTrigger: { sendAlert: boolean, error: unknown }, communicationChannel: string) {
     try {
 
         console.log("Error handler in action", alertTrigger.sendAlert);
@@ -14,6 +14,15 @@ export async function errorHandler(alertTrigger: {sendAlert: boolean, error: unk
             }
         ];
 
+        const userErrorMessageBlock = [
+            {
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": `:rotating_light: `
+                }
+            }
+        ]
 
         if (communicationChannel === "email") {
             /**

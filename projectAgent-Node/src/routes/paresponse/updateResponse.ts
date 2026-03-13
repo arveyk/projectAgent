@@ -11,7 +11,7 @@ import {
   extractPayload,
 } from "../../utils/slashCommandProcessing";
 import { integrateSelectedValues } from "../../utils/controllers/useSelectedOption";
-import { errorHandler } from "../../monitor/errorHandler";
+import { catchAllErrorHandler } from "../../monitor/errorHandler";
 import { sendBlockResponse } from "../../externalService/slackApiService";
 import { TaskPageNewTask } from "../../domain";
 /**
@@ -172,7 +172,7 @@ const interactionHandler: StreamifyHandler = async function (
     }
   } catch (err) {
     console.log(String(err));
-    await errorHandler({
+    await catchAllErrorHandler({
       sendAlert: true,
       error: err
     }, "Send to Slack");

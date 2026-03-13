@@ -10,6 +10,7 @@ import {
   taskNoAssignee,
 } from "../../test-data/tasks/example-tasks";
 import { testPostToSlack } from "../../bin/postMessageSlack";
+import { EXAMPLE_ALL_NOTION_USERS } from "../../test-data/example-all-notion-users";
 
 /**
  * Test currently fail because the bot id being used id of a bot that not longer exists
@@ -18,18 +19,23 @@ import { testPostToSlack } from "../../bin/postMessageSlack";
 
 const blockWithoutAssigneeTask = createNewTaskBlock(
   notionTask.assignedBy,
-  notionTask,
+  EXAMPLE_ALL_NOTION_USERS,
   exampleUserSearchResponse3,
+  notionTask,
 );
 const badBlocks = createNewTaskBlock(
   notionTask.assignees,
-  jacobsTask,
+  EXAMPLE_ALL_NOTION_USERS,
   exampleUserSearchResponse,
+  jacobsTask,
+
 );
 const blockWithNoAssignee = createNewTaskBlock(
   [],
-  taskNoAssignee,
+  EXAMPLE_ALL_NOTION_USERS,
   exampleUserSearchResponse,
+  taskNoAssignee,
+
 );
 
 const channelToPostMessage = "https://slack.com/api/chat.postMessage";

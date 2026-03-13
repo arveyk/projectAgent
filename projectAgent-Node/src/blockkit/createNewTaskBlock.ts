@@ -14,8 +14,9 @@ import {
 /**
  * Creates a set of Slack blocks to be used in previewing and confirming a new task.
  * @param assignedBy:       The user who is creating and assigning the task
- * @param parsedTask:             The task to be previewed.
+ * @param allNotionUsers    All users exisiting in Database
  * @param userSearchResult: A list of 0 or more Notion users who match the assignee of the task.
+ * @param parsedTask:       The task to be previewed.
  *
  * @returns                 A set of Slack blocks to be used in previewing and confirming a new task.
  */
@@ -73,7 +74,8 @@ export function createNewTaskBlock(
       },
     );
   }
-  if (ambiguousUsers.length > 0 || taskProjects.length === 0) {
+  
+  if ((notionTask.assignees.length === 0 || ambiguousUsers.length > 0) || taskProjects.length === 0) {
     console.log("Calling createNewTaskBlockWithUsersAndOrProjectsSelections");
     return createNewTaskBlockWithUserAndOrProjectsSelections(
       notionTask,
@@ -84,17 +86,18 @@ export function createNewTaskBlock(
         ambiguousUsers,
       },
     );
-  } else {
-    console.log("Calling createTaskBlockWithoutSelections");
-    let projectsArray: ProjectWithName[] = [];
-
-    for (const projectInTaskProjectsArray of taskProjects) {
-      const found = allExistingProjects.filter((queriedProject) => {
-        if (projectInTaskProjectsArray.id === queriedProject.id)
-          return queriedProject;
-      });
-      projectsArray.push(...found);
-    }
-    return createTaskBlockWithoutSelections(notionTask, projectsArray);
   }
+
+  console.log("Calling createTaskBlockWithoutSelections");
+  let projectsArray: ProjectWithName[] = [];
+
+  for (const projectInTaskProjectsArray of taskProjects) {
+    const found = allExistingProjects.filter((queriedProject) => {
+      if (projectInTaskProjectsArray.id === queriedProject.id)
+        return queriedProject;
+    });
+    projectsArray.push(...found);
+  }
+  return createTaskBlockWithoutSelections(notionTask, projectsArray);
+
 }

@@ -6,7 +6,6 @@ import {
   ProjectWithName
 } from "../domain";
 import { FoundUsers, PersonNoId } from "../utils/controllers/userTypes";
-import { getNotionUsers } from "../utils/controllers/getUsersNotion";
 
 // Type for options created for the selections menu
 export type MenuType = {
@@ -319,6 +318,7 @@ export function createMenuOptions(
  * Creates Slack blocks to be used in previewing and confirming a new task and prompting the user to select assignees.
  * @param notionTask:  The task to be previewed.
  * @param allProjects: All existing projects in Notion database
+ * @param allNotionUsers: All users in Notion workspace/database
  * @param foundUsers:  An object that contains two lists, one (identifiedUsers) contains 0 or more Notion users who match the assignee of the task
  *    the other list (ambiguousUsers) contains users who are yet to be identified as assignees for the task.
  *
@@ -330,31 +330,35 @@ export function createNewTaskBlockWithUserAndOrProjectsSelections(
   allNotionUsers: NotionUser[],
   foundUsers: FoundUsers,
 ) {
+  console.log("(createNewTaskBlockWithUserAndOrUserSelections)Creating selection block");
+
+
+  const parsedProjects = notionTask.project || [];
+
+  const confirmationButtonValue: string = JSON.stringify({
+    taskPageObject: {
+      task: notionTask,
+      pageId: "",
+      url: "",
+    },
+  });
   const taskInfo = createTaskInfo(
     notionTask,
     allProjects,
     foundUsers.identifiedUsers,
   );
-  const parsedProjects = notionTask.project || [];
-  console.log(`Creating selection block`);
-
   // Create options for ambiguous users
   const userOptionsToChooseFrom = createMenuOptions(
     "NotionUsers",
-    foundUsers.ambiguousUsers,
+    foundUsers.ambiguousUsers.length > 0 ? foundUsers.ambiguousUsers : allNotionUsers,
   );
   const projectOptions = createMenuOptions("Projects", allProjects);
 
+
   // Return these blocks if both number of projects in task is equal to zero (no projects) and number of
   // ambiguous assignees is greater than 1
-  if (parsedProjects.length === 0 && userOptionsToChooseFrom.length > 1) {
-    const confirmationButtonValue: string = JSON.stringify({
-      taskPageObject: {
-        task: notionTask,
-        pageId: "",
-        url: "",
-      },
-    });
+  if (parsedProjects.length === 0 && (foundUsers.ambiguousUsers.length >= 1 ||
+    notionTask.assignees.length === 0)) {
 
     return createBlockWithBothSelectionMenus(
       taskInfo,
@@ -364,36 +368,21 @@ export function createNewTaskBlockWithUserAndOrProjectsSelections(
     );
   }
 
-  const confirmationButtonValueProjectsOnly = JSON.stringify({
-    taskPageObject: {
-      task: notionTask,
-      pageId: "",
-      url: "",
-    },
-  });
-
   //Return these blocks if only number of projects is equal to zero
   if (parsedProjects.length === 0) {
+
     return createBlocksWithOneSelectionMenu(
       taskInfo,
       projectOptions,
-      confirmationButtonValueProjectsOnly,
+      confirmationButtonValue,
     );
   }
 
-  // Return these blocks if number of ambiguous assingees is greater than 1
-  const confirmationButtonValueUsersOnly = JSON.stringify({
-    taskPageObject: {
-      task: notionTask,
-      pageId: "",
-      url: "",
-    },
-  });
-
+  // Return this if we Have ambiguouse users or No assignees and No ambiguous tasks
   return createBlocksWithOneSelectionMenu(
     taskInfo,
     userOptionsToChooseFrom,
-    confirmationButtonValueUsersOnly,
+    confirmationButtonValue,
   );
 }
 
@@ -413,7 +402,7 @@ export const createTaskBlockWithoutSelections = function (
     projects,
   );
   const blockNewTask = {
-    text: "Creating a new Task?",
+    text: "No Selections' Menu - Creating a new Task?",
     replace_original: true,
     blocks: [
       {
@@ -475,10 +464,8 @@ export const createTaskBlockWithoutSelections = function (
 /**
  * Creates Slack blocks to be used in previewing and confirming a new task and prompting the user to select project/projects.
  * @param notionTask:       The task to be previewed.
- * @param allProjects:      All projects that exist in the notion database
- * @param similarProjects:  projects that are ambiguous and similar, to be clarified
- *    by the user in the selections block.
- * @param foundUsers:       An object that contains two lists, one (identifiedUsers) contains 0 or more Notion users who match the assignee of the task
+ * @param projects:         Object containing all projects that exist in the notion database and projects closely matching those in parsed context
+ * @param users:       An object that with all users and another object containing two lists, one (identifiedUsers) contains 0 or more Notion users who match the assignee of the task
  *    the other list (ambiguousUsers) contains users who are yet to be identified.
  *
  * @returns A set of Slack blocks to be used in previewing and confirming a new task and prompting the user to select project/projects.
@@ -512,6 +499,7 @@ export function createNewTaskBlockWithSelectionsForAmbiguousProjects(
     const foundMatch = projects.allProjects.find((existingProject) => {
       return existingProject.id === project.id;
     })
+
     return foundMatch;
   }).filter((unfiltered) => unfiltered !== undefined);
 
@@ -529,18 +517,18 @@ export function createNewTaskBlockWithSelectionsForAmbiguousProjects(
   });
 
   //Return this if there are both user and projects to select
-  if (userOptionsToChooseFrom.length > 1 || notionTask.assignees.length === 0) {
+  if (userOptionsToChooseFrom.length >= 1 || notionTask.assignees.length === 0) {
+
     return createBlockWithBothSelectionMenus(
       taskInfo,
-      notionTask.assignees.length === 0 ? createMenuOptions(
+      userOptionsToChooseFrom.length >= 1 ? userOptionsToChooseFrom : createMenuOptions(
         "NotionUsers",
-      users.allUsers) : userOptionsToChooseFrom,
+        users.allUsers),
       projectOptionsToChooseFrom,
       confirmationButtonValue,
     );
   }
   //Return this if there are projects to be selected
-
 
   return createBlocksWithOneSelectionMenu(
     taskInfo,

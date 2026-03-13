@@ -4,6 +4,7 @@ import { exampleUserSearchResponse } from "../test-data/example-usersearch-respo
 import { notionTask } from "../test-data/tasks/example-tasks";
 import { NotionTask } from "../domain";
 import { NotionUser } from "../utils/controllers/userTypes";
+import { EXAMPLE_ALL_NOTION_USERS } from "../test-data/example-all-notion-users";
 
 const EXAMPLE_ASSIGNED_BY: NotionUser[] = [
   {
@@ -52,8 +53,9 @@ describe("Test createBlockNewTask with a valid task object", () => {
     const dueDateRegex = RegExp(`Due Date:.{1,4}${dueDate}`, "gm");
     const slackBlocksObject = createNewTaskBlock(
       EXAMPLE_ASSIGNED_BY,
-      ExampleNotionTask,
+      EXAMPLE_ALL_NOTION_USERS,
       testUserSearchResponse,
+       ExampleNotionTask,
     );
     console.log(JSON.stringify(slackBlocksObject));
 

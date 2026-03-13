@@ -169,11 +169,12 @@ const slashCmdHandler: StreamifyHandler = async function (
         const taskCreator: SlackUser = {
           ...appUserData,
         };
-        const assignedBy = await findNotionProfileOfAssignedBy(taskCreator, notionUsers);
+        const assignedBy = findNotionProfileOfAssignedBy(taskCreator, notionUsers);
         const slackBlocks = createNewTaskBlock(
           assignedBy,
-          parsedTaskWithDefaults,
+          notionUsers,
           assigneeSearchResults,
+          parsedTaskWithDefaults,
         );
 
         console.log(

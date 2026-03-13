@@ -6,99 +6,10 @@ import {
   UserObjectResponse,
 } from "@notionhq/client";
 import { BlockAction } from "@slack/bolt";
-import { NotionUser } from "../controllers/userTypes";
+import { PersonNoId } from "../controllers/userTypes";
 import { TaskParseResult } from "../aiagent";
+import { ProjectWithName, Task, TaskPage, TaskPageNewTask } from "../../domain";
 
-/**
- * Notion users identified and ambiguous for a task.
- */
-export type FoundUsers = {
-  identifiedUsers: NotionUser[];
-  ambiguousUsers: NotionUser[];
-};
-
-/**
- * A person without a user id.
- */
-export type PersonNoId = {
-  name: string;
-  email?: string;
-};
-
-/** A project with a name and a project id. */
-export type ProjectWithName = {
-  projectName: string;
-  id: string;
-};
-
-/**
- * A Slack user.
- */
-export type User = {
-  userId: string;
-  name: string;
-  email: string;
-};
-
-/**
- * A task.
- */
-export type Task = {
-  taskTitle: string;
-  assignees: PersonNoId[];
-  dueDate?: string;
-  startDate?: string;
-  description: string;
-  project?: { id: string }[];
-  existingProjects?: ProjectWithName[];
-  similarProjects?: { id: string }[];
-};
-
-/**
- * A task as represented in Notion. Used for new Tasks
- */
-export type NotionTask = {
-  taskTitle: string;
-  assignees: NotionUser[];
-  assignedBy: NotionUser[];
-  dueDate?: string;
-  startDate?: string;
-  description: string;
-  project?: {
-    id: string;
-  }[];
-};
-
-/**
- * A task page in Notion.
- */
-export type TaskPage = {
-  // task: NotionTask;
-  task: {
-    taskTitle: string;
-    assignees: PersonNoId[];
-    assignedBy: PersonNoId[];
-    dueDate?: string;
-    startDate?: string;
-    description: string;
-    project?: {
-      id: string;
-    }[];
-  };
-  pageId: string;
-  url?: string;
-};
-
-
-/**
- * Task page For Existing tasks
- */
-
-export type TaskPageExistingTask = {
-  task: NotionTask;
-  pageId: string;
-  url?: string;
-}
 
 
 /**
@@ -144,6 +55,8 @@ export function convertTask(
     }
   });
 
+
+
   return {
     taskTitle: taskInput["taskTitle"],
     assignees: assignees,
@@ -162,17 +75,17 @@ export function convertTask(
  */
 export function convertTaskPageFromButtonPayload(
   payload: BlockAction,
-): TaskPage {
+): TaskPageNewTask {
   if (payload["actions"][0].type === "button") {
     const interactionsValue = JSON.parse(
       payload["actions"][0]["value"] || "{}",
     );
-    const taskPageObj: TaskPage = JSON.parse(
+    const taskPageObj: TaskPageNewTask = JSON.parse(
       payload["actions"][0]["value"] || "{}",
     );
     console.log("Interactions Value", JSON.stringify(interactionsValue));
     console.log("Task Details Obj", JSON.stringify(taskPageObj));
-    let taskPage: TaskPage;
+    let taskPage: TaskPageNewTask;
 
     if (taskPageObj.url) {
       taskPage = {
@@ -286,7 +199,7 @@ export function convertTaskPageFromDbResponse(
 /**
  * Extracts a list of assignees from a database response
  * @param response A Notion user response.
- * @returns A NotionUser object, ignoring bots and groups, or null if the response is not a person user.
+ * @returns A PersonNoId object, ignoring bots and groups, or null if the response is not a person user.
  */
 export function extractAssignees(
   response:
@@ -305,7 +218,6 @@ export function extractAssignees(
   const user: PersonNoId = {
     name: response["name"] !== null ? response["name"] : "Unnamed person",
     email: response["person"]["email"],
-    // userId: response["id"],
   };
   return user;
 }

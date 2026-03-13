@@ -7,7 +7,7 @@ import {
 } from "@notionhq/client";
 import { ChatAnthropic } from "@langchain/anthropic";
 import { z } from "zod/v4";
-import { TaskPage, simplifyTaskPage } from "./simplifyTaskPages";
+import { SimplifiedDatabasePage, simplifyTaskPage } from "./simplifyTaskPages";
 import { stringSimilarity } from "string-similarity-js";
 
 import {
@@ -104,7 +104,7 @@ export const searchDatabase = async function (
  */
 export async function getTasks(
   alreadyFetchedTasks: QueryDataSourceResponse["results"] | null,
-): Promise<TaskPage[]> {
+): Promise<SimplifiedDatabasePage[]> {
   let rawTasks: QueryDataSourceResponse["results"];
   if (alreadyFetchedTasks) {
     rawTasks = alreadyFetchedTasks;
@@ -168,7 +168,7 @@ export const getTaskProperties = async function (pageID: string) {
  * @param message The message that triggered Project Agent.
  * @returns Up to 20 of the database pages that most closely match the given message.
  */
-export function filterSimilar(pages: TaskPage[], message: string): TaskPage[] {
+export function filterSimilar(pages: SimplifiedDatabasePage[], message: string): SimplifiedDatabasePage[] {
   const similarPages = pages
     .map((page) => {
       const similarity = stringSimilarity(
@@ -203,7 +203,7 @@ export function filterSimilar(pages: TaskPage[], message: string): TaskPage[] {
  */
 export async function getProjects(
   alreadyFetchedProjects: QueryDataSourceResponse["results"] | null,
-) {
+): Promise<Project[]> {
   let projectsList: QueryDataSourceResponse["results"];
 
   if (alreadyFetchedProjects) {

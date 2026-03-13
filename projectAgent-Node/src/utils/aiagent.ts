@@ -3,13 +3,13 @@ import { z } from "zod/v4";
 import { ANTHROPIC_API_KEY, ANTHROPIC_MODEL_VER } from "../env";
 import { RunnableConfig, Runnable } from "@langchain/core/dist/runnables";
 import { BaseLanguageModelInput } from "@langchain/core/dist/language_models/base";
-import { convertTask, ProjectWithName, Task } from "./taskFormatting/task";
+import {
+  convertTask
+} from "./taskFormatting/task";
+import { ProjectWithName, Task, Project } from "../domain";
 import { SlashCommand } from "@slack/bolt";
 import { logTimestampForBenchmarking } from "./logTimestampForBenchmarking";
-import { getProjects } from "./database/searchDatabase";
-import { Project } from "../domain";
 import { DateTime } from "luxon";
-import { QueryDataSourceResponse } from "@notionhq/client";
 
 const EXAMPLE_MSG_00 =
   "\
@@ -114,34 +114,25 @@ const structuredLlmSlashCmd: Runnable<
 
 /**
  * Uses Anthropic to parse a task assignment from a Slack slash command.
- * @param {*} reqBody The body of the request.
- * @param eventTimeData: The time of invocation in the user's timezone.
- * @param alreadyFetchedProjects Projects pre-fetched from Notion.
+ * @param reqBody:	      The body of the request.
+ * @param textToParse:	  Text containing task details to be extracted
+ *  @param eventTimeData: The time of invocation in the user's timezone.
+ * @param alreadyFetchedProjects: Projects pre-fetched from Notion.
+ *
  * @returns A TaskParseResult containing the formatted task.
  */
 export const parseTask = async function (
   reqBody: SlashCommand,
+  textToParse: string,
   eventTimeData: DateTime,
-  alreadyFetchedProjects: QueryDataSourceResponse["results"] | null,
+  notionProjects: Project[]
+  //alreadyFetchedProjects: QueryDataSourceResponse["results"] | null,
 ): Promise<Task> {
-  let textToParse;
 
-  if (reqBody["command"]) {
-    textToParse = reqBody["text"];
-  } else if (reqBody["event"]) {
-    textToParse = reqBody["text"];
-  } else {
-    textToParse = "No Task available";
-  }
-
-  // const timeData = await getEventTimeData(reqBody, timestamp);
-  const timeData = eventTimeData;
-
-  const notionProjects = await getProjects(alreadyFetchedProjects);
   console.log(`notionProjects found ${JSON.stringify(notionProjects)}`);
 
   const structuredResultData = await parseWithLLM(
-    timeData,
+    eventTimeData,
     notionProjects,
     textToParse,
   );
@@ -156,10 +147,11 @@ export const parseTask = async function (
 
 /**
  * Parses a task from a message using a structured LLM.
- * @param timeData The date and timezone of the message.
- * @param notionProjects A list of all the projects in the database.
- * @param textToParse The message to parse as a task.
- * @returns The message parsed as a task.
+ * @param timeData:	      The date and timezone of the message.
+ * @param notionProjects: A list of all the projects in the database.
+ * @param textToParse:	  The message to parse as a task.
+ *
+ * @returns Structured object with task details.
  */
 export async function parseWithLLM(
   timeData: DateTime<boolean>,

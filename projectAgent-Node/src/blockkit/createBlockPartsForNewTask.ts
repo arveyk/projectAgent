@@ -1,10 +1,11 @@
 import { formatDateString } from "../utils/timeHandling/dateHandler";
 import { NotionUser } from "../utils/controllers/userTypes";
 import {
-  FoundUsers,
+  ExistingTask,
   NotionTask,
-  ProjectWithName,
-} from "../utils/taskFormatting/task";
+  ProjectWithName
+} from "../domain";
+import { FoundUsers, PersonNoId } from "../utils/controllers/userTypes";
 
 // Type for options created for the selections menu
 export type MenuType = {
@@ -43,7 +44,7 @@ type TaskInfo = (
  * @returns: The string of assignee names to be displayed
  */
 function createAssigneesDisplayMessageFromArray(
-  assigneesArray: NotionUser[],
+  assigneesArray: PersonNoId[],
 ): string {
   let assigneeNames = "";
 
@@ -171,23 +172,23 @@ export function createTaskInfo(
 
 /**
  * Creates the info section of Slack blocks for previewing the details of a new task.
- * @param notionTask:       The new task.
+ * @param taskWithPersonNoId:       The new task.
  * @param allProjectsArray: A list of projects from notion that we need to compare with and use their names
  *    in displaying on slack.
  *
  * @returns The Slack blocks for previewing the details of a new task.
  */
 export function createTaskInfoWithoutSelections(
-  notionTask: NotionTask,
+  taskWithPersonNoId: ExistingTask,
   allProjectsArray: ProjectWithName[],
 ) {
-  const assigneesArray = notionTask.assignees;
+  const assigneesArray = taskWithPersonNoId.assignees;
 
   const assigneeNames = createAssigneesDisplayMessageFromArray(assigneesArray);
   let projectNames = "";
 
   console.log(
-    `(createTaskInfoWithoutSelections), assigneesArray: ${assigneesArray}, task${JSON.stringify(notionTask)}`,
+    `(createTaskInfoWithoutSelections), assigneesArray: ${assigneesArray}, task${JSON.stringify(taskWithPersonNoId)}`,
   );
 
   // using allProjectsArray get the project names of the projects in task's project
@@ -207,7 +208,7 @@ export function createTaskInfoWithoutSelections(
       fields: [
         {
           type: "mrkdwn",
-          text: `*Task Title:*\n${notionTask.taskTitle}`,
+          text: `*Task Title:*\n${taskWithPersonNoId.taskTitle}`,
         },
         {
           type: "mrkdwn",
@@ -220,12 +221,14 @@ export function createTaskInfoWithoutSelections(
       fields: [
         {
           type: "mrkdwn",
-          text: `*Due Date:*\n${notionTask.dueDate ? formatDateString(notionTask.dueDate) : ""
-            }`,
+          text: `*Due Date:*\n${taskWithPersonNoId.dueDate ? formatDateString(taskWithPersonNoId.dueDate) : ""
+          }`,
         },
         {
           type: "mrkdwn",
-          text: `*Start Date:*\n${notionTask.startDate !== undefined ? formatDateString(notionTask.startDate) : notionTask.startDate}`,
+          text: `*Start Date:*\n${
+            taskWithPersonNoId.startDate !== undefined ? formatDateString(taskWithPersonNoId.startDate) : taskWithPersonNoId.startDate
+          }`,
         },
       ],
     },
@@ -240,7 +243,7 @@ export function createTaskInfoWithoutSelections(
       type: "section",
       text: {
         type: "mrkdwn",
-        text: `*Description:*\n${notionTask.description}`,
+        text: `*Description:*\n${taskWithPersonNoId.description}`,
       },
     },
   ];
@@ -498,19 +501,17 @@ export function createNewTaskBlockWithSelectionsForAmbiguousProjects(
 
   // This is an array that will contain the possible project matches that the user needs to select
   // from either one or multiple
-  const arrayOfProjectsToSelectFrom: ProjectWithName[] = [];
 
-  similarProjects.forEach((projInSimilarProjectsArray) => {
-    allProjects.forEach((projectFromNotion) => {
-      if (projectFromNotion.id === projInSimilarProjectsArray.id) {
-        arrayOfProjectsToSelectFrom.push(projectFromNotion);
-      }
-    });
-  });
+  const projectSelectionOptions = similarProjects.map((project) => {
+    const foundMatch = allProjects.find((existingProject) => {
+      return existingProject.id === project.id;
+    })
+    return foundMatch;
+  }).filter((unfiltered) => unfiltered !== undefined);
 
   const projectOptionsToChooseFrom = createMenuOptions(
     "Projects",
-    arrayOfProjectsToSelectFrom,
+    projectSelectionOptions,
   );
 
   const confirmationButtonValue: string = JSON.stringify({

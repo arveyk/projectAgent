@@ -30,7 +30,6 @@ import { getAppUserData } from "../utils/controllers/getUsersSlack";
 import { setDefaults } from "../utils/taskFormatting/setDefaults";
 import { inferInputSource } from "../utils/controllers/contextResolution/inferInputSource";
 import { sendBlockResponse } from "../externalService/slackApiService";
-import { catchAllErrors  } from "../monitor/errorHandler";
 
 
 const slashCmdHandler: StreamifyHandler = async function (
@@ -200,10 +199,6 @@ const slashCmdHandler: StreamifyHandler = async function (
     console.log("slashCmdHandler Error", String(err));
     
     // POST On Dev Channel
-    await catchAllErrors({
-      sendAlert: true,
-      error: err
-    }, "slack");
 
     return err;
   } finally {

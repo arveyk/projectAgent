@@ -160,13 +160,8 @@ export function createChatContext(channelName: string, recentMessageHistory: Mes
     if (!("subtype" in conversation || "bot_id" in conversation) && "client_msg_id" in conversation) {
 
       if (conversation.text.toLowerCase().startsWith("&gt; /")) {
-        const textArray = conversation.text.split(" ");
-        console.log("textArray", textArray);
-
-        return {
-          user: conversation.user,
-          text: textArray.splice(2).join(" ")
-        }
+        console.log(conversation.text);
+        return null
       }
       else {
         return {

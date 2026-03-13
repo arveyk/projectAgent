@@ -100,7 +100,8 @@ export async function testPostToSlack(eventResUrl: string, slackBlocks?: {
   try {
     const responseFromChannel = await axios.post(eventResUrl, {
       channel: channel_id,
-      text: "Test Post Blocks to slack channel"
+      text: "Test Post Blocks to slack channel",
+      blocks: slackBlocks?.blocks
     },
       {
         headers: {
@@ -111,14 +112,16 @@ export async function testPostToSlack(eventResUrl: string, slackBlocks?: {
       }
     )
     console.log("OK from slack", responseFromChannel.data);
-    console.log("Data sent to Slack", responseFromChannel.data.config.data);
+    console.log("Data sent to Slack", responseFromChannel.config?.data);
     return responseFromChannel.data
   } catch (err) {
     return err;
   }
 }
 
+/**
+ * use this if test is failing for unclear reasons
 (async () => {
   await testPostToSlack(eventResponseURL, exampleBlocks);
-  await testPostToSlack(eventResponseURL, exampleBlocks);
 })();
+*/
